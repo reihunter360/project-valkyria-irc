@@ -1,0 +1,107 @@
+Battle Arena Bot VERSIONS
+=========================
+
+1.0 - First version.
+- Added the automated battle system.
+- Added all of the weapon, technique, skill, and item databases.
+- Added all of the monsters, bosses and NPCs.
+- Added all of the taunts and weapon attack description texts.
+
+1.1
+- Added the ability to exchange black orbs for red orbs in the shop.  Use !shop list orbs and !shop buy orbs
+- Added the "Shadow Copy" skill.  This skill will allow players to create a shadow clone that will help them in battle.
+- Added the "Utsusemi" skill.  This skill will create 2 shadows that will absorb all types of attacks.
+- Added the ability for bosses to get a small boost from the winning streak.
+- Added the ability for npcs to get a small boost from the winning streak.
+- Added the command !skill desc skillname desc  so that you can set custom skill descriptions.
+- Changed the winning streak boost formula slightly.
+- Fixed a bug with the boosts in which it was reading the base stats instead of the current stats.
+- Fixed a major bug in which passwords weren't being written right, making it impossible to change your password. 
+  Thanks to AuXFire of Hawkee for catching that one.
+
+1.2
+- Added the ability for the bot to use commas in the orb totals to make the numbers a little easier to read.
+- Added critical hits.  There's a 4% total chance that a critical hit will happen on a normal melee attack.
+- Added a shop level cap.  It's currently set to 25.
+- Added the StealPower type technique. This technique will steal the stats of its target and add it to the user.
+- Added the Final Getsuga type boost. This boost will give you a massive boost to stats but at the end of the battle
+  your character will be reset to level 1 stats and no skills.  You lose all techs except DoublePunch and all weapons
+  except your Fists. You get to keep your items and you get 5% of your total spent orbs back.
+- Added the "FieldMedic" passive skill. This skill will increase the amount of health healing items will heal by 5*level.
+- Added the "Impetus" passive skill. This skill will increase the chance of a critical hit by 1% each level.
+- Added the "Steal" active skill. This skill will allow you to attempt to steal an item or some orbs from a monster/boss.
+- Added the "BloodPact" passive skill. This skill is necessary to use the Summon type items.
+- Added the Summon type items to the bot. These items, when used by someone who has the BloodPact skill, will summon an 
+  ally to help fight.  You do not need to use the item on anyone, just !use (item name)
+- Added a bonus to HandToHand weapons that is based on the level of your fists weapon.
+- Added the ability for monsters/bosses/npcs to be strong and weak against weapon types.  In [weapons] you can list
+  weaknesses as "weakness=" followed by a list of weapon types.  For strengths, use "strong=" with weapon types.
+- Added the "Blood Moon" event. It's a special battlefield event that has a 5% chance of occuring and will affect
+  various skills, items and techs.
+- Added a cap to how many monsters can join a battle. It is currently set to 10.
+- Added a cap to how many players can join a battle. It is currently set to 10.
+- Added new monsters
+- Added new bosses
+- Added new NPCs
+- Added new weapons
+- Added a new bot owner command: *equips*.  Use it like: Iyouboushi equips Rebellion
+- Added a new bot owner command: *taunt*.  Use it like: Iyouboushi taunts Monster
+- Added a new bot owner command: *flees the battle.  Use it like: Iyouboushi flees the battle
+- Added a winning streak record counter in battlestats.dat
+- Added two new taunt effects.
+- Added several player styles. Simlar to DMC3, players can now choose a style and it will level by killing monsters.
+  Styles can be seen with !styles and can be changed with !style change (style name).  You can only change styles outside
+  of battle.
+- Added new styles to the shop.  Use !shop list styles to list and !shop buy styles (style name) to buy.
+- Added the ability for multiple bot owners. To do it, open system.dat and find the bot.owner= line and add the names
+  separated by periods. For example:  bot.owner=Iyouboushi.Smz.YourNameHere
+- Added the ability to purchase multiple items from the shop with one command. To do so, just add an amount at the end of the
+  command (example:  !shop buy items name #  where # is the amount you want with one purchase.) It doesn't work with styles
+  and new weapons but should work for everything else. 
+- Added a command so that you can flee from battle: !flee or !run away both work. If all players have run or are dead the
+  battle will end.
+- Added the ability for food to increase the current style equipped. For the stat just put "style".
+- Changed the "Curse Night" chance.  It's now 7%, down from 10%.
+- Changed the formula slightly for the weapon/tech damage. Higher levels into the weapon/tech now give a bigger damage bonus.
+- Changed the bonus slightly for elemental weaknesses with magic.  It received a slight nerf.
+- Changed the formula for monster HP for the first 20 wins. Now the combined shop level of players affects the boost.
+- Changed the powers of various techniques to try and balance things a little better.
+- Changed the HP amount of clones. It's a lower amount when a player isn't using the Doppelganger style.
+- Changed the ClearMind skill so that it goes up to 3 levels max.
+- Changed the placement of the magic effect line to after the damage line rather than before the tech description.
+- Changed it so zombies take extra damage with both light and fire weapons/techs.
+- Changed the zombie status so that there's a small regen during that status. It will overwrite normal regen until the status
+  wears off.
+- Changed the !start bat bot owner command so that bot owners can start boss/monster/orbfountain battles.
+  Use !start bat monster  or  !start bat boss  or !start bat orbfountain   or you can use !start bat  to do random
+- Changed the Regen formula and gave it a boost on higher levels of the skill.
+- Fixed a bug in which TP would be taken even if you used a technique on a dead target.
+- Fixed a bug in which orb fountain battles wouldn't give bonus orbs upon defeat of targets.
+- Fixed a bug with the suicide type techs where there was a chance of the wrong name being displayed as who lost his/her/its life.
+- Fixed a bug in which certain encoded passwords wouldn't work with the !id and !quick id commands.
+- Fixed a bug in which certain skills showed the wrong command/name when it wasn't ready to be used again.
+- Fixed a bug with +TP items not working correctly with Sugitekai.
+- Fixed a bug with Utsusemi in which it would still work even if you didn't have shihei.
+- Fixed a bug with !new char that let players get free orbs by using the command over and over.
+- Fixed a displaying bug with !bat list.
+- Fixed the user level for the bot owner command "!zap"  now only bot owners can use it.
+- Fixed the status message so that it finally shows a different message if the target is 100% immune to the status.
+- Fixed a bug in which NPCs wouldn't be cursed on a Curse Night.
+
+1.3
+- Added the "translation.dat" file that contains most of the bot messages.  You can edit this file to do translations or
+  to just change the way various messages read. Open it in notepad.
+- Added the active skill "Analysis".  This skill lets you analyze a monster.  Increased levels of the skill gives you more
+  information about the monster.  To use it, after purchasing it, use !analyze monstername  You can only analyze monsters
+  that are in the current battle.
+- Added a new item type: ShopReset. This item type will allow you to lower your current shop level by an amount. The
+  "DiscountCard" has been added as an example item. 250,000 orbs and will lower it by 10 points.
+- Changed the way the monster/boss/npc lists are generated to hopefully make them more random and to prevent a future bug.
+- Changed the prices of several skills/weapon upgrades/techs/items.
+- Fixed a bug in which the zombie regeneration wasn't wearing off at the end of battle.
+- Fixed a bug with the Amnesia status type.
+- Fixed a bug with !rdesc
+- Fixed a bug in which the "Swordmaster" skill wasn't giving any bonus to the melee damage.
+- Fixed a bug with Steal in which stolen items weren't being added right
+- Fixed a bug in which the description wasn't being shown properly for +TP items.
+- Fixed the bot so that it will correctly give the right access level to the entire bot owner list when the bot is first turned on.

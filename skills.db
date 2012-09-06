@@ -1,0 +1,252 @@
+[Skills]
+PassiveSkills=Swordmaster.Gunslinger.Wizardy.MartialArts.Polemaster.ClearMind.DesperateBlows.OrbHunter.FieldMedic.Impetus.BloodPact
+ActiveSkills=Speed.ElementalSeal.MightyStrike.ManaWall.RoyalGuard.Fullbring.Sugitekai.Meditate.ConserveTP.BloodBoost.DrainSamba.Regen.Kikouheni.ShadowCopy.Utsusemi.Steal.Analysis
+Resists=resist-paralysis.resist-blind.resist-poison.resist-amnesia.resist-curse.resist-zombie.resist-slow.resist-stun.resist-stop.resist-charm
+
+
+=============================================
+PASSIVE SKILLS
+=============================================
+
+
+[Swordmaster]
+Cost=100
+Max=400
+Type=Passive
+Info=This skill increases damage done with sword and katana weapons.  Increased levels increases the damage.
+
+[Polemaster]
+Cost=100
+Max=400
+Type=Passive
+Info=This skill increases damage done with spear weapons.  Increased levels increases the damage.
+
+[Gunslinger]
+Cost=100
+Max=400
+Type=Passive
+Info=This skill increases damage done with a gun.  Increased levels increases the damage.
+
+[Wizardy]
+Cost=100
+Max=400
+Type=Passive
+Info=This skill increases damage done with stave and wand weapons.  Increased levels increases the damage.
+
+[MartialArts]
+Cost=100
+max=400
+Type=Passive
+Info=This skill increases damage done with your fists and nunchuku weapons.  Increased levels increases the damage.
+
+[OrbHunter]
+Cost=250
+Type=Passive
+Info=This skill will increase the amount of red orbs you find at the end of battle by 5*skill level.
+Max=100
+
+[ClearMind]
+Cost=450
+Type=Passive
+Info=This skill will increase magical damage.  Increased levels of this skill will increase the damage.
+Max=5
+
+[DesperateBlows]
+Cost=1000
+Type=Passive
+Info=This skill will enhance melee damage based on how much health you have left. At 10-25% health your attack will be 1.5x stronger, at 2-10% your attack will be 2x and at 2% or less health your attack will be 2.5x.
+Max=1
+
+[FieldMedic]
+Cost=300
+Type=Passive
+Info=This skill will increase the amount of health items will heal by 5*skill level.
+Max=30
+
+[Impetus]
+Cost=150
+Type=Passive
+Info=This skill will increase your chances of performing a critical hit by 1% each level in this skill.
+Max=30
+
+[BloodPact]
+Cost=2500
+Type=Passive
+Info=This skill will allow you to activate summoning items and summon pets/summons to the field to fight for you.
+Max=1
+
+=============================================
+ACTIVE SKILLS
+=============================================
+
+[Speed]
+Cost=250
+Type=Active
+Max=100
+Info=This skill increases the user's speed when performed.  Increased levels increases the amount of speed when used.
+
+[ElementalSeal]
+Cost=425
+Type=Active
+Max=5
+Info=This skill enhances your next magical spell. The default reuse time is 10 minutes.  Increased levels decreases the amount of time inbetween uses.
+
+[MightyStrike]
+Cost=450
+Type=Active
+Max=5
+Info=This skill enhances your next attack done with a weapon. The default reuse time is 10 minutes.  Increased levels decreases the amount of time inbetween uses.
+
+[ManaWall]
+Cost=450
+Type=Active
+Max=6
+Info=This skill reduces the next magic attack used against you to 0.  The default reuse time is 10 minutes.  Increased levels decreases the amount of time inbetween uses.
+
+[RoyalGuard]
+Cost=450
+Type=Active
+Max=6
+Info=This skill reduces the next physical attack used against you to 0.  The default reuse time is 10 minutes.  Increased levels decreases the amount of time inbetween uses.
+
+[Fullbring]
+Cost=350
+Type=Active
+Max=5
+Info=This skill allows you to draw out the souls within items and turn single-target items into AOEs.  Fullbring will consume the item you use.
+
+[Sugitekai]
+Cost=900
+Type=Active
+Max=5
+Info=This skill allows you to get two turns on your next turn after using this skill.  The default reuse time is 15 minutes.  Increased levels decreases the amount of time inbetween uses.
+
+[Meditate]
+Cost=400
+Type=Active
+Max=10
+Info=This skill will give you (level * 5) TP back to you instantly.  The reuse time is 5 minutes.
+
+[ConserveTP]
+Cost=500
+Type=Active
+Max=5
+Info=This skill will reduce the cost of your next technique to 0 TP. The default reuse time is 20 minutes.  Increased levels decreases the amount of time inbetween uses.
+
+[BloodBoost]
+Cost=500
+Type=Active
+Max=10
+Info=This skill will consume 100 HP to give you a (level * 2) boost to your STR.  The reuse time is 5 minutes.
+
+[DrainSamba]
+Cost=750
+Type=Active
+Max=10
+Info=This skill will consume 10 TP to activate the "drain" status on the user, allowing him/her to gain HP back with every melee attack.  The amount of turns it will last is the level of your skill.  Note that the drain effect will not work on the undead (vampires, skeletons, zombies).  There is a 3 minute reuse period inbetween command uses.
+
+[Regen]
+Cost=700
+Type=Active
+Max=20
+Info=This skill will give you the HP regeneration effect.  Every turn you will regenerate (skill level * 2) HP back.  The effect will wear off when you reach your maximum HP or if you die.  There is a 3 minute reuse period inbetween command uses.
+
+[Kikouheni]
+Cost=650
+Type=Active
+Max=6
+Info=This skill allows the user to change the current weather.  The default reuse time is 10 minutes.  Increased levels of this skill will reduce the amount of time inbetween uses.
+
+[ShadowCopy]
+Cost=1500
+Type=Active
+Info=This skill will create a shadow clone of yourself that has half your current HP to fight in battle with you as an NPC.  It can only be used once per battle, even if the clone dies.
+Max=1
+
+[Utsusemi]
+Cost=500
+Type=Active
+Info=This skill will create 2 shadows that will absorb all types of attacks.  The default reuse time is 30 minutes.  Increased levels decreases the amount of time inbetween uses.
+Max=10
+
+[Steal]
+Cost=250
+Type=Active
+Info=This skill will let you try to steal an item or red orbs from a target.  Each level increases the percentage of success by 1%.
+Max=50
+
+[Analysis]
+Cost=550
+Type=Active
+Info=This skill will allow you to analyze a target. Each level of the skill gives you more detail about the target.
+Max=5
+
+=============================================
+RESISTS
+=============================================
+
+[Resist-Paralysis]
+Cost=150
+Max=100
+Type=Resistance
+Info=This skill lowers the chance that you will become paralyzed in battle by 1% each level.
+
+[Resist-Charm]
+Cost=150
+Max=100
+Type=Resistance
+Info=This skill lowers the chance that you will become charmed in battle by 1% each level.
+
+[Resist-Blind]
+Cost=150
+Max=100
+Type=Resistance
+Info=This skill lowers the chance that you will become blind in battle by 1% each level.
+
+[Resist-Poison]
+Cost=150
+Max=100
+Type=Resistance
+Info=This skill lowers the chance that you will become poisoned in battle by 1% each level.
+
+[Resist-Amensia]
+Cost=150
+Max=100
+Type=Resistance
+Info=This skill lowers the chance that you will suffer amnesia in battle by 1% each level.
+
+[Resist-Curse]
+Cost=150
+Max=100
+Type=Resistance
+Info=This skill lowers the chance that you will become cursed in battle by 1% each level.
+
+[Resist-Zombie]
+Cost=150
+Max=100
+Type=Resistance
+Info=This skill lowers the chance that you will become a zombie in battle by 1% each level.
+
+[Resist-Slow]
+Cost=150
+Max=100
+Type=Resistance
+Info=This skill lowers the chance that you will become slowed in battle by 1% each level.
+
+[Resist-Stun]
+Cost=150
+Max=100
+Type=Resistance
+Info=This skill lowers the chance that you will become stunned in battle by 1% each level.
+
+[Resist-Amnesia]
+Cost=150
+Max=100
+Type=Resistance
+Info=This skill lowers the chance that you will become stunned in battle by 1% each level.
+
+[Resist-Stop]
+Cost=150
+Max=100
+Type=Resistance
+Info=This skill lowers the chance that you will become frozen in time in battle by 1% each level.

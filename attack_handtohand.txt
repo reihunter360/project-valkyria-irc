@@ -1,0 +1,19 @@
+steps on %enemy $+ 's foot with all $gender($1) might and as %real.name grabs $gender($2) foot in agony, $set_chr_name($1) %real.name begins a barrage of punches
+grabs $set_chr_name($2) %real.name $+ 's wrist and slams $gender2($2) into the ground
+sweeps at $set_chr_name($2) %real.name sending $gender2($2) tumbling to the ground
+whips around and spin kicks $set_chr_name($2) %real.name in the jaw
+punches $set_chr_name($2) %real.name in the face
+hits $set_chr_name($2) %real.name in the solar plexis
+kicks $set_chr_name($2) %real.name in the face
+grabs $set_chr_name($2) %real.name by the neck, leaps up into the air, and tosses %real.name into the ground
+kicks $set_chr_name($2) %real.name in the head, sending %real.name into recoil
+picks up and throws $set_chr_name($2) %real.name from a run. %real.name takes a nose dive as $gender3($2) flys forward and lands face first into the ground, creating a little path.
+runs up and punches $set_chr_name($2) %real.name in the nose
+does an uppercut to $set_chr_name($2) %real.name sending $gender2($2) head over heels
+picks $set_chr_name($2) %real.name up and piledrives %real.name into the ground
+leaps high into the air and comes down at an angle, kicking $set_chr_name($2) %real.name in the chest
+sucker punches $set_chr_name($2) %real.name in the face and gives a pair of swift kicks into $gender($2) abdomen
+grabs $set_chr_name($2) %real.name by the hair, lifts up a knee, and slams %real.name rapidly into the knee many times before winding up hard for a last time, slamming %real.name hard in the knee while letting go of $gender($2) hair
+punches $set_chr_name($2) %real.name hard with a left and follows through with a spinning backhand with the right hand
+slams $set_chr_name($2) %real.name over the head and upper back with a double-armed overhead hammer strike, pounding $gender2($2) about an inch into the ground
+charges at $set_chr_name($2) %real.name at full speed and executes a $rand(3,6) $+ -hit combo before leaping back into fighting position

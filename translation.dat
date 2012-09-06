@@ -1,0 +1,129 @@
+===================================================================
+This is the translation file the bot uses for 
+some of the messages used throughout.  If you want to
+translate it into your native language, change the lines
+to the right of the =  For example:
+
+WaitYourTurn=TRANSLATE THIS PART
+
+If you change the "WaitYourTurn" part, the bot will mess up.
+
+Also make sure you leave any variables/commands alone.
+Variables and commands look like this: %something or $something.  
+
+$chr(3) is the character code for color.  The $+ # is the color
+that the text will use.  You can change the # if you want to 
+change the color.  Leave $chr(3) $+ or it won't work right.
+
+Example:
+
+$chr(3) $+ 4 $+ Text Here  
+The "Text Here" will be red (color 4 in mIRC) If you change the
+4 to a 2, you will have navy text instead of red. 
+===================================================================
+
+
+=======================
+System | Player Messages
+=======================
+[System]
+WipedBattleStats=$chr(3) $+ 4 $+ The Battle Stats have been wiped!
+ChangeTime=$chr(3) $+ 4 $+ Time between battles has been set to: $4 minutes
+PlayerExists=$chr(3) $+ 4 $+ A character with the name $nick already exists.  If this is you, use the !id command with your password in query to log in.  If not, please change your nick and try again.
+NameReserved=$chr(3) $+ 4 $+ A character with the name $nick is reserved and cannot be used. Please change your nick and try again.
+CharacterCreated=$chr(3) $+ 3 $+  $+ $nick has entered the dimensional rift to join the battle arena.
+StartingCharOrbs=$chr(3) $+ 2 $+ You enter the arena with a total of %starting.orbs  $+ $readini(system.dat, system, currency) to spend.  
+StartingCharPassword=$chr(3) $+ 2 $+ Your password has been set to %password and it is recommended you change it using the command !newpass %password newpasswordhere in private or at least write the password down.  $chr(3) $+ Passwords cannot be recovered!
+ZappedComplete=$chr(3) $+ 10 $+ $+ %real.name has been erased from this dimension. 
+NewPassword=$chr(3) $+ 3 $+ Your new password has been set to $3 
+SetGenderNeither=$chr(3) $+ 3 $+ Your gender has been set to its 
+SetGenderMale=$chr(3) $+ 3 $+ Your gender has been set to $2
+SetGenderFemale=$chr(3) $+ 3 $+ Your gender has been set to $2
+ViewMyHP=$chr(3) $+ 3 $+  $+ %real.name $+ 's HP is: $readini($char($nick), Battle, HP) $chr(47) $readini($char($nick), BaseStats, HP)  $chr(91) $+  %hstats $+ 3 $+ $chr(93)  
+ViewMyTP=$chr(3) $+ 3 $+  $+ %real.name $+ 's TP is: $readini($char($nick), Battle, TP) $chr(47) $readini($char($nick), BaseStats, TP) 
+ViewMyOrbs=$chr(3) $+ 3 $+  $+ %real.name has $bytes($readini($char($nick), stuff, RedOrbs),b)  $+ $readini(system.dat, system, currency) and $readini($char($nick), stuff, BlackOrbs) Black Orb(s) and has spent %orbs.spent  $+ $readini(system.dat, system, currency) total! 
+ViewOthersOrbs=$chr(3) $+ 3 $+  $+ %real.name has $bytes($readini($char($2), stuff, RedOrbs),b)  $+ $readini(system.dat, system, currency) and $readini($char($2), stuff, BlackOrbs) Black Orb(s) and has spent %orbs.spent  $+ $readini(system.dat, system, currency) total! 
+HereIsYourCurrentStats=$chr(3) $+ 3 $+ Here are your current stats:
+CurrentWeaponEquipped=Current Weapon Equipped
+ViewWeaponList=$chr(3) $+ 3 $+  $+ %real.name has the following weapons: %weapon.list
+ViewCurrentStyle=$chr(3) $+ 3 $+  $+ %real.name is currently using the %current.playerstyle style. [XP: %current.playerstyle.xp $chr(47) %current.playerstyle.xptolevel $+ ] 
+ViewStyleList=$chr(3) $+ 3 $+  $+ %real.name knows the following styles: %styles.list
+SwitchStyles=$chr(3) $+ 3 $+  $+ %real.name has switched to the $3 style! 
+ViewMyTechs=$chr(3) $+ 3 $+  $+ %real.name knows the following techniques for $gender($nick) %weapon.equipped $+ : %techs.list 
+ViewOthersTechs=$chr(3) $+ 3 $+  $+ %real.name knows the following techniques for $gender($2) %weapon.equipped $+ : %techs.list 
+NoTechsForMe=$chr(3) $+ 3 $+  $+ %real.name does not know any techniques for $gender($nick) %weapon.equipped $+ .
+NoTechsForOthers=$chr(3) $+ 3 $+  $+ %real.name does not know any techniques for $gender($2) %weapon.equipped $+ .
+
+=======================
+Event Messages
+=======================
+[Events]
+CurseNight=$chr(3) $+ 14 $+ What a horrible night for a curse! 
+BloodMoon=$chr(3) $+ 14 $+ The Blood Moon Rises! 
+
+
+=======================
+Error Messages
+=======================
+
+[Errors]
+NoCurrentBattle=$chr(3) $+ 4 $+ Error: There is no current battle
+WaitYourTurn=$chr(3) $+ 4 $+ Error: $1 wait for your turn!
+NotInBattle=$chr(3) $+ 4 $+ Error: %real.name is not currently in this battle!
+NoMonsAvailable=$chr(3) $+ 4 $+ Error: There are no monsters in the monster folder.. Have the bot admin check to make sure there are monsters for players to battle! 
+MonsterLimit=$chr(3) $+ 4 $+ Error: There's already ten monsters in battle! No more monsters can be added.
+PlayerLimit=$chr(3) $+ 4 $+ Error: The battle is full, please try again next battle.
+MonsterDoesNotExist=$chr(3) $+ 4 $+ Error: $3 does not exist as a monster! 
+AlreadyInBattle=$chr(3) $+ 4 $+ Error: %real.name is already in the battle! 
+YouDoNotHaveSkill=$chr(3) $+ 4 $+ Error: You do not have this skill! 
+DoNotHaveSkill=$chr(3) $+ 4 $+ Error: %real.name does not have that skill.
+WrongPassword=$chr(3) $+ 4 $+ Error: Incorrect Password, to change your password, type !newpass <old pass> <new pass>
+WrongPassword2=$chr(3) $+ 4 $+ Error: Incorrect password, please input your password to recieve your voice. 
+TooManyWrongPass=Too many incorrect passwords
+OnlyAnalyzeMonsters=$chr(3) $+ 4 $+ Error: You can only analyze monsters. 
+NeedValidGender=$chr(3) $+ 4 $+ Error: You must specify a valid gender
+SpecifyStyle=$chr(3) $+ 4 $+ Error: %real.name needs to specify which style to switch to!
+DoNotKnowThatStyle=$chr(3) $+ 4 $+ Error: %real.name does not know that style and cannot switch to it!
+CanOnlySwitchOutsideBattle=$chr(3) $+ 4 $+ Error: You can only switch styles outside of battles.
+InvalidStyle=$chr(3) $+ 4 $+ Error: Invalid style!
+
+=======================
+Battle Related Messages
+=======================
+[Battle]
+StartBattle=$chr(3) $+ 2 $+ * A battle will begin in %time.between.battles minutes.
+BattleOpen=$chr(3) $+ 4 $+ A dimensional portal has been detected.  The enemy force will arrive in 2 minutes. type !enter if you wish to join the battle!  
+BattleClosed=$chr(3) $+ 4 $+  $+ %real.name cannot join this battle as either there is no battle or the entry period is already closed.
+NoPlayersOnField=$chr(3) $+ 4 $+ There were no players to meet the monsters on the battlefield!  The battle is over.
+BattleIsOver=$chr(3) $+ 4 $+ The Battle is Over!
+EvilhasWon=$chr(3) $+ 12 $+ The forces of evil have won this battle!
+GoodHasWon=$chr(3) $+ 12 $+ The forces of good have won this battle!
+RewardOrbsLoss=$chr(3) $+ 3 $+ Players have been rewarded with $bytes(%base.redorbs,b)  $+ $readini(system.dat, system, currency) for their efforts.
+RewardOrbsWin=$chr(3) $+ 3 $+ Players have been rewarded with $bytes(%base.redorbs,b)  $+ $readini(system.dat, system, currency) for their victory!
+BlackOrbWin=$chr(3) $+ 3 $+ The following players have absorbed a black orb from the boss: %black.orb.winners
+BonusItemWin=$chr(3) $+ 10 $+  $+ %real.name was the most stylish and finds 1 %boss.item $+ !
+EnteredTheBattle=$chr(3) $+ 4 $+  $+ %real.name has entered the battle! 
+CurrentWeather=$chr(3) $+ 3 $+ The weather is currently: $readini(weather.lst, weather, current)
+
+
+=======================
+Status Related Messages
+=======================
+[Status]
+CurrentlyCharmed=$chr(3) $+ 4 $+  $+ %real.name is currently charmed and cannot perform any of $gender($nick) own actions!
+
+
+=======================
+Skill Related Messages
+=======================
+[Skill]
+UnableToUseskillAgainSoSoon=$chr(3) $+ 4 $+  $+ %real.name is unable to use this skill again so soon.
+StealItem=$chr(3) $+ 2 $+ %real.name has stolen 1 %steal.item from $set_chr_name($2) %real.name $+ ! 
+UnableToSteal=$chr(3) $+ 4 $+ %real.name was unable to steal anything from $set_chr_name($2) %real.name 
+
+=======================
+Tech Related Messages
+=======================
+[Tech]
+
+

@@ -1,0 +1,18 @@
+This is just my thanks for all those who have helped me make this bot!  
+
+
+
+Scott "Smz" of Esper.net
+He helped me with a bunch of ideas.  Not only that, he was the first BETA tester of version 1.0; Without him, I don't think I could have done this.
+
+Andrio of Esper.net 
+Helped me test out the bot and found a few glitches that needed to be fixed.
+
+AuXFire of Hawkee
+Caught a major bug with the passwords which made changing your password from the default impossible.
+
+Raiden of Esper.net
+He helped test the bot and found a bot-breaking bug in which certain encoded passwords wouldn't work with the !id and !quick id commands.
+
+Sealdrenxia of Twitter
+Discovered a huge bug with !new char that let players use the command over and over to get free orbs.
