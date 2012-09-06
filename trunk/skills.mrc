@@ -58,7 +58,7 @@ alias skill.elementalseal {
 
   inc %time.difference $calc(%time.difference + ($readini($char($1), skills, elementalseal) * 60))
 
-  if ((%time.difference = $null) || (%time.difference > 15)) {
+  if ((%time.difference = $null) || (%time.difference > $readini(skills.db, ElementalSeal, cooldown))) {
 
     ; Display the desc. 
     if ($readini($char($1), descriptions, ElementalSeal) = $null) { set %skill.description uses an ancient technique to enhance $gender($1) the next magical spell! }
@@ -73,7 +73,7 @@ alias skill.elementalseal {
     if (%battleis = on)  { $check_for_double_turn($1) }
   }
 
-  else { query %battlechan $readini(translation.dat, skill, UnableToUseskillAgainSoSoon)  | .msg $1 3You still have $calc(600 - %time.difference) seconds before you can use !elemental seal again | halt }
+  else { $set_chr_name($1) | query %battlechan $readini(translation.dat, skill, UnableToUseskillAgainSoSoon)  | .msg $1 3You still have $calc($readini(skills.db, ElementalSeal, cooldown) - %time.difference) seconds before you can use !elemental seal again | halt }
 }
 
 
@@ -97,10 +97,9 @@ alias skill.mightystrike {
   var %last.used $readini($char($1), skills, mightystrike.time)
   var %current.time $ctime
   var %time.difference $calc(%current.time - %last.used)
-
   inc %time.difference $calc(%time.difference + ($readini($char($1), skills, mightystrike)) * 60))
 
-  if ((%time.difference = $null) || (%time.difference > 15)) {
+  if ((%time.difference = $null) || (%time.difference > $readini(skills.db, MightyStrike, cooldown))) {
 
     ; Display the desc. 
     if ($readini($char($1), descriptions, MightyStrike) = $null) { set %skill.description forces energy into $gender($1) weapon, causing the next blow done with it to be double power }
@@ -109,13 +108,13 @@ alias skill.mightystrike {
 
     ; Toggle the flag & write the last used time.
     writeini $char($1) skills mightystrike.on on
-    writeini $char($1) skills mightystrikie.time $ctime
+    writeini $char($1) skills mightystrike.time $ctime
 
     ; Time to go to the next turn
     if (%battleis = on)  { $check_for_double_turn($1) }
   }
 
-  else { query %battlechan $readini(translation.dat, skill, UnableToUseskillAgainSoSoon)  | .msg $1 3You still have $calc(600 - %time.difference) seconds before you can use !mighty strike again | halt }
+  else { $set_chr_name($1) | query %battlechan $readini(translation.dat, skill, UnableToUseskillAgainSoSoon)  | .msg $1 3You still have $calc($readini(skills.db, MightyStrike, cooldown) - %time.difference) seconds before you can use !mighty strike again | halt }
 }
 
 
@@ -142,7 +141,7 @@ alias skill.manawall {
 
   inc %time.difference $calc(%time.difference + ($readini($char($1), skills, ManaWall) * 60))
 
-  if ((%time.difference = $null) || (%time.difference > 660)) {
+  if ((%time.difference = $null) || (%time.difference > $readini(skills.db, ManaWall, cooldown))) {
 
     ; Display the desc. 
     if ($readini($char($1), descriptions, ManaWall) = $null) { set %skill.description uses an ancient technique to produce a powerful magic-blocking barrier around $gender($1) body! }
@@ -157,7 +156,7 @@ alias skill.manawall {
     if (%battleis = on)  { $check_for_double_turn($1) }
   }
 
-  else { query %battlechan $readini(translation.dat, skill, UnableToUseskillAgainSoSoon)  | .msg $1 3You still have $calc(600 - %time.difference) seconds before you can use !mana wall again | halt }
+  else { $set_chr_name($1) | query %battlechan $readini(translation.dat, skill, UnableToUseskillAgainSoSoon)  | .msg $1 3You still have $calc($readini(skills.db, ManaWall, cooldown) - %time.difference) seconds before you can use !mana wall again | halt }
 }
 
 ;=================
@@ -183,7 +182,7 @@ alias skill.royalguard {
 
   inc %time.difference $calc(%time.difference + ($readini($char($1), skills, royalguard) * 60))
 
-  if ((%time.difference = $null) || (%time.difference > 660)) {
+  if ((%time.difference = $null) || (%time.difference > $readini(skills.db, RoyalGuard, cooldown))) {
 
     ; Display the desc. 
     if ($readini($char($1), descriptions, royalguard) = $null) { set %skill.description uses an ancient style to negate the next melee attack towards $gender2($1) }
@@ -198,7 +197,7 @@ alias skill.royalguard {
     if (%battleis = on)  { $check_for_double_turn($1) }
   }
 
-  else { query %battlechan $readini(translation.dat, skill, UnableToUseskillAgainSoSoon) | .msg $1 3You still have $calc(600 - %time.difference) seconds before you can use !royal guard again | halt }
+  else { query %battlechan $readini(translation.dat, skill, UnableToUseskillAgainSoSoon) | .msg $1 3You still have $calc($readini(skills.db, RoyalGuard, cooldown) - %time.difference) seconds before you can use !royal guard again | halt }
 }
 
 
@@ -225,7 +224,7 @@ alias skill.utsusemi {
 
   inc %time.difference $calc(%time.difference + ($readini($char($1), skills, utsusemi) * 60))
 
-  if ((%time.difference = $null) || (%time.difference > 1800)) {
+  if ((%time.difference = $null) || (%time.difference > $readini(skills.db, Utsusemi, cooldown)) {
 
     ; Check for the item "Shihei" and consume it, or display an error if they don't have any.
     set %check.item $readini($char($1), item_amount, shihei)
@@ -246,7 +245,7 @@ alias skill.utsusemi {
     if (%battleis = on)  { $check_for_double_turn($1) }
   }
 
-  else { $set_chr_name($1) | query %battlechan $readini(translation.dat, skill, UnableToUseskillAgainSoSoon) | .msg $1 3You still have $calc(1800 - %time.difference) seconds before you can use !utsusemi again | halt }
+  else { $set_chr_name($1) | query %battlechan $readini(translation.dat, skill, UnableToUseskillAgainSoSoon) | .msg $1 3You still have $calc($readini(skills.db, Utsusemi, cooldown) - %time.difference) seconds before you can use !utsusemi again | halt }
 }
 
 
@@ -488,8 +487,6 @@ alias fullbring.aoestatus {
   halt
 }
 
-
-
 alias fullbring.aoedamage {
   ; $1 = user
   ; $2 = item
@@ -523,7 +520,6 @@ alias fullbring.aoedamage {
   /.timerCheckForDoubleSleep $+ $rand(a,z) $+ $rand(1,1000) 1 %timer.time /check_for_double_turn $1
   halt
 }
-
 
 alias fullbring.aoetp {
   ; $1 = user
@@ -583,7 +579,7 @@ alias skill.doubleturn {
 
   inc %time.difference $calc(%time.difference + ($readini($char($1), skills, doubleturn) * 60))
 
-  if ((%time.difference = $null) || (%time.difference > 960)) {
+  if ((%time.difference = $null) || (%time.difference > $readini(skills.db, Sugitekai, cooldown))) {
 
     ; Display the desc. 
     if ($readini($char($1), descriptions, doubleturn) = $null) { set %skill.description becomes very focused and is able to do two actions next round! }
@@ -598,7 +594,7 @@ alias skill.doubleturn {
     if (%battleis = on)  { $next }
   }
 
-  else { query %battlechan $readini(translation.dat, skill, UnableToUseskillAgainSoSoon) | .msg $1 3You still have $calc(960 - %time.difference) seconds before you can use !Sugitekai again | halt }
+  else { query %battlechan $readini(translation.dat, skill, UnableToUseskillAgainSoSoon) | .msg $1 3You still have $calc($readini(skills.db, Sugitekai, cooldown) - %time.difference) seconds before you can use !Sugitekai again | halt }
 }
 
 ;=================
@@ -621,7 +617,7 @@ alias skill.meditate {
   var %current.time $ctime
   var %time.difference $calc(%current.time - %last.used)
 
-  if ((%time.difference = $null) || (%time.difference > 300)) {
+  if ((%time.difference = $null) || (%time.difference > $readini(skills.db, Meditate, cooldown))) {
 
     ; Display the desc. 
     if ($readini($char($1), descriptions, meditate) = $null) { set %skill.description meditates and feel $gender($1) TP being restored.  }
@@ -648,7 +644,7 @@ alias skill.meditate {
     if (%battleis = on)  { $check_for_double_turn($1) }
   }
 
-  else { query %battlechan $readini(translation.dat, skill, UnableToUseskillAgainSoSoon)  | .msg $1 3You still have $calc(300 - %time.difference) seconds before you can use !meditate again | halt }
+  else { query %battlechan $readini(translation.dat, skill, UnableToUseskillAgainSoSoon)  | .msg $1 3You still have $calc($readini(skills.db, Meditate, cooldown) - %time.difference) seconds before you can use !meditate again | halt }
 }
 
 ;=================
@@ -674,7 +670,7 @@ alias skill.conserveTP {
 
   inc %time.difference $calc(%time.difference + ($readini($char($1), skills, conserveTP) * 60))
 
-  if ((%time.difference = $null) || (%time.difference > 1200)) {
+  if ((%time.difference = $null) || (%time.difference > $readini(skills.db, ConserveTP, cooldown))) {
 
     ; Display the desc. 
     if ($readini($char($1), descriptions, conserveTP) = $null) { set %skill.description uses an ancient skill to reduce the cost of $gender($1) next technique to 0. }
@@ -689,7 +685,7 @@ alias skill.conserveTP {
     if (%battleis = on)  { $check_for_double_turn($1) }
   }
 
-  else { query %battlechan $readini(translation.dat, skill, UnableToUseskillAgainSoSoon)  | .msg $1 3You still have $calc(1200 - %time.difference) seconds before you can use !conserve TP again | halt }
+  else { query %battlechan $readini(translation.dat, skill, UnableToUseskillAgainSoSoon)  | .msg $1 3You still have $calc($readini(skills.db, ConserveTP, cooldown) - %time.difference) seconds before you can use !conserve TP again | halt }
 }
 
 
@@ -710,14 +706,14 @@ alias skill.bloodboost {
   $check_for_battle($1)
 
   var %hp.needed 100 | var %hp.current $readini($char($1), battle, hp)
-  if (%hp.needed > %hp.current) { query %battlechan 4Error: %real.name does not have enough HP to use this skill! | halt }
+  if (%hp.needed > %hp.current) { query %battlechan 4Error: %real.name does not have enough HP to use this skill! | halt }
 
   ; Check to see if enough time has elapsed
   var %last.used $readini($char($1), skills, bloodboost.time)
   var %current.time $ctime
   var %time.difference $calc(%current.time - %last.used)
 
-  if ((%time.difference = $null) || (%time.difference > 15)) {
+  if ((%time.difference = $null) || (%time.difference > $readini(skills.db, BloodBoost, cooldown))) {
 
     ; Display the desc. 
     if ($readini($char($1), descriptions, bloodboost) = $null) { set %skill.description sacrifices %hp.needed HP and converts it into raw strength.  }
@@ -747,7 +743,7 @@ alias skill.bloodboost {
     if (%battleis = on)  { $check_for_double_turn($1) }
   }
 
-  else { query %battlechan $readini(translation.dat, skill, UnableToUseskillAgainSoSoon) | .msg $1 3You still have $calc(300 - %time.difference) seconds before you can use !bloodboost again | halt }
+  else { query %battlechan $readini(translation.dat, skill, UnableToUseskillAgainSoSoon) | .msg $1 3You still have $calc($readini(skills.db, BloodBoost, cooldown) - %time.difference) seconds before you can use !bloodboost again | halt }
 }
 
 ;=================
@@ -774,7 +770,7 @@ alias skill.drainsamba {
   var %current.time $ctime
   var %time.difference $calc(%current.time - %last.used)
 
-  if ((%time.difference = $null) || (%time.difference > 180)) {
+  if ((%time.difference = $null) || (%time.difference > $readini(skills.db, DrainSamba, cooldown))) {
 
     ; Display the desc. 
     if ($readini($char($1), descriptions, drainsamba) = $null) { set %skill.description performs a powerful samba that activates a draining technique on $gender($1) weapon!   }
@@ -796,7 +792,7 @@ alias skill.drainsamba {
     if (%battleis = on)  { $check_for_double_turn($1) }
   }
 
-  else { query %battlechan $readini(translation.dat, skill, UnableToUseskillAgainSoSoon) | .msg $1 3You still have $calc(180 - %time.difference) seconds before you can use !drainsamba again | halt }
+  else { query %battlechan $readini(translation.dat, skill, UnableToUseskillAgainSoSoon) | .msg $1 3You still have $calc($readini(skills.db, DrainSamba, cooldown) - %time.difference) seconds before you can use !drainsamba again | halt }
 }
 
 
@@ -818,7 +814,7 @@ alias skill.regen {
   var %current.time $ctime
   var %time.difference $calc(%current.time - %last.used)
 
-  if ((%time.difference = $null) || (%time.difference > 180)) {
+  if ((%time.difference = $null) || (%time.difference > $readini(skills.db, Regen, cooldown))) {
 
     ; write the last used time.
     writeini $char($1) skills regen.time $ctime
@@ -841,7 +837,7 @@ alias skill.regen {
     if (%battleis = on)  { $check_for_double_turn($1) | halt }
     else { halt }
   }
-  else { query %battlechan $readini(translation.dat, skill, UnableToUseskillAgainSoSoon) | .msg $1 3You still have $calc(180 - %time.difference) seconds before you can use !regen again | halt }
+  else { query %battlechan $readini(translation.dat, skill, UnableToUseskillAgainSoSoon) | .msg $1 3You still have $calc($readini(skills.db, Regen, cooldown) - %time.difference) seconds before you can use !regen again | halt }
 
 }
 
@@ -912,7 +908,7 @@ alias skill.kikouheni {
   var %current.time $ctime
   var %time.difference $calc(%current.time - %last.used)
 
-  if ((%time.difference = $null) || (%time.difference > 600)) {
+  if ((%time.difference = $null) || (%time.difference > $readini(skills.db, Kikouheni, cooldown))) {
 
     ; Display the desc. 
     if ($readini($char($1), descriptions, kikouheni) = $null) { set %skill.description summons a mystical power that changes the weather! }
@@ -929,7 +925,7 @@ alias skill.kikouheni {
     if (%battleis = on)  { $check_for_double_turn($1) }
   }
 
-  else { query %battlechan $readini(translation.dat, skill, UnableToUseskillAgainSoSoon) | .msg $1 3You still have $calc(600 - %time.difference) seconds before you can use !kikouheni again | halt }
+  else { query %battlechan $readini(translation.dat, skill, UnableToUseskillAgainSoSoon) | .msg $1 3You still have $calc($readini(skills.db, Kikouheni, cooldown) - %time.difference) seconds before you can use !kikouheni again | halt }
 }
 
 
@@ -1019,7 +1015,7 @@ alias skill.steal {
   var %current.time $ctime
   var %time.difference $calc(%current.time - %last.used)
 
-  if ((%time.difference = $null) || (%time.difference > 15)) {
+  if ((%time.difference = $null) || (%time.difference > $readini(skills.db, Steal, cooldown))) {
 
     ; Display the desc. 
     if ($readini($char($1), descriptions, steal) = $null) { set %skill.description sneaks around to $set_chr_name($2) %real.name in an attempt to steal something! }
@@ -1039,11 +1035,17 @@ alias skill.steal {
     var %current.playerstyle $readini($char($1), styles, equipped)
     if (%current.playerstyle = Trickster) { inc %steal.chance $rand(5,10) }
 
-    if (%steal.chance >= 55) {
+    if (%steal.chance >= 85) {
+      var %stolen.from.counter $readini($char($2), status, stolencounter)
+      if (%stolen.from.counter >= 2) { $set_chr_name($2) | query %battlechan 4 $+ %real.name  has nothing left to steal! | halt }
+
+      inc %stolen.from.counter 1 | writeini $char($2) status stolencounter %stolen.from.counter 
+
       if ($readini($char($2), Info, flag) = monster) { var %steal.pool orbs.vitalstar.orbs.potion.Holy_Water.Pizza.PotRoast.Ramen.Cavier.BisonDollar.DragonMeat.SuperMushroom.FireDragonWine.Ambrosia.FoieGras.KnowledgeSource.SoulPainting.FishAndChips.Slurm | var %steal.orb.amount $rand(2000,5000) }
       if ($readini($char($2), Info, Flag) = boss) { var %steal.pool orbs.senzu.Red_Fang.Thunder_Orb.DarkMagicianCard.BusterBladerCard.BlueEyesCard.FishOilBroth.Pizza.PotRoast.Ramen.Cavier.BisonDollar.DragonMeat.SuperMushroom.FireDragonWine.Ambrosia.FoieGras.KnowledgeSource.SoulPainting.FishAndChips.Slurm | var %steal.orb.amount $rand(5000,20000) }
+      if ($2 = orb_fountain) { var %steal.pool orbs.orbs.orbs.orbs | var %steal.orb.amount $rand(9000,18000) }
 
-      if (%bloodmoon = on) { var %steal.pool orbs.orbs.orbs.orbs | var %steal.orb.amount $rand(10000,40000) }
+      if (%bloodmoon = on) { var %steal.pool orbs.orbs.orbs.orbs | var %steal.orb.amount $rand(10000,35000) }
 
       set %total.items $numtok(%steal.pool, 46)
       set %random.item $rand(1,%total.items)
@@ -1065,7 +1067,7 @@ alias skill.steal {
     if (%battleis = on)  { $check_for_double_turn($1) }
   }
 
-  else { query %battlechan $readini(translation.dat, skill, UnableToUseskillAgainSoSoon) | .msg $1 3You still have $calc(15 - %time.difference) seconds before you can use !steal again | halt }
+  else { query %battlechan $readini(translation.dat, skill, UnableToUseskillAgainSoSoon) | .msg $1 3You still have $calc($readini(skills.db, Steal, cooldown) - %time.difference) seconds before you can use !steal again | halt }
 }
 
 ;=================
@@ -1089,7 +1091,6 @@ alias skill.analysis {
   if ($readini($char($nick), descriptions, analysis) = $null) { set %skill.description focuses intently on $2 in an attempt to analyze $gender2($2) $+ ! }
   else { set %skill.description $readini($char($nick), descriptions, analysis) }
   $set_chr_name($1) | query %battlechan 12 $+ %real.name  $+ %skill.description
-
 
   ; Get the level of the skill.  The level will determine the information we get from the skill.
   var %analysis.level $readini($char($1), skills, analysis)

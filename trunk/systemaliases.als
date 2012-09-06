@@ -1,12 +1,12 @@
-battle.version { return 1.3beta_083112 }
+battle.version { return 1.3beta_090612 }
 quitmsg { return Battle Arena version $battle.version written by James  "Iyouboushi" }
 checkscript {
-  if (| isin $1-) { msg $nick 4You cannot build scripts with your command! | halt }
+  if (| isin $1-) { msg $nick $readini(translation.dat, errors, NoScriptsWithCommands) | halt }
   else { return | halt } 
 }
 checkchar {
   var %check $readini($char($1), Stuff, ShopLevel)
-  if (%check = $null) { query %battlechan 4Error: $1 isn't in my data banks! | halt }
+  if (%check = $null) { query %battlechan $readini(translation.dat, errors, NotInDataBank) | halt }
   else { return }
 }
 char { return $mircdir $+ %player_folder $+ $1 $+ .char }
@@ -84,12 +84,12 @@ amnesia.check {
   if (%amnesia.check = no) { return }
   else { 
     $set_chr_name($1) 
-    query %battlechan 4 $+ %real.name cannot remember how to perform this $2 $+ ! | halt 
+    query %battlechan $readini(translation.dat, status, CurrentlyAmnesia) | halt 
   }
 }
 
 id_login { set %idwho $1 | unset %newbie | unset %password | unset %userlevel | unset %character.description | .dns %idwho | $clr_passhurt($1) | writeini $char($1) Info LastSeen $fulldate | .close -m* |  unset %guess  | unset %gender | halt }
-okdesc { .msg $1 3Your $2 desc was entered correctly! | return }
+okdesc { .msg $1 $readini(translation.dat, system,OKDesc) | return }
 set_chr_name {
   set %real.name $readini($char($1), BaseStats, Name)
   if (%real.name = $null) { set %real.name $1 | return }

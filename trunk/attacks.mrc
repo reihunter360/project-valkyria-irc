@@ -22,9 +22,7 @@ ON 50:TEXT:*attacks *:*:{
 alias attack_cmd { $check_for_battle($1) | $person_in_battle($2) | $checkchar($2) | var %user.flag $readini($char($1), info, flag) | var %target.flag $readini($char($2), info, flag)
   if ($is_charmed($1) = true) { var %user.flag monster }
 
-  if (($2 = $1) && ($is_charmed($1) = false))  { 
-    query %battlechan 4 $+ %real.name cannot attack $gender2($1) $+ self! | unset %real.name | halt 
-  }
+  if (($2 = $1) && ($is_charmed($1) = false))  { query %battlechan 4 $+ %real.name cannot attack $gender2($1) $+ self! | unset %real.name | halt  }
   if ((%user.flag != monster) && (%target.flag != monster)) { query %battlechan 4 $+ %real.name can only attack monsters! | halt }
   if ($readini($char($1), Battle, Status) = dead) { $set_chr_name($1) | query %battlechan 4 $+ %real.name cannot attack while unconcious! | unset %real.name | halt }
   if ($readini($char($2), Battle, Status) = dead) { $set_chr_name($1) | query %battlechan 4 $+ %real.name cannot attack someone who is dead! | unset %real.name | halt }
@@ -179,7 +177,7 @@ alias calculate_damage_weapon {
   ; And let's get the final attack damage..
   dec %attack.damage %enemy.defense
 
-  ; In this bot we don't want the attack to ever be lower than 1.  
+  ; In this bot we don't want the attack to ever be lower than 1 except for rare instances...  
   if (%attack.damage <= 0) { set %attack.damage 1 }
 
   ; Check for a critical hit.
@@ -195,6 +193,12 @@ alias calculate_damage_weapon {
   if (%critical.hit.chance >= 97) {
     $set_chr_name($1) |  query %battlechan 4 $+ %real.name lands a critical hit! 
     set %attack.damage $round($calc(%attack.damage * 1.5),0)
+  }
+
+  ; If a player is using a monster weapon, which is considered cheating, set the damage to 0.
+  if ($readini(weapons.db, $2, cost) = 0) {
+    var %current.flag $readini($char($1), info, flag)
+    if (%current.flag = $null) {  set %attack.damage 0 }
   }
 
   ; Is the weapon a multi-hit weapon?  

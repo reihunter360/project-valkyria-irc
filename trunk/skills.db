@@ -1,5 +1,5 @@
 [Skills]
-PassiveSkills=Swordmaster.Gunslinger.Wizardy.MartialArts.Polemaster.ClearMind.DesperateBlows.OrbHunter.FieldMedic.Impetus.BloodPact
+PassiveSkills=Swordmaster.Gunslinger.Wizardy.MartialArts.Polemaster.ClearMind.DesperateBlows.OrbHunter.FieldMedic.Impetus.BloodPact.Zen
 ActiveSkills=Speed.ElementalSeal.MightyStrike.ManaWall.RoyalGuard.Fullbring.Sugitekai.Meditate.ConserveTP.BloodBoost.DrainSamba.Regen.Kikouheni.ShadowCopy.Utsusemi.Steal.Analysis
 Resists=resist-paralysis.resist-blind.resist-poison.resist-amnesia.resist-curse.resist-zombie.resist-slow.resist-stun.resist-stop.resist-charm
 
@@ -43,13 +43,13 @@ Info=This skill increases damage done with your fists and nunchuku weapons.  Inc
 Cost=250
 Type=Passive
 Info=This skill will increase the amount of red orbs you find at the end of battle by 5*skill level.
-Max=100
+Max=20
 
 [ClearMind]
 Cost=450
 Type=Passive
 Info=This skill will increase magical damage.  Increased levels of this skill will increase the damage.
-Max=5
+Max=3
 
 [DesperateBlows]
 Cost=1000
@@ -75,6 +75,13 @@ Type=Passive
 Info=This skill will allow you to activate summoning items and summon pets/summons to the field to fight for you.
 Max=1
 
+[Zen]
+Cost=500
+Type=Passive
+Info=This skill will increase the amount of TP you get back each turn by 5*skill level.
+Max=5
+
+
 =============================================
 ACTIVE SKILLS
 =============================================
@@ -89,25 +96,29 @@ Info=This skill increases the user's speed when performed.  Increased levels inc
 Cost=425
 Type=Active
 Max=5
-Info=This skill enhances your next magical spell. The default reuse time is 10 minutes.  Increased levels decreases the amount of time inbetween uses.
+Info=This skill enhances your next magical spell. Increased levels decreases the amount of time inbetween uses.
+Cooldown=30
 
 [MightyStrike]
 Cost=450
 Type=Active
 Max=5
-Info=This skill enhances your next attack done with a weapon. The default reuse time is 10 minutes.  Increased levels decreases the amount of time inbetween uses.
+Info=This skill enhances your next attack done with a weapon. Increased levels decreases the amount of time inbetween uses.
+Cooldown=30
 
 [ManaWall]
 Cost=450
 Type=Active
 Max=6
-Info=This skill reduces the next magic attack used against you to 0.  The default reuse time is 10 minutes.  Increased levels decreases the amount of time inbetween uses.
+Info=This skill reduces the next magic attack used against you to 0.  Increased levels decreases the amount of time inbetween uses.
+Cooldown=660
 
 [RoyalGuard]
 Cost=450
 Type=Active
 Max=6
 Info=This skill reduces the next physical attack used against you to 0.  The default reuse time is 10 minutes.  Increased levels decreases the amount of time inbetween uses.
+Cooldown=660
 
 [Fullbring]
 Cost=350
@@ -119,43 +130,54 @@ Info=This skill allows you to draw out the souls within items and turn single-ta
 Cost=900
 Type=Active
 Max=5
-Info=This skill allows you to get two turns on your next turn after using this skill.  The default reuse time is 15 minutes.  Increased levels decreases the amount of time inbetween uses.
+Info=This skill allows you to get two turns on your next turn after using this skill. Increased levels decreases the amount of time inbetween uses.
+Cooldown=960
 
 [Meditate]
 Cost=400
 Type=Active
 Max=10
-Info=This skill will give you (level * 5) TP back to you instantly.  The reuse time is 5 minutes.
+Info=This skill will give you (level * 5) TP back to you instantly.
+Cooldown=60
 
 [ConserveTP]
 Cost=500
 Type=Active
 Max=5
-Info=This skill will reduce the cost of your next technique to 0 TP. The default reuse time is 20 minutes.  Increased levels decreases the amount of time inbetween uses.
+Info=This skill will reduce the cost of your next technique to 0 TP. Increased levels decreases the amount of time inbetween uses.
+Cooldown=500
+; 1600 Seconds to 500 Seconds
 
 [BloodBoost]
 Cost=500
 Type=Active
 Max=10
-Info=This skill will consume 100 HP to give you a (level * 2) boost to your STR.  The reuse time is 5 minutes.
+Info=This skill will consume 100 HP to give you a (level * 2) boost to your STR.
+Cooldown=15
+; 300 Seconds to 15 Seconds
 
 [DrainSamba]
 Cost=750
 Type=Active
 Max=10
-Info=This skill will consume 10 TP to activate the "drain" status on the user, allowing him/her to gain HP back with every melee attack.  The amount of turns it will last is the level of your skill.  Note that the drain effect will not work on the undead (vampires, skeletons, zombies).  There is a 3 minute reuse period inbetween command uses.
+Info=This skill will consume 10 TP to activate the "drain" status on the user, allowing him/her to gain HP back with every melee attack.  The amount of turns it will last is the level of your skill.  Note that the drain effect will not work on the undead (vampires, skeletons, zombies).
+Cooldown=15
+; to 15 Seconds
 
 [Regen]
 Cost=700
 Type=Active
 Max=20
-Info=This skill will give you the HP regeneration effect.  Every turn you will regenerate (skill level * 2) HP back.  The effect will wear off when you reach your maximum HP or if you die.  There is a 3 minute reuse period inbetween command uses.
+Info=This skill will give you the HP regeneration effect.  Every turn you will regenerate (skill level * 2) HP back.  The effect will wear off when you reach your maximum HP or if you die.
+Cooldown=90
+; 180 to 90 Seconds
 
 [Kikouheni]
 Cost=650
 Type=Active
 Max=6
-Info=This skill allows the user to change the current weather.  The default reuse time is 10 minutes.  Increased levels of this skill will reduce the amount of time inbetween uses.
+Info=This skill allows the user to change the current weather.  Increased levels of this skill will reduce the amount of time inbetween uses.
+Cooldown=600
 
 [ShadowCopy]
 Cost=1500
@@ -166,14 +188,17 @@ Max=1
 [Utsusemi]
 Cost=500
 Type=Active
-Info=This skill will create 2 shadows that will absorb all types of attacks.  The default reuse time is 30 minutes.  Increased levels decreases the amount of time inbetween uses.
+Info=This skill will create 2 shadows that will absorb all types of attacks.  Increased levels decreases the amount of time inbetween uses.
 Max=10
+Cooldown=1800
 
 [Steal]
 Cost=250
 Type=Active
 Info=This skill will let you try to steal an item or red orbs from a target.  Each level increases the percentage of success by 1%.
-Max=50
+Max=40
+Cooldown=15
+; 300 seconds to 15 seconds
 
 [Analysis]
 Cost=550
