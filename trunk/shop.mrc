@@ -19,11 +19,12 @@ on 2:TEXT:!shop*:*: {
     var %amount.to.purchase $abs($5)
     if (%amount.to.purchase = $null) { var %amount.to.purchase 1 }
 
-    if (($3 = items) || ($3 = item))  { $shop.items($nick, buy, $4, %amount.to.purchase) | halt }
-    if (($3 = techs) || ($3 = techniques)) { $shop.techs($nick, buy, $4, %amount.to.purchase) | halt  }
-    if (($3 = skills) || ($3 = skill)) { $shop.skills($nick, buy, $4, %amount.to.purchase) | halt  }
-    if (($3 = stats) || ($3 = stat))  {  $shop.stats($nick, buy, $4, %amount.to.purchase) | halt  }
-    if (($3 = weapons) || ($3 = weapon)) { $shop.weapons($nick, buy, $4, %amount.to.purchase) }
+    if (($3 = items)   || ($3 = item))       { $shop.items  ($nick, buy, $4, %amount.to.purchase) | halt }
+    if (($3 = techs)   || ($3 = techniques)) { $shop.techs  ($nick, buy, $4, %amount.to.purchase) | halt }
+    if (($3 = skills)  || ($3 = skill))      { $shop.skills ($nick, buy, $4, %amount.to.purchase) | halt }
+    if (($3 = stats)   || ($3 = stat))       { $shop.stats  ($nick, buy, $4, %amount.to.purchase) | halt }
+    if (($3 = weapons) || ($3 = weapon))     { $shop.weapons($nick, buy, $4, %amount.to.purchase) }
+    
     if ($3 = orbs) { 
       var %amount.to.purchase $abs($4)
       if (%amount.to.purchase = $null) { var %amount.to.purchase 1 }
@@ -34,13 +35,13 @@ on 2:TEXT:!shop*:*: {
   }
 
   if ($2 = list) { 
-    if (($3 = stats) || ($3 = stat)) { $shop.stats($nick, list) }
-    if (($3 = items) || ($3 = item)) { $shop.items($nick, list) }
-    if (($3 = techs) || ($3 = techniques))  { $shop.techs($nick, list) }
-    if (($3 = skills) || ($3 = skill)) { $shop.skills($nick, list) }
-    if (($3 = weapons) || ($3 = weapon)) { $shop.weapons($nick, list) }
-    if ($3 = orbs) { $shop.orbs($nick, list) }
-    if (($3 = style) || ($3 = styles))  { $shop.styles($nick, list, $4) | halt }
+    if (($3 = stats  ) || ($3 = stat      )) { $shop.stats  ($nick, list) }
+    if (($3 = items  ) || ($3 = item      )) { $shop.items  ($nick, list) }
+    if (($3 = techs  ) || ($3 = techniques)) { $shop.techs  ($nick, list) }
+    if (($3 = skills ) || ($3 = skill     )) { $shop.skills ($nick, list) }
+    if (($3 = weapons) || ($3 = weapon    )) { $shop.weapons($nick, list) }
+    if ($3 = orbs    )                       { $shop.orbs   ($nick, list) }
+    if (($3 = style) || ($3 = styles))       { $shop.styles ($nick, list, $4) | halt }
   }
   else { .msg $nick 4Error: Use !shop list <items/techs/skills/stats/weapons/styles/orbs>  or !shop buy <items/techs/skills/stats/weapons/styles/orbs> <what to buy> | halt }
 
@@ -862,7 +863,7 @@ alias shop.calculate.totalcost {
   var %shop.level $readini($char($1), stuff, shoplevel)
   while (%value <= $2) { 
     inc %total.price.calculate $round($calc(%shop.level * $3),0)
-    inc %shop.level .1 
+    if (%shop.level < 25) { inc %shop.level .1 }
     inc %value 1
   }
   return %total.price.calculate
