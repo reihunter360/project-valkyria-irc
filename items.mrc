@@ -18,20 +18,26 @@ on 2:TEXT:!use*:*: {  unset %real.name | unset %enemy
 
   var %user.flag $readini($char($nick), info, flag) | var %target.flag $readini($char($4), info, flag)
   if (%item.type = food) { 
+    if (%battleis = on) { $check_for_battle($nick)   }
+
     if (%target.flag = monster) { query %battlechan 4Error: This item can only be used on players! | halt }
     $item.food($nick, $4, $2) | $decrease_item($nick, $2) 
     if (%battleis = on)  { $check_for_double_turn($1) | halt }
     halt
   }
 
+  if (%item.type = consume) { query %battlechan 4Error: This item is used via performing a skill. | halt }
+
   if (%item.type = shopreset) {
+    if (%battleis = on) { $check_for_battle($nick)   }
+
     if (%target.flag = monster) { query %battlechan 4Error: This item can only be used on players! | halt }
     $item.shopreset($nick, $4, $2) | $decrease_item($nick, $2) 
     if (%battleis = on)  { $check_for_double_turn($1) | halt }
     halt  
   }
 
-  $check_for_battle($nick)
+  $check_for_battle($nick) 
   if (%battleis = off) { query %battlechan 4There is no battle currently! | halt }
 
   if (%item.type = damage) {
@@ -394,6 +400,17 @@ alias item.food {
 
     ; Increase the base stat..
     set %target.stat $readini($char($2), basestats, %food.type)
+
+    if (%food.type = hp) {
+      var %player.current.hp $readini($char($2), basestats, hp)
+      if (%player.current.hp >= 2500) { .msg $1 4Error: $2 has the maximum amount of HP allowed! | halt }
+    }
+
+    if (%food.type = tp) {
+      var %player.current.tp $readini($char($2), basestats, tp)
+      if (%player.current.tp >= 500) { .msg $1 4Error: $2 has the maximum amount of TP allowed! | halt }
+    }
+
     inc %target.stat %food.bonus
     writeini $char($2) basestats %food.type %target.stat
 

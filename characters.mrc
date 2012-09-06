@@ -214,17 +214,17 @@ on 2:TEXT:!rtechs*:*: { $checkchar($2)
 
 on 2:TEXT:!skills*:*: { 
   if ($2 != $null) { $checkchar($2) | $skills.list($2) | $set_chr_name($2) 
-    if (%passive.skills.list != $null) { query %battlechan 3 $+ %real.name knows the following passive skills: %passive.skills.list  }
-    if (%active.skills.list != $null) { query %battlechan 3 $+ %real.name knows the following active skills: %active.skills.list }
-    if (%resists.skills.list != $null) { query %battlechan 3 $+ %real.name has the following resistances: %resists.skills.list }
-    if (((%passive.skills.list = $null) && (%active.skills.list = $null) && (%resists.skills.list = $null))) { query %battlechan 3 $+ %real.name currently knows no skills. }
+    if (%passive.skills.list != $null) { query %battlechan $readini(translation.dat, system, ViewPassiveSkills)  }
+    if (%active.skills.list != $null) { query %battlechan $readini(translation.dat, system, ViewActiveSkills)  }
+    if (%resists.skills.list != $null) { query %battlechan $readini(translation.dat, system, ViewResistanceSkills)  }
+    if (((%passive.skills.list = $null) && (%active.skills.list = $null) && (%resists.skills.list = $null))) { query %battlechan $readini(translation.dat, system, HasNoSkills) }
   }
   else { 
     $skills.list($nick) | $set_chr_name($nick) 
-    if (%passive.skills.list != $null) { query %battlechan 3 $+ %real.name knows the following passive skills: %passive.skills.list  }
-    if (%active.skills.list != $null) { query %battlechan 3 $+ %real.name knows the following active skills: %active.skills.list }
-    if (%resists.skills.list != $null) { query %battlechan 3 $+ %real.name has the following resistances: %resists.skills.list }
-    if (((%passive.skills.list = $null) && (%active.skills.list = $null) && (%resists.skills.list = $null))) { query %battlechan 3 $+ %real.name currently knows no skills. }
+    if (%passive.skills.list != $null) { query %battlechan $readini(translation.dat, system, ViewPassiveSkills)  }
+    if (%active.skills.list != $null) { query %battlechan $readini(translation.dat, system, ViewActiveSkills)  }
+    if (%resists.skills.list != $null) { query %battlechan $readini(translation.dat, system, ViewResistanceSkills)  }
+    if (((%passive.skills.list = $null) && (%active.skills.list = $null) && (%resists.skills.list = $null))) { query %battlechan $readini(translation.dat, system, HasNoSkills) }
   }
 }
 on 2:TEXT:!rskills*:*: { $readskills($2) }
@@ -232,57 +232,57 @@ on 2:TEXT:!readskills*:*: { $readskills($2) }
 
 alias readskills {
   $checkchar($1) | $skills.list($1) | $set_chr_name($1) 
-  if (%passive.skills.list != $null) { query %battlechan 3 $+ %real.name knows the following passive skills: %passive.skills.list  }
-  if (%active.skills.list != $null) { query %battlechan 3 $+ %real.name knows the following active skills: %active.skills.list }
-  if (%resists.skills.list != $null) { query %battlechan 3 $+ %real.name has the following resistances: %resists.skills.list }
-  if (((%passive.skills.list = $null) && (%active.skills.list = $null) && (%resists.skills.list = $null))) { query %battlechan 3 $+ %real.name currently knows no skills. }
+  if (%passive.skills.list != $null) { query %battlechan $readini(translation.dat, system, ViewPassiveSkills)  }
+  if (%active.skills.list != $null) { query %battlechan $readini(translation.dat, system, ViewActiveSkills)  }
+  if (%resists.skills.list != $null) { query %battlechan $readini(translation.dat, system, ViewResistanceSkills)  }
+  if (((%passive.skills.list = $null) && (%active.skills.list = $null) && (%resists.skills.list = $null))) { query %battlechan $readini(translation.dat, system, HasNoSkills) }
 }
+
 
 on 2:TEXT:!items*:*:{ 
   if ($2 != $null) { $checkchar($2)
     $items.list($2) | $set_chr_name($2) 
-    if (%items.list != $null) { query %battlechan 3 $+ %real.name has the following items %items.list }
-    else { query %battlechan 3 $+ %real.name currently has no items. }
+    if (%items.list != $null) { query %battlechan $readini(translation.dat, system, ViewItems) }
+    else { query %battlechan $readini(translation.dat, system, HasNoItems) }
   }
   else { 
     $items.list($nick) | $set_chr_name($nick) 
-    if (%items.list != $null) { query %battlechan 3 $+ %real.name has the following items %items.list }
-    else { query %battlechan 3 $+ %real.name currently has no items. }
+    if (%items.list != $null) { query %battlechan $readini(translation.dat, system, ViewItems) }
+    else { query %battlechan $readini(translation.dat, system, HasNoItems) }
   }
 }
 on 2:TEXT:!ritems *:*: { $checkchar($2)
   $items.list($2) | $set_chr_name($2) 
-  if (%items.list != $null) { query %battlechan 3 $+ %real.name has the following items %items.list }
-  else { query %battlechan 3 $+ %real.name currently has no items. }
+  if (%items.list != $null) { query %battlechan $readini(translation.dat, system, ViewItems) }
+  else { query %battlechan $readini(translation.dat, system, HasNoItems) }
 }
 
 ON 50:TEXT:*equips *:*:{ 
   if ($is_charmed($1) = true) { $set_chr_name($1) | query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
   var %player.weapon.check $readini($char($1), weapons, $3)
-  if (%player.weapon.check >= 1) {   writeini $char($1) weapons equipped $3 | $set_chr_name($1) | query %battlechan 3 $+ %real.name has equipped $3 }
-  else { $set_chr_name($1) | query %battlechan 4Error: %real.name does not own that weapon! | halt }
+  if (%player.weapon.check >= 1) {   writeini $char($1) weapons equipped $3 | $set_chr_name($1) | query %battlechan $readini(translation.dat, system, EquipWeaponGM)  }
+  else { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, DoNotHaveWeapon) | halt }
 } 
 
 on 2:TEXT:!equip *:*: { 
   if ($is_charmed($nick) = true) { $set_chr_name($nick) | query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
 
   var %player.weapon.check $readini($char($nick), weapons, $2)
-  if (%player.weapon.check >= 1) {   writeini $char($nick) weapons equipped $2 | $set_chr_name($nick) | query %battlechan 3 $+ %real.name has equipped $2 }
-  else { $set_chr_name($nick) | query %battlechan 4Error: %real.name does not own that weapon! | halt }
+  if (%player.weapon.check >= 1) {   writeini $char($nick) weapons equipped $2 | $set_chr_name($nick) | query %battlechan $readini(translation.dat, system, EquipWeaponPlayer) }
+  else { $set_chr_name($nick) | query %battlechan $readini(translation.dat, errors, DoNotHaveWeapon) | halt }
 }
 
 on 2:TEXT:!unequip *:*: { 
   if ($is_charmed($nick) = true) { query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
   $weapon_equipped($nick) 
-  if ($2 != %weapon.equipped) { .msg $nick 4Error: You are currently using %weapon.equipped not $2 $+ ! | halt }
+  if ($2 != %weapon.equipped) { .msg $nick $readini(translation.dat, system, WrongEquippedWeapon) | halt }
   else {
-    if ($2 = fists) { $set_chr_name($nick) | query %battlechan 4 $+ %real.name cannot detatch $gender($nick) hands! | halt }
-    else { $set_chr_name($nick) | writeini $char($nick) weapons equipped Fists | query %battlechan 3 %real.name unequipps the %weapon.equipped | halt }
+    if ($2 = fists) { $set_chr_name($nick) | query %battlechan $readini(translation.dat, errors, Can'tDetachHands) | halt }
+    else { $set_chr_name($nick) | writeini $char($nick) weapons equipped Fists | query %battlechan $readini(translation.dat, system, UnequipWeapon) | halt }
   }
 }
 
-
-on 2:TEXT:!status:*: { $player.status($nick) | query %battlechan 3 $+ %real.name $+ 's status is currently:4 %all_status | unset %all_status } 
+on 2:TEXT:!status:*: { $player.status($nick) | query %battlechan $readini(translation.dat, system, ViewStatus) | unset %all_status } 
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -313,10 +313,10 @@ alias taunt {
 
   var %user.flag $readini($char($1), info, flag) | var %target.flag $readini($char($2), info, flag)
   if ($is_charmed($1) = true) { var %user.flag monster }
-  if ((%user.flag != monster) && (%target.flag != monster)) { query %battlechan 4 $+ %real.name can only taunt  monsters! | halt }
-  if ($readini($char($1), Battle, Status) = dead) { $set_chr_name($1) | query %battlechan 4 $+ %real.name cannot taunt while unconcious! | unset %real.name | halt }
-  if ($readini($char($2), Battle, Status) = dead) { $set_chr_name($1) | query %battlechan 4 $+ %real.name cannot taunt someone who is dead! | unset %real.name | halt }
-  if ($readini($char($2), Battle, Status) = RunAway) { query %battlechan 4 $+ %real.name cannot taunt $set_chr_name($2) %real.name $+ , because %real.name has run away from the fight! | unset %real.name | halt } 
+  if ((%user.flag != monster) && (%target.flag != monster)) { query %battlechan $readini(translation.dat, errors, OnlyTauntMonsters) | halt }
+  if ($readini($char($1), Battle, Status) = dead) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, Can'tTauntWhiledead) | unset %real.name | halt }
+  if ($readini($char($2), Battle, Status) = dead) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, Can'tTauntSomeoneWhoIsDead) | unset %real.name | halt }
+  if ($readini($char($2), Battle, Status) = RunAway) { query %battlechan $readini(translation.dat, errors, Can'tTauntSomeoneWhoFled) | unset %real.name | halt } 
 
   ; Add some style to the taunter.
   set %stylepoints.to.add $rand(25,40)
@@ -337,18 +337,18 @@ alias taunt {
   ; Now do a random effect to the monster.
   var %taunt.effect $rand(1,7)
 
-  if (%taunt.effect = 1) { var %taunt.str $readini($char($2), battle, str) | inc %taunt.str $rand(1,2) | writeini $char($2) battle str %taunt.str | $set_chr_name($2) | query %battlechan 4 $+ %real.name becomes enraged! }
-  if (%taunt.effect = 2) { var %taunt.def $readini($char($2), battle, def) | inc %taunt.def $rand(1,2) | writeini $char($2) battle def %taunt.def | $set_chr_name($2) | query %battlechan 4 $+ %real.name becomes defensive! }
-  if (%taunt.effect = 3) { var %taunt.int $readini($char($2), battle, int) | dec %taunt.int 1 | writeini $char($2) battle int %taunt.int | $set_chr_name($2) | query %battlechan 4 $+ %real.name just doesn't get it! }
-  if (%taunt.effect = 4) { var %taunt.str $readini($char($2), battle, str) | dec %taunt.str 1 | writeini $char($2) battle str %taunt.str | $set_chr_name($2) | query %battlechan 4 $+ %real.name is taken aback! }
-  if (%taunt.effect = 5) { $set_chr_name($2) | query %battlechan 4 $+ %real.name is bored with $set_chr_name($1) %real.name $+ ! }
+  if (%taunt.effect = 1) { var %taunt.str $readini($char($2), battle, str) | inc %taunt.str $rand(1,2) | writeini $char($2) battle str %taunt.str | $set_chr_name($2) | query %battlechan $readini(translation.dat, battle, TauntRage) }
+  if (%taunt.effect = 2) { var %taunt.def $readini($char($2), battle, def) | inc %taunt.def $rand(1,2) | writeini $char($2) battle def %taunt.def | $set_chr_name($2) | query %battlechan $readini(translation.dat, battle, TauntDefensive)  }
+  if (%taunt.effect = 3) { var %taunt.int $readini($char($2), battle, int) | dec %taunt.int 1 | writeini $char($2) battle int %taunt.int | $set_chr_name($2) | query %battlechan $readini(translation.dat, battle, TauntClueless)  }
+  if (%taunt.effect = 4) { var %taunt.str $readini($char($2), battle, str) | dec %taunt.str 1 | writeini $char($2) battle str %taunt.str | $set_chr_name($2) | query %battlechan $readini(translation.dat, battle, TauntTakenAback) }
+  if (%taunt.effect = 5) { $set_chr_name($2) | query %battlechan $readini(translation.dat, battle, TauntBored) }
   if (%taunt.effect = 6) { set %taunt.hp $readini($char($2), battle, hp) | inc %taunt.hp $rand(1,5)  | set %taunt.maxhp $readini($char($2), battlestats, HP)
     if (%taunt.hp > %taunt.maxhp) { var %taunt.hp %taunt.maxhp }
-    writeini $char($2) battle hp %taunt.hp | $set_chr_name($2) | query %battlechan 4 $+ %real.name laughs the taunt off! | unset %taunt.hp | unset %taunt.maxhp
+    writeini $char($2) battle hp %taunt.hp | $set_chr_name($2) | query %battlechan $readini(translation.dat, battle, TauntLaugh) | unset %taunt.hp | unset %taunt.maxhp
   }
   if (%taunt.effect = 7) { var %taunt.tp $readini($char($2), battle, tp) | inc %taunt.tp 5 | var %taunt.maxtp $readini($char($2), battlestats, tp)
     if (%taunt.tp > %taunt.maxtp) { var %taunt.tp %taunt.maxtp }
-    writeini $char($2) battle tp %taunt.tp | $set_chr_name($2) | query %battlechan 4 $+ %real.name gives a large grin! 
+    writeini $char($2) battle tp %taunt.tp | $set_chr_name($2) | query %battlechan $readini(translation.dat, battle, TauntSmile)
   }
 
   ; Time to go to the next turn

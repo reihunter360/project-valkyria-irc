@@ -27,6 +27,9 @@ The "Text Here" will be red (color 4 in mIRC) If you change the
 System | Player Messages
 =======================
 [System]
+BattleStatsData=$chr(3) $+ 2 $+ There has been a total of %total.battles battles fought.  The players have won %total.wins ( $+ $round($calc(($readini(battlestats.dat, Battle, TotalWins) / $readini(battlestats.dat, Battle, TotalBattles))*100),2) $+ $chr(37) $+ ) and have lost %total.losses ( $+ $round($calc(($readini(battlestats.dat, Battle, TotalLoss) / $readini(battlestats.dat, Battle, TotalBattles))*100),2) $+ $chr(37) $+ )
+BattleStatsWinningStreak=$chr(3) $+ 2 $+ The players have won $bytes($readini(battlestats.dat, Battle, WinningStreak),b) battle(s) in a row!  %winning.record 
+BattleStatsLosingStreak=$chr(3) $+ 2 $+ The players have lost $bytes($readini(battlestats.dat, Battle, LosingStreak),b) battle(s) in a row!
 WipedBattleStats=$chr(3) $+ 4 $+ The Battle Stats have been wiped!
 ChangeTime=$chr(3) $+ 4 $+ Time between battles has been set to: $4 minutes
 PlayerExists=$chr(3) $+ 4 $+ A character with the name $nick already exists.  If this is you, use the !id command with your password in query to log in.  If not, please change your nick and try again.
@@ -53,6 +56,19 @@ ViewMyTechs=$chr(3) $+ 3 $+  $+ %real.name knows the following techniques for 
 ViewOthersTechs=$chr(3) $+ 3 $+  $+ %real.name knows the following techniques for $gender($2) %weapon.equipped $+ : %techs.list 
 NoTechsForMe=$chr(3) $+ 3 $+  $+ %real.name does not know any techniques for $gender($nick) %weapon.equipped $+ .
 NoTechsForOthers=$chr(3) $+ 3 $+  $+ %real.name does not know any techniques for $gender($2) %weapon.equipped $+ .
+ViewPassiveSkills=$chr(3) $+ 3 $+  $+ %real.name knows the following passive skills: %passive.skills.list
+ViewActiveSkills=$chr(3) $+ 3 $+  $+ %real.name knows the following active skills: %active.skills.list
+ViewResistanceSkills=$chr(3) $+ 3 $+  $+ %real.name has the following resistances: %resists.skills.list 
+HasNoSkills=$chr(3) $+ 3 $+  $+ %real.name currently knows no skills.
+ViewItems=$chr(3) $+ 3 $+  $+ %real.name has the following items %items.list 
+HasNoItems=$chr(3) $+ 3 $+  $+ %real.name currently has no items. 
+EquipWeaponGM=$chr(3) $+ 3 $+  $+ %real.name has equipped $3
+EquipWeaponPlayer=$chr(3) $+ 3 $+  $+ %real.name has equipped $2
+UnequipWeapon=$chr(3) $+ 3 $+  $+ %real.name unequipped the %weapon.equipped
+ViewStatus=$chr(3) $+ 3 $+  $+ %real.name $+ 's status is currently:4 %all_status
+OKDesc=$chr(3) $+ 3 $+ Your $2 desc was entered correctly!
+
+
 
 =======================
 Event Messages
@@ -67,6 +83,8 @@ Error Messages
 =======================
 
 [Errors]
+NoScriptsWithCommands=$chr(3) $+ 4 $+ Error: You cannot build scripts with your command!
+NotInDataBank=$chr(3) $+ 4 $+ Error: $1 isn't in my data banks!
 NoCurrentBattle=$chr(3) $+ 4 $+ Error: There is no current battle
 WaitYourTurn=$chr(3) $+ 4 $+ Error: $1 wait for your turn!
 NotInBattle=$chr(3) $+ 4 $+ Error: %real.name is not currently in this battle!
@@ -74,6 +92,7 @@ NoMonsAvailable=$chr(3) $+ 4 $+ Error: There are no monsters in the monster fo
 MonsterLimit=$chr(3) $+ 4 $+ Error: There's already ten monsters in battle! No more monsters can be added.
 PlayerLimit=$chr(3) $+ 4 $+ Error: The battle is full, please try again next battle.
 MonsterDoesNotExist=$chr(3) $+ 4 $+ Error: $3 does not exist as a monster! 
+NPCDoesNotExist=$chr(3) $+ 4 $+ Error: $3 does not exist as an NPC!
 AlreadyInBattle=$chr(3) $+ 4 $+ Error: %real.name is already in the battle! 
 YouDoNotHaveSkill=$chr(3) $+ 4 $+ Error: You do not have this skill! 
 DoNotHaveSkill=$chr(3) $+ 4 $+ Error: %real.name does not have that skill.
@@ -86,6 +105,14 @@ SpecifyStyle=$chr(3) $+ 4 $+ Error: %real.name needs to specify which style t
 DoNotKnowThatStyle=$chr(3) $+ 4 $+ Error: %real.name does not know that style and cannot switch to it!
 CanOnlySwitchOutsideBattle=$chr(3) $+ 4 $+ Error: You can only switch styles outside of battles.
 InvalidStyle=$chr(3) $+ 4 $+ Error: Invalid style!
+DoNotHaveWeapon=$chr(3) $+ 4 $+ Error: %real.name does not own that weapon! 
+WrongEquippedWeapon=$chr(3) $+ 4 $+ Error: You are currently using %weapon.equipped not $2 $+ ! 
+Can'tDetachHands=$chr(3) $+ 4 $+ Error: %real.name cannot detatch $gender($nick) hands!
+OnlyTauntMonsters=$chr(3) $+ 4 $+ Error: %real.name can only taunt  monsters!
+Can'tTauntWhiledead=$chr(3) $+ 4 $+ Error: %real.name cannot taunt while dead!
+Can'tTauntSomeoneWhoIsDead=$chr(3) $+ 4 $+ Error: %real.name cannot taunt someone who is dead!
+Can'tTauntSomeoneWhoFled=$chr(3) $+ 4 $+ Error: %real.name cannot taunt $set_chr_name($2) %real.name $+ , because %real.name has run away from the fight!
+
 
 =======================
 Battle Related Messages
@@ -104,13 +131,61 @@ BlackOrbWin=$chr(3) $+ 3 $+ The following players have absorbed a black orb from
 BonusItemWin=$chr(3) $+ 10 $+  $+ %real.name was the most stylish and finds 1 %boss.item $+ !
 EnteredTheBattle=$chr(3) $+ 4 $+  $+ %real.name has entered the battle! 
 CurrentWeather=$chr(3) $+ 3 $+ The weather is currently: $readini(weather.lst, weather, current)
-
+TauntRage=$chr(3) $+ 4 $+  $+ %real.name becomes enraged!
+TauntDefensive=$chr(3) $+ 4 $+  $+ %real.name becomes defensive!
+TauntClueless=$chr(3) $+ 4 $+  $+ %real.name just doesn't get it!
+TauntTakenAback=$chr(3) $+ 4 $+  $+ %real.name is taken aback!
+TauntBored=$chr(3) $+ 4 $+  $+ %real.name is bored with $set_chr_name($1) %real.name $+ !
+TauntLaugh=$chr(3) $+ 4 $+  $+ %real.name laughs the taunt off!
+TauntSmile=$chr(3) $+ 4 $+  $+ %real.name gives a large grin! 
+FleeBattle=$chr(3) $+ 4 $+  $+ %real.name has run away from the battle! 
+DarknessCoversBattlefield=$chr(3) $+ 4 $+ Darkness covers the battlefield enhancing the strength of all remaining monsters!
+TurnMessage=$chr(3) $+ 3 $+ It is $set_chr_name($1) %real.name $+ 's turn [Health Status: %hstats $+ 3] [Status Effects:4 %all_status $+ 3]
+NoOneJoinedBattleYet=$chr(3) $+ 4 $+ No one has joined the battle yet! 
+BatListTitleMessage=$chr(3) $+ 10 $+ -=BATTLE LIST=-
+StepsUpFirst=$chr(3) $+ 2 $+  $+ %who steps up first in the battle!
 
 =======================
 Status Related Messages
 =======================
 [Status]
 CurrentlyCharmed=$chr(3) $+ 4 $+  $+ %real.name is currently charmed and cannot perform any of $gender($nick) own actions!
+CurrentlyAmnesia=$chr(3) $+ 4 $+  $+ %real.name cannot remember how to perform this $2 $+ !
+PoisonWornOff=$chr(3) $+ 3 $+  $+ %real.name $+ 's poison has worn off. 
+PoisonKills=$chr(3) $+ 4 $+  $+ %real.name grabs $gender($1) chest in pain from the posion as $gender($1) eyes roll back into his head. $1 collapses to the ground--dead.
+PoisonMessage=$chr(3) $+ 4 $+  $+ %real.name grabs $gender($1) chest in pain from the poison. 
+CurrentlyCursed=$chr(3) $+ 4 $+  $+ %real.name is cursed!
+CurseWornOff=$chr(3) $+ 3 $+  $+ %real.name $+ 's curse has worn off.
+TooBlindToFight=$chr(3) $+ 4 $+  $+ %real.name is too blind to fight!
+TooIntimidatedToFight=$chr(3) $+ 4 $+  $+ %real.name is too intimidated to fight!
+CurrentlyAsleep=$chr(3) $+ 4 $+ %real.name is currently asleep!
+CurrentlyStunned=$chr(3) $+ 4 $+ %real.name is currently stunned and unable to move!
+CurrentlyStopped=$chr(3) $+ 4 $+ %real.name is currently frozen in time and unable to move!
+CurrentlyWeighed=$chr(3) $+ 4 $+ %real.name $+ 's body feels really heavy.
+CurrentlyDrunk=$chr(3) $+ 4 $+ %real.name is drunk! 
+DrunkWornOff=$chr(3) $+ 3 $+  $+ %real.name has sobered up.
+CurrentlySlowed=$chr(3) $+ 4 $+ %real.name $+ 's body feels really slow. 
+SlowWornOff=$chr(3) $+ 3 $+  $+ %real.name $+ 's slow has worn off.
+CurrentlyHasAmensia=$chr(3) $+ 4 $+ %real.name currently has amnesia.
+AmnesiaWornOff=$chr(3) $+ 3 $+  $+ %real.name $+ 's amnesia has worn off.
+ZombieWornOff=$chr(3) $+ 3 $+  $+ %real.name $+ 's zombie status has worn off. 
+CurrentlyCharmedMessage=$chr(3) $+ 4 $+ %real.name has been charmed by $set_chr_name(%charmer) %real.name and is under $gender(%charmer) complete control!
+CharmWornOff=$chr(3) $+ 3 $+  $+ %real.name $+  has broken $set_chr_name(%charmer) %real.name $+ 's control and can now do actions again!
+CharmerDeathWornOff=$chr(3) $+ 3 $+ With %real.name $+ 's death, $set_chr_name($1) $+ %real.name is no longer charmed and can now do actions again! 
+CurrentlyParalyzed=$chr(3) $+ 4 $+ %real.name is currently too paralyzed to fight.
+ParalysisWornOff=$chr(3) $+ 3 $+ $+ %real.name $+ 's paralysis has worn off.
+FrozenDeath=$chr(3) $+ 4 $+ %real.name screams in pain as $gender($1) body is freezing from the ice! Suddenly the ice covers %real.name $+ 's body and shatters, leaving nothing but a puddle. 
+FrozenMessage=$chr(3) $+ 4 $+ %real.name screams in pain as $gender($1) body is freezing from the ice! 
+ShockDeath=$chr(3) $+ 4 $+ %real.name screams in pain as $gender($1) body is shocked from the electricity! Suddenly the electricity becomes too much for %real.name $+ 's body to handle and %real.name falls over dead, a burnt corpse.
+ShockMessage=$chr(3) $+ 4 $+ %real.name screams in pain as $gender($1) body is shocked from the electricity! 
+BurningDeath=$chr(3) $+ 4 $+ %real.name screams in pain as $gender($1) body is burning from the flame! Suddenly the flame consumes %real.name leaving nothing but ashes!
+BurningMessage=$chr(3) $+ 4 $+ %real.name screams in pain as $gender($1) body is burning from the flame!
+TornadoDeath=$chr(3) $+ 4 $+ %real.name screams in pain as $gender($1) body is cut from the tornado! Suddenly the cuts slice too deep, causing %real.name to bleed out and die!
+TornadoMessage=$chr(3) $+ 4 $+ %real.name screams in pain as $gender($1) body is cut from the tornado
+DrowningDeath=$chr(3) $+ 4 $+ %real.name gasps for air as $gender3($1) is encased in water! Suddenly %real.name $+ 's lungs give out! %real.name has drowned!
+DrowningMessage=$chr(3) $+ 4 $+ %real.name gasps for air as $gender3($1) is encased in water! 
+EarthquakeDeath=$chr(3) $+ 4 $+ %real.name screams as the earth opens up beneath $gender($2) and swallows $gender2($1) whole! 
+EarthquakeMessage=$chr(3) $+ 4 $+ %real.name screams as the earth opens up, and boulders fall ontop of $gender($1) body!
 
 
 =======================
@@ -120,6 +195,9 @@ Skill Related Messages
 UnableToUseskillAgainSoSoon=$chr(3) $+ 4 $+  $+ %real.name is unable to use this skill again so soon.
 StealItem=$chr(3) $+ 2 $+ %real.name has stolen 1 %steal.item from $set_chr_name($2) %real.name $+ ! 
 UnableToSteal=$chr(3) $+ 4 $+ %real.name was unable to steal anything from $set_chr_name($2) %real.name 
+FinishedRegen=$chr(3) $+ 12 $+ %real.name has finished regenerating all $gender($1) $3 $+ ! 
+RegenerationMessage=$chr(3) $+ 12 $+ %real.name has regenerated $2  $+ $3 $+ !
+ZombieRegeneration=$chr(3) $+ 12 $+ %real.name has regenerated %howmuch  $+ hp $+ !
 
 =======================
 Tech Related Messages

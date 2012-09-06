@@ -52,7 +52,7 @@ alias tech_cmd {
   if (%tp.needed > %tp.have) { $set_chr_name($1) | query %battlechan  4 $+ %real.name does not have enough TP to perform this technique! | halt }
 
   if (($3 = $1) && ($is_charmed($1) = false))  { 
-    if (%tech.type !isin boost.finalgetsuga.heal) { $set_chr_name($1) | query %battlechan 4 $+ %real.name cannot attack $gender2($1) $+ self with $2 $+ ! | unset %real.name | halt  }
+    if (%tech.type !isin boost.finalgetsuga.heal.heal-AOE) { $set_chr_name($1) | query %battlechan 4 $+ %real.name cannot attack $gender2($1) $+ self with $2 $+ ! | unset %real.name | halt  }
   }
 
   dec %tp.have %tp.needed | writeini $char($1) battle tp %tp.have | unset %tp.have | unset %tp.needed
@@ -64,6 +64,7 @@ alias tech_cmd {
 
   if ($is_charmed($1) = true) { set %user.flag monster }
   if (%tech.type = heal) { set %user.flag monster }
+  if (%tech.type = heal-aoe) { set %user.flag monster }
 
   if ((%user.flag != monster) && (%target.flag != monster)) { $set_chr_name($1) | query %battlechan 4 $+ %real.name can only attack monsters! | halt }
 
@@ -71,6 +72,7 @@ alias tech_cmd {
   writeini $char($1) status conservetp.on off
 
   if (%tech.type = heal) { $tech.heal($1, $2, $3) }
+  if (%tech.type = heal-aoe) { $tech.aoeheal($1, $2, $3) }
   if (%tech.type = single) { $tech.single($1, $2, $3) }
   if (%tech.type = suicide) { $tech.suicide($1, $2, $3) }
   if (%tech.type = suicide-AOE) { 
@@ -215,7 +217,6 @@ alias tech.suicide {
   query %battlechan 4 $+ %real.name uses all of $gender($1) health to perform this technique!
 
   $calculate_damage_suicide($1, $2, $3)
-
   writeini $char($1) battle hp 0 | writeini $char($1) battle status dead | $set_chr_name($1)
   $deal_damage($1, $3, $2)
   $display_damage($1, $3, tech, $2)
@@ -251,6 +252,72 @@ alias tech.heal {
   }
 
   return
+}
+
+alias tech.aoeheal {
+  ; $1 = user
+  ; $2 = tech
+  ; $3 = target
+
+  unset %who.battle | set %number.of.hits 0
+  set %attack.damage 0
+
+  ; First things first, let's find out the base power.
+  $calculate_damage_techs($1, $2, $3)
+  inc %attack.damage %item.base
+
+  ; Let's increase the attack by a random amount.
+  inc %attack.damage $rand(1,10)
+
+  if (%bloodmoon = on) { %attack.damage = $round($calc(%attack.damage / 2),0) }
+
+  ; In this bot we don't want the attack to ever be lower than 1.  
+  if (%attack.damage <= 0) { set %attack.damage 1 }
+
+  ; Display the tech description
+  $set_chr_name($1) | set %user %real.name
+  $set_chr_name($3) | set %enemy %real.name
+  query %battlechan 3 $+ %user $+  $readini(techniques.db, $2, desc)
+
+  var %caster.flag $readini($char($1), info, flag)
+  if (%caster.flag = $null) { set %target.flag player }
+  if (%caster.flag = npc) { set %target.flag player }
+  if (%caster.flag = monster) { set %target.flag monster }
+
+  ; If it's player, search out remaining players that are alive and deal damage and display damage
+  var %battletxt.lines $lines(battle.txt) | var %battletxt.current.line 1 
+  while (%battletxt.current.line <= %battletxt.lines) { 
+    set %who.battle $read -l $+ %battletxt.current.line battle.txt
+    set %who.battle.flag $readini($char(%who.battle), info, flag)
+    if ((%target.flag = player) && (%who.battle.flag = $null)) { $do_aoe_heal($1, $2, $3) }
+    if ((%target.flag = player) && (%who.battle.flag = npc)) { $do_aoe_heal($1, $2, $3) }
+    if ((%target.flag = monster) && (%who.battle.flag = monster)) { $do_aoe_heal($1, $2, $3) }
+
+    inc %battletxt.current.line 1 
+  }
+
+
+  /.timerCheckForDoubleSleep $+ $rand(a,z) $+ $rand(1,1000) 1 5 /check_for_double_turn $1
+  halt
+}
+
+alias do_aoe_heal {
+  var %current.status $readini($char(%who.battle), battle, status)
+  if ((%current.status = dead) || (%current.status = runaway)) { inc %battletxt.current.line 1 | return }
+  else { 
+    inc %number.of.hits 1
+
+    ;If the target is a zombie, do damage instead of healing it.
+    if ($readini($char(%who.battle), status, zombie) = yes) { 
+      $deal_damage($1, %who.battle, $2)
+      $display_damage($1, %who.battle, aoeheal, $2)
+    } 
+
+    else {   
+      $heal_damage($1, %who.battle, $2)
+      $display_heal($1, %who.battle ,aoeheal, $2)
+    }
+  }
 }
 
 alias tech.suicideaoe {
@@ -348,6 +415,16 @@ alias tech.boost {
   var %player.level.amount $round($calc($readini($char($1), techniques, $2) * .5),0)
 
   inc %boost.base.amount %player.level.amount
+
+
+  ; If a player is using a monster weapon, which is considered cheating, set the damage to 0.
+  set %current.weapon.used $readini($char($1), weapons, equipped)
+  if ($readini(weapons.db, %current.weapon.used, cost) = 0) {
+    var %current.flag $readini($char($1), info, flag)
+    if (%current.flag = $null) {  set boost.base.amount 0 }
+  }
+  unset %current.weapon.used
+
 
   inc %str %boost.base.amount
   inc %def %boost.base.amount
@@ -601,7 +678,11 @@ alias calculate_damage_techs {
   set %attack.damage 0
 
   ; First things first, let's find out the base power.
-  var %base.stat $readini($char($1), battle, int)
+  set %base.stat.needed $readini(techniques.db, $2, stat)
+  if (%base.stat.needed = $null) { set %base.stat.needed int }
+
+  set %base.stat $readini($char($1), battle, %base.stat.needed)
+
   var %tech.base $readini(techniques.db, $2, BasePower)
   var %user.tech.level $readini($char($1), Techniques, $2)
 
@@ -691,8 +772,20 @@ alias calculate_damage_techs {
     dec %attack.damage %enemy.defense
   }
 
-  ; In this bot we don't want the attack to ever be lower than 1.  
+  ; In this bot we don't want the attack to ever be lower than 1 except for rare instances..
   if (%attack.damage <= 0) { set %attack.damage 1 }
+
+
+  ; If a player is using a monster weapon, which is considered cheating, set the damage to 0.
+  set %current.weapon.used $readini($char($1), weapons, equipped)
+  if ($readini(weapons.db, %current.weapon.used, cost) = 0) {
+    var %current.flag $readini($char($1), info, flag)
+    if (%current.flag = $null) {  set %attack.damage 0 }
+  }
+  unset %current.weapon.used
+
+  unset %base.stat.needed | unset %base.stat
+
 
   if ($readini($char($3), skills, utsusemi.on) = off) {
     ; does the target have ManaWall on?  If so, reduce the damage to 0.
@@ -719,7 +812,7 @@ alias calculate_damage_suicide {
   set %attack.damage 0
 
   ; First things first, let's find out the base power.
-  var %base.stat $readini($char($1), battle, hp )
+  var %base.stat $readini($char($1), battle, hp)
   var %tech.base $readini(techniques.db, $2, BasePower)
   var %user.tech.level $readini($char($1), Techniques, $2)
 
@@ -766,12 +859,13 @@ alias calculate_damage_suicide {
   ; If it's the blood moon, increase the amount.
   if (%bloodmoon = on) { inc %attack.damage $rand(10,50) } 
 
-  ; Less abusive Suiciders
   var %current.flag $readini($char($1), info, flag)
-  if (%current.flag = $null) { set %attack.damage $round($calc(%attack.damage / 10),0)
-  if (%attack.damage <= 0) { set %attack.damage 1 }
-  if (%attack.damage >= 1000) { set %attack.damage 500 }
+  if (%current.flag = $null) {  set %attack.damage $round($calc(%attack.damage / 10),0)
+    if (%attack.damage <= 0) { set %attack.damage 1 }
+    if (%attack.damage >= 1000) { set %attack.damage 500 }
   }
+
+
   ; Now we're ready to calculate the enemy's defense..  
   var %enemy.defense $readini($char($3), battle, def)
 

@@ -14,7 +14,7 @@ HEALING ITEMS
 [Potion]
 Type=heal
 Target=Single
-Amount=20
+Amount=30
 Desc=pulls out a potion bottle and hands it to %enemy $+ , who drinks it down.  Ahh! Refreshing!
 Cost=50
 FullbringLevel=1
@@ -25,8 +25,8 @@ Fullbringdesc=draws out the soul from the potion.  The potion's soul is drawn to
 [VitalStar]
 Type=heal
 Target=Single
-Amount=50
-Desc=pulls out a strange green star and tosses it at %enemy $+ .  The star is absorbed and a sense of healing overcomes $gender3($2) $+ .
+Amount=60
+Desc=pulls out a strange green star and tosses it at %enemy $+ .  The star is absorbed and a sense of healing overcomes $gender2($2) $+ .
 Cost=100
 FullbringLevel=1
 FullbringTarget=AOE
@@ -63,61 +63,61 @@ BATTLE ITEMS
 [Holy_Water]
 Type=Damage
 Target=Single
-Amount=45
+Amount=80
 Desc=takes out a vial of Holy Water and tosses it on %enemy
 Cost=100
 Element=light
 FullbringLevel=2
 FullbringTarget=AOE
-FullbringAmount=30
+FullbringAmount=50
 Fullbringdesc=draws out the soul from the holy water.  The sky turns black and a rain made of holy water falls down upon all targets.  This is.. HYDRO STORM!
 
 [Red_Fang]
 Type=Damage
 Target=Single
-Amount=45
+Amount=60
 Desc=takes out a small glowing red fang and slashes %enemy with it.  The fang snaps and explodes with fire energy.
 Cost=100
 Element=fire
 FullbringLevel=2
 FullbringTarget=AOE
-FullbringAmount=30
+FullbringAmount=40
 Fullbringdesc=draws out the soul from the red fang.  The soul glows a bright red and then explodes into a firestorm over all enemies on the battlefield.
 
 [Thunder_Orb]
 Type=Damage
 Target=Single
-Amount=45
+Amount=60
 Desc=takes out a small glowing purple orb and throws it at %enemy $+ 's feet.  The orb shatters and lightning shoots out of it and slams into %enemy $+ !
 Cost=100
 Element=lightning
 FullbringLevel=2
 FullbringTarget=AOE
-FullbringAmount=30
+FullbringAmount=40
 Fullbringdesc=draws out the soul from the thunder orb.  The sky goes black and a lightning storm erupts on the battlefield, shocking all enemies!
 
 [Stop_Watch]
 Type=Status
 Target=Single
 StatusType=stop
-Amount=2
+Amount=10
 Cost=150
 Desc=takes out a small stop watch and activates it before handing it to %enemy $+ .  The stop watch glows blue and %enemy begins to feel time slow down.
 FullbringLevel=3
 FullbringTarget=AOE
 Fullbringdesc=draws out the soul from the stop watch.  A giant stop watch appears on the battlefield and slowly stops.  All the enemies on the battlefield begin to feel as though time has stopped for them.
-FullbringAmount=1
+FullbringAmount=5
 
 [Fire_Flower]
 Type=Damage
 Target=Single
-Amount=100
-Cost=150
+Amount=150
+Cost=140
 Desc=takes out a small fire flower from the Mushroom Kingdom.  It gets absorbed by %user which allows %user to shoot fireballs at %enemy for a moment before the power wears off. Cost=300
 Element=fire
 FullbringLevel=3
 FullbringTarget=AOE
-FullbringAmount=50
+FullbringAmount=100
 Fullbringdesc=draws out the soul from the fire flower.  The soul glows a bright red and then explodes several large fireballs that hit all targets on the battlefield.
 
 
@@ -149,7 +149,7 @@ Cost=5000000
 Type=food
 Target=hp
 Amount=10
-Desc=pulls out a slice of pizza and hands it to %enemy $+ , who munches it down.  Mmm, tasty!
+Desc=pulls out a slice of pizza and hands it to %enemy $+ , who munches it down.  Cowabunga!
 Cost=5000000
 
 [BisonDollar]

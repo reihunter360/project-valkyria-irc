@@ -128,13 +128,9 @@ alias ai_gettech {
   if (%ai.tech = $null) { 
     ; If, for whatever reason, it can't find a tech.. it'll revert back to attacking normally.
     unset %ai.tech | unset %ai.target
-    write debug.txt ai_tech is null..  getting a new target.
-
     $ai_gettarget 
-    write debug.txt ai target: %ai.target
-    write debug.txt ai tech: %ai.tech
-
-    $attack_cmd($1 , %ai.target) | halt 
+    $attack_cmd($1 , %ai.target) 
+    halt 
   }
 
   unset %random.tech | unset %total.techs | unset %weapon.equipped | unset %techs

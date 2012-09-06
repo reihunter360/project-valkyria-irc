@@ -19,12 +19,11 @@ on 2:TEXT:!shop*:*: {
     var %amount.to.purchase $abs($5)
     if (%amount.to.purchase = $null) { var %amount.to.purchase 1 }
 
-    if (($3 = items) || ($3 = item)) { $shop.items($nick, buy, $4, %amount.to.purchase) | halt }
-    if (($3 = techs) || ($3 = techniques)) { $shop.techs ($nick, buy, $4, %amount.to.purchase) | halt }
-    if (($3 = skills) || ($3 = skill)) { $shop.skills($nick, buy, $4, %amount.to.purchase) | halt }
-    if (($3 = stats) || ($3 = stat)) { $shop.stats($nick, buy, $4, %amount.to.purchase) | halt }
+    if (($3 = items) || ($3 = item))  { $shop.items($nick, buy, $4, %amount.to.purchase) | halt }
+    if (($3 = techs) || ($3 = techniques)) { $shop.techs($nick, buy, $4, %amount.to.purchase) | halt  }
+    if (($3 = skills) || ($3 = skill)) { $shop.skills($nick, buy, $4, %amount.to.purchase) | halt  }
+    if (($3 = stats) || ($3 = stat))  {  $shop.stats($nick, buy, $4, %amount.to.purchase) | halt  }
     if (($3 = weapons) || ($3 = weapon)) { $shop.weapons($nick, buy, $4, %amount.to.purchase) }
-    
     if ($3 = orbs) { 
       var %amount.to.purchase $abs($4)
       if (%amount.to.purchase = $null) { var %amount.to.purchase 1 }
@@ -35,13 +34,13 @@ on 2:TEXT:!shop*:*: {
   }
 
   if ($2 = list) { 
-    if (($3 = stats) || ($3 = stat )) { $shop.stats($nick, list) }
-    if (($3 = items) || ($3 = item )) { $shop.items($nick, list) }
-    if (($3 = techs) || ($3 = techniques)) { $shop.techs($nick, list) }
-    if (($3 = skills) || ($3 = skill )) { $shop.skills($nick, list) }
-    if (($3 = weapons) || ($3 = weapon )) { $shop.weapons($nick, list) }
+    if (($3 = stats) || ($3 = stat)) { $shop.stats($nick, list) }
+    if (($3 = items) || ($3 = item)) { $shop.items($nick, list) }
+    if (($3 = techs) || ($3 = techniques))  { $shop.techs($nick, list) }
+    if (($3 = skills) || ($3 = skill)) { $shop.skills($nick, list) }
+    if (($3 = weapons) || ($3 = weapon)) { $shop.weapons($nick, list) }
     if ($3 = orbs) { $shop.orbs($nick, list) }
-    if (($3 = style) || ($3 = styles)) { $shop.styles($nick, list, $4) | halt }
+    if (($3 = style) || ($3 = styles))  { $shop.styles($nick, list, $4) | halt }
   }
   else { .msg $nick 4Error: Use !shop list <items/techs/skills/stats/weapons/styles/orbs>  or !shop buy <items/techs/skills/stats/weapons/styles/orbs> <what to buy> | halt }
 
@@ -342,8 +341,18 @@ alias shop.stats {
     var %def.price $round($calc(%shop.level * $readini(system.dat, statprices, def)),0)
     var %int.price $round($calc(%shop.level * $readini(system.dat, statprices, int)),0)
     var %spd.price $round($calc(%shop.level * $readini(system.dat, statprices, spd)),0)
-    %shop.list = $addtok(%shop.list,HP+50 ( $+ %hp.price $+ ),46)
-    %shop.list = $addtok(%shop.list,TP+5 ( $+ %tp.price $+ ),46)
+
+    var %player.current.hp $readini($char($1), basestats, hp)
+    if (%player.current.hp < 2500) { 
+      %shop.list = $addtok(%shop.list,HP+50 ( $+ %hp.price $+ ),46)
+    }
+
+    var %player.current.tp $readini($char($1), basestats, tp)
+    if (%player.current.tp < 500) {
+      %shop.list = $addtok(%shop.list,TP+5 ( $+ %tp.price $+ ),46)
+    }
+
+
     %shop.list = $addtok(%shop.list,Str+1 ( $+ %str.price $+ ),46)
     %shop.list = $addtok(%shop.list,Def+1 ( $+ %def.price $+ ),46)
     %shop.list = $addtok(%shop.list,Int+1 ( $+ %int.price $+ ),46)
@@ -365,6 +374,16 @@ alias shop.stats {
 
     set %total.price $shop.calculate.totalcost($1, $4, %base.cost)
 
+    if ($3 = hp) {
+      var %player.current.hp $readini($char($1), basestats, hp)
+      if (%player.current.hp >= 2500) { .msg $nick 4Error: You have the maximum amount of HP allowed! | halt }
+    }
+
+    if ($3 = tp) {
+      var %player.current.tp $readini($char($1), basestats, tp)
+      if (%player.current.tp >= 500) {  .msg $nick 4Error: You have the maximum amount of TP allowed! | halt }
+    }
+
     if (%player.redorbs < %total.price) { .msg $nick 4You do not have enough $readini(system.dat, system, currency) to purchase this upgrade! | halt }
 
     ; if so, increase the amount and add the stat bonus
@@ -377,8 +396,18 @@ alias shop.stats {
     if ($3 = tp) { set %shop.statbonus 5 }
 
     %shop.statbonus = $calc(%shop.statbonus * $4)
-
     inc %basestat.to.increase %shop.statbonus
+
+
+    if ($3 = hp) {
+      if (%base.stat.to.increase > 2500) { .msg $nick 4Error: This amount will push you over the 2500 limit allowed for HP. Please lower the amount and try again. | halt }
+    }
+
+    if ($3 = tp) {
+      if (%base.stat.to.increase > 00) { .msg $nick 4Error: This amount will push you over the 500 limit allowed for TP. Please lower the amount and try again. | halt }
+    }
+
+
     writeini $char($1) basestats $3 %basestat.to.increase
     $fulls($1)
 
@@ -718,6 +747,7 @@ alias shop.weapons {
   }
   if (($2 = buy) || ($2 = purchase)) {
     if ($readini(weapons.db, $3, type) = $null) { .msg $nick 4Error: Invalid weapon! Use! !shop list weapons to get a valid list | halt }
+    if ($readini(weapons.db, $3, cost) = 0) { .msg $nick 4Error: You cannot purchase this weapon! | halt }
     var %weapon.level $readini($char($1), weapons, $3)
     if (%weapon.level != $null) { 
       var %shop.level $readini($char($1), stuff, shoplevel)
@@ -725,7 +755,6 @@ alias shop.weapons {
       var %player.redorbs $readini($char($1), stuff, redorbs)
       var %base.cost $readini(weapons.db, $3, upgrade)
       set %total.price $shop.calculate.totalcost($1, $4, %base.cost)
-      echo -a total cost: %total.price
       if (%player.redorbs < %total.price) { .msg $nick 4You do not have enough $readini(system.dat, system, currency) to purchase this weapon upgrade! | halt }
       dec %player.redorbs %total.price
       $inc.redorbsspent($1, %total.price)
@@ -863,7 +892,7 @@ alias shop.calculate.totalcost {
   var %shop.level $readini($char($1), stuff, shoplevel)
   while (%value <= $2) { 
     inc %total.price.calculate $round($calc(%shop.level * $3),0)
-    if (%shop.level < 25) { inc %shop.level .1 }
+    if (%shop.level < 25) {  inc %shop.level .1 }
     inc %value 1
   }
   return %total.price.calculate

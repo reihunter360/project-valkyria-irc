@@ -39,6 +39,7 @@ alias add.stylepoints {
   if ($3 = boss_death) {  set %stylepoints.toadd $readini(system.dat, style, BossDeath) | $add.playerstyle.xp($1, $rand(3,4)) }
 
   if (%stylepoints.current = $null) { set %stylepoints.current 0 }
+  if (%stylepoints.current >= 5000) { set %stylepoints.to.add 0 }
   inc %stylepoints.current %stylepoints.toadd
   writeini battle2.txt style $1 %stylepoints.current
   unset %stylepoints.toadd | unset %stylepoints.current
@@ -94,11 +95,14 @@ alias add.playerstyle.xp {
   set %current.playerstyle.level $readini($char($1), styles, %current.playerstyle)
   set %current.playerstyle.xptolevel $calc(500 * %current.playerstyle.level)
 
-  inc %current.playerstyle.xp $2
+  if ($2 = $null) { var %style.xp.to.add 1 } 
+  if ($2 != $null) { var %style.xp.to.add $2 }
+
+  inc %current.playerstyle.xp %style.xp.to.add
   writeini $char($1) styles %current.playerstyle $+ XP %current.playerstyle.xp
 
   if (%current.playerstyle.xp >= %current.playerstyle.xptolevel) {
-    inc %current.playerstylelevel 1 | writeini $char($1) styles %current.playerstyle %current.playerstylelevel
+    inc %current.playerstyle.level 1 | writeini $char($1) styles %current.playerstyle %current.playerstyle.level
     writeini $char($1) styles %current.playerstyle $+ XP 0
   }
   unset %current.playerstyle |  unset %current.playerstyle.*

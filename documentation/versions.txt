@@ -94,10 +94,23 @@ Battle Arena Bot VERSIONS
 - Added the active skill "Analysis".  This skill lets you analyze a monster.  Increased levels of the skill gives you more
   information about the monster.  To use it, after purchasing it, use !analyze monstername  You can only analyze monsters
   that are in the current battle.
+- Added the passive skill "Zen" -- this skill will increase the amount of TP you get back per turn by 5*skill level.
 - Added a new item type: ShopReset. This item type will allow you to lower your current shop level by an amount. The
   "DiscountCard" has been added as an example item. 250,000 orbs and will lower it by 10 points.
+- Added an anti-cheat system for players using monster weapons/techniques. Attacks/Techs done with monster weapons will be
+  0-5 damage max if the person using them isn't a monster or a NPC.
+- Added the ability for techs to change which base stat is used for damage. You can add a stat= with the stat you want
+  to use in the tech file.  For example:  stat=str  or stat=spd     By default it's int.
+- Added the Heal-AOE type. This type will heal all allies on the battlefield. This tech type can't be used on enemies.
 - Changed the way the monster/boss/npc lists are generated to hopefully make them more random and to prevent a future bug.
 - Changed the prices of several skills/weapon upgrades/techs/items.
+- Changed the max amount of damage of suicide techs that can be done by players to 500.  This should prevent someone with
+  hundreds of thousands of hp one-shotting every monster/boss in the game.
+- Changed the maximum number of times a target can be successfully stolen from to 2.
+- Changed the maximum amount of HP you can buy from the shop. After you hit 2500 hp you won't be able to buy any more.
+- Changed the maximum amount of TP you can buy from the shop. After you hit 500 tp you won't be able to buy any more.
+- Changed the maximum amount of style points you can accumulate in one battle to 5000.
+- Changed the location of the skill cooldown times into the skills.db. Bot Owners can now edit that file to edit skill reuse times
 - Fixed a bug in which the zombie regeneration wasn't wearing off at the end of battle.
 - Fixed a bug with the Amnesia status type.
 - Fixed a bug with !rdesc
@@ -105,3 +118,9 @@ Battle Arena Bot VERSIONS
 - Fixed a bug with Steal in which stolen items weren't being added right
 - Fixed a bug in which the description wasn't being shown properly for +TP items.
 - Fixed the bot so that it will correctly give the right access level to the entire bot owner list when the bot is first turned on.
+- Fixed a bug in which occasionally the style level wasn't leveling properly.  Sometimes it would jump by +2 or +3, other times
+  it would be reset to level 1. 
+- Fixed a bug that was letting players purchase monster weapons.
+- Fixed a bug in which fleeing would cause the bot to break in a one vs one battle against an orb fountain.
+- Fixed a bug in which you could use consumable items with the !use command and the item would be decreased from your inventory.
+- Fixed a bug in which MightyStrikes could be used continuously without a cooldown.

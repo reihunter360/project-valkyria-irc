@@ -94,7 +94,7 @@ Resist-charm=100
 Resist-zombie=100
 
 [Techniques]
-
+MetalStrings=1
 
 
 [Item_Amount]

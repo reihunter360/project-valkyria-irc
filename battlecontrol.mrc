@@ -10,9 +10,9 @@ on 1:TEXT:!battle stats*:*: {
   if (%winning.record = $null) { unset %winning.record) }
   if (%winning.record != $null) { var %winning.record (Highest record is: %winning.record $+ ) }
 
-  query %battlechan 2There has been a total of %total.battles battles fought.  The players have won %total.wins ( $+ $round($calc(($readini(battlestats.dat, Battle, TotalWins) / $readini(battlestats.dat, Battle, TotalBattles))*100),2) $+ $chr(37) $+ ) and have lost %total.losses ( $+ $round($calc(($readini(battlestats.dat, Battle, TotalLoss) / $readini(battlestats.dat, Battle, TotalBattles))*100),2) $+ $chr(37) $+ )
-  if ($readini(battlestats.dat, Battle, WinningStreak) != 0) { query %battlechan 2The players have won $bytes($readini(battlestats.dat, Battle, WinningStreak),b) battle(s) in a row!  %winning.record }
-  if ($readini(battlestats.dat, Battle, LosingStreak) != 0) { query %battlechan 2The players have lost $bytes($readini(battlestats.dat, Battle, LosingStreak),b) battle(s) in a row! }
+  query %battlechan $readini(translation.dat, system, BattleStatsData)
+  if ($readini(battlestats.dat, Battle, WinningStreak) != 0) { query %battlechan $readini(translation.dat, system, BattleStatsWinningStreak) }
+  if ($readini(battlestats.dat, Battle, LosingStreak) != 0) { query %battlechan $readini(translation.dat, system, BattleStatsLosingStreak) }
 }
 
 ; Bot Owners can have some control over battles
@@ -50,7 +50,7 @@ on 50:TEXT:!summon*:*:{
       .copy -o $npc($3) $char($3)
       /enter $3
     }
-    else { query %battlechan 4Error: $3 does not exist as an NPC! | halt }
+    else { query %battlechan $readini(translation.dat, errors, NPCDoesNotExist) | halt }
   }
   if ($2 = monster) {
     var %number.of.monsters $readini(battle2.txt, BattleInfo, Monsters) 
@@ -156,8 +156,8 @@ alias startnormal {
   if ($1 = monster) { set %battle.type monster }
   if ($1 = orbfountain) { set %battle.type orbfountain }
 
-  ;/.timerBattleBegin 1 120 /battlebegin
-  /.timerBattleBegin 1 60 /battlebegin
+  /.timerBattleBegin 1 120 /battlebegin
+  ; /.timerBattleBegin 1 30 /battlebegin
 }
 
 
@@ -206,8 +206,11 @@ ON 2:TEXT:!run away*:#:/flee $nick
 ON 50:TEXT:*flees the battle*:#:/flee $1
 
 alias flee {
+
+  $check_for_battle($1)
+
   writeini $char($1) battle status runaway
-  $set_chr_name($1) | query %battlechan 4 $+ %real.name has run away from the battle! 
+  $set_chr_name($1) | query %battlechan $readini(translation.dat, battle, FleeBattle)
   $next
 }
 
@@ -266,7 +269,7 @@ alias battlebegin {
     $boost_monster_stats(orb_fountain, %number.of.players) | $fulls(orb_fountain)
     var %battlemonsters $readini(battle2.txt, BattleInfo, Monsters) | inc %battlemonsters 1 | writeini battle2.txt BattleInfo Monsters %battlemonsters
     $set_chr_name(orb_fountain) 
-    query %battlechan 4 $+ %real.name has entered the battle! 
+    $readini(translation.dat, battle, EnteredTheBattle)
     query %battlechan 12 $+ %real.name  $+ $readini($char(orb_fountain), descriptions, char)
   }
 
@@ -368,8 +371,7 @@ alias battlebegin {
   $generate_battle_order
   set %who $read -l1 battle.txt | set %line 1
   $battlelist
-  /.timerEnterPause 1 2 /query %battlechan 2 $+ %who steps up first in the battle!
-
+  /.timerEnterPause 1 2 /query %battlechan $readini(translation.dat, battle, StepsUpFirst)
   ; To keep someone from sitting and doing nothing for hours at a time, there's a timer that will auto-force the next turn.
   /.timerBattleNext 1 180 /next
 
@@ -385,7 +387,7 @@ alias battle_rage {
   ; When this alias is called all the monsters still alive in battle will become much harder to kill as all of their stats will be increased
   ; The idea is to make it so battles don't last forever (someone can't stall for 2 hours on one battle).  Players need to kill monsters fast.
 
-  query %battlechan 4Darkness covers the battlefield enhancing the strength of all remaining monsters!
+  query %battlechan $readini(translation.dat, battle, DarknessCoversBattlefield)
 
   var %battletxt.lines $lines(battle.txt) | var %battletxt.current.line 1 
   while (%battletxt.current.line <= %battletxt.lines) { 
@@ -417,6 +419,7 @@ alias generate_battle_order {
 
   ; Are all the monsters defeated?  If so, we need to end the battle as a victory.
   if ($battle.monster.death.check = true) { /.timerEndBattle $+ $rand(a,z) 1 4 /endbattle victory | halt }
+  if ($battle.player.death.check = true) { /.timerEndBattle $+ $rand(a,z) 1 4 /endbattle defeat | halt } 
 
   ; get rid of the Battle Table and the now un-needed file
   if ($isfile(BattleTable.file) = $true) { 
@@ -446,6 +449,8 @@ alias generate_battle_order {
     }
 
     unset %current.playerstyle | unset %current.playerstyle.level
+
+    if (%battle.speed <= 0) { set %battle.speed 1 }
 
     hadd BattleTable %who.battle %battle.speed
     inc %battletxt.current.line
@@ -521,8 +526,8 @@ alias endbattle {
   var %totalbattles $readini(battlestats.dat, Battle, TotalBattles) |  inc %totalbattles 1 | writeini battlestats.dat Battle TotalBattles %totalbattles
 
   if ($1 = defeat) {
-    query %battlechan 4The Battle is Over!
-    query %battlechan 12The forces of evil have won this battle!
+    query %battlechan $readini(translation.dat, battle, BattleIsOver)
+    query %battlechan $readini(translation.dat, battle, EvilHasWon)
     var %defeats $readini(battlestats.dat, battle, totalLoss) | inc %defeats 1 | writeini battlestats.dat battle totalLoss %defeats
     writeini battlestats.dat battle WinningStreak 0
     var %losing.streak $readini(battlestats.dat, battle, LosingStreak) | inc %losing.streak 1 | writeini battlestats.dat battle LosingStreak %losing.streak
@@ -543,8 +548,8 @@ alias endbattle {
   }
 
   if ($1 = victory) {
-    query %battlechan 4The Battle is Over!
-    query %battlechan 12The forces of good have won this battle!
+    query %battlechan $readini(translation.dat, battle, BattleIsOver)
+    query %battlechan $readini(translation.dat, battle, GoodHasWon)
     var %wins $readini(battlestats.dat, battle, totalWins) | inc %wins 1 | writeini battlestats.dat battle totalWins %wins
     writeini battlestats.dat battle LosingStreak 0
     var %winning.streak $readini(battlestats.dat, battle, WinningStreak) | inc %winning.streak 1 | writeini battlestats.dat battle WinningStreak %winning.streak
@@ -585,7 +590,7 @@ alias endbattle {
     }
   }
 
-  if ($2 = none) { query %battlechan 4The Battle is Over! }
+  if ($2 = none) { query %battlechan $readini(translation.dat, battle, BattleIsOver) }
 
   ; then do a $clear_battle
   $clear_battle | halt
@@ -623,7 +628,6 @@ alias turn {
     ; Are all the players defeated?  If so, we need to end the battle as a loss.
     if ($battle.player.death.check = true) { /.timerEndBattle $+ $rand(a,z) 1 4 /endbattle defeat | halt } 
 
-
     $poison_check($1) | $zombie_check($1) | $zombieregenerating_check($1) | $regenerating_check($1) | $TPregenerating_check($1) | $intimidated_check($1) | $blind_check($1) | $frozen_check($1) | $shock_check($1)  | $burning_check($1) | $tornado_check($1)
     $drowning_check($1) | $earth-quake_check($1) | $curse_check($1) | unset %hp.percent  | $stopped_check($1) | $charm_check($1) | $amnesia_check($1) | $paralysis_check($1)
     $drunk_check($1) | $slowed_check($1) | $asleep_check($1) | $stunned_check($1) | $boosted_check($1)
@@ -637,13 +641,19 @@ alias turn {
     if ($battle.player.death.check = true) { /.timerEndBattle $+ $rand(a,z) 1 4 /endbattle defeat | halt } 
 
     $hp_status($1)
-    set %status.message 3It is $set_chr_name($1) %real.name $+ 's turn [Health Status: %hstats $+ 3] [Status Effects:4 %all_status $+ 3]
+    set %status.message $readini(translation.dat, battle, TurnMessage)
 
     if ($readini($char($1), status, curse) != yes) {
       ; Add some TP to the player if it's not at max.
       set %tp.have $readini($char($1), battle, tp)
       set %tp.max $readini($char($1), basestats, tp)
       inc %tp.have 5
+
+      if ($readini($char($1), skills, zen) > 0) { 
+        var %zen.tp.gain $calc($readini($char($1), skills, Zen) * 5)
+        inc %tp.have %zen.tp.gain
+      }
+
       if (%tp.have >= %tp.max) { writeini $char($1) battle tp %tp.max }
       else { writeini $char($1) battle tp %tp.have }
       unset %tp.have | unset %tp.max
@@ -729,8 +739,8 @@ alias battlelist {
   }
   unset %lines | unset %l 
   $battlelist.cleanlist
-  if (%battle.list = $null) { query %battlechan 4No one has joined the battle yet! | unset %battle.list | unset %who.battle | halt }
-  query %battlechan 10-=BATTLE LIST=-  |  query %battlechan %battle.list | unset %battle.list | unset %who.battle
+  if (%battle.list = $null) { query %battlechan $readini(translation.dat, battle, NoOneJoinedBattleYet) | unset %battle.list | unset %who.battle | halt }
+  query %battlechan $readini(translation.dat, battle, BatListTitleMessage)  |  query %battlechan %battle.list | unset %battle.list | unset %who.battle
 }
 
 alias battlelist.cleanlist {
@@ -739,7 +749,6 @@ alias battlelist.cleanlist {
     %battle.list = $replace(%battle.list, $chr(046), %replacechar)
   }
 }
-
 
 ; ==========================
 ; REWARD ORBS 
@@ -792,19 +801,18 @@ alias battle.reward.blackorbs {
   unset %current.status
 }
 
-
 ; ==========================
 ; REWARD PLAYER STYLE XP
 ; ===========================
 
 alias battle.reward.playerstylexp {
-  var %battletxt.lines $lines(battle.txt) | var %battletxt.current.line 1 | set %playerstyle.xp.reward $rand(1,2)
+  var %battletxt.lines $lines(battle.txt) | var %battletxt.current.line 1 | set %playerstyle.xp.reward $rand(1,3)
   while (%battletxt.current.line <= %battletxt.lines) { 
     var %who.battle $read -l $+ %battletxt.current.line battle.txt
     var %flag $readini($char(%who.battle), info, flag)
     if ((%flag = monster) || (%flag = npc)) { inc %battletxt.current.line 1 }
     else { 
-      $add.playerstyle.xp(%who.battle, %playerstyle.xp)
+      $add.playerstyle.xp(%who.battle, %playerstyle.xp.reward)
       inc %battletxt.current.line 1 
     }
   }
@@ -822,15 +830,15 @@ alias poison_check {
       writeini $char($1) status poison no
       writeini $char($1) status poison-heavy no 
       writeini $char($1) status poison.timer 1
-      $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 3 query %battlechan 3 $+ %real.name $+ 's poison has worn off. | unset %curse.timer | return 
+      $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 3 query %battlechan $readini(translation.dat, status, PoisonWornOff) | unset %curse.timer | return 
     }
     else { 
       %poison.timer = $calc(%poison.timer + 1) | writeini $char($1) status poison.timer %poison.timer 
       if ($readini($char($1), Status, poison-heavy) = yes) { $heavy-poison($1) | return }
       $status_message_check(poisoned) 
       var %poison $rand(1,10) | set %hp $readini($char($1), Battle, HP) | $set_chr_name($1)
-      if (%poison >= %hp) { query %battlechan %status.message | query %battlechan 4 $+ $1 grabs $gender($1) chest in pain from the posion as $gender($1) eyes roll back into his head. $1 collapses to the ground--dead. | writeini $char($1) Battle HP 0 | writeini $char($1) Battle Status Dead | next | halt }
-      if (%poison < %hp) { /.timer $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 /query %battlechan 4 $+ %real.name grabs $gender($1) chest in pain from the poison. | dec %hp %poison | writeini $char($1) Battle HP %hp | return }
+      if (%poison >= %hp) { query %battlechan %status.message | query %battlechan $readini(translation.dat, status, PoisonKills) | writeini $char($1) Battle HP 0 | writeini $char($1) Battle Status Dead | next | halt }
+      if (%poison < %hp) { /.timer $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 /query %battlechan $readini(translation.dat, status, PoisonMessage) | dec %hp %poison | writeini $char($1) Battle HP %hp | return }
     }
   }
   else { return }
@@ -839,19 +847,19 @@ alias poison_check {
 
 alias heavy-poison { $status_message_check(poisoned heavily)
   var %poison $rand(5,15) | set %hp $readini($char($1), Battle, HP) | $set_chr_name($1)
-  if (%poison >= %hp) { query %battlechan %status.message | query %battlechan 4 $+ %real.name grabs $gender($1) chest in pain from the posion as his eyes roll back into his head. %real.name collapses to the ground--dead. | writeini $char($1) Battle HP 0 | writeini $char($1) Battle Status Dead | next | halt }
-  if (%poison < %hp) { query %battlechan 4 $+ %real.name grabs $gender($1) chest in pain from the poison. | dec %hp %poison | writeini $char($1) Battle HP %hp | return }
+  if (%poison >= %hp) { query %battlechan %status.message | query %battlechan $readini(translation.dat, status, PoisonKills) | writeini $char($1) Battle HP 0 | writeini $char($1) Battle Status Dead | next | halt }
+  if (%poison < %hp) { query %battlechan $readini(translation.dat, status, PoisonMessage) | dec %hp %poison | writeini $char($1) Battle HP %hp | return }
 }
 
 alias curse_check {
   if ($readini($char($1), status, curse) = yes) { 
     set %curse.timer $readini($char($1), status, curse.timer)  
     if (%curse.timer <= 3) { %curse.timer = $calc(%curse.timer + 1) | writeini $char($1) status curse.timer %curse.timer | $status_message_check(cursed)
-      $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 3 query %battlechan 4 $+ %real.name is cursed! | unset %curse.timer | return 
+      $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 3 query %battlechan $readini(translation.dat, status, CurrentlyCursed) | unset %curse.timer | return 
     }
     else {
       writeini $char($1) status curse no | writeini $char($1) status curse.timer 1 
-      $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 3 query %battlechan 3 $+ %real.name $+ 's curse has worn off. | unset %curse.timer | return 
+      $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 3 query %battlechan $readini(translation.dat, status, CurseWornOff) | unset %curse.timer | return 
     }
   }
   else { return } 
@@ -872,15 +880,15 @@ alias regen_done_check {
 
   if (($3 = hp) || ($3 = mp)) {
     if (%current >= %max) { 
-      $set_chr_name($1) | /.timerRegenMessage 1 3 /query %battlechan 12 $+ %real.name has finished regenerating all $gender($1) $3 $+ ! 
+      $set_chr_name($1) | /.timerRegenMessage 1 3 /query %battlechan $readini(translation.db, skill, FinishedRegen)
       if ($3 = TP) { writeini $char($1) Status TPRegenerating no }
       if ($3 = HP) { writeini $char($1) Status Regenerating no }
       var %max $readini($char($1), BaseStats, $3) |  writeini $char($1) Battle $3 %max | return 
     }
-    else { .timerRegen $+ $rand(a,z) 1 2 /query %battlechan 12 $+ %real.name has regenerated $2  $+ $3 $+ !  | return } 
+    else { .timerRegen $+ $rand(a,z) 1 2 /query %battlechan $readini(translation.dat, skill, RegenerationMessage)  | return } 
   }
 
-  else { .timerRegen $+ $rand(1,1000) 1 2 /query %battlechan 12 $+ %real.name has regenerated $2  $+ $3 $+ !  | return } 
+  else { .timerRegen $+ $rand(1,1000) 1 2 /query %battlechan $readini(translation.dat, skill, RegenerationMessage) | return } 
 }
 
 alias zombieregenerating_check { 
@@ -891,7 +899,7 @@ alias zombieregenerating_check {
     var %current $readini($char($1), Battle, hp) | var %max $readini($char($1), BaseStats, hp)
     if (%current >= %max) {  writeini $char($1) Battle hp %max }
 
-    .timerRegen $+ $rand(a,z) 1 3 /query %battlechan 12 $+ %real.name has regenerated %howmuch  $+ hp $+ !  | return
+    .timerRegen $+ $rand(a,z) 1 3 /query %battlechan $readini(translation.dat, skill, ZombieRegeneration)  | return
   }
   else { return }
 }
@@ -899,7 +907,7 @@ alias zombieregenerating_check {
 
 alias blind_check { 
   if ($readini($char($1), Status, blind) = yes) { $status_message_check(blind)
-    $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 3 query %battlechan 4 $+ %real.name is too blind to fight!
+    $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 3 query %battlechan $readini(translation.dat, status, TooBlindToFight)
   }
   else { return } 
 }
@@ -915,7 +923,7 @@ alias TPregenerating_check {
 
 alias intimidated_check { 
   if ($readini($char($1), Status, intimidated) = yes) { $status_message_check(intimidated)
-    $set_chr_name($1) | .timerThrottle $+ $nick $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 query %battlechan 4 $+ %real.name is too intimidated to fight!
+    $set_chr_name($1) | .timerThrottle $+ $nick $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 query %battlechan $readini(translation.dat, status, TooIntimidatedToFight)
   }
   else { return } 
 }
@@ -923,36 +931,36 @@ alias intimidated_check {
 alias frozen_check { 
   if ($readini($char($1), Status, frozen) = yes) { $status_message_check(freezing) 
     set %freezing $rand(1,10) | set %hp $readini($char($1), Battle, HP) | $set_chr_name($1)
-    if (%freezing >= %hp) { .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 query %battlechan 4 $+ %real.name screams in pain as $gender($1) body is freezing from the ice! Suddenly the ice covers %real.name $+ 's body and shatters, leaving nothing but a puddle. | writeini $char($1) Battle HP 0 | writeini $char($1) Battle Status Dead | next | halt }
-    if (%freezing < %hp) { .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 query %battlechan 4 $+ %real.name screams in pain as $gender($1) body is freezing from the ice! | dec %hp %freezing |  writeini $char($1) Battle HP %hp | return }
+    if (%freezing >= %hp) { .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 query %battlechan $readini(translation.dat, status, FrozenDeath) | writeini $char($1) Battle HP 0 | writeini $char($1) Battle Status Dead | next | halt }
+    if (%freezing < %hp) { .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 query %battlechan $readini(translation.dat, status, FrozenMessage) | dec %hp %freezing |  writeini $char($1) Battle HP %hp | return }
   }
   else { return }
 }
 
 alias asleep_check {
   if ($readini($char($1), Status, Sleep) = yes) { $status_message_check(asleep)
-    $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 query %battlechan 4 $+ %real.name is currently asleep!
+    $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 query %battlechan $readini(translation.dat, status, CurrentlyAsleep)
   }
   else { return } 
 }
 
 alias stunned_check {
   if ($readini($char($1), Status, Stun) = yes) { $status_message_check(stunned)
-  $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 query %battlechan 4 $+ %real.name is currently stunned and unable to move!  }
+  $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 query %battlechan $readini(translation.dat, status, CurrentlyStunned)  }
   else { return } 
 }
 
 alias stopped_check {
   if ($readini($char($1), Status, Stop) = yes) { $status_message_check(frozen in time)
-  $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 query %battlechan 4 $+ %real.name is currently frozen in time and unable to move!  }
+  $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 query %battlechan $readini(translation.dat, status, CurrentlyStopped)  }
   else { return } 
 }
 
 alias shock_check { 
   if ($readini($char($1), Status, shock) = yes) { $status_message_check(shocked) 
     set %shock $rand(1,10) | set %hp $readini($char($1), Battle, HP) | $set_chr_name($1)
-    if (%shock >= %hp) { .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 query %battlechan 4 $+ %real.name screams in pain as $gender($1) body is shocked from the electricity! Suddenly the electricity becomes too much for %real.name $+ 's body to handle and %real.name falls over dead, a burnt corpse. | writeini $char($1) Battle HP 0 | writeini $char($1) Battle Status Dead | next | halt }
-    if (%shock < %hp) { .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 query %battlechan 4 $+ %real.name screams in pain as $gender($1) body is shocked from the electricity! | dec %hp %shock |  writeini $char($1) Battle HP %hp | return }
+    if (%shock >= %hp) { .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 query %battlechan $readini(translation.dat, status, ShockDeath)  | writeini $char($1) Battle HP 0 | writeini $char($1) Battle Status Dead | next | halt }
+    if (%shock < %hp) { .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 query %battlechan $readini(translation.dat, status, ShockMessage)  | dec %hp %shock |  writeini $char($1) Battle HP %hp | return }
   }
   else { return }
 }
@@ -960,8 +968,8 @@ alias shock_check {
 alias burning_check { 
   if ($readini($char($1), Status, burning) = yes) { $status_message_check(burning) 
     set %burning $rand(1,10) | set %hp $readini($char($1), Battle, HP) | $set_chr_name($1)
-    if (%burning >= %hp) { .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 query %battlechan 4 $+ %real.name screams in pain as $gender($1) body is burning from the flame! Suddenly the flame consumes %real.name leaving nothing but ashes! | writeini $char($1) Battle HP 0 | writeini $char($1) Battle Status Dead | next | halt }
-    if (%burning < %hp) { .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 query %battlechan 4 $+ %real.name screams in pain as $gender($1) body is burning from the flame! | dec %hp %burning | writeini $char($1) Battle HP %hp | return }
+    if (%burning >= %hp) { .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 query %battlechan $readini(translation.dat, status, BurningDeath) | writeini $char($1) Battle HP 0 | writeini $char($1) Battle Status Dead | next | halt }
+    if (%burning < %hp) { .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 query %battlechan $readini(translation.dat, status, BurningMessage) | dec %hp %burning | writeini $char($1) Battle HP %hp | return }
   }
   else { return }
 }
@@ -969,8 +977,8 @@ alias burning_check {
 alias tornado_check { 
   if ($readini($char($1), Status, tornado) = yes) { $status_message_check(caught in a tornado) 
     set %tornado $rand(1,10) | set %hp $readini($char($1), Battle, HP) | $set_chr_name($1)
-    if (%tornado >= %hp) { .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 query %battlechan 4 $+ %real.name screams in pain as $gender($1) body is cut from the tornado! Suddenly the cuts slice too deep, causing %real.name to bleed out and die! | writeini $char($1) Battle HP 0 | writeini $char($1) Battle Status Dead | next | halt }
-    if (%tornado < %hp) { .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 query %battlechan 4 $+ %real.name screams in pain as $gender($1) body is cut from the tornado | dec %hp %tornado | writeini $char($1) Battle HP %hp | return }
+    if (%tornado >= %hp) { .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 query %battlechan $readini(translation.dat, status, TornadoDeath) | writeini $char($1) Battle HP 0 | writeini $char($1) Battle Status Dead | next | halt }
+    if (%tornado < %hp) { .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 query %battlechan $readini(translation.dat, status, TornadoMessage) | dec %hp %tornado | writeini $char($1) Battle HP %hp | return }
   }
   else { return }
 }
@@ -978,8 +986,8 @@ alias tornado_check {
 alias drowning_check { 
   if ($readini($char($1), Status, drowning) = yes) { $status_message_check(drowning) 
     set %drowning $rand(1,10) | set %hp $readini($char($1), Battle, HP) | $set_chr_name($1)
-    if (%drowning >= %hp) { .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 query %battlechan 4 $+ %real.name gasps for air as $gender3($1) is encased in water! Suddenly %real.name $+ 's lungs give out! %real.name has drowned! | writeini $char($1) Battle HP 0 | writeini $char($1) Battle Status Dead | next | halt }
-    if (%drowning < %hp) { .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 query %battlechan 4 $+ %real.name gasps for air as $gender3($1) is encased in water!  | writeini $char($1) Battle Status normal | dec %hp %drowning | writeini $char($1) Battle HP %hp | return }
+    if (%drowning >= %hp) { .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 query %battlechan $readini(translation.dat, status, DrowningDeath)  | writeini $char($1) Battle HP 0 | writeini $char($1) Battle Status Dead | next | halt }
+    if (%drowning < %hp) { .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 query %battlechan $readini(translation.dat, status, DrowningMessage) | writeini $char($1) Battle Status normal | dec %hp %drowning | writeini $char($1) Battle HP %hp | return }
   }
   else { return }
 }
@@ -987,15 +995,15 @@ alias drowning_check {
 alias earth-quake_check { 
   if ($readini($char($1), Status, earth-quake) = yes) { $status_message_check(shaking) 
     set %shaken $rand(1,10) | set %hp $readini($char($1), Battle, HP) | $set_chr_name($1)
-    if (%shaken >= %hp) { .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 query %battlechan 4 $+ %real.name screams as the earth opens up beneath $gender($2) and swallows $gender2($1) whole! | writeini $char($1) Battle HP 0 | writeini $char($1) Battle Status Dead | next | halt }
-    if (%shaken < %hp) { .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 query %battlechan 4 $+ %real.name screams as the earth opens up, and boulders fall ontop of $gender($1) body!  | writeini $char($1) Battle Status normal | dec %hp %shaken | writeini $char($1) Battle HP %hp | return }
+    if (%shaken >= %hp) { .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 query %battlechan $readini(translation.dat, status, EarthquakeDeath) | writeini $char($1) Battle HP 0 | writeini $char($1) Battle Status Dead | next | halt }
+    if (%shaken < %hp) { .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 query %battlechan $readini(translation.dat, status, EarthquakeMessage)   | writeini $char($1) Battle Status normal | dec %hp %shaken | writeini $char($1) Battle HP %hp | return }
   }
   else { return }
 }
 
 alias weight_check { 
   if ($readini($char($1), Status, weight) = yes) { $status_message_check(weighed down)
-  $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 query %battlechan 4 $+ %real.name $+ 's body feels really heavy. | return }
+  $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 query %battlechan $readini(translation.dat, status, CurrentlyWeighed) | return }
   else { return } 
 }
 
@@ -1003,11 +1011,11 @@ alias drunk_check {
   if ($readini($char($1), Status, drunk) = yes) { 
     set %drunk.timer $readini($char($1), status, drunk.timer)  
     if (%drunk.timer <= 3) { %drunk.timer = $calc(%drunk.timer + 1) | writeini $char($1) status drunk.timer %drunk.timer | $status_message_check(drunk)
-      $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 3 query %battlechan 4 $+ %real.name is drunk! | unset %drunk.timer | return 
+      $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 3 query %battlechan $readini(translation.dat, status, CurrentlyDrunk) | unset %drunk.timer | return 
     }
     else {
       writeini $char($1) status drunk no | writeini $char($1) status drunk.timer 1 
-      $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 3 query %battlechan 3 $+ %real.name has sobered up. | unset %virus.timer | return 
+      $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 3 query %battlechan $readini(translation.dat, status, DrunkWornOff) | unset %virus.timer | return 
     }
   }
   else { return } 
@@ -1024,7 +1032,7 @@ alias zombie_check {
     $set_chr_name($1) | return }
   }
   else { 
-    if ($readini($char($1), Status, zombie) = yes) {   writeini $char($1) status zombie no | writeini $char($1) status zombie.timer 1 | $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 3 query %battlechan 3 $+ %real.name $+ 's zombie status has worn off. |   writeini $char($1) status zombieregenerating off | unset %zombie.timer | return  }
+    if ($readini($char($1), Status, zombie) = yes) {   writeini $char($1) status zombie no | writeini $char($1) status zombie.timer 1 | $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 3 query %battlechan $readini(translation.dat, status, ZombieWornOff) |  writeini $char($1) status zombieregenerating off | unset %zombie.timer | return  }
   }
   return
 }
@@ -1033,10 +1041,10 @@ alias slowed_check {
   var %slow.timer $readini($char($1), status, slow.timer)  
   if (%slow.timer <= 3) { 
     if ($readini($char($1), Status, slow) = yes) { $status_message_check(slowed) |  %slow.timer = $calc(%slow.timer + 1) | writeini $char($1) status slow.timer %slow.timer
-    $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 3 query %battlechan 4 $+ %real.name $+ 's body feels really slow. | return }
+    $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 3 query %battlechan $readini(translation.dat, status, currentlyslowed) | return }
   }
   else { 
-    if ($readini($char($1), Status, slow) = yes) {   writeini $char($1) status slow no | writeini $char($1) status slow.timer 1 | $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 3 query %battlechan 3 $+ %real.name $+ 's slow has worn off. | unset %slow.timer | return  }
+    if ($readini($char($1), Status, slow) = yes) {   writeini $char($1) status slow no | writeini $char($1) status slow.timer 1 | $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 3 query %battlechan $readini(translation.dat, status, SlowWornOff)  | unset %slow.timer | return  }
   }
   return
 }
@@ -1045,11 +1053,11 @@ alias amnesia_check {
   if ($readini($char($1), status, amnesia) = yes) { 
     set %amnesia.timer $readini($char($1), status, amnesia.timer)  
     if (%amnesia.timer <= 3) { %amnesia.timer = $calc(%amnesia.timer + 1) | writeini $char($1) status amnesia.timer %amnesia.timer | $status_message_check(amnesia)
-      $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 3 query %battlechan 4 $+ %real.name currently has amnesia. | unset %amnesia.timer | return 
+      $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 3 query %battlechan $readini(translation.dat, status, CurrentlyHasAmensia) | unset %amnesia.timer | return 
     }
     else {
       writeini $char($1) status amnesia no | writeini $char($1) status amnesia.timer 1 
-      $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 3 query %battlechan 3 $+ %real.name $+ 's amnesia has worn off. | unset %amnesia.timer | return 
+      $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 3 query %battlechan $readini(translation.dat, status, AmnesiaWornOff) | unset %amnesia.timer | return 
     }
   }
   else { return } 
@@ -1058,14 +1066,14 @@ alias amnesia_check {
 alias charm_check {
   if ($readini($char($1), status, charmed) = yes) { 
     set %charm.timer $readini($char($1), status, charm.timer) | set %charmer $readini($char($1), status, charmer)
-    if ($readini($char(%charmer), battle, status) = dead) {  writeini $char($1) status charm.timer 1 | writeini $char($1) status charmed no | $set_chr_name(%charmer) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 3 query %battlechan 3With %real.name $+ 's death, $set_chr_name($1) $+ %real.name is no longer charmed and can now do actions again! | unset %charm.timer | unset %charmer | return  }
+    if ($readini($char(%charmer), battle, status) = dead) {  writeini $char($1) status charm.timer 1 | writeini $char($1) status charmed no | $set_chr_name(%charmer) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 3 query %battlechan $readini(translation.dat, status, CharmerDeathWornOff) | unset %charm.timer | unset %charmer | return  }
 
     if (%charm.timer > 1) { %charm.timer = $calc(%charm.timer - 1) | writeini $char($1) status charm.timer %charm.timer | $status_message_check(charmed)
-      $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 3 query %battlechan 4 $+ %real.name has been charmed by $set_chr_name(%charmer) %real.name and is under $gender(%charmer) complete control! | unset %charm.timer | unset %charmer | return 
+      $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 3 query %battlechan $readini(translation.dat, status, CurrentlyCharmedMessage) | unset %charm.timer | unset %charmer | return 
     }
     else {
       writeini $char($1) status charmed no | writeini $char($1) status charm.timer 1 | writeini $char($1) status charmer nooneIknowlol
-      $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 3 query %battlechan 3 $+ %real.name $+  has broken $set_chr_name(%charmer) %real.name $+ 's control and can now do actions again! | unset %charm.timer | unset %charmer | return 
+      $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 3 query %battlechan $readini(translation.dat, status, CharmWornOff) | unset %charm.timer | unset %charmer | return 
     }
   }
   else { return } 
@@ -1075,11 +1083,11 @@ alias paralysis_check {
   if ($readini($char($1), status, paralysis) = yes) { 
     set %paralysis.timer $readini($char($1), status, paralysis.timer)  
     if (%paralysis.timer <= 2) { %paralysis.timer = $calc(%paralysis.timer + 1) | writeini $char($1) status paralysis.timer %paralysis.timer | $status_message_check(paralysis)
-      $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 3 query %battlechan 4 $+ %real.name is currently too paralyzed to fight. | unset %paralysis.timer | return 
+      $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 3 query %battlechan $readini(translation.dat, status, CurrentlyParalyzed) | unset %paralysis.timer | return 
     }
     else {
       writeini $char($1) status paralysis no | writeini $char($1) status paralysis.timer 1 
-      $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 3 query %battlechan 3 $+ %real.name $+ 's paralysis has worn off. | unset %paralysis.timer | return 
+      $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 3 query %battlechan $readini(translation.dat, status, ParalysisWornOff) | unset %paralysis.timer | return 
     }
   }
   else { return } 

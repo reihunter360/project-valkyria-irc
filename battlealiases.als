@@ -12,14 +12,14 @@ boost_monster_stats {
   var %int $readini($char($1), BaseStats, Int)
   var %spd $readini($char($1), BaseStats, Spd)
 
-  if ($2 = 1) { set %increase.amount .3 }
+  if ($2 = 1) { set %increase.amount .25 }
   if (($2 > 1) && ($2 < 4)) { set %increase.amount $calc(.5 + $round($calc($2 / 2),0)) }
   else { set %increase.amount $calc(1 + $2) }
 
   if ($isfile($boss($1)) = $true) { inc %increase.amount .5 }
 
   var %shop.level $readini(battle2.txt, BattleInfo, ShopLevel)
-  if ($readini(battle2.txt, battleinfo, players) = 1)  { inc %increase.amount $calc(%shop.level / 35)  }
+  if ($readini(battle2.txt, battleinfo, players) = 1)  { inc %increase.amount $calc(%shop.level / 40)  }
   if ($readini(battle2.txt, battleinfo, players) = 2)  {  inc %increase.amount $calc(%shop.level / 30)  }
   if ($readini(battle2.txt, battleinfo, players) >= 3)  {  inc %increase.amount $calc(%shop.level / 25)   }
 
@@ -312,7 +312,7 @@ random.weather.pick {
 
 random.battlefield.curse {
   var %curse.chance $rand(1,100)
-  if (%curse.chance <= 7) {  /.timerCurseMessage 1 1 /query %battlechan $readini(translation.dat, Events, CurseNight)
+  if (%curse.chance <= 6) {  /.timerCurseMessage 1 1 /query %battlechan $readini(translation.dat, Events, CurseNight)
     ; curse everyone
     var %battletxt.lines $lines(battle.txt) | var %battletxt.current.line 1 
     while (%battletxt.current.line <= %battletxt.lines) { 

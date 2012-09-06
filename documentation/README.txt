@@ -1,5 +1,5 @@
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-Battle Arena Bot - Version 1.2
+Battle Arena Bot - Version 1.3
 Programmed by James "Iyouboushi" (Iyouboushi@gmail.com)
 FREEWARE!
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -87,75 +87,7 @@ some of the bigger updates here but it isn't the full list.
 
 
 * Added new Technique Types
-There's one new technique and new boost.  The technique is called StealPower and will
-steal the stats of its target and add it to the user.  If you're going to allow this
-for players, I don't recommend setting the basepower very high or it might be haxx.
 
-The boost is called FinalGetsuga and will give the user an insane bonus to stats 
-(at least x100) but the catch is at the end of battle he/she will basically reset to
-level 1. It's basically a giant reset button.  There are a few things that players
-get to keep though: Items, 5% of the total orbs spent, levels in his/her Fists and 
-DoublePunch.  Everything else the player will lose (so all black orbs, weapons, skills,
-the rest of the techniques, etc). Stats, of course, reset to 5 each with 100 hp/20 tp.
-
-* Critical Hits
-Right now there's a 4% chance that a critical hit will happen on a normal melee attack.
-Critical hits are calculated AFTER defense has been subtracted from damage.
-
-* New Skills
-- FieldMedic: a passive skill that will increase the amount of health healing items 
-  will heal by 5*level.  Max is 30 (so +150 hp to every healing type item at max).
-- Impetus: a passive skill that will increase your chance of doing a critical hit 
-  by 1% for every level you have in the skill.  The maximum level is 20.
-- BloodPact: a passive skill that is necessary to use the Summon type items.  
-  Without this skill, the summon type items won't work.
-
-* Added Summon type items to the bot
-These items, when used by someone who has the BloodPact skill, will summon an ally to
-help fight.  You do not need to use the item on anyone, just !use (item name).  A player
-can only summon one time per battle even if the summon dies.
-
-* Added new monsters/weapons/bosses/npcs
-Naturally, with this update comes new foes to fight and new weapons/allies to fight them with.
-
-* Added Player Styles
-Simlar to DMC3, players can now choose a style and it will level by killing monsters. Styles 
-can be seen with !styles and can be changed with !style change (style name).  You can only
-change styles outside of battle.  There are more styles to purchase via the shop.
-
-* Multiple Bot Owners Now Possible
-Added the ability for multiple bot owners. To do it, open system.dat and find the 
-bot.owner= line and add the names separated by periods. For example:  
-bot.owner=Iyouboushi.Smz.YourNameHere
-
-* Added the "Flee" command.
-!flee or !run away both work. If all players have run or are dead the battle will end as a loss.
-
-* Minor Adjustments
-- Curse Night chance has been decreased to 7%
-- The bot will now use commas in orb totals to make the numbers a little easier to read
-- There's a shop level cap that's set to 25 currently (you can keep buying stuff once you hit
-  the cap but the shop level won't increase any further than 25)
-- I changed the formula slightly for the weapon/tech damage
-- Higher levels into the weapon/tech now give a bigger damage bonus.
-- Monsters now receive a bonus to health when the winning streak is under 20.  The amount it 
-  recieves is based on the combined shop level of the players who enter battle.
-- Changed the zombie status so that zombies take damage from fire in addition to light, and
-  they now get a regen during that status. It will overwrite normal regen until the status
-  wears off.
-- Changed the !start bat bot owner command so that bot owners can start boss/monster/orbfountain
-  battles. Use !start bat monster  or  !start bat boss  or !start bat orbfountain  or you can use
-  !start bat  by itself to do a random type (as it was before).
-- Changed the regen formula so that higher levels of the skill give more HP back.
-
-* Bug Fixes
-- Fixed a bug in which TP would be taken even if a technique was used on a dead target. 
-- Fixed a bug in which the orb fountain battles weren't giving bonus orbs upon defeat of the target.
-- Fixed a bug in which sometimes the wrong name was being displayed in suicide type techs.
-- Fixed a very serious bug in which certain encoded passwords wouldn't work with the ID commands.
-- Fixed a bug in which certain skills showed the wrong command/name when it wasn't ready to be used again.
-- Fixed a bug with the !new char command that would let players get free orbs by using it over and over.
-- Fixed "!zap" so that only bot owners can use it.
 
 
  _______________________________________________________________________

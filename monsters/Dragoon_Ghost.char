@@ -1,20 +1,20 @@
 [BaseStats]
-Hp=100
-Tp=20
-Str=5
+Hp=65
+Tp=90
+Str=7
 Def=5
-Int=5
-Spd=5
-Name=
+Int=7
+Spd=1
+Name=Dragoon Ghost
 
 
 [Battle]
-Hp=100
-Tp=20
-Str=10
-Def=10
-Int=10
-Spd=10
+Hp=45
+Tp=50
+Str=7
+Def=5
+Int=7
+Spd=1
 Status=alive
 
 
@@ -22,36 +22,39 @@ Status=alive
 RageBar=0
 RageCountDown=0
 
+[Limit]
+Level=1
+Percent=0
+
 
 [Descriptions]
-Char=set a character desc here that appears when the monster is summoned.
+Hused=1
+Dused=1
+Char=is the spirit of an ancient powerful Dragoon, long-since passed on from this world..
 Rage=screams in rage 
-BossQuote=enter a quote that the boss says when he enters the battle.
-
 
 [Stuff]
 RedOrbs=0
 BlackOrbs=1
 ShopLevel=1.0
-Drops=Potion
-
-[Monster]
-Type=
 
 [Info]
 Flag=monster
-Gender=his
-Gender2=him
+Gender=its
+Gender2=it
 password=battlearena
 passhurt=0
 LastSeen=N/a
 LastIP=N/a
 Created=N/a
 
+[Monster]
+Type=undead
+
 [Status]
 Poison=no
 HeavyPoison=no
-Regenerating=no
+Regenerating=yes
 Blind=no
 Frozen=no
 Shock=no
@@ -82,20 +85,30 @@ stun=no
 MPRegenerating=no
 
 [Weapons]
-Equipped=monsterweaponname
-monsterweaponname=1
+Equipped=GhostPower
+GhostPower=15
+weakness=handtohand
+strong=katana.gun.rifle.wand.greatsword.sword.glyph.whip
+
 
 [Skills]
+zen=3
+drainsamba.turn=0
+drainsamba.on=on
+DrainSamba=20
 
 
 [Techniques]
-TechName=1
+HighJump=15
+CamlannsTorment=10
+LegSweep=10
+SonicThrust=10
+GraveCurse=10
 
 
 [Item_Amount]
 
 
-
 [Element]
-Weakness=
-Strong=
+Weakness=light
+Strong=dark.water.earth.wind.ice.fire
