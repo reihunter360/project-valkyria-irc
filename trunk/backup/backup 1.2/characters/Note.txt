@@ -1,5 +1,0 @@
-NOTE
-
-DO NOT remove the following file from this directory (doing so will make the bot work incorrectly):
-
-new_chr.char
