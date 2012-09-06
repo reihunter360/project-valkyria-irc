@@ -1,0 +1,262 @@
+TECHNICAL ASPECTS
+
+This guide will be more about the technical aspects including why I did things the way I did and going into detail about some of the dat files.
+
+
+SYSTEM.DAT
+The system.dat controls and stores some information for running the bot.  In this section I'll break it down.
+
+If you open the system.dat you'll see the following sections: [botinfo] [system] [statprices] and [style].
+
+[botinfo]
+This section keeps the bot owner (person who has access to a few more commands than normal players), the channel the bot sits in and displays all the messages to, the name of the bot, and the bot's password that it sends to nickserv upon connecting.  All of this information should be generated the first time you run the bot.
+
+Note, you can have multiple bot owners in version 1.2 (and beyond) now.  To do so add them like such:
+
+bot.owner=name.name.name.name
+
+In other words, a name followed by a period, another name.  Don't add a period to the end of the last name.  
+
+[System]
+This section controls the base # of orbs for normal monsters and bosses, how many orbs players start with, the name of the currency and the time between battles in minutes.
+
+basexp=  how many orbs are normal monsters worth upon defeating?  This value is the base amount (before style and other factors are calculated).
+
+basebossxp= same as basexp except for bosses.  This only affects red orbs.
+
+startingorbs=  How many orbs should players start with?  This value is the base amount before the average shop level is multiplied to the base.
+
+currency=  If you don't want players to accumulate "red orbs" you can change it to whatever you want.  Note, you can't change "black orbs", only the red.   For example, you can change this to "exp" or "coins" or "sheep skins" and it'll still work.
+
+TimeBetweenBattles=  This is the time, in minutes, between after a battle ends to when it starts.  This doesn't affect the time that the entry time is open for, just the time it takes inbetween. (i.e. the "a battle will begin in X minutes")
+
+[StatPrices]
+This whole section is the base cost, in red orbs, that the shop will sell stat upgrades for.  You can lower the prices or raise them here.
+
+[Style]
+This section is for how many base style points a player gets for killing either a boss or a normal monster.  Note that just because the default value is 80 for bosses and 60 for monsters it doesn't mean that's exactly how many a player will get (there's other factors for calculating the resulting style points).
+
+
+
+BATTLESTATS.DAT
+The battlestats.dat, at the moment, keeps track of the total number of battles the bot has had, how many wins/losses, and the current winning or losing streak.
+
+Here's an example of the battlestats.dat.
+
+[Battle]
+TotalBattles=346
+TotalWins=286
+TotalLoss=60
+LosingStreak=0
+WinningStreak=3
+
+Bot owners have a way to reset it all back to 0 using a command they have access to.
+
+
+WEATHER.LST
+The weather.lst file controls valid weather types and how much of a bonus to magic the weather gives.
+
+[weather]
+current=calm
+list=calm.bright.gloomy.rainy.stormy.snowy.windy.hot.dry
+boost=.25
+
+the .25 means that magic cast on the right day will give a 25% boost to the damage.
+
+
+"BOT OWNER" COMMANDS
+These commands are commands that only the "bot owner" (set in the system.dat) has access to.  I'll try to explain them here.
+
+!startbat or !start bat
+This command starts a battle if there isn't one already going.  If this command is used when players can already enter battle, it'll actually cancel the battle.
+
+!end bat
+Ends a battle as neither a victory or a loss.
+
+!next
+Forces the next turn.
+
+!clear battle stats
+This will reset the battlestats.dat back to 0's.
+
+!time between battles #
+If you want to change the time between when battles start again, use this.  The # is in minutes.  So if you want it in 30 seconds you can put it as 0.5.
+
+!summon npc (name)
+This command will summon an NPC to come help fight.  The name has to be a valid one and must not already be summoned.  This command can only be used when the entering period is open (i.e. when players can use !enter).
+
+!summon monster (name)
+Will summon a monster to the battlefield.  This command only works during the entering phase of battle.
+
+!summon boss (name)
+This command will summon a boss to the battlefield.  This command only works during the entering phase of battle.  Also note that bosses summoned this way WILL NOT GIVE BLACK ORBS upon defeat unless the bot picks a random boss to go along with the battle (that is to say, if it was going to be a boss battle to begin with even if you hadn't used this command).
+
+(name) enters the battle
+If you want to force a player to join the battle, you can use this here.
+
+(name) attacks (name)
+You can force a player to attack something using this command.  You can't make players attack other players using this and the monster has to be in battle.
+
+(name) uses (his/her) (tech name) on (name)
+This will let you force a player to use a certain technique on a target.  Again, the target must be a monster and the person has to actually own the technique.
+
+(name) taunts (target)
+This will let you force a player to taunt a target of your choosing.
+
+(name) equips (weapon)
+This will let you force a player to equip a weapon of your choosing.  The player must own the weapon in order to equip it.
+
+!zap (name)
+This command removes a character from play.  There is currently no way to undo this command via the bot, but the files that are erased via this command end up in a \zapped\ folder and can be restored if the person running the bot so desires.
+
+
+DETAILED LOOK AT NEW_CHAR.CHR
+In this section we'll take a look at the blank new character template file in detail so that you'll know what everything means.  All .chr files can be opened in regular ol notepad as they don't contain anything special are just plain text ini files.
+
+[BaseStats]
+This section is the "resting" stats that new characters start with.  Resting stats are the stats the bot will reset the character to after each battle.
+
+Hp=100
+Tp=20
+Str=5
+Def=5
+Int=5
+Spd=5
+Name=  This is really more for monsters, bosses and npcs, but the name of the character is stored here.
+
+
+[Battle]
+These are the stats that are read for battles.  These can be manipulated (boosting is an example of how these stats can be increased).  They'll be reset at the end of battle with the basestats.
+
+Hp=100
+Tp=20
+Str=5
+Def=5
+Int=5
+Spd=5
+Status=alive
+
+
+[Rage]
+This section was actually used in my other bot, Kaiou, but I've kept it in this bot just in case I want to add in a rage system in the future.  As of version 1.0 though, there's no use for it.
+
+RageBar=0
+RageCountDown=0
+
+[Descriptions]
+This section is where descriptions are stored.  Again, the "rage=" description is not used at the moment.  In the future this section might be expanded to include the ability to add custom skill descriptions.
+
+Char= This is the character description.
+Rage= Not used
+
+
+[Stuff]
+As generic as this section is named, this holds the information for all the orbs collected, how many orbs have been spent, and the total number of deaths the character has endured.
+
+RedOrbs=0
+BlackOrbs=1
+ShopLevel=1.0
+RedOrbsSpent=0
+BlackOrbsSpent=0
+TotalDeaths=0
+
+
+[Info]
+The gender and password are stored in this section.  The bot also keeps track of when a player was created and when the player last used the !id command.
+
+Gender=his
+Gender2=him
+password=
+passhurt=0
+LastSeen=N/a
+LastIP=N/a
+Created=N/a
+
+[Status]
+This section just contains all of the status flags for battle.  They're reset to "no" when the battle ends.
+
+Poison=no
+HeavyPoison=no
+Regenerating=no
+Blind=no
+Frozen=no
+Shock=no
+Burning=no
+Drowning=no
+Earth-quake=no
+Heavy-Poison=no
+silence=no
+intimidated=no
+weight=no
+poison-heavy=no
+virus=no
+virus.timer=1
+charmed=no
+charmer=noonethatIknowlol
+charm.timer=1
+amnesia=no
+paralysis=no
+amnesia.timer=1
+paralysis.timer=1
+tornado=no
+drunk=no
+drunk.timer=1
+zombie=no
+slow=no
+sleep=no
+stun=no
+MPRegenerating=no
+boosted=no
+
+
+[Weapons]
+This section keeps track of the weapon levels that the player has.  All characters start with level 1 fists which are equipped by default.
+
+Equipped=Fists
+Fists=1
+
+
+[Skills]
+This section stores all of the skill information, such as the levels of skills players have and certain skill flags (for example: if you use royal guard, a flag will be turned on in this section for it).  The default starting character has a blank skills section.
+
+
+[Techniques]
+This section keeps track of the technique levels that the player has.  All starting characters start with level 1 DoublePunch.
+
+DoublePunch=1
+
+
+[Item_Amount]
+The items that characters have and how many they own are stored in this item_amount section.  At the start, players start with 1 potion.
+
+potion=1
+
+
+[Styles]
+
+This section keeps track of the styles the players know and what levels they are along with how much xp they've accumulated for them.
+
+Equipped=Trickster
+Trickster=1
+TricksterXP=0
+WeaponMaster=1
+WeaponMasterXP=0
+Guardian=1
+GuardianXP=0
+
+
+And that's the new character file for players!   There's a few minor things that are added for bosses, monsters and npcs.  Let's take a quick look at those here.
+
+
+BOSSES have an additional line in [Descriptions] line that is  BossQuote=   This line is read when the boss is summoned and should be a quote that the boss says to the players when it appears.  They also have a Drops=ItemName in [Stuff].  The Drops line should be a valid item that exists in items.db.  When the boss is defeated, the most stylish player will have a chance of winning the item in the drops= line.
+
+All monsters, bosses, and npcs have one more line in their files under [Info].  It is the flag= line.
+
+For bosses and monsters this should be set to:
+Flag=monster
+
+For NPCs it should be set to
+Flag=npc
+
+
+And there you have it!  If you're still a little confused or unsure about the differences between players and npcs/bosses/monsters, feel free to open any of the pre-existing files in notepad and take a look.

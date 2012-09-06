@@ -1,0 +1,24 @@
+[botinfo]
+bot.owner=rei_hunter.CraN.Icarus_Wings
+questchan=#wolfbane
+botname=Wolfbane
+botpass=dekaron
+
+[System]
+basexp=3000
+basebossxp=20000
+startingorbs=3000
+currency=Red Orbs
+TimeBetweenBattles=3
+
+[StatPrices]
+hp=150
+tp=150
+str=250
+def=250
+int=250
+spd=175
+
+[Style]
+BossDeath=80
+MonDeath=60

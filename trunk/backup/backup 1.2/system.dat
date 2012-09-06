@@ -1,0 +1,24 @@
+[botinfo]
+bot.owner=DeathPlague.rei_hunter.CraN.Daktyl198.lurkur.Schoktra
+questchan=#wolfbane
+botname=WolfBane
+botpass=dekaron
+
+[System]
+basexp=3000
+basebossxp=20000
+startingorbs=3000
+currency=Red Orbs
+TimeBetweenBattles=0.5
+
+[StatPrices]
+hp=150
+tp=150
+str=250
+def=250
+int=250
+spd=175
+
+[Style]
+BossDeath=80
+MonDeath=60

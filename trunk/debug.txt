@@ -1,0 +1,210 @@
+ai_tech is null.. getting a new target.
+ai target: rei_hunter
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: lurkur
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: Final_Guard
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: Final_Guard
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: Final_Guard
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: Final_Guard
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: Final_Guard
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: Final_Guard
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: Final_Guard
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: Final_Guard
+ai tech:
+ai_tech is null.. getting a new target.
+ai target:
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: CraN
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: CraN
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: CraN
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: CraN
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: CraN
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: CraN
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: CraN
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: CraN
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: CraN
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: CraN
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: CraN
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: CraN
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: CraN
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: CraN
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: CraN
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: Final_Guard
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: Final_Guard
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: orb_fountain
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: orb_fountain
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: Final_Guard
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: Final_Guard
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: Final_Guard
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: Final_Guard
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: Final_Guard
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: Final_Guard
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: Final_Guard
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: Final_Guard
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: Final_Guard
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: Alucard
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: Final_Guard
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: Final_Guard
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: Ashi
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: rei_hunter
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: rei_hunter
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: rei_hunter
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: rei_hunter
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: rei_hunter
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: rei_hunter
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: Undead_RedMage
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: mirage69_clone
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: rei_hunter
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: mirage69
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: rei_hunter
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: rei_hunter
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: rei_hunter
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: mirage69
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: rei_hunter
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: Omega_Weapon
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: mirage69
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: mirage69
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: rei_hunter
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: rei_hunter
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: rei_hunter
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: rei_hunter
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: rei_hunter
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: Schoktra
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: Zark
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: Zark
+ai tech:
+ai_tech is null.. getting a new target.
+ai target: Zark
+ai tech:

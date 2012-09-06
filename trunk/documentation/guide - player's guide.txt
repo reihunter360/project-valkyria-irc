@@ -1,0 +1,714 @@
+BATTLE ARENA PLAYER GUIDE
+Hello and welcome!  If you're reading this then you're probably interested in the Battle Arena bot. You may have noticed that there is a !help command built into the bot, but I'm writing this thread so that everyone will have an idea of what to do and how to do the various commands that are within the bot explained in better detail.
+
+OVERVIEW (i.e. WHAT IS THIS?)
+The bot is an mIRC game in which you join and kill monsters and bosses to gain orbs and new weapons/skills/techniques.  It's similar to DMC, as that's really the inspiration I drew from when I started working on it, but it includes more than just DMC monsters/bosses/weapons/items.   The whole purpose was to make an mIRC game that is completely automated in terms of the battle system. There doesnÅft need to be a DM around to do !next and control monsters, like in my other major mIRC bot ("Kaiou").
+
+Here players join the battle when the bot announces an open battle. After a few minutes, it will generate monsters/bosses and have them join the battle and the battle will start. When itÅfs a monsterÅfs or bossÅf turn, they will automatically do their things. When itÅfs the playerÅfs turn, thereÅfs a few commands you can do (attack with a weapon, attack with a technique, do a skill, use an item). If the player idles for too long the bot will force their turn and skip over them. This is done so that someone canÅft disappear for an hour and cause the battle to drag on forever.
+
+ThereÅfs a bunch of weapons that can be bought and each weapon has a few techniques attached to them. Unlike in Kaiou, you canÅft make your own techniques but rather have to buy them using red orbs that you earn from battle. You buy weapons using black orbs when you obtain via winning boss fights and being alive at the end of one.
+
+ThatÅfs really the gist of what IÅfve been working on thus far.
+
+One more thing to mention here in the "overview" is that the bot is currently unbalanced.  New players will probably find themselves dying a lot while older players will probably dominate almost everything (to a point).   Some weapons are overpowered, others aren't strong enough.  The bot is only on version 1.2 so hopefully things will improve in those areas later on down the road.
+
+
+STARTING OUT (i.e. how do I join and what do I do first?)
+So you've decided to join the bot.  Great!  How do you go about doing that and what are you supposed to do at first?  
+
+First things first, the command to join the game is !new char
+
+When you join you will receive a private message from the bot that looks something like this:
+
+<BattleArena> You enter the arena with a total of #### red orbs to spend.
+<BattleArena> Your password has been set to xxxxx and it is recommended you change it using the command !newpass xxxx newpasswordhere in private or at least write the password down. Passwords cannot be recovered!
+
+The amount of red orbs (which is the main currency in this game) will be based on how many other players are in the game and what level they are.  You will receive an average to help newer players not be so far behind the rest of the players.
+
+The password will be randomly generated.  The bot tells you the next command you should do next:   !newpass.  It is recommended you change your password immediately so that you don't forget the randomly generated one.  No one can retrieve your password.
+
+Why do you need a password?  Before you can join in the game you need to ID into the bot.  This is to prevent someone else from playing with your character.  In private with the bot you need to type !id password and you will be logged in if your password is correct.
+
+With that you can finally start using more commands!
+
+Some basic commands you may want to check out:
+
+!hp - Tells you how much health you have left
+
+!tp - Tells you how much technique points you have.
+
+!orbs - Tells you how many black and red orbs you have.
+
+!weapons - This will return a list of all the weapons you own along with the current level of the weapon.  For example:  Fists(1) means you have level 1 fists.
+
+!techs - Will return a list of techniques you know along with the level of the technique.  Example: DoublePunch(1) means you have level 1 DoublePunch.
+
+!items - Will return a list of the items you own and how many of each item you own.  Example: potion(2) means you own 2 potions.
+
+!status - Will return the current status of your character.  (like poisoned, stunned, that sort of thing).
+
+!equip weapon - This will allow you to swap weapons on the fly at any time.  Of course you must actually own that weapon to swap to it.
+
+!desc - Will display your character description to the channel.
+
+!cdesc desc - Will let you change your character description to the channel.
+
+!skill desc - Will let you change the description of a skill that you own.  Example: !skill desc MightyStrike puts all his power into this mighty strike!
+
+!setgender male/female/neither  - If you're playing as a different gender than male, set it here.
+
+!view-info tech/item/skill/weapon name - This command will display information on techs, items, skills, and weapons.  Here's an example of the fists weapon:
+
+<BattleArena> [Name fists] [Weapon Type HandToHand] [# of Hits  2]
+<BattleArena> [Base Power 1] [Cost 0 black orb(s)] [Element of Weapon none]
+<BattleArena> [Abilities of the Weapon DoublePunch, ShoulderTackle, SpinningAttack, AsuranFists]
+<BattleArena> [Weapon Description It's your fists. They are not detachable..]
+
+!battle stats - This command will tell you how many battles have been fought, wins/losses and the current winning/losing streak.
+
+!style - This command tells you which style you have equipped, which styles you own, and how much XP you have into the current style.
+
+!style change name - This command will change your style. Note you can only change your style outside of battle.
+
+!stats - Tells you your stats.
+
+Here's a quick explanation of the stats:
+
+HP: health.  When this hits 0 you're out of the battle.
+
+TP: technique points, basically MP in other games.  To perform a technique you need TP.
+
+Strength: How strong you are. Melee attacks use this.
+
+Defense: How much damage you'll block.  Defense is used for all types of attacks.
+
+Intelligence: How much damage your techniques will do, plus how well you can block other techniques (this will be added with defense on defending).
+
+Speed: How fast you are.  This affects when you get your turn in battle.
+
+
+THE SHOP
+The next thing you should do is go familiarize yourself with the shop.  You'll be using this shop a lot as it's the way to gain new weapons, new techniques, new items, and to upgrade your stats.
+
+First things first, use this command: !shop
+
+The bot will message you with something like this:
+
+<BattleArena> ::[Welcome to the Shop]::
+<BattleArena> The shop is where you can exchange orbs for upgrades, new items and techniques. But be forewarned, every time you purchase something your "shop level" will increase and raise the price of everything except items and new weapons.
+<BattleArena> Commands: !shop list <items/techs/skills/stats/weapons/styles/orbs> and !shop buy <items/techs/skills/stats/weapons/styles/orbs> <what to buy> (Remember to remove the < > from the command when using it)
+<BattleArena> Your current shop level is ###
+
+
+The "shop level" is basically the current level of the player.  Every time you purchase something that isn't a new weapon or an item, your "shop level" will increase.  Shop level affects the price of everything except those two things that I mentioned.  In other words, you need to plan out your character carefully or you will find yourself out of red orbs or the price of something you really want being slightly more than you can afford.
+
+Next up you can try out the list command for the various things.
+
+!shop list items
+!shop list techs
+!shop list skills
+!shop list stats
+!shop list weapons
+
+!shop list styles
+
+!shop list orbs
+
+Throughout all this you'll notice something like   name(number).  The (number) is the amount of red orbs you need to purchase it.  Also take note that new weapons are listed in BLACK ORB prices.  Black Orbs are special orbs you get for surviving a successful boss battle and cannot be obtained any other way.
+
+So let's say you want to upgrade your HP (at least one or two upgrades in HP is recommended).  You can do it like this:
+
+!shop buy stats hp
+
+The bot will automatically take care of the transation and send you a message like this:
+
+<BattleArena> You spend ### red orbs for +50 to your hp!
+<BattleArena> Your Shop Level has been increased to #.#
+
+As you can see, you've gained 50 HP but your shop level has increased by .1.   The next time you go to make the same purchase you will find that it costs a little more red orbs.
+
+** Note: You cannot use the shop while in battle.  If a battle is going on and you're NOT in it, you can still use the shop as normal.
+
+Another thing to note: the !shop list techs only shows you the techniques that are available for the current weapon you have equipped.  So if you have your fists equipped you won't see the technique list for Rebellion, for example.  In order to see the other techniques and their prices you have to equip that weapon (or you can use !view-info to look at the weapon and get a list of techniques for that weapon).
+
+If you're looking at all the lists and your eyes are glazing over because you have no idea what all of it does or means, don't worry too much about it.  I'll explain all of the skills later on and you can always use !view-info to learn more information on anything you don't get. 
+
+
+BATTLE COMMANDS
+Spent your red and black orbs on things and are now itching to try out your abilities and gain more orbs?  Battle is the only way you can do it, so let's talk about that.
+
+I'm sure you've already seen this, but periodically the bot will be spitting messages out in channel that look like this:
+
+<BattleArena> * A battle will begin in 3 minutes.
+<BattleArena> A dimensional portal has been detected. The enemy force will arrive in 2 minutes. type !enter if you wish to join the battle!
+
+That means a battle is about to begin.  If you want to take part in the battle use the !enter command and you will be entered.  As long as 1 player joins the battle the battle will happen.  If no players join the bot will say this message:
+
+<BattleArena> There were no players to meet the monsters on the battlefield! The battle is over.
+
+
+When the two minutes up the bot will calculate how many players have joined and pick a random type of battle.  There's three types currently:
+
+Orb Fountain Battle (10% chance of happening)
+This battle is simply to let players gain orbs.  An Orb_Fountain monster will join.  The fountain can't fight back, so feel free to wail on it.
+
+Boss Battle (10% chance of happening)
+1 boss will be picked from a list of bosses and it will join the battle.  Players have to work together to defeat this terrible foe.  If the boss is defeated, at the end of battle everyone who's still alive will receive a black orb and the person who's the most stylish will receive an item (usually; but more on style later).
+
+Monster Battle (80% chance of happening)
+As expected, this is the most common type of battle.  The bot will generate a number of monsters (the number depends on how many players join the battle) and will add them to battle.  The object is to defeat them all.
+
+At the end of all three types of battle you will receive red orbs (lose/win/dead/alive).  The amount of red orbs will vary, but to get more you have to defeat monsters and be stylish about it.
+
+When the battle begins you will see something like this:
+
+<BattleArena> The weather changes. It is now windy
+<BattleArena> Enchanted Bones has entered the battle!
+<BattleArena> Enchanted Bones is a skeleton carrying a large scythe
+<BattleArena> -=BATTLE LIST=-
+<BattleArena> Enchanted_Bones, Iyouboushi
+
+
+The bot will randomly change the weather (which affects magic) and the monster(s) will join the battle, then the battle will commence.   The Battle List tells you the list of everyone that's in battle.  Take note of how the monsters' names are spelled and listed (i.e. if it has an underscore or not) as you'll need this to attack the monster.
+
+When it's a monsters' turn, the AI of the bot will automatically control the monster and let it attack or use a technique.
+
+[13:41] <BattleArena> Enchanted Bones leaps at Iyouboushi and slashes several times before rolling to the side before Iyouboushi can react.
+[13:41] <BattleArena> The attack did 37 damage
+
+When it's your turn you have a few options.  Here's the commands:
+
+/me attacks monster
+This command will allow you to perform a melee attack using your weapon.  Some things to note here: some weapons have elemental properties that might affect damage (some monsters are weak to certain elements) and some weapons are multi-hit and may do more than 1 hit per attack.  All single-hit weapons have a small chance of performing a double hit in battle.
+
+/me uses his/her/its technique on monster
+For example:  /me uses his DoublePunch on monster.  
+This command will perform a technique on a monster assuming you ( A ) know the technique ( B ) have enough TP to perform the technique.  As with weapons, some techniques have elemental properties that might affect damage.  There's also a lot of different kinds of technique types in this bot.  Included are status (like inflicting a target with poison), AOE (area of effect, hits all opposing targets on the battlefield), magic (affected by the weather and elemental strengths/weaknesses), and suicide (kills the user).
+
+/me goes boost
+If your weapon has a "boost" technique and you have skill in it, you can use the boot to increase your stats 1 time per battle by using the /me goes command.  For example, Zangetsu has the "bankai" technique which is a boost.  Once you learn the technique you can use  /me goes bankai  when you have Zangetsu equipped to perform the boost.  Note that boosts aren't very strong in this bot (as opposed to my previous bot where boosts were overpowered) but will become stronger once you level the ability up more, and that you can only boost 1 time per battle.  You do not need to keep the weapon on to keep the boost (so you can swap to Zangetsu, use Bankai, then swap back to any other weapon you own).
+
+!use item on target
+If you have any items and wish to use them, this is how you do it.  For example, you can use a potion to restore some of your (or an allies') HP.  To do that you would use !use potion on yournamehere/targetnamehere.   Some items cannot be used on yourself (battle items) and some items can't be normally used on monsters (healing items can only be used on monsters if the monster is a zombie).
+
+/me taunts monster
+This will cause your character to taunt the monster.  Your character will gain +1 str and a bunch of style points for taunting, while there's a few different things that can happen to the monster.  The monster may either gain str or int, or may actually lose a little str and int.
+
+Or you can use a skill.
+
+There's a bunch of different skills in this bot and they all have their own commands.  Here's a few to give you an idea: !bloodboost, !sugitekai, !mightystrike.
+
+I'll go into skills later on.
+
+Now you can go out there and battle the forces of darkness.
+
+At the end, win or lose, you will receive some red orbs for your efforts.  Here's an example of victory:
+
+[13:46] <BattleArena> The Battle is Over!
+[13:46] <BattleArena> The forces of good have won this battle!
+[13:46] <BattleArena> Players have been rewarded with 1245 red orbs for their victory!
+
+
+Here's a small note about monsters in this bot:
+The current winning/losing streak will either enhance or nerf monsters' strengths.  If players have been winning a lot of battles then monsters will progressively get stronger and stronger.  If the players have lost a lot in a row, the bot will try to decrease the strength of monsters to give players a bigger chance of winning.  Monsters will also be strengthened by how many players are in the battle (a monster fighting 5 players will be stronger than the same monster fighting 1 player).
+
+
+
+SKILLS
+** As of August 31, 2012.
+
+There are three types of skills in this bot: Passive Skills that are always on, Active Skills that have commands, and Resists that help you resist against various status types found in the bot.  Each skill has a maximum level that you can obtain in it. Some active skills can only be used once every certain number of minutes.  Of course you must first purchase the skills in the shop before you can use them.
+
+
+Passive Skills
+As mentioned, these skills are always on.
+
+Swordmaster
+This skill will increase damage done with sword and katana type weapons.  Increased levels in this skill will increase the damage.
+
+Gunslinger
+This skill will increase damage done with gun type weapons.  Increased levels in this skill will increase the damage.
+
+Wizardy
+This skill will increase damage done with stave and wand type weapons.  Increased levels in this skill will increase the damage.
+
+MartialArts
+This skill will increase damage done with hand to hand type weapons (such as Fists and the weapon Cerberus).  Increased levels in this skill will increase the damage.
+
+Polemaster
+This skill will increase damage done with spear type weapons.  Increased levels in this skill will increase the damage.
+
+ClearMind
+This skill will increase magical damage.  Increased levels of this skill will increase the damage.
+
+DesperateBlows
+This skill will enhance melee damage based on how much health you have left. At 10-25% health your attack will be 1.5x stronger, at 2-10% your attack will be 2x and at 2% or less health your attack will be 2.5x.
+
+OrbHunter
+This skill will allow you to obtain extra orbs at the end of battle.  The amount of orbs you get will be 5 * skill level.  Note that the bot won't tell you that you got extra orbs.
+
+FieldMedic
+This skill will increase the amount of health items will heal by 5*skill level.
+
+Impetus
+This skill will increase your chances of performing a critical hit by 1% each level in this skill.
+
+BloodPact
+This skill will allow you to activate summoning items and summon pets/summons to the field to fight for you.
+
+
+Active Skills
+These are the skills that have commands that you need to do during battle to activate the skill.
+
+Speed - !speed
+This skill increases the user's speed when performed.  Increased levels increases the amount of speed when used.
+
+Elemental Seal - !ElementalSeal
+This skill enhances your next magical spell. The default reuse time is 10 minutes.  Increased levels decreases the amount of time inbetween uses.
+
+Mighty Strike - !MightyStrike
+This skill enhances your next attack done with a weapon. The default reuse time is 10 minutes.  Increased levels decreases the amount of time inbetween uses.
+
+Mana Wall - !ManaWall
+This skill reduces the next magic attack used against you to 0.  The default reuse time is 10 minutes.  Increased levels decreases the amount of time inbetween uses.
+
+Royal Guard - !RoyalGuard
+This skill reduces the next physical attack used against you to 0.  The default reuse time is 10 minutes.  Increased levels decreases the amount of time inbetween uses.
+
+*****  Neither Royal Guard nor Mana Wall will block normal non-magic techniques.  So if you use either one and still take damage, the monster used a tech.
+
+Fullbring - !fullbring item on target
+This skill allows you to draw out the souls within items and turn single-target items into AOEs.  Fullbring will consume the item you use.  (For example, if you use this skill on a potion, it will heal all allies on the battlefield).  All items have a fullbring level and you will need to match the skill level of the item level in order to use the skill on that item.
+
+Sugitekai - !sugitekai
+This skill allows you to get two turns on your next turn after using this skill.  The default reuse time is 15 minutes.  Increased levels decreases the amount of time inbetween uses.
+
+Meditate - !meditate
+This skill will give you (level * 5) TP back to you instantly.  The reuse time is 5 minutes.
+
+Conserve TP - !conserveTP
+This skill will reduce the cost of your next technique to 0 TP. The default reuse time is 20 minutes.  Increased levels decreases the amount of time inbetween uses.
+
+Blood Boost - !BloodBoost
+This skill will consume 100 HP to give you a (level * 2) boost to your STR.  The reuse time is 5 minutes.
+
+Drain Samba - !DrainSamba
+This skill will consume 10 TP to activate the "drain" status on the user, allowing him/her to gain HP back with every melee attack.  The amount of turns it will last is the level of your skill.  Note that the drain effect will not work on the undead (vampires, skeletons, zombies).  There is a 3 minute reuse period inbetween command uses.
+
+Regen - !Regen
+This skill will give you the HP regeneration effect.  Every turn you will regenerate (skill level * 2) HP back.  The effect will wear off when you reach your maximum HP or if you die.  There is a 3 minute reuse period inbetween command uses.
+
+Kikouheni - !kikouheni weathertype
+This skill allows the user to change the current weather.  The default reuse time is 10 minutes.  Increased levels of this skill will reduce the amount of time inbetween uses.  Valid weather types are: calm, bright, gloomy, rainy, stormy, snowy, windy, hot, and dry
+
+ShadowCopy - !shadow copy
+This skill will create a shadow clone of yourself to fight in battle with you as an NPC.  It can only be used once per battle, even if the clone dies. The amount of HP the clone has is varient on whether or not you're using the Doppelganger style.
+
+Utsusemi - !utsusemi
+This skill will create 2 shadows that will absorb all types of attacks.  The default reuse time is 30 minutes.  Increased levels decreases the amount of time inbetween uses.
+
+Steal - !steal (target name)
+This skill will let you try to steal an item or red orbs from a target.  Each level increases the percentage of success by 1%.
+
+Analysis - !analyze (target name)
+This skill will allow you to analyze a target. Each level of the skill gives you more detail about the target.
+
+
+Resistance Skills
+Like Passive skills, these skills are always on.  All of them do the same thing except with different status effects.  Each level you purchase of a resistance skill lowers the chance that that status effect will take effect on you by 1%.  The maximum is 100, meaning you're completely immune to that status effect**.
+
+The list is:
+
+resist-paralysis
+resist-blind
+resist-poison
+resist-amnesia
+resist-curse
+resist-zombie
+resist-slow
+resist-stun
+resist-stop
+
+** There is one exception.  Resist-Curse will not protect you when a terrible curse falls upon the battlefield (a rare event).
+
+
+ITEM LIST
+** As of August 31, 2012.
+
+There's six  types of items in the bot currently.  Healing Items, Battle Items, Consumable (Skill) Items, +Stat Items, Summon Items and Shop Level Reducing Items.  Here's a list of each.
+
+Healing Items
+These are items that, obviously, will heal HP or TP on you or an ally when used.
+
+Potion - 50 Red Orbs
+The potion will heal roughly 20 HP when used.  It can be used with Fullbring and requires level 1 of that skill.
+
+VitalStar - 100 Red Orbs
+The Vital Star will heal roughly 50 HP when used.  It can be used with Fullbring and requires level 1 of that skill.
+
+Senzu - 500 Red Orbs
+The senzu will heal roughly 500 HP when used.  It can be used with Fullbring and requires level 4 of that skill.
+
+DustyWing - 100 Red Orbs
+The Dusty Wing will instantly restore 20 TP when used. It can be used with Fullbring and requires level 1 of that skill.
+
+
+Battle Items
+These items can be used on monsters to deal damage to them.
+
+Holy_Water - 100 Red Orbs
+The Holy Water will inflict roughly 45 light elemental damage to a target.  It can be used with Fullbring and requires level 2 of that skill.
+
+Stop_Watch - 150 Red Orbs
+The Stop Watch will attempt to inflict the 'stop' status effect on a target.  It can be used wtih Fullbring and requires level 3 of that skill.
+
+Red_Fang - 100 Red Orbs
+The Red Fang will inflict roughly 45 fire elemental damage to a target.  It can be used with Fullbring and requires level 2 of that skill.
+
+Thunder_Orb - 100 Red Orbs
+The Thunder Orb will inflict roughly 45 lightning elemental damage to a target.  It can be used with Fullbring and requires level 2 of that skill.
+
+Fire_Flower - 250 Red Orbs
+The Fire Flower will inflict roughly 70 fire elemental damage to a target.  It can be used with Fullbring and requires level 3 of that skill.
+
+
++Stat Items
+These items, when used, will increase your stats by a certain amount.  You cannot buy these items in the shop and must be found by defeating bosses and being the most stylish.  None of these items can be used with Fullbring.
+
+To keep a little bit of mystery with these items, I'll give a list but won't say what they do.  If you want to know, get out there and defeat the bosses and be stylish about it.
+
+List
+Pizza
+PotRoast
+Ramen
+Cavier
+BisonDollar
+DragonMeat
+SuperMushroom
+FireDragonWine
+Ambrosia
+FoieGras
+KnowledgeSource
+SoulPainting
+FishAndChips
+
+
+Consumable (Skill) Items
+These items are used in conjunction with skills and will be consumed when the skill is used.
+
+Shihei - 100 red orbs
+This item is used to create shadows using the Utsusemi skill.  One shihei will produce 2 shadows.
+
+Summon Items
+These items only work when the user has the BloodPact passive skill.  The item is consumed upon use but will summon an ally to the battlefield to help fight.
+
+DarkMagicianCard - 1000 red orbs
+This item is will summon the powerful mage Dark Magician.
+
+BusterBladerCard - 1000 red orbs
+This item will summon the warrior Buster Blader.
+
+BlueEyesCard - 1000 red orbs
+This item will summon the powerful Blue Eyes White Dragon.
+
+FishOilBroth - 500 red orbs
+This item will summon the crab Courier Carrie.
+
+ElvishMedalllian - 50,000,000,000 red orbs
+This item will summon Eldora Adlanna to fight for the heroes.
+
+
+Shop Reducing Items
+When used, these items will reduce your current shop level by an amount.  The shop level can never go below 1.0.
+
+DiscountCard - 250,000 Red Orbs
+This item will reduce your shop level by 10 points
+
+
+STYLE POINTS
+In the game Devil May Cry, the hero Dante must not only defeat the forces of evil but must do it with style.  The higher the style in the game, the more red orbs you would collect from their defeat.  I've decided to try and make my own little version of that in the bot.
+
+Every time you do an attack of some kind it will add style points.  When you get hit, you will lose style points.  Repeating the same action and action over and over will reduce the amount of style points you accumulate per attack.  That is to say, you should mix it up a little.  Don't attack with your fists every turn you get.  That's boring.  Instead, use a technique, attack, switch weapons and attack with the new weapon, taunt.  Another way to increase your style points is to kill a monster/boss.  Killing a monster will greatly increase your style points.
+
+If you're asking why you should even bother worrying about style points, it's because when a monster dies the style of the person who kills it will add a bonus to the amount of red orbs you get at the end of battle.  The higher the style, the more of a bonus you'll get at the end.  Also, in boss battles the person who ends up with the highest style points will normally receive a bonus item.
+
+Here's a list of the style rankings in order:
+
+Flat Out Boring!
+Dope!
+Cool!
+Blast!
+Alright!
+Atomic!
+Sweet!
+SShowtime!
+SSStylish!
+SSSSmoking Hot Style!
+
+PLAYER STYLES
+In Devil May Cry 3 the hero Dante had his choice of a bunch of different styles to pick. Each style would give the player a little variety in moves you could do.  For example, there was the Trickster style that let you dodge things easier and the Swordmaster style that gave you extra combat moves with the various weapons.  Well, I've decided to try and add something similar to this bot.
+
+To view your available styles use the command !style in the channel after you log in.   When you do, you will see something like this:
+
+Iyouboushi is currently using the Trickster style. [XP: 36 / 500]
+Iyouboushi knows the following styles: Trickster(1), WeaponMaster(1), Guardian(1)
+
+You can swap styles any time outside of battle by using the command !style change name where name is one of the styles that you know (in this case, Trickster, WeaponMaster or Guardian).
+
+<Iyouboushi> !style change Guardian
+<BattleArena> Iyouboushi has switched to the Guardian style!
+
+There are more styles available in the shop for you to purchase using black orbs.  Use !shop list styles to get a list of prices and !shop buy styles name to buy one.
+
+Each style has a level [the (#) next to the name] and can level up by accumulating xp.  You get xp by being in winning battles and by killing monsters/bosses.  The amount of xp you get is pretty low though and the amount of xp you need to level the style up increases the higher the style's level.
+
+So now you're wondering what the various styles are and what they do in-game.  Here's a list.
+
+TRICKSTER
+This style will enhance the amount of style points you get for taunting.  Higher levels of Trickster will increase the amount of style points you get.  It'll also give you a bonus to your speed when the bot generates the turn order.  Higher levels of the style will result in a bigger increase in speed, thus giving you a better chance of getting your turn earlier.  Finally, it will enhance the steal % by a random amount (style level doesn't matter in this case, it's the same random chance each time).
+
+WEAPONMASTER
+The Weapon Master will enhance melee attacks of all weapon types.  It does this by increasing the random damage added onto every melee attack and by enhancing the mastery skill slightly.  The amount increases each time the style levels.
+
+GUARDIAN
+This style will decrease the amount of damage you take by a percent each level (up to 60% max).
+
+SPELLMASTER
+This will enhance magic by roughly 11% per level (up to 90% max).
+
+DOPPELGANGER
+This style will enhance your shadow clone ability, giving your clone more health.  The amount of health the clone gets goes up with each level of the style, up to 100%.
+
+HITEN MITSURUGI-RYU
+This still will enhance melee and tech damage done with katana weapons and enhance speed at battle turn generation.
+
+
+MONSTER LIST
+** As of August 31, 2012.
+Here's a list of monsters that are in the bot.
+
+Air Elemental
+Bark Spider
+Bone Soldier
+Creeper
+Cursed Bishop
+Cursed Pawn
+Cursed Rook
+Cyberman
+Dalek
+Dark Knight
+Dark Octopus
+Devil Manta
+Earth Elemental
+Enchanted Bones
+Female Vampire
+Final Guard
+Forest Giant
+Goblin Smithy
+Heraldic Imp
+Ironshell
+Mad Piranha
+Male Vampire
+Mammoth
+Minotaur
+Moblin
+Nightmare Hornet
+Orb Fountain
+Orcish Grunt
+Pride Demon
+Ruby Quadav
+Sabertooth Tiger
+Snow Giant
+Stone Eater
+Succubus
+Thunder Elemental
+Undead BlackMage
+Undead Corsair
+Undead Dragoon
+Undead Knight
+Undead Monk
+Undead Ranger
+Undead RedMage
+Undead Samurai
+Wooden Puppet
+Wyvern
+Yagudo Scribe
+Yagudo Zealot
+Zarklet
+Zombie
+
+
+
+BOSS LIST
+** As of August 217 2012.
+Here's a list of bosses that are in the bot.
+
+Aris
+A minion of Ashi, Aris is a frail old man with a longe white beard and short white hair that is balding.  But don't let his frail apperance fool you, he is a master of black magic.  From #DBZRPG
+
+Ashi
+In #DBZRPG, Ashi was the strongest being in the universe who was on a mission to control the ancient power of Atlantis.  He a tall young man with long flowing silver hair. His skin is as pale as the moon, but his eyes are dark and evil.
+
+Ashmaker Gotblut
+A larger than normal green orc that uses a large pike.  From Final Fantasy XI
+
+Astarte
+A tall Egyptian woman of irresistible beauty. She wears a gold bikini, a golden Pharoah helm and a pink scarf that is attached to her wrists.  From the Castlevania series.
+
+Bloody Bones
+A larger than normal skeleton with red bones and carrying a large scythe. From Final Fantasy XI.
+
+Brauner
+A former human artist that is now a vampire. He is bald, wears a purple suit with a white design on the interior and wears a gold monocle on his right eye.  From the Castlevania series.
+
+Cell
+An ugly green and black bug-looking monster from the series Dragon Ball Z.
+
+Cerberus
+A massive three-headed dog that has an affinity for ice.  From Devil May Cry 3.
+
+Cyberlord
+A monster that looks similiar to the other Cybermen, however it has a black faceplate with black handlebars on the head with a transparent window to show its brain. It controls the lesser Cybermen.
+
+Dalek Emperor
+It's simliar to the Daleks except has a different suit of armor. The bottom is replaced with a capsule that shows a Dalek's true form and has three giant legs for movement. The suit is far larger and taller than the normal Dalek suit.
+
+Daos
+A tall man dressed in regal attire that is red in color and wears a gold crown. He is the Sinistral of Terror and the leader of the other three Sinistrals.  From the Estpolis Denki/Lufia game series.
+
+Death
+The right-hand of Dracula.  He wears a thick black cloak and carries a large scythe.  He's from Castlevania
+
+Dracula
+The master of Castlevania himself, Dracula is a powerful vampire with very powerful attacks.  From Castlevania (obviously)
+
+Dune Widow
+A gigantic pale white spider with a huge round abdomin.  From Final Fantasy XI.
+
+Eldora Adlanna
+A clone of a mighty Elven goddess, mimicing her full power. She wears the usual Swordmaster armor has a sword on the left side of her waist.
+
+Fafnir
+A large brownish grey dragon that gives off an angry roar!
+
+Metal Gear Rex
+A very large machine piloted by Liquid Snake. Notabale features are the large "shield" on its left side and a giant railgun on its right side.
+
+Giygas
+The final boss of Earthbound and is said to be the ultimate evil.
+
+Jester
+An insane demon that wears a black and purple oufit, along with a red and blue jester cap. He also has a pure white face, a giant nose, plus red and blue eyes.  From Devil May Cry 3.
+
+M Bison
+A tall man wearing all red with a blue cape and a large military beret.  He is the leader of the crime syndicate Shadaloo.  From the Street Fighter series
+
+Menos Grande
+A huge hollow standing 2-6 stories tall.  It is all black except for its face, which is pure white and has a long pointed nose.  This is a Gillian-class Menos, also known as the Menos Grante.  From the Bleach series.
+
+Puppet Master
+A giant wooden head with four spider-like arms. From the Castlevania series.
+
+Sea Horror
+A gigantic sea kraken that is orange and black in color known around the world as the Horror of the Sea.
+
+Shadow Lord
+The warlord that organized the Beastman Confederate into launching an all-out war against the Allied Forces of Altana; he stands an impressive 9 feet tall and carries a broadsword as big as his body.  He wears black armor that is glowing with purple vein-like lines.  From Final Fantasy XI.
+
+Stinging Sophie
+A large angry black and yellow bee.  From Final Fantasy XI.
+
+Tiamat
+A large and powerful brown dragon.  From Final Fantasy XI.
+
+Vergil
+Dante's twin brother.  He wears a long blue trenchcoat and carries the Yamato, his favorite weapon.  From the Devil May Cry series.
+
+ZaDha Adamantking
+A very large Quadav that towers over at nine feet tall, has white armor and a large staff with four large spikes on it. The Quadav God, Za'Dha Adamantking.  From Final Fantasy XI.
+
+Zark
+A grotesque orange alien with two very long tentacles.  He is carrying a weird looking gun.  From #DBZRPG.
+
+
+
+NPC ALLY LIST
+NPCs are helpful allies that show up occasionally to help the forces of good win battles.  At the moment there's a 10% chance of them showing up normally.  If the players have been losing a lot (5+ in a row) they will show up 100% of the time.  NPCs will stay in battle until they die or until all players die.  In other words, NPCs won't keep fighting the good fight after all players are dead; at least one player must stay alive for the battle to continue.
+
+This is a current list of NPCs as of August 27, 2012:
+
+Alucard
+From Castlevania, the son of Dracula.  He is a powerful vampire fighting on the side of humans.
+
+Arucard (Alucard)
+From the Hellsing anime, Alucard is a tall man with short black hair dressed in a dark grey suit with a red overcoat, white gloves, a large red fedora and circular sunglasses with an orange tint. Formally known as Dracula, he is perhaps the strongest vampire in existance.
+
+Ash Williams
+A man who works in the Housewares section of S-Mart. He wears a blue shirt, dark brown khaki pants, and brown leather boots. He wields a boomstick in his left hand and has a chainsaw attached to his right hand.  He's from the Evil Dead series of movies.
+
+Dante
+From Devil May Cry, this is the main hero of the series.  He's a master of the Rebellion sword and a trickster.
+
+Dart
+A young man who wears red armor and a red bandana. He wields the spirit of the Red-Eyed Dragon. From The Legend of the Dragoon.
+
+Don Kanonji
+From Bleach, he's a silly medium who can see spirits.  He's not very strong though.
+
+Dovahkiin
+A rare individual born with the blood and soul of a dragon but has the body of a mortal. A natural master of the Thu'um, otherwise known as Dragon Shouts.  From Skyrim.
+
+Ichigo
+Also from Bleach.  He's the main hero and has full mastery over the Zangetsu weapon.
+
+Indiana Jones
+The main hero of the Indiana Jones movies. He's a master of using a whip.
+
+Iori Yagami
+A tall man with red hair that wears a black shirt and red pants. He's from the King of Fighters series.
+
+Maat
+An older looking man who is a master of the martial arts.  He's the second strongest NPCs in the game.  He's from Final Fantasy XI.
+
+Mario
+A plumber with a large bushy mustache wearing a blue long-sleeved shirt with red overalls over it and a red hat with an "M" on it.  From the Super Mario Brothers game series.
+
+Mr. Satan
+Is a man with a large afro, large sideburns, a horseshoe mustache and giant muscles. He wears a dark brown dogi shirt, with a white belt wrapped around, white pants and black boots. The Earth's so-called "Greatest Champion!"  From Dragonball Z.
+
+Nauthima Tiranadel
+No longer a boss, Nauthima now fights for the forces of good.  She's the strongest NPC in the game and a master of powerful magic.  If she shows up you're almost guaranteed an easy win.
+
+Robocop
+A cyborg cop in silver and black armor. He carries his large Auto9 gun in hand. From the Robocop movies.
+
+The Rock
+A tall man with a dark tan and a tattoo of a bull on his right arm and a Samoan design on his left shoulder.  From the WWE.
+
+Rose
+She is a mysterious woman that wears dark purple armor that has a gold trim. The wielder of the Darkness Dragon spirit.  She's from The Legend of Dragoon.
+
+Shanoa
+A young woman who is a member of Ecclesia and a powerful user of magical glyphs. She's from the Castlevania series
+
+Simon Belmont
+From the Castlevania series, he's a master of the Vampire Killer whip and is the bane of anything that is weak to holy weapons.  He'll be a powerful companion.
+
+Terry Bogard
+A muscular man wearing a white shirt, blue jeans, a red vest with torn sleeves and his trademark baseball cap.  From the King of Fighters series.
+
+Urahara Kisuke
+A tall man with light blonde hair. He wears a dark green shirt and pants, along with a black coat, wooden clogs on his feet and a bucket hat with green and white stripes.  From the Bleach series.
+
+Yoruichi Shihouin
+A woman with dark skin, long purple hair and golden eyes, dressed in a black sleevless shirt, black pants, white shoes and an orange coat. The former 2nd Division Captain of the Gotei 13.  From the Bleach series.
+
+
+MISC INFO
+This section will talk about any misc stuff that I think players may want to know about.
+
+First off, I'd just like to say.. don't sweat it if you die a lot at the beginning.  At this moment the bot is a bit unbalanced and monsters can be pretty rough towards new characters.  Plus there's a bunch of different types of monsters and some are harder than others (Final Guard, for example, has an extremely high defense and almost everyone will do 1 damage per hit to it).  There's no penalty for dying, so just roll with the punches (as they say).
+
+Second, if battles drag on too long a "rage" system will kick in.  This is a concept that the MMORPG Final Fantasy XI employed on some of its higher level monsters/bosses to ensure that people don't sit and hold monsters for days at a time.  Basically what happens is when a time limit has been hit, the monster will grow to insane power to the point where no players will be able to defeat them.  Because I want battles to be ongoing and often, I've done something similar.  How long do players have to defeat the monsters?  Well, if it's a normal monster battle and the number of monsters is less than 3, players have 15 minutes.  If there's more than 3 monsters, players have 30 minutes.   If it's a boss battle players will get 20 minutes.
+
+After the time elapses, the monsters' stats will be multiplied by 100 making them virtually impossible to kill (and will often one-shot everyone if it uses an AOE).

@@ -1,0 +1,278 @@
+[Items]
+HealingItems=Potion.VitalStar.Senzu.DustyWing
+BattleItems=Holy_Water.Stop_Watch.Red_Fang.Thunder_Orb.Fire_Flower
+FoodItems=Pizza.PotRoast.Ramen.Cavier.BisonDollar.DragonMeat.SuperMushroom.FireDragonWine.Ambrosia.FoieGras.KnowledgeSource.SoulPainting.FishAndChips.Slurm
+ConsumeItems=Shihei
+SummonItems=DarkMagicianCard.BusterBladerCard.BlueEyesCard.FishOilBroth.ElvishMedallian
+ShopReset=DiscountCard
+
+
+
+=========================
+HEALING ITEMS
+=========================
+[Potion]
+Type=heal
+Target=Single
+Amount=20
+Desc=pulls out a potion bottle and hands it to %enemy $+ , who drinks it down.  Ahh! Refreshing!
+Cost=50
+FullbringLevel=1
+FullbringTarget=AOE
+FullbringAmount=15
+Fullbringdesc=draws out the soul from the potion.  The potion's soul is drawn towards everyone and gives off a small light that heals everyone.
+
+[VitalStar]
+Type=heal
+Target=Single
+Amount=50
+Desc=pulls out a strange green star and tosses it at %enemy $+ .  The star is absorbed and a sense of healing overcomes $gender3($2) $+ .
+Cost=100
+FullbringLevel=1
+FullbringTarget=AOE
+FullbringAmount=30
+Fullbringdesc=draws out the soul from the vital star.  The vital star's soul is drawn to all allies on the battlefield, healing them all.
+
+[Senzu]
+Type=heal
+Target=Single
+Amount=500
+Desc=pulls out a small green bean and tosses it at %enemy $+ .  After eating it, $gender3($2) feels a surge of health return.
+Cost=500
+FullbringLevel=4
+FullbringTarget=AOE
+FullbringAmount=120
+Fullbringdesc=draws out the soul from the senzu bean.  The battlefield is covered with a soothing light, healing all allies.
+
+[DustyWing]
+Type=tp
+Target=Single
+Amount=20
+Desc=pulls out a white feather and hands it to %enemy $+ .  The feather is absorbed into %enemy $+ 's body.  %enemy feels $gender2($4) TP being restored.
+Cost=100
+FullbringLevel=1
+FullbringTarget=AOE
+FullbringAmount=10
+Fullbringdesc=draws out the soul from the Dusty Wing.  A large white wing shoots up into the sky and explodes into golden light that covers all allies on the battlefield.  Everyone feels their TP being restored.
+
+
+
+=========================
+BATTLE ITEMS
+=========================
+[Holy_Water]
+Type=Damage
+Target=Single
+Amount=45
+Desc=takes out a vial of Holy Water and tosses it on %enemy
+Cost=100
+Element=light
+FullbringLevel=2
+FullbringTarget=AOE
+FullbringAmount=30
+Fullbringdesc=draws out the soul from the holy water.  The sky turns black and a rain made of holy water falls down upon all targets.  This is.. HYDRO STORM!
+
+[Red_Fang]
+Type=Damage
+Target=Single
+Amount=45
+Desc=takes out a small glowing red fang and slashes %enemy with it.  The fang snaps and explodes with fire energy.
+Cost=100
+Element=fire
+FullbringLevel=2
+FullbringTarget=AOE
+FullbringAmount=30
+Fullbringdesc=draws out the soul from the red fang.  The soul glows a bright red and then explodes into a firestorm over all enemies on the battlefield.
+
+[Thunder_Orb]
+Type=Damage
+Target=Single
+Amount=45
+Desc=takes out a small glowing purple orb and throws it at %enemy $+ 's feet.  The orb shatters and lightning shoots out of it and slams into %enemy $+ !
+Cost=100
+Element=lightning
+FullbringLevel=2
+FullbringTarget=AOE
+FullbringAmount=30
+Fullbringdesc=draws out the soul from the thunder orb.  The sky goes black and a lightning storm erupts on the battlefield, shocking all enemies!
+
+[Stop_Watch]
+Type=Status
+Target=Single
+StatusType=stop
+Amount=2
+Cost=150
+Desc=takes out a small stop watch and activates it before handing it to %enemy $+ .  The stop watch glows blue and %enemy begins to feel time slow down.
+FullbringLevel=3
+FullbringTarget=AOE
+Fullbringdesc=draws out the soul from the stop watch.  A giant stop watch appears on the battlefield and slowly stops.  All the enemies on the battlefield begin to feel as though time has stopped for them.
+FullbringAmount=1
+
+[Fire_Flower]
+Type=Damage
+Target=Single
+Amount=100
+Cost=150
+Desc=takes out a small fire flower from the Mushroom Kingdom.  It gets absorbed by %user which allows %user to shoot fireballs at %enemy for a moment before the power wears off. Cost=300
+Element=fire
+FullbringLevel=3
+FullbringTarget=AOE
+FullbringAmount=50
+Fullbringdesc=draws out the soul from the fire flower.  The soul glows a bright red and then explodes several large fireballs that hit all targets on the battlefield.
+
+
+=========================
+FOOD ITEMS (+stats)
+=========================
+[PotRoast]
+Type=food
+Target=str
+Amount=1
+Desc=pulls out a large pot roast and hands it to %enemy $+ , who munches down.  Mmmm, yummy!
+Cost=5000000
+
+[Ramen]
+Type=food
+Target=def
+Amount=1
+Desc=pulls out a bowl of ramen and hands it to %enemy $+ , who munches down. Slurrrp!
+Cost=5000000
+
+[Cavier]
+Type=food
+Target=int
+Amount=1
+Desc=pulls out a small amount of cavier and hands it to %enemy $+ , who eats it slowly.  I say!
+Cost=5000000
+
+[Pizza]
+Type=food
+Target=hp
+Amount=10
+Desc=pulls out a slice of pizza and hands it to %enemy $+ , who munches it down.  Mmm, tasty!
+Cost=5000000
+
+[BisonDollar]
+Type=food
+Target=tp
+Amount=5
+Desc=pulls out a Bison Dollar and hands it to %enemy who exchanges it for a small TP enhancement.
+Cost=5000000
+
+[DragonMeat]
+Type=food
+Target=str
+Amount=1
+Desc=pulls out a piece of dragon meat and hands it to %enemy $+ , who cooks it and then munches down.  Mmmm, yummy!
+Cost=5000000
+
+[SuperMushroom]
+Type=food
+Target=hp
+Amount=10
+Desc=pulls out a Super Mushroom from the Mushroom Kingdom and hands it to %enemy $+ , who munches it down.  %enemy does not grow bigger, but instead gains more endurance.
+Cost=5000000
+
+[FireDragonWine]
+Type=food
+Target=def
+Amount=1
+Desc=pulls out a bottle of alcohol labeled "Fire Dragon Wine" and drinks the entire bottle. After a moment of intense pain and nausea, %enemy feels that $gender($1) defense has increased!
+Cost=5000000
+
+[Ambrosia]
+Type=food
+Target=style
+Amount=25
+Desc=takes out a potion bottle with a golden liquid inside and drinks it. After a moment of warmth feeling, %enemy feels more stylish!
+Cost=10000000
+
+[FoieGras]
+Type=Food
+Target=spd
+Amount=1
+Desc=pulls out a a plate of foie gras and hands it to %enemy $+ , who then eats it. Uh... let's say it's an aquired taste...
+Cost=5000000
+
+[KnowledgeSource]
+Type=Food
+Target=int
+Amount=1
+Desc=pulls out a source of knowledge and hands it to %enemy $+ , who then reads it and feels a little smarter!
+Cost=5000000
+
+[SoulPainting]
+Type=food
+Target=int
+Amount=1
+Desc=pulls out a painting drawn by Brauner and hands it to %enemy $+ , who studies it. Indeed. Quite.
+Cost=5000000
+
+[FishAndChips]
+Type=food
+Target=int
+Amount=1
+Desc=pulls out a basket of fish and chips and hands it to %enemy $+ , who eats it slowly.  Quite! Indeed!
+Cost=5000000
+
+[Slurm]
+Type=food
+Target=style
+Amount=10
+Desc=takes out a small can of Slurm and opens it before handing it to %enemy who drinks it. After a moment, $set_chr_name($2) %real.name feels like going out and partying like Slurms McKenzie! Whimmy wham wham wozzle!
+Cost=10000000
+
+
+=========================
+CONSUMABLE ITEMS (for skills)
+=========================
+[Shihei]
+Type=consume
+Cost=100
+Skill=Utsusemi
+
+
+=========================
+SUMMON ITEMS (npc allies)
+=========================
+[DarkMagicianCard]
+Type=summon
+Cost=1000
+Summon=Dark_Magician
+SummonName=Dark Magician
+
+[BusterBladerCard]
+Type=summon
+Cost=1000
+Summon=Buster_Blader
+SummonName=Buster Blader
+
+[BlueEyesCard]
+Type=summon
+Cost=1000
+Summon=Blue_eyes
+SummonName=Blue Eyes White Dragon
+
+[FishOilBroth]
+Type=summon
+Cost=500
+Summon=Courier_Carrie
+SummonName=Courier Carrie
+
+[ElvishMedallian]
+Type=summon
+Cost=50000000000
+Summon=Eldora_Adlanna
+SummonName=Eldora Adlanna
+
+
+=========================
+SHOP RESET ITEMS
+=========================
+
+[DiscountCard]
+Type=shopreset
+Target=Single
+Amount=10.0
+Desc=pulls out a Discount Card and gives it to %enemy who shows it to the shop clerk.  "Ah yes, indeed, part of of our..secret club."  Score!
+Cost=200000
