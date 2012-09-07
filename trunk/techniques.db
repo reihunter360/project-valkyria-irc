@@ -2273,7 +2273,7 @@ Magic=no
 
 [AbsoluteTerror]
 Type=Status
-statusType=stun
+statusType=intimidate
 TP=10
 Desc=gives off a gigantic roar that strikes fear into %enemy $+ 's heart.
 BasePower=10

@@ -127,7 +127,7 @@ alias item.status {
   var %status.type $readini(items.db, $3, StatusType) 
 
   if (%status.type = random) { 
-    var %random.status.type $rand(1,8)
+    var %random.status.type $rand(1,11)
     if (%random.status.type = 1) { set %status.type poison | var %tech.status.grammar poisoned }
     if (%random.status.type = 2) { set %status.type stop | var %tech.status.grammar weighed down }
     if (%random.status.type = 3) { set %status.type silence | var %tech.status.grammar silenced }
@@ -138,6 +138,7 @@ alias item.status {
     if (%random.status.type = 8) { set %status.type zombie | var %tech.status.grammar a zombie }
     if (%random.status.type = 9) { set %status.type slow | var %tech.status.grammar slowed }
     if (%random.status.type = 10) { set %status.type stun | var %tech.status.grammar stunned }
+    if (%random.status.type = 11) { set %status.type intimidate | var %tech.status.grammar intimidated }
   }
 
   if (%status.type = stop) { var %tech.status.grammar frozen in time }
@@ -151,6 +152,7 @@ alias item.status {
   if (%status.type = slow) { var %tech.status.grammar slowed }
   if (%status.type = stun) { var %tech.status.grammar stunned }
   if (%status.type = curse) { var %tech.status.grammar cursed }
+  if (%status.type = intimidate) { var %tech.status.grammar intimidated }
 
   if ($readini($char($2), skills, utsusemi.on) = on) { set%chance 0 } 
 

@@ -501,7 +501,7 @@ alias tech.status {
   var %tech.status.type $readini(techniques.db, $2, StatusType) 
 
   if (%tech.status.type = random) { 
-    var %random.status.type $rand(1,8)
+    var %random.status.type $rand(1,11)
     if (%random.status.type = 1) { set %tech.status.type poison | var %tech.status.grammar poisoned }
     if (%random.status.type = 2) { set %tech.status.type stop | var %tech.status.grammar frozen in time }
     if (%random.status.type = 3) { set %tech.status.type silence | var %tech.status.grammar silenced }
@@ -512,6 +512,7 @@ alias tech.status {
     if (%random.status.type = 8) { set %tech.status.type zombie | var %tech.status.grammar a zombie }
     if (%random.status.type = 9) { set %tech.status.type slow | var %tech.status.grammar slowed }
     if (%random.status.type = 10) { set %tech.status.type stun | var %tech.status.grammar stunned }
+    if (%random.status.type = 11) { set %tech.status.type intimidate | var %tech.status.grammar intimidated }
   }
 
   if (%tech.status.type = stop) { var %tech.status.grammar frozen in time }
@@ -526,6 +527,7 @@ alias tech.status {
   if (%tech.status.type = stun) { var %tech.status.grammar stunned }
   if (%tech.status.type = curse) { var %tech.status.grammar cursed }
   if (%tech.status.type = charm) { var %tech.status.grammar charmed }
+  if (%tech.status.type = intimidate) { var %tech.status.grammar intimidated }
 
   var %chance $rand(1,100) | $set_chr_name($1) 
   if ($readini($char($3), skills, utsusemi.on) = on) { set %chance 0 } 
@@ -667,6 +669,21 @@ alias display_aoedamage {
       if (%battle.type = boss) { $add.stylepoints($1, $2, boss_death, $3) | $add.style.orbbonus($1, boss) }
     }
   }
+
+
+  if ($readini($char($2), battle, HP) > 0) {
+    ; Check to see if the monster can be staggered..  
+    var %stagger.check $readini($char($2), info, CanStagger)
+    if ((%stagger.check = $null) || (%stagger.check = no)) { return }
+
+    ; Do the stagger if the damage is above the threshold.
+    var %stagger.amount.needed $readini($char($2), info, StaggerAmount)
+    dec %stagger.amount.needed %attack.damage | writeini $char($2) info staggeramount %stagger.amount.needed
+    if (%stagger.amount.needed <= 0) { writeini $char($2) status staggered yes |  writeini $char($2) info CanStagger no
+      query %battlechan $readini(translation.dat, status, StaggerHappens)
+    }
+  }
+
   return 
 }
 

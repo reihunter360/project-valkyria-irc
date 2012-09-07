@@ -22,11 +22,11 @@ ON 50:TEXT:*attacks *:*:{
 alias attack_cmd { $check_for_battle($1) | $person_in_battle($2) | $checkchar($2) | var %user.flag $readini($char($1), info, flag) | var %target.flag $readini($char($2), info, flag)
   if ($is_charmed($1) = true) { var %user.flag monster }
 
-  if (($2 = $1) && ($is_charmed($1) = false))  { query %battlechan 4 $+ %real.name cannot attack $gender2($1) $+ self! | unset %real.name | halt  }
-  if ((%user.flag != monster) && (%target.flag != monster)) { query %battlechan 4 $+ %real.name can only attack monsters! | halt }
-  if ($readini($char($1), Battle, Status) = dead) { $set_chr_name($1) | query %battlechan 4 $+ %real.name cannot attack while unconcious! | unset %real.name | halt }
-  if ($readini($char($2), Battle, Status) = dead) { $set_chr_name($1) | query %battlechan 4 $+ %real.name cannot attack someone who is dead! | unset %real.name | halt }
-  if ($readini($char($2), Battle, Status) = RunAway) { query %battlechan 4 $+ %real.name cannot attack $set_chr_name($2) %real.name $+ , because %real.name has run away from the fight! | unset %real.name | halt } 
+  if (($2 = $1) && ($is_charmed($1) = false))  { query %battlechan $readini(translation.dat, errors, Can'tAttackYourself) | unset %real.name | halt  }
+  if ((%user.flag != monster) && (%target.flag != monster)) { query %battlechan $readini(translation.dat, errors, CanOnlyAttackMonsters) | halt }
+  if ($readini($char($1), Battle, Status) = dead) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, CanNotAttackWhileUnconcious)  | unset %real.name | halt }
+  if ($readini($char($2), Battle, Status) = dead) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, CanNotAttackSomeoneWhoIsDead) | unset %real.name | halt }
+  if ($readini($char($2), Battle, Status) = RunAway) { query %battlechan $readini(translation.dat, errors, CanNotAttackSomeoneWhoFled) | unset %real.name | halt } 
 
   ; Make sure the old attack damages have been cleared, and clear a few variables.
   unset %attack.damage | unset %attack.damage1 | unset %attack.damage2 | unset %attack.damage3 | unset %attack.damage4
@@ -151,14 +151,14 @@ alias calculate_damage_weapon {
 
   if ($readini($char($3), skills, utsusemi.on) = off) {
     ; does the target have RoyalGuard on?  If so, reduce the damage to 0.
-    if ($readini($char($3), skills, royalguard.on) = on) { writeini $char($3) skills royalguard.on off | set %attack.damage 0 | $set_chr_name($3) | query %battlechan 7 $+ %real.name $+ 's Royal Guard has absorbed the attack! | return }
+    if ($readini($char($3), skills, royalguard.on) = on) { writeini $char($3) skills royalguard.on off | set %attack.damage 0 | $set_chr_name($3) | query %battlechan $readini(translation.dat, skill, RoyalGuardBlocked) | return }
   }
   if ($readini($char($3), skills, utsusemi.on) = on) {
     var %number.of.shadows $readini($char($3), skills, utsusemi.shadows)
     dec %number.of.shadows 1 
     writeini $char($3) skills utsusemi.shadows %number.of.shadows
     if (%number.of.shadows <= 0) { writeini $char($3) skills utsusemi.on off }
-    $set_chr_name($3) | query %battlechan 7One of %real.name $+ 's shadows absorbs the attack and disappears! | set %attack.damage 0 | return 
+    $set_chr_name($3) | query %battlechan $readini(translation.dat, skill, UtsusemiBlocked) | set %attack.damage 0 | return 
   }
 
   ; Now we're ready to calculate the enemy's defense..  
@@ -191,7 +191,7 @@ alias calculate_damage_weapon {
   if ($readini(weapons.db, $2, type) = HandToHand) { inc %critical.hit.chance 1 }
 
   if (%critical.hit.chance >= 97) {
-    $set_chr_name($1) |  query %battlechan 4 $+ %real.name lands a critical hit! 
+    $set_chr_name($1) |  query %battlechan $readini(translation.dat, battle, LandsACriticalHit)
     set %attack.damage $round($calc(%attack.damage * 1.5),0)
   }
 
@@ -262,7 +262,7 @@ alias double.attack.check {
 
     var %attack.damage3 $calc(%attack.damage1 + %attack.damage2)
     if (%attack.damage3 > 0) {   
-    set %attack.damage %attack.damage3 | $set_chr_name($1) | query %battlechan 4 $+ %real.name performs a double attack against $set_chr_name($2) %real.name $+ ! } 
+    set %attack.damage %attack.damage3 | $set_chr_name($1) | query %battlechan $readini(translation.dat, battle, PerformsADoubleAttack) } 
     unset %double.attack.chance
   }
   else { unset %double.attack.chance | return }
@@ -281,7 +281,7 @@ alias triple.attack.check {
   if (%attack.damage3 <= 0) { set %attack.damage3 1 }
   var %attack.damage.total $calc(%attack.damage3 + %attack.damage.total)
 
-  set %attack.damage %attack.damage.total | $set_chr_name($1) | query %battlechan 4 $+ %real.name performs a triple attack against $set_chr_name($2) %real.name $+ ! 
+  set %attack.damage %attack.damage.total | $set_chr_name($1) | query %battlechan $readini(translation.dat, battle, PerformsATripleAttack)
 }
 
 alias fourhit.attack.check {
@@ -301,7 +301,7 @@ alias fourhit.attack.check {
   if (%attack.damage4 <= 0) { set %attack.damage4 1 }
   var %attack.damage.total $calc(%attack.damage4 + %attack.damage.total)
 
-  set %attack.damage %attack.damage.total | $set_chr_name($1) | query %battlechan 4 $+ %real.name performs a four hit attack against $set_chr_name($2) %real.name $+ ! 
+  set %attack.damage %attack.damage.total | $set_chr_name($1) | query %battlechan $readini(translation.dat, system, PerformsA4HitAttack)
 }
 
 alias fivehit.attack.check {
@@ -325,7 +325,7 @@ alias fivehit.attack.check {
   if (%attack.damage5 <= 0) { set %attack.damage5 1 }
   var %attack.damage.total $calc(%attack.damage5 + %attack.damage.total)
 
-  set %attack.damage %attack.damage.total | $set_chr_name($1) | query %battlechan 4 $+ %real.name performs a five hit attack against $set_chr_name($2) %real.name $+ ! 
+  set %attack.damage %attack.damage.total | $set_chr_name($1) | query %battlechan $readini(translation.dat, system,PerformsA5HitAttack)
 }
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -340,9 +340,8 @@ alias drain_samba_check {
     if (%drainsamba.turns = $null) { set %drainsamba.turns 0 }
     set %drainsamba.turn.max $readini($char($1), skills, drainsamba)
     inc %drainsamba.turns 1 
-    if (%drainsamba.turns > %drainsamba.turn.max) { $set_chr_name($1) | query %battlechan 12 $+ %real.name $+ 's drain samba has worn off. | writeini $char($1) skills drainsamba.turn 0 | writeini $char($1) skills drainsamba.on off | return }
+    if (%drainsamba.turns > %drainsamba.turn.max) { $set_chr_name($1) | query %battlechan $readini(translation.dat, skill, DrainSambaWornOff) | writeini $char($1) skills drainsamba.turn 0 | writeini $char($1) skills drainsamba.on off | return }
     writeini $char($1) skills drainsamba.turn %drainsamba.turns   
     set %drainsamba.on on
   }
-
 }

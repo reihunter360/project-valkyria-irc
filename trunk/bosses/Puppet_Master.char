@@ -3,7 +3,7 @@ Hp=110
 Tp=60
 Str=12
 Def=25
-Int=25
+Int=24
 Spd=30
 Name=Puppet Master
 
@@ -13,7 +13,7 @@ Hp=110
 Tp=60
 Str=12
 Def=25
-Int=25
+Int=24
 Spd=30
 Status=alive
 

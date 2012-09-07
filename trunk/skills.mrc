@@ -8,7 +8,7 @@
 on 2:TEXT:!speed*:*: { 
   if ($is_charmed($nick) = true) { query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
   if ((no-skill isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan 4 $+ %real.name is not allowed to do that action due to the current battle conditions! | halt }
-  $amnesia.check($1, skill) 
+  $amnesia.check($nick, skill) 
   $checkchar($nick)
   if ($skillhave.check($nick, speed) = false) { $set_chr_name($nick) | query %battlechan $readini(translation.dat, errors, DoNotHaveSkill) | halt }
   if (%battleis = off) { query %battlechan 4There is no battle currently! | halt }
@@ -419,6 +419,7 @@ alias fullbring.aoestatus {
   if (%fullbring.status = slow) { var %tech.status.grammar slowed }
   if (%fullbring.status = stun) { var %tech.status.grammar stunned }
   if (%fullbring.status = curse) { var %tech.status.grammar cursed }
+  if (%fullbring.status = intimidate) { var %tech.status.grammar intimidated }
 
   var %battletxt.lines $lines(battle.txt) | var %battletxt.current.line 1 
   while (%battletxt.current.line <= %battletxt.lines) { 
@@ -1041,11 +1042,11 @@ alias skill.steal {
 
       inc %stolen.from.counter 1 | writeini $char($2) status stolencounter %stolen.from.counter 
 
-      if ($readini($char($2), Info, flag) = monster) { var %steal.pool orbs.vitalstar.orbs.potion.Holy_Water.Pizza.PotRoast.Ramen.Cavier.BisonDollar.DragonMeat.SuperMushroom.FireDragonWine.Ambrosia.FoieGras.KnowledgeSource.SoulPainting.FishAndChips.Slurm | var %steal.orb.amount $rand(2000,5000) }
-      if ($readini($char($2), Info, Flag) = boss) { var %steal.pool orbs.senzu.Red_Fang.Thunder_Orb.DarkMagicianCard.BusterBladerCard.BlueEyesCard.FishOilBroth.Pizza.PotRoast.Ramen.Cavier.BisonDollar.DragonMeat.SuperMushroom.FireDragonWine.Ambrosia.FoieGras.KnowledgeSource.SoulPainting.FishAndChips.Slurm | var %steal.orb.amount $rand(5000,20000) }
-      if ($2 = orb_fountain) { var %steal.pool orbs.orbs.orbs.orbs | var %steal.orb.amount $rand(9000,18000) }
+      if ($readini($char($2), Info, flag) = monster) { var %steal.pool orbs.vitalstar.orbs.potion.Holy_Water | var %steal.orb.amount $rand(100,400) }
+      if ($readini($char($2), Info, Flag) = boss) { var %steal.pool orbs.senzu.Red_Fang.Thunder_Orb | var %steal.orb.amount $rand(350,600) }
+      if ($2 = orb_fountain) { var %steal.pool orbs.orbs.orbs.orbs | var %steal.orb.amount $rand(400,550) }
 
-      if (%bloodmoon = on) { var %steal.pool orbs.orbs.orbs.orbs | var %steal.orb.amount $rand(10000,35000) }
+      if (%bloodmoon = on) { var %steal.pool orbs.orbs.orbs.orbs | var %steal.orb.amount $rand(300,500) }
 
       set %total.items $numtok(%steal.pool, 46)
       set %random.item $rand(1,%total.items)

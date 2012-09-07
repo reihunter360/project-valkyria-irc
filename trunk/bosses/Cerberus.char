@@ -1,6 +1,6 @@
 [BaseStats]
-Hp=100
-Tp=50
+Hp=110
+Tp=150
 Str=14
 Def=12
 Int=14
@@ -9,8 +9,8 @@ Name=Cerberus
 
 
 [Battle]
-Hp=100
-Tp=50
+Hp=110
+Tp=150
 Str=14
 Def=12
 Int=14
@@ -43,6 +43,8 @@ Drops=DustyWing
 
 [Info]
 Flag=monster
+CanStagger=yes
+StaggerAmount=$rand(300,350)
 Gender=his
 Gender2=him
 password=battlearena
