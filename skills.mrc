@@ -224,7 +224,7 @@ alias skill.utsusemi {
 
   inc %time.difference $calc(%time.difference + ($readini($char($1), skills, utsusemi) * 60))
 
-  if ((%time.difference = $null) || (%time.difference > $readini(skills.db, Utsusemi, cooldown)) {
+    if ((%time.difference = $null) || (%time.difference > $readini(skills.db, Utsusemi, cooldown))) {
 
     ; Check for the item "Shihei" and consume it, or display an error if they don't have any.
     set %check.item $readini($char($1), item_amount, shihei)
@@ -1037,16 +1037,17 @@ alias skill.steal {
     if (%current.playerstyle = Trickster) { inc %steal.chance $rand(5,10) }
 
     if (%steal.chance >= 85) {
-      var %stolen.from.counter $readini($char($2), status, stolencounter)
-      if (%stolen.from.counter >= 2) { $set_chr_name($2) | query %battlechan 4 $+ %real.name  has nothing left to steal! | halt }
+; Stealing Counter
+;      var %stolen.from.counter $readini($char($2), status, stolencounter)
+;      if (%stolen.from.counter >= 2) { $set_chr_name($2) | query %battlechan 4 $+ %real.name  has nothing left to steal! | halt }
 
-      inc %stolen.from.counter 1 | writeini $char($2) status stolencounter %stolen.from.counter 
+;      inc %stolen.from.counter 1 | writeini $char($2) status stolencounter %stolen.from.counter 
+; CHANGES HERE FOR \/ STEAL
+      if ($readini($char($2), Info, flag) = monster) { var %steal.pool orbs.vitalstar.orbs.potion.Holy_Water.Pizza.PotRoast.Ramen.Cavier.BisonDollar.DragonMeat.SuperMushroom.FireDragonWine.Ambrosia.FoieGras.KnowledgeSource.SoulPainting.FishAndChips.Slurm | var %steal.orb.amount $rand(8000,14000) }
+      if ($readini($char($2), Info, Flag) = boss) { var %steal.pool orbs.senzu.Red_Fang.Thunder_Orb.Pizza.PotRoast.Ramen.Cavier.BisonDollar.DragonMeat.SuperMushroom.FireDragonWine.Ambrosia.FoieGras.KnowledgeSource.SoulPainting.FishAndChips.Slurm.DarkMagicianCard.BusterBladerCard.BlueEyesCard.FishOilBroth.ElvishMedallian | var %steal.orb.amount $rand(12000,30000) }
+      if ($2 = orb_fountain) { var %steal.pool orbs.orbs.orbs.orbs | var %steal.orb.amount $rand(8000,15000) }
 
-      if ($readini($char($2), Info, flag) = monster) { var %steal.pool orbs.vitalstar.orbs.potion.Holy_Water | var %steal.orb.amount $rand(100,400) }
-      if ($readini($char($2), Info, Flag) = boss) { var %steal.pool orbs.senzu.Red_Fang.Thunder_Orb | var %steal.orb.amount $rand(350,600) }
-      if ($2 = orb_fountain) { var %steal.pool orbs.orbs.orbs.orbs | var %steal.orb.amount $rand(400,550) }
-
-      if (%bloodmoon = on) { var %steal.pool orbs.orbs.orbs.orbs | var %steal.orb.amount $rand(300,500) }
+      if (%bloodmoon = on) { var %steal.pool orbs.orbs.orbs.orbs | var %steal.orb.amount $rand(10000,28000) }
 
       set %total.items $numtok(%steal.pool, 46)
       set %random.item $rand(1,%total.items)

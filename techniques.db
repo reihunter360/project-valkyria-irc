@@ -3241,7 +3241,7 @@ magic=no
 [Repairs]
 Type=heal
 TP=5
-Desc=damages all over the body starts to heal on %enemy $+ !
+Desc=$gender($1) damages all over the body starts to heal on %enemy $+ !
 BasePower=20
 cost=90000
 Element=none

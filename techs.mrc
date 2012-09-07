@@ -655,7 +655,7 @@ alias display_aoedamage {
     query %battlechan 3 $+ %user absorbs $bytes(%absorb.amount,b) HP back from the damage.
   }
 
-  unset %attack.damage
+
   ; Did the person die?  If so, show the death message.
   if ($readini($char($2), battle, HP) <= 0) { 
     writeini $char($2) battle status dead 
@@ -683,7 +683,7 @@ alias display_aoedamage {
       query %battlechan $readini(translation.dat, status, StaggerHappens)
     }
   }
-
+  unset %attack.damage
   return 
 }
 
