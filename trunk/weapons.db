@@ -1292,4 +1292,12 @@ Hits=$rand(1,2)
 BasePower=10
 Upgrade=500000
 
-
+[FFOmegaWeapon]
+Cost=99999
+Type=Rifle
+Info=The Ultimate Fantasy Weapon
+Abilities=Repairs.SpaceBeam
+element=none
+hits=$rand(1,4)
+basepower=15
+upgrade=500000
