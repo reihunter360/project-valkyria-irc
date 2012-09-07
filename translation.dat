@@ -93,7 +93,7 @@ MonsterLimit=$chr(3) $+ 4 $+ Error: There's already ten monsters in battle! No
 PlayerLimit=$chr(3) $+ 4 $+ Error: The battle is full, please try again next battle.
 MonsterDoesNotExist=$chr(3) $+ 4 $+ Error: $3 does not exist as a monster! 
 NPCDoesNotExist=$chr(3) $+ 4 $+ Error: $3 does not exist as an NPC!
-AlreadyInBattle=$chr(3) $+ 4 $+ Error: %real.name is already in the battle! 
+AlreadyInBattle=$chr(3) $+ 4 $+ Error: %real.name is already in the battle! 
 YouDoNotHaveSkill=$chr(3) $+ 4 $+ Error: You do not have this skill! 
 DoNotHaveSkill=$chr(3) $+ 4 $+ Error: %real.name does not have that skill.
 WrongPassword=$chr(3) $+ 4 $+ Error: Incorrect Password, to change your password, type !newpass <old pass> <new pass>
@@ -112,7 +112,11 @@ OnlyTauntMonsters=$chr(3) $+ 4 $+ Error: %real.name can only taunt  monsters!
 Can'tTauntWhiledead=$chr(3) $+ 4 $+ Error: %real.name cannot taunt while dead!
 Can'tTauntSomeoneWhoIsDead=$chr(3) $+ 4 $+ Error: %real.name cannot taunt someone who is dead!
 Can'tTauntSomeoneWhoFled=$chr(3) $+ 4 $+ Error: %real.name cannot taunt $set_chr_name($2) %real.name $+ , because %real.name has run away from the fight!
-
+Can'tAttackYourself=$chr(3) $+ 4 $+ %real.name cannot attack $gender2($1) $+ self! 
+CanOnlyAttackMonsters=$chr(3) $+ 4 $+ %real.name can only attack monsters!
+CanNotAttackWhileUnconcious=$chr(3) $+ 4  $+ %real.name cannot attack while unconcious!
+CanNotAttackSomeoneWhoIsDead=$chr(3) $+ 4 $+ %real.name cannot attack someone who is dead! 
+CanNotAttackSomeoneWhoFled=$chr(3) $+ 4 $+ %real.name cannot attack $set_chr_name($2) %real.name $+ , because %real.name has run away from the fight! 
 
 =======================
 Battle Related Messages
@@ -144,6 +148,13 @@ TurnMessage=$chr(3) $+ 3 $+ It is $set_chr_name($1) %real.name $+ 's turn [Hea
 NoOneJoinedBattleYet=$chr(3) $+ 4 $+ No one has joined the battle yet! 
 BatListTitleMessage=$chr(3) $+ 10 $+ -=BATTLE LIST=-
 StepsUpFirst=$chr(3) $+ 2 $+  $+ %who steps up first in the battle!
+LandsACriticalHit=$chr(3) $+ 4 $+ %real.name lands a critical hit! 
+PerformsADoubleAttack=$chr(3) $+ 4 $+ %real.name performs a double attack against $set_chr_name($2) %real.name $+ !
+PerformsATripleAttack=$chr(3) $+ 4 $+ %real.name performs a triple attack against $set_chr_name($2) %real.name $+ ! 
+PerformsA4HitAttack=$chr(3) $+ 4 $+ %real.name performs a four hit attack against $set_chr_name($2) %real.name $+ ! 
+PerformsA5HitAttack=$chr(3) $+ 4 $+ %real.name performs a five hit attack against $set_chr_name($2) %real.name $+ ! 
+PerformsA6HitAttack=$chr(3) $+ 4 $+ %real.name performs a six hit attack against $set_chr_name($2) %real.name $+ ! 
+
 
 =======================
 Status Related Messages
@@ -158,6 +169,7 @@ CurrentlyCursed=$chr(3) $+ 4 $+  $+ %real.name is cursed!
 CurseWornOff=$chr(3) $+ 3 $+  $+ %real.name $+ 's curse has worn off.
 TooBlindToFight=$chr(3) $+ 4 $+  $+ %real.name is too blind to fight!
 TooIntimidatedToFight=$chr(3) $+ 4 $+  $+ %real.name is too intimidated to fight!
+TooStaggeredToFight=$chr(3) $+ 4 $+  $+ %real.name is staggered and is unable to fight this round!
 CurrentlyAsleep=$chr(3) $+ 4 $+ %real.name is currently asleep!
 CurrentlyStunned=$chr(3) $+ 4 $+ %real.name is currently stunned and unable to move!
 CurrentlyStopped=$chr(3) $+ 4 $+ %real.name is currently frozen in time and unable to move!
@@ -186,7 +198,7 @@ DrowningDeath=$chr(3) $+ 4 $+ %real.name gasps for air as $gender3($1) is enca
 DrowningMessage=$chr(3) $+ 4 $+ %real.name gasps for air as $gender3($1) is encased in water! 
 EarthquakeDeath=$chr(3) $+ 4 $+ %real.name screams as the earth opens up beneath $gender($2) and swallows $gender2($1) whole! 
 EarthquakeMessage=$chr(3) $+ 4 $+ %real.name screams as the earth opens up, and boulders fall ontop of $gender($1) body!
-
+StaggerHappens=$chr(3) $+ 4 $+ %enemy is staggered from the damage and collapses to the ground unable to move! 
 
 =======================
 Skill Related Messages
@@ -198,6 +210,9 @@ UnableToSteal=$chr(3) $+ 4 $+ %real.name was unable to steal anything from $s
 FinishedRegen=$chr(3) $+ 12 $+ %real.name has finished regenerating all $gender($1) $3 $+ ! 
 RegenerationMessage=$chr(3) $+ 12 $+ %real.name has regenerated $2  $+ $3 $+ !
 ZombieRegeneration=$chr(3) $+ 12 $+ %real.name has regenerated %howmuch  $+ hp $+ !
+RoyalGuardBlocked=$chr(3) $+ 7 $+ %real.name $+ 's Royal Guard has absorbed the attack! 
+UtsusemiBlocked=$chr(3) $+ 7 $+ One of %real.name $+ 's shadows absorbs the attack and disappears! 
+DrainSambaWornOff=$chr(3) $+ 12 $+ %real.name $+ 's drain samba has worn off. 
 
 =======================
 Tech Related Messages

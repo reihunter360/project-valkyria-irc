@@ -1,6 +1,7 @@
 ; Shop commands here (list, buy, etc)
 
 on 2:TEXT:!shop*:*: { 
+
   ; For now let's check to make sure the shop level isn't over 25.
   var %shop.level $readini($char($nick), stuff, shoplevel) 
   if (%shop.level > 25) { writeini $char($nick) stuff shoplevel 25.0 }
@@ -10,12 +11,21 @@ on 2:TEXT:!shop*:*: {
   if ($2 = $null) { $gamehelp(Shop, $nick)  | halt  }
   if ($2 = level) { .msg $nick 2Your current shop level is $readini($char($nick), stuff, shoplevel) | halt }
 
+
+  if ($2 = sell) {
+    if (($3 != items) && ($3 != item)) { .msg $nick 4Error: You can only sell items. | halt }
+    var %amount.to.sell $abs($5)
+    if (%amount.to.sell = $null) { var %amount.to.sell 1 }
+    $shop.items($nick, sell, $4, %amount.to.sell)
+    halt
+  }
+
   if (($2 = buy) || ($2 = purchase)) { 
     if (%battleis = on) { 
       if ($nick isin $readini(battle2.txt, Battle, List)) { .msg $nick 4Error: You must wait til you're out of battle to use the shop. | halt }
     }
 
-    if ($3 = $null) { .msg $nick 4Error: Use !shop buy <items/techs/skills/stats/weapons/styles/orbs> <what to buy>  }
+    if ($3 = $null) { .msg $nick 4Error: Use !shop buy <items/techs/skills/stats/weapons/styles/orbs> <what to buy>  }
     var %amount.to.purchase $abs($5)
     if (%amount.to.purchase = $null) { var %amount.to.purchase 1 }
 
@@ -161,6 +171,41 @@ alias shop.items {
 
     .msg $nick 3You spend %total.price  $+ $readini(system.dat, system, currency) for $4 $3 $+ (s)!
     $inc.redorbsspent($1, %total.price)
+  }
+
+  if ($2 = sell) {
+    ; is it a valid item?
+    if ($readini(items.db, $3, type) = $null) { .msg $nick 4Error: Invalid item. Use! !shop list items to get a valid list | halt }
+
+    ; Does the player have it?
+    var %player.items $readini($char($1), Item_Amount, $3)
+    if (%player.items = $null) { .msg $nick 4Error: You do not have this item to sell! | halt }
+    if (%player.items < $4) { .msg $nick 4Error: You do not have $4 of this item to sell! | halt }
+
+    ; If so, decrease the amount
+    dec %player.items $4
+    writeini $char($1) item_amount $3 %player.items
+
+    var %total.price $readini(items.db, $3, cost)
+
+    %total.price = $round($calc(%total.price / 2.5),0)
+
+
+    if ($readini($char($1), skills, haggling) > 0) { 
+      inc %total.price $calc($readini($char($1), skills, Haggling) * 20)
+    }
+
+    if (%total.price <= 0) { %total.price = 1 }
+    if (%total.price >= $readini(items.db, $3, cost)) { %total.price = $readini(items.db, $3, cost) }
+    if (%total.price > 500) { %total.price = 500 }
+
+    %total.price = $calc($4 * %total.price)
+
+    var %player.redorbs $readini($char($1), stuff, redorbs)
+    inc %player.redorbs %total.price
+    writeini $char($1) stuff redorbs %player.redorbs
+
+    .msg $nick 3A shop keeper wearing a green and white bucket hat takes $4 $3 $+ (s) from you and gives you %total.price $readini(system.dat, system, currency) $+ !
   }
 }
 

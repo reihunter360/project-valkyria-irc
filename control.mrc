@@ -8,6 +8,9 @@ on 1:PART:%battlechan:.auser 1 $nick | .flush 1
 on 1:KICK:%battlechan:.auser 1 $knick | .flush 1 
 on 1:JOIN:%battlechan:{  .auser 1 $nick | .flush 1 }
 
+
+on 50:TEXT:!quit*:*:{ /quit $battle.version }
+
 on 1:START: {
   echo 12*** Welcome to Battle Arena Bot version $battle.version written by James "Iyouboushi" *** 
 

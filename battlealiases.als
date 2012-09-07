@@ -167,6 +167,7 @@ deal_damage {
       if (%battle.type = boss) { $add.stylepoints($1, $2, boss_death, $3) | $add.style.orbbonus($1, boss) }
     }
   }
+
 }
 
 check.clone.death {
@@ -269,6 +270,19 @@ display_damage {
     $increase_death_tally($2)
     if (%attack.damage > $readini($char($2), basestats, hp)) { set %overkill 7<<OVERKILL>> }
     query %battlechan 4 $+ %enemy has been defeated by %user $+ !  %overkill
+  }
+
+  if ($readini($char($2), battle, HP) > 0) {
+    ; Check to see if the monster can be staggered..  
+    var %stagger.check $readini($char($2), info, CanStagger)
+    if ((%stagger.check = $null) || (%stagger.check = no)) { return }
+
+    ; Do the stagger if the damage is above the threshold.
+    var %stagger.amount.needed $readini($char($2), info, StaggerAmount)
+    dec %stagger.amount.needed %attack.damage | writeini $char($2) info staggeramount %stagger.amount.needed
+    if (%stagger.amount.needed <= 0) { writeini $char($2) status staggered yes |  writeini $char($2) info CanStagger no
+      query %battlechan $readini(translation.dat, status, StaggerHappens)
+    }
   }
 
   return 

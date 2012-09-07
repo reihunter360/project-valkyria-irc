@@ -1,5 +1,5 @@
 [BaseStats]
-Hp=90
+Hp=95
 Tp=90
 Str=13
 Def=7
@@ -9,7 +9,7 @@ Name=Tiamat
 
 
 [Battle]
-Hp=90
+Hp=95
 Tp=90
 Str=13
 Def=7
@@ -44,6 +44,8 @@ Drops=DragonMeat
 Flag=monster
 Gender=its
 Gender2=it
+CanStagger=yes
+StaggerAmount=$rand(190,205)
 password=battlearena
 passhurt=0
 LastSeen=N/a

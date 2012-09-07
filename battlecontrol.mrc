@@ -173,7 +173,7 @@ alias enter {
   if (%battleisopen != on) { $set_chr_name($1) | query %battlechan $readini(translation.dat, battle, BattleClosed)  | halt }
 
   set %curbat $readini(battle2.txt, Battle, List)
-  if ($istok(%curbat,$1,46) = $true) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, AlreadyInBattle)| halt }
+  if ($istok(%curbat,$1,46) = $true) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, AlreadyInBattle) | halt }
 
   if ($readini(battle2.txt, BattleInfo, Players) >= 10) { query %battlechan $readini(translation.dat, errors, PlayerLimit) | halt }
 
@@ -628,8 +628,9 @@ alias turn {
     ; Are all the players defeated?  If so, we need to end the battle as a loss.
     if ($battle.player.death.check = true) { /.timerEndBattle $+ $rand(a,z) 1 4 /endbattle defeat | halt } 
 
-    $poison_check($1) | $zombie_check($1) | $zombieregenerating_check($1) | $regenerating_check($1) | $TPregenerating_check($1) | $intimidated_check($1) | $blind_check($1) | $frozen_check($1) | $shock_check($1)  | $burning_check($1) | $tornado_check($1)
-    $drowning_check($1) | $earth-quake_check($1) | $curse_check($1) | unset %hp.percent  | $stopped_check($1) | $charm_check($1) | $amnesia_check($1) | $paralysis_check($1)
+    $poison_check($1) | $zombie_check($1) | $zombieregenerating_check($1) | $regenerating_check($1) | $TPregenerating_check($1)
+    $frozen_check($1) | $shock_check($1)  | $burning_check($1) | $tornado_check($1) | $drowning_check($1) | $earth-quake_check($1)
+    $staggered_check($1) | $intimidated_check($1) | $blind_check($1) | $curse_check($1) | unset %hp.percent  | $stopped_check($1) | $charm_check($1) | $amnesia_check($1) | $paralysis_check($1)
     $drunk_check($1) | $slowed_check($1) | $asleep_check($1) | $stunned_check($1) | $boosted_check($1)
 
     if (%all_status = $null) { %all_status = none } 
@@ -661,8 +662,8 @@ alias turn {
 
     writeini $char($1) Status burning no | writeini $char($1) Status drowning no | writeini $char($1) Status earth-quake no | writeini $char($1) Status tornado no 
     writeini $char($1) Status freezing no | writeini $char($1) status frozen no | writeini $char($1) status shock no
-    if (($readini($char($1), Status, Blind) = yes) || ($readini($char($1), Status, intimidated) = yes)) { 
-      writeini $char($1) status intimidated no | writeini $char($1) Status blind no | writeini $char($1) status paralysis no | writeini $char($1) status stun no | writeini $char($1) status stop no |  /.timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 1 /next | halt
+    if (($readini($char($1), Status, Blind) = yes) || ($readini($char($1), Status, intimidate) = yes)) { 
+      writeini $char($1) status intimidate no | writeini $char($1) Status blind no | writeini $char($1) status paralysis no | writeini $char($1) status stun no | writeini $char($1) status stop no |  /.timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 1 /next | halt
     }
     if ($readini($char($1), status, paralysis) = yes) { /.timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 1 /next  | halt }
     if ($readini($char($1), status, sleep) = yes) { /.timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 1 /next | halt  }
@@ -904,6 +905,13 @@ alias zombieregenerating_check {
   else { return }
 }
 
+alias staggered_check { 
+  if ($readini($char($1), Status, staggered) = yes) { $status_message_check(staggered)
+    $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 3 query %battlechan $readini(translation.dat, status, TooStaggeredToFight)
+    writeini $char($1) status staggered no | writeini $char($1) info CanStagger no | $next
+  }
+  else { return } 
+}
 
 alias blind_check { 
   if ($readini($char($1), Status, blind) = yes) { $status_message_check(blind)
@@ -922,7 +930,7 @@ alias TPregenerating_check {
 }
 
 alias intimidated_check { 
-  if ($readini($char($1), Status, intimidated) = yes) { $status_message_check(intimidated)
+  if ($readini($char($1), Status, intimidate) = yes) { $status_message_check(intimidated)
     $set_chr_name($1) | .timerThrottle $+ $nick $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 query %battlechan $readini(translation.dat, status, TooIntimidatedToFight)
   }
   else { return } 
