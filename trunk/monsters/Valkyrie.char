@@ -1,9 +1,9 @@
 [BaseStats]
 Hp=30000
 Tp=5000
-Str=250
+Str=150
 Def=250
-Int=320
+Int=260
 Spd=220
 Name=Valkyrie
 
@@ -11,9 +11,9 @@ Name=Valkyrie
 [Battle]
 Hp=30000
 Tp=5000
-Str=250
+Str=150
 Def=250
-Int=320
+Int=260
 Spd=220
 Status=alive
 
@@ -31,6 +31,11 @@ Rage=screams in rage
 RedOrbs=100000
 BlackOrbs=1
 ShopLevel=12.0
+Drops=DiscountCard
+
+[Limit]
+Level=0
+Percent=0
 
 [Info]
 Flag=monster
@@ -100,7 +105,7 @@ FieldMedic=500
 DesperateBlows=1
 
 [Techniques]
-CureV=155
+CureV=85
 ; Ragnarok Online Techs.
 SonicBlow=350
 JupitelThunder=280
