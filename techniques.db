@@ -159,7 +159,7 @@ GhostPower=HighJump.CamlannsTorment.LegSweep.SonicThrust.Tachi:Fudo.Tachi:Shoha.
 ; Valkyria-IRC Customs
 FFOmegaWeapon=Repairs.SpaceBeam
 Silver_Goddess_Sword=TwinSlice.BiteOfLightning.BladeBeam.HyperTwinSlice.WiseReflection.CureV.GigaSlash.Atonement.BlizzajaII
-
+Valkyrie_Sword=CureV.SonicBlow.JupitelThunder.BrandishSpear.WiseReflection
 
 =======================
 HAND TO HAND
@@ -1904,7 +1904,7 @@ Cost=120
 [WiseReflection]
 Type=boost
 TP=10
-Desc=scoffs at everyone again as a silver aura appears around Eldora. "Let's see how you fare against my full goddess power, you scum."
+Desc=scoffs at everyone again as a silver aura appears around $gender($1) $+. "Let's see how you fare against my full goddess power, you scum."
 BasePower=15
 Element=none
 Cost=120
@@ -3245,4 +3245,34 @@ Desc=$gender($1) damages all over the body starts to heal on %enemy $+ !
 BasePower=20
 cost=90000
 Element=none
+magic=yes
+
+[SonicBlow]
+Type=Status
+StatusType=Stun
+TP=20
+Desc=approaches %enemy $+ then starts stabbing them at sonic speeds! Then, $name jumps back and whips $gender($1) sword to the side. [Sonic Blow]
+BasePower=25
+hit=$rand(2,5)
+cost=90000
+Element=none
+magic=no
+
+[BrandishSpear]
+Type=AOE
+TP=10
+Desc=uses $gender($1) weapon and slams it hard into the ground creating a shockwave that damages all enemies! [Brandish Spear!]
+BasePower=30
+cost=90000
+Element=none
+magic=no
+
+[JupitelThunder]
+Type=Status
+StatusType=Stun.Paralysis
+TP=20
+Desc=casts spell forming a ball of lightning and propells it at %enemy $+ !  [Jupitel Thunder!]
+cost=90000
+basepower=20
+Element=Lightning
 magic=yes
