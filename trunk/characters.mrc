@@ -3,7 +3,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ; Bot Owners have  the ability to zap/erase characters.
-on 50:TEXT:!zap *:*: {  $set_chr_name($2) | $checkchar($2) | $zap_char($2) | query %battlechan $readini(translation.dat, system, zappedcomplete)| halt }
+on 50:TEXT:!zap *:*: {  $set_chr_name($2) | $checkchar($2) | $zap_char($2) | query %battlechan $readini(translation.dat, system, zappedcomplete) | halt }
 
 ; Create a new character
 
@@ -134,10 +134,10 @@ on 2:TEXT:!hp:*: {
 }
 on 2:TEXT:!tp:*:$set_chr_name($nick) | query %battlechan $readini(translation.dat, system, ViewMyTP) | unset %real.name
 on 2:TEXT:!orbs*:*: { 
-  if ($2 != $null) { var %orbs.spent $bytes($readini($char($2), stuff, RedOrbsSpent),b) | $checkchar($2) | $set_chr_name($2) | query %battlechan $readini(translation.dat, system, ViewOthersOrbs) }
-  else { var %orbs.spent $bytes($readini($char($nick), stuff, RedOrbsSpent),b) | $set_chr_name($nick) | query %battlechan $readini(translation.dat, system, ViewMyOrbs) }
+  if ($2 != $null) { var %orbs.spent $bytes($readini($char($2), stuff, RedOrbsSpent),b) | var %blackorbs.spent $bytes($readini($char($2), stuff, BlackOrbsSpent),b) | $checkchar($2) | $set_chr_name($2) | query %battlechan $readini(translation.dat, system, ViewOthersOrbs) }
+  else { var %orbs.spent $bytes($readini($char($nick), stuff, RedOrbsSpent),b) | var %blackorbs.spent $bytes($readini($char($nick), stuff, BlackOrbsSpent),b) | $set_chr_name($nick) | query %battlechan $readini(translation.dat, system, ViewMyOrbs) }
 }
-on 2:TEXT:!rorbs*:*: {  var %orbs.spent $bytes($readini($char($2), stuff, RedOrbsSpent),b) | $checkchar($2) | $set_chr_name($2) | query %battlechan $readini(translation.dat, system, ViewOthersOrbs) }
+on 2:TEXT:!rorbs*:*: { var %orbs.spent $bytes($readini($char($2), stuff, RedOrbsSpent),b) | var %blackorbs.spent $bytes($readini($char($2), stuff, BlackOrbsSpent),b) | $checkchar($2) | $set_chr_name($2) | query %battlechan $readini(translation.dat, system, ViewOthersOrbs) }
 
 on 2:TEXT:!stats*:*: { unset %all_status | $battle_stats($nick) | $player.status($nick) | $weapon_equipped($nick) | .msg $nick $readini(translation.dat, system, HereIsYourCurrentStats) 
   /.timerDisplayStats1 $+ $nick 1 1  .msg $nick [4HP12 $readini($char($nick), Battle, HP) $+ 1/ $+ 12 $+ $readini($char($nick), BaseStats, HP) $+ 1] [4TP12 $readini($char($nick), Battle, TP) $+ 1/ $+ 12 $+ $readini($char($nick), BaseStats, TP) $+ 1] [4Status12 %all_status $+ 1] 

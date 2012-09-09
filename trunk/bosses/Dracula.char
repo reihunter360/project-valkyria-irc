@@ -3,7 +3,7 @@ Hp=120
 Tp=50
 Str=17
 Def=13
-Int=20
+Int=22
 Spd=20
 Name=Dracula
 
@@ -13,7 +13,7 @@ Hp=120
 Tp=50
 Str=17
 Def=15
-Int=20
+Int=22
 Spd=20
 Status=alive
 
@@ -33,13 +33,16 @@ Dused=1
 Char=has a rather regal appearance, with long white hair wearing a black tuxedo and a long black and red cape.
 Rage=screams in rage 
 BossQuote=This long slumber has given me strength!
+RoyalGuard=laughs at the heroes and says "Your attacks are no match for the prince of darkness!"
+ManaWall=laughs at the heroes and says "Your puny magic is no might for the prince of darkness!"
+Sugitekai=laughs and says "Behold, the true power of darkness!"
 
 
 [Stuff]
 RedOrbs=0
 BlackOrbs=1
 ShopLevel=1.0
-Drops=PotRoast
+Drops=PotRoast.Ether
 
 [Monster]
 Type=undead
@@ -97,6 +100,9 @@ Weakness=Whip
 
 [Skills]
 resist-stun=10
+ManaWall=1
+RoyalGuard=1
+Sugitekai=1
 
 [Techniques]
 Dark_Inferno=10
@@ -110,5 +116,5 @@ pizza=1
 
 [Element]
 Weakness=light
-Strong=dark
-
+Strong=
+Heal=dark

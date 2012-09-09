@@ -39,7 +39,7 @@ BossQuote=You are not worthy.
 RedOrbs=0
 BlackOrbs=1
 ShopLevel=1.0
-Drops=ElvishMedallian
+Drops=ElvishMedallian.Ambrosia
 
 [Monster]
 Type=

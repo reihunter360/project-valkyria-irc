@@ -1,6 +1,6 @@
 [Items]
-HealingItems=Potion.VitalStar.Senzu.DustyWing
-BattleItems=Holy_Water.Stop_Watch.Red_Fang.Thunder_Orb.Fire_Flower
+HealingItems=Potion.VitalStar.X-Potion.Senzu.SuperPotion.DustyWing.Ether
+BattleItems=Holy_Water.Stop_Watch.Red_Fang.Thunder_Orb.Fire_Flower.Ice_Coin
 FoodItems=Pizza.PotRoast.Ramen.Cavier.BisonDollar.DragonMeat.SuperMushroom.FireDragonWine.Ambrosia.FoieGras.KnowledgeSource.SoulPainting.FishAndChips.Slurm
 ConsumeItems=Shihei
 SummonItems=DarkMagicianCard.BusterBladerCard.BlueEyesCard.FishOilBroth.ElvishMedallian
@@ -33,16 +33,38 @@ FullbringTarget=AOE
 FullbringAmount=30
 Fullbringdesc=draws out the soul from the vital star.  The vital star's soul is drawn to all allies on the battlefield, healing them all.
 
+[X-Potion]
+Type=heal
+Target=Single
+Amount=150
+Desc=pulls out an X-potion bottle and hands it to %enemy $+ , who drinks it down.  Ahh! Refreshing!
+Cost=250
+FullbringLevel=2
+FullbringTarget=AOE
+FullbringAmount=100
+Fullbringdesc=draws out the soul from the potion.  The potion's soul is drawn towards everyone and gives off a small light that heals everyone.
+
 [Senzu]
 Type=heal
 Target=Single
-Amount=500
+Amount=600
 Desc=pulls out a small green bean and tosses it at %enemy $+ .  After eating it, $gender3($2) feels a surge of health return.
 Cost=500
 FullbringLevel=4
 FullbringTarget=AOE
-FullbringAmount=120
+FullbringAmount=200
 Fullbringdesc=draws out the soul from the senzu bean.  The battlefield is covered with a soothing light, healing all allies.
+
+[SuperPotion]
+Type=heal
+Target=Single
+Amount=1500
+Desc=pulls out bottle of red liquid labeled "Super Potion" and hands it to %enemy $+ , who drinks it down.  Ahh! Refreshing!
+Cost=3500
+FullbringLevel=5
+FullbringTarget=AOE
+FullbringAmount=800
+Fullbringdesc=draws out the soul from the potion.  The potion's soul is drawn towards everyone and gives off a bright light that heals everyone.
 
 [DustyWing]
 Type=tp
@@ -55,6 +77,16 @@ FullbringTarget=AOE
 FullbringAmount=10
 Fullbringdesc=draws out the soul from the Dusty Wing.  A large white wing shoots up into the sky and explodes into golden light that covers all allies on the battlefield.  Everyone feels their TP being restored.
 
+[Ether]
+Type=tp
+Target=Single
+Amount=60
+Desc=pulls out a bottle of white liquid and hands it to %enemy $+ .  After drinking it, %enemy feels $gender2($4) TP being restored.
+Cost=500
+FullbringLevel=1
+FullbringTarget=AOE
+FullbringAmount=30
+Fullbringdesc=draws out the soul from the Ether.  A light white rain begins to rain down upon everyone and everyone feels their TP being restored.
 
 
 =========================
@@ -112,13 +144,25 @@ FullbringAmount=5
 Type=Damage
 Target=Single
 Amount=150
-Cost=140
-Desc=takes out a small fire flower from the Mushroom Kingdom.  It gets absorbed by %user which allows %user to shoot fireballs at %enemy for a moment before the power wears off. Cost=300
+Cost=150
+Desc=takes out a small fire flower from the Mushroom Kingdom.  It gets absorbed by %user which allows %user to shoot fireballs at %enemy for a moment before the power wears off.
 Element=fire
 FullbringLevel=3
 FullbringTarget=AOE
 FullbringAmount=100
 Fullbringdesc=draws out the soul from the fire flower.  The soul glows a bright red and then explodes several large fireballs that hit all targets on the battlefield.
+
+[Ice_Coin]
+Type=Damage
+Target=Single
+Amount=150
+Cost=150
+Desc=takes out a small blue coin and flips it at %enemy $+ .  The coin hits and covers %enemy with ice.  
+Element=fire
+FullbringLevel=3
+FullbringTarget=AOE
+FullbringAmount=100
+Fullbringdesc=draws out the soul from the ice coin.  The soul glows a bright blue and then explodes, causing ice to rain down on all targets on the battlefield.
 
 
 =========================
@@ -275,4 +319,4 @@ Type=shopreset
 Target=Single
 Amount=10.0
 Desc=pulls out a Discount Card and gives it to %enemy who shows it to the shop clerk.  "Ah yes, indeed, part of of our..secret club."  Score!
-Cost=200000
+Cost=150000

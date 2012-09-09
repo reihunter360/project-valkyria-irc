@@ -388,12 +388,12 @@ alias shop.stats {
     var %spd.price $round($calc(%shop.level * $readini(system.dat, statprices, spd)),0)
 
     var %player.current.hp $readini($char($1), basestats, hp)
-    if (%player.current.hp < 2500) { 
+    if (%player.current.hp < $readini(system.dat, system, maxHP)) { 
       %shop.list = $addtok(%shop.list,HP+50 ( $+ %hp.price $+ ),46)
     }
 
     var %player.current.tp $readini($char($1), basestats, tp)
-    if (%player.current.tp < 500) {
+    if (%player.current.tp < $readini(system.dat, system, maxTP)) {
       %shop.list = $addtok(%shop.list,TP+5 ( $+ %tp.price $+ ),46)
     }
 

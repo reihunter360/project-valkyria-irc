@@ -81,12 +81,86 @@ C:\Program Files\BattleArena   as IT WILL NOT WORK RIGHT.
 \_______________________________________________________________________/
 
 
-This version adds/changes/fixes quite a few things.  For the entire list of updates,
-I highly recommend you read the versions.txt in the documentation folder.  I'll post
-some of the bigger updates here but it isn't the full list.
+This version was made more to fix multiple bugs and to fix exploits more
+than to add new things.  As usual, see versions.txt for the entire list
+of changes/fixes/additions.  Some of the more important ones will be listed
+here.
+
+* Added the translation.dat file
+This file contains most of the bot messages. You can edit this file to do
+translations or just to change the way the various messages read. Open the
+translation.dat file in notepad and be sure to read the top of the file 
+before you start editing.
+
+* Added the Ability to Sell Items
+Use !shop sell items (item name) (amount)  [without the () of course] to
+sell an unwanted item back to the shop.  Keep in mind you won't get the
+full price back for the item.
+
+* Added AOE Heal Techs
+The Heal-AOE type tech will heal all allies on the battlefield. 
+This type of tech cannot be used on your enemies, even if they're
+undead or zombies.
+
+* Added new skills
+- Analysis allows you to analyze a monster. Increased levels of the skill
+  will give you more detailed information.
+- Zen is a passive skill that increases the amount of TP you get back
+  each turn you're not cursed. It's +(5 * skill level)
+- Haggling is a passive skill that increase the amount of orbs you
+  get for selling items back to the shop.
+
+* Added an Anti-Cheat System On Monster Weapons
+If somehow players get ahold of monster weapons they will be useless
+to them now and will do 0-5 damage max.  Monster techs will also do
+0-5 damage max and boosts will increase the stats by 0.
 
 
-* Added new Technique Types
+* Changed the Monster Generation
+I changed the way the monsters are generated for battle and put into
+the battle to hopefully make it a little more random and to prevent a
+future bug that would eventually happen via the old method.
+
+* Changed the Max Damage of Suicide Techs For Players
+Due to people exploiting suicide type techs with insane amounts of HP,
+I changed the max amount of damage of suicide techs that can be done 
+by players to 500.
+
+* Changed the Maximum Number of Times Steal Will Work
+Due to an exploit of people using steal on orb fountains on blood moon
+resulting in a potential of receiving thousands of free orbs, I've
+set the max number of times steal will work on a single target per
+battle to two.
+
+* Changed Max HP/TP and Style Points
+The maximum number of HP you can have in the game is now 2500. The max
+TP is now 500. The style points, while hidden, will now be capped at
+5000.  The reason being someone could taunt an orb fountain for an hour
+to get their style up to obscene levels and then kill the fountain to
+get a gigantic bonus amount of orbs (as bonus is based on style points
+upon a monster's death).  
+
+* Changed Location of Skill Cooldown Timers
+The cooldown timers are now located in the skills.db.  Bot owners
+can now edit these directly to change the skill reuse times. Remember
+these times are in seconds.
+
+* Bug Fixes
+As usual, there's always a few bugs to squish.  Here's a quick breakdown.
+
+- Fixed zombie regen not wearing off at the end of battle.
+- Fixed Amnesia so it actually works now.
+- Fixed a bug where some mastery skills weren't working right.
+- Fixed a bug in which steal wasn't adding the items correctly
+- Fixed a bug in which +TP item descriptions weren't working right.
+- Fixed the bot so that it'll give the right access level to all bot owners in the
+  list upon start up.
+- Fixed a bug in which style levels were occasionally not leveling right.
+- Fixed a bug in which players could purchase monster weapons.
+- Fixed a bug in which consumable items could be consumed with !use 
+- Fixed a bug in which MightyStrike could be used continuously without cooldown.
+- Fixed a bug in which fleeing would cause the bot to break in a one vs one battle
+  against an orb fountain.
 
 
 

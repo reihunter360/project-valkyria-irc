@@ -14,7 +14,7 @@ alias ai_turn {
   if (%who != $1) { return }
 
   ; For now the AI will be very, very basic and random.  Later on I'll try to make it more complicated.
-  unset %ai.target | unset %ai.targetlist | unset %ai.tech | unset %opponent.flag
+  unset %ai.target | unset %ai.targetlist | unset %ai.tech | unset %opponent.flag | unset %ai.skill | unset %ai.skilllist
 
   ; First off, let's figure out how much TP the monster has.  If it's less than 15, it's going to do an attack
   var %tp.have $readini($char($1), battle, tp) 
@@ -37,16 +37,27 @@ alias ai_turn {
   ; For now, let's just have the monster do something.
   if (%action = attack) { $ai_gettarget | $attack_cmd($1 , %ai.target) | halt  }
   if (%action = random) {
-    var %random.action $rand(1,100)
-    if (%random.action <= 45) { $ai_gettech($1) | $ai_gettarget | $tech_cmd($1, %ai.tech, %ai.target) | halt }
-    if ((%random.action > 45) && (%random.action <= 55)) { $ai_gettarget |  $taunt($1 , %ai.target) | halt } 
-    else {  $ai_gettarget | $attack_cmd($1 , %ai.target)  | halt  }
+    $ai_skillcheck($1)
+
+    if (%ai.skilllist = $null) {
+      var %random.action $rand(1,100)
+      if (%random.action <= 45) { $ai_gettech($1) | $ai_gettarget | $tech_cmd($1, %ai.tech, %ai.target) | halt }
+      if ((%random.action > 45) && (%random.action <= 55)) { $ai_gettarget |  $taunt($1 , %ai.target) | halt } 
+      else {  $ai_gettarget | $attack_cmd($1 , %ai.target)  | halt  }
+    }
+    if (%ai.skilllist != $null) {
+      var %random.action $rand(1,100)
+      if (%random.action <= 45) { $ai_gettech($1) | $ai_gettarget | $tech_cmd($1, %ai.tech, %ai.target) | halt }
+      if ((%random.action > 45) && (%random.action <= 50)) { $ai_gettarget |  $taunt($1 , %ai.target) | halt } 
+      if ((%random.action > 50) && (%random.action <= 65)) { $ai_chooseskill($1) | halt }
+      if (%random.action > 65) { $ai_gettarget | $attack_cmd($1 , %ai.target) | halt  }
+    }
+
   }
 }
 
 alias ai_gettarget {
   unset %ai.targetlist
-
   if ($readini(techniques.db, %ai.tech, type) = heal) {
     if (%opponent.flag = player) { set %opponent.flag monster | goto gettarget }
     if (%opponent.flag = monster) { set %opponent.flag player | goto gettarget }
@@ -140,4 +151,41 @@ alias ai_choosetech {
   set %total.techs $numtok(%tech.list, 46)
   set %random.tech $rand(1,%total.techs)
   set %ai.tech $gettok(%tech.list,%random.tech,46)
+}
+
+alias ai_skillcheck {
+  if ($readini($char($1), info, flag) = $null) { return }
+  ; Check to see if a monster knows certain skills..
+  if ($readini($char($1), skills, royalguard) != $null) { writeini $char($1) skills royalguard.time 0 | %ai.skilllist = $addtok(%ai.skilllist, royalguard, 46) }
+  if ($readini($char($1), skills, manawall) != $null) { writeini $char($1) skills manawall.time 0 | %ai.skilllist  = $addtok(%ai.skilllist, manawall, 46) }
+  if ($readini($char($1), skills, bloodboost) != $null) { writeini $char($1) skills bloodboost.time 0 | %ai.skilllist  = $addtok(%ai.skilllist, bloodboost, 46) }
+  if ($readini($char($1), skills, sugitekai) != $null) { writeini $char($1) skills doubleturn.time 0 | %ai.skilllist  = $addtok(%ai.skilllist, sugitekai, 46) }
+  if ($readini($char($1), skills, mightystrike) != $null) { writeini $char($1) skills mightystrike.time 0 | %ai.skilllist  = $addtok(%ai.skilllist, mightystrike, 46) }
+  if ($readini($char($1), skills, elementalseal) != $null) { writeini $char($1) skills elementalseal.time 0 | %ai.skilllist  = $addtok(%ai.skilllist, elementalseal, 46) }
+  if ($readini($char($1), skills, drainsamba) != $null) { writeini $char($1) skills drainsamba.time 0 | %ai.skilllist  = $addtok(%ai.skilllist, drainsamba, 46) }
+  if ($readini($char($1), skills, utsusemi) != $null) { writeini $char($1) skills utsusemi.time 0 | writeini $char($1) item_amount shihei 100 | %ai.skilllist  = $addtok(%ai.skilllist, utsusemi, 46) }
+  if ($readini($char($1), skills, shadowcopy) != $null) {
+    if ($isfile($char($1 $+ _clone)) = $false) { %ai.skilllist  = $addtok(%ai.skilllist, shadowcopy, 46) }
+  }
+}
+
+alias ai_chooseskill {
+  set %total.skills $numtok(%ai.skilllist, 46)
+  set %random.skill $rand(1,%total.skills)
+  set %ai.skill $gettok(%ai.skilllist,%random.skill,46)
+  unset %total.skills | unset %random.skill | unset %ai.skilllist
+  if (%ai.skill = royalguard) { $skill.royalguard($1) }
+  if (%ai.skill = manawall) { $skill.manawall($1) }
+  if (%ai.skill = bloodboost) { $skill.bloodboost($1) }
+  if (%ai.skill = sugitekai) { $skill.doubleturn($1)  }
+  if (%ai.skill = mightystrike) { $skill.mightystrike($1) }
+  if (%ai.skill = elementalseal) { $skill.elementalseal($1) }
+  if (%ai.skill = drainsamba) { $skill.drainsamba($1) } 
+  if (%ai.skill = utsusemi) { $skill.utsusemi($1)  }
+  if (%ai.skill = shadowcopy) {  
+    var %shadowcopy.name $readini($char($1), skills, shadowcopy_name)
+    if (%shadowcopy.name != $null) { $skill.clone($1, %shadowcopy.name) }
+    if (%shadowcopy.name = $null) { $skill.clone($1) } 
+  }
+  halt
 }

@@ -93,6 +93,7 @@ alias calculate_damage_weapon {
   var %weapon.weakness $readini($char($3), weapons, weakness)
   var %weapon.strengths $readini($char($3), weapons, strong)
   var %weapon.type $readini(weapons.db, $2, type)
+
   if ($istok(%weapon.weakness,%weapon.type,46) = $true) {  inc %weapon.base %weapon.base }
   if ($istok(%weapon.strengths,%weapon.type,46) = $true) { %weapon.base = $round($calc(%weapon.base / 2), 0)  }
 
@@ -149,11 +150,13 @@ alias calculate_damage_weapon {
   inc %attack.damage %random.attack.damage.increase
   unset %current.playerstyle | unset %current.playerstyle.level
 
-  if ($readini($char($3), skills, utsusemi.on) = off) {
+
+  var %utsusemi.flag $readini($char($3), skills, utsusemi.on)
+  if ((%utsusemi.flag = off) || (%utsusemi.flag = $null)) {
     ; does the target have RoyalGuard on?  If so, reduce the damage to 0.
     if ($readini($char($3), skills, royalguard.on) = on) { writeini $char($3) skills royalguard.on off | set %attack.damage 0 | $set_chr_name($3) | query %battlechan $readini(translation.dat, skill, RoyalGuardBlocked) | return }
   }
-  if ($readini($char($3), skills, utsusemi.on) = on) {
+  if (%utsusemi.flag = on) {
     var %number.of.shadows $readini($char($3), skills, utsusemi.shadows)
     dec %number.of.shadows 1 
     writeini $char($3) skills utsusemi.shadows %number.of.shadows

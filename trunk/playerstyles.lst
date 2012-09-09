@@ -1,5 +1,5 @@
 [styles]
-list=Trickster.WeaponMaster.Guardian.SpellMaster.Doppelganger.HitenMitsurugi-ryu
+list=Trickster.WeaponMaster.Guardian.SpellMaster.Doppelganger.HitenMitsurugi-ryu.Quicksilver
 
 ; Costs are in black orbs.
 [Costs]
@@ -8,5 +8,5 @@ MeleeMaster=0
 Guardian=0
 SpellMaster=6
 Doppelganger=5
-Quicksilver=5
+Quicksilver=10
 HitenMitsurugi-ryu=5

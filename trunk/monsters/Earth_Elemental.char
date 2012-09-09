@@ -91,15 +91,17 @@ ElementalPower=10
 
 [Skills]
 ClearMind=1
+Manawall=1
+ElementalSeal=1
 
 [Techniques]
 StoneII=7
 Stoneja=7
 
 
-[Item_Amount]
-pizza=1
+
 
 [Element]
 Weakness=wind
-Strong=earth.lightning
+Strong=lightning
+Heal=Earth

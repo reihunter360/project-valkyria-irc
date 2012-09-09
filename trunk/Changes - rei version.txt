@@ -1,0 +1,104 @@
+ITEMS.DB
+DiscountCard=150000
+
+SKILLS.MRC
+; Stealing Counter
+;      var %stolen.from.counter $readini($char($2), status, stolencounter)
+;      if (%stolen.from.counter >= 2) { $set_chr_name($2) | query %battlechan 4 $+ %real.name  has nothing left to steal! | halt }
+
+;      inc %stolen.from.counter 1 | writeini $char($2) status stolencounter %stolen.from.counter 
+; CHANGES HERE FOR \/ STEAL
+      if ($readini($char($2), Info, flag) = monster) { var %steal.pool orbs.vitalstar.orbs.potion.Holy_Water.Pizza.PotRoast.Ramen.Cavier.BisonDollar.DragonMeat.SuperMushroom.FireDragonWine.Ambrosia.FoieGras.KnowledgeSource.SoulPainting.FishAndChips.Slurm | var %steal.orb.amount $rand(8000,14000) }
+      if ($readini($char($2), Info, Flag) = boss) { var %steal.pool orbs.senzu.Red_Fang.Thunder_Orb.Pizza.PotRoast.Ramen.Cavier.BisonDollar.DragonMeat.SuperMushroom.FireDragonWine.Ambrosia.FoieGras.KnowledgeSource.SoulPainting.FishAndChips.Slurm.DarkMagicianCard.BusterBladerCard.BlueEyesCard.FishOilBroth.ElvishMedallian | var %steal.orb.amount $rand(12000,30000) }
+      if ($2 = orb_fountain) { var %steal.pool orbs.orbs.orbs.orbs | var %steal.orb.amount $rand(8000,15000) }
+
+      if (%bloodmoon = on) { var %steal.pool orbs.orbs.orbs.orbs | var %steal.orb.amount $rand(10000,28000) }
+
+SKILLS.DB
+Steal Cooldown=15, Max=50
+Regen Cooldown=90
+Bloodboost Cooldown 15
+Bloodboost Max=20
+ConserveTP Cooldown=500
+Meditate Cooldown=60
+Mightystrike and ElementalSeal = 30
+
+Impetus Max=40
+FieldMedic Max=50
+Clearmind Max=5
+OrbHunter Max=50
+
+TECHNIQUES.DB
+; Valkyria-IRC Customs
+FFOmegaWeapon=Repairs.SpaceBeam
+Silver_Goddess_Sword=TwinSlice.BiteOfLightning.BladeBeam.HyperTwinSlice.WiseReflection.CureV.GigaSlash.Atonement.BlizzajaII
+Valkyrie_Sword=CureV.SonicBlow.JupitelThunder.BrandishSpear.WiseReflection
+
+[Repairs]
+Type=heal
+TP=5
+Desc=$gender($1) damages all over the body starts to heal on %enemy $+ !
+BasePower=20
+cost=90000
+Element=none
+magic=yes
+
+[SonicBlow]
+Type=Status
+StatusType=Stun
+TP=20
+Desc=approaches %enemy $+ then starts stabbing them at sonic speeds! Then, $name jumps back and whips $gender($1) sword to the side. [Sonic Blow]
+BasePower=25
+hit=$rand(2,5)
+cost=500
+Element=none
+magic=no
+
+[BrandishSpear]
+Type=AOE
+TP=10
+Desc=uses $gender($1) weapon and slams it hard into the ground creating a shockwave that damages all enemies! [Brandish Spear!]
+BasePower=30
+cost=6000
+Element=none
+magic=no
+
+[JupitelThunder]
+Type=Status
+StatusType=Stun.Paralysis
+TP=20
+Desc=casts spell forming a ball of lightning and propells it at %enemy $+ !  [Jupitel Thunder!]
+cost=9000
+basepower=20
+Element=Lightning
+magic=yes
+
+Desc=scoffs at everyone again as a silver aura appears around $gender($1) $+self  . "Let's see how you fare against my full goddess power, you scum."
+^ Eldora's WiseReflection
+
+WEAPONS.DB
+
+FFOmegaWeapon.Valkyrie_Sword
+^ MonsterWpns
+
+[FFOmegaWeapon]
+Cost=99999
+Type=Rifle
+Info=The Ultimate Fantasy Weapon
+Abilities=Repairs.SpaceBeam
+element=none
+hits=$rand(1,4)
+basepower=15
+upgrade=500000
+
+[Valkyrie_Sword]
+Cost=99999
+Type=Sword
+Info=A Valkyrie's standard issue sword, forged from the roots of Yggdrasil.
+Abilities=CureV.SonicBlow.JupitelThunder.BrandishSpear.WiseReflection
+element=Light
+hits=$rand(1,3)
+basepower=50
+upgrade=500000
+
+Cost and Upgrade to 99999 and 500000

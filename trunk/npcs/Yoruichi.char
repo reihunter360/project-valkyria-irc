@@ -110,7 +110,8 @@ mightystrike.on=off
 royalguard.on=on
 MartialArts=75
 Resist-Charm=100
-
+RoyalGuard=1
+ManaWall=1
 
 
 [Techniques]

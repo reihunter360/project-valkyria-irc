@@ -33,6 +33,7 @@ Dused=1
 Char=is an insane demon that wears a black and purple oufit, along with a red and blue jester cap. He also has a pure white face, a giant nose, plus red and blue eyes.
 Rage=laughs as he has lost his mind! Again!
 BossQuote=Jester's going to spank you on the butt! Spank you on the buuuuuuuuuuuuutt!
+ShadowCopy=bounces around the battlefield laughing.  Suddenly he stops and looks at the heroes with a serious face. "This battle needs more of something! Do you know what the something is or is that too difficult for you to figure out?"  Suddenly he tosses some confetti and a copy of Jester appears beneath it.  "That something is more of ME! Ha-ha-ha-ha!"
 
 
 [Stuff]
@@ -98,14 +99,14 @@ Resist-Charm=100
 Resist-Zombie=100
 Resist-Curse=100
 Resist-Stun=5
+ShadowCopy=1
 
 [Techniques]
 Portal=10
 ClownHead=10
 ClownFire=10
 
-[Item_Amount]
-pizza=1
+
 
 
 [Element]

@@ -2,7 +2,7 @@
 ;;;; ITEMS COMMAND
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 on 2:TEXT:!use*:*: {  unset %real.name | unset %enemy
-  if ($is_charmed($nick) = true) { query %battlechan 4 %real.name is currently charmed and cannot perform any of $gender($nick) own actions! | halt }
+  if ($is_charmed($nick) = true) { query %battlechan query %battlechan $readini(translation.dat, status, CurrentlyCharmed)  | halt }
   if ((no-item isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan 4 $+ %real.name is not allowed to do that action due to the current battle conditions! | halt }
 
   var %item.type $readini(items.db, $2, type)
@@ -405,12 +405,12 @@ alias item.food {
 
     if (%food.type = hp) {
       var %player.current.hp $readini($char($2), basestats, hp)
-      if (%player.current.hp >= 2500) { .msg $1 4Error: $2 has the maximum amount of HP allowed! | halt }
+      if (%player.current.hp >= $readini(system.dat, system, maxHP)) { .msg $1 4Error: $2 has the maximum amount of HP allowed! | halt }
     }
 
     if (%food.type = tp) {
       var %player.current.tp $readini($char($2), basestats, tp)
-      if (%player.current.tp >= 500) { .msg $1 4Error: $2 has the maximum amount of TP allowed! | halt }
+      if (%player.current.tp >= $readini(system.dat, system, maxTP)) { .msg $1 4Error: $2 has the maximum amount of TP allowed! | halt }
     }
 
     inc %target.stat %food.bonus

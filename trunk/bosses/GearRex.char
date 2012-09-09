@@ -33,7 +33,7 @@ BossQuote=....
 RedOrbs=0
 BlackOrbs=1
 ShopLevel=1.0
-Drops=DustyWing
+Drops=DustyWing.X-Potion
 
 [Monster]
 Type=

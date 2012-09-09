@@ -1,6 +1,6 @@
 [BaseStats]
 Hp=100
-Tp=50
+Tp=250
 Str=15
 Def=12
 Int=18
@@ -9,7 +9,7 @@ Name=Death
 
 [Battle]
 Hp=100
-Tp=50
+Tp=250
 Str=15
 Def=12
 Int=18
@@ -38,7 +38,7 @@ BossQuote=I will feast on your soul this night!
 RedOrbs=0
 BlackOrbs=1
 ShopLevel=1.0
-Drops=Ramen
+Drops=Ramen.Stop_Watch
 
 [Monster]
 Type=undead
