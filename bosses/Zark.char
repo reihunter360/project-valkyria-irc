@@ -2,9 +2,9 @@
 Hp=120
 Tp=70
 Str=15
-Def=20
+Def=19
 Int=20
-Spd=30
+Spd=25
 Name=Zark
 
 
@@ -12,9 +12,9 @@ Name=Zark
 Hp=120
 Tp=70
 Str=15
-Def=20
+Def=19
 Int=20
-Spd=30
+Spd=25
 Status=alive
 
 
@@ -33,6 +33,7 @@ Dused=1
 Char=A grotesque orange alien with two very long tentacles.  He is carrying a weird looking gun.
 Rage=screams in rage 
 BossQuote=I will suck your power dry!
+Shadowcopy=bubbles up as a slimey, tinier, version of himself slips out of his back.  
 
 [Stuff]
 RedOrbs=0
@@ -98,6 +99,9 @@ drainsamba.on=on
 DrainSamba=25
 resist-charm=100
 resist-stun=60
+MightyStrike=10
+ShadowCopy=1
+ShadowCopy_Name=Super Zarklet
 
 [Techniques]
 SpaceBeam=10
@@ -105,8 +109,7 @@ SpaceBoost=5
 SpaceAbsorb=10
 
 
-[Item_Amount]
-pizza=1
+
 
 
 [Element]

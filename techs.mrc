@@ -24,23 +24,23 @@ alias tech_cmd {
 
   ; Make sure some old attack variables are cleared.
   unset %attack.damage | unset %attack.damage1 | unset %attack.damage2 | unset %attack.damage3 | unset %attack.damage4 | unset %drainsamba.on | unset %absorb
-  unset %element.desc | unset %spell.element | unset %real.name  |   unset %user.flag | unset %target.flag
+  unset %element.desc | unset %spell.element | unset %real.name  |  unset %user.flag | unset %target.flag
 
   $check_for_battle($1) 
 
   set %tech.type $readini(techniques.db, $2, Type) | $amnesia.check($1, tech) 
-  if ($readini($char($1), techniques, $2) = $null) { $set_chr_name($1) | query %battlechan 4 $+ %real.name does not know how to perform the $2 $+ ! | halt }
+  if ($readini($char($1), techniques, $2) = $null) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, DoesNotKnowTech) | halt }
 
-  if ($readini($char($1), Battle, Status) = dead) { $set_chr_name($1) | query %battlechan 4 $+ %real.name cannot attack while unconcious! | unset %real.name | halt }
-  if ($readini($char($3), Battle, Status) = dead) { $set_chr_name($1) | query %battlechan 4 $+ %real.name cannot attack someone who is dead! | unset %real.name | halt }
-  if ($readini($char($3), Battle, Status) = RunAway) { $set_chr_name($1) | query %battlechan 4 $+ %real.name cannot attack $set_chr_name($3) %real.name $+ , because %real.name has run away from the fight! | unset %real.name | halt } 
+  if ($readini($char($1), Battle, Status) = dead) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, CanNotAttackWhileUnconcious)  | unset %real.name | halt }
+  if ($readini($char($1), Battle, Status) = dead) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, CanNotAttackSomeoneWhoIsDead) | unset %real.name | halt }
+  if ($readini($char($3), Battle, Status) = RunAway) { query %battlechan $readini(translation.dat, errors, CanNotAttackSomeoneWhoFled) | unset %real.name | halt } 
 
   $person_in_battle($3) | $checkchar($3) 
 
   ; Get the weapon equipped
   $weapon_equipped($1)
 
-  if ($2 !isin $readini(weapons.db,%weapon.equipped,Abilities)) { $set_chr_name($1) | query %battlechan 4 $+ %real.name cannot perform that technique using $gender($1) %weapon.equipped | halt }
+  if ($2 !isin $readini(weapons.db,%weapon.equipped,Abilities)) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, Can'tPerformTechWithWeapon) | halt }
 
   ; Make sure the user has enough TP to use this in battle..
   set %tp.needed $readini(techniques.db, $2, TP) | set %tp.have $readini($char($1), battle, tp)
@@ -48,11 +48,11 @@ alias tech_cmd {
   ; Check for ConserveTP
   if ($readini($char($1), skills, conservetp.on) = on) { set %tp.needed 0 | writeini $char($1) skills conserveTP.on off }
 
-  if (%tp.needed = $null) { $set_chr_name($1) | query %battlechan 4 $+ %real.name does not know the $2 technique! | halt }
-  if (%tp.needed > %tp.have) { $set_chr_name($1) | query %battlechan  4 $+ %real.name does not have enough TP to perform this technique! | halt }
+  if (%tp.needed = $null) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, DoesNotKnowTech) | halt }
+  if (%tp.needed > %tp.have) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, NotEnoughTPforTech) | halt }
 
   if (($3 = $1) && ($is_charmed($1) = false))  { 
-    if (%tech.type !isin boost.finalgetsuga.heal.heal-AOE) { $set_chr_name($1) | query %battlechan 4 $+ %real.name cannot attack $gender2($1) $+ self with $2 $+ ! | unset %real.name | halt  }
+    if (%tech.type !isin boost.finalgetsuga.heal.heal-AOE) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, Can'tAttackYourself) | unset %real.name | halt  }
   }
 
   dec %tp.have %tp.needed | writeini $char($1) battle tp %tp.have | unset %tp.have | unset %tp.needed
@@ -66,7 +66,7 @@ alias tech_cmd {
   if (%tech.type = heal) { set %user.flag monster }
   if (%tech.type = heal-aoe) { set %user.flag monster }
 
-  if ((%user.flag != monster) && (%target.flag != monster)) { $set_chr_name($1) | query %battlechan 4 $+ %real.name can only attack monsters! | halt }
+  if ((%user.flag != monster) && (%target.flag != monster)) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, CanOnlyAttackMonsters)  | halt }
 
   ; Let's do something based on the type of techniques it is.
   writeini $char($1) status conservetp.on off
@@ -112,6 +112,15 @@ alias tech_cmd {
 
 alias tech.single {
   ; $3 = target
+
+
+  var %tech.element $readini(techniques.db, $2, element)
+  var %target.element.heal $readini($char($3), element, heal)
+
+  if ($istok(%target.element.heal,%tech.element,46) = $true) { 
+    $tech.heal($1, $2, $3, %absorb)
+    return
+  }
 
   if ($readini(techniques.db, $2, absorb) = yes) { set %absorb absorb }
   else { set %absorb none }
@@ -207,14 +216,14 @@ alias tech.stealPower {
   $set_chr_name($3) | set %enemy %real.name
 
   query %battlechan 3 $+ %user $+  $readini(techniques.db, $2, desc)
-  $set_chr_name($1) | query %battlechan 3 $+ %real.name has stolen and absorbs %amount.of.str strength, %amount.of.def defense, %amount.of.int intelligence and %amount.of.spd speed from $set_chr_name($3) %real.name $+ !
+  $set_chr_name($1) | query %battlechan $readini(translation.dat, tech, StolenPower)
 
   return
 }
 
 alias tech.suicide {
   $set_chr_name($1)
-  query %battlechan 4 $+ %real.name uses all of $gender($1) health to perform this technique!
+  query %battlechan $readini(translation.dat, tech, SuicideUseAllHP)
 
   $calculate_damage_suicide($1, $2, $3)
   writeini $char($1) battle hp 0 | writeini $char($1) battle status dead | $set_chr_name($1)
@@ -329,7 +338,7 @@ alias tech.suicideaoe {
   unset %who.battle | set %number.of.hits 0
 
   $set_chr_name($1)
-  query %battlechan 4 $+ %real.name uses all of $gender($1) health to perform this technique!
+  query %battlechan $readini(translation.dat, tech, SuicideUseAllHP)
 
   ; Display the tech description
   $set_chr_name($1) | set %user %real.name
@@ -400,7 +409,7 @@ alias tech.boost {
   ; $3 = target
 
   if ($readini($char($1), status, boosted) != no) { 
-    $set_chr_name($1) | query %battlechan 4 $+ %real.name is already powered up and cannot do so again until next round. 
+    $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, AlreadyBoosted)
     if ($readini($char($1), info, flag) = monster) { $check_for_double_turn($1) | halt }
     else { halt }
   }
@@ -450,7 +459,7 @@ alias tech.finalgetsuga {
   ; $3 = target
 
   if ($readini($char($1), status, FinalGetsuga) != no) { 
-    $set_chr_name($1) | query %battlechan 4 $+ %real.name has already used this technique and cannot do so again. 
+    $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, AlreadyUsedFinalGetsuga)
     if ($readini($char($1), info, flag) = monster) { $check_for_double_turn($1) | halt }
     else { halt }
   }
@@ -587,8 +596,13 @@ alias tech.aoe {
   ; Display the tech description
   $set_chr_name($1) | set %user %real.name
   $set_chr_name($2) | set %enemy %real.name
+
   query %battlechan 3 $+ %user  $+ $readini(techniques.db, $2, desc)
+  set %showed.tech.desc true
+
   if ($readini(techniques.db, $2, absorb) = yes) { set %absorb absorb }
+
+  var %tech.element $readini(techniques.db, $2, element)
 
   ; If it's player, search out remaining players that are alive and deal damage and display damage
   if ($4 = player) {
@@ -602,9 +616,17 @@ alias tech.aoe {
         if ((%current.status = dead) || (%current.status = runaway)) { inc %battletxt.current.line 1 }
         else { 
           inc %number.of.hits 1
-          $calculate_damage_techs($1, $2, %who.battle)
-          $deal_damage($1, %who.battle, $2, %absorb)
-          $display_aoedamage($1, %who.battle, $2, %absorb)
+          var %target.element.heal $readini($char(%who.battle), element, heal)
+          if ($istok(%target.element.heal,%tech.element,46) = $true) { 
+            $tech.heal($1, $2, $3, %absorb)
+          }
+
+          if ($istok(%target.element.heal,%tech.element,46) = $false) { 
+            $calculate_damage_techs($1, $2, %who.battle)
+            $deal_damage($1, %who.battle, $2, %absorb)
+            $display_aoedamage($1, %who.battle, $2, %absorb)
+          }
+
           inc %battletxt.current.line 1 
         } 
       }
@@ -623,16 +645,23 @@ alias tech.aoe {
         var %current.status $readini($char(%who.battle), battle, status)
         if ((%current.status = dead) || (%current.status = runaway)) { inc %battletxt.current.line 1 }
         else { 
-          $calculate_damage_techs($1, $2, %who.battle)
-          $deal_damage($1, %who.battle, $2, %absorb)
-          $display_aoedamage($1, %who.battle, $2, %absorb)
+          var %target.element.heal $readini($char(%who.battle), element, heal)
+          if ($istok(%target.element.heal,%tech.element,46) = $true) { 
+            echo -a true
+            $tech.heal($1, $2, $3, %absorb)
+          }
+          if ($istok(%target.element.heal,%tech.element,46) = $false) { 
+            $calculate_damage_techs($1, $2, %who.battle)
+            $deal_damage($1, %who.battle, $2, %absorb)
+            $display_aoedamage($1, %who.battle, $2, %absorb)
+          }
           inc %battletxt.current.line 1 
         } 
       }
     }
   }
 
-  unset %element.desc
+  unset %element.desc | unset %showed.tech.desc
   set %timer.time $calc(%number.of.hits * 1.5) 
   /.timerCheckForDoubleSleep $+ $rand(a,z) $+ $rand(1,1000) 1 %timer.time /check_for_double_turn $1
   halt
@@ -647,12 +676,12 @@ alias display_aoedamage {
 
   ; Show the damage
   $calculate.stylepoints($1)
-  query %battlechan The attack did4 $bytes(%attack.damage,b) damage to %enemy $+ ! %element.desc  $+ %style.rating
+  query %battlechan $readini(translation.dat, tech, DisplayAOEDamage)
 
   if ($4 = absorb) { 
     ; Show how much the person absorbed back.
     var %absorb.amount $round($calc(%attack.damage / 2),0)
-    query %battlechan 3 $+ %user absorbs $bytes(%absorb.amount,b) HP back from the damage.
+    query %battlechan $readini(translation.dat, tech, AbsorbHPBack)
   }
 
 
@@ -663,13 +692,12 @@ alias display_aoedamage {
     $check.clone.death($2)
     $increase_death_tally($2)
     if (%attack.damage > $readini($char($2), basestats, hp)) { set %overkill 7<<OVERKILL>> }
-    query %battlechan 4 $+ %enemy has been defeated by %user $+ !  %overkill
+    query %battlechan $readini(translation.dat, battle, EnemyDefeated)
     if ($readini($char($1), info, flag) != monster) {
       if (%battle.type = monster) {  $add.stylepoints($1, $2, mon_death, $3) | $add.style.orbbonus($1, monster) }
       if (%battle.type = boss) { $add.stylepoints($1, $2, boss_death, $3) | $add.style.orbbonus($1, boss) }
     }
   }
-
 
   if ($readini($char($2), battle, HP) > 0) {
     ; Check to see if the monster can be staggered..  
@@ -683,6 +711,7 @@ alias display_aoedamage {
       query %battlechan $readini(translation.dat, status, StaggerHappens)
     }
   }
+
   unset %attack.damage
   return 
 }
@@ -803,21 +832,21 @@ alias calculate_damage_techs {
 
   unset %base.stat.needed | unset %base.stat
 
-
-  if ($readini($char($3), skills, utsusemi.on) = off) {
+  var %utsusemi.flag $readini($char($3), skills, utsusemi.on)
+  if ((%utsusemi.flag = off) || (%utsusemi.flag = $null)) {
     ; does the target have ManaWall on?  If so, reduce the damage to 0.
     if (($readini($char($3), skills, manawall.on) = on) && ($readini(techniques.db, $2, magic) = yes)) { 
       if ($readini(techniques.db, $2, type) = heal) { return }
-      writeini $char($3) skills manawall.on off | set %attack.damage 0 | $set_chr_name($3) | query %battlechan 7 $+ %real.name $+ 's Mana Wall has absorbed the spell! | return 
+      writeini $char($3) skills manawall.on off | set %attack.damage 0 | $set_chr_name($3) | query %battlechan $readini(translation.dat, skill, ManaWallBlocked) | return 
     }
   }
-  if ($readini($char($3), skills, utsusemi.on) = on) {
+  if (%utsusemi.flag = on) {
     if ($readini(techniques.db, $2, type) = heal) { return }
     var %number.of.shadows $readini($char($3), skills, utsusemi.shadows)
     dec %number.of.shadows 1 
     writeini $char($3) skills utsusemi.shadows %number.of.shadows
     if (%number.of.shadows <= 0) { writeini $char($3) skills utsusemi.on off }
-    $set_chr_name($3) | query %battlechan 7One of %real.name $+ 's shadows absorbs the attack and disappears! | set %attack.damage 0 | return 
+    $set_chr_name($3) | query %battlechan $readini(translation.dat, skill, UtsusemiBlocked)  | set %attack.damage 0 | return 
   }
 }
 
@@ -881,7 +910,10 @@ alias calculate_damage_suicide {
     if (%attack.damage <= 0) { set %attack.damage 1 }
     if (%attack.damage >= 1000) { set %attack.damage 500 }
   }
-
+  if (%current.flag = npc) {  set %attack.damage $round($calc(%attack.damage / 10),0)
+    if (%attack.damage <= 0) { set %attack.damage 1 }
+    if (%attack.damage >= 1000) { set %attack.damage 750 }
+  }
 
   ; Now we're ready to calculate the enemy's defense..  
   var %enemy.defense $readini($char($3), battle, def)
@@ -918,7 +950,7 @@ alias display_Statusdamage {
 
   ; Show the damage
   $calculate.stylepoints($1)
-  query %battlechan The attack did4 $bytes(%attack.damage,b) damage %style.rating
+  query %battlechan $readini(translation.dat, battle, AttackDidDamage)
 
   ; Did the person die?  If so, show the death message.
   if ($readini($char($2), battle, HP) <= 0) { 
@@ -927,7 +959,7 @@ alias display_Statusdamage {
     $check.clone.death($2)
     $increase_death_tally($2)
     if (%attack.damage > $readini($char($2), basestats, hp)) { set %overkill 7<<OVERKILL>> }
-    query %battlechan 4 $+ %enemy has been defeated by %user $+ !  %overkill
+    query %battlechan $readini(translation.dat, battle, EnemyDefeated)
     if ($readini($char($1), info, flag) != monster) {
       if (%battle.type = monster) {  $add.stylepoints($1, $2, mon_death, $3) | $add.style.orbbonus($1, monster) }
       if (%battle.type = boss) { $add.stylepoints($1, $2, boss_death, $3) | $add.style.orbbonus($1, boss) }
@@ -948,7 +980,6 @@ alias calculate_damage_magic {
   ; $1 = user
   ; $2 = technique used
   ; $3 = target
-
 
   set %current.playerstyle $readini($char($1), styles, equipped)
   set %current.playerstyle.level $readini($char($1), styles, %current.playerstyle)
@@ -978,7 +1009,6 @@ alias calculate_damage_magic {
   ; Elementals are weak to magic
   if ($readini($char($3), monster, type) = elemental) { inc %magic.bonus.modifier 1.3 } 
 
-
   if (%magic.bonus.modifier != 0) { inc %attack.damage $round($calc(%attack.damage * %magic.bonus.modifier),0) }
 
   ; Is the weather the right condition to enhance the spell?
@@ -988,7 +1018,6 @@ alias calculate_damage_magic {
   if ($readini($char($3), skills, manawall.on) != on) {
     $magic.effect.check($1, $3, $2)  
   }
-
 
   unset %magic.bonus.modifier
 }
@@ -1021,14 +1050,16 @@ alias magic.effect.check {
 
   unset %spell.element | unset %element.desc
   set %spell.element $readini(techniques.db, $3, element) | $set_chr_name($2) 
+  var %target.element.heal $readini($char($2), element, heal)
+  if ($istok(%target.element.heal,%spell.element,46) = $true) { return }
 
   if (%spell.element = $null) { return } 
   if (%spell.element  = light) { return }
   if (%spell.element  = dark) { return }
-  if (%spell.element  = fire) { writeini $char($2) Status burning yes | set %element.desc 4Flames encase around %real.name $+ 's body! | return }
-  if (%spell.element  = wind) { writeini $char($2) Status tornado yes | set %element.desc 4A mini tornado encases around %real.name $+ 's body causing cuts! | return }
-  if (%spell.element  = water) { writeini $char($2) Status drowning yes | set %element.desc 4Water encases around %real.name $+ 's body preventing breathing! | return }
-  if (%spell.element  = ice) { writeini $char($2) Status frozen yes | set %element.desc 4Ice crystals begin to form on %real.name $+ 's body! | return }
-  if (%spell.element  = lightning) { writeini $char($2) Status shock yes | set %element.desc 4Lightning bolts shoot into %real.name causing shock! | return }
-  if (%spell.element  = earth) { writeini $char($2) Status earth-quake yes | set %element.desc 4The ground begins to shake under %real.name $+ !  | return }
+  if (%spell.element  = fire) { writeini $char($2) Status burning yes | set %element.desc $readini(translation.dat, element, fire) | return }
+  if (%spell.element  = wind) { writeini $char($2) Status tornado yes | set %element.desc $readini(translation.dat, element, wind)  | return }
+  if (%spell.element  = water) { writeini $char($2) Status drowning yes | set %element.desc $readini(translation.dat, element, water) | return }
+  if (%spell.element  = ice) { writeini $char($2) Status frozen yes | set %element.desc $readini(translation.dat, element, ice) | return }
+  if (%spell.element  = lightning) { writeini $char($2) Status shock yes | set %element.desc $readini(translation.dat, element, lightning) | return }
+  if (%spell.element  = earth) { writeini $char($2) Status earth-quake yes | set %element.desc $readini(translation.dat, element, earth) | return }
 }

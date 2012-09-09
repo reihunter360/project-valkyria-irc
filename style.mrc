@@ -14,8 +14,8 @@ alias calculate.stylepoints {
   if ((%style.points > 150) && (%style.points <=  180)) { set %style.rating $chr(91) $+ 10Sweet!  $+ $chr(93) }
   if ((%style.points > 180) && (%style.points <=  250)) { set %style.rating $chr(91) $+ 10SShowtime!  $+ $chr(93) }
   if ((%style.points > 250) && (%style.points <= 550)) { set %style.rating $chr(91) $+ 10SSStylish!  $+ $chr(93) }
-  if ((%style.points > 550) && (%style.points <= 1000)) { set %style.rating $chr(91) $+ 10SSSSmoking Hot Style! $+ $chr(93) }
-  if (%style.points > 1000) { set %style.rating $chr(91) $+ 10Jackpot! $+ $chr(93) }
+  if ((%style.points > 550) && (%style.points <= 3500)) { set %style.rating $chr(91) $+ 10SSSSmoking Hot Style! $+ $chr(93) }
+  if (%style.points > 3500) { set %style.rating $chr(91) $+ 10Jackpot! $+ $chr(93) }
 }
 
 alias add.stylepoints {

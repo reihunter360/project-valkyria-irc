@@ -19,7 +19,7 @@ boost_monster_stats {
   if ($isfile($boss($1)) = $true) { inc %increase.amount .5 }
 
   var %shop.level $readini(battle2.txt, BattleInfo, ShopLevel)
-  if ($readini(battle2.txt, battleinfo, players) = 1)  { inc %increase.amount $calc(%shop.level / 40)  }
+  if ($readini(battle2.txt, battleinfo, players) = 1)  { inc %increase.amount $calc(%shop.level / 35)  }
   if ($readini(battle2.txt, battleinfo, players) = 2)  {  inc %increase.amount $calc(%shop.level / 30)  }
   if ($readini(battle2.txt, battleinfo, players) >= 3)  {  inc %increase.amount $calc(%shop.level / 25)   }
 
@@ -204,7 +204,7 @@ display_damage {
   }
 
   if ($3 = tech) {
-    query %battlechan 3 $+ %user $+  $readini(techniques.db, $4, desc)
+    if (%showed.tech.desc != true) { query %battlechan 3 $+ %user $+  $readini(techniques.db, $4, desc) }
   }
 
   if ($3 = item) {
@@ -296,7 +296,9 @@ display_heal {
   if (%user = %enemy ) { set %enemy $gender2($1) $+ self }
 
   if ($3 = tech) {
-    $set_chr_name($1) | query %battlechan 3 $+ %real.name $+  $readini(techniques.db, $4, desc)
+    if (%showed.tech.desc != true) {
+      $set_chr_name($1) | query %battlechan 3 $+ %real.name $+  $readini(techniques.db, $4, desc)
+    }
   }
 
   if ($3 = item) {

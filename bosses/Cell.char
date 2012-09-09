@@ -1,15 +1,15 @@
 [BaseStats]
-Hp=100
+Hp=105
 Tp=50
-Str=13
-Def=10
-Int=15
-Spd=5
+Str=17
+Def=15
+Int=20
+Spd=20
 Name=Cell
 
 
 [Battle]
-Hp=100
+Hp=105
 Tp=50
 Str=17
 Def=15
@@ -33,6 +33,7 @@ Dused=1
 Char=is an ugly green and black bug-looking monster
 Rage=screams in rage 
 BossQuote=I'm on the verge of becoming a God!
+ShadowCopy=looks at the battlefield and laughs. "Let's see how you fare against a child of mine!"  Cell's tail opens up wide and a tiny clone of himself slides out.  The Cell Jr then joins the battle.
 
 
 [Stuff]
@@ -90,15 +91,16 @@ Cell'sKi=10
 
 [Skills]
 resist-stun=10
+ShadowCopy=1
+ShadowCopy_Name=Cell Jr
 
 [Techniques]
-CellExplode=20
 PerfectForm=10
-Kamehameha=10
+Kamehameha=15
 
 
 [Item_Amount]
-pizza=1
+senzu=1
 
 
 [Element]

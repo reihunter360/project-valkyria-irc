@@ -97,12 +97,12 @@ swordmaster=55
 elementalseal=20
 speed=40
 FieldMedic=500
-DesperateBlows
+DesperateBlows=1
 
 [Techniques]
 CureV=155
 ; Ragnarok Online Techs.
-SonicBlow=250
+SonicBlow=350
 JupitelThunder=280
 ; BreakArmor=10
 BrandishSpear=200

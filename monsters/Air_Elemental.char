@@ -91,15 +91,16 @@ ElementalPower=10
 
 [Skills]
 ClearMind=1
+Manawall=1
+ElementalSeal=1
 
 [Techniques]
 AeroII=7
 Aeroja=7
 
 
-[Item_Amount]
-pizza=1
 
 [Element]
 Weakness=ice
-Strong=earth.wind
+Strong=earth
+Heal=wind

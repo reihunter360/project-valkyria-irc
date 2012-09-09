@@ -96,6 +96,7 @@ Desperateblows=5
 ElementalSeal=5
 manawall.on=on
 elementalseal.on=on
+Manawall=1
 
 [Techniques]
 Holy=10

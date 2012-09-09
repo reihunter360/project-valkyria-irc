@@ -107,4 +107,5 @@ HorrorCloud=10
 
 [Element]
 Weakness=light.fire
-Strong=dark.ice
+Strong=ice
+Heal=dark

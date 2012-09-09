@@ -44,8 +44,8 @@ SetGenderMale=$chr(3) $+ 3 $+ Your gender has been set to $2
 SetGenderFemale=$chr(3) $+ 3 $+ Your gender has been set to $2
 ViewMyHP=$chr(3) $+ 3 $+  $+ %real.name $+ 's HP is: $readini($char($nick), Battle, HP) $chr(47) $readini($char($nick), BaseStats, HP)  $chr(91) $+  %hstats $+ 3 $+ $chr(93)  
 ViewMyTP=$chr(3) $+ 3 $+  $+ %real.name $+ 's TP is: $readini($char($nick), Battle, TP) $chr(47) $readini($char($nick), BaseStats, TP) 
-ViewMyOrbs=$chr(3) $+ 3 $+  $+ %real.name has $bytes($readini($char($nick), stuff, RedOrbs),b)  $+ $readini(system.dat, system, currency) and $readini($char($nick), stuff, BlackOrbs) Black Orb(s) and has spent %orbs.spent  $+ $readini(system.dat, system, currency) total! 
-ViewOthersOrbs=$chr(3) $+ 3 $+  $+ %real.name has $bytes($readini($char($2), stuff, RedOrbs),b)  $+ $readini(system.dat, system, currency) and $readini($char($2), stuff, BlackOrbs) Black Orb(s) and has spent %orbs.spent  $+ $readini(system.dat, system, currency) total! 
+ViewMyOrbs=$chr(3) $+ 3 $+  $+ %real.name has $bytes($readini($char($nick), stuff, RedOrbs),b)  $+ $readini(system.dat, system, currency) and $readini($char($nick), stuff, BlackOrbs) Black Orb(s) and has spent %orbs.spent  $+ $readini(system.dat, system, currency) and %blackorbs.spent Black Orb(s) total! 
+ViewOthersOrbs=$chr(3) $+ 3 $+  $+ %real.name has $bytes($readini($char($2), stuff, RedOrbs),b)  $+ $readini(system.dat, system, currency) and $readini($char($2), stuff, BlackOrbs) Black Orb(s) and has spent %orbs.spent  $+ $readini(system.dat, system, currency) and %blackorbs.spent Black Orb(s) total! 
 HereIsYourCurrentStats=$chr(3) $+ 3 $+ Here are your current stats:
 CurrentWeaponEquipped=Current Weapon Equipped
 ViewWeaponList=$chr(3) $+ 3 $+  $+ %real.name has the following weapons: %weapon.list
@@ -67,7 +67,8 @@ EquipWeaponPlayer=$chr(3) $+ 3 $+  $+ %real.name has equipped $2
 UnequipWeapon=$chr(3) $+ 3 $+  $+ %real.name unequipped the %weapon.equipped
 ViewStatus=$chr(3) $+ 3 $+  $+ %real.name $+ 's status is currently:4 %all_status
 OKDesc=$chr(3) $+ 3 $+ Your $2 desc was entered correctly!
-
+AutomatedBattleOn=$chr(3) $+ 4 $+ The Automated Battle System has been turned on.
+AutomatedBattleOff=$chr(3) $+ 4 $+ The Automated Battle System has been turned off.
 
 
 =======================
@@ -95,14 +96,14 @@ MonsterDoesNotExist=$chr(3) $+ 4 $+ Error: $3 does not exist as a monster!
 NPCDoesNotExist=$chr(3) $+ 4 $+ Error: $3 does not exist as an NPC!
 AlreadyInBattle=$chr(3) $+ 4 $+ Error: %real.name is already in the battle! 
 YouDoNotHaveSkill=$chr(3) $+ 4 $+ Error: You do not have this skill! 
-DoNotHaveSkill=$chr(3) $+ 4 $+ Error: %real.name does not have that skill.
+DoNotHaveSkill=$chr(3) $+ 4 $+ Error: %real.name does not have that skill.
 WrongPassword=$chr(3) $+ 4 $+ Error: Incorrect Password, to change your password, type !newpass <old pass> <new pass>
 WrongPassword2=$chr(3) $+ 4 $+ Error: Incorrect password, please input your password to recieve your voice. 
 TooManyWrongPass=Too many incorrect passwords
 OnlyAnalyzeMonsters=$chr(3) $+ 4 $+ Error: You can only analyze monsters. 
 NeedValidGender=$chr(3) $+ 4 $+ Error: You must specify a valid gender
-SpecifyStyle=$chr(3) $+ 4 $+ Error: %real.name needs to specify which style to switch to!
-DoNotKnowThatStyle=$chr(3) $+ 4 $+ Error: %real.name does not know that style and cannot switch to it!
+SpecifyStyle=$chr(3) $+ 4 $+ Error: %real.name needs to specify which style to switch to!
+DoNotKnowThatStyle=$chr(3) $+ 4 $+ Error: %real.name does not know that style and cannot switch to it!
 CanOnlySwitchOutsideBattle=$chr(3) $+ 4 $+ Error: You can only switch styles outside of battles.
 InvalidStyle=$chr(3) $+ 4 $+ Error: Invalid style!
 DoNotHaveWeapon=$chr(3) $+ 4 $+ Error: %real.name does not own that weapon! 
@@ -117,6 +118,11 @@ CanOnlyAttackMonsters=$chr(3) $+ 4 $+ %real.name can only attack monsters!
 CanNotAttackWhileUnconcious=$chr(3) $+ 4  $+ %real.name cannot attack while unconcious!
 CanNotAttackSomeoneWhoIsDead=$chr(3) $+ 4 $+ %real.name cannot attack someone who is dead! 
 CanNotAttackSomeoneWhoFled=$chr(3) $+ 4 $+ %real.name cannot attack $set_chr_name($2) %real.name $+ , because %real.name has run away from the fight! 
+DoesNotKnowTech=$chr(3) $+ 4 $+ %real.name does not know how to perform the $2 technique!
+Can'tPerformTechWithWeapon=$chr(3) $+ 4 $+ %real.name cannot perform that technique using $gender($1) %weapon.equipped
+NotEnoughTPforTech=$chr(3) $+ 4 $+ %real.name does not have enough TP to perform this technique! 
+AlreadyBoosted=$chr(3) $+ 4 $+ %real.name is already powered up and cannot do so again until next round. 
+AlreadyUsedFinalGetsuga=$chr(3) $+ 4 $+ %real.name has already used this technique and cannot do so again. 
 
 =======================
 Battle Related Messages
@@ -154,7 +160,8 @@ PerformsATripleAttack=$chr(3) $+ 4 $+ %real.name performs a triple attack agai
 PerformsA4HitAttack=$chr(3) $+ 4 $+ %real.name performs a four hit attack against $set_chr_name($2) %real.name $+ ! 
 PerformsA5HitAttack=$chr(3) $+ 4 $+ %real.name performs a five hit attack against $set_chr_name($2) %real.name $+ ! 
 PerformsA6HitAttack=$chr(3) $+ 4 $+ %real.name performs a six hit attack against $set_chr_name($2) %real.name $+ ! 
-
+EnemyDefeated=$chr(3) $+ 4 $+ %enemy has been defeated by %user $+ !  %overkill
+AttackDidDamage=The attack did4 $bytes(%attack.damage,b) damage %style.rating
 
 =======================
 Status Related Messages
@@ -211,12 +218,27 @@ FinishedRegen=$chr(3) $+ 12 $+ %real.name has finished regenerating all $gende
 RegenerationMessage=$chr(3) $+ 12 $+ %real.name has regenerated $2  $+ $3 $+ !
 ZombieRegeneration=$chr(3) $+ 12 $+ %real.name has regenerated %howmuch  $+ hp $+ !
 RoyalGuardBlocked=$chr(3) $+ 7 $+ %real.name $+ 's Royal Guard has absorbed the attack! 
-UtsusemiBlocked=$chr(3) $+ 7 $+ One of %real.name $+ 's shadows absorbs the attack and disappears! 
+ManaWallBlocked=$chr(3) $+ 7 $+ %real.name $+ 's Mana Wall has absorbed the spell!
+UtsusemiBlocked=$chr(3) $+ 7 $+ One of %real.name $+ 's shadows absorbs the attack and disappears! 
 DrainSambaWornOff=$chr(3) $+ 12 $+ %real.name $+ 's drain samba has worn off. 
 
 =======================
 Tech Related Messages
 =======================
 [Tech]
+StolenPower=$chr(3) $+ 3 $+ %real.name has stolen and absorbs %amount.of.str strength, %amount.of.def defense, %amount.of.int intelligence and %amount.of.spd speed from $set_chr_name($3) %real.name $+ !
+SuicideUseAllHP=$chr(3) $+ 4 $+ %real.name uses all of $gender($1) health to perform this technique!
+DisplayAOEDamage=The attack did4 $bytes(%attack.damage,b) damage to %enemy $+ ! %element.desc  $+ %style.rating
+AbsorbHPBack=$chr(3) $+ 3 $+ %user absorbs $bytes(%absorb.amount,b) HP back from the damage.
 
 
+=======================
+Magic Element Messages
+=======================
+[Element]
+Fire=$chr(3) $+ 4 $+ Flames encase around %real.name $+ 's body!
+Wind=$chr(3) $+ 4 $+ A mini tornado encases around %real.name $+ 's body causing cuts!
+Water=$chr(3) $+ 4 $+ Water encases around %real.name $+ 's body preventing breathing! 
+Ice=$chr(3) $+ 4 $+ Ice crystals begin to form on %real.name $+ 's body!
+Lightning=$chr(3) $+ 4 $+ Lightning bolts shoot into %real.name causing shock!
+Earth=$chr(3) $+ 4 $+ The ground begins to shake under %real.name $+ ! 

@@ -1,5 +1,5 @@
 [BaseStats]
-Hp=45
+Hp=55
 Tp=50
 Str=5
 Def=5
@@ -9,7 +9,7 @@ Name=Zombie
 
 
 [Battle]
-Hp=45
+Hp=55
 Tp=50
 Str=5
 Def=5

@@ -38,7 +38,7 @@ BossQuote=I will render you all to ash!
 RedOrbs=0
 BlackOrbs=1
 ShopLevel=1.0
-Drops=Cavier
+Drops=Cavier.Ether
 
 [Info]
 Flag=monster
@@ -113,3 +113,7 @@ Blizzaja=20
 Weakness=
 Strong=
 
+[Styles]
+Equipped=SpellMaster
+SpellMaster=1
+SpellMasterXP=0

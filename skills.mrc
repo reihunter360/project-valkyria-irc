@@ -61,7 +61,7 @@ alias skill.elementalseal {
   if ((%time.difference = $null) || (%time.difference > $readini(skills.db, ElementalSeal, cooldown))) {
 
     ; Display the desc. 
-    if ($readini($char($1), descriptions, ElementalSeal) = $null) { set %skill.description uses an ancient technique to enhance $gender($1) the next magical spell! }
+    if ($readini($char($1), descriptions, ElementalSeal) = $null) { set %skill.description uses an ancient technique to enhance $gender($1) next magical spell! }
     else { set %skill.description $readini($char($1), descriptions, ElementalSeal) }
     $set_chr_name($1) | query %battlechan 12 $+ %real.name  $+ %skill.description
 
@@ -224,7 +224,7 @@ alias skill.utsusemi {
 
   inc %time.difference $calc(%time.difference + ($readini($char($1), skills, utsusemi) * 60))
 
-    if ((%time.difference = $null) || (%time.difference > $readini(skills.db, Utsusemi, cooldown))) {
+  if ((%time.difference = $null) || (%time.difference > $readini(skills.db, Utsusemi, cooldown))) {
 
     ; Check for the item "Shihei" and consume it, or display an error if they don't have any.
     set %check.item $readini($char($1), item_amount, shihei)
@@ -706,8 +706,10 @@ alias skill.bloodboost {
   if (%battleis = off) { query %battlechan 4There is no battle currently! | halt }
   $check_for_battle($1)
 
-  var %hp.needed 100 | var %hp.current $readini($char($1), battle, hp)
-  if (%hp.needed > %hp.current) { query %battlechan 4Error: %real.name does not have enough HP to use this skill! | halt }
+  if ($readini($char($1), info, flag) = $null) { 
+    var %hp.needed 100 | var %hp.current $readini($char($1), battle, hp)
+    if (%hp.needed > %hp.current) { query %battlechan 4Error: %real.name does not have enough HP to use this skill! | halt }
+  }
 
   ; Check to see if enough time has elapsed
   var %last.used $readini($char($1), skills, bloodboost.time)
@@ -717,16 +719,18 @@ alias skill.bloodboost {
   if ((%time.difference = $null) || (%time.difference > $readini(skills.db, BloodBoost, cooldown))) {
 
     ; Display the desc. 
-    if ($readini($char($1), descriptions, bloodboost) = $null) { set %skill.description sacrifices %hp.needed HP and converts it into raw strength.  }
+    if ($readini($char($1), descriptions, bloodboost) = $null) { set %skill.description sacrifices some of $gender($1) blood for raw strength.  }
     else { set %skill.description $readini($char($1), descriptions, bloodboost) }
     $set_chr_name($1) | query %battlechan 12 $+ %real.name  $+ %skill.description
 
     ; write the last used time.
     writeini $char($1) skills bloodboost.time $ctime
 
-    ; Dec the HP
-    dec %hp.current %hp.needed
-    writeini $char($1) battle hp %hp.current
+    if ($readini($char($1), info, flag) = $null) { 
+      ; Dec the HP
+      dec %hp.current %hp.needed
+      writeini $char($1) battle hp %hp.current
+    }
 
     ; get STR
     var %str.current $readini($char($1), battle, str)
@@ -763,8 +767,10 @@ alias skill.drainsamba {
   if (%battleis = off) { query %battlechan 4There is no battle currently! | halt }
   $check_for_battle($1)
 
-  var %tp.needed 15 | var %tp.current $readini($char($1), battle, tp)
-  if (%tp.needed > %tp.current) { query %battlechan 4Error: %real.name does not have enough TP to use this skill! | halt }
+  if ($readini($char($1), info, flag) = $null) { 
+    var %tp.needed 15 | var %tp.current $readini($char($1), battle, tp)
+    if (%tp.needed > %tp.current) { query %battlechan 4Error: %real.name does not have enough TP to use this skill! | halt }
+  }
 
   ; Check to see if enough time has elapsed
   var %last.used $readini($char($1), skills, drainsamba.time)
@@ -781,9 +787,11 @@ alias skill.drainsamba {
     ; write the last used time.
     writeini $char($1) skills drainsamba.time $ctime
 
-    ; Dec the TP
-    dec %tp.current %tp.needed
-    writeini $char($1) battle tp %tp.current
+    if ($readini($char($1), info, flag) = $null) { 
+      ; Dec the TP
+      dec %tp.current %tp.needed
+      writeini $char($1) battle tp %tp.current
+    }
 
     writeini $char($1) skills drainsamba.turn 0 | writeini $char($1) skills drainsamba.on on
 
@@ -955,8 +963,10 @@ alias skill.clone {
   $set_chr_name($1) | query %battlechan 12 $+ %real.name  $+ %skill.description
 
   .copy $char($1) $char($1 $+ _clone)
-  writeini $char($1 $+ _clone) info flag npc
-  writeini $char($1 $+ _clone) basestats name Clone of $1
+  if ($readini($char($1), info, flag) = $null) { writeini $char($1 $+ _clone) info flag npc }
+
+  if ($2 = $null) {  writeini $char($1 $+ _clone) basestats name Clone of $1 }
+  if ($2 != $null) { writeini $char($1 $+ _clone) basestats name $2- }
 
   set %curbat $readini(battle2.txt, Battle, List)
   %curbat = $addtok(%curbat,$1 $+ _clone,46)
@@ -964,14 +974,23 @@ alias skill.clone {
   write battle.txt $1 $+ _clone
 
   set %current.hp $readini($char($1 $+ _clone), battle, hp)
-  set %current.playerstyle $readini($char($1), styles, equipped)
-  set %current.playerstyle.level $readini($char($1), styles, %current.playerstyle)
+  if ($readini($char($1), info, flag) = $null) {
+    set %current.playerstyle $readini($char($1), styles, equipped)
+    set %current.playerstyle.level $readini($char($1), styles, %current.playerstyle)
+    if (%current.playerstyle != Doppelganger) { set %hp $round($calc(%current.hp / 2.5),0) }
+    if (%current.playerstyle = Doppelganger) { 
+      var %value $calc(2 - (%current.playerstyle.level * .1)) 
+      if (%value < 1) { var %value 1 } 
+      set %hp $round($calc(%current.hp / %value),0) 
+    }
+  }
 
-  if (%current.playerstyle != Doppelganger) { set %hp $round($calc(%current.hp / 2.5),0) }
-  if (%current.playerstyle = Doppelganger) { 
-    var %value $calc(2 - (%current.playerstyle.level * .1)) 
-    if (%value < 1) { var %value 1 } 
-    set %hp $round($calc(%current.hp / %value),0) 
+  if ($readini($char($1), info, flag) != $null) { 
+    set %hp $round($calc(%current.hp / 1.5),0)
+    writeini $char($1) skills shadowcopy 0
+    var %number.of.monsters $readini(battle2.txt, BattleInfo, Monsters)
+    inc %number.of.monsters 1
+    writeini battle2.txt battleinfo monsters %number.of.monsters
   }
 
   if (%hp <= 1) { set %hp 1 }
@@ -980,6 +999,7 @@ alias skill.clone {
 
   writeini $char($1 $+ _clone) battle hp %hp
   writeini $char($1 $+ _clone) basestats hp %hp
+  writeini $char($1 $+ _clone) skills shadowcopy 0
 
   unset %hp
 
@@ -1103,16 +1123,20 @@ alias skill.analysis {
   var %analysis.int $readini($char($2), battle, int) | var %analysis.spd $readini($char($2), battle, spd)
   var %analysis.weapon.strength $readini($char($2), weapons, strong) | var %analysis.weapon.weak $readini($char($2), weapons, weakness)
   var %analysis.element.strength $readini($char($2), element, strong) | var %analysis.element.weak $readini($char($2), element, weakness)
+  var %analysis.element.absorb = $readini($char($2), element, heal)
   if (%analysis.weapon.strength = $null) { var %analysis.weapon.strength none }
   if (%analysis.weapon.weak = $null) { var %analysis.weapon.weak none }
   if (%analysis.element.weak = $null) { var %analysis.element.weak none }
   if (%analysis.element.strength = $null) { var %analysis.element.strength none }
+  if (%analysis.element.absorb = $null) { var %analysis.element.absorb none }
 
   set %replacechar $chr(044) $chr(032)
   %analysis.weapon.weak = $replace(%analysis.weapon.weak, $chr(046), %replacechar)
   %analysis.weapon.strength = $replace(%analysis.weapon.strength, $chr(046), %replacechar)
   %analysis.element.weak = $replace(%analysis.element.weak, $chr(046), %replacechar)
   %analysis.element.strength = $replace(%analysis.element.strength, $chr(046), %replacechar)
+  %analysis.element.absorb = $replace(%analysis.element.absorb, $chr(046), %replacechar)
+
 
   if (%analysis.level = 1) {  $set_chr_name($2) | .msg $1 3You analyze %real.name and determine $gender3($2) has %analysis.hp HP left. | goto next_turn_check }
   if (%analysis.level = 2) {  $set_chr_name($2) | .msg $1 3You analyze %real.name and determine $gender3($2) has %analysis.hp HP and %analysis.tp TP left. | goto next_turn_check }
@@ -1130,8 +1154,48 @@ alias skill.analysis {
     .msg $1 3 $+ %real.name is also strong against the following weapons: %analysis.weapon.strength and is strong against the following elements: %analysis.element.strength  $+ $chr(124) %real.name is weak against the following weapons: %analysis.weapon.weak and weak against the following elements: %analysis.element.weak 
     goto next_turn_check
   }
+  if (%analysis.level = 6) {  $set_chr_name($2) | .msg $1 3You analyze %real.name and determine $gender3($2) has %analysis.hp HP and %analysis.tp TP left.
+    .msg $1 3You also determine %real.name has the following stats: [str: %analysis.str $+ ] [def: %analysis.def $+ ] [int: %analysis.int $+ ] [spd: %analysis.spd $+ ]
+    .msg $1 3 $+ %real.name is also strong against the following weapons: %analysis.weapon.strength and is strong against the following elements: %analysis.element.strength  $+ $chr(124) %real.name is weak against the following weapons: %analysis.weapon.weak and weak against the following elements: %analysis.element.weak 
+    .msg $1 3 $+ %real.name will absorb and be healed by the following elements: %analysis.element.absorb
+    goto next_turn_check
+  }
 
   :next_turn_check
   ; Time to go to the next turn
   if (%battleis = on)  { $check_for_double_turn($nick) }
+}
+
+;=================
+; QUICKSILVER
+;=================
+on 2:TEXT:!quicksilver*:*: { $skill.quicksilver($nick) }
+
+alias skill.quicksilver {
+  set %current.playerstyle $readini($char($1), styles, equipped)
+  if (%current.playerstyle != Quicksilver) { query %battlechan 4Error: This command can only be used while the Quicksilver style is equipped! | unset %current.playerstyle | halt }
+
+  set %current.playerstyle.level $readini($char($1), styles, %current.playerstyle)
+  set %quicksilver.used $readini($char($1), skills, quicksilver.turn)
+
+  if (%quicksilver.used >= %current.playerstyle.level) { $set_chr_name($1) | query %battlechan 4 $+ %real.name cannot use $gender($1) Quicksilver power again this battle! | unset %current.playerstyle | halt }
+  inc %quicksilver.used 1 | writeini $char($1) skills quicksilver.turn %quicksilver.used
+
+  if ($readini($char($nick), descriptions, quicksilver) = $null) { $set_chr_name($1) | set %skill.description unleashes the power of Quicksilver! Time seems to stop for everyone except %real.name $+ ! }
+  else { set %skill.description $readini($char($nick), descriptions, quicksilver) }
+  $set_chr_name($1) | query %battlechan 12 $+ %real.name  $+ %skill.description
+
+  var %battletxt.lines $lines(battle.txt) | var %battletxt.current.line 1 
+  while (%battletxt.current.line <= %battletxt.lines) { 
+    set %who.battle $read -l $+ %battletxt.current.line battle.txt
+    if (%who.battle != $1) { writeini $char(%who.battle) status stop yes }
+
+    inc %battletxt.current.line 1 
+  }
+
+  writeini $char($1) skills doubleturn.on on
+
+  ; Time to go to the next turn
+  if (%battleis = on)  { $check_for_double_turn($nick) }
+  unset %current.playerstyle | unset %current.playerstyle.level | unset %quicksilver.used
 }

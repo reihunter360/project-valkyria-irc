@@ -102,4 +102,5 @@ Tentacle=20
 
 [Element]
 Weakness=ice.lightning.light
-Strong=water.dark
+Strong=dark
+Heal=water

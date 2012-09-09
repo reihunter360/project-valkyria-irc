@@ -93,6 +93,7 @@ Resist-stun=5
 Resist-charm=60
 Resist-zombie=100
 DesperateBlows=1
+MightyStrike=1
 
 [Techniques]
 ShadowOfDeath=10

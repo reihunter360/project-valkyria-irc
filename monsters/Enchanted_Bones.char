@@ -109,4 +109,5 @@ Aero=15
 
 [Element]
 Weakness=light.fire
-Strong=dark.ice
+Strong=ice
+Heal=Dark
