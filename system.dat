@@ -9,7 +9,7 @@ basexp=3000
 basebossxp=20000
 startingorbs=3000
 currency=Red Orbs
-TimeBetweenBattles=1
+TimeBetweenBattles=3
 maxHP=999999
 maxTP=999999
 

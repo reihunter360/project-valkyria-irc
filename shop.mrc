@@ -421,12 +421,12 @@ alias shop.stats {
 
     if ($3 = hp) {
       var %player.current.hp $readini($char($1), basestats, hp)
-      if (%player.current.hp >= 2500) { .msg $nick 4Error: You have the maximum amount of HP allowed! | halt }
+      if (%player.current.hp >= $readini(system.dat, system, maxHP) ) { .msg $nick 4Error: You have the maximum amount of HP allowed! | halt }
     }
 
     if ($3 = tp) {
       var %player.current.tp $readini($char($1), basestats, tp)
-      if (%player.current.tp >= 500) {  .msg $nick 4Error: You have the maximum amount of TP allowed! | halt }
+      if (%player.current.tp >= $readini(system.dat, system, maxTP) ) {  .msg $nick 4Error: You have the maximum amount of TP allowed! | halt }
     }
 
     if (%player.redorbs < %total.price) { .msg $nick 4You do not have enough $readini(system.dat, system, currency) to purchase this upgrade! | halt }
@@ -445,11 +445,11 @@ alias shop.stats {
 
 
     if ($3 = hp) {
-      if (%base.stat.to.increase > 2500) { .msg $nick 4Error: This amount will push you over the 2500 limit allowed for HP. Please lower the amount and try again. | halt }
+      if (%base.stat.to.increase > $readini(system.dat, system, maxHP) ) { .msg $nick 4Error: This amount will push you over the $readini(system.dat, system, maxHP) limit allowed for HP. Please lower the amount and try again. | halt }
     }
 
     if ($3 = tp) {
-      if (%base.stat.to.increase > 00) { .msg $nick 4Error: This amount will push you over the 500 limit allowed for TP. Please lower the amount and try again. | halt }
+      if (%base.stat.to.increase > $readini(system.dat, system, maxTP) ) { .msg $nick 4Error: This amount will push you over the $readini(system.dat, system, maxTP) limit allowed for TP. Please lower the amount and try again. | halt }
     }
 
 
