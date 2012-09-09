@@ -1,20 +1,19 @@
 [BaseStats]
-Hp=2000000
-Tp=20000
-Str=666
-Def=333
-Int=666
-Spd=500
-Name=Omega Weapon
-
+Hp=100
+Tp=150
+Str=13
+Def=11
+Int=16
+Spd=15
+Name=Nightmare Vanguard
 
 [Battle]
-Hp=2000000
-Tp=200000
-Str=666
-Def=666
-Int=666
-Spd=500
+Hp=100
+Tp=150
+Str=13
+Def=11
+Int=16
+Spd=15
 Status=alive
 
 
@@ -22,40 +21,44 @@ Status=alive
 RageBar=0
 RageCountDown=0
 
+[Limit]
+Level=1
+Percent=0
+
 
 [Descriptions]
-Char=is a very large monster found in the Final Fantasy games, a very large indestructible boss.
+Hused=1
+Dused=1
+Char=is a cheap imitation of death, a vanguard of nightmares.  It's dressed in a flowly black cloak and carrying a large scythe
 Rage=screams in rage 
-BossQuote= *shines*
+
 
 
 [Stuff]
-RedOrbs=2000000
-BlackOrbs=10
-ShopLevel=25.0
-Drops=DiscountCard.DiscountCard.DragonMeat.BlueEyesWhiteDragonCard
+RedOrbs=0
+BlackOrbs=1
+ShopLevel=1.0
+
 
 [Monster]
-Type=
-
-[Limit]
-Level=0
-Percent=0
+Type=undead
 
 [Info]
 Flag=monster
-Gender=its
-Gender2=it
+Gender=his
+Gender2=him
 password=battlearena
 passhurt=0
 LastSeen=N/a
 LastIP=N/a
 Created=N/a
+CanStagger=yes
+StaggerAmount=$rand(100,130)
 
 [Status]
 Poison=no
 HeavyPoison=no
-Regenerating=yes
+Regenerating=no
 Blind=no
 Frozen=no
 Shock=no
@@ -83,22 +86,22 @@ zombie=no
 slow=no
 sleep=no
 stun=no
-MPRegenerating=yes
+MPRegenerating=no
 
 [Weapons]
-Equipped=FFOmegaWeapon
-FFOmegaWeapon=20
+Equipped=Death's_Scythe
+Death's_Scythe=10
+
 
 [Skills]
-Gunslinger=50
-Clearmind=3
-resist-zombie=100
+resist-stun=50
+resist-blind=30
 resist-charm=100
-resist-poison=100
+RoyalGuard=1
 
 [Techniques]
-Repairs=20
-SpaceBeam=20
+GrimReaper=10
+Grim_Slash=12
 
 
 [Item_Amount]
@@ -106,5 +109,6 @@ SpaceBeam=20
 
 
 [Element]
-Weakness=
-Strong=Fire.Ice.Wind.Light.Dark.Earth.Lightning
+Weakness=light
+Strong=lightning
+Heal=dark

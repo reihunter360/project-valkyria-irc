@@ -164,7 +164,7 @@ Ninjutsu=Shurikan.Backstab.Smokebomb
 FFOmegaWeapon=Repairs.SpaceBeam
 Silver_Goddess_Sword=TwinSlice.BiteOfLightning.BladeBeam.HyperTwinSlice.WiseReflection.CureV.GigaSlash.Atonement.BlizzajaII
 Valkyrie_Sword=CureV.SonicBlow.JupitelThunder.BrandishSpear.WiseReflection
-
+TRexWeapon=Roar.Swallow.SpikeFlail.VolcanicRush.SurvivalInstinct
 =======================
 HAND TO HAND
 ========================
@@ -3351,3 +3351,31 @@ cost=9000
 basepower=20
 Element=Lightning
 magic=yes
+
+[Swallow]
+Type=Single
+TP=20
+Desc=rushes towards %enemy $+ and swallows them for a while, then spits them back out!
+basepower=20
+Element=none
+cost=9000
+magic=0
+Absorb=Yes
+
+[VolcanicRush]
+Type=AOE
+StatusType=Burning.Shaking
+TP=50
+Desc=flails around and stomps on the ground, causing small tremors and finally rushes into the enemy, a giant volcano erupting and hitting everything in range.
+basepower=20
+Element=Fire
+cost=9000
+magic=yes
+
+[SurvivalInstinct]
+Type=boost
+TP=20
+Desc=roars into the sky to charge up into one final move... to ensure its survival!
+basepower=20
+element=Fire
+Cost=9000

@@ -12,7 +12,7 @@ Glyphs=Glyphs
 GreatSwords=Braveheart.Balmung.Nightfall.Ragnarok.Caladbolg
 MonsterWpns=Yagudo_Fists.Dark_Vampiric_Power.Guardian_Shield.Orc_Pike.QuadavWand_R.Mistilteinn.Silver_Goddess_Sword.Black_Goddess_Staff.Cell'sKi.Death's_Scythe.CreeperLegs.ZombieFists.PsychoPower.BedrockBite.Shadow_Blade.MenosPower.DragonFangs.BeeStinger.GoblinSword.YagudoWand.TigerFangs.Pinchers.BoneScythe.AndroidKi.Orcish_Gun.SubZeroFists.Ninjutsu
 MonsterWpns2=VampireFangs.SpaceGun.CerberusClaws.ElementalPower.MarioFists.FishBite.Egyptian_Rod.SinistralPower.JesterWand.VampireArt.Puppetry.Benihime.PeoplesFist.SuccubusPowerDragonShouts.BlueEyesPower.BlackMagic.DragonSword.OctoArms.Casull&Jackal.AlucardSword.Auto9.Railgun.WoolyTusks.OrochiPower.BogardGloves.GiygasPower.AtlantisPower.RedEyedDragoon.DarknessDragoon.ShihouinFists.ImpHorn.GhostPower
-MonsterWpns3=FFOmegaWeapon.Valkyrie_Sword
+MonsterWpns3=FFOmegaWeapon.Valkyrie_Sword.TrexWeapon
 
 =============================================
 HAND TO HAND
@@ -1335,4 +1335,14 @@ Abilities=CureV.SonicBlow.JupitelThunder.BrandishSpear.WiseReflection
 element=Light
 hits=$rand(1,3)
 basepower=50
+upgrade=500000
+
+[TRexWeapon]
+cost=999999
+Type=HandtoHand
+Info=A Tyrannosaurus' Weapon for fighting and hunting!
+Abilities=Roar.Swallow.SpikeFlail.VolcanicRush.SurvivalInstinct
+element=dark
+hits=$rand(2,5)
+basepower=35
 upgrade=500000
