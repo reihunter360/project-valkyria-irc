@@ -11,7 +11,7 @@ Scythes=DeathScythe.Vendetta.Apocalypse.Redemption
 Glyphs=Glyphs
 GreatSwords=Braveheart.Balmung.Nightfall.Ragnarok.Caladbolg
 MonsterWpns=Yagudo_Fists.Dark_Vampiric_Power.Guardian_Shield.Orc_Pike.QuadavWand_R.Mistilteinn.Silver_Goddess_Sword.Black_Goddess_Staff.Cell'sKi.Death's_Scythe.CreeperLegs.ZombieFists.PsychoPower.BedrockBite.Shadow_Blade.MenosPower.DragonFangs.BeeStinger.GoblinSword.YagudoWand.TigerFangs.Pinchers.BoneScythe
-MonsterWpns2=VampireFangs.SpaceGun.CerberusClaws.ElementalPower.MarioFists.FishBite.Egyptian_Rod.SinistralPower.JesterWand.VampireArt.Puppetry.Benihime.PeoplesFist.SuccubusPowerDragonShouts.BlueEyesPower.BlackMagic.DragonSword.OctoArms.Casull&Jackal.AlucardSword.Auto9.Railgun.WoolyTusks.OrochiPower.BogardGloves.GiygasPower.AtlantisPower.RedEyedDragoon.DarknessDragoon.ShihouinFists.ImpHorn.GhostPower.FFOmegaWeapon
+MonsterWpns2=VampireFangs.SpaceGun.CerberusClaws.ElementalPower.MarioFists.FishBite.Egyptian_Rod.SinistralPower.JesterWand.VampireArt.Puppetry.Benihime.PeoplesFist.SuccubusPowerDragonShouts.BlueEyesPower.BlackMagic.DragonSword.OctoArms.Casull&Jackal.AlucardSword.Auto9.Railgun.WoolyTusks.OrochiPower.BogardGloves.GiygasPower.AtlantisPower.RedEyedDragoon.DarknessDragoon.ShihouinFists.ImpHorn.GhostPower.FFOmegaWeapon.Valkyrie_Sword
 
 
 =============================================
@@ -1300,4 +1300,14 @@ Abilities=Repairs.SpaceBeam
 element=none
 hits=$rand(1,4)
 basepower=15
+upgrade=500000
+
+[Valkyrie_Sword]
+Cost=99999
+Type=Sword
+Info=A Valkyrie's standard issue sword, forged from the roots of Yggdrasil.
+Abilities=CureV.SonicBlow.JupitelThunder.BrandishSpear.WiseReflection
+element=Light
+hits=$rand(1,3)
+basepower=50
 upgrade=500000
