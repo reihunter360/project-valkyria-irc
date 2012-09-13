@@ -18,7 +18,8 @@ SKILLS.DB
 Steal Cooldown=15, Max=50
 Regen Cooldown=90
 Bloodboost Cooldown 15
-Bloodboost Max=20
+Bloodboost Max 60
+DrainSamba Cooldown = 180 to 30
 ConserveTP Cooldown=500
 Meditate Cooldown=60
 Mightystrike and ElementalSeal = 30
@@ -26,7 +27,10 @@ Mightystrike and ElementalSeal = 30
 Impetus Max=40
 FieldMedic Max=50
 Clearmind Max=5
-OrbHunter Max=50
+OrbHunter Max=200
+Regen Max=200
+
+Gunslinger,Swordmaster,Wizardy,Martialarts,Polemaster Max to 500 (from 400)
 
 TECHNIQUES.DB
 ; Valkyria-IRC Customs
@@ -101,6 +105,55 @@ basepower=20
 element=Fire
 Cost=9000
 
+[StarlightExplosion]
+type=AOE
+TP=30
+;statustype=Blind
+Desc=screams to the heavens and finally a holy fire burns down to all enemies. [Starlight Explosion!]
+basepower=30
+element=light
+magic=yes
+cost=9000
+
+[CrimsonFlame]
+type=single
+TP=30
+;statustype=Burning
+Desc=flaps $gender($1) wings until they burn a bright yellow, and unleashes them on %enemy $+ ! tp=20
+basepower=45
+element=fire
+magic=yes
+cost=9000
+
+[MeteorPhoenix]
+type=AOE
+tp=20
+; statustype=Shaking
+Desc= 's body burns with an orange fire, then finally heads towards a good height and dives into the battlefield, burning everything within range.
+magic=no
+basepower=60
+element=fire
+cost=9000
+
+[DoubleHurricane]
+type=AOE
+tp=20
+;statustype=Tornado
+Desc= flaps $gender($1) four wings and produces two giant tornadoes which ravages the battlefield.
+element=Wind
+magic=no
+basepower=30
+cost=9000
+
+[BusterPhoenix]
+type=boost
+tp=20
+element=Fire
+Desc= starts to burn a bright orange fire around itself!
+basepower=20
+cost=9000
+
+
 Desc=scoffs at everyone again as a silver aura appears around $gender($1) $+self  . "Let's see how you fare against my full goddess power, you scum."
 ^ Eldora's WiseReflection
 
@@ -138,5 +191,17 @@ element=dark
 hits=$rand(2,5)
 basepower=35
 upgrade=500000
+
+[PhoenixmonWeapon]
+Cost=999999
+Type=Staff
+Info=A Phoenixmon's Weapon for defending itself.
+Abilities=StarlightExplosion.CureV.CrimsonFlame.MeteorPhoenix.DoubleHurricane.BusterPhoenix
+element=none
+hits=$rand(1,3)
+basepower=30
+upgrade=500000
+
+
 
 Cost and Upgrade to 99999 and 500000

@@ -11,31 +11,31 @@ PASSIVE SKILLS
 
 [Swordmaster]
 Cost=100
-Max=400
+Max=500
 Type=Passive
 Info=This skill increases damage done with sword and katana weapons.  Increased levels increases the damage.
 
 [Polemaster]
 Cost=100
-Max=400
+Max=500
 Type=Passive
 Info=This skill increases damage done with spear weapons.  Increased levels increases the damage.
 
 [Gunslinger]
 Cost=100
-Max=400
+Max=500
 Type=Passive
 Info=This skill increases damage done with a gun.  Increased levels increases the damage.
 
 [Wizardy]
 Cost=100
-Max=400
+Max=500
 Type=Passive
 Info=This skill increases damage done with stave and wand weapons.  Increased levels increases the damage.
 
 [MartialArts]
 Cost=100
-max=400
+Max=500
 Type=Passive
 Info=This skill increases damage done with your fists and nunchuku weapons.  Increased levels increases the damage.
 
@@ -43,14 +43,16 @@ Info=This skill increases damage done with your fists and nunchuku weapons.  Inc
 Cost=250
 Type=Passive
 Info=This skill will increase the amount of red orbs you find at the end of battle by 5*skill level.
-Max=50
-; 20 to 50
+Max=200
+; 20 to 50 to 200
+
 [ClearMind]
 Cost=450
 Type=Passive
 Info=This skill will increase magical damage.  Increased levels of this skill will increase the damage.
 Max=5
 ; 3 to 5
+
 [DesperateBlows]
 Cost=1000
 Type=Passive
@@ -63,12 +65,14 @@ Type=Passive
 Info=This skill will increase the amount of health items will heal by 5*skill level.
 Max=50
 ; 30 to 50
+
 [Impetus]
 Cost=150
 Type=Passive
 Info=This skill will increase your chances of performing a critical hit by 1% each level in this skill.
 Max=40
 ; 20 to 40
+
 [BloodPact]
 Cost=2500
 Type=Passive
@@ -148,6 +152,7 @@ Max=10
 Info=This skill will give you (level * 5) TP back to you instantly.
 Cooldown=60
 ; 300 to 60
+
 [ConserveTP]
 Cost=500
 Type=Active
@@ -155,25 +160,27 @@ Max=5
 Info=This skill will reduce the cost of your next technique to 0 TP. Increased levels decreases the amount of time inbetween uses.
 Cooldown=500
 ; 1200 to 500
+
 [BloodBoost]
 Cost=500
 Type=Active
-Max=20
+Max=60
 Info=This skill will consume 100 HP to give you a (level * 2) boost to your STR.
 Cooldown=15
-; Bloodboost to 20 MAX
+; Bloodboost to 20 MAX to 60 Max
 
 [DrainSamba]
 Cost=750
 Type=Active
 Max=10
 Info=This skill will consume 10 TP to activate the "drain" status on the user, allowing him/her to gain HP back with every melee attack.  The amount of turns it will last is the level of your skill.  Note that the drain effect will not work on the undead (vampires, skeletons, zombies).
-Cooldown=180
+Cooldown=30
 
 [Regen]
 Cost=700
 Type=Active
-Max=20
+Max=200
+; From X to 200 Max
 Info=This skill will give you the HP regeneration effect.  Every turn you will regenerate (skill level * 2) HP back.  The effect will wear off when you reach your maximum HP or if you die.
 Cooldown=90
 ; 90 Seconds
