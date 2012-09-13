@@ -1,20 +1,20 @@
 [BaseStats]
-Hp=10000
-Tp=800
-Str=400
-Def=100
-Int=800
-Spd=500
-Name=Tyrannosaurus
+Hp=25000
+Tp=25000
+Str=200
+Def=200
+Int=500
+Spd=900
+Name=Phoenixmon
 
 
 [Battle]
-Hp=10000
-Tp=800
-Str=400
-Def=100
-Int=800
-Spd=500
+Hp=25000
+Tp=25000
+Str=200
+Def=200
+Int=500
+Spd=900
 Status=alive
 
 
@@ -22,35 +22,32 @@ Status=alive
 RageBar=0
 RageCountDown=0
 
-[Limit]
-Level=1
-Percent=0
-
 
 [Descriptions]
-Hused=1
-Dused=1
-Char=is a large looking monster with 2 legs and a large skull with sharp teeth. It looks angrily at all of the humans in the battlefield.
+Char= is a holy Digimon that possesses four wings that shine gold. It is the head of all Bird Digimon, and is said to be the one that supervises Holy-species Digimon.
 Rage=screams in rage 
+BossQuote=*Kyaa*! *Kyaa*!
+
 
 [Stuff]
 RedOrbs=0
-BlackOrbs=0
+BlackOrbs=1
 ShopLevel=1.0
+Drops=DiscountCard
+
+[Monster]
+Type=
 
 [Info]
 Flag=monster
-Gender=its
-Gender2=its
+Gender=his
+Gender2=him
 password=battlearena
 passhurt=0
 LastSeen=N/a
 LastIP=N/a
 Created=N/a
 RageMode=Ignore
-
-[Monster]
-Type=
 
 [Status]
 Poison=no
@@ -86,26 +83,30 @@ stun=no
 MPRegenerating=no
 
 [Weapons]
-Equipped=TRexWeapon
-TRexWeapon=25
-
+Equipped=PhoenixmonWeapon
+PhoenixmonWeapon=20
 
 [Skills]
-ClearMind=3
-Mightystrike=10
-bloodboost=350
-MartialArts=200
-DesperateBlows=1
+Wizardry=9000
+ElementalSeal=90
+Speed=9000
+Regen=3333
+resist-amnesia=60
+resist-slow=50
 
 [Techniques]
-; TRexWeapon=Roar.Swallow.SpikeFlail.VolcanicRush.SurvivalInstinct
-Roar=100
-Swallow=900
-SpikeFlail=450
-VolcanicRush=500
-SurvivalInstinct=200
+StarLightExplosion=200
+CrimsonFlame=200
+CureV=200
+MeteorPhoenix=300
+DoubleHurricane=300
+BusterPhoenix=200
+
+[Item_Amount]
+
+
 
 [Element]
-Weakness=Fire.Lightning
-Strong=Ice
-Heal=
+Weakness=Water.Earth
+Strong=Light.Fire.Wind.Dark
+Heal=Fire.Light

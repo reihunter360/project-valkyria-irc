@@ -1057,11 +1057,6 @@ alias skill.steal {
     if (%current.playerstyle = Trickster) { inc %steal.chance $rand(5,10) }
 
     if (%steal.chance >= 85) {
-; Stealing Counter
-;      var %stolen.from.counter $readini($char($2), status, stolencounter)
-;      if (%stolen.from.counter >= 2) { $set_chr_name($2) | query %battlechan 4 $+ %real.name  has nothing left to steal! | halt }
-
-;      inc %stolen.from.counter 1 | writeini $char($2) status stolencounter %stolen.from.counter 
 ; CHANGES HERE FOR \/ STEAL
       if ($readini($char($2), Info, flag) = monster) { var %steal.pool orbs.vitalstar.orbs.potion.Holy_Water.Pizza.PotRoast.Ramen.Cavier.BisonDollar.DragonMeat.SuperMushroom.FireDragonWine.Ambrosia.FoieGras.KnowledgeSource.SoulPainting.FishAndChips.Slurm | var %steal.orb.amount $rand(8000,14000) }
       if ($readini($char($2), Info, Flag) = boss) { var %steal.pool orbs.senzu.Red_Fang.Thunder_Orb.Pizza.PotRoast.Ramen.Cavier.BisonDollar.DragonMeat.SuperMushroom.FireDragonWine.Ambrosia.FoieGras.KnowledgeSource.SoulPainting.FishAndChips.Slurm.DarkMagicianCard.BusterBladerCard.BlueEyesCard.FishOilBroth.ElvishMedallian | var %steal.orb.amount $rand(12000,30000) }
@@ -1072,8 +1067,14 @@ alias skill.steal {
       set %total.items $numtok(%steal.pool, 46)
       set %random.item $rand(1,%total.items)
       set %steal.item $gettok(%steal.pool,%random.item,46)
+; Stealing Counter
+      var %stolen.from.counter $readini($char($2), status, stolencounter)
+      if (%stolen.from.counter >= 5) { $set_chr_name($2) | query %battlechan 4 $+ %real.name  has nothing left to steal! | halt }
 
-      if (%steal.item = orbs) { var %current.orb.amount $readini($char($1), stuff, redorbs) | inc %current.orb.amount %steal.orb.amount | writeini $char($1) stuff redorbs %current.orb.amount 
+      inc %stolen.from.counter 1 | writeini $char($2) status stolencounter %stolen.from.counter 
+
+      if (%steal.item = orbs) { 
+        var %current.orb.amount $readini($char($1), stuff, redorbs) | inc %current.orb.amount %steal.orb.amount | writeini $char($1) stuff redorbs %current.orb.amount 
         $set_chr_name($1) | query %battlechan 2 $+ %real.name has stolen %steal.orb.amount $readini(system.dat, system, currency) from $set_chr_name($2) %real.name $+ ! 
       }
       else {
