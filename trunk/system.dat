@@ -2,7 +2,7 @@
 bot.owner=rei_hunter.CraN.Icarus_Wings
 questchan=#wolfbane
 botname=Wolfbane
-botpass=dekaron
+botpass=blank
 
 [System]
 basexp=3000
