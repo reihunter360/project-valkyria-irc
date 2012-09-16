@@ -167,6 +167,7 @@ Valkyrie_Sword=CureV.SonicBlow.JupitelThunder.BrandishSpear.WiseReflection
 TRexWeapon=Roar.Swallow.SpikeFlail.VolcanicRush.SurvivalInstinct
 PhoenixmonWeapon=StarlightExplosion.CureV.CrimsonFlame.MeteorPhoenix.DoubleHurricane.BusterPhoenix
 BlackRockShooter=RockCannon.RockDeltaVulcan.BlackStarSlash.BlackStarGrenade.BlackStarPower.RockCannonSpear.CureV
+DiendDriver=Diendhenshin.DiendGekijouban.DiendBlast.DiendDimensionShoot.CureII
 =======================
 HAND TO HAND
 ========================
@@ -3444,7 +3445,7 @@ cost=9000
 [RockCannon]
 type=single
 tp=15
-Desc=aims and fires a barrage of blue spheres at %enemy $+! [Rock Cannon!]
+Desc=aims and fires a barrage of blue spheres at %enemy $+ ! [Rock Cannon!]
 basepower=30
 cost=9000
 magic=no
@@ -3452,7 +3453,7 @@ magic=no
 [RockDeltaVulcan]
 type=single
 tp=30
-Desc=changes the "Rock Cannon" on %gender($1) hands and becomes a "Delta Vulcan Gatling" and steadily unleashes a blast of bullets onto %enemy $+! [Rock Delta Vulcan!]
+Desc=changes the "Rock Cannon" on $gender($1) hands and becomes a "Delta Vulcan Gatling" and steadily unleashes a blast of bullets onto %enemy $+ ! [Rock Delta Vulcan!]
 basepower=45
 cost=9000
 magic=no
@@ -3490,3 +3491,35 @@ tp=25
 Desc=changes the "Rock Cannon" into a large spear and slams it hard on %enemy! 
 basepower=35
 magic=no
+
+; DiEndDriver Details
+
+[DiendHenshin]
+type=boost
+element=Lightning
+basepower=20
+cost=300
+Desc=quickly slides the card slot open on the gun and inserts a special card inside, and immediately closes. You scream "Henshin!" and you shoot that card into the air forming a body suit for you! "D-D-D--- Diend Rider!" a voice from far away seem to say at your new form.
+
+[DiendGekijouban]
+type=single
+basepower=140
+desc=quickly slides a card into the DiendDriver Card slot and fires it into the air. "D-D-D-Diend Final Attack Ride! GEKIJOBAN!" The attack summons 8 masked riders and takes turn in hitting %enemy $+ !
+cost=50000
+magic=yes
+
+[DiendBlast]
+type=status
+statustype=Stun
+element=Lightning
+basepower=15
+cost=9000
+Desc= shifts the mode on the DienDriver and goes full automatic on %enemy $+! [DiendBlast]
+
+[DiEndDimensionShoot]
+type=AOE
+Element=Lightning
+cost=20000
+Desc= locks the DiendDriver, then aims at the enemies, and then 9 ring of cards appear in a straight line, and a large beam from the Diend Driver hits %enemy $+ ! "Final Attack Ride! Dimension Shoot!" a voice seemingly echoing all over.
+basepower=50
+magic=yes
