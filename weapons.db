@@ -2,7 +2,7 @@
 HandToHand=Fists.Cerberus.Ifrit.KaiserKnuckles.Verethragna.Spharai
 Swords=Mythril_Sword.Joyeuse.Rebellion.LexTalionis.Soulsaber.Excalibur.Murgleis.Almace
 Whips=LeatherWhip.ChainWhip.DragontailWhip.DemonWhip.SpikedSteelWhip.Vampire_Killer
-Guns=Ebony&Ivory.Quicksilver.Magnum.Hexagun
+Guns=Ebony&Ivory.Quicksilver.Magnum.Hexagun.DiEndDriver
 Rifles=SniperRifle.Boomstick.AK47.Armageddon.Annihilator.DeathPenalty
 Katanas=Keitonotachi.Yamato.Zangetsu.Senbonzakura.Hyourinmaru.Soboro.PowerChordSword.Hagun.Masamune.Crissaegrim.Valwayman
 Wands=YewWand.OakWand.PineWand.IridialStaff.ElderWand.Laevatein.EbonyWand
@@ -1366,3 +1366,13 @@ element=none
 hits=$rand(2,3)
 basepower=25
 upgrade=500000
+
+[DiEndDriver]
+Cost=40
+Type=Gun
+Info=A large looking gun with a card slot on the side.
+Abilities=Diendhenshin.DiendGekijouban.DiendBlast.DiendDimensionShoot.CureII
+Element=none
+Hits=$rand(1,2)
+BasePower=25
+Upgrade=350

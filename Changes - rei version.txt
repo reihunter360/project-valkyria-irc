@@ -210,6 +210,36 @@ Desc=changes the "Rock Cannon" into a large spear and slams it hard on %enemy!
 basepower=35
 magic=no
 
+[DiendHenshin]
+type=boost
+element=Lightning
+basepower=20
+cost=300
+Desc=quickly slides the card slot open on the gun and inserts a special card inside, and immediately closes. You scream "Henshin!" and you shoot that card into the air forming a body suit for you! "D-D-D--- Diend Rider!" a voice from far away seem to say at your new form.
+
+[DiendGekijouban]
+type=single
+basepower=140
+desc=quickly slides a card into the DiendDriver Card slot and fires it into the air. "D-D-D-Diend Final Attack Ride! GEKIJOBAN!" The attack summons 8 masked riders and takes turn in hitting %enemy $+ !
+cost=50000
+magic=yes
+
+[DiendBlast]
+type=status
+statustype=Stun
+element=Lightning
+basepower=15
+cost=9000
+Desc= shifts the mode on the DienDriver and goes full automatic on %enemy $+! [DiendBlast]
+
+[DiEndDimensionShoot]
+type=AOE
+Element=Lightning
+cost=20000
+Desc= locks the DiendDriver, then aims at the enemies, and then 9 ring of cards appear in a straight line, and a large beam from the Diend Driver hits %enemy $+ ! "Final Attack Ride! Dimension Shoot!" a voice seemingly echoing all over.
+basepower=50
+magic=yes
+
 Desc=scoffs at everyone again as a silver aura appears around $gender($1) $+self  . "Let's see how you fare against my full goddess power, you scum."
 ^ Eldora's WiseReflection
 
@@ -267,5 +297,15 @@ element=none
 hits=$rand(2,3)
 basepower=25
 upgrade=500000
+
+[DiEndDriver]
+Cost=40
+Type=Gun
+Info=A large looking gun with a card slot on the side.
+Abilities=Diendhenshin.DiendGekijouban.DiendBlast.DiendDimensionShoot.CureII
+Element=none
+Hits=$rand(1,2)
+BasePower=25
+Upgrade=350
 
 Cost and Upgrade to 99999 and 500000
