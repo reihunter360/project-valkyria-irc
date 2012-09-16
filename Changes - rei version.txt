@@ -153,6 +153,62 @@ Desc= starts to burn a bright orange fire around itself!
 basepower=20
 cost=9000
 
+RockCannon - aims and fires a barrage of blue spheres at %enemy $+! [Rock Cannon!] [Null Element]
+Rock_DeltaVulcan - changes the "Rock Cannon" on %gender($1) hands and becomes a "Delta Vulcan Gatling" and steadily unleashes a blast of bullets onto %enemy $+! [Null Element]
+BlackStarSlash - Light Element - summons a black and white katana and lets it burn in a blue blaze... slashing it towards the enemies sending a large blue fire across the battlefield! [AoE / Light Element]
+BlackStarGrenade - Light Element AoE - forms a giant ball burning a bright blue, then tosses it at the enemies.
+BlackStarPower - stares intently at $gender($1) $+'s opponents, and says "I am Black Rock Shooter!" as $gender($0) says this, $gender($1) left eye starts to burn a bright blue of a flame
+RockCannonSpear - changes the "Rock Cannon" into a large spear and slams it hard on %enemy! [Single / Burning / Null Element]
+
+[RockCannon]
+type=single
+tp=15
+Desc=aims and fires a barrage of blue spheres at %enemy $+! [Rock Cannon!]
+basepower=30
+cost=9000
+magic=no
+
+[RockDeltaVulcan]
+type=single
+tp=30
+Desc=changes the "Rock Cannon" on %gender($1) hands and becomes a "Delta Vulcan Gatling" and steadily unleashes a blast of bullets onto %enemy $+! [Rock Delta Vulcan!]
+basepower=45
+cost=9000
+magic=no
+
+[BlackStarSlash]
+type=AOE
+tp=45
+Desc=summons a black and white katana and lets it burn in a blue blaze... slashing it towards the enemies sending a large blue fire across the battlefield! [Black Star Slash!]
+basepower=60
+cost=9000
+element=Light
+magic=yes
+
+[BlackStarGrenade]
+type=AOE
+tp=45
+Desc=forms a giant ball burning a bright blue, then tosses it at the enemies. [Black Star Grenade!]
+basepower=55
+cost=9000
+element=Fire
+
+[BlackStarPower]
+type=boost
+tp=20
+Desc=stares intently at $gender($1) $+'s opponents, and says "I am Black Rock Shooter!" as $gender($0) says this, $gender($1) left eye starts to burn a bright blue of a flame!
+basepower=20
+element=Fire
+cost=9000
+magic=no
+
+[RockCannonSpear]
+type=status
+statustype=Burning
+tp=25
+Desc=changes the "Rock Cannon" into a large spear and slams it hard on %enemy! 
+basepower=35
+magic=no
 
 Desc=scoffs at everyone again as a silver aura appears around $gender($1) $+self  . "Let's see how you fare against my full goddess power, you scum."
 ^ Eldora's WiseReflection
@@ -202,6 +258,14 @@ hits=$rand(1,3)
 basepower=30
 upgrade=500000
 
-
+[BlackRockShooter]
+cost=999999
+Type=Rifle
+Info=A steady rate firing Arm Cannon. It can change forms depending on the battle.
+Abilities=RockCannon.RockDeltaVulcan.BlackStarSlash.BlackStarGrenade.BlackStarPower.RockCannonSpear.CureV
+element=none
+hits=$rand(2,3)
+basepower=25
+upgrade=500000
 
 Cost and Upgrade to 99999 and 500000

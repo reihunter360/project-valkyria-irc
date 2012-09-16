@@ -166,6 +166,7 @@ Silver_Goddess_Sword=TwinSlice.BiteOfLightning.BladeBeam.HyperTwinSlice.WiseRefl
 Valkyrie_Sword=CureV.SonicBlow.JupitelThunder.BrandishSpear.WiseReflection
 TRexWeapon=Roar.Swallow.SpikeFlail.VolcanicRush.SurvivalInstinct
 PhoenixmonWeapon=StarlightExplosion.CureV.CrimsonFlame.MeteorPhoenix.DoubleHurricane.BusterPhoenix
+BlackRockShooter=RockCannon.RockDeltaVulcan.BlackStarSlash.BlackStarGrenade.BlackStarPower.RockCannonSpear.CureV
 =======================
 HAND TO HAND
 ========================
@@ -3324,6 +3325,7 @@ Element=none
 magic=yes
 
 [SonicBlow]
+; Ragnarok Online Move
 Type=Status
 StatusType=Stun
 TP=20
@@ -3335,6 +3337,7 @@ Element=none
 magic=no
 
 [BrandishSpear]
+; Ragnarok Online Move
 Type=AOE
 TP=10
 Desc=uses $gender($1) weapon and slams it hard into the ground creating a shockwave that damages all enemies! [Brandish Spear!]
@@ -3344,6 +3347,7 @@ Element=none
 magic=no
 
 [JupitelThunder]
+; Ragnarok Online Move
 Type=Status
 StatusType=Stun.Paralysis
 TP=20
@@ -3352,6 +3356,8 @@ cost=9000
 basepower=20
 Element=Lightning
 magic=yes
+
+; Tyrannosaurus Moveset
 
 [Swallow]
 Type=Single
@@ -3381,7 +3387,10 @@ basepower=20
 element=Fire
 Cost=9000
 
+; Phoenixmon Skills.
+
 [StarlightExplosion]
+; Digimon Moveset
 type=AOE
 TP=30
 ;statustype=Blind
@@ -3392,6 +3401,7 @@ magic=yes
 cost=9000
 
 [CrimsonFlame]
+; Digimon Moveset
 type=single
 TP=30
 ;statustype=Burning
@@ -3428,3 +3438,55 @@ element=Fire
 Desc= starts to burn a bright orange fire around itself!
 basepower=20
 cost=9000
+
+; Black Rock Shooter moves
+
+[RockCannon]
+type=single
+tp=15
+Desc=aims and fires a barrage of blue spheres at %enemy $+! [Rock Cannon!]
+basepower=30
+cost=9000
+magic=no
+
+[RockDeltaVulcan]
+type=single
+tp=30
+Desc=changes the "Rock Cannon" on %gender($1) hands and becomes a "Delta Vulcan Gatling" and steadily unleashes a blast of bullets onto %enemy $+! [Rock Delta Vulcan!]
+basepower=45
+cost=9000
+magic=no
+
+[BlackStarSlash]
+type=AOE
+tp=45
+Desc=summons a black and white katana and lets it burn in a blue blaze... slashing it towards the enemies sending a large blue fire across the battlefield! [Black Star Slash!]
+basepower=60
+cost=9000
+element=Light
+magic=yes
+
+[BlackStarGrenade]
+type=AOE
+tp=45
+Desc=forms a giant ball burning a bright blue, then tosses it at the enemies. [Black Star Grenade!]
+basepower=55
+cost=9000
+element=Fire
+
+[BlackStarPower]
+type=boost
+tp=20
+Desc=stares intently at $gender($1) $+'s opponents, and says "I am Black Rock Shooter!" as $gender($0) says this, $gender($1) left eye starts to burn a bright blue of a flame!
+basepower=20
+element=Fire
+cost=9000
+magic=no
+
+[RockCannonSpear]
+type=status
+statustype=Burning
+tp=25
+Desc=changes the "Rock Cannon" into a large spear and slams it hard on %enemy! 
+basepower=35
+magic=no
