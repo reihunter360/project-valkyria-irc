@@ -212,6 +212,7 @@ magic=no
 
 [DiendHenshin]
 type=boost
+tp=20
 element=Lightning
 basepower=20
 cost=300
@@ -219,26 +220,67 @@ Desc=quickly slides the card slot open on the gun and inserts a special card ins
 
 [DiendGekijouban]
 type=single
-basepower=140
+tp=60
+basepower=170
 desc=quickly slides a card into the DiendDriver Card slot and fires it into the air. "D-D-D-Diend Final Attack Ride! GEKIJOBAN!" The attack summons 8 masked riders and takes turn in hitting %enemy $+ !
-cost=50000
+cost=10000
 magic=yes
 
 [DiendBlast]
 type=status
 statustype=Stun
+tp=20
 element=Lightning
 basepower=15
-cost=9000
+cost=4000
 Desc= shifts the mode on the DienDriver and goes full automatic on %enemy $+! [DiendBlast]
 
 [DiEndDimensionShoot]
 type=AOE
+tp=100
 Element=Lightning
-cost=20000
+cost=5000
 Desc= locks the DiendDriver, then aims at the enemies, and then 9 ring of cards appear in a straight line, and a large beam from the Diend Driver hits %enemy $+ ! "Final Attack Ride! Dimension Shoot!" a voice seemingly echoing all over.
 basepower=50
 magic=yes
+
+[Earthquake]
+type=AOE
+element=Earth
+tp=200
+cost=99999
+Desc= jumps into the air and lands on the earth below, creating massive shafts of the ground to grow unstable and almost destroy the battlefield! [Earthquake!]
+statustype=Shaking
+basepower=100
+magic=no
+
+[UltimateSwallow]
+type=AOE
+tp=100
+cost=99999
+Desc= grabs all the enemies on the battlefield and chews on them for a while, then spits them back out!
+absorb=yes
+basepower=50
+magic=no
+
+[Slurp]
+type=status
+statustype=Paralyze
+absorb=yes
+tp=30
+basepower=40
+desc=licks and tastes %enemy $+ !
+element=water
+magic=no
+
+[Dinostomp]
+type=status
+statustype=Stun
+tp=40
+basepower=60
+desc=lifts $gender($1) $+ giant leg and stomps on %enemy $+ !
+element=none
+magic=no
 
 Desc=scoffs at everyone again as a silver aura appears around $gender($1) $+self  . "Let's see how you fare against my full goddess power, you scum."
 ^ Eldora's WiseReflection
@@ -307,5 +349,15 @@ Element=none
 Hits=$rand(1,2)
 BasePower=25
 Upgrade=350
+
+[MegasaurusWeapon]
+Cost=9999999
+Type=HandtoHand
+Info=A Megasaurus' Weapon
+abilities=SurvivalInstinct.Earthquake.UltimateSwallow.SpikeTail.Slurp.Dinostomp.VolcanicRush
+basepower=70
+hits=$rand(1,2)
+upgrade=500000
+
 
 Cost and Upgrade to 99999 and 500000
