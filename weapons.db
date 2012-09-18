@@ -12,7 +12,7 @@ Glyphs=Glyphs
 GreatSwords=Braveheart.Balmung.Nightfall.Ragnarok.Caladbolg
 MonsterWpns=Yagudo_Fists.Dark_Vampiric_Power.Guardian_Shield.Orc_Pike.QuadavWand_R.Mistilteinn.Silver_Goddess_Sword.Black_Goddess_Staff.Cell'sKi.Death's_Scythe.CreeperLegs.ZombieFists.PsychoPower.BedrockBite.Shadow_Blade.MenosPower.DragonFangs.BeeStinger.GoblinSword.YagudoWand.TigerFangs.Pinchers.BoneScythe.AndroidKi.Orcish_Gun.SubZeroFists.Ninjutsu
 MonsterWpns2=VampireFangs.SpaceGun.CerberusClaws.ElementalPower.MarioFists.FishBite.Egyptian_Rod.SinistralPower.JesterWand.VampireArt.Puppetry.Benihime.PeoplesFist.SuccubusPowerDragonShouts.BlueEyesPower.BlackMagic.DragonSword.OctoArms.Casull&Jackal.AlucardSword.Auto9.Railgun.WoolyTusks.OrochiPower.BogardGloves.GiygasPower.AtlantisPower.RedEyedDragoon.DarknessDragoon.ShihouinFists.ImpHorn.GhostPower
-MonsterWpns3=FFOmegaWeapon.Valkyrie_Sword.TrexWeapon.PhoenixmonWeapon.BlackRockShooter
+MonsterWpns3=FFOmegaWeapon.Valkyrie_Sword.TrexWeapon.PhoenixmonWeapon.BlackRockShooter.MegasaurusWeapon
 
 =============================================
 HAND TO HAND
@@ -1376,3 +1376,12 @@ Element=none
 Hits=$rand(1,2)
 BasePower=25
 Upgrade=350
+
+[MegasaurusWeapon]
+Cost=9999999
+Type=HandtoHand
+Info=A Megasaurus' Weapon
+abilities=SurvivalInstinct.Earthquake.UltimateSwallow.SpikeTail.Slurp.Dinostomp.VolcanicRush
+basepower=70
+hits=$rand(1,2)
+upgrade=500000
