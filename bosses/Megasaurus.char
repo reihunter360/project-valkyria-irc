@@ -98,7 +98,13 @@ Zen=20
 
 
 [Techniques]
-TechName=1
+UltimateSwallow=300
+SpikeFlail=450
+VolcanicRush=500
+SurvivalInstinct=300
+Earthquake=200
+Dinostomp=500
+Slurp=450
 
 
 [Item_Amount]
