@@ -1,19 +1,19 @@
 [BaseStats]
-Hp=30000
+Hp=35000
 Tp=15000
-Str=400
-Def=90
-Int=500
+Str=650
+Def=110
+Int=650
 Spd=450
 Name=MegaSaurus
 
 
 [Battle]
-Hp=30000
+Hp=45000
 Tp=15000
-Str=400
+Str=450
 Def=90
-Int=500
+Int=550
 Spd=450
 Status=alive
 
@@ -95,15 +95,16 @@ Bloodboost=500
 MartialArts=200
 Clearmind=2
 Zen=20
+DesperateBlows=5
 
 
 [Techniques]
-UltimateSwallow=300
-SpikeFlail=450
-VolcanicRush=500
+UltimateSwallow=400
+SpikeFlail=550
+VolcanicRush=600
 SurvivalInstinct=300
-Earthquake=200
-Dinostomp=500
+Earthquake=400
+Dinostomp=600
 Slurp=450
 
 
