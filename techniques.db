@@ -3545,19 +3545,19 @@ magic=no
 type=AOE
 tp=100
 cost=99999
-Desc= grabs all the enemies on the battlefield and chews on them for a while, then spits them back out!
+Desc= grabs all the enemies on the battlefield and chews on them for a while, then spits them back out! [Ultimate Swallow]
 absorb=yes
 basepower=50
 magic=no
 
 [Slurp]
 type=status
-statustype=Paralyze
-absorb=yes
+statustype=Paralysis
 tp=30
 basepower=40
-desc=licks and tastes %enemy $+ !
+desc=licks and tastes %enemy $+ ! [Slurp]
 element=water
+absorb=yes
 magic=no
 
 [Dinostomp]
@@ -3565,6 +3565,6 @@ type=status
 statustype=Stun
 tp=40
 basepower=60
-desc=lifts $gender($1) $+ giant leg and stomps on %enemy $+ !
+desc=lifts $gender($1) $+ giant leg and stomps on %enemy $+ ! [Dinosaur Stomp!]
 element=none
 magic=no
