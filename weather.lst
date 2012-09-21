@@ -1,4 +1,4 @@
 [weather]
-current=snowy
+current=calm
 list=calm.bright.gloomy.rainy.stormy.snowy.windy.hot.dry
 boost=.25
