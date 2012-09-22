@@ -164,9 +164,9 @@ Cooldown=500
 [BloodBoost]
 Cost=500
 Type=Active
-Max=10
+Max=60
 Info=This skill will consume 100 HP to give you a (level * 2) boost to your STR.
-Cooldown=300
+Cooldown=15
 
 [DrainSamba]
 Cost=750
@@ -180,7 +180,7 @@ Cost=700
 Type=Active
 Max=200
 Info=This skill will give you the HP regeneration effect.  Every turn you will regenerate (skill level * 2) HP back.  The effect will wear off when you reach your maximum HP or if you die.
-Cooldown=90
+Cooldown=60
 
 [Kikouheni]
 Cost=650
