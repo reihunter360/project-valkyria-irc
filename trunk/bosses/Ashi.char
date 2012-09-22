@@ -2,7 +2,7 @@
 Hp=550
 Tp=120
 Str=80
-Def=70
+Def=75
 Int=65
 Spd=80
 Name=Ashi
@@ -12,7 +12,7 @@ Name=Ashi
 Hp=550
 Tp=120
 Str=80
-Def=70
+Def=75
 Int=65
 Spd=80
 Status=alive
@@ -89,8 +89,12 @@ AtlantisPower=80
 Resist-Charm=100
 Resist-Zombie=100
 Resist-Stun=10
-MartialArts=50
+Resist-Intimidate=100
 Resist-Paralysis=10
+MartialArts=50
+MightyStrike=1
+Bloodboost=1
+
 
 [Techniques]
 BloodDagger=80

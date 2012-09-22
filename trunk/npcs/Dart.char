@@ -1,20 +1,20 @@
 [BaseStats]
-Hp=500
+Hp=1500
 Tp=60
-Str=15
-Def=10
-Int=10
-Spd=10
-Name=Dart
+Str=25
+Def=20
+Int=20
+Spd=20
+Name=Dart Feld
 
 
 [Battle]
-Hp=500
+Hp=1500
 Tp=60
-Str=15
-Def=10
-Int=10
-Spd=10
+Str=25
+Def=20
+Int=20
+Spd=20
 Status=alive
 
 
@@ -94,21 +94,28 @@ zombie.timer=1
 
 [Weapons]
 Equipped=RedEyedDragoon
-RedEyedDragoon=15
+RedEyedDragoon=50
 
 [Skills]
 Resist-Charm=100
 Resist-Zombie=100
-SwordMaster=20
-Wizardy=15
+SwordMaster=35
+Wizardy=25
+Resist-Intimidate=100
+Zen=5
+MightyStrike=1
 
 [Techniques]
-DoubleSlash=15
-MadnessHero=15
-FlameShot=15
-FinalBurst=15
-RedDragon=15
+DoubleSlash=50
+MadnessHero=50
+FlameShot=50
+FinalBurst=50
+RedDragon=50
 
 
 [Item_Amount]
 
+[Styles]
+Equipped=WeaponMaster
+WeaponMaster=2
+WeaponMasterXP=1

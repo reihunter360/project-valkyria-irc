@@ -4,8 +4,13 @@
 alias aicheck { 
   ; Determine if the current person in battle is a monster or not.  If so, they need to do a turn.  If not, return.
   if ($is_charmed($1) = true) { /.timerAIthink $+ $rand(a,z) $+ $rand(1,1000) 1 8 /ai_turn $1 | halt }
-  if ($readini($char($1), info, flag) = monster) { /.timerAIthink $+ $rand(a,z) $+ $rand(1,1000) 1 8 /ai_turn $1 | halt }
-  if ($readini($char($1), info, flag) = npc) { /.timerAIthink $+ $rand(a,z) $+ $rand(1,1000) 1 8 /ai_turn $1 | halt }
+
+  var %ai.system.status $readini(system.dat, system, aisystem)
+  if ((%ai.system = $null) || (%ai.system = on)) {
+    if ($readini($char($1), info, flag) = monster) { /.timerAIthink $+ $rand(a,z) $+ $rand(1,1000) 1 8 /ai_turn $1 | halt }
+    if ($readini($char($1), info, flag) = npc) { /.timerAIthink $+ $rand(a,z) $+ $rand(1,1000) 1 8 /ai_turn $1 | halt }
+    else { return }
+  }
   else { return }
 }
 
@@ -14,7 +19,9 @@ alias ai_turn {
   if (%who != $1) { return }
 
   ; For now the AI will be very, very basic and random.  Later on I'll try to make it more complicated.
-  unset %ai.target | unset %ai.targetlist | unset %ai.tech | unset %opponent.flag | unset %ai.skill | unset %ai.skilllist
+  unset %ai.target | unset %ai.targetlist | unset %ai.tech | unset %opponent.flag | unset %ai.skill | unset %ai.skilllist | unset %ai.type
+
+  set %ai.type $readini($char($1), info, ai_type) 
 
   ; First off, let's figure out how much TP the monster has.  If it's less than 15, it's going to do an attack
   var %tp.have $readini($char($1), battle, tp) 
@@ -35,22 +42,22 @@ alias ai_turn {
   else { set %action random }
 
   ; For now, let's just have the monster do something.
-  if (%action = attack) { $ai_gettarget | $attack_cmd($1 , %ai.target) | halt  }
+  if (%action = attack) { $ai_gettarget($1) | $attack_cmd($1 , %ai.target) | halt  }
   if (%action = random) {
     $ai_skillcheck($1)
 
     if (%ai.skilllist = $null) {
       var %random.action $rand(1,100)
-      if (%random.action <= 45) { $ai_gettech($1) | $ai_gettarget | $tech_cmd($1, %ai.tech, %ai.target) | halt }
-      if ((%random.action > 45) && (%random.action <= 55)) { $ai_gettarget |  $taunt($1 , %ai.target) | halt } 
-      else {  $ai_gettarget | $attack_cmd($1 , %ai.target)  | halt  }
+      if (%random.action <= 45) { $ai_gettech($1) | $ai_gettarget($1) | $tech_cmd($1, %ai.tech, %ai.target) | halt }
+      if ((%random.action > 45) && (%random.action <= 55)) { $ai_gettarget($1) |  $taunt($1 , %ai.target) | halt } 
+      else {  $ai_gettarget($1) | $attack_cmd($1 , %ai.target)  | halt  }
     }
     if (%ai.skilllist != $null) {
       var %random.action $rand(1,100)
-      if (%random.action <= 45) { $ai_gettech($1) | $ai_gettarget | $tech_cmd($1, %ai.tech, %ai.target) | halt }
-      if ((%random.action > 45) && (%random.action <= 50)) { $ai_gettarget |  $taunt($1 , %ai.target) | halt } 
+      if (%random.action <= 45) { $ai_gettech($1) | $ai_gettarget($1) | $tech_cmd($1, %ai.tech, %ai.target) | halt }
+      if ((%random.action > 45) && (%random.action <= 50)) { $ai_gettarget($1) |  $taunt($1 , %ai.target) | halt } 
       if ((%random.action > 50) && (%random.action <= 65)) { $ai_chooseskill($1) | halt }
-      if (%random.action > 65) { $ai_gettarget | $attack_cmd($1 , %ai.target) | halt  }
+      if (%random.action > 65) { $ai_gettarget($1) | $attack_cmd($1 , %ai.target) | halt  }
     }
 
   }
@@ -72,25 +79,39 @@ alias ai_gettarget {
   while (%battletxt.current.line <= %battletxt.lines) { 
     set %who.battle $read -l $+ %battletxt.current.line battle.txt
 
-    if (%opponent.flag = player) {
-      if ($readini($char(%who.battle), info, flag) = monster) { inc %battletxt.current.line }
-      else { $add_target }
+    if (%ai.type != berserker) { 
+      if (%opponent.flag = player) {
+        if ($readini($char(%who.battle), info, flag) = monster) { inc %battletxt.current.line }
+        else { $add_target }
+      }
+      if (%opponent.flag = monster) {
+        if ($readini($char(%who.battle), info, flag) != monster) { inc %battletxt.current.line }
+        else { $add_target }
+      }
     }
-    if (%opponent.flag = monster) {
-      if ($readini($char(%who.battle), info, flag) != monster) { inc %battletxt.current.line }
-      else { $add_target }
-    }
+
+    if (%ai.type = berserker) { 
+      if (%who.battle != $1) { $add_target }
+      if (%who.battle = $1) { inc %battletxt.current.line }
+    } 
+
   }
+
+
 
   set %total.targets $numtok(%ai.targetlist, 46)
   set %random.target $rand(1,%total.targets)
   set %ai.target $gettok(%ai.targetlist,%random.target,46)
+  $covercheck(%ai.target)
+  set %ai.target %attack.target
   unset %random.target | unset %total.targets
 }
+
 
 alias add_target {
   var %current.status $readini($char(%who.battle), battle, status)
   if ((%current.status = dead) || (%current.status = runaway)) { inc %battletxt.current.line 1 }
+
   else { 
     %ai.targetlist = $addtok(%ai.targetlist, %who.battle, 46)
     inc %battletxt.current.line 1 
@@ -134,12 +155,12 @@ alias ai_gettech {
 
   ; Does the monster have enough TP to use that tech?  If not, just move on to an attack
   set %tp.have $readini($char($1), battle, tp) | set %tp.needed $readini(techniques.db, %ai.tech, tp)
-  if (%tp.have < %tp.needed) {  unset %ai.tech | unset %tp.have | unset %tp.needed | $ai_gettarget | $attack_cmd($1 , %ai.target) | halt  }
+  if (%tp.have < %tp.needed) {  unset %ai.tech | unset %tp.have | unset %tp.needed | $ai_gettarget($1) | $attack_cmd($1 , %ai.target) | halt  }
 
   if (%ai.tech = $null) { 
     ; If, for whatever reason, it can't find a tech.. it'll revert back to attacking normally.
     unset %ai.tech | unset %ai.target
-    $ai_gettarget 
+    $ai_gettarget($1) 
     $attack_cmd($1 , %ai.target) 
     halt 
   }
@@ -164,7 +185,7 @@ alias ai_skillcheck {
   if ($readini($char($1), skills, elementalseal) != $null) { writeini $char($1) skills elementalseal.time 0 | %ai.skilllist  = $addtok(%ai.skilllist, elementalseal, 46) }
   if ($readini($char($1), skills, drainsamba) != $null) { writeini $char($1) skills drainsamba.time 0 | %ai.skilllist  = $addtok(%ai.skilllist, drainsamba, 46) }
   if ($readini($char($1), skills, utsusemi) != $null) { writeini $char($1) skills utsusemi.time 0 | writeini $char($1) item_amount shihei 100 | %ai.skilllist  = $addtok(%ai.skilllist, utsusemi, 46) }
-  if ($readini($char($1), skills, shadowcopy) != $null) {
+  if ($readini($char($1), skills, shadowcopy) >= 1) {
     if ($isfile($char($1 $+ _clone)) = $false) { %ai.skilllist  = $addtok(%ai.skilllist, shadowcopy, 46) }
   }
 }

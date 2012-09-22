@@ -4,6 +4,32 @@ check_for_battle {
   else { return  }
 }
 
+boost_summon_stats {
+  var %hp $readini($char($1 $+ _summon), BaseStats, HP)
+  var %tp $readini($char($1 $+ _summon), BaseStats, TP)
+  var %str $readini($char($1 $+ _summon), BaseStats, Str)
+  var %def $readini($char($1 $+ _ summon), BaseStats, Def)
+  var %int $readini($char($1 $+ _summon), BaseStats, Int)
+  var %spd $readini($char($1 $+ _summon), BaseStats, Spd)
+
+  set %increase.amount $calc(.25 * $2) 
+  inc %increase.amount $calc($rand(1,5) / 100)
+
+  %hp = $round($calc(%hp * %increase.amount),0) 
+  %tp = $round($calc(%tp * %increase.amount),0) 
+  %str = $round($calc(%str * %increase.amount),0) 
+  %def = $round($calc(%def * %increase.amount),0) 
+  %int = $round($calc(%int * %increase.amount),0) 
+  %spd = $round($calc(%spd * %increase.amount),0) 
+
+  writeini $char($1 $+ _summon) BaseStats HP %hp
+  writeini $char($1 $+ _summon) BaseStats TP %tp
+  writeini $char($1 $+ _summon) BaseStats Str %str
+  writeini $char($1 $+ _summon) BaseStats Def %def
+  writeini $char($1 $+ _summon) BaseStats Int %int
+  writeini $char($1 $+ _summon) BaseStats Spd %spd
+}
+
 boost_monster_stats {
   var %hp $readini($char($1), BaseStats, HP)
   var %tp $readini($char($1), BaseStats, TP)
@@ -14,17 +40,18 @@ boost_monster_stats {
 
   if ($2 = 1) { set %increase.amount .25 }
   if (($2 > 1) && ($2 < 4)) { set %increase.amount $calc(.5 + $round($calc($2 / 2),0)) }
-  else { set %increase.amount $calc(1 + $2) }
+  else { set %increase.amount $calc(.95 + $2) }
 
-  if ($isfile($boss($1)) = $true) { inc %increase.amount .5 }
+  if ($isfile($boss($1)) = $true) { inc %increase.amount $rand(.5,.7) }
 
   var %shop.level $readini(battle2.txt, BattleInfo, ShopLevel)
-  if ($readini(battle2.txt, battleinfo, players) = 1)  { inc %increase.amount $calc(%shop.level / 35)  }
-  if ($readini(battle2.txt, battleinfo, players) = 2)  {  inc %increase.amount $calc(%shop.level / 30)  }
+  if ($readini(battle2.txt, battleinfo, players) = 1)  { inc %increase.amount $calc(%shop.level / 32)  }
+  if ($readini(battle2.txt, battleinfo, players) = 2)  {  inc %increase.amount $calc(%shop.level / 28)  }
   if ($readini(battle2.txt, battleinfo, players) >= 3)  {  inc %increase.amount $calc(%shop.level / 25)   }
 
   %hp = $round($calc(%hp * %increase.amount),0) 
   if ($isfile($boss($1)) = $true) { inc %hp $rand(10,50) }
+  if ($isfile($boss($1)) = $false) { inc %hp $rand(5,15) }
 
   %tp = $round($calc(%tp * %increase.amount),0) 
   %str = $round($calc(%str * %increase.amount),0) 
@@ -76,24 +103,26 @@ wins_boost  {
   var %hp $readini($char($1), BaseStats, HP)
 
   var %winning.streak $readini(battlestats.dat, battle, winningstreak)
+  var %level.boost $readini(battlestats.dat, battle, LevelAdjust)
+  inc %winning.streak %level.boost
+
   if ((%winning.streak > 0) && (%winning.streak <= 20)) { var %boost.amount .105 
     var %hp.boost.amount 1.1 
     var %shop.level $readini(battle2.txt, BattleInfo, ShopLevel)
 
     if ($readini(battle2.txt, battleinfo, players) = 1)  { var %shop.level $calc(%shop.level / 14)  }
     if ($readini(battle2.txt, battleinfo, players) = 2)  { var %shop.level $calc(%shop.level / 12)  }
-    if ($readini(battle2.txt, battleinfo, players) >= 3)  { var %shop.level $calc(%shop.level / 24)  }
+    if ($readini(battle2.txt, battleinfo, players) >= 3)  { var %shop.level $calc(%shop.level / 30)  }
     inc %hp.boost.amount %shop.level
-    if ($isfile($boss($1)) = $true) { inc %hp.boost.amount $rand(1,1.2) }
 
     if ($1 = Final_Guard) { var %hp.boost.amount 1 } 
     if ($2 = npc) { var %hp.boost.amount 1 }
-
-    %hp = $round($calc(%hp * %hp.boost.amount),0)   
   }
-  if ((%winning.streak > 20) && (%winning.streak <= 50)) { var %boost.amount .115 }
-  if ((%winning.streak > 50) && (%winning.streak <= 100)) { var %boost.amount .155 }
-  if (%winning.streak > 100) { var %boost.amount .160 }
+  if ((%winning.streak > 20) && (%winning.streak <= 50)) { var %boost.amount .110 }
+  if ((%winning.streak > 50) && (%winning.streak <= 100)) { var %boost.amount .135 }
+  if ((%winning.streak > 100) && (%winning.streak <= 200)) { var %boost.amount .160 }
+  if ((%winning.streak > 200) && (%winning.streak <= 300)) { var %boost.amount .190 }
+  if (%winning.streak > 300)  { var %boost.amount .210 }
 
   var %increase.amount $calc(%boost.amount * %winning.streak)
   inc %increase.amount 1
@@ -101,6 +130,10 @@ wins_boost  {
   if ($2 = boss) { %increase.amount = $calc(%increase.amount / 3) }
   if ($2 = npc) { %increase.amount = $calc(%increase.amount / 4) }
 
+  if (%hp.boost.amount = $null) { var %hp.boost.amount %increase.amount }
+  if ($isfile($boss($1)) = $true) { inc %hp.boost.amount $rand(1,1.2) }
+
+  %hp = $round($calc(%hp * %hp.boost.amount),0)   
   %str = $round($calc(%str * %increase.amount),0) 
   %def = $round($calc(%def * %increase.amount),0) 
   %int = $round($calc(%int * %increase.amount),0) 
@@ -133,6 +166,18 @@ check_for_double_turn {  $set_chr_name($1)
   else { $next | halt }
 }
 
+covercheck {
+  var %cover.target $readini($char($1), skills, CoverTarget)
+  if ((%cover.target = none) || (%cover.target = $null)) { set %attack.target $1 | return } 
+
+  var %cover.status $readini($char($1), battle, status)
+  if ((%cover.status = dead) || (%cover.status = runaway)) { writeini $char($1) skills CoverTarget none | set %attack.target $1 | return } 
+
+  set %attack.target %cover.target
+  writeini $char($1) skills CoverTarget none
+  query %battlechan $readini(translation.dat, battle, TargetCovered)
+}
+
 deal_damage {
   ; $1 = person dealing damage
   ; $2 = target
@@ -160,14 +205,22 @@ deal_damage {
     writeini $char($2) battle status dead 
     writeini $char($2) battle hp 0
     $check.clone.death($2)
-    $increase_death_tally($2)
     if ($readini($char($1), info, flag) != monster) {
+      $inc_monster_kills($1)
       if (%battle.type = monster) {  $add.stylepoints($1, $2, mon_death, $3) | $add.style.orbbonus($1, monster) }
       if (%battle.type = orbfountain) {  $add.stylepoints($1, $2, mon_death, $3) | $add.style.orbbonus($1, monster) }
       if (%battle.type = boss) { $add.stylepoints($1, $2, boss_death, $3) | $add.style.orbbonus($1, boss) }
     }
   }
 
+}
+
+inc_monster_kills {
+  var %monster.kills $readini($char($1), stuff, MonsterKills)
+  if (%monster.kills = $null) { var %monster.kills 0 }
+  inc %monster.kills 1 
+  writeini $char($1) stuff MonsterKills %monster.kills
+  $achievement_check($1, MonsterSlayer)
 }
 
 check.clone.death {
@@ -183,6 +236,13 @@ heal_damage {
   ; $1 = person heal damage
   ; $2 = target
   ; $3 = action that was done (tech name, item, etc)
+
+  ;  Check for the blessed-ankh accessory
+  if ($readini($char($1), equipment, accessory) = blessed-ankh) { 
+    var %accessory.amount $readini(items.db, blessed-ankh, amount)
+    var %health.increase $round($calc(%attack.damage * %accessory.amount),0)
+    inc %attack.damage %health.increase
+  }
 
   set %life.target $readini($char($2), Battle, HP) | set %life.max $readini($char($2), Basestats, HP)
   inc %life.target %attack.damage
@@ -243,6 +303,9 @@ display_damage {
     unset %attack.damage1 | unset %attack.damage2 | unset %attack.damage3 | unset %attack.damage5 | unset %fourhit.attack | unset %fivehit.attack
   }
 
+
+  if (%statusmessage.display != $null) { query %battlechan %statusmessage.display | unset %statusmessage.display }
+
   if (%absorb = absorb) {
     ; Show how much the person absorbed back.
     var %absorb.amount $round($calc(%attack.damage / 2.3),0)
@@ -265,12 +328,16 @@ display_damage {
     }
   }
 
+
   ; Did the person die?  If so, show the death message.
   if ($readini($char($2), battle, HP) <= 0) { 
     $increase_death_tally($2)
+    $achievement_check($2, SirDiesALot)
     if (%attack.damage > $readini($char($2), basestats, hp)) { set %overkill 7<<OVERKILL>> }
     query %battlechan 4 $+ %enemy has been defeated by %user $+ !  %overkill
+    $goldorb_check($2) 
   }
+
 
   if ($readini($char($2), battle, HP) > 0) {
     ; Check to see if the monster can be staggered..  
@@ -310,7 +377,7 @@ display_heal {
 
   ; Did the person die?  If so, show the death message.
   if ($readini($char($2), battle, HP) <= 0) { 
-    query %battlechan 4 $+ %enemy has been defeated by %user $+ !  
+    $set_chr_name($2) | query %battlechan 4 $+ %enemy has been defeated by %user $+ !  
   }
 
   return 
@@ -384,11 +451,73 @@ random.battlefield.ally {
   else { return }
 }
 
-
 increase_death_tally {
   if ($readini($char($1), info, flag) = npc) { return }
   var %deaths $readini($char($1), stuff, TotalDeaths)
   if (%deaths = $null) { var %deaths 0 } 
   inc %deaths 1
   writeini $char($1) stuff TotalDeaths %deaths
+}
+
+; This is the automatic-revival function.. it's named after the Gold Orbs in Devil May Cry
+goldorb_check {
+  if ($readini($char($1), status, revive) = yes) {
+    var %max.hp $readini($char($1), basestats, hp)
+    set %revive.current.hp $round($calc(%max.hp / 2),0)
+    if (%revive.current.hp <= 0) { set %revive.current.hp 1 }
+    writeini $char($1) battle hp %revive.current.hp
+    writeini $char($1) battle status normal
+    writeini $char($1) status revive no
+    query %battlechan $readini(translation.dat, battle, GoldOrbUsed)
+    writeini battle2.txt style $1 0
+    unset %revive.current.hp
+
+    var %number.of.revives $readini($char($1), stuff, RevivedTimes)
+    if (%number.of.revives = $null) { var %number.of.revives 0 }
+    inc %number.of.revives 1
+    writeini $char($1) stuff RevivedTimes %number.of.revives
+    $achievement_check($1, Can'tKeepAGoodManDown)
+
+    writeini $char($1) Status poison no | writeini $char($1) Status HeavyPoison no | writeini $char($1) Status blind no
+    writeini $char($1) Status Heavy-Poison no | writeini $char($1) status poison-heavy no | writeini $char($1) Status curse no 
+    writeini $char($1) Status weight no | writeini $char($1) status virus no | writeini $char($1) status poison.timer 1 | writeini $char($1) status intimidate no
+    writeini $char($1) Status drunk no | writeini $char($1) Status amnesia no | writeini $char($1) status paralysis no | writeini $char($1) status amnesia.timer 1 | writeini $char($1) status paralysis.timer 1 | writeini $char($1) status drunk.timer 1
+    writeini $char($1) status zombie no | writeini $char($1) Status slow no | writeini $char($1) Status sleep no | writeini $char($1) Status stun no
+    writeini $char($1) status boosted no  | writeini $char($1) status curse.timer 1 | writeini $char($1) status slow.timer 1 | writeini $char($1) status zombie.timer 1
+    writeini $char($1) status zombieregenerating no | writeini $char($1) status charmer noOneThatIKnow | writeini $char($1) status charm.timer 1 | writeini $char($1) status charmed no 
+
+  }
+}
+
+guardian_style_check {
+  set %current.playerstyle $readini($char($1), styles, equipped)
+  set %current.playerstyle.level $readini($char($1), styles, %current.playerstyle)
+  ; Is the target using the Guardian style?  If so, we need to decrease the damage done.
+  if (%current.playerstyle = Guardian) { 
+    var %block.value $calc(%current.playerstyle.level / 15.5)
+    if (%block.value > .60) { var %block.value .60 }
+    var %amount.to.block $round($calc(%attack.damage * %block.value),0)
+    dec %attack.damage %amount.to.block
+  }
+}
+
+
+generate_evil_clones {
+  var %battletxt.lines $lines(battle.txt) | var %battletxt.current.line 1
+  while (%battletxt.current.line <= %battletxt.lines) { 
+    var %who.battle $read -l $+ %battletxt.current.line battle.txt
+    var %flag $readini($char(%who.battle), info, flag)
+    if ((%flag = monster) || (%flag = npc)) { inc %battletxt.current.line 1 }
+    else { 
+      .copy $char(%who.battle) $char(Evil_ $+ %who.battle)
+      writeini $char(evil_ $+ %who.battle) info flag monster 
+      writeini $char(evil_ $+ %who.battle) Basestats name Evil Doppelganger of %who.battle
+      $boost_monster_stats(evil_ $+ %who.battle, 1)
+      $fulls(evil_ $+ %who.battle) 
+      set %curbat $readini(battle2.txt, Battle, List) |  %curbat = $addtok(%curbat,evil_ $+ %who.battle,46) |  writeini battle2.txt Battle List %curbat | write battle.txt evil_ $+ %who.battle
+      $set_chr_name(evil_ $+ %who.battle) | query %battlechan $readini(translation.dat, battle, EnteredTheBattle)
+      var %battlemonsters $readini(battle2.txt, BattleInfo, Monsters) | inc %battlemonsters 1 | writeini battle2.txt BattleInfo Monsters %battlemonsters
+      inc %battletxt.current.line 1 
+    }
+  }
 }

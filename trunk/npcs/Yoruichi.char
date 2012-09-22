@@ -1,16 +1,16 @@
 [BaseStats]
-Hp=450
-Tp=70
+Hp=1500
+Tp=170
 Str=30
-Def=22
+Def=25
 Int=30
 Spd=60
 Name=Yoruichi Shihouin
 
 
 [Battle]
-Hp=450
-Tp=70
+Hp=1500
+Tp=170
 Str=30
 Def=25
 Int=30
@@ -32,7 +32,12 @@ Percent=0
 Hused=1
 Dused=1
 Char=is woman with dark skin, long purple hair and golden eyes, dressed in a black sleevless shirt, black pants, white shoes and an orange coat. The former 2nd Division Captain of the Gotei 13.
-Rage=needs to set a rage desc by typing !ragedesc <desc>
+Rage=narrows her eyes and says "I guess you can keep up with me after all..."
+Utsusemi=laughs as she activates the ability. "What's the matter? Can't find the real me?"
+ShadowCopy=laughs once more as she creates a clone of herself. "Can you handle two of me?"
+Speed=laughs as she increases her speed. "What's wrong? You can't keep up with me?"
+MightyStrike=shouts out "Shunko!" and surrounds her arms with reiatsu, increasing her strength greatly.
+
 
 [Stuff]
 RedOrbs=3608
@@ -97,30 +102,43 @@ conservetp.on=off
 
 [Weapons]
 Equipped=ShihouinFists
-ShihouinFists=75
+ShihouinFists=55
 
 [Skills]
 mightystrike=1
 desperateblows=1
-speed.on=on
+speed.on=off
 doubleturn.on=off
 soulvoice.on=off
 manawall.on=off
 mightystrike.on=off
 royalguard.on=on
-MartialArts=75
+MartialArts=55
+Wizardy=40
 Resist-Charm=100
+Resist-Zombie=100
+Resist-Intimidate=100
 RoyalGuard=1
 ManaWall=1
-
+Zen=5
+Utsusemi=1
+ShadowCopy=1
+Speed=100
+Sugitekai=1
 
 [Techniques]
-DoublePunch=75
-ShoulderTackle=75
-ShunkoRaigeki=75
-AsuranFists=75
+DoublePunch=60
+ShoulderTackle=60
+ShunkoRaigeki=60
+AsuranFists=60
+TornadoKick=60
+ShinjinSpiral=60
 
 
 [Item_Amount]
-potion=1
-DustyWing=0
+
+
+[Styles]
+Equipped=WeaponMaster
+WeaponMaster=2
+WeaponMasterXP=1

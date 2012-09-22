@@ -33,7 +33,7 @@ BossQuote=Ness.... ness.... ne...ss...............
 RedOrbs=0
 BlackOrbs=1
 ShopLevel=1.0
-Drops=Ambrosia
+Drops=Ambrosia.Superpotion.potion.Tonic.Ribbon
 
 [Monster]
 Type=

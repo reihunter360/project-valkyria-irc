@@ -39,7 +39,7 @@ BossQuote=Leave now, mortal! The likes of you are forbidden in this land. You, w
 RedOrbs=0
 BlackOrbs=1
 ShopLevel=1.0
-Drops=DustyWing.X-potion.vitalstar
+Drops=DustyWing.X-potion.vitalstar.CerberusMeat
 
 [Info]
 Flag=monster

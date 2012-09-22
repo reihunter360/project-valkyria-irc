@@ -1,21 +1,25 @@
-; STYLE stuff
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;; STYLE CONTROL 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 alias calculate.stylepoints {
   unset %style.rating
   if ($readini($char($1), info, flag) = monster) { return }
   var %style.points $readini(battle2.txt, style, $1)
   if (%style.points = $null) { set %style.points 0 }
 
-  if (%style.points <= 20) { set %style.rating $chr(91) $+ 10Flat Out Boring! $+ $chr(93) }
-  if ((%style.points > 20) && (%style.points <=  50)) { set %style.rating $chr(91) $+ 10Dope!  $+ $chr(93) }
-  if ((%style.points > 50) && (%style.points <=  80)) { set %style.rating $chr(91) $+ 10Cool!  $+ $chr(93) }
-  if ((%style.points > 80) && (%style.points <=  100)) { set %style.rating $chr(91) $+ 10Blast!  $+ $chr(93) }
-  if ((%style.points > 100) && (%style.points <=  120)) { set %style.rating $chr(91) $+ 10Alright!  $+ $chr(93) }
-  if ((%style.points > 120) && (%style.points <=  150)) { set %style.rating $chr(91) $+ 10Atomic!  $+ $chr(93) }
-  if ((%style.points > 150) && (%style.points <=  180)) { set %style.rating $chr(91) $+ 10Sweet!  $+ $chr(93) }
-  if ((%style.points > 180) && (%style.points <=  250)) { set %style.rating $chr(91) $+ 10SShowtime!  $+ $chr(93) }
-  if ((%style.points > 250) && (%style.points <= 550)) { set %style.rating $chr(91) $+ 10SSStylish!  $+ $chr(93) }
-  if ((%style.points > 550) && (%style.points <= 3500)) { set %style.rating $chr(91) $+ 10SSSSmoking Hot Style! $+ $chr(93) }
-  if (%style.points > 3500) { set %style.rating $chr(91) $+ 10Jackpot! $+ $chr(93) }
+  if (%style.points <= 30) { set %style.rating $readini(translation.dat, styles, FlatOutBoring) }
+  if ((%style.points > 30) && (%style.points <=  80)) { set %style.rating $readini(translation.dat, styles, Dope) }
+  if ((%style.points > 80) && (%style.points <=  100)) { set %style.rating $readini(translation.dat, styles, Cool) }
+  if ((%style.points > 100) && (%style.points <=  120)) { set %style.rating $readini(translation.dat, styles, Blast) }
+  if ((%style.points > 120) && (%style.points <=  140)) { set %style.rating $readini(translation.dat, styles, Alright) }
+  if ((%style.points > 140) && (%style.points <=  180)) { set %style.rating $readini(translation.dat, styles, Atomic) }
+  if ((%style.points > 180) && (%style.points <=  250)) { set %style.rating $readini(translation.dat, styles, Sweet) }
+  if ((%style.points > 250) && (%style.points <=  450)) { set %style.rating $readini(translation.dat, styles, SShowtime) }
+  if ((%style.points > 450) && (%style.points <= 750)) { set %style.rating $readini(translation.dat, styles, SSStylish) }
+  if ((%style.points > 750) && (%style.points <= 2500)) { set %style.rating $readini(translation.dat, styles, SSSSmokingHotStyle) }
+  if ((%style.points > 2500) && (%style.points < 5000)) { set %style.rating $readini(translation.dat, styles, Jackpot) }
+  if (%style.points >= 5000) { set %style.rating $readini(translation.dat, styles, MaximumStyle) }
 }
 
 alias add.stylepoints {
@@ -24,14 +28,13 @@ alias add.stylepoints {
   ; $3 = attack damage
   ; $4 = last action taken
 
-
   $decrease.stylepoints($2, $3)
   if ($readini($char($1), info, flag) = monster) { return }
 
   unset %style.multiplier
   var %lastaction $readini(battle2.txt, style, $1 $+ .lastaction) 
-  if (%lastaction = $4) { set %style.multiplier .5 }  
-  else { set %style.multiplier 1.5 | writeini battle2.txt style $1 $+ .lastaction $4 }
+  if (%lastaction = $4) { set %style.multiplier .15 }  
+  else { set %style.multiplier 1.1 | writeini battle2.txt style $1 $+ .lastaction $4 }
   set %stylepoints.current $readini(battle2.txt, style, $1)  
 
   if (($3 != mon_death) && ($3 != boss_death)) { set %stylepoints.toadd $round($calc($3 * %style.multiplier),0)) }
@@ -44,7 +47,6 @@ alias add.stylepoints {
   writeini battle2.txt style $1 %stylepoints.current
   unset %stylepoints.toadd | unset %stylepoints.current
 }
-
 
 alias decrease.stylepoints {
   set %stylepoints.current $readini(battle2.txt, style, $1)  

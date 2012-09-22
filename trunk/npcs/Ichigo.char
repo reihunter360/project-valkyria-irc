@@ -1,5 +1,5 @@
 [BaseStats]
-Hp=500
+Hp=1500
 Tp=50
 Str=20
 Def=20
@@ -9,7 +9,7 @@ Name=Ichigo
 
 
 [Battle]
-Hp=500
+Hp=1500
 Tp=50
 Str=20
 Def=20
@@ -116,5 +116,9 @@ Bankai=30
 
 
 [Item_Amount]
-potion=1
-DustyWing=0
+
+
+[Styles]
+Equipped=WeaponMaster
+WeaponMaster=2
+WeaponMasterXP=1

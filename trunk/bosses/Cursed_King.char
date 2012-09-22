@@ -37,7 +37,7 @@ BossQuote=Bow before me and I still shall not spare you!
 RedOrbs=0
 BlackOrbs=1
 ShopLevel=1.0
-Drops=Thunder_Orb
+Drops=Thunder_Orb.Potion.Tonic
 
 [Info]
 Flag=monster

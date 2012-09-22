@@ -81,10 +81,10 @@ C:\Program Files\BattleArena   as IT WILL NOT WORK RIGHT.
 \_______________________________________________________________________/
 
 
-This version was made more to fix multiple bugs and to fix exploits more
-than to add new things.  As usual, see versions.txt for the entire list
-of changes/fixes/additions.  Some of the more important ones will be listed
-here.
+This version update continues to add new things but also adds several major
+fixes that fix potential exploits/cheats. As usual be sure to read the
+versions.txt in the documentation folder for a full list of everything 
+this version does.  Listed below are some of the highlights.
 
 * Added the translation.dat file
 This file contains most of the bot messages. You can edit this file to do
@@ -92,9 +92,9 @@ translations or just to change the way the various messages read. Open the
 translation.dat file in notepad and be sure to read the top of the file 
 before you start editing.
 
-* Added the Ability to Sell Items
-Use !shop sell items (item name) (amount)  [without the () of course] to
-sell an unwanted item back to the shop.  Keep in mind you won't get the
+* Added the Ability to Sell Items & Accessories
+Use !shop sell items (item/accessory name) (amount)  [without the () of course]
+to sell an unwanted item back to the shop.  Keep in mind you won't get the
 full price back for the item.
 
 * Added AOE Heal Techs
@@ -109,12 +109,27 @@ undead or zombies.
   each turn you're not cursed. It's +(5 * skill level)
 - Haggling is a passive skill that increase the amount of orbs you
   get for selling items back to the shop.
+- Cover is an active skill that will allow you to jump in front of an 
+  ally, basically taking damage for him/her.
+- WeaponBash is a passive skill that gives a chance of inflicting the 
+  'stun' status effect to a target with each melee hit. Note, if the 
+  target is immune to stun it will never take effect.
 
 * Added an Anti-Cheat System On Monster Weapons
 If somehow players get ahold of monster weapons they will be useless
 to them now and will do 0-5 damage max.  Monster techs will also do
 0-5 damage max and boosts will increase the stats by 0.
 
+* Added New Item Types
+- ShopReset is an item type that will lower the target's shop level.
+- Revive is an item type that will grant the Revive status on a target.
+  Should the target's HP fall to 0 with that status on, they'll be brought
+  back to life with 1/2 their HP.
+
+* Added Doppelganger Battles
+When the bot chooses a boss battle there is now a 5% chance that it will
+be a Doppelganger battle. In this battle type, evil copies of all players
+who have entered the battle will be made and they must fight them.
 
 * Changed the Monster Generation
 I changed the way the monsters are generated for battle and put into
@@ -145,6 +160,25 @@ The cooldown timers are now located in the skills.db.  Bot owners
 can now edit these directly to change the skill reuse times. Remember
 these times are in seconds.
 
+* Changed The Way Boss Drops Work
+I changed it so that they can have multiple drops. The bot will still only 
+pick one drop, but now you can make it random.  Also, I changed it so if more
+than one boss enters the battle all of their drops should be in the pool 
+rather than just the most recent boss to join.
+
+* Changed Poison
+I Changed the damage formula on poison.  Instead of doing random 5-10 damage 
+a turn (which is nothing when players have HP over 1000), it now does a 
+percentage of a target's max HP.  The "Heavily Poisoned" status does even 
+more than normal poison.
+
+* Changed Spawning Code
+Changed the code so that boss battles may spawn normal monsters as well
+when the winning streak is greater than 50.
+
+* Changed !style change
+Players can now change their styles within battle at the cost of a turn.
+
 * Bug Fixes
 As usual, there's always a few bugs to squish.  Here's a quick breakdown.
 
@@ -161,8 +195,18 @@ As usual, there's always a few bugs to squish.  Here's a quick breakdown.
 - Fixed a bug in which MightyStrike could be used continuously without cooldown.
 - Fixed a bug in which fleeing would cause the bot to break in a one vs one battle
   against an orb fountain.
+- Fixed a bug in which you could use consumable items with the !use command and 
+  the item would be decreased from your inventory.
+- Fixed a bug in which MightyStrike could be used continuously without a cooldown.
+- Fixed a bug where if something was weak to lightning it would also take double 
+  damage for light element as well.
+- Fixed a bug with Fullbring when used on +TP items.
+- Fixed a bug in which monsters killed by AOEs were giving double the style 
+  points that it should have.
 
 
+Again, this isn't everything. Be sure to read the versions.txt in the documentation
+folder for a full list of everything 
 
  _______________________________________________________________________
 /                                                                       \
@@ -216,11 +260,16 @@ AuXFire of Hawkee
 Caught a major bug with the passwords which made changing your password from the default impossible.
 
 Raiden of Esper.net
-He helped test the bot and found a bot-breaking bug in which certain encoded passwords wouldn't
-work with the !id and !quick id commands.
+He helped test the bot and found a bot-breaking bug in which certain encoded passwords wouldn't work with the !id and !quick id commands.  Also, several accessories and skills were ideas of his.
 
 Sealdrenxia of Twitter
 Discovered a huge bug with !new char that let players use the command over and over to get free orbs.
+
+Rei_Hunter of Esper.net
+Helped give me a ton of ideas for the bot (including, but not limited to, moving cooldown timers to the skills.db, monsters being able to absorb elements for healing, AOE healing, and the ability for monsters to ignore darkness/rage mode).
+
+Trunks on Esper.net
+Since he was translating the bot into German, it sparked the idea of the translation.dat file to try and make the bot a little more friendly for translation.
 
  _______________________________________________________________________
 /                                                                       \
@@ -229,7 +278,8 @@ Discovered a huge bug with !new char that let players use the command over and o
 
 
 If, for whatever reason, you need to contact me.. my email address is
-provided:  Iyouboushi@gmail.com
+provided:  Iyouboushi@gmail.com  or you can contact me via twitter:
+twitter.com/Iyouboushi
 
 PLEASE, PLEASE, PLEASE, PLEASE, PLEASE, PLEASE, do NOT contact me about HELP
 running this bot.  I seriously do not have enough time to help everyone. If

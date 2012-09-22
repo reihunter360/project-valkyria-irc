@@ -1,20 +1,20 @@
 [BaseStats]
-Hp=500
+Hp=1500
 Tp=60
-Str=10
-Def=10
-Int=10
-Spd=10
+Str=25
+Def=20
+Int=20
+Spd=30
 Name=Iori Yagami
 
 
 [Battle]
-Hp=500
+Hp=1500
 Tp=60
-Str=10
-Def=10
-Int=10
-Spd=10
+Str=25
+Def=20
+Int=20
+Spd=30
 Status=alive
 
 
@@ -94,19 +94,26 @@ zombie.timer=1
 
 [Weapons]
 Equipped=OrochiPower
-OrochiPower=15
+OrochiPower=50
 
 [Skills]
 Resist-Charm=100
 Resist-Zombie=100
-MartialArts=15
+Resist-Intimidate=100
+MartialArts=30
+Zen=5
+MightyStrike=1
 
 [Techniques]
-YamiBarai=15
-AoiHana=15
-YaOtome=15
-SakuTsumagushi=15
+YamiBarai=50
+AoiHana=50
+YaOtome=50
+SakuTsumagushi=50
 
 
 [Item_Amount]
 
+[Styles]
+Equipped=WeaponMaster
+WeaponMaster=2
+WeaponMasterXP=1

@@ -1,20 +1,20 @@
 [BaseStats]
-Hp=500
+Hp=1500
 Tp=60
-Str=15
-Def=12
-Int=10
-Spd=12
+Str=25
+Def=22
+Int=20
+Spd=22
 Name=Ash
 
 
 [Battle]
-Hp=500
+Hp=1500
 Tp=60
-Str=15
-Def=12
-Int=10
-Spd=12
+Str=25
+Def=22
+Int=20
+Spd=22
 Status=alive
 
 
@@ -94,16 +94,25 @@ zombie.timer=1
 
 [Weapons]
 Equipped=Boomstick
-Boomstick=30
+Boomstick=50
 
 [Skills]
 Gunslinger=30
-MartialArts=30
+Wizardy=30
+Resist-Charm=100
+Resist-Zombie=100
+Resist-Intimidate=100
+Zen=5
 
 [Techniques]
-HotShot=30
-BlastShot=30
-Detonator=30
+HotShot=50
+BlastShot=50
+Detonator=50
 
 
 [Item_Amount]
+
+[Styles]
+Equipped=WeaponMaster
+WeaponMaster=2
+WeaponMasterXP=1

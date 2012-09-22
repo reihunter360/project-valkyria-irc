@@ -3,55 +3,60 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 on 2:TEXT:!use*:*: {  unset %real.name | unset %enemy
   if ($is_charmed($nick) = true) { query %battlechan query %battlechan $readini(translation.dat, status, CurrentlyCharmed)  | halt }
-  if ((no-item isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan 4 $+ %real.name is not allowed to do that action due to the current battle conditions! | halt }
+  if ((no-item isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan $readini(translation.dat, battle, NotAllowedBattleCondition)   | halt }
 
   var %item.type $readini(items.db, $2, type)
   if (%item.type != summon) {
-    if (($3 != on) || ($3 = $null)) { .msg $nick 4Error: !use <item> ON <person> | halt }
-    if ($4 = me) { .msg $nick 4Error: You must specify a name, rather than "me" | halt }
-    if ($readini($char($4), battle, status) = dead) { query %battlechan 4This item cannot be used on someone who's dead. | halt }
+    if (($3 != on) || ($3 = $null)) { .msg $nick $readini(translation.dat, errors, ItemUseCommandError) | halt }
+    if ($4 = me) { .msg $nick $readini(translation.dat, errors, MustSpecifyName) | halt }
+    if ($readini($char($4), battle, status) = dead) { query %battlechan $readini(translation.dat, errors, CannotUseItemOnDead) | halt }
     $checkchar($4)
   }
 
   set %check.item $readini($char($nick), Item_Amount, $2) 
-  if ((%check.item <= 0) || (%check.item = $null)) { $set_chr_name($nick) | query %battlechan 4Error: %real.name does not have that item. | halt }
+  if ((%check.item <= 0) || (%check.item = $null)) { $set_chr_name($nick) | query %battlechan $readini(translation.dat, errors, DoesNotHaveThatItem) | halt }
 
   var %user.flag $readini($char($nick), info, flag) | var %target.flag $readini($char($4), info, flag)
   if (%item.type = food) { 
     if (%battleis = on) { $check_for_battle($nick)   }
 
-    if (%target.flag = monster) { query %battlechan 4Error: This item can only be used on players! | halt }
+    if (%target.flag = monster) { query %battlechan $readini(translation.dat, errors, ItemCanOnlyBeUsedOnPlayers)  | halt }
     $item.food($nick, $4, $2) | $decrease_item($nick, $2) 
     if (%battleis = on)  { $check_for_double_turn($1) | halt }
     halt
   }
 
-  if (%item.type = consume) { query %battlechan 4Error: This item is used via performing a skill. | halt }
+  if (%item.type = consume) { query %battlechan $readini(translation.dat, errors, ItemIsUsedInSkill) | halt }
+  if (%item.type = accessory) { query %battlechan $readini(translation.dat, errors, ItemIsAccessoryEquipItInstead)  | halt }
 
   if (%item.type = shopreset) {
     if (%battleis = on) { $check_for_battle($nick)   }
 
-    if (%target.flag = monster) { query %battlechan 4Error: This item can only be used on players! | halt }
+    if (%target.flag = monster) { query %battlechan $readini(translation.dat, errors, ItemCanOnlyBeUsedOnPlayers) | halt }
     $item.shopreset($nick, $4, $2) | $decrease_item($nick, $2) 
-    if (%battleis = on)  { $check_for_double_turn($1) | halt }
     halt  
   }
 
   $check_for_battle($nick) 
-  if (%battleis = off) { query %battlechan 4There is no battle currently! | halt }
+  if (%battleis = off) { query %battlechan $readini(translation.dat, errors, NoBattleCurrently) | halt }
 
   if (%item.type = damage) {
-    if (%target.flag != monster) { query %battlechan 4Error: This item can only be used on monsters! | halt }
+    if (%target.flag != monster) { query %battlechan $readini(translation.dat, errors, ItemCanOnlyBeUsedOnMonsters) | halt }
     $item.damage($nick, $4, $2)
   }
 
   if (%item.type = heal) {
-    if ((%target.flag = monster) && ($readini($char($4), monster, type) != zombie)) { query %battlechan 4Error: This item can only be used on players! | halt }
+    if ((%target.flag = monster) && ($readini($char($4), monster, type) != zombie)) { query %battlechan $readini(translation.dat, errors, ItemCanOnlyBeUsedOnPlayers) | halt }
     $item.heal($nick, $4, $2)
+  }
+  if (%item.type = CureStatus) {
+    if ((%target.flag = monster) && ($readini($char($4), monster, type) != zombie)) { query %battlechan $readini(translation.dat, errors, ItemCanOnlyBeUsedOnPlayers)  | halt }
+    $set_chr_name($4) | var %enemy %real.name
+    $item.curestatus($nick, $4, $2)
   }
 
   if (%item.type = tp) { 
-    if (%target.flag = monster) { query %battlechan 4Error: This item can only be used on players! | halt }
+    if (%target.flag = monster) { query %battlechan $readini(translation.dat, errors, ItemCanOnlyBeUsedOnPlayers) | halt }
     ; Show the desc
     $set_chr_name($4) | var %enemy %real.name | $set_chr_name($nick) 
     query %battlechan 3 $+ %real.name  $+ $readini(items.db, $2, desc)
@@ -61,11 +66,23 @@ on 2:TEXT:!use*:*: {  unset %real.name | unset %enemy
   }
 
   if (%item.type = status) {
-    if (%target.flag != monster) { query %battlechan 4Error: This item can only be used on monsters! | halt }
+    if (%target.flag != monster) { query %battlechan $readini(translation.dat, errors, ItemCanOnlyBeUsedOnMonsters) | halt }
     $item.status($nick, $4, $2)
   }
 
-  if (%item.type = revive) {  query %battlechan 4This item will automatically take effect when needed. | halt }
+  if (%item.type = revive) {  
+    $check_for_battle($nick)
+    if (%target.flag = monster) { query %battlechan $readini(translation.dat, errors, ItemCanOnlyBeUsedOnPlayers) | halt }
+    if ($readini($char($1), Battle, Status) = dead) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, CanNotAttackWhileUnconcious)  | unset %real.name | halt }
+    if ($readini($char($4), Battle, Status) = dead) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, CanNotAttackSomeoneWhoIsDead) | unset %real.name | halt }
+
+    $set_chr_name($4) | var %enemy %real.name | $set_chr_name($nick) 
+    query %battlechan 3 $+ %real.name  $+ $readini(items.db, $2, desc)
+    $item.revive($nick, $4, $2) 
+
+    $decrease_item($nick, $2) 
+    if (%battleis = on)  { $check_for_double_turn($nick) | halt }
+  }
 
   if (%item.type = summon) { $item.summon($nick, $2) }
   $decrease_item($nick, $2)
@@ -86,8 +103,8 @@ alias item.summon {
   ; $2 = item used
 
   ; Check to make sure the monster isn't already summoned and the user has the skill needed.
-  if ($skillhave.check($1, BloodPact) = false) { $set_chr_name($1) | query %battlechan 4Error: %real.name does not have the appropriate skill to use this item. | halt }
-  if ($isfile($char($nick $+ _summon)) = $true) { $set_chr_name($1) | query %battlechan 4Error: %real.name has already used Blood Pact for this battle and cannot use it again! | halt }
+  if ($skillhave.check($1, BloodPact) = false) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, DoNotHaveSkillNeeded) | halt }
+  if ($isfile($char($nick $+ _summon)) = $true) { $set_chr_name($1) | query %battlechan $readini(translation.dat, skill, AlreadyUsedBloodPact)  | halt }
 
   ; Get the summon via the item.
   set %summon.name $readini(items.db, $2, summon)
@@ -104,6 +121,9 @@ alias item.summon {
 
   ; Set the user's TP to 0.
   writeini $char($1) Battle TP 0
+
+  var %bloodpact.level $readini($char($1), skills, BloodPact)
+  if (%blodopact.level > 1) { $boost_summon_stats($1, %bloodpact.level)  }
 
   unset %summon.name
 }
@@ -164,6 +184,8 @@ alias item.status {
   set %resist.have resist- $+ %status.type
   set %resist.skill $readini($char($2), skills, %resist.have)
 
+  $ribbon.accessory.check($2)
+
   if (%status.type = charm) {
     if ($readini($char($2), status, zombie) != no) { set %resist.skill 100 }
     if ($readini($char($2), monster, type) = undead) { set %resist.skill 100 }
@@ -205,8 +227,6 @@ alias item.status {
   return
 }
 
-
-
 alias display_Statusdamage_item {
   unset %style.rating
   $set_chr_name($1) | set %user %real.name
@@ -223,7 +243,10 @@ alias display_Statusdamage_item {
     writeini $char($2) battle status dead 
     writeini $char($2) battle hp 0
     $check.clone.death($2)
-    query %battlechan 4 $+ %enemy has been defeated by %user $+ !  
+    $increase_death_tally($2)
+    $achievement_check($2, SirDiesALot)
+    query %battlechan $readini(translation.dat, battle, EnemyDefeated)
+    $goldorb_check($2) 
     if ($readini($char($1), info, flag) != monster) {
       if (%battle.type = monster) {  $add.stylepoints($1, $2, mon_death, $3) | $add.style.orbbonus($1, monster) }
       if (%battle.type = boss) { $add.stylepoints($1, $2, boss_death, $3) | $add.style.orbbonus($1, boss) }
@@ -260,7 +283,7 @@ alias item.heal {
   ; $1 = user
   ; $2 = target
   ; $3 = item
-  if ($readini($char($2), battle, hp) >= $readini($char($2), battlestats, hp)) { $set_chr_name($2) | query %battlechan 4 $+ %real.name does not need any healing right now! | hatl }
+  if ($readini($char($2), battle, hp) >= $readini($char($2), battlestats, hp)) { $set_chr_name($2) | query %battlechan $readini(translation.dat, errors, DoesNotNeedHealing) | halt }
 
   $calculate_heal_items($1, $3, $2)
 
@@ -275,6 +298,30 @@ alias item.heal {
     $display_heal($1, $2, item, $3)
   }
 
+  return
+}
+
+alias item.revive {
+  $set_chr_name($1) | set %user %real.name
+  $set_chr_name($2) | set %enemy %real.name
+  writeini $char($2) status revive yes 
+  return 
+}
+
+alias item.curestatus {
+  ; $1 = user
+  ; $2 = target
+  ; $3 = item
+
+  writeini $char($2) Status poison no | writeini $char($2) Status HeavyPoison no | writeini $char($2) Status blind no
+  writeini $char($2) Status Heavy-Poison no | writeini $char($2) status poison-heavy no | writeini $char($2) Status curse no 
+  writeini $char($2) Status weight no | writeini $char($2) status virus no | writeini $char($2) status poison.timer
+  writeini $char($2) Status drunk no | writeini $char($2) Status amnesia no | writeini $char($2) status paralysis no | writeini $char($2) status amnesia.timer 1 | writeini $char($2) status paralysis.timer 1 | writeini $char($2) status drunk.timer 1
+  writeini $char($2) status zombie no | writeini $char($2) Status slow no | writeini $char($2) Status sleep no | writeini $char($2) Status stun no
+  writeini $char($2) status boosted no  | writeini $char($2) status curse.timer 1 | writeini $char($2) status slow.timer 1 | writeini $char($2) status zombie.timer 1
+  writeini $char($2) status zombieregenerating no
+
+  $set_chr_name($3) | query %battlechan $readini(translation.dat, status, MostStatusesCleared)
   return
 }
 
@@ -335,7 +382,7 @@ alias calculate_damage_items {
     dec %number.of.shadows 1 
     writeini $char($3) skills utsusemi.shadows %number.of.shadows
     if (%number.of.shadows <= 0) { writeini $char($3) skills utsusemi.on off }
-    $set_chr_name($3) | query %battlechan 7One of %real.name $+ 's shadows absorbs the attack and disappears! | set %attack.damage 0 | return 
+    $set_chr_name($3) | query %battlechan $readini(translation.dat, skill, UtsusemiBlocked) | set %attack.damage 0 | return 
   }
 }
 
@@ -385,7 +432,14 @@ alias item.shopreset {
 
   if (%user = %enemy ) { set %enemy $gender2($1) $+ self }
   $set_chr_name($1) | query %battlechan 3 $+ %real.name $+  $readini(items.db, $3, desc)
-  query $2 2Your shop level has been lowered.  It is now $readini($char($2), stuff, shoplevel) $+ !
+  query $2 $readini(translation.dat, system,ShopLevelLowered)
+
+  var %discounts.used $readini($char($1), stuff, DiscountsUsed)
+  inc %discounts.used 1 
+  writeini $char($1) stuff DiscountsUsed %discounts.used
+
+  $achievement_check($1, Cheapskate)
+
   unset %enemy
   return
 }
@@ -405,12 +459,14 @@ alias item.food {
 
     if (%food.type = hp) {
       var %player.current.hp $readini($char($2), basestats, hp)
-      if (%player.current.hp >= $readini(system.dat, system, maxHP)) { .msg $1 4Error: $2 has the maximum amount of HP allowed! | halt }
+      var %player.max.hp $readini(system.dat, system, maxHP)
+      if (%player.current.hp >= %player.max.hp) { .msg $1 $readini(translation.dat, errors, MaxHPAllowedOthers) | halt }
     }
 
     if (%food.type = tp) {
       var %player.current.tp $readini($char($2), basestats, tp)
-      if (%player.current.tp >= $readini(system.dat, system, maxTP)) { .msg $1 4Error: $2 has the maximum amount of TP allowed! | halt }
+      var %player.max.tp $readini(system.dat, system, maxTP)
+      if (%player.current.tp >= %player.max.tp) { .msg $1 $readini(translation.dat, errors, MaxTPAllowedOthers)  | halt }
     }
 
     inc %target.stat %food.bonus
@@ -433,7 +489,28 @@ alias item.food {
   $set_chr_name($1) | query %battlechan 3 $+ %real.name $+  $readini(items.db, $3, desc)
 
 
-  query $2 2Your %food.type has permanantly increased by %food.bonus $+ !
+  query $2 $readini(translation.dat, system,FoodStatIncrease)
   unset %food.bonus | unset %target.stat | unset %food.type
   return
+}
+
+
+;=========================================
+; Equip an accessory via the !wear command.
+;=========================================
+on 2:TEXT:!wear*:*: {  $set_chr_name($nick)
+  var %item.type $readini(items.db, $2, type)
+  if (%item.type != accessory) { query %battlechan $readini(translation.dat, errors, ItemIsNotAccessory) | halt }
+  set %check.item $readini($char($nick), Item_Amount, $2) 
+  if ((%check.item <= 0) || (%check.item = $null)) { $set_chr_name($nick) | query %battlechan $readini(translation.dat, errors, DoesNotHaveThatItem) | halt }
+  if ((%battleis = on) && ($nick isin $readini(battle2.txt, Battle, List))) { query %battlechan $readini(translation.dat, errors, CanOnlySwitchAccessoriesOutsideBattle) | halt }
+  writeini $char($nick) equipment accessory $2
+  query %battlechan $readini(translation.dat, system, EquippedAccessory)
+}
+on 2:TEXT:!remove*:*: {  $set_chr_name($nick)
+  var %equipped.accessory $readini($char($nick), equipment, accessory)
+  if ($2 != %equipped.accessory) { query %equipped.accessory $readini(translation.dat, system, NotWearingThatAccessory)  }
+  if ((%battleis = on) && ($nick isin $readini(battle2.txt, Battle, List))) { query %battlechan $readini(translation.dat, errors, CanOnlySwitchAccessoriesOutsideBattle) | halt }
+  else { writeini $char($nick) equipment accessory none } 
+  query %battlechan $readini(translation.dat, system, RemovedAccessory)
 }

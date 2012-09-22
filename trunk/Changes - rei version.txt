@@ -2,17 +2,9 @@ ITEMS.DB
 DiscountCard=150000
 
 SKILLS.MRC
-; Stealing Counter
-;      var %stolen.from.counter $readini($char($2), status, stolencounter)
-;      if (%stolen.from.counter >= 2) { $set_chr_name($2) | query %battlechan 4 $+ %real.name  has nothing left to steal! | halt }
+      var %stolen.from.counter $readini($char($2), status, stolencounter)
+      if (%stolen.from.counter >= 5) { $set_chr_name($2) | query %battlechan 4 $+ %real.name  has nothing left to steal! | halt }
 
-;      inc %stolen.from.counter 1 | writeini $char($2) status stolencounter %stolen.from.counter 
-; CHANGES HERE FOR \/ STEAL
-      if ($readini($char($2), Info, flag) = monster) { var %steal.pool orbs.vitalstar.orbs.potion.Holy_Water.Pizza.PotRoast.Ramen.Cavier.BisonDollar.DragonMeat.SuperMushroom.FireDragonWine.Ambrosia.FoieGras.KnowledgeSource.SoulPainting.FishAndChips.Slurm | var %steal.orb.amount $rand(8000,14000) }
-      if ($readini($char($2), Info, Flag) = boss) { var %steal.pool orbs.senzu.Red_Fang.Thunder_Orb.Pizza.PotRoast.Ramen.Cavier.BisonDollar.DragonMeat.SuperMushroom.FireDragonWine.Ambrosia.FoieGras.KnowledgeSource.SoulPainting.FishAndChips.Slurm.DarkMagicianCard.BusterBladerCard.BlueEyesCard.FishOilBroth.ElvishMedallian | var %steal.orb.amount $rand(12000,30000) }
-      if ($2 = orb_fountain) { var %steal.pool orbs.orbs.orbs.orbs | var %steal.orb.amount $rand(8000,15000) }
-
-      if (%bloodmoon = on) { var %steal.pool orbs.orbs.orbs.orbs | var %steal.orb.amount $rand(10000,28000) }
 
 SKILLS.DB
 Steal Cooldown=15, Max=50
@@ -22,21 +14,30 @@ Bloodboost Max 60
 DrainSamba Cooldown = 180 to 30
 ConserveTP Cooldown=500
 Meditate Cooldown=60
-Mightystrike and ElementalSeal = 30
+Mightystrike = 30
+ElementalSeal = 60
+Cover Cooldown=20 from 270
 
 Impetus Max=40
-FieldMedic Max=50
+FieldMedic Max=500
 Clearmind Max=5
 OrbHunter Max=200
 Regen Max=200
+Zen=10
+WeaponBashMax=2
 
-Gunslinger,Swordmaster,Wizardy,Martialarts,Polemaster Max to 500 (from 400)
+Gunslinger,Swordmaster,Wizardy,Martialarts,Polemaster Max to 500 (from 100)
 
 TECHNIQUES.DB
 ; Valkyria-IRC Customs
 FFOmegaWeapon=Repairs.SpaceBeam
 Silver_Goddess_Sword=TwinSlice.BiteOfLightning.BladeBeam.HyperTwinSlice.WiseReflection.CureV.GigaSlash.Atonement.BlizzajaII
 Valkyrie_Sword=CureV.SonicBlow.JupitelThunder.BrandishSpear.WiseReflection
+TRexWeapon=Roar.Swallow.SpikeFlail.VolcanicRush.SurvivalInstinct
+PhoenixmonWeapon=StarlightExplosion.CureV.CrimsonFlame.MeteorPhoenix.DoubleHurricane.BusterPhoenix
+BlackRockShooter=RockCannon.RockDeltaVulcan.BlackStarSlash.BlackStarGrenade.BlackStarPower.RockCannonSpear.CureV
+DiendDriver=DiendHenshin.DiendGekijouban.DiendBlast.DiendDimensionShoot.CureII
+MegasaurusWeapon=SurvivalInstinct.Earthquake.UltimateSwallow.SpikeFlail.Slurp.Dinostomp.VolcanicRush
 
 [Repairs]
 Type=heal
@@ -48,6 +49,7 @@ Element=none
 magic=yes
 
 [SonicBlow]
+; Ragnarok Online Move
 Type=Status
 StatusType=Stun
 TP=20
@@ -59,6 +61,7 @@ Element=none
 magic=no
 
 [BrandishSpear]
+; Ragnarok Online Move
 Type=AOE
 TP=10
 Desc=uses $gender($1) weapon and slams it hard into the ground creating a shockwave that damages all enemies! [Brandish Spear!]
@@ -68,6 +71,7 @@ Element=none
 magic=no
 
 [JupitelThunder]
+; Ragnarok Online Move
 Type=Status
 StatusType=Stun.Paralysis
 TP=20
@@ -76,6 +80,8 @@ cost=9000
 basepower=20
 Element=Lightning
 magic=yes
+
+; Tyrannosaurus Moveset
 
 [Swallow]
 Type=Single
@@ -105,7 +111,10 @@ basepower=20
 element=Fire
 Cost=9000
 
+; Phoenixmon Skills.
+
 [StarlightExplosion]
+; Digimon Moveset
 type=AOE
 TP=30
 ;statustype=Blind
@@ -116,10 +125,11 @@ magic=yes
 cost=9000
 
 [CrimsonFlame]
+; Digimon Moveset
 type=single
 TP=30
 ;statustype=Burning
-Desc=flaps $gender($1) wings until they burn a bright yellow, and unleashes them on %enemy $+ ! tp=20
+Desc=flaps $gender($1) wings until they burn a bright yellow, and unleashes them on %enemy $+ ! [Crimson Flame!]
 basepower=45
 element=fire
 magic=yes
@@ -153,17 +163,12 @@ Desc= starts to burn a bright orange fire around itself!
 basepower=20
 cost=9000
 
-RockCannon - aims and fires a barrage of blue spheres at %enemy $+! [Rock Cannon!] [Null Element]
-Rock_DeltaVulcan - changes the "Rock Cannon" on %gender($1) hands and becomes a "Delta Vulcan Gatling" and steadily unleashes a blast of bullets onto %enemy $+! [Null Element]
-BlackStarSlash - Light Element - summons a black and white katana and lets it burn in a blue blaze... slashing it towards the enemies sending a large blue fire across the battlefield! [AoE / Light Element]
-BlackStarGrenade - Light Element AoE - forms a giant ball burning a bright blue, then tosses it at the enemies.
-BlackStarPower - stares intently at $gender($1) $+'s opponents, and says "I am Black Rock Shooter!" as $gender($0) says this, $gender($1) left eye starts to burn a bright blue of a flame
-RockCannonSpear - changes the "Rock Cannon" into a large spear and slams it hard on %enemy! [Single / Burning / Null Element]
+; Black Rock Shooter moves
 
 [RockCannon]
 type=single
 tp=15
-Desc=aims and fires a barrage of blue spheres at %enemy $+! [Rock Cannon!]
+Desc=aims and fires a barrage of blue spheres at %enemy $+ ! [Rock Cannon!]
 basepower=30
 cost=9000
 magic=no
@@ -171,7 +176,7 @@ magic=no
 [RockDeltaVulcan]
 type=single
 tp=30
-Desc=changes the "Rock Cannon" on %gender($1) hands and becomes a "Delta Vulcan Gatling" and steadily unleashes a blast of bullets onto %enemy $+! [Rock Delta Vulcan!]
+Desc=changes the "Rock Cannon" on $gender($1) hands and becomes a "Delta Vulcan Gatling" and steadily unleashes a blast of bullets onto %enemy $+ ! [Rock Delta Vulcan!]
 basepower=45
 cost=9000
 magic=no
@@ -210,13 +215,15 @@ Desc=changes the "Rock Cannon" into a large spear and slams it hard on %enemy!
 basepower=35
 magic=no
 
+; DiEndDriver Details
+
 [DiendHenshin]
 type=boost
 tp=20
+Desc=quickly slides the card slot open on the gun and inserts a special card inside, and immediately closes. You scream "Henshin!" and you shoot that card into the air forming a body suit for you! "D-D-D--- Diend Rider!" a voice from far away seem to say at your new form.
 element=Lightning
 basepower=20
 cost=300
-Desc=quickly slides the card slot open on the gun and inserts a special card inside, and immediately closes. You scream "Henshin!" and you shoot that card into the air forming a body suit for you! "D-D-D--- Diend Rider!" a voice from far away seem to say at your new form.
 
 [DiendGekijouban]
 type=single
@@ -231,18 +238,20 @@ type=status
 statustype=Stun
 tp=20
 element=Lightning
-basepower=15
+basepower=25
 cost=4000
-Desc= shifts the mode on the DienDriver and goes full automatic on %enemy $+! [DiendBlast]
+Desc= shifts the mode on the DiendDriver and goes full automatic on %enemy $+ ! [Diend Blast!]
 
 [DiEndDimensionShoot]
 type=AOE
 tp=100
 Element=Lightning
 cost=5000
-Desc= locks the DiendDriver, then aims at the enemies, and then 9 ring of cards appear in a straight line, and a large beam from the Diend Driver hits %enemy $+ ! "Final Attack Ride! Dimension Shoot!" a voice seemingly echoing all over.
+Desc= locks the DiendDriver, then aims at the enemies, and then 9 ring of cards appear in a straight line, and a large beam from the Diend Driver hits all the enemies! "Final Attack Ride! Dimension Shoot!" a voice seemingly echoing all over.
 basepower=50
 magic=yes
+
+; Megasaurus Attacks
 
 [Earthquake]
 type=AOE
@@ -258,19 +267,19 @@ magic=no
 type=AOE
 tp=100
 cost=99999
-Desc= grabs all the enemies on the battlefield and chews on them for a while, then spits them back out!
+Desc= grabs all the enemies on the battlefield and chews on them for a while, then spits them back out! [Ultimate Swallow]
 absorb=yes
 basepower=50
 magic=no
 
 [Slurp]
 type=status
-statustype=Paralyze
-absorb=yes
+statustype=Paralysis
 tp=30
 basepower=40
-desc=licks and tastes %enemy $+ !
+desc=licks and tastes %enemy $+ ! [Slurp]
 element=water
+absorb=yes
 magic=no
 
 [Dinostomp]
@@ -278,7 +287,7 @@ type=status
 statustype=Stun
 tp=40
 basepower=60
-desc=lifts $gender($1) $+ giant leg and stomps on %enemy $+ !
+desc=lifts $gender($1) $+ giant leg and stomps on %enemy $+ ! [Dinosaur Stomp!]
 element=none
 magic=no
 
@@ -286,10 +295,11 @@ Desc=scoffs at everyone again as a silver aura appears around $gender($1) $+self
 ^ Eldora's WiseReflection
 
 WEAPONS.DB
-
-FFOmegaWeapon.Valkyrie_Sword
+Guns=Ebony&Ivory.Quicksilver.Magnum.Hexagun.DiEndDriver
+FFOmegaWeapon.Valkyrie_Sword.TRexWeapon.PhoenixmonWeapon.BlackRockShooter.MegasaurusWeapon
 ^ MonsterWpns
 
+; Omega Weapon
 [FFOmegaWeapon]
 Cost=99999
 Type=Rifle
@@ -314,7 +324,7 @@ upgrade=500000
 cost=999999
 Type=HandtoHand
 Info=A Tyrannosaurus' Weapon for fighting and hunting!
-Abilities=Roar.Swallow.SpikeTail.VolcanicRush.SurvivalInstinct
+Abilities=Roar.Swallow.SpikeFlail.VolcanicRush.SurvivalInstinct
 element=dark
 hits=$rand(2,5)
 basepower=35
@@ -322,7 +332,7 @@ upgrade=500000
 
 [PhoenixmonWeapon]
 Cost=999999
-Type=Staff
+Type=Stave
 Info=A Phoenixmon's Weapon for defending itself.
 Abilities=StarlightExplosion.CureV.CrimsonFlame.MeteorPhoenix.DoubleHurricane.BusterPhoenix
 element=none
@@ -354,7 +364,7 @@ Upgrade=350
 Cost=9999999
 Type=HandtoHand
 Info=A Megasaurus' Weapon
-abilities=SurvivalInstinct.Earthquake.UltimateSwallow.SpikeTail.Slurp.Dinostomp.VolcanicRush
+abilities=SurvivalInstinct.Earthquake.UltimateSwallow.SpikeFlail.Slurp.Dinostomp.VolcanicRush
 basepower=70
 hits=$rand(1,2)
 upgrade=500000

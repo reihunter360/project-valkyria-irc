@@ -26,14 +26,27 @@ on 50:TEXT:!toggle automated battle system*:*:{
     writeini system.dat system automatedbattlesystem off
     query %battlechan $readini(translation.dat, system, AutomatedBattleOff)
   }
+}
 
+; Bot owners can toggle the AI system on/off.
+
+on 50:TEXT:!toggle ai system*:*:{   
+  if ($readini(system.dat, system, aisystem) = off) { 
+    writeini system.dat system aisystem on
+    query %battlechan $readini(translation.dat, system, AiSystemOn)
+  }
+  else {
+    writeini system.dat system aisystem off
+    query %battlechan $readini(translation.dat, system, AiSystemOff)
+  }
 }
 
 ; Bot Owners can have some control over battles
 on 50:TEXT:!startbat*:*:{   /.timerBattleStart off | $startnormal($2) }
 on 50:TEXT:!start bat*:*:{   /.timerBattleStart off | $startnormal($3) } 
 on 50:TEXT:!new bat*:*:{   /.timerBattleStart off | $startnormal($3) } 
-on 50:TEXT:!end bat*:*:{   $endbattle(none) } 
+on 50:TEXT:!end bat*:*:{   $endbattle($3) } 
+on 50:TEXT:!endbat*:*:{   $endbattle($2) } 
 
 ; Bot owners can force the next turn
 ON 50:TEXT:!next*:* { 
@@ -75,6 +88,7 @@ on 50:TEXT:!summon*:*:{
       var %number.of.players $readini(battle2.txt, battleinfo, players)
       if (%number.of.players = $null) { var %number.of.players 1 }
       $boost_monster_stats($3, %number.of.players)  
+      $wins_boost($3, monster)
       $fulls($3) |  var %battlemonsters $readini(battle2.txt, BattleInfo, Monsters) | inc %battlemonsters 1 | writeini battle2.txt BattleInfo Monsters %battlemonsters
     }
     else { query %battlechan $readini(translation.dat, errors, monsterdoesnotexist) | halt }
@@ -89,6 +103,7 @@ on 50:TEXT:!summon*:*:{
       var %number.of.players $readini(battle2.txt, battleinfo, players)
       if (%number.of.players = $null) { var %number.of.players 1 }
       $boost_monster_stats($3, %number.of.players)  
+      $wins_boost($3, boss)
       $fulls($3) |  var %battlemonsters $readini(battle2.txt, BattleInfo, Monsters) | inc %battlemonsters 1 | writeini battle2.txt BattleInfo Monsters %battlemonsters
     }
     else { query %battlechan $readini(translation.dat, errors, monsterdoesnotexist) | halt }
@@ -153,10 +168,9 @@ alias clear_battle {
 
     query %battlechan $readini(translation.dat, Battle, StartBattle)
     /.timerBattleStart 1 %timer.time /startnormal
+    halt
   }
-
 }
-
 
 ; ==========================
 ; This is the alias that opens battles
@@ -173,6 +187,7 @@ alias startnormal {
   if ($1 = boss) { set %battle.type boss }
   if ($1 = monster) { set %battle.type monster }
   if ($1 = orbfountain) { set %battle.type orbfountain }
+  if ($1 = orbbattle) { set %battle.type orbfountain }
 
   /.timerBattleBegin 1 120 /battlebegin
   ; /.timerBattleBegin 1 30 /battlebegin
@@ -224,11 +239,20 @@ ON 2:TEXT:!run away*:#:/flee $nick
 ON 50:TEXT:*flees the battle*:#:/flee $1
 
 alias flee {
-
   $check_for_battle($1)
+
+  if ($is_charmed($1) = true) { $set_chr_name($1) | query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
 
   writeini $char($1) battle status runaway
   $set_chr_name($1) | query %battlechan $readini(translation.dat, battle, FleeBattle)
+
+  var %number.of.flees $readini($char($1), stuff, TimesFled)
+  if (%number.of.flees = $null) { var %number.of.flees 0 }
+  inc %number.of.items.sold 1
+  writeini $char($1) stuff TimesFled %number.of.flees
+
+  $achievement_check($1, ScardyCat)
+
   $next
 }
 
@@ -249,11 +273,14 @@ alias battlebegin {
 
   var %winning.streak $readini(battlestats.dat, battle, winningstreak)
 
-  if ((((((%winning.streak = 10) || (%winning.streak = 15) || (%winning.streak = 20) || (%winning.streak = 30) || (%winning.streak = 100) || (%winning.streak = 150)))))) { set %bosschance 1 }
-  else { 
+  set %boss.battle.numbers 10.15.20.30.60.100.150.200
+  if ($istok(%boss.battle.numbers,%winning.streak,46) = $true) { set %bosschance 1 }
+  if ($istok(%boss.battle.numbers,%winning.streak,46) = $false) {   
     ; Now we determine what kind of battle it is
-    var %bosschance $rand(1,100)
+    var %bosschance $rand(1,100) 
   }
+
+  unset %boss.battle.numbers
 
   if (%battle.type = $null) { 
     if (%bosschance <= 10) { set %battle.type boss }
@@ -283,102 +310,21 @@ alias battlebegin {
   ; Generate the monsters..
 
   if (%battle.type = orbfountain) { 
-    .copy -o $mon(orb_fountain) $char(orb_fountain)  | set %curbat $readini(battle2.txt, Battle, List) | %curbat = $addtok(%curbat,orb_fountain,46) | writeini battle2.txt Battle List %curbat | write battle.txt orb_fountain
-    $boost_monster_stats(orb_fountain, %number.of.players) | $fulls(orb_fountain)
-    var %battlemonsters $readini(battle2.txt, BattleInfo, Monsters) | inc %battlemonsters 1 | writeini battle2.txt BattleInfo Monsters %battlemonsters
-    $set_chr_name(orb_fountain) 
-    $readini(translation.dat, battle, EnteredTheBattle)
-    query %battlechan 12 $+ %real.name  $+ $readini($char(orb_fountain), descriptions, char)
+    $generate_monster(orbfountain)
   }
 
   if (%battle.type = monster) {
-    $get_mon_list
-    var %monsters.total $numtok(%monster.list,46)
-    if ((%monsters.total = 0) || (%monster.list = $null)) { query %battlechan $readini(translation.dat, Errors, NoMonsAvailable) | $clear_battle | halt }
-    if (%monsters.total = 1) { 
-      .copy -o $mon(%monster.list) $char(%monster.list) | set %curbat $readini(battle2.txt, Battle, List) |  %curbat = $addtok(%curbat,%monster.list,46) | writeini battle2.txt Battle List %curbat | write battle.txt %monster.list 
-      $set_chr_name(%monster.list)
-      query %battlechan 4 $+ %real.name has entered the battle! 
-      /.timerQueryPause 1 2 /query %battlechan 12 $+ %real.name  $+ $readini($char(%monster.list), descriptions, char)
-      $boost_monster_stats(%monster.list, %number.of.players)  
-      if ($readini(battlestats.dat, battle, winningStreak) >= 1) { $wins_boost(%monster.list) }
-      if ($readini(battlestats.dat, battle, losingStreak) >= 1) { $loses_nerf(%monster.list) }
-      $fulls(%monster.list)
-      var %battlemonsters $readini(battle2.txt, BattleInfo, Monsters) | inc %battlemonsters 1 | writeini battle2.txt BattleInfo Monsters %battlemonsters
-    }
-    else { 
-      set %value 1
-      while (%value <= %number.of.monsters.needed) {
-        if (%monster.list = $null) { inc %value 1 } 
-        set %monsters.total $numtok(%monster.list,46)
-        set %random.monster $rand(1, %monsters.total) 
-        set %monster.name $gettok(%monster.list,%random.monster,46)
-        if (%monsters.total = 0) { inc %value 1 }
-        if ($isfile($char(%monster.name)) = $false) { 
-          .copy -o $mon(%monster.name) $char(%monster.name) | set %curbat $readini(battle2.txt, Battle, List) | %curbat = $addtok(%curbat,%monster.name,46) |  writeini battle2.txt Battle List %curbat 
-          $set_chr_name(%monster.name) 
-          query %battlechan 4 $+ %real.name has entered the battle! 
-          query %battlechan 12 $+ %real.name  $+ $readini($char(%monster.name), descriptions, char)
-          set %monster.to.remove $findtok(%monster.list, %monster.name, 46)
-          set %monster.list $deltok(%monster.list,%monster.to.remove,46)
-          write battle.txt %monster.name
-          $boost_monster_stats(%monster.name, %number.of.players) 
-          if ($readini(battlestats.dat, battle, winningStreak) >= 1) { $wins_boost(%monster.name, monster) }
-          if ($readini(battlestats.dat, battle, losingStreak) >= 1) { $loses_nerf(%monster.name) }
-          $fulls(%monster.name) |  var %battlemonsters $readini(battle2.txt, BattleInfo, Monsters) | inc %battlemonsters 1 | writeini battle2.txt BattleInfo Monsters %battlemonsters
-          if (%battlemonsters = 10) { set %number.of.monsters.needed 0 }
-          inc %value 1
-        }
-        else {  %monster.list = $deltok(%monster.list,%monster.name,46) | dec %value 1 }
-      }
-    }
+    $generate_monster(monster)
   }
 
   if (%battle.type = boss) {
-    $get_boss_list
-    var %monsters.total $numtok(%monster.list,46)
-    if ((%monsters.total = 0) || (%monster.list = $null)) { query %battlechan 4Error: There are no bosses in the boss folder.. Have the bot admin check to make sure there are bosses for players to battle! | $clear_battle | halt }
-    if (%monsters.total = 1) { 
-      .copy -o $boss(%monster.list) $char(%monster.list) | set %curbat $readini(battle2.txt, Battle, List) |  %curbat = $addtok(%curbat,%monster.list,46) |  writeini battle2.txt Battle List %curbat | write battle.txt %monster.list
-      $set_chr_name(%monster.list)
-      query %battlechan 4 $+ %real.name has entered the battle! 
-      query %battlechan 12 $+ %real.name  $+ $readini($char(%monster.list), descriptions, char) 
-      query %battlechan 2 $+ %real.name looks at the heroes and says " $+ $readini($char(%monster.list), descriptions, BossQuote) $+ "
-      var %boss.item $readini($char(%monster.list), stuff, drops)
-      if (%boss.item != $null) { 
-        var %boss.item $readini($char(%monster.list), stuff, drops)
-        if (%boss.item != $null) { writeini battle2.txt battle bonusitem %boss.item | unset %boss.item }
-      }
-      $boost_monster_stats(%monster.list, %number.of.players)
-      if ($readini(battlestats.dat, battle, winningStreak) >= 1) { $wins_boost(%monster.name, boss) }
-      $fulls(%monster.list) |   var %battlemonsters $readini(battle2.txt, BattleInfo, Monsters) | inc %battlemonsters 1 | writeini battle2.txt BattleInfo Monsters %battlemonsters
-    }
-    else { 
-      set %value 1
-      while (%value <= %number.of.monsters.needed) {
-        if (%monster.list = $null) { inc %value 1 } 
-        set %monsters.total $numtok(%monster.list,46)
-        set %random.monster $rand(1, %monsters.total) 
-        set %monster.name $gettok(%monster.list,%random.monster,46)
-        .copy -o $boss(%monster.name) $char(%monster.name) | set %curbat $readini(battle2.txt, Battle, List) |  %curbat = $addtok(%curbat,%monster.name,46) |  writeini battle2.txt Battle List %curbat         $set_chr_name(%monster.name) 
-        query %battlechan 4 $+ %real.name has entered the battle! 
-        query %battlechan 12 $+ %real.name  $+ $readini($char(%monster.name), descriptions, char)
-        query %battlechan 2 $+ %real.name looks at the heroes and says " $+ $readini($char(%monster.name), descriptions, BossQuote) $+ "
-        var %boss.item $readini($char(%monster.name), stuff, drops)
-        if (%boss.item != $null) { 
-          var %temp.boss.list $readini(battle2.txt, battle, bonusitem)
-          if (%temp.boss.list != $null) { writeini battle2.txt battle bonusitem %temp.boss.list $+ . $+ %boss.item }
-          if (%temp.boss.list = $null) { writeini battle2.txt battle bonusitem %boss.item }
-        }
-        set %monster.to.remove $findtok(%monster.list, %monster.name, 46)
-        set %monster.list $deltok(%monster.list,%monster.to.remove,46)
-        write battle.txt %monster.name
-        $boost_monster_stats(%monster.name, %number.of.players) 
-        if ($readini(battlestats.dat, battle, winningStreak) >= 1) { $wins_boost(%monster.name, boss) }
-        $fulls(%monster.name) |   var %battlemonsters $readini(battle2.txt, BattleInfo, Monsters) | inc %battlemonsters 1 | writeini battle2.txt BattleInfo Monsters %battlemonsters
-        if (%battlemonsters = 10) { set %number.of.monsters.needed 0 }
-        inc %value 1
-      }
+    $generate_monster(boss)
+
+
+    if (%winning.streak >= 50) { 
+      set %number.of.monsters.needed $round($calc(%number.of.players / 2),0)
+      if (%number.of.monsters.needed = $null) { set %number.ofmonsters.needed 2 }
+      if (%number.of.monsters.needed > 0) { $generate_monster(monster)   }
     }
   }
 
@@ -405,6 +351,124 @@ alias battlebegin {
   $aicheck(%who)
 }
 
+
+alias generate_monster {
+  if ($1 = orbfountain) {
+    .copy -o $mon(orb_fountain) $char(orb_fountain)  | set %curbat $readini(battle2.txt, Battle, List) | %curbat = $addtok(%curbat,orb_fountain,46) | writeini battle2.txt Battle List %curbat | write battle.txt orb_fountain
+    $boost_monster_stats(orb_fountain, %number.of.players) | $fulls(orb_fountain)
+    var %battlemonsters $readini(battle2.txt, BattleInfo, Monsters) | inc %battlemonsters 1 | writeini battle2.txt BattleInfo Monsters %battlemonsters
+    $set_chr_name(orb_fountain) 
+    query %battlechan $readini(translation.dat, battle, EnteredTheBattle)
+    query %battlechan 12 $+ %real.name  $+ $readini($char(orb_fountain), descriptions, char)
+  }
+
+  if ($1 = monster) {
+    $get_mon_list
+    var %monsters.total $numtok(%monster.list,46)
+    if ((%monsters.total = 0) || (%monster.list = $null)) { query %battlechan $readini(translation.dat, Errors, NoMonsAvailable) | $clear_battle | halt }
+    if (%monsters.total = 1) { 
+      .copy -o $mon(%monster.list) $char(%monster.list) | set %curbat $readini(battle2.txt, Battle, List) |  %curbat = $addtok(%curbat,%monster.list,46) | writeini battle2.txt Battle List %curbat | write battle.txt %monster.list 
+      $set_chr_name(%monster.list)
+      query %battlechan $readini(translation.dat, battle, EnteredTheBattle)
+      /.timerQueryPause 1 2 /query %battlechan 12 $+ %real.name  $+ $readini($char(%monster.list), descriptions, char)
+      $boost_monster_stats(%monster.list, %number.of.players)  
+      if ($readini(battlestats.dat, battle, winningStreak) >= 1) { $wins_boost(%monster.list) }
+      if ($readini(battlestats.dat, battle, losingStreak) >= 1) { $loses_nerf(%monster.list) }
+      $fulls(%monster.list)
+      var %battlemonsters $readini(battle2.txt, BattleInfo, Monsters) | inc %battlemonsters 1 | writeini battle2.txt BattleInfo Monsters %battlemonsters
+    }
+    else { 
+      set %value 1
+      while (%value <= %number.of.monsters.needed) {
+        if (%monster.list = $null) { inc %value 1 } 
+        set %monsters.total $numtok(%monster.list,46)
+        set %random.monster $rand(1, %monsters.total) 
+        set %monster.name $gettok(%monster.list,%random.monster,46)
+        if (%monsters.total = 0) { inc %value 1 }
+        if ($isfile($char(%monster.name)) = $false) { 
+          .copy -o $mon(%monster.name) $char(%monster.name) | set %curbat $readini(battle2.txt, Battle, List) | %curbat = $addtok(%curbat,%monster.name,46) |  writeini battle2.txt Battle List %curbat 
+          $set_chr_name(%monster.name) 
+          query %battlechan $readini(translation.dat, battle, EnteredTheBattle)
+          query %battlechan 12 $+ %real.name  $+ $readini($char(%monster.name), descriptions, char)
+          set %monster.to.remove $findtok(%monster.list, %monster.name, 46)
+          set %monster.list $deltok(%monster.list,%monster.to.remove,46)
+          write battle.txt %monster.name
+          $boost_monster_stats(%monster.name, %number.of.players) 
+          if ($readini(battlestats.dat, battle, winningStreak) >= 1) { $wins_boost(%monster.name, monster) }
+          if ($readini(battlestats.dat, battle, losingStreak) >= 1) { $loses_nerf(%monster.name) }
+          $fulls(%monster.name) |  var %battlemonsters $readini(battle2.txt, BattleInfo, Monsters) | inc %battlemonsters 1 | writeini battle2.txt BattleInfo Monsters %battlemonsters
+          if (%battlemonsters = 10) { set %number.of.monsters.needed 0 }
+          inc %value 1
+        }
+        else {  %monster.list = $deltok(%monster.list,%monster.name,46) | dec %value 1 }
+      }
+    }
+  }
+
+  if ($1 = boss) {
+
+    if ($readini(system.dat, system, EnableDoppelganger) = true) { var %doppelganger.chance $rand(1,100) }
+    if ($readini(system.dat, system, EnableDoppelganger) != true) { var %doppelganger.chance $rand(100,100) }
+
+    if (%doppelganger.chance > 5) { 
+      if (%winning.streak < 50) { var %number.of.monsters.needed 1 }
+      if ((%winning.streak >= 50) && (%winning.streak <= 70)) { var %number.of.monsters.needed $rand(1,2) }
+      if (%winning.streak > 70) { var %number.of.monsters.needed $rand(2,3) }
+      if (%number.of.monsters.needed > 3) { %number.of.monsters.needed = 3 }
+
+      $get_boss_list
+      var %monsters.total $numtok(%monster.list,46)
+      if ((%monsters.total = 0) || (%monster.list = $null)) { query %battlechan 4Error: There are no bosses in the boss folder.. Have the bot admin check to make sure there are bosses for players to battle! | $clear_battle | halt }
+      if (%monsters.total = 1) { 
+        .copy -o $boss(%monster.list) $char(%monster.list) | set %curbat $readini(battle2.txt, Battle, List) |  %curbat = $addtok(%curbat,%monster.list,46) |  writeini battle2.txt Battle List %curbat | write battle.txt %monster.list
+        $set_chr_name(%monster.list)
+        query %battlechan $readini(translation.dat, battle, EnteredTheBattle)
+        query %battlechan 12 $+ %real.name  $+ $readini($char(%monster.list), descriptions, char) 
+        query %battlechan 2 $+ %real.name looks at the heroes and says " $+ $readini($char(%monster.list), descriptions, BossQuote) $+ "
+        var %boss.item $readini($char(%monster.list), stuff, drops)
+        if (%boss.item != $null) { 
+          var %boss.item $readini($char(%monster.list), stuff, drops)
+          if (%boss.item != $null) { writeini battle2.txt battle bonusitem %boss.item | unset %boss.item }
+        }
+        $boost_monster_stats(%monster.list, %number.of.players)
+        if ($readini(battlestats.dat, battle, winningStreak) >= 1) { $wins_boost(%monster.name, boss) }
+        $fulls(%monster.list) |  var %battlemonsters $readini(battle2.txt, BattleInfo, Monsters) | inc %battlemonsters 1 | writeini battle2.txt BattleInfo Monsters %battlemonsters
+      }
+      else { 
+        set %value 1
+        while (%value <= %number.of.monsters.needed) {
+          if (%monster.list = $null) { inc %value 1 } 
+          set %monsters.total $numtok(%monster.list,46)
+          set %random.monster $rand(1, %monsters.total) 
+          set %monster.name $gettok(%monster.list,%random.monster,46)
+          .copy -o $boss(%monster.name) $char(%monster.name) | set %curbat $readini(battle2.txt, Battle, List) |  %curbat = $addtok(%curbat,%monster.name,46) |  writeini battle2.txt Battle List %curbat         $set_chr_name(%monster.name) 
+          query %battlechan $readini(translation.dat, battle, EnteredTheBattle)
+          query %battlechan 12 $+ %real.name  $+ $readini($char(%monster.name), descriptions, char)
+          query %battlechan 2 $+ %real.name looks at the heroes and says " $+ $readini($char(%monster.name), descriptions, BossQuote) $+ "
+          var %boss.item $readini($char(%monster.name), stuff, drops)
+          if (%boss.item != $null) { 
+            var %temp.boss.list $readini(battle2.txt, battle, bonusitem)
+            if (%temp.boss.list != $null) { writeini battle2.txt battle bonusitem %temp.boss.list $+ . $+ %boss.item }
+            if (%temp.boss.list = $null) { writeini battle2.txt battle bonusitem %boss.item }
+          }
+          set %monster.to.remove $findtok(%monster.list, %monster.name, 46)
+          set %monster.list $deltok(%monster.list,%monster.to.remove,46)
+          write battle.txt %monster.name
+          $boost_monster_stats(%monster.name, %number.of.players) 
+          if ($readini(battlestats.dat, battle, winningStreak) >= 1) { $wins_boost(%monster.name, boss) }
+          $fulls(%monster.name) |   var %battlemonsters $readini(battle2.txt, BattleInfo, Monsters) | inc %battlemonsters 1 | writeini battle2.txt BattleInfo Monsters %battlemonsters
+          if (%battlemonsters = 10) { set %number.of.monsters.needed 0 }
+          inc %value 1
+        }
+      }
+    }
+  }
+  if (%doppelganger.chance <= 5) { 
+    query %battlechan $readini(translation.dat, events, DoppelgangerFight)
+    $generate_evil_clones
+  }
+}
+
 ; ==========================
 ; Battle Rage alias
 ; ==========================
@@ -423,7 +487,8 @@ alias battle_rage {
       var %current.status $readini($char(%who.battle), battle, status)
       if ((%current.status = dead) || (%current.status = runaway)) { inc %battletxt.current.line 1 }
 
-      if ($readini($char(%who.battle), info, RageMode) != ignore) {
+      var %ignore.flag $readini($char(%who.battle), info, RageMode)
+      if (%ignore.flag != ignore) {
 
         $boost_monster_stats(%who.battle, 100)
         writeini $char(%who.battle) Basestats HP $readini($char(%who.battle), Battle, HP)
@@ -572,6 +637,10 @@ alias endbattle {
     set %base.redorbs $round($calc(%base.redorbs / 2),0)
     inc %base.redorbs $rand(1,20)
 
+    var %max.orb.reward $readini(system.dat, system, MaxOrbReward)
+    if (%max.orb.reward = $null) { var %max.orb.reward 20000 }
+    if (%base.redorbs > %max.orb.reward) { set %base.redorbs %max.orb.reward }
+
     $battle.reward.redorbs
     query %battlechan $readini(translation.dat, battle, RewardOrbsLoss)
   }
@@ -588,12 +657,16 @@ alias endbattle {
 
     ; Add base orbs.
     if (%battle.type = monster) { set %base.redorbs $readini(system.dat, System, basexp) }
-    if (%battle.type = orbfountain) { set %base.redorbs $readini(system.dat, System, basexp) | inc %base.redorbs $rand(75,150) }
+    if (%battle.type = orbfountain) { set %base.redorbs $readini(system.dat, System, basexp) | inc %base.redorbs $rand(375,750) }
     if (%battle.type = boss) { set %base.redorbs $readini(system.dat, System, basebossxp) } 
 
     %base.redorbs = $round($calc(%base.redorbs * (1 + %number.of.monsters.needed)), 0)
     set %bonus.orbs $round($readini(battle2.txt, BattleInfo, OrbBonus),0)
     inc %base.redorbs %bonus.orbs
+
+    var %max.orb.reward $readini(system.dat, system, MaxOrbReward)
+    if (%max.orb.reward = $null) { var %max.orb.reward 20000 }
+    if (%base.redorbs > %max.orb.reward) { set %base.redorbs %max.orb.reward }
 
     $battle.reward.redorbs
     $battle.reward.playerstylepoints
@@ -624,7 +697,7 @@ alias endbattle {
     }
   }
 
-  if ($2 = none) { query %battlechan $readini(translation.dat, battle, BattleIsOver) }
+  if (($1 = none) || ($1 = $null)) { query %battlechan $readini(translation.dat, battle, BattleIsOver) }
 
   ; then do a $clear_battle
   $clear_battle | halt
@@ -635,9 +708,9 @@ alias endbattle {
 ; ==========================
 alias next {
   ; Reset the Next timer.
-  /.timerBattleNext 1 300 /next
+  /.timerBattleNext 1 180 /next
 
-  if (%battleis = off) { $clear_battle }
+  if (%battleis = off) { $clear_battle | halt }
 
   inc %line 1
   set %next.person $read -l $+ %line battle.txt
@@ -653,7 +726,9 @@ alias turn {
   unset %all_status | unset %status.message
   set %status $readini($char($1), Battle, Status)
   if ((%status = dead) || (%status = runaway)) { unset %status | $next | halt }
+  if ($readini($char($1), info, ai_type) = defender) { $next | halt }
   if ($1 = orb_fountain) { $next | halt }
+
   else { 
 
     ; Are all the monsters defeated?  If so, we need to end the battle as a victory.
@@ -756,7 +831,7 @@ alias battle.monster.death.check {
 ; Get a list of people in battle
 ; ==========================
 alias battlelist { 
-  if (%battleis = off) { query %battlechan 4There is no battle right now! | halt }
+  if (%battleis = off) { query %battlechan $readini(translation.dat, errors, NoBattleCurrently) | halt }
   unset %battle.list | set %lines $lines(battle.txt) | set %l 1
   while (%l <= %lines) { 
     set %who.battle $read -l [ $+ [ %l ] ] battle.txt | set %status.battle $readini($char(%who.battle), Battle, Status)
@@ -801,8 +876,18 @@ alias battle.reward.redorbs {
 
       ; Check for the orb hunter passive skill.
       if ($readini($char(%who.battle), skills, OrbHunter) != $null) {
-        inc %current.redorbs $round($calc(5 * $readini($char(%who.battle), skills, OrbHunter)),0)       
+        var %orbhunter.inc.amount $readini(skills.db, orbhunter, amount)
+        if (%orbhunter.inc.amount = $null) { var %orbhunter.inc.amount 15 }
+        inc %current.redorbs $round($calc(%orbhunter.inc.amount * $readini($char(%who.battle), skills, OrbHunter)),0)       
       }
+
+      ;  Check for the blood-ring accessory
+      if ($readini($char(%who.battle), equipment, accessory) = blood-ring) {
+        var %accessory.amount $readini(items.db, wizard's-amulet, amount)
+        var %increase.orbs.amount $round($calc(%base.redorbs * %accessory.amount),0)
+        inc %current.redorbs %increase.orbs.amount
+      }
+
       writeini $char(%who.battle) stuff redorbs %current.redorbs
       inc %battletxt.current.line 1 
     }
@@ -859,6 +944,11 @@ alias battle.reward.playerstylexp {
 ;=============================
 
 alias poison_check { 
+  if ($readini($char($1), equipment, accessory) = Fool's-Tablet) {
+    writeini $char($1) status poison yes
+    writeini $char($1) status poison.timer 0
+  }
+
   if (($readini($char($1), status, poison) = yes) || ($readini($char($1), status, poison-heavy) = yes)) {
     set %poison.timer $readini($char($1), status, poison.timer)  
     if (%poison.timer > 3) {  
@@ -871,7 +961,9 @@ alias poison_check {
       %poison.timer = $calc(%poison.timer + 1) | writeini $char($1) status poison.timer %poison.timer 
       if ($readini($char($1), Status, poison-heavy) = yes) { $heavy-poison($1) | return }
       $status_message_check(poisoned) 
-      var %poison $rand(1,10) | set %hp $readini($char($1), Battle, HP) | $set_chr_name($1)
+      var %max.hp $readini($char($1), battlestats, hp)
+      var %poison $round($calc(%max.hp * .10),0)
+      set %hp $readini($char($1), Battle, HP) | $set_chr_name($1)
       if (%poison >= %hp) { query %battlechan %status.message | query %battlechan $readini(translation.dat, status, PoisonKills) | writeini $char($1) Battle HP 0 | writeini $char($1) Battle Status Dead | next | halt }
       if (%poison < %hp) { /.timer $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 /query %battlechan $readini(translation.dat, status, PoisonMessage) | dec %hp %poison | writeini $char($1) Battle HP %hp | return }
     }
@@ -881,12 +973,21 @@ alias poison_check {
 
 
 alias heavy-poison { $status_message_check(poisoned heavily)
-  var %poison $rand(5,15) | set %hp $readini($char($1), Battle, HP) | $set_chr_name($1)
+  var %max.hp $readini($char($1), battlestats, hp)
+  var %poison $round($calc(%max.hp * .20),0)
+  set %hp $readini($char($1), Battle, HP) | $set_chr_name($1)
   if (%poison >= %hp) { query %battlechan %status.message | query %battlechan $readini(translation.dat, status, PoisonKills) | writeini $char($1) Battle HP 0 | writeini $char($1) Battle Status Dead | next | halt }
   if (%poison < %hp) { query %battlechan $readini(translation.dat, status, PoisonMessage) | dec %hp %poison | writeini $char($1) Battle HP %hp | return }
 }
 
 alias curse_check {
+
+  if ($readini($char($1), equipment, accessory) = Aztec-Gold) {
+    writeini $char($1) status curse yes
+    writeini $char($1) status curse.timer 0
+    writeini $char($1) battle tp 0
+  }
+
   if ($readini($char($1), status, curse) = yes) { 
     set %curse.timer $readini($char($1), status, curse.timer)  
     if (%curse.timer <= 3) { %curse.timer = $calc(%curse.timer + 1) | writeini $char($1) status curse.timer %curse.timer | $status_message_check(cursed)
@@ -1094,7 +1195,7 @@ alias slowed_check {
 alias amnesia_check {
   if ($readini($char($1), status, amnesia) = yes) { 
     set %amnesia.timer $readini($char($1), status, amnesia.timer)  
-    if (%amnesia.timer <= 3) { %amnesia.timer = $calc(%amnesia.timer + 1) | writeini $char($1) status amnesia.timer %amnesia.timer | $status_message_check(amnesia)
+    if (%amnesia.timer <= 3) { %amnesia.timer = $calc(%amnesia.timer + 1) | writeini $char($1) status amnesia.timer %amnesia.timer | $status_message_check(under amnesia)
       $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 3 query %battlechan $readini(translation.dat, status, CurrentlyHasAmensia) | unset %amnesia.timer | return 
     }
     else {

@@ -1,6 +1,6 @@
 [Skills]
-PassiveSkills=Swordmaster.Gunslinger.Wizardy.MartialArts.Polemaster.ClearMind.DesperateBlows.OrbHunter.FieldMedic.Impetus.BloodPact.Zen.Haggling
-ActiveSkills=Speed.ElementalSeal.MightyStrike.ManaWall.RoyalGuard.Fullbring.Sugitekai.Meditate.ConserveTP.BloodBoost.DrainSamba.Regen.Kikouheni.ShadowCopy.Utsusemi.Steal.Analysis
+PassiveSkills=Swordmaster.Gunslinger.Wizardy.MartialArts.Polemaster.ClearMind.DesperateBlows.OrbHunter.FieldMedic.Impetus.BloodPact.Zen.Haggling.WeaponBash
+ActiveSkills=Speed.ElementalSeal.MightyStrike.ManaWall.RoyalGuard.Fullbring.Sugitekai.Meditate.ConserveTP.BloodBoost.DrainSamba.Regen.Kikouheni.ShadowCopy.Utsusemi.Steal.Analysis.Cover
 Resists=resist-paralysis.resist-blind.resist-poison.resist-amnesia.resist-curse.resist-zombie.resist-slow.resist-stun.resist-stop.resist-charm
 
 
@@ -10,48 +10,47 @@ PASSIVE SKILLS
 
 
 [Swordmaster]
-Cost=100
+Cost=200
 Max=500
 Type=Passive
 Info=This skill increases damage done with sword and katana weapons.  Increased levels increases the damage.
 
 [Polemaster]
-Cost=100
+Cost=200
 Max=500
 Type=Passive
 Info=This skill increases damage done with spear weapons.  Increased levels increases the damage.
 
 [Gunslinger]
-Cost=100
+Cost=200
 Max=500
 Type=Passive
 Info=This skill increases damage done with a gun.  Increased levels increases the damage.
 
 [Wizardy]
-Cost=100
+Cost=200
 Max=500
 Type=Passive
 Info=This skill increases damage done with stave and wand weapons.  Increased levels increases the damage.
 
 [MartialArts]
-Cost=100
-Max=500
+Cost=200
+max=500
 Type=Passive
 Info=This skill increases damage done with your fists and nunchuku weapons.  Increased levels increases the damage.
 
 [OrbHunter]
 Cost=250
 Type=Passive
-Info=This skill will increase the amount of red orbs you find at the end of battle by 5*skill level.
+Info=This skill will increase the amount of red orbs you find at the end of battle.
 Max=200
-; 20 to 50 to 200
+Amount=15
 
 [ClearMind]
 Cost=450
 Type=Passive
 Info=This skill will increase magical damage.  Increased levels of this skill will increase the damage.
 Max=5
-; 3 to 5
 
 [DesperateBlows]
 Cost=1000
@@ -63,33 +62,38 @@ Max=1
 Cost=300
 Type=Passive
 Info=This skill will increase the amount of health items will heal by 5*skill level.
-Max=50
-; 30 to 50
+Max=500
 
 [Impetus]
 Cost=150
 Type=Passive
 Info=This skill will increase your chances of performing a critical hit by 1% each level in this skill.
 Max=40
-; 20 to 40
 
 [BloodPact]
 Cost=2500
 Type=Passive
-Info=This skill will allow you to activate summoning items and summon pets/summons to the field to fight for you.
-Max=1
+Info=This skill will allow you to activate summoning items and summon pets/summons to the field to fight for you. Increased levels of the skill will enhance the summon.
+Max=10
 
 [Zen]
 Cost=500
 Type=Passive
 Info=This skill will increase the amount of TP you get back each turn by 5*skill level.
-Max=5
+Max=10
 
 [Haggling]
 Cost=350
 Type=passive
 Info=This skill will increase the amount of orbs you can sell items back for by 20 * skill level. 
 Max=5
+
+[WeaponBash]
+Cost=1500
+Type=passive
+Info=This skill will add a chance of inflicting the stun status after each melee hit. Note, if the target is immune to stun it will never take effect.  The chance is (skill level * 10)%.
+Max=2
+; For this skill, the max=# is (# * 10)%.  So if you set it to 10, then it's 100% active if someone gets it to level 10.  
 
 
 =============================================
@@ -108,15 +112,13 @@ Type=Active
 Max=5
 Info=This skill enhances your next magical spell. Increased levels decreases the amount of time inbetween uses.
 Cooldown=60
-; 660 to 60
 
 [MightyStrike]
 Cost=450
 Type=Active
 Max=5
 Info=This skill enhances your next attack done with a weapon. Increased levels decreases the amount of time inbetween uses.
-Cooldown=60
-; 660 to 60
+Cooldown=30
 
 [ManaWall]
 Cost=450
@@ -151,7 +153,6 @@ Type=Active
 Max=10
 Info=This skill will give you (level * 5) TP back to you instantly.
 Cooldown=60
-; 300 to 60
 
 [ConserveTP]
 Cost=500
@@ -159,15 +160,13 @@ Type=Active
 Max=5
 Info=This skill will reduce the cost of your next technique to 0 TP. Increased levels decreases the amount of time inbetween uses.
 Cooldown=500
-; 1200 to 500
 
 [BloodBoost]
 Cost=500
 Type=Active
-Max=60
+Max=10
 Info=This skill will consume 100 HP to give you a (level * 2) boost to your STR.
-Cooldown=15
-; Bloodboost to 20 MAX to 60 Max
+Cooldown=300
 
 [DrainSamba]
 Cost=750
@@ -180,10 +179,8 @@ Cooldown=30
 Cost=700
 Type=Active
 Max=200
-; From X to 200 Max
 Info=This skill will give you the HP regeneration effect.  Every turn you will regenerate (skill level * 2) HP back.  The effect will wear off when you reach your maximum HP or if you die.
 Cooldown=90
-; 90 Seconds
 
 [Kikouheni]
 Cost=650
@@ -203,7 +200,7 @@ Cost=500
 Type=Active
 Info=This skill will create 2 shadows that will absorb all types of attacks.  Increased levels decreases the amount of time inbetween uses.
 Max=10
-Cooldown=1800
+Cooldown=1200
 
 [Steal]
 Cost=250
@@ -211,13 +208,19 @@ Type=Active
 Info=This skill will let you try to steal an item or red orbs from a target.  Each level increases the percentage of success by 1%.
 Max=50
 Cooldown=15
-; 300 to 15
 
 [Analysis]
 Cost=550
 Type=Active
 Info=This skill will allow you to analyze a target. Each level of the skill gives you more detail about the target.
 Max=6
+
+[Cover]
+Cost=600
+Type=Active
+Info=This skill allows you to jump in front of an attack and cover an ally of your choosing.
+Max=1
+Cooldown=20
 
 =============================================
 RESISTS

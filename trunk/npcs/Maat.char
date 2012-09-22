@@ -1,5 +1,5 @@
 [BaseStats]
-Hp=500
+Hp=1500
 Tp=50
 Str=45
 Def=20
@@ -9,7 +9,7 @@ Name=Maat
 
 
 [Battle]
-Hp=150
+Hp=1500
 Tp=50
 Str=45
 Def=20
@@ -109,7 +109,7 @@ manawall.on=off
 elementalseal.on=off
 mightystrike.on=off
 royalguard.on=on
-MartialArts=50]
+MartialArts=50
 Impetus=20
 
 
@@ -124,3 +124,9 @@ SpinningAttack=50
 [Item_Amount]
 potion=1
 DustyWing=0
+
+
+[Styles]
+Equipped=WeaponMaster
+WeaponMaster=2
+WeaponMasterXP=1

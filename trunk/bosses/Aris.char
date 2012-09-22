@@ -1,5 +1,5 @@
 [BaseStats]
-Hp=58
+Hp=68
 Tp=70
 Str=5
 Def=4
@@ -8,7 +8,7 @@ Spd=5
 Name=Aris
 
 [Battle]
-Hp=58
+Hp=68
 Tp=70
 Str=5
 Def=4
@@ -38,7 +38,7 @@ BossQuote=I will render you all to ash!
 RedOrbs=0
 BlackOrbs=1
 ShopLevel=1.0
-Drops=Cavier.Ether
+Drops=Cavier.Ether.Tonic.potion.x-potion.Wizard's-Amulet.DarkMagicianCard
 
 [Info]
 Flag=monster
@@ -95,6 +95,7 @@ resist-amnesia=100
 resist-silence=100
 resist-curse=60
 manawall.on=on
+manawall=1
 
 
 [Techniques]

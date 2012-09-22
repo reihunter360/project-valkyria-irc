@@ -34,7 +34,7 @@ Char=has a rather regal appearance, with long white hair wearing a black tuxedo 
 Rage=screams in rage 
 BossQuote=This long slumber has given me strength!
 RoyalGuard=laughs at the heroes and says "Your attacks are no match for the prince of darkness!"
-ManaWall=laughs at the heroes and says "Your puny magic is no might for the prince of darkness!"
+ManaWall=laughs at the heroes and says "Your puny magic is no match for the prince of darkness!"
 Sugitekai=laughs and says "Behold, the true power of darkness!"
 
 
@@ -42,7 +42,7 @@ Sugitekai=laughs and says "Behold, the true power of darkness!"
 RedOrbs=0
 BlackOrbs=1
 ShopLevel=1.0
-Drops=PotRoast.Ether
+Drops=PotRoast.Ether.Tonic.potion.Blood-Ring.X-Potion.DustyWing
 
 [Monster]
 Type=undead

@@ -38,7 +38,7 @@ Rage=screams in rage
 RedOrbs=0
 BlackOrbs=1
 ShopLevel=1.0
-Drops=VitalStar
+Drops=VitalStar.potion
 
 [Info]
 Flag=monster
@@ -88,7 +88,7 @@ Equipped=orc_pike
 orc_pike=15
 
 [Skills]
-List=
+WeaponBash=2
 
 
 [Techniques]
@@ -96,8 +96,7 @@ BattleDance=15
 ShoulderTackle=5
 Jump=10
 
-[Item_Amount]
-pizza=1
+
 
 [Element]
 Weakness=water

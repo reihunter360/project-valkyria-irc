@@ -94,12 +94,16 @@ zombie.timer=1
 
 [Weapons]
 Equipped=BlueEyesPower
-BlueEyesPower=16
+BlueEyesPower=20
 
 [Skills]
 MartialArts=20
 Resist-Charm=100
-
+Resist-Zombie=100
+Resist-Intimidate=100
+Resist-Stun=100
+Resist-Amnesia=100
+Zen=5
 
 [Techniques]
 BurstStream=20
@@ -107,3 +111,9 @@ AbsoluteTerror=20
 FangRush=20
 
 [Item_Amount]
+
+
+[Styles]
+Equipped=WeaponMaster
+WeaponMaster=2
+WeaponMasterXP=1

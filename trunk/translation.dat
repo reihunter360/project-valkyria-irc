@@ -48,6 +48,7 @@ ViewMyOrbs=$chr(3) $+ 3 $+  $+ %real.name has $bytes($readini($char($nick), s
 ViewOthersOrbs=$chr(3) $+ 3 $+  $+ %real.name has $bytes($readini($char($2), stuff, RedOrbs),b)  $+ $readini(system.dat, system, currency) and $readini($char($2), stuff, BlackOrbs) Black Orb(s) and has spent %orbs.spent  $+ $readini(system.dat, system, currency) and %blackorbs.spent Black Orb(s) total! 
 HereIsYourCurrentStats=$chr(3) $+ 3 $+ Here are your current stats:
 CurrentWeaponEquipped=Current Weapon Equipped
+CurrentAccessoryEquipped=Current Accessory Equipped
 ViewWeaponList=$chr(3) $+ 3 $+  $+ %real.name has the following weapons: %weapon.list
 ViewCurrentStyle=$chr(3) $+ 3 $+  $+ %real.name is currently using the %current.playerstyle style. [XP: %current.playerstyle.xp $chr(47) %current.playerstyle.xptolevel $+ ] 
 ViewStyleList=$chr(3) $+ 3 $+  $+ %real.name knows the following styles: %styles.list
@@ -62,6 +63,10 @@ ViewResistanceSkills=$chr(3) $+ 3 $+  $+ %real.name has the following resistan
 HasNoSkills=$chr(3) $+ 3 $+  $+ %real.name currently knows no skills.
 ViewItems=$chr(3) $+ 3 $+  $+ %real.name has the following items %items.list 
 HasNoItems=$chr(3) $+ 3 $+  $+ %real.name currently has no items. 
+ViewAccessories=$chr(3) $+ 3 $+  $+ %real.name has the following accessories %accessories.list
+ViewEquippedAccessory=$chr(3) $+ 3 $+  $+ %real.name has the following accessory equipped %equipped.accessory
+HasNoAccessories=$chr(3) $+ 3 $+  $+ %real.name currently has no accessories. 
+HasNoEquippedAccessory=$chr(3) $+ 3 $+  $+ %real.name currently has no accessory equipped. 
 EquipWeaponGM=$chr(3) $+ 3 $+  $+ %real.name has equipped $3
 EquipWeaponPlayer=$chr(3) $+ 3 $+  $+ %real.name has equipped $2
 UnequipWeapon=$chr(3) $+ 3 $+  $+ %real.name unequipped the %weapon.equipped
@@ -69,7 +74,31 @@ ViewStatus=$chr(3) $+ 3 $+  $+ %real.name $+ 's status is currently:4 %all_s
 OKDesc=$chr(3) $+ 3 $+ Your $2 desc was entered correctly!
 AutomatedBattleOn=$chr(3) $+ 4 $+ The Automated Battle System has been turned on.
 AutomatedBattleOff=$chr(3) $+ 4 $+ The Automated Battle System has been turned off.
+AiSystemOn=$chr(3) $+ 4 $+ The Ai System has been turned on.
+AiSystemOff=$chr(3) $+ 4 $+ The Ai System has been turned off.
+EquippedAccessory=$chr(3) $+ 3 $+  $+ %real.name has equipped the accessory $2
+RemovedAccessory=$chr(3) $+ 3 $+  $+ %real.name has removed the accessory $2
+NotWearingThatAccessory=$chr(3) $+ 3 $+  $+ %real.name is not wearing the $2 accessory.
+ShopLevelLowered=$chr(3) $+ 2 $+ Your shop level has been lowered.  It is now $readini($char($2), stuff, shoplevel) $+ !
+FoodStatIncrease=$chr(3) $+ 2 $+ Your %food.type has permanantly increased by %food.bonus $+ !
+SellMessage=$chr(3) $+ 3 $+ A shop keeper wearing a green and white bucket hat takes $4 $3 $+ (s) from you and gives you %total.price $readini(system.dat, system, currency) $+ !
+CurrentShopLevel=$chr(3) $+ 2 $+ Your current shop level is $readini($char($nick), stuff, shoplevel) 
 
+=======================
+Health Titles
+=======================
+[health]
+Perfect=$chr(3) $+ 12 $+ Perfect 
+Decent=$chr(3) $+ 10 $+ Decent 
+Good=$chr(3) $+ 10 $+ Good 
+Scratched=$chr(3) $+ 2 $+ Scratched 
+Bruised=$chr(3) $+ 2 $+ Bruised 
+Hurt=$chr(3) $+ 7 $+ Hurt 
+Injured=$chr(3) $+ 7 $+ Injured 
+InjuredBadly=$chr(3) $+ 7 $+ Injured Badly 
+Critical=$chr(3) $+ 4 $+ Critical 
+AliveHairBredth=$chr(3) $+ 4 $+ Alive by a hair's bredth 
+Dead=$chr(3) $+ 4 $+ Dead 
 
 =======================
 Event Messages
@@ -77,6 +106,7 @@ Event Messages
 [Events]
 CurseNight=$chr(3) $+ 14 $+ What a horrible night for a curse! 
 BloodMoon=$chr(3) $+ 14 $+ The Blood Moon Rises! 
+DoppelgangerFight=$chr(3) $+ 14 $+ The Monsters wheel out a large mirror in front of the heroes.  The mirror shimmers as evil doppelgangers of the heroes step out ready to fight.  The mirror then shatters.
 
 
 =======================
@@ -123,6 +153,30 @@ Can'tPerformTechWithWeapon=$chr(3) $+ 4 $+ %real.name cannot perform that tech
 NotEnoughTPforTech=$chr(3) $+ 4 $+ %real.name does not have enough TP to perform this technique! 
 AlreadyBoosted=$chr(3) $+ 4 $+ %real.name is already powered up and cannot do so again until next round. 
 AlreadyUsedFinalGetsuga=$chr(3) $+ 4 $+ %real.name has already used this technique and cannot do so again. 
+CanOnlySwitchAccessoriesOutsideBattle=$chr(3) $+ 4 $+ Error: You can only switch accessories outside of battles.
+CannotCoverMonsters=$chr(3) $+ 4 $+ Error: $set_chr_name($1) cannot cover monsters.
+CannotUseItemOnDead=$chr(3) $+ 4 $+ Error: This item cannot be used on someone who's dead. 
+DoesNotHaveThatItem=$chr(3) $+ 4 $+ Error: %real.name does not have that item.
+ItemIsUsedInSkill=$chr(3) $+ 4 $+ Error: This item is used via performing a skill. 
+ItemIsAccessoryEquipItInstead=$chr(3) $+ 4 $+ Error: This item is an accessory and cannot be used like this. Use !wear to equip it.
+ItemCanOnlyBeUsedOnPlayers=$chr(3) $+ 4 $+ Error: This item can only be used on players!
+ItemCanOnlyBeUsedOnMonsters=$chr(3) $+ 4 $+ Error: This item can only be used on monsters!
+ItemWillTakeEffectAutomatically=$chr(3) $+ 4 $+ Error: This item will automatically take effect when necessary.
+DoNotHaveSkillNeeded=$chr(3) $+ 4 $+ Error: %real.name does not have the appropriate skill to use this item. 
+DoesNotNeedHealing=$chr(3) $+ 4 $+  $+ %real.name does not need any healing right now!
+MaxHPAllowedOthers=$chr(3) $+ 4 $+ Error: $2 has the maximum amount of HP allowed!
+MaxTPAllowedOthers=$chr(3) $+ 4 $+ Error: $2 has the maximum amount of TP allowed!
+ItemIsNotAccessory=$chr(3) $+ 4 $+ Error: This item is not an accessory and cannot be used like this. Use !use to use the item.
+Can'tUseShopInBattle=$chr(3) $+ 4 $+ Error: You must wait til you're out of battle to use the shop. 
+DoNotHaveAccessoryToSell=$chr(3) $+ 4 $+ Error: You do not have this accessory to sell!
+DoNotHaveEnoughItemToSell=$chr(3) $+ 4 $+ Error: You do not have $4 of this item to sell!
+StillWearingAccessory=$chr(3) $+ 4 $+ Error: You can't sell this accessory because you're still wearing it! 
+ItemUseCommandError=$chr(3) $+ 4 $+ Error: !use <item> ON <person> 
+Can'tBuy0ofThat=$chr(3) $+ 4 $+ Error: You can't buy 0 of that! 
+Can'tSellThat=$chr(3) $+ 4 $+ Error: You can only sell items or accessories
+MustSpecifyName=$chr(3) $+ 4 $+ Error: You must specify a name, rather than "me"
+NoBattleCurrently=$chr(3) $+ 4 $+ Error: There is no battle currently!
+
 
 =======================
 Battle Related Messages
@@ -150,7 +204,7 @@ TauntLaugh=$chr(3) $+ 4 $+  $+ %real.name laughs the taunt off!
 TauntSmile=$chr(3) $+ 4 $+  $+ %real.name gives a large grin! 
 FleeBattle=$chr(3) $+ 4 $+  $+ %real.name has run away from the battle! 
 DarknessCoversBattlefield=$chr(3) $+ 4 $+ Darkness covers the battlefield enhancing the strength of all remaining monsters!
-TurnMessage=$chr(3) $+ 3 $+ It is $set_chr_name($1) %real.name $+ 's turn [Health Status: %hstats $+ 3] [Status Effects:4 %all_status $+ 3]
+TurnMessage=$chr(3) $+ 3 $+ It is $set_chr_name($1) %real.name $+ 's turn [Health Status: %hstats $+ 3] [Status Effects:4 %all_status $+ 3]
 NoOneJoinedBattleYet=$chr(3) $+ 4 $+ No one has joined the battle yet! 
 BatListTitleMessage=$chr(3) $+ 10 $+ -=BATTLE LIST=-
 StepsUpFirst=$chr(3) $+ 2 $+  $+ %who steps up first in the battle!
@@ -162,6 +216,10 @@ PerformsA5HitAttack=$chr(3) $+ 4 $+ %real.name performs a five hit attack agai
 PerformsA6HitAttack=$chr(3) $+ 4 $+ %real.name performs a six hit attack against $set_chr_name($2) %real.name $+ ! 
 EnemyDefeated=$chr(3) $+ 4 $+ %enemy has been defeated by %user $+ !  %overkill
 AttackDidDamage=The attack did4 $bytes(%attack.damage,b) damage %style.rating
+TargetCovered=$chr(3) $+ 7 $+ $set_chr_name(%attack.target) $+ %real.name jumps in front of the attack to shield $set_chr_name($1) %real.name $+ !
+NotAllowedBattleCondition=$chr(3) $+ 4 $+ $+ %real.name is not allowed to do that action due to the current battle conditions!
+GoldOrbUsed=$chr(3) $+ 7 $+ %real.name $+ 's body is lifted off the ground by a bright golden light.  It flashes for a moment and %real.name is brought back to life!
+
 
 =======================
 Status Related Messages
@@ -206,6 +264,8 @@ DrowningMessage=$chr(3) $+ 4 $+ %real.name gasps for air as $gender3($1) is en
 EarthquakeDeath=$chr(3) $+ 4 $+ %real.name screams as the earth opens up beneath $gender($2) and swallows $gender2($1) whole! 
 EarthquakeMessage=$chr(3) $+ 4 $+ %real.name screams as the earth opens up, and boulders fall ontop of $gender($1) body!
 StaggerHappens=$chr(3) $+ 4 $+ %enemy is staggered from the damage and collapses to the ground unable to move! 
+MostStatusesCleared=$chr(3) $+ 3 $+ Most of %real.name  $+ 's status effects have been cleared.
+
 
 =======================
 Skill Related Messages
@@ -221,6 +281,10 @@ RoyalGuardBlocked=$chr(3) $+ 7 $+ %real.name $+ 's Royal Guard has absorbed th
 ManaWallBlocked=$chr(3) $+ 7 $+ %real.name $+ 's Mana Wall has absorbed the spell!
 UtsusemiBlocked=$chr(3) $+ 7 $+ One of %real.name $+ 's shadows absorbs the attack and disappears! 
 DrainSambaWornOff=$chr(3) $+ 12 $+ %real.name $+ 's drain samba has worn off. 
+AlreadyBeingCovered=$set_chr_name($2) $+ $chr(3) $+ 4 $+ %real.name is already being covered by someone else!
+CoverTargetDead=$set_chr_name($2) $chr(3) $+ 4 $+ %real.name cannot be covered because $gender3($2) is dead or has fled!
+AlreadyUsedBloodPact=$chr(3) $+ 4 $+ Error: %real.name has already used Blood Pact for this battle and cannot use it again!
+
 
 =======================
 Tech Related Messages
@@ -242,3 +306,36 @@ Water=$chr(3) $+ 4 $+ Water encases around %real.name $+ 's body preventing br
 Ice=$chr(3) $+ 4 $+ Ice crystals begin to form on %real.name $+ 's body!
 Lightning=$chr(3) $+ 4 $+ Lightning bolts shoot into %real.name causing shock!
 Earth=$chr(3) $+ 4 $+ The ground begins to shake under %real.name $+ ! 
+
+
+=======================
+Achievements
+=======================
+[Achievements]
+BigSpender=$chr(3) $+ 10 $+ %real.name has unlocked the achievement: Big Spender and receives $bytes($3,b) $readini(system.dat, system, currency) as a reward!
+BossKiller=$chr(3) $+ 10 $+ %real.name has unlocked the achievement: Boss Killer and receives $bytes($3,b) $readini(system.dat, system, currency) as a reward!
+SirDiesALot=$chr(3) $+ 10 $+ %real.name has unlocked the achievement: Sir Dies A Lot and receives 1 Gold Orb as a reward!
+Don'tYouHaveaHome=$chr(3) $+ 10 $+ %real.name has unlocked the achievement: Don't You Have a Home? and receives $bytes($3,b) $readini(system.dat, system, currency) as a reward!
+MakeMoney=$chr(3) $+ 10 $+ %real.name has unlocked the achievement: Maaaaake Money! and receives $bytes($3,b) $readini(system.dat, system, currency) as a reward!
+ScardyCat=$chr(3) $+ 10 $+ %real.name has unlocked the achievement: Scardy Cat and receives 1 Gold Orb as a reward!
+Cheapskate=$chr(3) $+ 10 $+ %real.name has unlocked the achievement: Cheapskate and receives $bytes($3,b) $readini(system.dat, system, currency) as a reward!
+Can'tKeepAGoodManDown=$chr(3) $+ 10 $+ %real.name has unlocked the achievement: You Can't Keep A Good Man Down and receives $bytes($3,b) $readini(system.dat, system, currency) as a reward!
+MonsterSlayer=$chr(3) $+ 10 $+ %real.name has unlocked the achievement: %real.name The Monster Slayer and receives $bytes($3,b) Silver Apple as a reward!
+
+
+=======================
+Style Levels
+=======================
+[Styles]
+FlatOutBoring=$chr(91) $+ $chr(3) $+ 10Flat Out Boring! $+ $chr(93) 
+Dope=$chr(91) $+ $chr(3) $+ 10Dope $+ $chr(93) 
+Cool=$chr(91) $+ $chr(3) $+ 10Cool! $+ $chr(93) 
+Blast=$chr(91) $+ $chr(3) $+ 10Blast! $+ $chr(93) 
+Alright=$chr(91) $+ $chr(3) $+ 10Alright! $+ $chr(93) 
+Atomic=$chr(91) $+ $chr(3) $+ 10Atomic! $+ $chr(93) 
+Sweet=$chr(91) $+ $chr(3) $+ 10Sweet! $+ $chr(93)
+SShowtime=$chr(91) $+ $chr(3) $+ 10SShowtime! $+ $chr(93)
+SSStylish=$chr(91) $+ $chr(3) $+ 10SSStylish! $+ $chr(93)
+SSSSmokingHotStyle=$chr(91) $+ $chr(3) $+ 10SSSSmoking Hot Style! $+ $chr(93)
+Jackpot=$chr(91) $+ $chr(3) $+ 10Jackpot! $+ $chr(93)
+MaximumStyle=$chr(91) $+ $chr(3) $+ 10Maximum Style! $+ $chr(93)

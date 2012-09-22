@@ -1,5 +1,5 @@
 [BaseStats]
-Hp=400
+Hp=1400
 Tp=100
 Str=20
 Def=20
@@ -9,7 +9,7 @@ Name=Shanoa
 
 
 [Battle]
-Hp=400
+Hp=1400
 Tp=100
 Str=20
 Def=20
@@ -100,15 +100,18 @@ Equipped=Glyphs
 Glyphs=50
 
 [Skills]
-desperateblows=1
 ElementalSeal=1
-manawall.on=on
-elementalseal.on=on
+manawall.on=off
+elementalseal.on=off
 Glyph=50
-Resist-Amnesia=20
-Resist-Charm=20
-
-
+Wizardy=30
+Resist-Amnesia=100
+Resist-Charm=100
+Resist-Intimidate=100
+Resist-Curse=100
+Zen=5
+RoyalGuard=1
+ManaWall=1
 
 
 [Techniques]
@@ -122,5 +125,9 @@ Luminatio=50
 Dominus=50
 
 [Item_Amount]
-potion=1
-DustyWing=0
+
+
+[Styles]
+Equipped=SpellMaster
+SpellMaster=2
+SpellMasterXP=1

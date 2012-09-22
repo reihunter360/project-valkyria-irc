@@ -97,7 +97,7 @@ conservetp.on=off
 
 [Weapons]
 Equipped=Fists
-Fists=10
+Fists=30
 
 [Skills]
 mightystrike=1
@@ -108,15 +108,24 @@ soulvoice.on=off
 manawall.on=off
 mightystrike.on=off
 royalguard.on=off
-MartialArts=20
-
+MartialArts=30
+Resist-Charm=100
+Resist-Zombie=100
+Resist-Intimidate=100
+Zen=5
 
 
 [Techniques]
-DoublePunch=10
-AsuranFists=10
+DoublePunch=30
+AsuranFists=30
 
 
 [Item_Amount]
 potion=1
 DustyWing=0
+
+
+[Styles]
+Equipped=WeaponMaster
+WeaponMaster=2
+WeaponMasterXP=1
