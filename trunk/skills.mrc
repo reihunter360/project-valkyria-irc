@@ -1081,10 +1081,10 @@ alias skill.steal {
 
       inc %stolen.from.counter 1 | writeini $char($2) status stolencounter %stolen.from.counter 
 
-      if ($readini($char($2), Info, flag) = monster) { var %steal.pool orbs.vitalstar.orbs.potion.x-potion.holy_water | var %steal.orb.amount $rand(100,400) }
-      if ($readini($char($2), Info, Flag) = boss) { var %steal.pool orbs.senzu.Red_Fang.Thunder_Orb.Tonic.Superpotion | var %steal.orb.amount $rand(350,600) }
-      if ($2 = orb_fountain) { var %steal.pool orbs.orbs.orbs.orbs | var %steal.orb.amount $rand(400,550) }
-      if (%bloodmoon = on) { var %steal.pool orbs.orbs.orbs.orbs | var %steal.orb.amount $rand(300,500) }
+      if ($readini($char($2), Info, flag) = monster) { var %steal.pool orbs.vitalstar.orbs.potion.x-potion.holy_water.Pizza.PotRoast.Ramen.Cavier.BisonDollar.DragonMeat.SuperMushroom.FireDragonWine.Ambrosia.FoieGras.KnowledgeSource.SoulPainting.FishAndChips.Slurm.CerberusMeat.SilverApple | var %steal.orb.amount $rand(500,2000) }
+      if ($readini($char($2), Info, Flag) = boss) { var %steal.pool orbs.senzu.Red_Fang.Thunder_Orb.Tonic.Superpotion.DarkMagicianCard.BusterBladerCard.BlueEyesCard.FishOilBroth.ElvishMedallian.AlexanderMateria.BahamutMateria.BahamutZeroMateria.CarbuncleMateria.SolomonRing.LuckyBroth.FenrirMateria.GarudaMateria.IfritMateria.LeviathanMateria.RamuhMateria.ShivaMateria.TitanMateria.Pizza.PotRoast.Ramen.Cavier.BisonDollar.DragonMeat.SuperMushroom.FireDragonWine.Ambrosia.FoieGras.KnowledgeSource.SoulPainting.FishAndChips.Slurm.CerberusMeat.SilverApple | var %steal.orb.amount $rand(4200,7500) }
+      if ($2 = orb_fountain) { var %steal.pool orbs.orbs.orbs.orbs | var %steal.orb.amount $rand(4000,5500) }
+      if (%bloodmoon = on) { var %steal.pool orbs.orbs.orbs.orbs | var %steal.orb.amount $rand(3000,5000) }
 
       set %total.items $numtok(%steal.pool, 46)
       set %random.item $rand(1,%total.items)
