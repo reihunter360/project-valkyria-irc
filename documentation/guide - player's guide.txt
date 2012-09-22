@@ -45,6 +45,12 @@ Some basic commands you may want to check out:
 
 !items - Will return a list of the items you own and how many of each item you own.  Example: potion(2) means you own 2 potions.
 
+!accessories - Will return a list of any accessories you own and which one you have equipped.
+
+!wear name - Will allow you to equip the accessory.
+
+!remove name - Will allow you to remove an accessory.
+
 !status - Will return the current status of your character.  (like poisoned, stunned, that sort of thing).
 
 !equip weapon - This will allow you to swap weapons on the fly at any time.  Of course you must actually own that weapon to swap to it.
@@ -147,13 +153,16 @@ That means a battle is about to begin.  If you want to take part in the battle u
 <BattleArena> There were no players to meet the monsters on the battlefield! The battle is over.
 
 
-When the two minutes up the bot will calculate how many players have joined and pick a random type of battle.  There's three types currently:
+When the two minutes up the bot will calculate how many players have joined and pick a random type of battle.  There's four types currently:
 
 Orb Fountain Battle (10% chance of happening)
 This battle is simply to let players gain orbs.  An Orb_Fountain monster will join.  The fountain can't fight back, so feel free to wail on it.
 
 Boss Battle (10% chance of happening)
 1 boss will be picked from a list of bosses and it will join the battle.  Players have to work together to defeat this terrible foe.  If the boss is defeated, at the end of battle everyone who's still alive will receive a black orb and the person who's the most stylish will receive an item (usually; but more on style later).
+
+Doppelganger Battle (5% chance of replacing a normal boss battle)
+Evil doppelgangers of all participating players will be generated and the heroes will be forced to fight themselves.
 
 Monster Battle (80% chance of happening)
 As expected, this is the most common type of battle.  The bot will generate a number of monsters (the number depends on how many players join the battle) and will add them to battle.  The object is to defeat them all.
@@ -215,7 +224,7 @@ The current winning/losing streak will either enhance or nerf monsters' strength
 
 
 SKILLS
-** As of August 31, 2012.
+** As of September 12, 2012.
 
 There are three types of skills in this bot: Passive Skills that are always on, Active Skills that have commands, and Resists that help you resist against various status types found in the bot.  Each skill has a maximum level that you can obtain in it. Some active skills can only be used once every certain number of minutes.  Of course you must first purchase the skills in the shop before you can use them.
 
@@ -255,6 +264,12 @@ This skill will increase your chances of performing a critical hit by 1% each le
 
 BloodPact
 This skill will allow you to activate summoning items and summon pets/summons to the field to fight for you.
+
+Zen
+This skill will increase the amount of TP you regain each turn by 5*skill level.
+
+Haggling
+This skill will increase the amount of orbs you can sell items back for by 20 * skill level.
 
 
 Active Skills
@@ -333,7 +348,7 @@ resist-stop
 
 
 ITEM LIST
-** As of August 31, 2012.
+** As of September 12, 2012.
 
 There's six  types of items in the bot currently.  Healing Items, Battle Items, Consumable (Skill) Items, +Stat Items, Summon Items and Shop Level Reducing Items.  Here's a list of each.
 
@@ -344,13 +359,26 @@ Potion - 50 Red Orbs
 The potion will heal roughly 20 HP when used.  It can be used with Fullbring and requires level 1 of that skill.
 
 VitalStar - 100 Red Orbs
-The Vital Star will heal roughly 50 HP when used.  It can be used with Fullbring and requires level 1 of that skill.
+The VitalStar will heal roughly 60 HP when used.  It can be used with Fullbring and requires level 1 of that skill.
+
+X-Potion - 250 Red Orbs
+The X-potion will heal roughly 150 HP when used. It can be used with Fullbring and requires level 2 of that skill.
 
 Senzu - 500 Red Orbs
 The senzu will heal roughly 500 HP when used.  It can be used with Fullbring and requires level 4 of that skill.
 
+SuperPotion - 3500 Red Orbs
+The Super Potion will heal roughly 1500 HP when used. It can be used with Fullbring and requires level 5 of that skill.
+
 DustyWing - 100 Red Orbs
 The Dusty Wing will instantly restore 20 TP when used. It can be used with Fullbring and requires level 1 of that skill.
+
+Ether - 500 Red Orbs
+
+The Ether will instantly restore 60 TP when used. It can be used with Fullbring and requires level 2 of that skill.
+
+Tonic - 1000 Red Orbs
+The tonic will instantly cure most status effects.  It will not cure Charm or Intimidation though.
 
 
 Battle Items
@@ -368,8 +396,12 @@ The Red Fang will inflict roughly 45 fire elemental damage to a target.  It can 
 Thunder_Orb - 100 Red Orbs
 The Thunder Orb will inflict roughly 45 lightning elemental damage to a target.  It can be used with Fullbring and requires level 2 of that skill.
 
-Fire_Flower - 250 Red Orbs
-The Fire Flower will inflict roughly 70 fire elemental damage to a target.  It can be used with Fullbring and requires level 3 of that skill.
+Fire_Flower - 150 Red Orbs
+The Fire Flower will inflict roughly 150 fire elemental damage to a target.  It can be used with Fullbring and requires level 3 of that skill.
+
+Ice_Coin - 150 Red Orbs
+The Ice Coin will inflict roughly 150 ice elemental damage to a target.  It can be used with Fullbring and requires level 3 of that skill.
+
 
 
 +Stat Items
@@ -391,6 +423,8 @@ FoieGras
 KnowledgeSource
 SoulPainting
 FishAndChips
+Slurm
+CerberusMeat
 
 
 Consumable (Skill) Items
@@ -398,6 +432,7 @@ These items are used in conjunction with skills and will be consumed when the sk
 
 Shihei - 100 red orbs
 This item is used to create shadows using the Utsusemi skill.  One shihei will produce 2 shadows.
+
 
 Summon Items
 These items only work when the user has the BloodPact passive skill.  The item is consumed upon use but will summon an ally to the battlefield to help fight.
@@ -414,15 +449,58 @@ This item will summon the powerful Blue Eyes White Dragon.
 FishOilBroth - 500 red orbs
 This item will summon the crab Courier Carrie.
 
-ElvishMedalllian - 50,000,000,000 red orbs
+ElvishMedalllian - Cannot Purchase
 This item will summon Eldora Adlanna to fight for the heroes.
+
+AlexanderMateria - 1000 red orbs
+This item is will summon Alexander
+
+BahamutMateria - Cannot Purchase
+This item is will summon Bahamut
+
+BahamutZeroMateria - Cannot Purchase
+This item is will summon Bahamut Zero
+
+CarbuncleMateria - 1000 red orbs
+This item is will summon Carbuncle
+
+SolomonRing - 1000 red orbs
+This item is will summon Doomtrain
+
+LuckyBroth - 1000 red orbs
+This item is will summon Faithful Falcorr
+
+FenrirMateria - 1000 red orbs
+This item is will summon Fenrir
+
+GarudaMateria - 1000 red orbs
+This item is will summon Garuda
+
+IfritMateria - 1000 red orbs
+This item is will summon Ifrit
+
+LeviathanMateria - 1000 red orbs
+This item is will summon Leviathan
+
+RamuhMateria - 1000 red orbs
+This item is will summon Ramuh
+
+ShivaMateria - 1000 red orbs
+This item is will summon Shiva
+
+TitanMateria - 1000 red orbs
+This item is will summon Titan
 
 
 Shop Reducing Items
 When used, these items will reduce your current shop level by an amount.  The shop level can never go below 1.0.
 
 DiscountCard - 250,000 Red Orbs
-This item will reduce your shop level by 10 points
+This item will reduce your shop level by 10 points.
+
+
+ACCESSORIES
+Accessories are special items that can be equipped.  The accessories themselves will grant bonuses or status effects on the wearer.  How do you get the accessories?  Well, they're rare boss drops from certain bosses.  Once you manage to find one, you can equip it with !wear <accessory name>  If you ever decide that you no longer want to wear that accessory you can remove it with !remove <accessory name>. 
 
 
 STYLE POINTS
@@ -444,6 +522,9 @@ Sweet!
 SShowtime!
 SSStylish!
 SSSSmoking Hot Style!
+Jackpot!
+Maximum Style
+
 
 PLAYER STYLES
 In Devil May Cry 3 the hero Dante had his choice of a bunch of different styles to pick. Each style would give the player a little variety in moves you could do.  For example, there was the Trickster style that let you dodge things easier and the Swordmaster style that gave you extra combat moves with the various weapons.  Well, I've decided to try and add something similar to this bot.
@@ -482,14 +563,19 @@ This style will enhance your shadow clone ability, giving your clone more health
 HITEN MITSURUGI-RYU
 This still will enhance melee and tech damage done with katana weapons and enhance speed at battle turn generation.
 
+QUICKSILVER
+This style will allow you to access the !quicksilver command that freezes everyone except you in battle, effectively giving you an extra turn. You can use the !quicksilver command as many times as your style is currently leveled.
+
 
 MONSTER LIST
-** As of August 31, 2012.
+** As of September 21, 2012.
 Here's a list of monsters that are in the bot.
 
 Air Elemental
 Bark Spider
 Bone Soldier
+Cactuar
+Chimyriad
 Creeper
 Cursed Bishop
 Cursed Pawn
@@ -498,12 +584,19 @@ Cyberman
 Dalek
 Dark Knight
 Dark Octopus
+Decapiclops
 Devil Manta
+Dragoon Ghost
 Earth Elemental
 Enchanted Bones
 Female Vampire
 Final Guard
 Forest Giant
+Gekko
+GekkoDwarf
+Goblin Berserker
+Goblin Enchanter
+Goblin Shaman
 Goblin Smithy
 Heraldic Imp
 Ironshell
@@ -513,12 +606,18 @@ Mammoth
 Minotaur
 Moblin
 Nightmare Hornet
+Nightmare Vanguard
+Ninja Assassin
 Orb Fountain
 Orcish Grunt
+Orcish Gunshooter
+Oxocutioner
 Pride Demon
 Ruby Quadav
 Sabertooth Tiger
+Samurai Ghost
 Snow Giant
+Snow Wight
 Stone Eater
 Succubus
 Thunder Elemental
@@ -530,6 +629,7 @@ Undead Monk
 Undead Ranger
 Undead RedMage
 Undead Samurai
+Water Elemental
 Wooden Puppet
 Wyvern
 Yagudo Scribe
@@ -540,8 +640,14 @@ Zombie
 
 
 BOSS LIST
-** As of August 217 2012.
+** As of September 21, 2012.
 Here's a list of bosses that are in the bot.
+
+Absolute Virtue
+a tall humanoid creature. It is blue and white in color and has four wings on its back. One of the strongest monsters in all of Vana'diel and the ruler of Al'Taieu.  From FFXI
+
+Android X
+a 7'5" tall man with bright neon green hair wearing a Red Ribbon Army ripped jean jacket and dark pants. With an evil grin he holds up his gloved right hand which has a small round cut that reveals a glowing red spot that pulsates. He is the ultimate android created as a failsafe in case Cell failed.  From #DBZRPG
 
 Aris
 A minion of Ashi, Aris is a frail old man with a longe white beard and short white hair that is balding.  But don't let his frail apperance fool you, he is a master of black magic.  From #DBZRPG
@@ -555,6 +661,9 @@ A larger than normal green orc that uses a large pike.  From Final Fantasy XI
 Astarte
 A tall Egyptian woman of irresistible beauty. She wears a gold bikini, a golden Pharoah helm and a pink scarf that is attached to her wrists.  From the Castlevania series.
 
+Bahamut Fury
+A larger version of Bahamut that is gold in color. His unique wings has three spikes on them that can be fired at his opponents. From Final Fantasy.
+
 Bloody Bones
 A larger than normal skeleton with red bones and carrying a large scythe. From Final Fantasy XI.
 
@@ -566,6 +675,12 @@ An ugly green and black bug-looking monster from the series Dragon Ball Z.
 
 Cerberus
 A massive three-headed dog that has an affinity for ice.  From Devil May Cry 3.
+
+Chuckie
+A doll that is scarred and has a magnum in his hands.  From the Chuckie series of movies.
+
+Cursed King
+A large stone chesspiece, the king to be exact.  It has a captured soul of a demon inside it.
 
 Cyberlord
 A monster that looks similiar to the other Cybermen, however it has a black faceplate with black handlebars on the head with a transparent window to show its brain. It controls the lesser Cybermen.
@@ -582,6 +697,9 @@ The right-hand of Dracula.  He wears a thick black cloak and carries a large scy
 Dracula
 The master of Castlevania himself, Dracula is a powerful vampire with very powerful attacks.  From Castlevania (obviously)
 
+Dullahan
+A large suit of purple armor that is animated by powerful magic. Perhaps the strongest entity in Golden Sun.
+
 Dune Widow
 A gigantic pale white spider with a huge round abdomin.  From Final Fantasy XI.
 
@@ -590,6 +708,9 @@ A clone of a mighty Elven goddess, mimicing her full power. She wears the usual 
 
 Fafnir
 A large brownish grey dragon that gives off an angry roar!
+
+Metal Gear Ray
+A machine that stands at 20 meters in height. It is tan and black in color. It is slightly more organic in design, with large "wings," a long tail and a face where the pilot seat is. Contains various weapons and a powerful water cutter. From the Metal Gear series.
 
 Metal Gear Rex
 A very large machine piloted by Liquid Snake. Notabale features are the large "shield" on its left side and a giant railgun on its right side.
@@ -600,6 +721,12 @@ The final boss of Earthbound and is said to be the ultimate evil.
 Jester
 An insane demon that wears a black and purple oufit, along with a red and blue jester cap. He also has a pure white face, a giant nose, plus red and blue eyes.  From Devil May Cry 3.
 
+Jumbo Cactuar
+A far larger verision of a cactuar. It has the same appearence except with a curly mustache drawn on!
+
+Killer Rabbit
+A a cute little bunny.  Tim the Enchanter once said that it was a creature so foul, so cruel that no man yet has fought with it and lived. Bones of full fifty men lie strewn about its lair. So, brave knights, if you do doubt your courage or your strength, come no further, for death awaits you all with nasty, big, pointy teeth.  From Monty Python's Search for the Holy Grail
+
 M Bison
 A tall man wearing all red with a blue cape and a large military beret.  He is the leader of the crime syndicate Shadaloo.  From the Street Fighter series
 
@@ -609,6 +736,13 @@ A huge hollow standing 2-6 stories tall.  It is all black except for its face, w
 Puppet Master
 A giant wooden head with four spider-like arms. From the Castlevania series.
 
+Quetzalcoatl
+
+The Aztec god of intelligence and self-reflection.  It is a giant feathered serpent and it doesn't look happy.
+
+Ryukotsuki
+A large demon that is composed of bones. He has glowing red eyes along with a large red orb around the middle of his chest.
+
 Sea Horror
 A gigantic sea kraken that is orange and black in color known around the world as the Horror of the Sea.
 
@@ -617,6 +751,9 @@ The warlord that organized the Beastman Confederate into launching an all-out wa
 
 Stinging Sophie
 A large angry black and yellow bee.  From Final Fantasy XI.
+
+Sub Zero
+A ninja wearing a blue mask and blue tekko.  From the Mortal Kombat series.
 
 Tiamat
 A large and powerful brown dragon.  From Final Fantasy XI.
@@ -635,7 +772,7 @@ A grotesque orange alien with two very long tentacles.  He is carrying a weird l
 NPC ALLY LIST
 NPCs are helpful allies that show up occasionally to help the forces of good win battles.  At the moment there's a 10% chance of them showing up normally.  If the players have been losing a lot (5+ in a row) they will show up 100% of the time.  NPCs will stay in battle until they die or until all players die.  In other words, NPCs won't keep fighting the good fight after all players are dead; at least one player must stay alive for the battle to continue.
 
-This is a current list of NPCs as of August 27, 2012:
+This is a current list of NPCs as of September 21, 2012:
 
 Alucard
 From Castlevania, the son of Dracula.  He is a powerful vampire fighting on the side of humans.
@@ -645,6 +782,9 @@ From the Hellsing anime, Alucard is a tall man with short black hair dressed in 
 
 Ash Williams
 A man who works in the Housewares section of S-Mart. He wears a blue shirt, dark brown khaki pants, and brown leather boots. He wields a boomstick in his left hand and has a chainsaw attached to his right hand.  He's from the Evil Dead series of movies.
+
+Chun-Li
+An agent of Interpol. She has brown hair, wears a blue chinese dress with a gold trim, white boots and large bracelets with spikes on them. From the Street Fighter series.
 
 Dante
 From Devil May Cry, this is the main hero of the series.  He's a master of the Rebellion sword and a trickster.
@@ -667,6 +807,12 @@ The main hero of the Indiana Jones movies. He's a master of using a whip.
 Iori Yagami
 A tall man with red hair that wears a black shirt and red pants. He's from the King of Fighters series.
 
+Kain
+A tall man that is a friend of Cecil. He wears dark blue and black dragoon armor along with a helm that is designed similiar to a Dragon. He is a highly-skilled Dragoon.  From Final Fantasy IV.
+
+Ken Masters
+A man with medium length blonde hair that wears a red gi. He also wears a black belt and red gloves. From the Street Fighter series.
+
 Maat
 An older looking man who is a master of the martial arts.  He's the second strongest NPCs in the game.  He's from Final Fantasy XI.
 
@@ -679,6 +825,9 @@ Is a man with a large afro, large sideburns, a horseshoe mustache and giant musc
 Nauthima Tiranadel
 No longer a boss, Nauthima now fights for the forces of good.  She's the strongest NPC in the game and a master of powerful magic.  If she shows up you're almost guaranteed an easy win.
 
+Prishe
+She appears to be a young Elvaan female with long lavender hair, pointed ears and blue eyes. She wears black shorts with a black top and frilly purple sleeves, along with tan boots. From Final Fantasy XI.
+
 Robocop
 A cyborg cop in silver and black armor. He carries his large Auto9 gun in hand. From the Robocop movies.
 
@@ -688,8 +837,14 @@ A tall man with a dark tan and a tattoo of a bull on his right arm and a Samoan 
 Rose
 She is a mysterious woman that wears dark purple armor that has a gold trim. The wielder of the Darkness Dragon spirit.  She's from The Legend of Dragoon.
 
+Ryu
+A man with medium length brown hair and wears a white gi wlong with a black belt. He also wears red gloves and a red bandanna. From the Street Fighter series.
+
 Shanoa
 A young woman who is a member of Ecclesia and a powerful user of magical glyphs. She's from the Castlevania series
+
+Shantotto
+A Tarutaru that wears the Black Mage AF armor, excluding the hat. She is well-known in Windurst and one of the strongest magic users in Vana'diel.  She's from Final Fantasy XI.
 
 Simon Belmont
 From the Castlevania series, he's a master of the Vampire Killer whip and is the bane of anything that is weak to holy weapons.  He'll be a powerful companion.

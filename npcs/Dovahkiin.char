@@ -1,20 +1,20 @@
 [BaseStats]
-Hp=500
+Hp=1500
 Tp=100
-Str=20
-Def=20
+Str=30
+Def=25
 Int=20
-Spd=15
+Spd=25
 Name=The Dragonborn
 
 
 [Battle]
-Hp=500
+Hp=1500
 Tp=100
-Str=20
-Def=20
+Str=30
+Def=25
 Int=20
-Spd=20
+Spd=25
 Status=alive
 
 
@@ -108,7 +108,12 @@ manawall.on=off
 elementalseal.on=off
 mightystrike.on=off
 royalguard.on=off
-
+Zen=5
+Resist-Charm=100
+Resist-Zombie=100
+Resist-Intimidate=100
+SwordMaster=30
+Wizardy=20
 
 [Techniques]
 FusRoDah=50
@@ -118,5 +123,9 @@ StrunBahQo=50
 
 
 [Item_Amount]
-potion=1
-DustyWing=0
+
+
+[Styles]
+Equipped=WeaponMaster
+WeaponMaster=2
+WeaponMasterXP=1

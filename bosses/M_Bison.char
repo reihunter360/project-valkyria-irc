@@ -39,7 +39,7 @@ BossQuote=For you, the day Bison graced your battlefield was the most important 
 RedOrbs=0
 BlackOrbs=1
 ShopLevel=1.0
-Drops=BisonDollar
+Drops=BisonDollar.X-Potion.Tonic
 
 [Info]
 Flag=monster

@@ -30,7 +30,7 @@ Percent=0
 [Descriptions]
 Hused=1
 Dused=1
-Char=is ninja wearing a blue mask and blue tekko.  
+Char=is a ninja wearing a blue mask and blue tekko.  
 Rage=screams in rage 
 BossQuote=I must defeat you in mortal kombat.
 ShadowCopy=silently looks on the battlefield before jumping bakwards, leaving behind a huge life-sized ice statue of himself.  Within a few seconds, the statue comes to life ready to fight.
@@ -40,7 +40,7 @@ ShadowCopy=silently looks on the battlefield before jumping bakwards, leaving be
 RedOrbs=0
 BlackOrbs=1
 ShopLevel=1.0
-Drops=shihei.x-potion.ether.Ice_Coin
+Drops=shihei.x-potion.ether.Ice_Coin.Black-Belt.potion
 
 [Info]
 Flag=monster
@@ -109,4 +109,4 @@ senzu=1
 [Element]
 Weakness=none
 Strong=none
-
+heal=ice

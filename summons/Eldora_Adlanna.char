@@ -111,3 +111,8 @@ WiseReflection=45
 [Element]
 Weakness=Dark
 Strong=Light
+
+[Styles]
+Equipped=WeaponMaster
+WeaponMaster=2
+WeaponMasterXP=1

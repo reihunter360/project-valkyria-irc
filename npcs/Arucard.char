@@ -1,20 +1,20 @@
 [BaseStats]
-Hp=600
-Tp=100
-Str=25
+Hp=2500
+Tp=150
+Str=35
 Def=25
-Int=25
-Spd=25
+Int=30
+Spd=40
 Name=Alucard
 
 
 [Battle]
-Hp=600
-Tp=100
-Str=25
+Hp=2500
+Tp=150
+Str=35
 Def=25
-Int=25
-Spd=25
+Int=30
+Spd=40
 Status=alive
 
 
@@ -97,14 +97,15 @@ Equipped=Casull&Jackal
 Casull&Jackal=50
 
 [Skills]
-Gunslinger=30
-MartialArts=30
+Gunslinger=40
 Resist-Charm=100
 Resist-Zombie=100
 Resist-Stun=25
 Resist-Stop=100
 Resist-Amnesia=100
 Resist-Curse=100
+Resist-Intimidate=100
+Zen=5
 manawall=1
 royalguard=1
 manawall.on=on
@@ -119,3 +120,7 @@ CromwellApproval=50
 
 [Item_Amount]
 
+[Styles]
+Equipped=WeaponMaster
+WeaponMaster=2
+WeaponMasterXP=1

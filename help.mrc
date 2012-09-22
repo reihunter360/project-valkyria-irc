@@ -15,8 +15,8 @@ alias gamehelp {
 
 
 ON 1:TEXT:!view-info*:*: { 
-  if ($2 = $null) { query $nick 4Error: The command is missing what you want to view.  Use it like:  !view-info <tech, item, skill, weapon> <name> (and remember to remove the < >) | halt }
-  if ($3 = $null) { query $nick 4Error: The command is missing the name of what you want to view.   Use it like:  !view-info <tech, item, skill, weapon> <name> (and remember to remove the < >) | halt }
+  if ($2 = $null) { query $nick 4Error: The command is missing what you want to view.  Use it like:  !view-info <tech, item, skill, weapon, accessory> <name> (and remember to remove the < >) | halt }
+  if ($3 = $null) { query $nick 4Error: The command is missing the name of what you want to view.   Use it like:  !view-info <tech, item, skill, weapon, accessory> <name> (and remember to remove the < >) | halt }
 
   if ($2 = tech) { 
     if ($readini(techniques.db, $3, type) = $null) { query $nick 4Error: Invalid technique | halt }
@@ -31,6 +31,10 @@ ON 1:TEXT:!view-info*:*: {
 
   }
 
+  if ($2 = accessory) { 
+    if ($readini(items.db, $3, type) = $null) { query $nick 4Invalid item | halt }
+    .msg $nick [4Name12 $3 $+ 1] [4Type12 Accessory $+ 1] [4Description12 $readini(items.db, $3, desc) $+ 1] 
+  }
   if ($2 = item) { unset %info.fullbring
     if ($readini(items.db, $3, type) = $null) { query $nick 4Invalid item | halt }
     var %info.type $readini(items.db, $3, type) | var %info.amount $readini(items.db, $3, amount)
@@ -47,7 +51,9 @@ ON 1:TEXT:!view-info*:*: {
     if (%info.type = Summon) { .msg $nick [4Name12 $3 $+ 1] [4Type12 Summon $+ 1] [4This item summons12 $readini(items.db, $3, summonname) 4to fight with you $+ 1] [4Item Cost12 %info.cost red orbs1]    }
     if (%info.type = ShopReset) { .msg $nick [4Name12 $3 $+ 1] [4Type12 Shop Level Change $+ 1] [4When used this item reduces your shop level by %info.amount $+ 1] [4Item Cost12 %info.cost red orbs1]    }
     if (%info.type = tp) { .msg $nick [4Name12 $3 $+ 1] [4Type12 TP Restore $+ 1] [4TP Restored Amount12 %info.amount $+ 1]  [4Item Cost12 %info.cost red orbs1] %info.fullbringmsg }
-
+    if (%info.type = CureStatus) { .msg $nick [4Name12 $3 $+ 1] [4Type12 Cure Status $+ 1] [4Item Cost12 %info.cost red orbs1] [4Note12 This item will not cure Charm or Intimidation $+ 1] %info.fullbringmsg }
+    if (%info.type = accessory) {  .msg $nick [4Name12 $3 $+ 1] [4Type12 Accessory $+ 1] [4Description12 $readini(items.db, $3, desc) $+ 1]  }
+    if (%info.type = revive) {  .msg $nick [4Name12 $3 $+ 1] [4Type12 Automatic Revival $+ 1] [4Description12 When used this item will activate the "Automatic Revive" status.  If you die in battle, you will be revived with 1/2 HP.  $+ 1]  }
   }
 
   if ($2 = skill) { 

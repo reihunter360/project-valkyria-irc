@@ -38,7 +38,7 @@ BossQuote=I will feast on your soul this night!
 RedOrbs=0
 BlackOrbs=1
 ShopLevel=1.0
-Drops=Ramen.Stop_Watch
+Drops=Potion.VitalStar.Ramen.Stop_Watch
 
 [Monster]
 Type=undead

@@ -140,9 +140,12 @@ on 2:TEXT:!orbs*:*: {
 on 2:TEXT:!rorbs*:*: { var %orbs.spent $bytes($readini($char($2), stuff, RedOrbsSpent),b) | var %blackorbs.spent $bytes($readini($char($2), stuff, BlackOrbsSpent),b) | $checkchar($2) | $set_chr_name($2) | query %battlechan $readini(translation.dat, system, ViewOthersOrbs) }
 
 on 2:TEXT:!stats*:*: { unset %all_status | $battle_stats($nick) | $player.status($nick) | $weapon_equipped($nick) | .msg $nick $readini(translation.dat, system, HereIsYourCurrentStats) 
+  var %equipped.accessory $readini($char($nick), equipment, accessory) 
+  if (%equipped.accessory = $null) { var %equipped.accessory none }
   /.timerDisplayStats1 $+ $nick 1 1  .msg $nick [4HP12 $readini($char($nick), Battle, HP) $+ 1/ $+ 12 $+ $readini($char($nick), BaseStats, HP) $+ 1] [4TP12 $readini($char($nick), Battle, TP) $+ 1/ $+ 12 $+ $readini($char($nick), BaseStats, TP) $+ 1] [4Status12 %all_status $+ 1] 
   /.timerDisplayStats2 $+ $nick 1 1  .msg $nick [4Strength12 %str $+ 1]  [4Defense12 %def $+ 1] [4Intelligence12 %int $+ 1] [4Speed12 %spd $+ 1]
-  /.timerDisplayStats3 $+ $nick 1 1  .msg $nick [4 $+ $readini(translation.dat, system, CurrentWeaponEquipped) 12 $+ %weapon.equipped $+ 1] | unset %spd | unset %str | unset %def | unset %int | unset %status | unset %comma_replace | unset %comma_new | unset %all_status | unset %weapon.equipped
+  /.timerDisplayStats3 $+ $nick 1 1  .msg $nick [4 $+ $readini(translation.dat, system, CurrentWeaponEquipped) 12 $+ %weapon.equipped $+ 1]  [4 $+ $readini(translation.dat, system, CurrentAccessoryEquipped) 12 $+ %equipped.accessory $+ 1]
+  unset %spd | unset %str | unset %def | unset %int | unset %status | unset %comma_replace | unset %comma_new | unset %all_status | unset %weapon.equipped
 }
 on 2:TEXT:!weapons*:*: {  unset %*.wpn.list | unset %weapon.list
   if ($2 = $null) { $weapon.list($nick) | var %target $nick }
@@ -172,9 +175,16 @@ on 2:TEXT:!style*:*: {  unset %*.style.list | unset %style.list
     if ($istok(%valid.styles.list, $3, 46) = $false) { query %battlechan $readini(translation.dat, errors, InvalidStyle) | halt }
     var %current.playerstylelevel $readini($char($nick), styles, $3)
     if ((%current.playerstylelevel = $null) || (%current.playerstylelevel = 0)) { $set_chr_name($nick) | query %battlechan $readini(translation.dat, errors, DoNotKnowThatStyle) | halt }
-    if ((%battleis = on) && ($nick isin $readini(battle2.txt, Battle, List))) { query %battlechan $readini(translation.dat, errors, CanOnlySwitchOutsideBattle) | halt }
+
+    $check_for_battle($nick)
+
     ; finally, switch to it.
     $set_chr_name($nick) | writeini $char($nick) styles equipped $3 | query %battlechan $readini(translation.dat, system, SwitchStyles)
+    unset %styles.list | unset %current.playerstyle.* | unset %styles | unset %style.name | unset %style_level | unset %current.playerstyle
+
+    ; if the battle is on..
+    if (%battleis = on) {  $check_for_double_turn($nick)   }
+
   }
 }
 
@@ -238,7 +248,6 @@ alias readskills {
   if (((%passive.skills.list = $null) && (%active.skills.list = $null) && (%resists.skills.list = $null))) { query %battlechan $readini(translation.dat, system, HasNoSkills) }
 }
 
-
 on 2:TEXT:!items*:*:{ 
   if ($2 != $null) { $checkchar($2)
     $items.list($2) | $set_chr_name($2) 
@@ -255,6 +264,29 @@ on 2:TEXT:!ritems *:*: { $checkchar($2)
   $items.list($2) | $set_chr_name($2) 
   if (%items.list != $null) { query %battlechan $readini(translation.dat, system, ViewItems) }
   else { query %battlechan $readini(translation.dat, system, HasNoItems) }
+}
+
+on 2:TEXT:!accessories*:*:{ 
+  if ($2 != $null) { $checkchar($2)
+    $accessories.list($2) | $set_chr_name($2) 
+    if (%accessories.list != $null) { query %battlechan $readini(translation.dat, system, ViewAccessories)
+      var %equipped.accessory $readini($char($2), equipment, accessory)
+      if ((%equipped.accessory = $null) || (%equipped.accessory = none)) { query %battlechan $readini(translation.dat, system, HasNoEquippedAccessory) }
+      if ((%equipped.accessory != $null) && (%equipped.accessory != none)) { query %battlechan $readini(translation.dat, system, ViewEquippedAccessory) }
+      unset %accessories.list 
+    }
+    else { query %battlechan $readini(translation.dat, system, HasNoAccessories) }
+  }
+  else { 
+    $accessories.list($nick) | $set_chr_name($nick) 
+    if (%accessories.list != $null) { query %battlechan $readini(translation.dat, system, ViewAccessories) 
+      var %equipped.accessory $readini($char($nick), equipment, accessory)
+      if ((%equipped.accessory = $null) || (%equipped.accessory = none)) { query %battlechan $readini(translation.dat, system, HasNoEquippedAccessory) }
+      if ((%equipped.accessory != $null) && (%equipped.accessory != none)) { query %battlechan $readini(translation.dat, system, ViewEquippedAccessory) }
+      unset %accessories.list 
+    }
+    else { query %battlechan $readini(translation.dat, system, HasNoAccessories) }
+  }
 }
 
 ON 50:TEXT:*equips *:*:{ 

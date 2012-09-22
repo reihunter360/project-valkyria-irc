@@ -98,3 +98,9 @@ BigScissors=10
 [Element]
 Weakness=ice.lightning
 Strong=water
+
+
+[Styles]
+Equipped=guardian
+Guardian=1
+GuardianXP=0

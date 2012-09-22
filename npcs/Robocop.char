@@ -1,20 +1,20 @@
 [BaseStats]
-Hp=500
+Hp=1500
 Tp=70
-Str=15
-Def=15
-Int=15
-Spd=15
+Str=30
+Def=35
+Int=30
+Spd=20
 Name=Robocop
 
 
 [Battle]
-Hp=500
+Hp=1500
 Tp=70
-Str=15
-Def=15
-Int=15
-Spd=15
+Str=30
+Def=35
+Int=30
+Spd=20
 Status=alive
 
 
@@ -94,23 +94,30 @@ zombie.timer=1
 
 [Weapons]
 Equipped=Auto9
-Auto9=30
+Auto9=50
 
 [Skills]
 Resist-Charm=100
 Resist-Zombie=100
 Resist-Poison=100
 Resist-Stun=100
-Gunslinger=30
+Resist-Intimidate=100
+Gunslinger=40
 MartialArts=30
-
+Zen=5
+RoyalGuard=1
 
 [Techniques]
-RapidShot=30
-LastStand=30
-Detonator=30
-ChargedShot=30
+RapidShot=50
+LastStand=50
+Detonator=50
+ChargedShot=50
 
 
 [Item_Amount]
 
+
+[Styles]
+Equipped=WeaponMaster
+WeaponMaster=2
+WeaponMasterXP=1

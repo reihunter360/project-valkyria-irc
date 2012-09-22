@@ -1,4 +1,4 @@
-battle.version { return 1.3beta_090612 }
+battle.version { return 1.3 }
 quitmsg { return Battle Arena version $battle.version written by James  "Iyouboushi" }
 checkscript {
   if (| isin $1-) { msg $nick $readini(translation.dat, errors, NoScriptsWithCommands) | halt }
@@ -63,6 +63,7 @@ player.status { unset %all_status | $set_chr_name($1)
     if ($readini($char($1), status, stop) = yes) { $status_message_check(frozen in time) }
     if ($readini($char($1), status, virus) = yes) { $status_message_check(inflicted with a virus) }
     if ($readini($char($1), status, curse) = yes) { $status_message_check(cursed) }
+    if ($readini($char($1), status, revive) = yes) { $status_message_check(will auto revive) }
     if ($readini($char($1), skills, drainsamba.on) = on) { $status_message_check(using Drain Samba) }
     if (%all_status = $null) { %all_status = 3Normal }
     return
@@ -123,6 +124,7 @@ weapons.get.list {
   set %weapons %weapons $+ . $+ $readini(weapons.db, Weapons, Rifles)
   set %weapons2 $readini(weapons.db, Weapons, MonsterWpns)
   set %weapons3 $readini(weapons.db, Weapons, MonsterWpns2)
+  set %weapons4 $readini(weapons.db, Weapons, MonsterWpns4)
   var %number.of.weapons $numtok(%weapons, 46)
 
   var %value 1
@@ -168,6 +170,22 @@ weapons.get.list {
     inc %value 1 
   }
   unset %value | unset %weapon.name | unset %weapon_level | unset %weapons2 | unset %weapons3
+
+  var %number.of.weapons $numtok(%weapons4, 46)
+  var %value 1
+  while (%value <= %number.of.weapons) {
+    set %weapon.name $gettok(%weapons4, %value, 46)
+    set %weapon_level $readini($char($1), weapons, %weapon.name)
+
+    if ((%weapon_level != $null) && (%weapon_level >= 1)) { 
+      ; add the weapon level to the weapon list
+      var %weapon_to_add  $+ %weapon.name $+ $chr(040) $+ %weapon_level $+ $chr(041) $+ 
+      %weapon.list = $addtok(%weapon.list,%weapon_to_add,46)
+    }
+    inc %value 1 
+  }
+  unset %value | unset %weapon.name | unset %weapon_level | unset %weapons2 | unset %weapons3 | unset %weapons4
+
 
   return %weapon.list
 }
@@ -430,6 +448,34 @@ items.list {
   return
 }
 
+accessories.list {
+  ; CHECKING ACCESSORIE
+  unset %accessories.list
+  var %accessory.items $readini(items.db, items, Accessories)
+  var %number.of.items $numtok(%accessory.items, 46)
+
+  var %value 1
+  while (%value <= %number.of.items) {
+    set %item.name $gettok(%accessory.items, %value, 46)
+    set %item_amount $readini($char($1), item_amount, %item.name)
+
+    if ((%item_amount != $null) && (%item_amount >= 1)) { 
+      ; add the item and the amount to the item list
+      var %item_to_add %item.name $+ $chr(040) $+ %item_amount $+ $chr(041) 
+      %accessories.list = $addtok(%accessories.list,%item_to_add,46)
+    }
+    inc %value 1 
+  }
+
+  ; CLEAN UP THE LIST
+  if ($chr(046) isin %accessories.list) { set %replacechar $chr(044) $chr(032)
+    %accessories.list = $replace(%accessories.list, $chr(046), %replacechar)
+  }
+
+  unset %item.name | unset %item_amount | unset %number.of.items | unset %value
+  return
+}
+
 
 ; Fulls command (brings everyone back to max hp and regular stats)
 fulls {  
@@ -450,7 +496,7 @@ clear_skills {
   writeini $char($1) skills soulvoice.on off | writeini $char($1) skills manawall.on off | writeini $char($1) skills elementalseal.on off
   writeini $char($1) skills mightystrike.on off | writeini $char($1) skills royalguard.on off | writeini $char($1) skills conservetp.on off
   writeini $char($1) skills drainsamba.turn 0 | writeini $char($1) skills drainsamba.on off | writeini $char($1) skills utsusemi.on off
-  writeini $char($1) skills utsusemi.shadows 0
+  writeini $char($1) skills utsusemi.shadows 0 | writeini $char($1) skills Quicksilver.turn 0 | writeini $char($1) skills CoverTarget none
 }
 clear_status {
   if ($readini($char($1), status, finalgetsuga) = yes) {
@@ -466,9 +512,14 @@ clear_status {
   writeini $char($1) Status drunk no | writeini $char($1) Status amnesia no | writeini $char($1) status paralysis no | writeini $char($1) status amnesia.timer 1 | writeini $char($1) status paralysis.timer 1 | writeini $char($1) status drunk.timer 1
   writeini $char($1) status zombie no | writeini $char($1) Status slow no | writeini $char($1) Status sleep no | writeini $char($1) Status stun no | writeini $char($1) Status MPRegenerating no | writeini $char($1) Status KiRegenerating no
   writeini $char($1) status boosted no  | writeini $char($1) status curse.timer 1 | writeini $char($1) status slow.timer 1 | writeini $char($1) status zombie.timer 1 | writeini $char($1) status FinalGetsuga no
-  writeini $char($1) status zombieregenerating no
+  writeini $char($1) status zombieregenerating no | writeini $char($1) status intimidate no | writeini $char($1) status revive no
   ; Monsters that are zombies need to be reset as zombies.
   if ($readini($char($1), monster, type) = zombie) {  writeini $char($1) status zombie yes | writeini $char($1) status zombieregenerating yes } 
+
+  if ($readini($char($1), equipment, accessory) = Fool's-Tablet) {
+    writeini $char($1) status poison yes
+    writeini $char($1) status poison.timer 0
+  }
 }
 
 
@@ -628,36 +679,36 @@ sort_mlist {
 
 hp_status { 
   set %current.hp $readini($char($1), Battle, HP) | set %max.hp $readini($char($1), BaseStats, HP) | set %hp.percent $calc((%current.hp / %max.hp)*100) |  unset %current.hp | unset %max.hp 
-  if (%hp.percent >= 100) { set %hstats 12Perfect | return }
-  if ((%hp.percent < 100) && (%hp.percent >= 80)) { set %hstats 10Decent | return }
-  if ((%hp.percent < 80) && (%hp.percent >= 70)) { set %hstats 10Good | return }
-  if ((%hp.percent < 70) && (%hp.percent >= 60)) { set %hstats 2Scratched | return }
-  if ((%hp.percent < 60) && (%hp.percent >= 50)) { set %hstats 2Bruised | return }
-  if ((%hp.percent < 50) && (%hp.percent >= 40)) { set %hstats 7Hurt | return }
-  if ((%hp.percent < 40) && (%hp.percent >= 30)) { set %hstats 7Injured | return }
-  if ((%hp.percent < 30) && (%hp.percent >= 15)) { set %hstats 5Injured Badly | return } 
-  if ((%hp.percent < 15) && (%hp.percent > 2)) { set %hstats 4Critical | return }
-  if ((%hp.percent <= 2) && (%hp.percent > 0)) { set %hstats 4Alive by a hair's bredth | return }
+  if (%hp.percent >= 100) { set %hstats $readini(translation.dat, health, perfect)  | return }
+  if ((%hp.percent < 100) && (%hp.percent >= 80)) { set %hstats $readini(translation.dat, health, decent) | return }
+  if ((%hp.percent < 80) && (%hp.percent >= 70)) { set %hstats $readini(translation.dat, health, good) | return }
+  if ((%hp.percent < 70) && (%hp.percent >= 60)) { set %hstats $readini(translation.dat, health, scratched)  | return }
+  if ((%hp.percent < 60) && (%hp.percent >= 50)) { set %hstats $readini(translation.dat, health, bruised) | return }
+  if ((%hp.percent < 50) && (%hp.percent >= 40)) { set %hstats $readini(translation.dat, health, hurt) | return }
+  if ((%hp.percent < 40) && (%hp.percent >= 30)) { set %hstats $readini(translation.dat, health, injured) | return }
+  if ((%hp.percent < 30) && (%hp.percent >= 15)) { set %hstats $readini(translation.dat, health, injuredbadly) | return } 
+  if ((%hp.percent < 15) && (%hp.percent > 2)) { set %hstats $readini(translation.dat, health, critical) | return }
+  if ((%hp.percent <= 2) && (%hp.percent > 0)) { set %hstats $readini(translation.dat, health, AliveHairBredth) | return }
   if (%hp.percent <= 0) { set %whoturn $1 |  next | halt }
 }
 
 hp_status_hpcommand { 
   set %current.hp $readini($char($1), Battle, HP) | set %max.hp $readini($char($1), BaseStats, HP) | set %hp.percent $calc((%current.hp / %max.hp)*100) |  unset %current.hp | unset %max.hp 
-  if (%hp.percent >= 100) { set %hstats 12Perfect | return }
-  if ((%hp.percent < 100) && (%hp.percent >= 80)) { set %hstats 10Decent | return }
-  if ((%hp.percent < 80) && (%hp.percent >= 70)) { set %hstats 10Good | return }
-  if ((%hp.percent < 70) && (%hp.percent >= 60)) { set %hstats 2Scratched | return }
-  if ((%hp.percent < 60) && (%hp.percent >= 50)) { set %hstats 2Bruised | return }
-  if ((%hp.percent < 50) && (%hp.percent >= 40)) { set %hstats 7Hurt | return }
-  if ((%hp.percent < 40) && (%hp.percent >= 30)) { set %hstats 7Injured | return }
-  if ((%hp.percent < 30) && (%hp.percent >= 15)) { set %hstats 5Injured Badly | return } 
-  if ((%hp.percent < 15) && (%hp.percent > 2)) { set %hstats 4Critical | return }
-  if ((%hp.percent <= 2) && (%hp.percent > 0)) { set %hstats 4Alive by a hair's bredth | return }
-  if (%hp.percent <= 0) { set %hstats 4Dead | return }
+  if (%hp.percent >= 100) { set %hstats $readini(translation.dat, health, perfect)  | return }
+  if ((%hp.percent < 100) && (%hp.percent >= 80)) { set %hstats $readini(translation.dat, health, decent) | return }
+  if ((%hp.percent < 80) && (%hp.percent >= 70)) { set %hstats $readini(translation.dat, health, good)  | return }
+  if ((%hp.percent < 70) && (%hp.percent >= 60)) { set %hstats $readini(translation.dat, health, scratched)  | return }
+  if ((%hp.percent < 60) && (%hp.percent >= 50)) { set %hstats $readini(translation.dat, health, bruised) | return }
+  if ((%hp.percent < 50) && (%hp.percent >= 40)) { set %hstats $readini(translation.dat, health, hurt) | return }
+  if ((%hp.percent < 40) && (%hp.percent >= 30)) { set %hstats $readini(translation.dat, health, injured) | return }
+  if ((%hp.percent < 30) && (%hp.percent >= 15)) { set %hstats $readini(translation.dat, health, injuredbadly) | return } 
+  if ((%hp.percent < 15) && (%hp.percent > 2)) { set %hstats $readini(translation.dat, health, critical) | return }
+  if ((%hp.percent <= 2) && (%hp.percent > 0)) { set %hstats $readini(translation.dat, health, AliveHairBredth) | return }
+  if (%hp.percent <= 0) { set %hstats $readini(translation.dat, health, Dead)  | return }
 }
 
 clear_variables { 
-  unset %bloodmoon |  unset %line | unset %file | unset %name | unset %curbat | unset %real.name
+  unset %bloodmoon |  unset %line | unset %file | unset %name | unset %curbat | unset %real.name | unset %attack.target
   unset %battle.type | unset %number.of.monsters.needed | unset %who
   unset %next.person | unset %status | unset %hstats | unset %baseredorbs | unset %hp.percent
   unset %monster.list | unset %monsters.total | unset %random.monster | unset %monster.name
@@ -691,6 +742,8 @@ clear_variables {
   unset %real.name | unset %weapon.name | unset %weapon.price | unset %steal.item
   unset %attacker.spd | unset %playerstyle.* | unset %stylepoints.to.add | unset %current.playerstyle.* | unset %styles
   unset %styles.list | unset %style.name | unset %style.level | unset %player.style.level | unset %style.price | unset %styles
+  unset %ai.skill | unset %weapon.name.used | unset %weapon.used.type | unset %quicksilver.used | unset %upgrade.list2
+  unset %upgrade.list3 | unset %ai.skilllist | unset %ai.type
 }
 
 skillhave.check {
@@ -739,4 +792,11 @@ reset_char {
   var %doublepunch.level $readini($char($1), techniques, doublepunch)
   remini $char($1) techniques
   writeini $char($1) techniques DoublePunch %doublepunch.level 
+
+  var %number.of.resets $readini($char($1), stuff, NumberOfResets)
+  if (%number.of.resets = $null) { var %number.of.resets 0 }
+  inc %number.of.resets 1 
+  writeini $char($1) stuff NumberOfResets %number.of.resets
+
+
 }

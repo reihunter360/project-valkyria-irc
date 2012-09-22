@@ -1,20 +1,20 @@
 [BaseStats]
-Hp=500
+Hp=1500
 Tp=50
-Str=20
-Def=20
+Str=25
+Def=25
 Int=20
-Spd=20
+Spd=30
 Name=Dante
 
 
 [Battle]
-Hp=500
+Hp=1500
 Tp=50
-Str=20
-Def=20
+Str=25
+Def=25
 Int=20
-Spd=20
+Spd=30
 Status=alive
 
 
@@ -109,7 +109,10 @@ mightystrike.on=off
 royalguard.on=on
 Swordsmanship=30
 royalguard=1
-
+Zen=5
+Resist-Charm=100
+Resist-Zombie=100
+Resist-Intimidate=100
 
 [Techniques]
 Stinger=50

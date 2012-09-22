@@ -9,12 +9,14 @@ ON 2:ACTION:goes *:#:{
 } 
 ON 2:ACTION:uses * * on *:#:{ 
   if ($is_charmed($nick) = true) { $set_chr_name($nick) | query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
-  $set_chr_name($nick) | $tech_cmd($nick , $3 , $5, $7) | halt 
+  $set_chr_name($nick) | set %attack.target $5 | $covercheck($5)
+  $tech_cmd($nick , $3 , %attack.target, $7) | halt 
 } 
 ON 50:TEXT:*uses * * on *:*:{ 
   if ($1 = uses) { halt }
   if ($5 != on) { halt }
-  else { $set_chr_name($1) | $tech_cmd($1, $4, $6) | halt }
+  else { $set_chr_name($1) | set %attack.target $4 | $covercheck($4)
+  $tech_cmd($1, $4, $6) | halt }
 }
 
 alias tech_cmd {
@@ -32,7 +34,7 @@ alias tech_cmd {
   if ($readini($char($1), techniques, $2) = $null) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, DoesNotKnowTech) | halt }
 
   if ($readini($char($1), Battle, Status) = dead) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, CanNotAttackWhileUnconcious)  | unset %real.name | halt }
-  if ($readini($char($1), Battle, Status) = dead) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, CanNotAttackSomeoneWhoIsDead) | unset %real.name | halt }
+  if ($readini($char($3), Battle, Status) = dead) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, CanNotAttackSomeoneWhoIsDead) | unset %real.name | halt }
   if ($readini($char($3), Battle, Status) = RunAway) { query %battlechan $readini(translation.dat, errors, CanNotAttackSomeoneWhoFled) | unset %real.name | halt } 
 
   $person_in_battle($3) | $checkchar($3) 
@@ -113,7 +115,6 @@ alias tech_cmd {
 alias tech.single {
   ; $3 = target
 
-
   var %tech.element $readini(techniques.db, $2, element)
   var %target.element.heal $readini($char($3), element, heal)
 
@@ -148,13 +149,13 @@ alias tech.stealPower {
     var %target.element.weak $readini($char($3), element, weakness)
     var %target.element.strong $readini($char($3), element, strong)
 
-    if (%tech.element isin %target.element.weak) { inc %tech.base $round($calc(%tech.base * 1.2),0)
+    if ($istok(%target.element.weak,%tech.element,46) = $true) { inc %tech.base $round($calc(%tech.base * 1.2),0)
       var %def.of.monster $readini($char($3), battle, def) | dec %def.of.monster 1 
 
       if (%def.of.monster < 1) { inc %def.of.monster 1 }
       writeini $char($3) battle def %def.of.monster
     }
-    if (%tech.element isin %target.element.strong) { %tech.base = $round($calc(%tech.base / 2), 0) 
+    if ($istok(%target.element.strong,%tech.element,46) = $true) { %tech.base = $round($calc(%tech.base / 2), 0) 
       var %str.of.monster $readini($char($3), battle, str) | inc %str.of.monster 1 | writeini $char($3) battle str %str.of.monster
     }
   }
@@ -241,15 +242,8 @@ alias tech.heal {
 
   if (%bloodmoon = on) { %attack.damage = $round($calc(%attack.damage / 2),0) }
 
-  ;If the target is a zombie, do damage instead of healing it.
-  if ($readini($char($3), status, zombie) = yes) { 
-    $deal_damage($1, $3, $2)
-    $display_damage($1, $3, tech, $2)
-    return
-  } 
-
-  ; If the target is a zombie, do damage instead of healing
-  if ($readini($char($3), monster, type) = undead) { 
+  var %mon.status $readini($char($3), status, zombie) | var %mon.type $readini($char($3), monster, type)
+  if ((%mon.status = yes) || (%mon.type = undead)) {
     $deal_damage($1, $3, $2)
     $display_damage($1, $3, tech, $2)
     return
@@ -317,7 +311,8 @@ alias do_aoe_heal {
     inc %number.of.hits 1
 
     ;If the target is a zombie, do damage instead of healing it.
-    if ($readini($char(%who.battle), status, zombie) = yes) { 
+    var %mon.status $readini($char(%who.battle), status, zombie) | var %mon.type $readini($char(%who.battle), monster, type)
+    if ((%mon.status = yes) || (%mon.type = undead)) {
       $deal_damage($1, %who.battle, $2)
       $display_damage($1, %who.battle, aoeheal, $2)
     } 
@@ -549,6 +544,9 @@ alias tech.status {
   set %resist.have resist- $+ %tech.status.type
   set %resist.skill $readini($char($3), skills, %resist.have)
 
+  $ribbon.accessory.check($3)
+
+
   if (%tech.status.type = charm) {
     if ($readini($char($3), status, zombie) != no) { set %resist.skill 100 }
     if ($readini($char($3), monster, type) = undead) { set %resist.skill 100 }
@@ -647,7 +645,6 @@ alias tech.aoe {
         else { 
           var %target.element.heal $readini($char(%who.battle), element, heal)
           if ($istok(%target.element.heal,%tech.element,46) = $true) { 
-            echo -a true
             $tech.heal($1, $2, $3, %absorb)
           }
           if ($istok(%target.element.heal,%tech.element,46) = $false) { 
@@ -684,21 +681,6 @@ alias display_aoedamage {
     query %battlechan $readini(translation.dat, tech, AbsorbHPBack)
   }
 
-
-  ; Did the person die?  If so, show the death message.
-  if ($readini($char($2), battle, HP) <= 0) { 
-    writeini $char($2) battle status dead 
-    writeini $char($2) battle hp 0
-    $check.clone.death($2)
-    $increase_death_tally($2)
-    if (%attack.damage > $readini($char($2), basestats, hp)) { set %overkill 7<<OVERKILL>> }
-    query %battlechan $readini(translation.dat, battle, EnemyDefeated)
-    if ($readini($char($1), info, flag) != monster) {
-      if (%battle.type = monster) {  $add.stylepoints($1, $2, mon_death, $3) | $add.style.orbbonus($1, monster) }
-      if (%battle.type = boss) { $add.stylepoints($1, $2, boss_death, $3) | $add.style.orbbonus($1, boss) }
-    }
-  }
-
   if ($readini($char($2), battle, HP) > 0) {
     ; Check to see if the monster can be staggered..  
     var %stagger.check $readini($char($2), info, CanStagger)
@@ -710,6 +692,18 @@ alias display_aoedamage {
     if (%stagger.amount.needed <= 0) { writeini $char($2) status staggered yes |  writeini $char($2) info CanStagger no
       query %battlechan $readini(translation.dat, status, StaggerHappens)
     }
+  }
+
+  ; Did the person die?  If so, show the death message.
+  if ($readini($char($2), battle, HP) <= 0) { 
+    writeini $char($2) battle status dead 
+    writeini $char($2) battle hp 0
+    $check.clone.death($2)
+    $increase_death_tally($2)
+    $achievement_check($2, SirDiesALot)
+    if (%attack.damage > $readini($char($2), basestats, hp)) { set %overkill 7<<OVERKILL>> }
+    query %battlechan $readini(translation.dat, battle, EnemyDefeated)
+    $goldorb_check($2) 
   }
 
   unset %attack.damage
@@ -736,6 +730,7 @@ alias calculate_damage_techs {
 
   ; Let's add in the base power of the weapon used..
   var %base.power.wpn $readini(weapons.db, $readini($char($1),weapons,equipped), basepower)
+
   if (%base.power.wpn = $null) { var %base.power 1 }
 
   var %weapon.base $readini($char($1), weapons, $2)
@@ -745,7 +740,7 @@ alias calculate_damage_techs {
   ; Does the user have a mastery in the weapon?  We can add a bonus as well.
   $mastery_check($1, $readini($char($1),weapons,equipped))
 
-  inc %base.power.wpn %mastery.bonus
+  inc %base.power.wpn $round($calc(%mastery.bonus / 2.5),0)
 
   set %current.playerstyle $readini($char($1), styles, equipped)
   set %current.playerstyle.level $readini($char($1), styles, %current.playerstyle)
@@ -768,13 +763,13 @@ alias calculate_damage_techs {
     var %target.element.weak $readini($char($3), element, weakness)
     var %target.element.strong $readini($char($3), element, strong)
 
-    if (%tech.element isin %target.element.weak) { inc %tech.base $round($calc(%tech.base * 1.2),0)
-      var %def.of.monster $readini($char($3), battle, def) | dec %def.of.monster 1 
+    if ($istok(%target.element.weak,%tech.element,46) = $true) { inc %tech.base $round($calc(%tech.base * 1.2),0)
+      var %def.of.monster $readini($char($3), battle, def) | dec %def.of.monster 1
 
       if (%def.of.monster < 1) { inc %def.of.monster 1 }
       writeini $char($3) battle def %def.of.monster
     }
-    if (%tech.element isin %target.element.strong) { %tech.base = $round($calc(%tech.base / 2), 0) 
+    if ($istok(%target.element.strong,%tech.element,46) = $true) { %tech.base = $round($calc(%tech.base / 2), 0) 
       var %str.of.monster $readini($char($3), battle, str) | inc %str.of.monster 1 | writeini $char($3) battle str %str.of.monster
     }
   }
@@ -804,15 +799,7 @@ alias calculate_damage_techs {
     var %int.bonus $round($calc($readini($char($3), battle, int) / 2),0)
     inc  %enemy.defense %int.bonus
 
-    set %current.playerstyle $readini($char($3), styles, equipped)
-    set %current.playerstyle.level $readini($char($3), styles, %current.playerstyle)
-    ; Is the target using the Guardian style?  If so, we need to decrease the damage done.
-    if (%current.playerstyle = Guardian) { 
-      var %block.value $calc(%current.playerstyle.level / 15.5)
-      if (%block.value > .60) { var %block.value .60 }
-      var %amount.to.block $round($calc(%attack.damage * %block.value),0)
-      dec %attack.damage %amount.to.block
-    }
+    $guardian_style_check($3)
 
     ; And let's get the final attack damage..
     dec %attack.damage %enemy.defense
@@ -875,12 +862,12 @@ alias calculate_damage_suicide {
     var %target.element.weak $readini($char($3), element, weakness)
     var %target.element.strong $readini($char($3), element, strong)
 
-    if (%tech.element isin %target.element.weak) {  inc %tech.base $round($calc(%tech.base * 1.5),0)
+    if ($istok(%target.element.weak,%tech.element,46) = $true) { inc %tech.base $round($calc(%tech.base * 1.5),0)
       var %def.of.monster $readini($char($3), battle, def) | dec %def.of.monster 1 
       if (%def.of.monster < 1) { inc %def.of.monster 1 }
       writeini $char($3) battle def %def.of.monster
     }
-    if (%tech.element isin %target.element.strong) { %tech.base = $round($calc(%tech.base / 2), 0) 
+    if ($istok(%target.element.strong,%tech.element,46) = $true) { %tech.base = $round($calc(%tech.base / 2), 0) 
       var %str.of.monster $readini($char($3), battle, str) | inc %str.of.monster 1 | writeini $char($3) battle str %str.of.monster
     }
   }
@@ -908,11 +895,11 @@ alias calculate_damage_suicide {
   var %current.flag $readini($char($1), info, flag)
   if (%current.flag = $null) {  set %attack.damage $round($calc(%attack.damage / 10),0)
     if (%attack.damage <= 0) { set %attack.damage 1 }
-    if (%attack.damage >= 1000) { set %attack.damage 500 }
+    if (%attack.damage >= 500) { set %attack.damage 500 }
   }
   if (%current.flag = npc) {  set %attack.damage $round($calc(%attack.damage / 10),0)
     if (%attack.damage <= 0) { set %attack.damage 1 }
-    if (%attack.damage >= 1000) { set %attack.damage 750 }
+    if (%attack.damage >= 750) { set %attack.damage 750 }
   }
 
   ; Now we're ready to calculate the enemy's defense..  
@@ -952,25 +939,28 @@ alias display_Statusdamage {
   $calculate.stylepoints($1)
   query %battlechan $readini(translation.dat, battle, AttackDidDamage)
 
+  ; If the person isn't dead, display the status message.
+  if ($readini($char($2), battle, hp) >= 1) {  
+    var %utsusemi.check $readini($char($2), skills, utsusemi.on)
+    if (%utsusemi.check != on) { query %battlechan %statusmessage.display } 
+  }
+
   ; Did the person die?  If so, show the death message.
   if ($readini($char($2), battle, HP) <= 0) { 
     writeini $char($2) battle status dead 
     writeini $char($2) battle hp 0
     $check.clone.death($2)
     $increase_death_tally($2)
+    $achievement_check($2, SirDiesALot)
     if (%attack.damage > $readini($char($2), basestats, hp)) { set %overkill 7<<OVERKILL>> }
     query %battlechan $readini(translation.dat, battle, EnemyDefeated)
+    $goldorb_check($2) 
     if ($readini($char($1), info, flag) != monster) {
       if (%battle.type = monster) {  $add.stylepoints($1, $2, mon_death, $3) | $add.style.orbbonus($1, monster) }
       if (%battle.type = boss) { $add.stylepoints($1, $2, boss_death, $3) | $add.style.orbbonus($1, boss) }
     }
   }
 
-  ; If the person isn't dead, display the status message.
-  if ($readini($char($2), battle, hp) >= 1) {  
-    var %utsusemi.check $readini($char($2), skills, utsusemi.on)
-    if (%utsusemi.check != on) { query %battlechan %statusmessage.display } 
-  }
   unset %statusmessage.display
   return 
 }
@@ -1004,6 +994,12 @@ alias calculate_damage_magic {
     writeini $char($1) skills elementalseal.on off 
     var %enhance.value $readini($char($1), skills, ElementalSeal) * .110
     inc %magic.bonus.modifier %enhance.value
+  }
+
+  ;  Check for the wizard's amulet accessory
+  if ($readini($char($1), equipment, accessory) = wizard's-amulet) {
+    var %accessory.amount $readini(items.db, wizard's-amulet, amount)
+    inc %magic.bonus.modifier %accessory.amount
   }
 
   ; Elementals are weak to magic
@@ -1062,4 +1058,15 @@ alias magic.effect.check {
   if (%spell.element  = ice) { writeini $char($2) Status frozen yes | set %element.desc $readini(translation.dat, element, ice) | return }
   if (%spell.element  = lightning) { writeini $char($2) Status shock yes | set %element.desc $readini(translation.dat, element, lightning) | return }
   if (%spell.element  = earth) { writeini $char($2) Status earth-quake yes | set %element.desc $readini(translation.dat, element, earth) | return }
+}
+
+
+; ======================
+; Ribbon accessory check
+; ======================
+alias ribbon.accessory.check { 
+  ;  Check for the miser ring accessory
+  if ($readini($char($1), equipment, accessory) = ribbon) {
+    set %resist.skill 100
+  }
 }

@@ -1,5 +1,5 @@
 [BaseStats]
-Hp=500
+Hp=1500
 Tp=50
 Str=15
 Def=20
@@ -9,7 +9,7 @@ Name=Mario
 
 
 [Battle]
-Hp=500
+Hp=1500
 Tp=50
 Str=15
 Def=20
@@ -108,15 +108,22 @@ manawall.on=off
 elementalseal.on=off
 mightystrike.on=off
 MartialArts=50
-
-
+Resist-Charm=100
+Resist-Zombie=100
+Resist-Intimidate=100
+Zen=5
 
 
 [Techniques]
 Jump=40
 StarPower=50
-FireFlower=10
+FireFlower=20
 
 
 [Item_Amount]
 
+
+[Styles]
+Equipped=WeaponMaster
+WeaponMaster=2
+WeaponMasterXP=1

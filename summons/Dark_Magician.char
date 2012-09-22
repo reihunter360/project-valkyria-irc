@@ -1,20 +1,20 @@
 [BaseStats]
 Hp=500
 Tp=60
-Str=10
-Def=10
-Int=15
-Spd=10
+Str=12
+Def=12
+Int=20
+Spd=12
 Name=Dark Magician
 
 
 [Battle]
 Hp=500
 Tp=60
-Str=10
-Def=10
-Int=15
-Spd=10
+Str=12
+Def=12
+Int=20
+Spd=12
 Status=alive
 
 
@@ -98,11 +98,26 @@ BlackMagic=20
 
 [Skills]
 Resist-Charm=100
-Wizardry=20
-FireIV=20
+Resist-Zombie=100
+Resist-Intimidate=100
+Resist=Stun=100
+Resist-Amnesia=100
+Zen=5
+Wizardry=25
+ClearMind=2
+ManaWall=1
+manawall.on=off
+ElementalSeal=1
 
 [Techniques]
-BlackMagicAttack=12
-thousandKnives=14
+BlackMagicAttack=20
+ThousandKnives=14
+FireIV=15
 
 [Item_Amount]
+
+
+[Styles]
+Equipped=SpellMaster
+SpellMaster=2
+SpellMAsterXP=1

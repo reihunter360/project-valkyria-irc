@@ -1,17 +1,17 @@
 [BaseStats]
-Hp=55
-Tp=30
+Hp=65
+Tp=70
 Str=15
-Def=6
+Def=9
 Int=9
 Spd=7
 Name=Bloody Bones
 
 [Battle]
-Hp=55
-Tp=30
+Hp=65
+Tp=70
 Str=15
-Def=6
+Def=9
 Int=9
 Spd=7
 Status=alive
@@ -98,7 +98,7 @@ Strong=Sword.Gun.Rifle.Katana.Wand.Spear.Scythe.Glyph.GreatSword
 
 
 [Techniques]
-BloodSaber=25
+BloodSaber=45
 BloodSlash=25
 HorrorCloud=25
 FireIV=10
@@ -113,4 +113,5 @@ BlizzardIV=10
 
 [Element]
 Weakness=light.fire
-Strong=dark.ice
+Strong=ice
+Heal=dark

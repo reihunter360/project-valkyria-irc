@@ -99,6 +99,6 @@ Tentacle=15
 
 
 [Element]
-Weakness=ice.lightning.light
+Weakness=ice.lightning
 Strong=dark
 Heal=water

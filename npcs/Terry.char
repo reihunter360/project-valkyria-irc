@@ -1,20 +1,20 @@
 [BaseStats]
-Hp=500
+Hp=1500
 Tp=60
-Str=12
-Def=10
-Int=10
-Spd=10
+Str=30
+Def=25
+Int=20
+Spd=30
 Name=Terry Bogard
 
 
 [Battle]
-Hp=500
+Hp=1500
 Tp=60
-Str=12
-Def=10
-Int=10
-Spd=10
+Str=30
+Def=25
+Int=20
+Spd=30
 Status=alive
 
 
@@ -94,20 +94,28 @@ zombie.timer=1
 
 [Weapons]
 Equipped=BogardGloves
-BogardGloves=15
+BogardGloves=50
 
 [Skills]
 Resist-Charm=100
 Resist-Zombie=100
-MartialArts=15
+Resist-Intimidate=100
+Zen=5
+MightyStrike=1
+MartialArts=30
 
 [Techniques]
-PowerWave=15
-BurnKnuckle=15
-RisingTackle=15
-PowerGeyser=15
-BusterWolf=15
+PowerWave=50
+BurnKnuckle=50
+RisingTackle=50
+PowerGeyser=50
+BusterWolf=50
 
 
 [Item_Amount]
 
+
+[Styles]
+Equipped=WeaponMaster
+WeaponMaster=2
+WeaponMasterXP=1

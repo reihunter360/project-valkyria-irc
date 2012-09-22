@@ -1,6 +1,6 @@
 [BaseStats]
-Hp=400
-Tp=150
+Hp=1800
+Tp=250
 Str=30
 Def=40
 Int=60
@@ -9,8 +9,8 @@ Name=Nauthima Tiranadel
 
 
 [Battle]
-Hp=400
-Tp=150
+Hp=1800
+Tp=250
 Str=30
 Def=40
 Int=60
@@ -30,9 +30,14 @@ Percent=0
 [Descriptions]
 Hused=1
 Dused=1
-Char=is a clone of an Elven Goddess, who has tremendous magical might. She wears a Red Mage outfit and wields a large staff.
-Rage=screams in rage 
-BossQuote=Let's have some fun!
+Char=is a clone of an Elven Goddess, who has tremendous magical might. She wears the Red Mage AF armor and wields a large staff along with a sword on the left side of her waist.
+Rage=narrows her eyes as her blue and red aura flares wildly around herself as she starts to get angry. "I'm done playing with you now."
+BossQuote=Yahoo~!
+Speed=chants in Elvish and a red clock appears above Nauthima. A moment later it explodes and covers Nauthima with red stars that causes her speed to increase.
+RoyalGuard=chants in Elvish and a moment later, Nauthima is covered with a blue barrier that blocks all melee attacks.
+ManaWall=chants in Elvish and a moment later, Nauthima is covered with a green barrier that blocks all magic attacks.
+Utsusemi=chants in Elvish and a moment later, Nauthima appears to be a little blurry when you look directly at her..
+
 
 
 [Stuff]
@@ -56,7 +61,7 @@ Created=N/a
 [Status]
 Poison=no
 HeavyPoison=no
-Regenerating=no
+Regenerating=yes
 Blind=no
 Frozen=no
 Shock=no
@@ -100,17 +105,28 @@ Equipped=Black_Goddess_Staff
 Black_Goddess_Staff=50
 
 [Skills]
+Speed=20
+Utsusemi=1
+ManaWall=1
+RoyalGuard=1
+royalguard.on=off
 manawall.on=on
 elementalseal.on=off
 ElementalSeal=1
-Wizardy=30
-Swordmaster=25
-MartialArts=15
+Wizardy=50
+Swordmaster=35
+MartialArts=25
 Resist-Paralysis=10
-Resist-Amnesia=10
+Resist-Amnesia=100
 Resist-Charm=100
 Resist-Zombie=100
+Resist-Intimidate=100
+Resist-Slow=100
+Resist-Stop=100
+Resist-Curse=100
 Resist-Stun=10
+Zen=5
+ClearMind=3
 
 [Techniques]
 AeroV=50
@@ -120,7 +136,7 @@ FireV=50
 Composure=50
 
 [Item_Amount]
-pizza=1
+
 
 [Stuff]
 Drops=FireDragonWine
@@ -128,3 +144,9 @@ Drops=FireDragonWine
 [Element]
 Weakness=Dark
 Strong=Light
+Heal=Light
+
+[Styles]
+Equipped=SpellMaster
+SpellMaster=2
+SpellMasterXP=1

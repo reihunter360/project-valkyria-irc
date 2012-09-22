@@ -1,5 +1,5 @@
 [BaseStats]
-Hp=200
+Hp=300
 Tp=50
 Str=10
 Def=10
@@ -9,7 +9,7 @@ Name=Don Kanonji
 
 
 [Battle]
-Hp=200
+Hp=300
 Tp=50
 Str=10
 Def=10
@@ -112,5 +112,3 @@ royalguard.on=off
 
 
 [Item_Amount]
-potion=1
-DustyWing=0

@@ -1,20 +1,20 @@
 [BaseStats]
-Hp=500
-Tp=60
-Str=12
-Def=10
-Int=15
-Spd=15
+Hp=1700
+Tp=160
+Str=22
+Def=20
+Int=35
+Spd=35
 Name=Rose
 
 
 [Battle]
-Hp=500
-Tp=60
-Str=12
-Def=10
-Int=15
-Spd=15
+Hp=1700
+Tp=160
+Str=22
+Def=20
+Int=35
+Spd=35
 Status=alive
 
 
@@ -94,21 +94,33 @@ zombie.timer=1
 
 [Weapons]
 Equipped=DarknessDragoon
-DarknessDragoon=17
+DarknessDragoon=50
 
 [Skills]
 Resist-Charm=100
 Resist-Zombie=100
-SwordMaster=20
-Wizardy=20
+Resist-Intimidate=100
+Resist-Amnesia=100
+Resist-Curse=100
+SwordMaster=35
+Wizardy=40
+Zen=5
+ClearMind=3
+ElementalSeal=1
+ShadowCopy=1
 
 [Techniques]
-WhipSmack=17
-DemonsDance=17
-AstralDrain=17
-DeathDimension=17
-DarkDragoon=17
+WhipSmack=50
+DemonsDance=50
+AstralDrain=50
+DeathDimension=50
+DarkDragoon=50
 
 
 [Item_Amount]
 
+
+[Styles]
+Equipped=WeaponMaster
+WeaponMaster=2
+WeaponMasterXP=1

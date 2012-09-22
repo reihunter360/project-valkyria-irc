@@ -1,6 +1,6 @@
 [BaseStats]
 Hp=400
-Tp=100
+Tp=120
 Str=50
 Def=40
 Int=30
@@ -30,16 +30,16 @@ Percent=0
 [Descriptions]
 Hused=1
 Dused=1
-Char=is a clone of a mighty Elven goddess, mimicing her full power. She wears the usual Swordmaster armor has a sword on the left side of her waist.
-Rage=screams in rage 
-BossQuote=You are not worthy.
+Char=is a clone of a mighty Elven goddess, nearly mimicing her full power. She wears the usual Swordmaster armor has a sword on the left side of her waist.
+Rage=simply narrows her eyes and glares at everyone.
+BossQuote=You must prove yourselves before moving forward.
 
 
 [Stuff]
 RedOrbs=0
 BlackOrbs=1
 ShopLevel=1.0
-Drops=ElvishMedallian.Ambrosia
+Drops=ElvishMedallian.Ambrosia.Superpotion.Miser-Ring
 
 [Monster]
 Type=
@@ -92,8 +92,8 @@ Equipped=Silver_Goddess_Sword
 Silver_Goddess_Sword=55
 
 [Skills]
-Swordmaster=30
-MartialArts=25
+Swordmaster=35
+MartialArts=30
 Resist-Paralysis=10
 Resist-Amnesia=10
 Resist-Zombie=100
@@ -102,15 +102,19 @@ Resist-Stun=10
 Resist-Blind=10
 RoyalGuard=1
 royalguard.on=on
+Resist-Intimidate=100
 
 [Techniques]
-TwinSlice=55
-BiteOfLightning=55
-BladeBeam=55
-HyperTwinSlice=55
-WiseReflection=55
+TwinSlice=50
+BiteOfLightning=50
+BladeBeam=50
+HyperTwinSlice=50
+WiseReflection=50
 
-
+[Styles]
+Equipped=Weaponmaster
+Weaponmaster=3
+WeaponmasterXP=1
 
 [Element]
 Weakness=Dark

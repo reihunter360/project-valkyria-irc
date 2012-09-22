@@ -1,20 +1,20 @@
 [BaseStats]
-Hp=400
+Hp=1400
 Tp=80
-Str=15
-Def=15
-Int=15
-Spd=15
+Str=25
+Def=25
+Int=25
+Spd=25
 Name=Alucard
 
 
 [Battle]
-Hp=400
+Hp=1400
 Tp=80
-Str=15
-Def=15
-Int=15
-Spd=15
+Str=25
+Def=25
+Int=25
+Spd=25
 Status=alive
 
 
@@ -94,21 +94,28 @@ zombie.timer=1
 
 [Weapons]
 Equipped=AlucardSword
-AlucardSword=30
+AlucardSword=50
 
 [Skills]
 Swordmaster=30
+Wizardy=30
 Resist-Charm=100
 Resist-Zombie=100
-
+ClearMind=3
+Zen=5
+Resist-Intimidate=100
 
 [Techniques]
-Requiescat=30
-ChantduCygne=30
-UrielBlade=30
-SoulSteal=30
-TetraSpirit=30
+Requiescat=50
+ChantduCygne=50
+UrielBlade=50
+SoulSteal=50
+TetraSpirit=50
 
 
 [Item_Amount]
 
+[Styles]
+Equipped=WeaponMaster
+WeaponMaster=2
+WeaponMasterXP=1

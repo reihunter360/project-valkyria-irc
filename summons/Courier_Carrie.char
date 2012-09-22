@@ -82,15 +82,21 @@ MPRegenerating=no
 
 [Weapons]
 Equipped=Pinchers
-Pinchers=10
+Pinchers=15
 
 [Skills]
-
+Resist-Charm=100
+Resist-Zombie=100
+Resist-Intimidate=100
+Resist=Stun=100
+Resist-Amnesia=100
+Zen=5
+MartialArts=20
 
 
 [Techniques]
-BubbleShower=10
-BigScissors=10
+BubbleShower=15
+BigScissors=15
 
 [Item_Amount]
 
@@ -98,3 +104,9 @@ BigScissors=10
 [Element]
 Weakness=ice.lightning
 Strong=water
+
+
+[Styles]
+Equipped=Guardian
+Guardian=2
+GuardianXP=1

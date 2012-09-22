@@ -97,8 +97,14 @@ Equipped=DragonSword
 DragonSword=20
 
 [Skills]
-Swordmaster=20
-MartialArts=20
+Swordmaster=30
+MartialArts=30
+Resist-Charm=100
+Resist-Zombie=100
+Resist-Intimidate=100
+Resist=Stun=100
+Resist-Amnesia=100
+Zen=5
 
 [Techniques]
 HardSlash=20
@@ -106,3 +112,9 @@ PowerSlash=20
 Resolution=20
 
 [Item_Amount]
+
+
+[Styles]
+Equipped=WeaponMaster
+WeaponMaster=2
+WeaponMasterXP=1

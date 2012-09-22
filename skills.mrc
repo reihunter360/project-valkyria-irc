@@ -7,7 +7,7 @@
 ;=================
 on 2:TEXT:!speed*:*: { 
   if ($is_charmed($nick) = true) { query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
-  if ((no-skill isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan 4 $+ %real.name is not allowed to do that action due to the current battle conditions! | halt }
+  if ((no-skill isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan $readini(translation.dat, battle, NotAllowedBattleCondition) | halt }
   $amnesia.check($nick, skill) 
   $checkchar($nick)
   if ($skillhave.check($nick, speed) = false) { $set_chr_name($nick) | query %battlechan $readini(translation.dat, errors, DoNotHaveSkill) | halt }
@@ -43,7 +43,7 @@ on 2:TEXT:!elementalseal*:*: { $skill.elementalseal($nick) }
 
 alias skill.elementalseal {
   if ($is_charmed($1) = true) { query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
-  if ((no-skill isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan 4 $+ %real.name is not allowed to do that action due to the current battle conditions! | halt }
+  if ((no-skill isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan $readini(translation.dat, battle, NotAllowedBattleCondition)  | halt }
   $amnesia.check($1, skill) 
 
   $checkchar($1)
@@ -85,7 +85,7 @@ on 2:TEXT:!mightystrike*:*: { $skill.mightystrike($nick) }
 
 alias skill.mightystrike {
   if ($is_charmed($1) = true) { query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
-  if ((no-skill isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan 4 $+ %real.name is not allowed to do that action due to the current battle conditions! | halt }
+  if ((no-skill isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan $readini(translation.dat, battle, NotAllowedBattleCondition) | halt }
   $amnesia.check($1, skill) 
 
   $checkchar($1)
@@ -126,7 +126,7 @@ on 2:TEXT:!manawall*:*: { $skill.manawall($nick) }
 
 alias skill.manawall {
   if ($is_charmed($1) = true) { query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
-  if ((no-skill isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan 4 $+ %real.name is not allowed to do that action due to the current battle conditions! | halt }
+  if ((no-skill isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan $readini(translation.dat, battle, NotAllowedBattleCondition) | halt }
   $amnesia.check($1, skill) 
 
   $checkchar($1)
@@ -167,7 +167,7 @@ on 2:TEXT:!royalguard*:*: { $skill.royalguard($nick) }
 
 alias skill.royalguard {
   if ($is_charmed($1) = true) { query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
-  if ((no-skill isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan 4 $+ %real.name is not allowed to do that action due to the current battle conditions! | halt }
+  if ((no-skill isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan $readini(translation.dat, battle, NotAllowedBattleCondition)   | halt }
   $amnesia.check($1, skill) 
 
   $checkchar($1)
@@ -209,7 +209,7 @@ on 2:TEXT:!utsusemi*:*: { $skill.utsusemi($nick) }
 
 alias skill.utsusemi {
   if ($is_charmed($1) = true) { query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
-  if ((no-skill isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan 4 $+ %real.name is not allowed to do that action due to the current battle conditions! | halt }
+  if ((no-skill isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan $readini(translation.dat, battle, NotAllowedBattleCondition)   | halt }
   $amnesia.check($1, skill) 
 
   $checkchar($1)
@@ -258,7 +258,7 @@ on 2:TEXT:!fullbring*:*: { $skill.fullbring($nick, $2) }
 alias skill.fullbring {
   if ($is_charmed($1) = true) { query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
   $set_chr_name($1)
-  if ((no-item isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan 4 $+ %real.name is not allowed to do that action due to the current battle conditions! | halt }
+  if ((no-item isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan $readini(translation.dat, battle, NotAllowedBattleCondition)   | halt }
 
   set %check.item $readini($char($1), Item_Amount, $2) 
   if ((%check.item <= 0) || (%check.item = $null)) { $set_chr_name($1) | query %battlechan 4Error: %real.name does not have that item. | halt }
@@ -439,6 +439,8 @@ alias fullbring.aoestatus {
         set %resist.have resist- $+ %fullbring.status
         set %resist.skill $readini($char(%who.battle), skills, %resist.have)
 
+        $ribbon.accessory.check(%who.battle)
+
         if (%status.type = charm) {
           if ($readini($char(%who.battle), status, zombie) != no) { set %resist.skill 100 }
           if ($readini($char(%who.battle), monster, type) = undead) { set %resist.skill 100 }
@@ -527,6 +529,7 @@ alias fullbring.aoetp {
   ; $2 = item
 
   unset %who.battle | set %number.of.hits 0
+  $set_chr_name($1) | set %user %real.name
 
   ; Display the item description
   $set_chr_name($1) | set %user %real.name
@@ -536,20 +539,30 @@ alias fullbring.aoetp {
   var %battletxt.lines $lines(battle.txt) | var %battletxt.current.line 1 
   while (%battletxt.current.line <= %battletxt.lines) { 
     set %who.battle $read -l $+ %battletxt.current.line battle.txt
-    if ($readini($char(%who.battle), info, flag) != monster) { inc %battletxt.current.line }
-    else { 
+    if ($readini($char(%who.battle), info, flag) != monster) { 
       inc %number.of.hits 1
       var %current.status $readini($char(%who.battle), battle, status)
-      if ((%current.status = dead) || (%current.status = runaway)) { inc %battletxt.current.line 1 }
-      else { 
-        $item.tp($1, %who.battle, $2)
+      if ((%current.status != dead) && (%current.status != runaway)) {  
 
-        inc %battletxt.current.line 1 
-      } 
+        $set_chr_name(%who.battle) | set %enemy %real.name
+
+        ; calculate amount
+        var %tp.amount $readini(items.db, $3, fullbringamount)
+
+        ; add TP to the target
+        var %tp.current $readini($char(%who.battle), battle, tp) 
+        inc %tp.current %tp.amount 
+
+        if (%tp.current >= $readini($char(%who.battle), basestats, tp)) { writeini $char(%who.battle) battle tp $readini($char(%who.battle), basestats, tp) }
+        else { writeini $char(%who.battle) battle tp %tp.current }
+
+        query %battlechan 3 $+ %enemy has regained %tp.amount TP!
+      }
     }
+    inc %battletxt.current.line 1 
   }
 
-  set %timer.time $calc(%number.of.hits * 1) 
+  set %timer.time $calc(%number.of.hits * .5) 
 
   /.timerCheckForDoubleSleep $+ $rand(a,z) $+ $rand(1,1000) 1 %timer.time /check_for_double_turn $1
   halt
@@ -565,7 +578,7 @@ on 2:TEXT:!sugitekai*:*: { $skill.doubleturn($nick) }
 
 alias skill.doubleturn {
   if ($is_charmed($1) = true) { query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
-  if ((no-skill isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan 4 $+ %real.name is not allowed to do that action due to the current battle conditions! | halt }
+  if ((no-skill isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan $readini(translation.dat, battle, NotAllowedBattleCondition)   | halt }
   $amnesia.check($1, skill) 
 
   $checkchar($1)
@@ -605,7 +618,7 @@ on 2:TEXT:!meditate*:*: { $skill.meditate($nick) }
 
 alias skill.meditate {
   if ($is_charmed($1) = true) { query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
-  if ((no-skill isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan 4 $+ %real.name is not allowed to do that action due to the current battle conditions! | halt }
+  if ((no-skill isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan $readini(translation.dat, battle, NotAllowedBattleCondition)   | halt }
   $amnesia.check($1, skill) 
 
   $checkchar($1)
@@ -656,7 +669,7 @@ on 2:TEXT:!conserveTP*:*: { $skill.conserveTP($nick) }
 
 alias skill.conserveTP {
   if ($is_charmed($1) = true) { query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
-  if ((no-skill isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan 4 $+ %real.name is not allowed to do that action due to the current battle conditions! | halt }
+  if ((no-skill isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan $readini(translation.dat, battle, NotAllowedBattleCondition)   | halt }
   $amnesia.check($1, skill) 
 
   $checkchar($1)
@@ -686,7 +699,7 @@ alias skill.conserveTP {
     if (%battleis = on)  { $check_for_double_turn($1) }
   }
 
-  else { query %battlechan $readini(translation.dat, skill, UnableToUseskillAgainSoSoon)  | .msg $1 3You still have $calc($readini(skills.db, ConserveTP, cooldown) - %time.difference) seconds before you can use !conserve TP again | halt }
+  else { $set_chr_name($1) | query %battlechan $readini(translation.dat, skill, UnableToUseskillAgainSoSoon)  | .msg $1 3You still have $calc($readini(skills.db, ConserveTP, cooldown) - %time.difference) seconds before you can use !conserve TP again | halt }
 }
 
 
@@ -698,7 +711,7 @@ on 2:TEXT:!blood boost*:*: { $skill.bloodboost($nick) }
 
 alias skill.bloodboost {
   if ($is_charmed($1) = true) { query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
-  if ((no-skill isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan 4 $+ %real.name is not allowed to do that action due to the current battle conditions! | halt }
+  if ((no-skill isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan $readini(translation.dat, battle, NotAllowedBattleCondition)   | halt }
   $amnesia.check($1, skill) 
 
   $checkchar($1)
@@ -759,7 +772,7 @@ on 2:TEXT:!drain samba*:*: { $skill.drainsamba($nick) }
 
 alias skill.drainsamba {
   if ($is_charmed($1) = true) { query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
-  if ((no-skill isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan 4 $+ %real.name is not allowed to do that action due to the current battle conditions! | halt }
+  if ((no-skill isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan $readini(translation.dat, battle, NotAllowedBattleCondition)   | halt }
   $amnesia.check($1, skill) 
 
   $checkchar($1)
@@ -901,7 +914,7 @@ on 2:TEXT:!kikouheni*:*: { $skill.kikouheni($nick, $2) }
 
 alias skill.kikouheni {
   if ($is_charmed($1) = true) { query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
-  if (no-skill isin %battleconditions) { query %battlechan 4 $+ %real.name is not allowed to do that action due to the current battle conditions! | halt }
+  if (no-skill isin %battleconditions) { query %battlechan $readini(translation.dat, battle, NotAllowedBattleCondition)   | halt }
   $amnesia.check($1, skill) 
 
   $checkchar($1)
@@ -947,7 +960,7 @@ on 2:TEXT:!shadow copy*:*: { $skill.clone($nick) }
 
 alias skill.clone {
   if ($is_charmed($1) = true) { query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
-  if (no-skill isin %battleconditions) { query %battlechan 4 $+ %real.name is not allowed to do that action due to the current battle conditions! | halt }
+  if (no-skill isin %battleconditions) { query %battlechan $readini(translation.dat, battle, NotAllowedBattleCondition)   | halt }
   $amnesia.check($1, skill) 
 
   $checkchar($1)
@@ -1015,7 +1028,7 @@ on 2:TEXT:!steal*:*: { $skill.steal($nick, $2, !steal) }
 
 alias skill.steal {
   if ($is_charmed($1) = true) { query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
-  if (no-skill isin %battleconditions) { query %battlechan 4 $+ %real.name is not allowed to do that action due to the current battle conditions! | halt }
+  if (no-skill isin %battleconditions) { query %battlechan $readini(translation.dat, battle, NotAllowedBattleCondition)   | halt }
   $amnesia.check($1, skill) 
 
   $checkchar($1)
@@ -1025,7 +1038,7 @@ alias skill.steal {
   $person_in_battle($2)
 
   var %target.flag $readini($char($2), info, flag)
-  if (%target.flag != monster) { query %battlechan 4 $+ %real.name can only steal from monsters! | halt }
+  if (%target.flag != monster) { $set_chr_name($1) | query %battlechan 4 $+ %real.name can only steal from monsters! | halt }
   if ($readini($char($1), Battle, Status) = dead) { $set_chr_name($1) | query %battlechan 4 $+ %real.name cannot steal while unconcious! | unset %real.name | halt }
   if ($readini($char($2), Battle, Status) = dead) { $set_chr_name($1) | query %battlechan 4 $+ %real.name cannot steal from someone who is dead! | unset %real.name | halt }
   if ($readini($char($2), Battle, Status) = RunAway) { query %battlechan 4 $+ %real.name cannot steal from $set_chr_name($2) %real.name $+ , because %real.name has run away from the fight! | unset %real.name | halt } 
@@ -1053,28 +1066,31 @@ alias skill.steal {
 
     if (%bloodmoon = on) { inc %steal.chance 25 }
 
+    if ($readini($char($1), equipment, accessory) = miser-ring) {
+      var %accessory.amount $readini(items.db, thief-ring, amount)
+      inc %steal.chance %accessory.amount
+    }
+
+
     var %current.playerstyle $readini($char($1), styles, equipped)
     if (%current.playerstyle = Trickster) { inc %steal.chance $rand(5,10) }
 
     if (%steal.chance >= 85) {
-; CHANGES HERE FOR \/ STEAL
-      if ($readini($char($2), Info, flag) = monster) { var %steal.pool orbs.vitalstar.orbs.potion.Holy_Water.Pizza.PotRoast.Ramen.Cavier.BisonDollar.DragonMeat.SuperMushroom.FireDragonWine.Ambrosia.FoieGras.KnowledgeSource.SoulPainting.FishAndChips.Slurm | var %steal.orb.amount $rand(8000,14000) }
-      if ($readini($char($2), Info, Flag) = boss) { var %steal.pool orbs.senzu.Red_Fang.Thunder_Orb.Pizza.PotRoast.Ramen.Cavier.BisonDollar.DragonMeat.SuperMushroom.FireDragonWine.Ambrosia.FoieGras.KnowledgeSource.SoulPainting.FishAndChips.Slurm.DarkMagicianCard.BusterBladerCard.BlueEyesCard.FishOilBroth.ElvishMedallian | var %steal.orb.amount $rand(12000,30000) }
-      if ($2 = orb_fountain) { var %steal.pool orbs.orbs.orbs.orbs | var %steal.orb.amount $rand(8000,15000) }
-
-      if (%bloodmoon = on) { var %steal.pool orbs.orbs.orbs.orbs | var %steal.orb.amount $rand(10000,28000) }
-
-      set %total.items $numtok(%steal.pool, 46)
-      set %random.item $rand(1,%total.items)
-      set %steal.item $gettok(%steal.pool,%random.item,46)
-; Stealing Counter
       var %stolen.from.counter $readini($char($2), status, stolencounter)
       if (%stolen.from.counter >= 5) { $set_chr_name($2) | query %battlechan 4 $+ %real.name  has nothing left to steal! | halt }
 
       inc %stolen.from.counter 1 | writeini $char($2) status stolencounter %stolen.from.counter 
 
-      if (%steal.item = orbs) { 
-        var %current.orb.amount $readini($char($1), stuff, redorbs) | inc %current.orb.amount %steal.orb.amount | writeini $char($1) stuff redorbs %current.orb.amount 
+      if ($readini($char($2), Info, flag) = monster) { var %steal.pool orbs.vitalstar.orbs.potion.x-potion.holy_water | var %steal.orb.amount $rand(100,400) }
+      if ($readini($char($2), Info, Flag) = boss) { var %steal.pool orbs.senzu.Red_Fang.Thunder_Orb.Tonic.Superpotion | var %steal.orb.amount $rand(350,600) }
+      if ($2 = orb_fountain) { var %steal.pool orbs.orbs.orbs.orbs | var %steal.orb.amount $rand(400,550) }
+      if (%bloodmoon = on) { var %steal.pool orbs.orbs.orbs.orbs | var %steal.orb.amount $rand(300,500) }
+
+      set %total.items $numtok(%steal.pool, 46)
+      set %random.item $rand(1,%total.items)
+      set %steal.item $gettok(%steal.pool,%random.item,46)
+
+      if (%steal.item = orbs) { var %current.orb.amount $readini($char($1), stuff, redorbs) | inc %current.orb.amount %steal.orb.amount | writeini $char($1) stuff redorbs %current.orb.amount 
         $set_chr_name($1) | query %battlechan 2 $+ %real.name has stolen %steal.orb.amount $readini(system.dat, system, currency) from $set_chr_name($2) %real.name $+ ! 
       }
       else {
@@ -1101,7 +1117,7 @@ on 2:TEXT:!analysis*:*: { $skill.analysis($nick, $2) }
 
 alias skill.analysis {
   if ($is_charmed($nick) = true) { query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
-  if ((no-skill isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan 4 $+ %real.name is not allowed to do that action due to the current battle conditions! | halt }
+  if ((no-skill isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan $readini(translation.dat, battle, NotAllowedBattleCondition)  | halt }
   $amnesia.check($1, skill) 
   $checkchar($1)
   if ($skillhave.check($nick, analysis) = false) { $set_chr_name($nick) | query %battlechan $readini(translation.dat, errors, DoNotHaveSkill) | halt }
@@ -1147,17 +1163,17 @@ alias skill.analysis {
   }
   if (%analysis.level = 4) {  $set_chr_name($2) | .msg $1 3You analyze %real.name and determine $gender3($2) has %analysis.hp HP and %analysis.tp TP left.
     .msg $1 3You also determine %real.name has the following stats: [str: %analysis.str $+ ] [def: %analysis.def $+ ] [int: %analysis.int $+ ] [spd: %analysis.spd $+ ]
-    .msg $1 3 $+ %real.name is also strong against the following weapons: %analysis.weapon.strength and is strong against the following elements: %analysis.element.strength
+    .msg $1 3 $+ %real.name is also strong against the following weapon types: %analysis.weapon.strength and is strong against the following elements: %analysis.element.strength
     goto next_turn_check
   }
   if (%analysis.level = 5) {  $set_chr_name($2) | .msg $1 3You analyze %real.name and determine $gender3($2) has %analysis.hp HP and %analysis.tp TP left.
     .msg $1 3You also determine %real.name has the following stats: [str: %analysis.str $+ ] [def: %analysis.def $+ ] [int: %analysis.int $+ ] [spd: %analysis.spd $+ ]
-    .msg $1 3 $+ %real.name is also strong against the following weapons: %analysis.weapon.strength and is strong against the following elements: %analysis.element.strength  $+ $chr(124) %real.name is weak against the following weapons: %analysis.weapon.weak and weak against the following elements: %analysis.element.weak 
+    .msg $1 3 $+ %real.name is also strong against the following weapon types: %analysis.weapon.strength and is strong against the following elements: %analysis.element.strength  $+ $chr(124) %real.name is weak against the following weapon types: %analysis.weapon.weak and weak against the following elements: %analysis.element.weak 
     goto next_turn_check
   }
   if (%analysis.level = 6) {  $set_chr_name($2) | .msg $1 3You analyze %real.name and determine $gender3($2) has %analysis.hp HP and %analysis.tp TP left.
     .msg $1 3You also determine %real.name has the following stats: [str: %analysis.str $+ ] [def: %analysis.def $+ ] [int: %analysis.int $+ ] [spd: %analysis.spd $+ ]
-    .msg $1 3 $+ %real.name is also strong against the following weapons: %analysis.weapon.strength and is strong against the following elements: %analysis.element.strength  $+ $chr(124) %real.name is weak against the following weapons: %analysis.weapon.weak and weak against the following elements: %analysis.element.weak 
+    .msg $1 3 $+ %real.name is also strong against the following weapon types: %analysis.weapon.strength and is strong against the following elements: %analysis.element.strength  $+ $chr(124) %real.name is weak against the following weapon types: %analysis.weapon.weak and weak against the following elements: %analysis.element.weak 
     .msg $1 3 $+ %real.name will absorb and be healed by the following elements: %analysis.element.absorb
     goto next_turn_check
   }
@@ -1178,6 +1194,7 @@ alias skill.quicksilver {
 
   set %current.playerstyle.level $readini($char($1), styles, %current.playerstyle)
   set %quicksilver.used $readini($char($1), skills, quicksilver.turn)
+  if (%quicksilver.used = $null) { set %quicksilver.used 0 }
 
   if (%quicksilver.used >= %current.playerstyle.level) { $set_chr_name($1) | query %battlechan 4 $+ %real.name cannot use $gender($1) Quicksilver power again this battle! | unset %current.playerstyle | halt }
   inc %quicksilver.used 1 | writeini $char($1) skills quicksilver.turn %quicksilver.used
@@ -1199,4 +1216,54 @@ alias skill.quicksilver {
   ; Time to go to the next turn
   if (%battleis = on)  { $check_for_double_turn($nick) }
   unset %current.playerstyle | unset %current.playerstyle.level | unset %quicksilver.used
+}
+
+;=================
+; COVER
+;=================
+on 2:TEXT:!cover*:*: { $skill.cover($nick, $2) }
+
+alias skill.cover {
+  if ($is_charmed($nick) = true) { query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
+  if ((no-skill isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan $readini(translation.dat, battle, NotAllowedBattleCondition)  | halt }
+  $amnesia.check($1, skill) 
+  $checkchar($1)
+  if ($skillhave.check($nick, cover) = false) { $set_chr_name($nick) | query %battlechan $readini(translation.dat, errors, DoNotHaveSkill) | halt }
+  if (%battleis = off) { query %battlechan 4There is no battle currently! | halt }
+  $check_for_battle($1) | $person_in_battle($2) 
+
+
+  ; Check to see if enough time has elapsed
+  var %last.used $readini($char($1), skills, cover.time)
+  var %current.time $ctime
+  var %time.difference $calc(%current.time - %last.used)
+
+  if ((%time.difference = $null) || (%time.difference > $readini(skills.db, Cover, cooldown))) {
+    var %cover.status $readini($char($2), battle, status)
+    if ((%cover.status = dead) || (%cover.status = runaway)) { query %battlechan $readini(translation.dat, skill, CoverTargetDead) | halt }
+
+    var %cover.target $readini($char($2), skills, CoverTarget)
+    if ((%cover.target != none) && (%cover.target != $null)) { query %battlechan $readini(translation.dat, skill, AlreadyBeingCovered) | halt  }
+
+    var %user.flag $readini($char($1), info, flag) 
+    if (%user.flag = $null) { var %user.flag player }
+    var %target.flag $readini($char($2), info, flag)
+
+    if (%user.flag = player) && (%target.flag = monster) { $readini(translation.dat, errors, CannotCoverMonsters) | halt }
+
+    writeini $char($2) skills CoverTarget $1
+
+    ; Display the desc. 
+    if ($readini($char($1), descriptions, steal) = $null) { set %skill.description prepares to leap in front of $set_chr_name($2) %real.name in order to defend $gender2($2) }
+    else { set %skill.description $readini($char($1), descriptions, cover) }
+    $set_chr_name($1) | query %battlechan 12 $+ %real.name  $+ %skill.description
+
+    ; write the last used time.
+    writeini $char($1) skills cover.time $ctime
+
+    ; Time to go to the next turn
+    if (%battleis = on)  { $check_for_double_turn($1) }
+  }
+
+  else { query %battlechan $readini(translation.dat, skill, UnableToUseskillAgainSoSoon) | .msg $1 3You still have $calc($readini(skills.db, Cover, cooldown) - %time.difference) seconds before you can use !cover again | halt }
 }

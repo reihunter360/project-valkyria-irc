@@ -1,20 +1,20 @@
 [BaseStats]
-Hp=400
+Hp=1400
 Tp=60
-Str=12
-Def=15
-Int=20
-Spd=12
+Str=22
+Def=25
+Int=30
+Spd=22
 Name=Indiana Jones
 
 
 [Battle]
-Hp=400
+Hp=1400
 Tp=60
-Str=12
-Def=15
-Int=20
-Spd=12
+Str=22
+Def=25
+Int=30
+Spd=22
 Status=alive
 
 
@@ -94,15 +94,23 @@ zombie.timer=1
 
 [Weapons]
 Equipped=LeatherWhip
-LeatherWhip=20
+LeatherWhip=50
 
 [Skills]
 MartialArts=30
 Gunslinger=30
-Swordmaster=30
-
+Resist-Charm=100
+Resist-Zombie=100
+Resist-Intimidate=100
+Zen=5
+MightyStrike=1
 
 [Techniques]
-Whiplash=20
+Whiplash=50
 
 [Item_Amount]
+
+[Styles]
+Equipped=WeaponMaster
+WeaponMaster=2
+WeaponMasterXP=1

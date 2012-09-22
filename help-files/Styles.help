@@ -6,6 +6,7 @@
 2GUARDIAN - This style will decrease the amount of damage you take by a percent each level (up to 60% max).
 2SPELLMASTER - This will enhance magic by roughly 11% per level (up to 90% max).
 2DOPPELGANGER - This style will enhance the shadow clone skill, giving your clone more health.  The amount of health the clone gets goes up with each level of the style, up to 100%.
-2HITEN MITSURUGI-RYU - This still will enhance melee and tech damage done with katana weapons and enhance speed at battle turn generation.
+2HITEN MITSURUGI-RYU - This style will enhance melee and tech damage done with katana weapons and enhance speed at battle turn generation.
+2QUICKSILVER - This style will let you use the !quicksilver command an equal number of times as the Quicksilver style is leveled. !Quicksilver will freeze everyone except yourself, allowing you multiple turns.
 12::[Commands]::
 2To view your style list (including style xp and level) use 12!style 2To change your style outside of battle use 12!style change name 2where name is one of the styles that you know 
