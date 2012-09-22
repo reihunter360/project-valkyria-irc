@@ -2,9 +2,16 @@ ITEMS.DB
 DiscountCard=150000
 
 SKILLS.MRC
+    if (%steal.chance >= 85) {
       var %stolen.from.counter $readini($char($2), status, stolencounter)
-      if (%stolen.from.counter >= 5) { $set_chr_name($2) | query %battlechan 4 $+ %real.name  has nothing left to steal! | halt }
+      if (%stolen.from.counter > 5) { $set_chr_name($2) | query %battlechan 4 $+ %real.name  has nothing left to steal! | halt }
 
+      inc %stolen.from.counter 1 | writeini $char($2) status stolencounter %stolen.from.counter 
+
+      if ($readini($char($2), Info, flag) = monster) { var %steal.pool orbs.vitalstar.orbs.potion.x-potion.holy_water.Pizza.PotRoast.Ramen.Cavier.BisonDollar.DragonMeat.SuperMushroom.FireDragonWine.Ambrosia.FoieGras.KnowledgeSource.SoulPainting.FishAndChips.Slurm.CerberusMeat.SilverApple | var %steal.orb.amount $rand(500,2000) }
+      if ($readini($char($2), Info, Flag) = boss) { var %steal.pool orbs.senzu.Red_Fang.Thunder_Orb.Tonic.Superpotion.DarkMagicianCard.BusterBladerCard.BlueEyesCard.FishOilBroth.ElvishMedallian.AlexanderMateria.BahamutMateria.BahamutZeroMateria.CarbuncleMateria.SolomonRing.LuckyBroth.FenrirMateria.GarudaMateria.IfritMateria.LeviathanMateria.RamuhMateria.ShivaMateria.TitanMateria.Pizza.PotRoast.Ramen.Cavier.BisonDollar.DragonMeat.SuperMushroom.FireDragonWine.Ambrosia.FoieGras.KnowledgeSource.SoulPainting.FishAndChips.Slurm.CerberusMeat.SilverApple | var %steal.orb.amount $rand(4200,7500) }
+      if ($2 = orb_fountain) { var %steal.pool orbs.orbs.orbs.orbs | var %steal.orb.amount $rand(4000,5500) }
+      if (%bloodmoon = on) { var %steal.pool orbs.orbs.orbs.orbs | var %steal.orb.amount $rand(3000,5000) }
 
 SKILLS.DB
 Steal Cooldown=15, Max=50
