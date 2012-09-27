@@ -106,6 +106,7 @@ speed=40
 FieldMedic=500
 DesperateBlows=1
 Zen=10
+WeaponBash=3
 
 [Techniques]
 CureV=85
