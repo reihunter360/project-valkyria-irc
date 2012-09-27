@@ -1,5 +1,5 @@
 [BaseStats]
-Hp=200000
+Hp=100000
 Tp=5000
 Str=150
 Def=250
@@ -9,7 +9,7 @@ Name=Valkyrie
 
 
 [Battle]
-Hp=200000
+Hp=100000
 Tp=5000
 Str=150
 Def=250
