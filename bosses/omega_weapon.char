@@ -1,8 +1,8 @@
 [BaseStats]
 Hp=2000000
-Tp=20000
+Tp=200000
 Str=666
-Def=333
+Def=666
 Int=666
 Spd=500
 Name=Omega Weapon
@@ -53,6 +53,8 @@ LastIP=N/a
 Created=N/a
 ; Ignores Rage Mode Timer
 RageMode=ignore
+OrbBonus=yes
+battlestats=ignore
 
 [Status]
 Poison=no

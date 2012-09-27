@@ -1,5 +1,5 @@
 [BaseStats]
-Hp=25000
+Hp=60000
 Tp=25000
 Str=200
 Def=200
@@ -9,7 +9,7 @@ Name=Phoenixmon
 
 
 [Battle]
-Hp=25000
+Hp=60000
 Tp=25000
 Str=200
 Def=200
@@ -48,11 +48,13 @@ LastSeen=N/a
 LastIP=N/a
 Created=N/a
 RageMode=Ignore
+OrbBonus=yes
+Battlestats=IgnoreHP
 
 [Status]
 Poison=no
 HeavyPoison=no
-Regenerating=no
+Regenerating=yes
 Blind=no
 Frozen=no
 Shock=no
@@ -84,7 +86,7 @@ MPRegenerating=no
 
 [Weapons]
 Equipped=PhoenixmonWeapon
-PhoenixmonWeapon=20
+PhoenixmonWeapon=40
 
 [Skills]
 Wizardry=9000

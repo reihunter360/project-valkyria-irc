@@ -1,5 +1,5 @@
 [BaseStats]
-Hp=35000
+Hp=60000
 Tp=15000
 Str=650
 Def=110
@@ -9,11 +9,11 @@ Name=MegaSaurus
 
 
 [Battle]
-Hp=45000
+Hp=60000
 Tp=15000
-Str=450
-Def=90
-Int=550
+Str=550
+Def=110
+Int=650
 Spd=450
 Status=alive
 
@@ -49,11 +49,13 @@ LastSeen=N/a
 LastIP=N/a
 Created=N/a
 RageMode=Ignore
+battlestats=IgnoreHP
+orbbonus=yes
 
 [Status]
 Poison=no
 HeavyPoison=no
-Regenerating=no
+Regenerating=yes
 Blind=no
 Frozen=no
 Shock=no
@@ -85,7 +87,7 @@ MPRegenerating=no
 
 [Weapons]
 Equipped=MegasaurusWeapon
-MegasaurusWeapon=20
+MegasaurusWeapon=30
 
 [Skills]
 Regen=200

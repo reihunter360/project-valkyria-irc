@@ -1,5 +1,5 @@
 [BaseStats]
-Hp=30000
+Hp=200000
 Tp=5000
 Str=150
 Def=250
@@ -9,7 +9,7 @@ Name=Valkyrie
 
 
 [Battle]
-Hp=30000
+Hp=200000
 Tp=5000
 Str=150
 Def=250
@@ -46,6 +46,8 @@ passhurt=0
 LastSeen=N/a
 LastIP=N/a
 Created=N/a
+battlestats=ignoreHP
+OrbBonus=yes
 
 [Monster]
 Type=
@@ -88,7 +90,7 @@ mightystrike=on
 [Weapons]
 Equipped=Valkyrie_Sword
 Valkyrie_Sword=150
-; Valkyrie_Sword=CureV.SonicBlow.JupitelThunder.BrandishSpear.WiseReflection
+
 [Skills]
 resist-curse=100
 resist-poison=100
@@ -103,6 +105,7 @@ elementalseal=20
 speed=40
 FieldMedic=500
 DesperateBlows=1
+Zen=10
 
 [Techniques]
 CureV=85
@@ -112,6 +115,7 @@ JupitelThunder=280
 ; BreakArmor=10
 BrandishSpear=200
 WiseReflection=100
+
 
 [Item_Amount]
 Potion=20
