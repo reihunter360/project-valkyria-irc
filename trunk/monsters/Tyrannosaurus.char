@@ -1,5 +1,5 @@
 [BaseStats]
-Hp=50000
+Hp=75000
 Tp=800
 Str=400
 Def=100
@@ -9,7 +9,7 @@ Name=Tyrannosaurus
 
 
 [Battle]
-Hp=50000
+Hp=75000
 Tp=800
 Str=400
 Def=100

@@ -1,5 +1,5 @@
 [BaseStats]
-Hp=60000
+Hp=120000
 Tp=15000
 Str=650
 Def=110
@@ -9,7 +9,7 @@ Name=MegaSaurus
 
 
 [Battle]
-Hp=60000
+Hp=120000
 Tp=15000
 Str=550
 Def=110
