@@ -1,20 +1,20 @@
 [BaseStats]
-Hp=1200
-Tp=300
-Str=100
-Def=100
-Int=100
-Spd=100
-Name=Dullahan
+Hp=3
+Tp=120
+Str=10
+Def=1500
+Int=10
+Spd=50
+Name=Metal Slime
 
 
 [Battle]
-Hp=1200
-Tp=300
-Str=100
-Def=100
-Int=100
-Spd=100
+Hp=3
+Tp=120
+Str=10
+Def=1500
+Int=10
+Spd=50
 Status=alive
 
 
@@ -24,29 +24,28 @@ RageCountDown=0
 
 
 [Descriptions]
-Char=is a large suit of purple armor that is animated by powerful magic. Perhaps the strongest entity in Golden Sun.
-Rage=yells out in rage!
-BossQuote=I am the shadow, the keeper of light. If you want the sun's power, show me your own!
-
+Char=takes the same appearence of the Poison Slime, but is made out of metal instead!
+Rage=screams in rage 
 
 [Stuff]
 RedOrbs=0
 BlackOrbs=1
 ShopLevel=1.0
-Drops=Potion.vip-membercard.x-potion.goldorb.tonic
-
-[Monster]
-Type=
 
 [Info]
 Flag=monster
-Gender=his
-Gender2=him
+Gender=its
+Gender2=it
 password=battlearena
 passhurt=0
 LastSeen=N/a
 LastIP=N/a
 Created=N/a
+OrbBonus=yes
+BattleStats=ignoreHP
+
+[Monster]
+Type=
 
 [Status]
 Poison=no
@@ -82,46 +81,49 @@ stun=no
 MPRegenerating=no
 
 [Weapons]
-Equipped=DullahanSword
-DullahanSword=85
+Equipped=SlimePower
+SlimePower=10
+Weak=None
+Strong=HandToHand.Sword.Whip.Gun.Rifle.Katana.Wand.Spear.Scythe.Glyph.GreatSword.Stave.Bow
 
 [Skills]
-SwordMaster=100
-Wizardy=100
 Resist-Charm=100
 Resist-Poison=100
 Resist-Zombie=100
 Resist-Intimidate=100
-royalguard.on=on
-manawall.on=on
 Zen=5
-ClearMind=3
 Impetus=20
-ElementalSeal=5
-MightyStrike=5
+MightyStrike=1
+ElementalSeal=1
 Resist-Amnesia=100
-Resist-Blind=100
-Resist-Slow=100
-Resist-Stop=100
-Resist-Paralysis=100
-BloodBoost=10
+RoyalGuard=1
+royalguard.on=on
+ClearMind=1
+MartialArts=10
+Wizardy=10
 
 [Techniques]
-Charon=85
-ForminaSage=85
-Haunt=85
-DjinnStorm=90
-Condem=85
-Sealing=70
+SlimeRam=10
+SlimeStomp=12
+Curaga=10
+FireII=10
+IceII=10
+ThunderII=10
+StoneII=10
+WaterII=10
+AeroII=10
+Blind=5
+Poison=5
+Paralyze=5
 
 [Item_Amount]
 
-[Style]
-Equipped=SpellMaster
-SpellMaster=10
-SpellMasterXP=1
 
 [Element]
 Weakness=None
-Strong=None
-Heal=Dark.Light
+Strong=Light.Dark.Fire.Ice.Lightning.Stone.Water.Wind
+
+[Styles]
+Equipped=SpellMaster
+SpellMaster=2
+SpellMasterXP=1

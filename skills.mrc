@@ -1081,10 +1081,12 @@ alias skill.steal {
 
       inc %stolen.from.counter 1 | writeini $char($2) status stolencounter %stolen.from.counter 
 
-      if ($readini($char($2), Info, flag) = monster) { var %steal.pool orbs.vitalstar.orbs.potion.x-potion.holy_water.Pizza.PotRoast.Ramen.Cavier.BisonDollar.DragonMeat.SuperMushroom.FireDragonWine.Ambrosia.FoieGras.KnowledgeSource.SoulPainting.FishAndChips.Slurm.CerberusMeat.SilverApple | var %steal.orb.amount $rand(500,2000) }
-      if ($readini($char($2), Info, Flag) = boss) { var %steal.pool orbs.senzu.Red_Fang.Thunder_Orb.Tonic.Superpotion.DarkMagicianCard.BusterBladerCard.BlueEyesCard.FishOilBroth.ElvishMedallian.AlexanderMateria.BahamutMateria.BahamutZeroMateria.CarbuncleMateria.SolomonRing.LuckyBroth.FenrirMateria.GarudaMateria.IfritMateria.LeviathanMateria.RamuhMateria.ShivaMateria.TitanMateria.Pizza.PotRoast.Ramen.Cavier.BisonDollar.DragonMeat.SuperMushroom.FireDragonWine.Ambrosia.FoieGras.KnowledgeSource.SoulPainting.FishAndChips.Slurm.CerberusMeat.SilverApple | var %steal.orb.amount $rand(4200,7500) }
-      if ($2 = orb_fountain) { var %steal.pool orbs.orbs.orbs.orbs | var %steal.orb.amount $rand(4000,5500) }
-      if (%bloodmoon = on) { var %steal.pool orbs.orbs.orbs.orbs | var %steal.orb.amount $rand(3000,5000) }
+      inc %stolen.from.counter 1 | writeini $char($2) status stolencounter %stolen.from.counter 
+
+      if ($readini($char($2), Info, flag) = monster) { var %steal.pool orbs.vitalstar.orbs.potion.x-potion.holy_water.Pizza.PotRoast.Ramen.Cavier.BisonDollar.DragonMeat.SuperMushroom.FireDragonWine.Ambrosia.FoieGras.KnowledgeSource.SoulPainting.FishAndChips.Slurm.CerberusMeat.SilverApple | var %steal.orb.amount $rand(1000,4000) }
+      if ($readini($char($2), Info, Flag) = boss) { var %steal.pool orbs.senzu.Red_Fang.Thunder_Orb.Tonic.Superpotion.DarkMagicianCard.BusterBladerCard.BlueEyesCard.FishOilBroth.ElvishMedallian.AlexanderMateria.BahamutMateria.BahamutZeroMateria.CarbuncleMateria.SolomonRing.LuckyBroth.FenrirMateria.GarudaMateria.IfritMateria.LeviathanMateria.RamuhMateria.ShivaMateria.TitanMateria.Pizza.PotRoast.Ramen.Cavier.BisonDollar.DragonMeat.SuperMushroom.FireDragonWine.Ambrosia.FoieGras.KnowledgeSource.SoulPainting.FishAndChips.Slurm.CerberusMeat.SilverApple | var %steal.orb.amount $rand(8400,15000) }
+      if ($2 = orb_fountain) { var %steal.pool orbs.orbs.orbs.orbs | var %steal.orb.amount $rand(8000,12100) }
+      if (%bloodmoon = on) { var %steal.pool orbs.orbs.orbs.orbs | var %steal.orb.amount $rand(6000,10000) }
 
       set %total.items $numtok(%steal.pool, 46)
       set %random.item $rand(1,%total.items)
@@ -1266,4 +1268,80 @@ alias skill.cover {
   }
 
   else { query %battlechan $readini(translation.dat, skill, UnableToUseskillAgainSoSoon) | .msg $1 3You still have $calc($readini(skills.db, Cover, cooldown) - %time.difference) seconds before you can use !cover again | halt }
+}
+
+;=================
+; AGGRESSOR 
+;=================
+on 2:TEXT:!aggressor*:*: { $skill.aggressor($nick) }
+
+alias skill.aggressor {
+  if ($is_charmed($1) = true) { query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
+  if ((no-skill isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan $readini(translation.dat, battle, NotAllowedBattleCondition) | halt }
+  $amnesia.check($1, skill) 
+  $checkchar($1)
+  if ($skillhave.check($1, aggressor) = false) { $set_chr_name($nick) | query %battlechan $readini(translation.dat, errors, DoNotHaveSkill) | halt }
+  if (%battleis = off) { query %battlechan 4There is no battle currently! | halt }
+  $check_for_battle($1)
+
+  if ($readini($char($1), skills, aggressor.on) = on) { $set_chr_name($1) | query %battlechan 4 $+ %real.name has already used this skill once this battle and cannot use it again until the next battle. | halt }
+
+  ; Display the desc. 
+  if ($readini($char($1), descriptions, aggressor) = $null) { set %skill.description gives a loud battle warcry as $gender($1) strength is enhanced at the cost of $gender($1) defense! }
+  else { set %skill.description $readini($char($1), descriptions, aggressor) }
+  $set_chr_name($1) | query %battlechan 12 $+ %real.name  $+ %skill.description
+
+  ; Increase the strength
+  var %strength $readini($char($1), battle, str)
+  var %defense $readini($char($1), battle, def)
+  var %skill.level $readini($char($1), skills, aggressor)
+  var %skill.increase.percent $calc(%skill.level * .10)
+  var %increase.amount $round($calc(%skill.increase.percent * %defense),0)
+  inc %strength %increase.amount
+  writeini $char($1) battle str %strength
+  writeini $char($1) battle def 5
+
+  ; Toggle the speed-on flag so players can't use it again in the same battle.
+  writeini $char($1) skills aggressor.on on
+
+  ; Time to go to the next turn
+  if (%battleis = on)  { $check_for_double_turn($1) }
+}
+
+;=================
+; DEFENDER
+;=================
+on 2:TEXT:!defender*:*: { $skill.defender($nick) }
+
+alias skill.defender {
+  if ($is_charmed($1) = true) { query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
+  if ((no-skill isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan $readini(translation.dat, battle, NotAllowedBattleCondition) | halt }
+  $amnesia.check($1, skill) 
+  $checkchar($1)
+  if ($skillhave.check($1, defender) = false) { $set_chr_name($nick) | query %battlechan $readini(translation.dat, errors, DoNotHaveSkill) | halt }
+  if (%battleis = off) { query %battlechan 4There is no battle currently! | halt }
+  $check_for_battle($1)
+
+  if ($readini($char($1), skills, defender.on) = on) { $set_chr_name($1) | query %battlechan 4 $+ %real.name has already used this skill once this battle and cannot use it again until the next battle. | halt }
+
+  ; Display the desc. 
+  if ($readini($char($1), descriptions, aggressor) = $null) { set %skill.description decides that the best offense is a good defense and sacrifices $gender($1) strength for defense! }
+  else { set %skill.description $readini($char($1), descriptions, defender) }
+  $set_chr_name($1) | query %battlechan 12 $+ %real.name  $+ %skill.description
+
+  ; Increase the defense
+  var %strength $readini($char($1), battle, str)
+  var %defense $readini($char($1), battle, def)
+  var %skill.level $readini($char($1), skills, defender)
+  var %skill.increase.percent $calc(%skill.level * .10)
+  var %increase.amount $round($calc(%skill.increase.percent * %strength),0)
+  inc %defense %increase.amount
+  writeini $char($1) battle str 5
+  writeini $char($1) battle def %defense
+
+  ; Toggle the speed-on flag so players can't use it again in the same battle.
+  writeini $char($1) skills defender.on on
+
+  ; Time to go to the next turn
+  if (%battleis = on)  { $check_for_double_turn($1) }
 }

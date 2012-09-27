@@ -96,6 +96,7 @@ alias id_login {
   var %bot.owners $readini(system.dat, botinfo, bot.owner)
   if ($istok(%bot.owners,$1, 46) = $true) {  .auser 50 $1 }
   else { .auser 2 $1 }
+  writeini $char($1) Info LastSeen $fulldate
   return
 }
 

@@ -90,7 +90,7 @@ alias tech_cmd {
     }
   }
 
-  if (%tech.type = status) { $tech.status($1, $2, $3) } 
+  if (%tech.type = status) { $tech.single($1, $2, $3) } 
 
   if (%tech.type = stealPower) { $tech.stealPower($1, $2, $3) }
 
@@ -498,90 +498,6 @@ alias tech.finalgetsuga {
 
 }
 
-alias tech.status {
-  ; $1 = user
-  ; $2 = tech
-  ; $3 = target
-  var %tech.status.type $readini(techniques.db, $2, StatusType) 
-
-  if (%tech.status.type = random) { 
-    var %random.status.type $rand(1,11)
-    if (%random.status.type = 1) { set %tech.status.type poison | var %tech.status.grammar poisoned }
-    if (%random.status.type = 2) { set %tech.status.type stop | var %tech.status.grammar frozen in time }
-    if (%random.status.type = 3) { set %tech.status.type silence | var %tech.status.grammar silenced }
-    if (%random.status.type = 4) { set %tech.status.type blind | var %tech.status.grammar blinded }
-    if (%random.status.type = 5) { set %tech.status.type virus | var %tech.status.grammar inflicted with a virus }
-    if (%random.status.type = 6) { set %tech.status.type amnesia | var %tech.status.grammar inflicted with amnesia }
-    if (%random.status.type = 7) { set %tech.status.type paralysis | var %tech.status.grammar paralyzed }
-    if (%random.status.type = 8) { set %tech.status.type zombie | var %tech.status.grammar a zombie }
-    if (%random.status.type = 9) { set %tech.status.type slow | var %tech.status.grammar slowed }
-    if (%random.status.type = 10) { set %tech.status.type stun | var %tech.status.grammar stunned }
-    if (%random.status.type = 11) { set %tech.status.type intimidate | var %tech.status.grammar intimidated }
-  }
-
-  if (%tech.status.type = stop) { var %tech.status.grammar frozen in time }
-  if (%tech.status.type = poison) { var %tech.status.grammar poisoned }
-  if (%tech.status.type = silence) { var %tech.status.grammar silenced }
-  if (%tech.status.type = blind) { var %tech.status.grammar blind }
-  if (%tech.status.type = virus) { var %tech.status.grammar inflicted with a virus }
-  if (%tech.status.type = amnesia) { var %tech.status.grammar inflicted with amnesia }
-  if (%tech.status.type = paralysis) { var %tech.status.grammar paralyzed }
-  if (%tech.status.type = zombie) { var %tech.status.grammar a zombie }
-  if (%tech.status.type = slow) { var %tech.status.grammar slowed }
-  if (%tech.status.type = stun) { var %tech.status.grammar stunned }
-  if (%tech.status.type = curse) { var %tech.status.grammar cursed }
-  if (%tech.status.type = charm) { var %tech.status.grammar charmed }
-  if (%tech.status.type = intimidate) { var %tech.status.grammar intimidated }
-
-  var %chance $rand(1,100) | $set_chr_name($1) 
-  if ($readini($char($3), skills, utsusemi.on) = on) { set %chance 0 } 
-
-  $calculate_damage_techs($1, $2, $3)
-  $deal_damage($1, $3, $2)
-
-  ; Check for resistance to that status type.
-
-  set %resist.have resist- $+ %tech.status.type
-  set %resist.skill $readini($char($3), skills, %resist.have)
-
-  $ribbon.accessory.check($3)
-
-
-  if (%tech.status.type = charm) {
-    if ($readini($char($3), status, zombie) != no) { set %resist.skill 100 }
-    if ($readini($char($3), monster, type) = undead) { set %resist.skill 100 }
-  }
-
-  if ((%resist.skill <= 100) || (%resist.skill = $null)) {
-    if ((%resist.skill != $null) && (%resist.skill > 0)) { dec %chance %resist.skill }
-  }
-
-  if (%chance >= 50) {
-    if ((%chance = 50) && (%tech.status.type = poison)) { $set_chr_name($3) | set %statusmessage.display 4 $+ %real.name is now %tech.status.grammar $+ !  | writeini $char($3) Status poison-heavy yes }
-    if ((%chance = 50) && (%tech.status.type != poison)) { $set_chr_name($3) | set %statusmessage.display 4 $+ %real.name is now %tech.status.grammar $+ !  | writeini $char($3) Status %tech.status.type yes }
-    else { $set_chr_name($3) | set %statusmessage.display 4 $+ %real.name is now %tech.status.grammar $+ !  | writeini $char($3) Status %tech.status.type yes 
-      if (%tech.status.type = charm) { writeini $char($3) status charmed yes | writeini $char($3) status charmer $1 | writeini $char($3) status charm.timer $rand(2,3) }
-      if (%tech.status.type = curse) { writeini $char($3) battle tp 0 }
-    }
-  }
-  else {
-    if (%resist.skill >= 100) { $set_chr_name($3) | set %statusmessage.display 4 $+ %real.name is immune to the %tech.status.type status! }
-    if ((%resist.skill  >= 1) && (%resist.skill < 100)) { $set_chr_name($3) | set %statusmessage.display 4 $+ %real.name has resisted $set_chr_name($1) %real.name $+ 's $lower(%tech.status.type) status effect! }
-    if ((%resist.skill <= 0) || (%resist.skill = $null)) {  $set_chr_name($1) | set %statusmessage.display 4 $+ %real.name $+ 's $lower(%tech.status.type) status effect has failed against $set_chr_name($3) %real.name $+ ! }
-  }
-
-  ; If a monster, increase the resistance.
-  if ($readini($char($3), info, flag) = monster) {
-    if (%resist.skill = $null) { set %resist.skill 2 }
-    else { inc %resist.skill 2 }
-    writeini $char($3) skills %resist.have %resist.skill
-  }
-  unset %resist.have | unset %chance
-
-  $display_Statusdamage($1, $3, tech, $2) 
-  return
-}
-
 alias tech.aoe {
   ; $1 = user
   ; $2 = tech
@@ -594,6 +510,8 @@ alias tech.aoe {
   ; Display the tech description
   $set_chr_name($1) | set %user %real.name
   $set_chr_name($2) | set %enemy %real.name
+
+  var %enemy all targets
 
   query %battlechan 3 $+ %user  $+ $readini(techniques.db, $2, desc)
   set %showed.tech.desc true
@@ -673,7 +591,10 @@ alias display_aoedamage {
 
   ; Show the damage
   $calculate.stylepoints($1)
-  query %battlechan $readini(translation.dat, tech, DisplayAOEDamage)
+
+  if (%guard.message = $null) { query %battlechan $readini(translation.dat, tech, DisplayAOEDamage)  }
+  if (%guard.message != $null) { query %battlechan %guard.message | unset %guard.message }
+
 
   if ($4 = absorb) { 
     ; Show how much the person absorbed back.
@@ -714,6 +635,9 @@ alias calculate_damage_techs {
   ; $1 = user
   ; $2 = technique used
   ; $3 = target
+
+  var %status.type $readini(techniques.db, $2, StatusType)
+  if (%status.type != $null) { $inflict_status($1, $3, %status.type) }
 
   set %attack.damage 0
 
@@ -791,23 +715,6 @@ alias calculate_damage_techs {
     if (%tech.element = fire) {  inc %attack.damage $round($calc(%attack.damage * .110),0) } 
   } 
 
-  if ($readini(techniques.db, $2, type) != heal) {
-    ; Now we're ready to calculate the enemy's defense..  
-    var %enemy.defense $readini($char($3), battle, def)
-
-    ; Because it's a tech, the enemy's int will play a small part too.
-    var %int.bonus $round($calc($readini($char($3), battle, int) / 2),0)
-    inc  %enemy.defense %int.bonus
-
-    $guardian_style_check($3)
-
-    ; And let's get the final attack damage..
-    dec %attack.damage %enemy.defense
-  }
-
-  ; In this bot we don't want the attack to ever be lower than 1 except for rare instances..
-  if (%attack.damage <= 0) { set %attack.damage 1 }
-
 
   ; If a player is using a monster weapon, which is considered cheating, set the damage to 0.
   set %current.weapon.used $readini($char($1), weapons, equipped)
@@ -817,6 +724,24 @@ alias calculate_damage_techs {
   }
   unset %current.weapon.used
 
+  var %tech.type $readini(techniques.db, $2, type)
+  if ((%tech.type = heal-aoe) || (%tech.type = heal)) { return }
+
+  ; Now we're ready to calculate the enemy's defense..  
+  var %enemy.defense $readini($char($3), battle, def)
+
+  ; Because it's a tech, the enemy's int will play a small part too.
+  var %int.bonus $round($calc($readini($char($3), battle, int) / 2),0)
+  inc  %enemy.defense %int.bonus
+
+  $guardian_style_check($3)
+
+  ; And let's get the final attack damage..
+  dec %attack.damage %enemy.defense
+
+  ; In this bot we don't want the attack to ever be lower than 1 except for rare instances..
+  if (%attack.damage <= 0) { set %attack.damage 1 }
+
   unset %base.stat.needed | unset %base.stat
 
   var %utsusemi.flag $readini($char($3), skills, utsusemi.on)
@@ -824,7 +749,7 @@ alias calculate_damage_techs {
     ; does the target have ManaWall on?  If so, reduce the damage to 0.
     if (($readini($char($3), skills, manawall.on) = on) && ($readini(techniques.db, $2, magic) = yes)) { 
       if ($readini(techniques.db, $2, type) = heal) { return }
-      writeini $char($3) skills manawall.on off | set %attack.damage 0 | $set_chr_name($3) | query %battlechan $readini(translation.dat, skill, ManaWallBlocked) | return 
+      writeini $char($3) skills manawall.on off | set %attack.damage 0 | $set_chr_name($3) | set %guard.message $readini(translation.dat, skill, ManaWallBlocked) | return 
     }
   }
   if (%utsusemi.flag = on) {
@@ -833,7 +758,7 @@ alias calculate_damage_techs {
     dec %number.of.shadows 1 
     writeini $char($3) skills utsusemi.shadows %number.of.shadows
     if (%number.of.shadows <= 0) { writeini $char($3) skills utsusemi.on off }
-    $set_chr_name($3) | query %battlechan $readini(translation.dat, skill, UtsusemiBlocked)  | set %attack.damage 0 | return 
+    $set_chr_name($3) | set %guard.message $readini(translation.dat, skill, UtsusemiBlocked)  | set %attack.damage 0 | return 
   }
 }
 
@@ -924,45 +849,6 @@ alias calculate_damage_suicide {
 
   ; In this bot we don't want the attack to ever be lower than 1.  
   if (%attack.damage <= 0) { set %attack.damage 1 }
-}
-
-
-alias display_Statusdamage {
-  unset %overkill
-  unset %style.rating
-  $set_chr_name($1) | set %user %real.name
-  $set_chr_name($2) | set %enemy %real.name
-
-  query %battlechan 3 $+ %user $+  $readini(techniques.db, $4, desc)
-
-  ; Show the damage
-  $calculate.stylepoints($1)
-  query %battlechan $readini(translation.dat, battle, AttackDidDamage)
-
-  ; If the person isn't dead, display the status message.
-  if ($readini($char($2), battle, hp) >= 1) {  
-    var %utsusemi.check $readini($char($2), skills, utsusemi.on)
-    if (%utsusemi.check != on) { query %battlechan %statusmessage.display } 
-  }
-
-  ; Did the person die?  If so, show the death message.
-  if ($readini($char($2), battle, HP) <= 0) { 
-    writeini $char($2) battle status dead 
-    writeini $char($2) battle hp 0
-    $check.clone.death($2)
-    $increase_death_tally($2)
-    $achievement_check($2, SirDiesALot)
-    if (%attack.damage > $readini($char($2), basestats, hp)) { set %overkill 7<<OVERKILL>> }
-    query %battlechan $readini(translation.dat, battle, EnemyDefeated)
-    $goldorb_check($2) 
-    if ($readini($char($1), info, flag) != monster) {
-      if (%battle.type = monster) {  $add.stylepoints($1, $2, mon_death, $3) | $add.style.orbbonus($1, monster) }
-      if (%battle.type = boss) { $add.stylepoints($1, $2, boss_death, $3) | $add.style.orbbonus($1, boss) }
-    }
-  }
-
-  unset %statusmessage.display
-  return 
 }
 
 
@@ -1062,11 +948,12 @@ alias magic.effect.check {
 
 
 ; ======================
-; Ribbon accessory check
+; Ribbon type accessory check
 ; ======================
 alias ribbon.accessory.check { 
-  ;  Check for the miser ring accessory
-  if ($readini($char($1), equipment, accessory) = ribbon) {
+  set %current.accessory $readini($char($1), equipment, accessory) 
+  if ($readini(items.db, %current.accessory, accessorytype) = BlockAllStatus) {
     set %resist.skill 100
   }
+  unset %current.accessory
 }

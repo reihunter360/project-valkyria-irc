@@ -2,10 +2,11 @@
 ;;;; AI COMMANDS
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 alias aicheck { 
+  unset %statusmessage.display
   ; Determine if the current person in battle is a monster or not.  If so, they need to do a turn.  If not, return.
   if ($is_charmed($1) = true) { /.timerAIthink $+ $rand(a,z) $+ $rand(1,1000) 1 8 /ai_turn $1 | halt }
 
-  var %ai.system.status $readini(system.dat, system, aisystem)
+  var %ai.system $readini(system.dat, system, aisystem)
   if ((%ai.system = $null) || (%ai.system = on)) {
     if ($readini($char($1), info, flag) = monster) { /.timerAIthink $+ $rand(a,z) $+ $rand(1,1000) 1 8 /ai_turn $1 | halt }
     if ($readini($char($1), info, flag) = npc) { /.timerAIthink $+ $rand(a,z) $+ $rand(1,1000) 1 8 /ai_turn $1 | halt }
@@ -97,8 +98,6 @@ alias ai_gettarget {
 
   }
 
-
-
   set %total.targets $numtok(%ai.targetlist, 46)
   set %random.target $rand(1,%total.targets)
   set %ai.target $gettok(%ai.targetlist,%random.target,46)
@@ -130,7 +129,12 @@ alias ai_gettech {
     set %tech_level $readini($char($1), techniques, %tech.name)
     if ((%tech_level != $null) && (%tech_level >= 1)) { 
       ; add the tech level to the tech list
-      %tech.list = $addtok(%tech.list,%tech.name,46)
+      var %flag $readini($char($1), info, flag)
+
+      if (%flag != $null) { %tech.list = $addtok(%tech.list,%tech.name,46) }
+      if (%flag = $null) {
+        if ($readini(techniques.db, %tech.name, Type) != FinalGetsuga) { %tech.list = $addtok(%tech.list,%tech.name,46) }
+      }
     }
     inc %value 1 
   }

@@ -1,6 +1,6 @@
 [Skills]
-PassiveSkills=Swordmaster.Gunslinger.Wizardy.MartialArts.Polemaster.ClearMind.DesperateBlows.OrbHunter.FieldMedic.Impetus.BloodPact.Zen.Haggling.WeaponBash
-ActiveSkills=Speed.ElementalSeal.MightyStrike.ManaWall.RoyalGuard.Fullbring.Sugitekai.Meditate.ConserveTP.BloodBoost.DrainSamba.Regen.Kikouheni.ShadowCopy.Utsusemi.Steal.Analysis.Cover
+PassiveSkills=Swordmaster.Gunslinger.Wizardy.MartialArts.Polemaster.Archery.ClearMind.DesperateBlows.OrbHunter.FieldMedic.Impetus.BloodPact.Zen.Haggling.WeaponBash.Vogue
+ActiveSkills=Speed.ElementalSeal.MightyStrike.ManaWall.RoyalGuard.Fullbring.Sugitekai.Meditate.ConserveTP.BloodBoost.DrainSamba.Regen.Kikouheni.ShadowCopy.Utsusemi.Steal.Analysis.Cover.Aggressor.Defender
 Resists=resist-paralysis.resist-blind.resist-poison.resist-amnesia.resist-curse.resist-zombie.resist-slow.resist-stun.resist-stop.resist-charm
 
 
@@ -37,14 +37,20 @@ Info=This skill increases damage done with stave and wand weapons.  Increased le
 Cost=200
 max=500
 Type=Passive
-Info=This skill increases damage done with your fists and nunchuku weapons.  Increased levels increases the damage.
+Info=This skill increases damage done with your hand to hand weapons.  Increased levels increases the damage.
+
+[Archery]
+Cost=200
+Max=500
+Type=Passive
+Info=This skill increases damage done with a bow.  Increased levels increases the damage.
 
 [OrbHunter]
 Cost=250
 Type=Passive
 Info=This skill will increase the amount of red orbs you find at the end of battle.
 Max=200
-Amount=15
+Amount=20
 
 [ClearMind]
 Cost=450
@@ -74,7 +80,7 @@ Max=40
 Cost=2500
 Type=Passive
 Info=This skill will allow you to activate summoning items and summon pets/summons to the field to fight for you. Increased levels of the skill will enhance the summon.
-Max=10
+Max=50
 
 [Zen]
 Cost=500
@@ -86,6 +92,12 @@ Max=10
 Cost=350
 Type=passive
 Info=This skill will increase the amount of orbs you can sell items back for by 20 * skill level. 
+Max=5
+
+[Vogue]
+Cost=400
+Type=passive
+Info=This skill will increase the amount of style XP you get at the end of battle.
 Max=5
 
 [WeaponBash]
@@ -164,7 +176,7 @@ Cooldown=500
 [BloodBoost]
 Cost=500
 Type=Active
-Max=60
+Max=10
 Info=This skill will consume 100 HP to give you a (level * 2) boost to your STR.
 Cooldown=15
 
@@ -221,6 +233,18 @@ Type=Active
 Info=This skill allows you to jump in front of an attack and cover an ally of your choosing.
 Max=1
 Cooldown=20
+
+[Aggressor]
+Cost=500
+Type=Active
+Info=When used, this skill will take (skill level * 10%) of your defense and add it to your strength but will leave your defense at 5.
+Max=10
+
+[Defender]
+Cost=500
+Type=Active
+Info=When used, this skill will take (skill level * 10%) of your strength and add it to your defense but will leave your strength at 5.
+Max=10
 
 =============================================
 RESISTS

@@ -40,7 +40,8 @@ alias achievement_check {
     var %max.shop.level $readini(system.dat, system, maxshoplevel)
     if (%max.shop.level = $null) { var %max.shop.level 25 }
 
-    var %shop.level $readini($char($nick), stuff, shoplevel) 
+    var %shop.level $readini($char($1), stuff, shoplevel) 
+
     if (%shop.level >= %max.shop.level) { writeini $char($1) achievements $2 true 
       $announce_achievement($1, $2, 1000)
       var %current.redorbs $readini($char($1), stuff, redorbs) | inc %current.redorbs 1000 | writeini $char($1) stuff redorbs %current.redorbs
@@ -57,7 +58,7 @@ alias achievement_check {
 
   if ($2 = ScardyCat) {
     var %number.of.flees $readini($char($1), stuff, TimesFled)
-    if (%number.of.flees = 300) {
+    if (%number.of.flees >= 300) {
       $announce_achievement($1, $2, 1)
       var %current.goldorbs $readini($char($1), item_amount, GoldOrb) | inc %current.goldorbs 1 | writeini $char($1) Item_Amount GoldOrb %current.goldorbs
     }

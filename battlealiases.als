@@ -31,6 +31,78 @@ boost_summon_stats {
 }
 
 boost_monster_stats {
+  if ($readini($char($1), info, BattleStats) = ignore) { return }
+
+  var %hp $readini($char($1), BaseStats, HP)
+  var %tp $readini($char($1), BaseStats, TP)
+  var %str $readini($char($1), BaseStats, Str)
+  var %def $readini($char($1), BaseStats, Def)
+  var %int $readini($char($1), BaseStats, Int)
+  var %spd $readini($char($1), BaseStats, Spd)
+
+  var %shop.level $readini(battle2.txt, BattleInfo, ShopLevel)
+  var %winning.streak $readini(battlestats.dat, battle, winningstreak)
+  var %level.boost $readini(battlestats.dat, battle, LevelAdjust)
+  var %number.of.players.in.battle $readini(battle2.txt, battleinfo, players)
+
+  if (%number.of.players = 1) {  %shop.level = $round($calc(%shop.level / (%number.of.players.in.battle + 2)),0) }
+  if (%number.of.players >= 2) { 
+    %shop.level = $round($calc(%shop.level / (%number.of.players.in.battle + 3)),0)
+  }
+
+  if (%winning.streak <= 0) { var %winning.streak $calc($readini(battlestats.dat, battle, losingstreak) * -1) }
+
+  var %monster.level 0
+  inc %monster.level %winning.streak
+  inc %monster.level %level.boost
+  inc %monster.level %shop.level
+
+  if (%winning.streak > 20) {
+    if ($isfile($boss($1)) = $true) { inc %monster.level $rand(1,2) | inc %hp $rand(100,200)  }
+    if ($isfile($boss($1)) = $false) { inc %hp $rand(10,25) }
+  }
+
+  if ($2 = rage) { set %increase.amount 100 }
+  if ($2 = doppelganger) {  set %increase.amount $calc(%monster.level * .02575)  }
+  if ($2 = $null) { 
+    if ($isfile($boss($1)) = $true) {
+      set %increase.amount $calc(%monster.level * .16355)
+    }
+    if ($isfile($boss($1)) = $false) {
+      set %increase.amount $calc(%monster.level * .248255)
+    }
+    if ($isfile($npc($1)) = $true) {
+      set %increase.amount $calc(%monster.level * .05355)
+    }
+  }
+
+  inc %increase.amount 1
+
+  if (%increase.amount <= 0) { set %increase.amount .01 }
+
+  if ($readini($char($1), info, BattleStats) = hp) { %hp = $round($calc(%hp * %increase.amount),0) | writeini $char($1) BaseStats HP %hp  | return }
+
+  if ($readini($char($1), info, BattleStats) != ignorehp) { %hp = $round($calc(%hp * %increase.amount),0) }
+
+  %tp = $round($calc(%tp * %increase.amount),0) 
+  %str = $round($calc(%str * %increase.amount),0) 
+  %def = $round($calc(%def * %increase.amount),0) 
+  %int = $round($calc(%int * %increase.amount),0) 
+  %spd = $round($calc(%spd * %increase.amount),0) 
+
+  writeini $char($1) BaseStats HP %hp
+  writeini $char($1) BaseStats TP %tp
+  writeini $char($1) BaseStats Str %str
+  writeini $char($1) BaseStats Def %def
+  writeini $char($1) BaseStats Int %int
+  writeini $char($1) BaseStats Spd %spd
+
+  unset %increase.amount
+}
+
+old_boost_monster_stats {
+  if ($readini($char($1), info, BattleStats) = ignore) { return }
+
   var %hp $readini($char($1), BaseStats, HP)
   var %tp $readini($char($1), BaseStats, TP)
   var %str $readini($char($1), BaseStats, Str)
@@ -71,6 +143,7 @@ boost_monster_stats {
 }
 
 loses_nerf { 
+  if ($readini($char($1), info, BattleStats) = ignore) { return }
   ; The players have lost battles, so we need to nerf the monsters.  The more times the players lose, the weaker monsters become to help them win one.
   var %str $readini($char($1), BaseStats, Str)
   var %def $readini($char($1), BaseStats, Def)
@@ -94,7 +167,8 @@ loses_nerf {
   writeini $char($1) BaseStats Spd %spd
 }
 
-wins_boost  {
+old_wins_boost  {
+  if ($readini($char($1), info, BattleStats) = ignore) { return }
   ; The players have won battles, so we need to increase the strength of the monsters.  The more times the players win, the stronger monsters become
   var %str $readini($char($1), BaseStats, Str)
   var %def $readini($char($1), BaseStats, Def)
@@ -104,6 +178,8 @@ wins_boost  {
 
   var %winning.streak $readini(battlestats.dat, battle, winningstreak)
   var %level.boost $readini(battlestats.dat, battle, LevelAdjust)
+
+  if (%level.boost = $null) { var %level.boost 0 }
   inc %winning.streak %level.boost
 
   if ((%winning.streak > 0) && (%winning.streak <= 20)) { var %boost.amount .105 
@@ -207,9 +283,9 @@ deal_damage {
     $check.clone.death($2)
     if ($readini($char($1), info, flag) != monster) {
       $inc_monster_kills($1)
-      if (%battle.type = monster) {  $add.stylepoints($1, $2, mon_death, $3) | $add.style.orbbonus($1, monster) }
-      if (%battle.type = orbfountain) {  $add.stylepoints($1, $2, mon_death, $3) | $add.style.orbbonus($1, monster) }
-      if (%battle.type = boss) { $add.stylepoints($1, $2, boss_death, $3) | $add.style.orbbonus($1, boss) }
+      if (%battle.type = monster) {  $add.stylepoints($1, $2, mon_death, $3) | $add.style.orbbonus($1, monster, $2) }
+      if (%battle.type = orbfountain) {  $add.stylepoints($1, $2, mon_death, $3) | $add.style.orbbonus($1, monster, $2) }
+      if (%battle.type = boss) { $add.stylepoints($1, $2, boss_death, $3) | $add.style.orbbonus($1, boss, $2) }
     }
   }
 
@@ -279,32 +355,39 @@ display_damage {
   if ($3 != item) { $calculate.stylepoints($1) }
 
   if ((((%double.attack = $null) && (%triple.attack = $null) && (%fourhit.attack = $null) && (%fivehit.attack = $null)))) { 
-    query %battlechan The attack did4 $bytes(%attack.damage,b) damage %style.rating
+
+    if (%guard.message = $null) { query %battlechan The attack did4 $bytes(%attack.damage,b) damage %style.rating }
+    if (%guard.message != $null) { query %battlechan %guard.message | unset %guard.message }
     if (%element.desc != $null) {  query %battlechan %element.desc | unset %element.desc }
   }
 
   if (%double.attack = true) { 
-    query %battlechan 1The first attack did4 $bytes(%attack.damage1,b) damage.  The second attack did4 $bytes(%attack.damage2,b) damage.  Total physical damage:4 $bytes(%attack.damage,b)  $+ %style.rating
+    if (%guard.message = $null) { query %battlechan 1The first attack did4 $bytes(%attack.damage1,b) damage.  The second attack did4 $bytes(%attack.damage2,b) damage.  Total physical damage:4 $bytes(%attack.damage,b)  $+ %style.rating }
+    if (%guard.message != $null) { query %battlechan %guard.message | unset %guard.message }
     unset %attack.damage1 | unset %attack.damage2
 
   }
-  if (%triple.attack = true) { 
-    query %battlechan 1The first attack did4 $bytes(%attack.damage1,b) damage.  The second attack did4 $bytes(%attack.damage2,b) damage.  The third attack did4 $bytes(%attack.damage3,b) damage.  Total physical damage:4 $bytes(%attack.damage,b)  $+ %style.rating
+  if (%triple.attack = true) {  
+    if (%guard.message = $null) { query %battlechan 1The first attack did4 $bytes(%attack.damage1,b) damage.  The second attack did4 $bytes(%attack.damage2,b) damage.  The third attack did4 $bytes(%attack.damage3,b) damage.  Total physical damage:4 $bytes(%attack.damage,b)  $+ %style.rating }
+    if (%guard.message != $null) { query %battlechan %guard.message | unset %guard.message }
     unset %attack.damage1 | unset %attack.damage2 | unset %attack.damage3
   }
 
   if (%fourhit.attack = true) { 
-    query %battlechan 1The first attack did4 $bytes(%attack.damage1,b) damage.  The second attack did4 $bytes(%attack.damage2,b) damage.  The third attack did4 $bytes(%attack.damage3,b) damage. The fourth attack did4 $bytes(%attack.damage4,b) damage. Total physical damage:4 $bytes(%attack.damage,b)  $+ %style.rating
+    if (%guard.message = $null) { query %battlechan 1The first attack did4 $bytes(%attack.damage1,b) damage.  The second attack did4 $bytes(%attack.damage2,b) damage.  The third attack did4 $bytes(%attack.damage3,b) damage. The fourth attack did4 $bytes(%attack.damage4,b) damage. Total physical damage:4 $bytes(%attack.damage,b)  $+ %style.rating }
+    if (%guard.message != $null) { query %battlechan %guard.message | unset %guard.message }
     unset %attack.damage1 | unset %attack.damage2 | unset %attack.damage3 | unset %attack.damage4 | unset %fourhit.attack
   }
 
   if (%fivehit.attack = true) { 
-    query %battlechan 1The first attack did4 $bytes(%attack.damage1,b) damage.  The second attack did4 $bytes(%attack.damage2,b) damage.  The third attack did4 $bytes(%attack.damage3,b) damage. The fourth attack did4 $bytes(%attack.damage4,b) damage. The fifth attack did4 $bytes(%attack.damage5,b) damage. Total physical damage:4 $bytes(%attack.damage,b)  $+ %style.rating
+    if (%guard.message = $null) { query %battlechan 1The first attack did4 $bytes(%attack.damage1,b) damage.  The second attack did4 $bytes(%attack.damage2,b) damage.  The third attack did4 $bytes(%attack.damage3,b) damage. The fourth attack did4 $bytes(%attack.damage4,b) damage. The fifth attack did4 $bytes(%attack.damage5,b) damage. Total physical damage:4 $bytes(%attack.damage,b)  $+ %style.rating }
+    if (%guard.message != $null) { query %battlechan %guard.message | unset %guard.message }
     unset %attack.damage1 | unset %attack.damage2 | unset %attack.damage3 | unset %attack.damage5 | unset %fourhit.attack | unset %fivehit.attack
   }
 
-
-  if (%statusmessage.display != $null) { query %battlechan %statusmessage.display | unset %statusmessage.display }
+  if (%statusmessage.display != $null) { 
+    if ($readini($char($2), battle, hp) > 0) { query %battlechan %statusmessage.display | unset %statusmessage.display }
+  }
 
   if (%absorb = absorb) {
     ; Show how much the person absorbed back.
@@ -441,8 +524,8 @@ random.battlefield.ally {
         set %npc.to.remove $findtok(%npc.list, %npc.name, 46)
         set %npc.list $deltok(%npc.list,%npc.to.remove,46)
         write battle.txt %npc.name
-        if ($readini(battlestats.dat, battle, winningStreak) >= 1) { $wins_boost(%npc.name, npc) }
-        $fulls(%npc.name) |  var %battlenpcs $readini(battle2.txt, BattleInfo, npcs) | inc %battlenpcs 1 | writeini battle2.txt BattleInfo npcs %battlenpcs
+        $boost_monster_stats(%npc.name)
+        $fulls(%npc.name) | var %battlenpcs $readini(battle2.txt, BattleInfo, npcs) | inc %battlenpcs 1 | writeini battle2.txt BattleInfo npcs %battlenpcs
         inc %value 1
       }
       else {  %npc.list = $deltok(%npc.list,%npc.name,46) | dec %value 1 }
@@ -500,8 +583,6 @@ guardian_style_check {
     dec %attack.damage %amount.to.block
   }
 }
-
-
 generate_evil_clones {
   var %battletxt.lines $lines(battle.txt) | var %battletxt.current.line 1
   while (%battletxt.current.line <= %battletxt.lines) { 
@@ -512,12 +593,90 @@ generate_evil_clones {
       .copy $char(%who.battle) $char(Evil_ $+ %who.battle)
       writeini $char(evil_ $+ %who.battle) info flag monster 
       writeini $char(evil_ $+ %who.battle) Basestats name Evil Doppelganger of %who.battle
-      $boost_monster_stats(evil_ $+ %who.battle, 1)
+      $boost_monster_stats(evil_ $+ %who.battle, doppelganger)
       $fulls(evil_ $+ %who.battle) 
+      writeini $char(evil_ $+ %who.battle) info OrbBonus yes
       set %curbat $readini(battle2.txt, Battle, List) |  %curbat = $addtok(%curbat,evil_ $+ %who.battle,46) |  writeini battle2.txt Battle List %curbat | write battle.txt evil_ $+ %who.battle
       $set_chr_name(evil_ $+ %who.battle) | query %battlechan $readini(translation.dat, battle, EnteredTheBattle)
       var %battlemonsters $readini(battle2.txt, BattleInfo, Monsters) | inc %battlemonsters 1 | writeini battle2.txt BattleInfo Monsters %battlemonsters
       inc %battletxt.current.line 1 
     }
   }
+}
+
+inflict_status {
+  ; $1 = user
+  ; $2 = target
+  ; $3 = status type
+
+  if ($3 = random) { 
+    var %random.status.type $rand(1,11)
+    if (%random.status.type = 1) { set %tech.status.type poison | var %tech.status.grammar poisoned }
+    if (%random.status.type = 2) { set %tech.status.type stop | var %tech.status.grammar frozen in time }
+    if (%random.status.type = 3) { set %tech.status.type silence | var %tech.status.grammar silenced }
+    if (%random.status.type = 4) { set %tech.status.type blind | var %tech.status.grammar blinded }
+    if (%random.status.type = 5) { set %tech.status.type virus | var %tech.status.grammar inflicted with a virus }
+    if (%random.status.type = 6) { set %tech.status.type amnesia | var %tech.status.grammar inflicted with amnesia }
+    if (%random.status.type = 7) { set %tech.status.type paralysis | var %tech.status.grammar paralyzed }
+    if (%random.status.type = 8) { set %tech.status.type zombie | var %tech.status.grammar a zombie }
+    if (%random.status.type = 9) { set %tech.status.type slow | var %tech.status.grammar slowed }
+    if (%random.status.type = 10) { set %tech.status.type stun | var %tech.status.grammar stunned }
+    if (%random.status.type = 11) { set %tech.status.type intimidate | var %tech.status.grammar intimidated }
+  }
+
+  if ($3 = stop) { var %tech.status.grammar frozen in time }
+  if ($3 = poison) { var %tech.status.grammar poisoned }
+  if ($3 = silence) { var %tech.status.grammar silenced }
+  if ($3 = blind) { var %tech.status.grammar blind }
+  if ($3 = virus) { var %tech.status.grammar inflicted with a virus }
+  if ($3 = amnesia) { var %tech.status.grammar inflicted with amnesia }
+  if ($3 = paralysis) { var %tech.status.grammar paralyzed }
+  if ($3 = zombie) { var %tech.status.grammar a zombie }
+  if ($3 = slow) { var %tech.status.grammar slowed }
+  if ($3 = stun) { var %tech.status.grammar stunned }
+  if ($3 = curse) { var %tech.status.grammar cursed }
+  if ($3 = charm) { var %tech.status.grammar charmed }
+  if ($3 = intimidate) { var %tech.status.grammar intimidated }
+
+  var %chance $rand(1,140) | $set_chr_name($1) 
+  if ($readini($char($2), skills, utsusemi.on) = on) { set %chance 0 } 
+
+  ; Check for resistance to that status type.
+  set %resist.have resist- $+ $3
+  set %resist.skill $readini($char($2), skills, %resist.have)
+
+  $ribbon.accessory.check($2)
+
+  if ($3 = charm) {
+    if ($readini($char($2), status, zombie) != no) { set %resist.skill 100 }
+    if ($readini($char($2), monster, type) = undead) { set %resist.skill 100 }
+  }
+
+  if ((%resist.skill <= 100) || (%resist.skill = $null)) {
+    if ((%resist.skill != $null) && (%resist.skill > 0)) { dec %chance %resist.skill }
+  }
+
+  if (%resist.skill >= 100) { $set_chr_name($2) | set %statusmessage.display 4 $+ %real.name is immune to the $3 status! }
+  if ((%resist.skill < 100) || (%resist.skill = $null)) {
+
+    if (%chance <= 0) { $set_chr_name($2) | set %statusmessage.display 4 $+ %real.name has resisted $set_chr_name($1) %real.name $+ 's $lower($3) status effect! }
+    if ((%chance > 0) && (%chance <= 45)) { $set_chr_name($1) | set %statusmessage.display 4 $+ %real.name $+ 's $lower($3) status effect has failed against $set_chr_name($2) %real.name $+ ! }
+    if (%chance > 45) {
+      $set_chr_name($2) | set %statusmessage.display 4 $+ %real.name is now %tech.status.grammar $+ ! 
+      if ($3 = poison) && ($readini($char($2), status, poison) = yes) { writeini $char($2) status poison no | writeini $char($2) status poison-heavy yes }
+      if ($3 = poison) && ($readini($char($2), status, poison-heavy) != yes) { writeini $char($2) status poison yes }
+      if ($3 = charm) { writeini $char($2) status charmed yes | writeini $char($2) status charmer $1 | writeini $char($2) status charm.timer $rand(2,3) }
+      if ($3 = curse) { writeini $char($2) Status $3 yes | writeini $char($2) battle tp 0 }
+      else { writeini $char($2) Status $3 yes  }
+    }
+  }
+
+  ; If a monster, increase the resistance.
+  if ($readini($char($2), info, flag) = monster) {
+    if (%resist.skill = $null) { set %resist.skill 2 }
+    else { inc %resist.skill 2 }
+    writeini $char($2) skills %resist.have %resist.skill
+  }
+  unset %resist.have | unset %chance
+  return
 }

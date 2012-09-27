@@ -1,20 +1,20 @@
 [BaseStats]
-Hp=1200
-Tp=300
-Str=100
-Def=100
-Int=100
-Spd=100
-Name=Dullahan
+Hp=3
+Tp=200
+Str=12
+Def=1500
+Int=15
+Spd=50
+Name=Metal King Slime
 
 
 [Battle]
-Hp=1200
-Tp=300
-Str=100
-Def=100
-Int=100
-Spd=100
+Hp=3
+Tp=200
+Str=12
+Def=1500
+Int=15
+Spd=50
 Status=alive
 
 
@@ -24,29 +24,31 @@ RageCountDown=0
 
 
 [Descriptions]
-Char=is a large suit of purple armor that is animated by powerful magic. Perhaps the strongest entity in Golden Sun.
-Rage=yells out in rage!
-BossQuote=I am the shadow, the keeper of light. If you want the sun's power, show me your own!
+Char=takes the same appearence of the King Slime, but is all metal instead. It wears a large metal crown as well.
+Rage=screams in rage 
+BossQuote=Gloop!
 
 
 [Stuff]
 RedOrbs=0
 BlackOrbs=1
 ShopLevel=1.0
-Drops=Potion.vip-membercard.x-potion.goldorb.tonic
+Drops=Potion.X-Potion.Tonic.Holy_Water.Ether
+
 
 [Monster]
 Type=
 
 [Info]
 Flag=monster
-Gender=his
-Gender2=him
+Gender=its
+Gender2=it
 password=battlearena
 passhurt=0
 LastSeen=N/a
 LastIP=N/a
 Created=N/a
+OrbBonus=yes
 
 [Status]
 Poison=no
@@ -82,46 +84,49 @@ stun=no
 MPRegenerating=no
 
 [Weapons]
-Equipped=DullahanSword
-DullahanSword=85
+Equipped=SlimePower
+SlimePower=30
+Weak=None
+Strong=HandToHand.Sword.Whip.Gun.Rifle.Katana.Wand.Spear.Scythe.Glyph.GreatSword.Stave.Bow
+
 
 [Skills]
-SwordMaster=100
-Wizardy=100
 Resist-Charm=100
 Resist-Poison=100
 Resist-Zombie=100
 Resist-Intimidate=100
-royalguard.on=on
-manawall.on=on
 Zen=5
-ClearMind=3
 Impetus=20
-ElementalSeal=5
-MightyStrike=5
+MightyStrike=1
 Resist-Amnesia=100
-Resist-Blind=100
-Resist-Slow=100
-Resist-Stop=100
-Resist-Paralysis=100
-BloodBoost=10
+MartialArts=30
+Wizardy=30
+RoyalGuard=1
+royalguard.on=on
+ManaWall=1
+manawall.on=off
 
 [Techniques]
-Charon=85
-ForminaSage=85
-Haunt=85
-DjinnStorm=90
-Condem=85
-Sealing=70
+SlimeRam=20
+SlimeStomp=30
+Flare=20
+Freeze=20
+Burst=20
+Quake=20
+Flood=20
+Tornado=20
+Poison=10
+Blind=10
+Paralyze=10
 
 [Item_Amount]
 
-[Style]
-Equipped=SpellMaster
-SpellMaster=10
-SpellMasterXP=1
 
 [Element]
 Weakness=None
-Strong=None
-Heal=Dark.Light
+Strong=Light.Dark.Ice.Fire.Wind.Water.Earth.Lightning
+
+[Styles]
+Equipped=Guardian
+Guardian=10
+GuradianXP=1

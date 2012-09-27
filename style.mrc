@@ -67,9 +67,11 @@ alias add.style.orbbonus {
   if (%style.points = $null) { %style.points = 1 }
 
   set %multiplier 0
-  if ($2 = monster) { %multiplier = 1.5 }
-  if ($2 = boss) { %multiplier = 2 }
+  if ($2 = monster) { %multiplier = 1.2 }
+  if ($2 = boss) { %multiplier = 1.7 }
 
+  var %orb.bonus.flag $readini($char($3), info, OrbBonus)
+  if (%orb.bonus.flag = yes) { inc %multiplier $rand(4,6) }
 
   set %current.orb.bonus $readini(battle2.txt, BattleInfo, OrbBonus)
   if (%current.orb.bonus = $null) { set %current.orb.bonus 0 }

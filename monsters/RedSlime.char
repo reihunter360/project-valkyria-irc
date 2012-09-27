@@ -1,20 +1,20 @@
 [BaseStats]
-Hp=110
-Tp=40
-Str=9
-Def=8
+Hp=85
+Tp=80
+Str=3
+Def=6
 Int=8
-Spd=9
-Name=Succubus
+Spd=4
+Name=
 
 
 [Battle]
-Hp=110
-Tp=40
-Str=9
-Def=8
+Hp=85
+Tp=80
+Str=3
+Def=6
 Int=8
-Spd=9
+Spd=4
 Status=alive
 
 
@@ -22,15 +22,9 @@ Status=alive
 RageBar=0
 RageCountDown=0
 
-[Limit]
-Level=1
-Percent=0
-
 
 [Descriptions]
-Hused=1
-Dused=1
-Char=is woman with long black hair, firey red eyes and is wearing little to leave to the imagination.  She winks at the heroes.
+Char=is a normal slime that is red in color. It has large eyes and a large smile. It has learned the ways of magic!
 Rage=screams in rage 
 
 [Stuff]
@@ -40,8 +34,8 @@ ShopLevel=1.0
 
 [Info]
 Flag=monster
-Gender=her
-Gender2=her
+Gender=its
+Gender2=it
 password=battlearena
 passhurt=0
 LastSeen=N/a
@@ -49,7 +43,7 @@ LastIP=N/a
 Created=N/a
 
 [Monster]
-Type=Undead
+Type=
 
 [Status]
 Poison=no
@@ -85,25 +79,38 @@ stun=no
 MPRegenerating=no
 
 [Weapons]
-Equipped=SuccubusPower
-SuccubusPower=5
+Equipped=SlimePower
+SlimePower=5
 
 [Skills]
-Resist-charm=100
-Resist-zombie=100
-
+Resist-Charm=100
+Resist-Zombie=100
+Resist-Intimidate=100
+Zen=5
+Wizardy=10
+MartialArts=10
+ClearMind=1
 
 
 [Techniques]
-VampireBite=15
-Temptation=10
-FireII=15
+SlimeRam=10
+SlimeStomp=12
+FireII=10
+IceII=10
+ThunderII=10
+StoneII=10
+WaterII=10
+AeroII=10
 
 
 [Item_Amount]
 
 
-
 [Element]
-Weakness=Light
-Strong=Dark.Ice.Fire
+Weakness=Fire
+Strong=Ice
+
+[Styles]
+Equipped=SpellMaster
+SpellMaster=1
+SpellMasterXP=1
