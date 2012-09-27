@@ -125,7 +125,7 @@ Cost=9000
 ; Digimon Moveset
 type=AOE
 TP=30
-;statustype=Blind
+statustype=Blind
 Desc=screams to the heavens and finally a holy fire burns down to all enemies. [Starlight Explosion!]
 basepower=30
 element=light
@@ -136,7 +136,7 @@ cost=9000
 ; Digimon Moveset
 type=single
 TP=30
-;statustype=Burning
+statustype=Burning
 Desc=flaps $gender($1) wings until they burn a bright yellow, and unleashes them on %enemy $+ ! [Crimson Flame!]
 basepower=45
 element=fire

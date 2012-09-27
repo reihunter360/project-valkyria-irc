@@ -4417,3 +4417,262 @@ BasePower=25
 Element=None
 Cost=2000
 Magic=No
+
+[Repairs]
+Type=heal
+TP=5
+Desc=$gender($1) damages all over the body starts to heal on %enemy $+ !
+BasePower=20
+cost=90000
+Element=none
+magic=yes
+
+[SonicBlow]
+; Ragnarok Online Move
+Type=Single
+StatusType=Stun
+TP=20
+Desc=approaches %enemy $+ then starts stabbing them at sonic speeds! Then, $name jumps back and whips $gender($1) sword to the side. [Sonic Blow]
+BasePower=25
+hit=$rand(2,5)
+cost=500
+Element=none
+magic=no
+
+[BrandishSpear]
+; Ragnarok Online Move
+Type=AOE
+StatusType=Stun
+TP=10
+Desc=uses $gender($1) weapon and slams it hard into the ground creating a shockwave that damages all enemies! [Brandish Spear!]
+BasePower=30
+cost=6000
+Element=none
+magic=no
+
+[JupitelThunder]
+; Ragnarok Online Move
+Type=Single
+StatusType=Paralysis
+TP=20
+Desc=casts spell forming a ball of lightning and propells it at %enemy $+ !  [Jupitel Thunder!]
+cost=9000
+basepower=20
+Element=Lightning
+magic=yes
+
+; Tyrannosaurus Moveset
+
+[Swallow]
+Type=Single
+TP=20
+Desc=rushes towards %enemy $+ and swallows them for a while, then spits them back out!
+basepower=20
+Element=none
+cost=9000
+magic=0
+Absorb=Yes
+
+[VolcanicRush]
+Type=AOE
+StatusType=Burning.Shaking
+TP=50
+Desc=flails around and stomps on the ground, causing small tremors and finally rushes into the enemy, a giant volcano erupting and hitting everything in range.
+basepower=20
+Element=Fire
+cost=9000
+magic=yes
+
+[SurvivalInstinct]
+Type=boost
+TP=20
+Desc=roars into the sky to charge up into one final move... to ensure its survival!
+basepower=20
+element=Fire
+Cost=9000
+
+; Phoenixmon Skills.
+
+[StarlightExplosion]
+; Digimon Moveset
+type=AOE
+TP=30
+statustype=Blind
+Desc=screams to the heavens and finally a holy fire burns down to all enemies. [Starlight Explosion!]
+basepower=30
+element=light
+magic=yes
+cost=9000
+
+[CrimsonFlame]
+; Digimon Moveset
+type=single
+TP=30
+statustype=Burning
+Desc=flaps $gender($1) wings until they burn a bright yellow, and unleashes them on %enemy $+ ! [Crimson Flame!]
+basepower=45
+element=fire
+magic=yes
+cost=9000
+
+[MeteorPhoenix]
+type=AOE
+tp=20
+; statustype=Shaking
+Desc= 's body burns with an orange fire, then finally heads towards a good height and dives into the battlefield, burning everything within range.
+magic=no
+basepower=60
+element=fire
+cost=9000
+
+[DoubleHurricane]
+type=AOE
+tp=20
+;statustype=Tornado
+Desc= flaps $gender($1) four wings and produces two giant tornadoes which ravages the battlefield.
+element=Wind
+magic=no
+basepower=30
+cost=9000
+
+[BusterPhoenix]
+type=boost
+tp=20
+element=Fire
+Desc= starts to burn a bright orange fire around itself!
+basepower=20
+cost=9000
+
+; Black Rock Shooter moves
+
+[RockCannon]
+type=single
+tp=15
+Desc=aims and fires a barrage of blue spheres at %enemy $+ ! [Rock Cannon!]
+basepower=30
+cost=9000
+magic=no
+
+[RockDeltaVulcan]
+type=single
+tp=30
+Desc=changes the "Rock Cannon" on $gender($1) hands and becomes a "Delta Vulcan Gatling" and steadily unleashes a blast of bullets onto %enemy $+ ! [Rock Delta Vulcan!]
+basepower=45
+cost=9000
+magic=no
+
+[BlackStarSlash]
+type=AOE
+tp=45
+Desc=summons a black and white katana and lets it burn in a blue blaze... slashing it towards the enemies sending a large blue fire across the battlefield! [Black Star Slash!]
+basepower=60
+cost=9000
+element=Light
+magic=yes
+
+[BlackStarGrenade]
+type=AOE
+tp=45
+Desc=forms a giant ball burning a bright blue, then tosses it at the enemies. [Black Star Grenade!]
+basepower=55
+cost=9000
+element=Fire
+magic=no
+
+[BlackStarPower]
+type=boost
+tp=20
+Desc=stares intently at $gender($1) $+'s opponents, and says "I am Black Rock Shooter!" as $gender($0) says this, $gender($1) left eye starts to burn a bright blue of a flame!
+basepower=20
+element=Fire
+cost=9000
+magic=no
+
+[RockCannonSpear]
+type=status
+statustype=Burning
+tp=25
+Desc=changes the "Rock Cannon" into a large spear and slams it hard on %enemy! 
+basepower=35
+cost=2000
+magic=no
+
+; DiEndDriver Details
+
+[DiendHenshin]
+type=boost
+tp=20
+Desc=quickly slides the card slot open on the gun and inserts a special card inside, and immediately closes. You scream "Henshin!" and you shoot that card into the air forming a body suit for you! "D-D-D--- Diend Rider!" a voice from far away seem to say at your new form.
+element=Lightning
+basepower=20
+cost=300
+
+[DiendGekijouban]
+type=single
+tp=60
+basepower=170
+desc=quickly slides a card into the DiendDriver Card slot and fires it into the air. "D-D-D-Diend Final Attack Ride! GEKIJOBAN!" The attack summons 8 masked riders and takes turn in hitting %enemy $+ !
+cost=10000
+magic=yes
+
+[DiendBlast]
+type=single
+statustype=Stun
+tp=20
+element=Lightning
+basepower=25
+cost=4000
+Desc= shifts the mode on the DiendDriver and goes full automatic on %enemy $+ ! [Diend Blast!]
+
+[DiEndDimensionShoot]
+type=AOE
+statustype=paralysis
+tp=100
+Element=Lightning
+cost=5000
+Desc= locks the DiendDriver, then aims at the enemies, and then 9 ring of cards appear in a straight line, and a large beam from the Diend Driver hits all the enemies! "Final Attack Ride! Dimension Shoot!" a voice seemingly echoing all over.
+basepower=50
+magic=yes
+
+; Megasaurus Attacks
+
+[Earthquake]
+type=AOE
+element=Earth
+tp=200
+cost=2000
+Desc= jumps into the air and lands on the earth below, creating massive shafts of the ground to grow unstable and almost destroy the battlefield! [Earthquake!]
+statustype=Shaking
+basepower=100
+magic=no
+
+
+[UltimateSwallow]
+type=AOE
+tp=100
+cost=99999
+Desc= grabs all the enemies on the battlefield and chews on them for a while, then spits them back out! [Ultimate Swallow]
+absorb=yes
+basepower=50
+magic=no
+
+[Slurp]
+type=single
+statustype=Paralysis
+tp=30
+basepower=40
+desc=licks and tastes %enemy $+ ! [Slurp]
+element=water
+absorb=yes
+magic=no
+cost=2000
+
+[Dinostomp]
+type=single
+statustype=Stun
+tp=40
+basepower=60
+desc=lifts $gender($1) $+ giant leg and stomps on %enemy $+ ! [Dinosaur Stomp!]
+element=none
+magic=no
+cost=2000
