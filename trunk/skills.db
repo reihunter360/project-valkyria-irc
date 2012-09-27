@@ -252,66 +252,66 @@ RESISTS
 
 [Resist-Paralysis]
 Cost=150
-Max=100
+Max=70
 Type=Resistance
 Info=This skill lowers the chance that you will become paralyzed in battle by 1% each level.
 
 [Resist-Charm]
 Cost=150
-Max=100
+Max=70
 Type=Resistance
 Info=This skill lowers the chance that you will become charmed in battle by 1% each level.
 
 [Resist-Blind]
 Cost=150
-Max=100
+Max=70
 Type=Resistance
 Info=This skill lowers the chance that you will become blind in battle by 1% each level.
 
 [Resist-Poison]
 Cost=150
-Max=100
+Max=70
 Type=Resistance
 Info=This skill lowers the chance that you will become poisoned in battle by 1% each level.
 
 [Resist-Amensia]
 Cost=150
-Max=100
+Max=70
 Type=Resistance
 Info=This skill lowers the chance that you will suffer amnesia in battle by 1% each level.
 
 [Resist-Curse]
 Cost=150
-Max=100
+Max=70
 Type=Resistance
 Info=This skill lowers the chance that you will become cursed in battle by 1% each level.
 
 [Resist-Zombie]
 Cost=150
-Max=100
+Max=70
 Type=Resistance
 Info=This skill lowers the chance that you will become a zombie in battle by 1% each level.
 
 [Resist-Slow]
 Cost=150
-Max=100
+Max=70
 Type=Resistance
 Info=This skill lowers the chance that you will become slowed in battle by 1% each level.
 
 [Resist-Stun]
 Cost=150
-Max=100
+Max=70
 Type=Resistance
 Info=This skill lowers the chance that you will become stunned in battle by 1% each level.
 
 [Resist-Amnesia]
 Cost=150
-Max=100
+Max=70
 Type=Resistance
 Info=This skill lowers the chance that you will become stunned in battle by 1% each level.
 
 [Resist-Stop]
 Cost=150
-Max=100
+Max=70
 Type=Resistance
 Info=This skill lowers the chance that you will become frozen in time in battle by 1% each level.

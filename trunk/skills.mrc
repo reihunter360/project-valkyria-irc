@@ -1077,7 +1077,7 @@ alias skill.steal {
 
     if (%steal.chance >= 85) {
       var %stolen.from.counter $readini($char($2), status, stolencounter)
-      if (%stolen.from.counter > 5) { $set_chr_name($2) | query %battlechan 4 $+ %real.name  has nothing left to steal! | halt }
+      if (%stolen.from.counter > 10) { $set_chr_name($2) | query %battlechan 4 $+ %real.name  has nothing left to steal! | halt }
 
       inc %stolen.from.counter 1 | writeini $char($2) status stolencounter %stolen.from.counter 
 
