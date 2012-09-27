@@ -1,5 +1,5 @@
 [BaseStats]
-Hp=10000
+Hp=50000
 Tp=800
 Str=400
 Def=100
@@ -9,7 +9,7 @@ Name=Tyrannosaurus
 
 
 [Battle]
-Hp=10000
+Hp=50000
 Tp=800
 Str=400
 Def=100
@@ -48,6 +48,7 @@ LastSeen=N/a
 LastIP=N/a
 Created=N/a
 RageMode=Ignore
+Battlestats=ignoreHP
 
 [Monster]
 Type=
@@ -96,6 +97,7 @@ Mightystrike=10
 bloodboost=350
 MartialArts=200
 DesperateBlows=1
+Zen=10
 
 [Techniques]
 ; TRexWeapon=Roar.Swallow.SpikeFlail.VolcanicRush.SurvivalInstinct
