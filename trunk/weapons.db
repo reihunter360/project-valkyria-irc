@@ -2,8 +2,9 @@
 HandToHand=Fists.Cerberus.Ifrit.KaiserKnuckles.Verethragna.Spharai
 Swords=Mythril_Sword.Joyeuse.Rebellion.LexTalionis.Soulsaber.Excalibur.Murgleis.Almace
 Whips=LeatherWhip.ChainWhip.DragontailWhip.DemonWhip.SpikedSteelWhip.Vampire_Killer
-Guns=Ebony&Ivory.Quicksilver.Magnum.Hexagun.SubMachineGun.DiendDriver
+Guns=Ebony&Ivory.Quicksilver.Magnum.Hexagun.SubMachineGun.DiEndDriver
 Rifles=SniperRifle.Boomstick.AK47.Armageddon.Annihilator.DeathPenalty
+Bows=RobinsBow.ShigetoBow.LamianKamen.Yoichinoyumi.Gandiva
 Katanas=Keitonotachi.Yamato.Zangetsu.Senbonzakura.Hyourinmaru.Soboro.PowerChordSword.Hagun.Masamune.Crissaegrim.Valmanway
 Wands=YewWand.OakWand.PineWand.IridialStaff.ElderWand.Laevatein.EbonyWand
 Spears=Lance.Thalassocrat.Gungnir.Rhongomiant.Corsesca.Ryunohige
@@ -12,7 +13,7 @@ Glyphs=Glyphs
 GreatSwords=Braveheart.Balmung.Nightfall.Ragnarok.Caladbolg
 MonsterWpns=Yagudo_Fists.Dark_Vampiric_Power.Guardian_Shield.Orc_Pike.QuadavWand_R.Mistilteinn.Silver_Goddess_Sword.Black_Goddess_Staff.Cell'sKi.Death's_Scythe.CreeperLegs.ZombieFists.PsychoPower.BedrockBite.Shadow_Blade.MenosPower.DragonFangs.BeeStinger.GoblinSword.YagudoWand.TigerFangs.Pinchers.BoneScythe.AndroidKi.Orcish_Gun.SubZeroFists.Ninjutsu
 MonsterWpns2=VampireFangs.SpaceGun.CerberusClaws.ElementalPower.MarioFists.FishBite.Egyptian_Rod.SinistralPower.JesterWand.VampireArt.Puppetry.Benihime.PeoplesFist.SuccubusPowerDragonShouts.BlueEyesPower.BlackMagic.DragonSword.OctoArms.Casull&Jackal.AlucardSword.Auto9.Railgun.WoolyTusks.OrochiPower.BogardGloves.GiygasPower.AtlantisPower.RedEyedDragoon.DarknessDragoon.ShihouinFists.ImpHorn.GhostPower
-MonsterWpns3=GoblinWand.Quetzalcoatl.CuteRabbitTeeth.RyukotsukiPower.DecapiclopsPower.OxocutionerPower.ChimyriadPower.GekkoWeapon.GekkoArms.GearRayWeapons.CactuarNeedles.JumboCactuarNeedles.KainsLance.PrishePowers.AbsolutePolearm.DullahanSword.ChunLiBracelets.RyuGloves.KenGloves.AlexanderPower.BahamutPower.CarbunclePower.DoomtrainPower.FalcorrPower.FenrirPower.GarudaPower.IfritPower.LeviathanPower.OlduumStaff.ShivaPower.TitanPower
+MonsterWpns3=GoblinWand.Quetzalcoatl.CuteRabbitTeeth.RyukotsukiPower.DecapiclopsPower.OxocutionerPower.ChimyriadPower.GekkoWeapon.GekkoArms.GearRayWeapons.CactuarNeedles.JumboCactuarNeedles.KainsLance.PrishePowers.AbsolutePolearm.DullahanSword.ChunLiBracelets.RyuGloves.KenGloves.AlexanderPower.BahamutPower.CarbunclePower.DoomtrainPower.FalcorrPower.FenrirPower.GarudaPower.IfritPower.LeviathanPower.OlduumStaff.ShivaPower.TitanPower.DreddGun.SlimePower.PowerOfWords
 MonsterWpns4=FFOmegaWeapon.Valkyrie_Sword.TRexWeapon.PhoenixmonWeapon.BlackRockShooter.MegasaurusWeapon
 
 =============================================
@@ -395,7 +396,58 @@ BasePower=20
 Upgrade=400
 
 
+=============================================
+Bows
+=============================================
+[RobinsBow]
+Cost=1
+Type=Bow
+Info=A cheap replica of the legendary bow used by Robin Hood.
+Abilities=FlamingArrow.PiercingArrow.DullingArrow
+Element=None
+Hits=1
+BasePower=5
+Upgrade=200
 
+[ShigetoBow]
+Cost=2
+Type=Bow
+Info=A simple bow used by samurai.
+Abilities=BlastArrow.Sidewinder.FlamingArrow
+Element=None
+Hits=1
+BasePower=10
+Upgrade=300
+
+[LamianKamen]
+Cost=3
+Type=Bow
+Info=A bow used by the Lamia. It has an intricate blue and gold design.
+Abilities=EmpyrealArrow.ArchingArrow.PiercingArrow
+Element=None
+Hits=1
+BasePower=15
+Upgrade=400
+
+[Yoichinoyumi]
+Cost=4
+Type=Bow
+Info=A legendary bow used by samurai in the past.
+Abilities=EagleEyeShot.NamasArrow.RefulgentArrow
+Element=Light
+Hits=1
+BasePower=20
+Upgrade=500
+
+[Gandiva]
+Cost=5
+Type=Bow
+Info=A legendary Empyrean bow. It is black and gold in color and has two blue jewels in it.
+Abilities=EagleEyeShot.JishnusRadiance.ApexArrow
+Element=Dark
+Hits=1
+BasePower=25
+Upgrade=600
 
 =============================================
 KATANAS
@@ -568,7 +620,7 @@ Upgrade=300
 [Laevatein]
 Cost=25
 Type=Stave
-Info=A light brown staff with intricate silver designs. The top has four points, of of which that almost resembles an axe. Hidden way due to its very strong power.
+Info=A light brown staff with intricate silver designs. The top has four points, of of which that almost resembles an axe. Hidden away due to its very strong power.
 Abilities=FlareII.QuakeII.FloodII.TornadoII.FreezeII.BurstII.CureV.Merlin'sFinalSpell
 Element=None
 Hits=1
@@ -715,7 +767,7 @@ MONSTER WEAPONS
 These are weapons that Monsters use.  They shouldn't be available for players.
 
 [Yagudo_Fists]
-Cost=9999999
+Cost=99999999
 Type=HandToHand
 Info=You can't buy this!
 Abilities=Sweep.DoubleKick.FeatherStorm
@@ -725,7 +777,7 @@ BasePower=5
 Upgrade=50000
 
 [Yagudo_Wand]
-Cost=9999999
+Cost=99999999
 Type=Wand
 Info=You can't buy this!
 Abilities=Sweep.DoubleKick.FeatherStorm.Fire.Stone.Ice.Aero.Cure
@@ -735,7 +787,7 @@ BasePower=5
 Upgrade=50000
 
 [Dark_Vampiric_Power]
-Cost=9999999
+Cost=99999999
 Type=HandToHand
 Info=You can't buy this!
 Abilities=Dark_Inferno.Demonic_Megiddo.TrueForm
@@ -745,7 +797,7 @@ BasePower=5
 Upgrade=50000
 
 [Guardian_Shield]
-Cost=9999999
+Cost=99999999
 Type=sword
 Info=You can't buy this!
 Abilities=Shield_Smash.Shockwave
@@ -753,8 +805,9 @@ Element=none
 Hits=1
 BasePower=2
 Upgrade=50000
+
 [Orc_Pike]
-Cost=9999999
+Cost=99999999
 Type=spear
 Info=You can't buy this!
 Abilities=BattleDance.ShoulderTackle.Jump
@@ -762,8 +815,9 @@ Element=none
 Hits=1
 BasePower=2
 Upgrade=50000
+
 [QuadavWand_R]
-Cost=9999999
+Cost=99999999
 Type=wand
 Info=You can't buy this!
 Abilities=FireIV.WaterIV.BlizzardIV.Poison.Blind
@@ -771,8 +825,9 @@ Element=none
 Hits=1
 BasePower=5
 Upgrade=50000
+
 [Mistilteinn]
-Cost=9999999
+Cost=99999999
 Type=stave
 Info=You can't buy this!
 Abilities=Holy.BanishV.WrathOfGuDha.TormentOfGuDha.Headbutt
@@ -780,8 +835,9 @@ Element=none
 Hits=$rand(1,2)
 BasePower=10
 Upgrade=50000
+
 [Silver_Goddess_Sword]
-Cost=9999999
+Cost=99999999
 Type=Sword
 Info=A longsword made out of silver and has a blue gem inserted into the guard.
 Abilities=TwinSlice.BiteOfLightning.BladeBeam.HyperTwinSlice.WiseReflection.CureV.GigaSlash.Atonement.BlizzajaII
@@ -789,8 +845,9 @@ Element=Light
 Hits=$rand(1,3)
 BasePower=75
 Upgrade=50000
+
 [Black_Goddess_Staff]
-Cost=9999999
+Cost=99999999
 Type=Stave
 Info=A large staff that is black in color. The bottom has gold on it and the top of the staff splits into four before combining back together. A ruby rests in the split and gold runes run along the staff.
 Abilities=AeroV.BlizzardV.AerogaV.FireV.Composure
@@ -798,8 +855,9 @@ Element=Light
 Hits=1
 Basepower=50
 Upgrade=50000
+
 [Cell'sKi]
-Cost=9999999
+Cost=99999999
 Type=HandToHand
 Info=You can't buy this!
 Abilities=CellExplode.PerfectForm.Kamehameha
@@ -807,8 +865,9 @@ Element=none
 Hits=2
 BasePower=5
 Upgrade=50000
+
 [Death's_Scythe]
-Cost=9999999
+Cost=99999999
 Type=Scythe
 Info=You can't buy this!
 Abilities=GrimReaper.Grim_Slash
@@ -817,7 +876,7 @@ Hits=1
 BasePower=5
 Upgrade=50000
 [CreeperLegs]
-Cost=9999999
+Cost=99999999
 Type=HandToHand
 Info=You can't buy this!
 Abilities=CreeperExplode.Headbutt
@@ -826,7 +885,7 @@ Hits=$rand(1,2)
 BasePower=2
 Upgrade=50000
 [SpiderLegs]
-Cost=9999999
+Cost=99999999
 Type=HandToHand
 Info=You can't buy this!
 Abilities=SpiderWeb.SickleSlash
@@ -835,7 +894,7 @@ Hits=$rand(1,2)
 BasePower=2
 Upgrade=50000
 [ZombieFists]
-Cost=9999999
+Cost=99999999
 Type=HandToHand
 Info=You can't buy this!
 Abilities=ZombieBite
@@ -844,7 +903,7 @@ Hits=$rand(1,2)
 BasePower=2
 Upgrade=50000
 [PsychoPower]
-Cost=9999999
+Cost=99999999
 Type=HandToHand
 Info=You can't buy this!
 Abilities=PsychoCrusher
@@ -853,7 +912,7 @@ Hits=2
 BasePower=5
 Upgrade=50000
 [BedrockBite]
-Cost=9999999
+Cost=99999999
 Type=HandToHand
 Info=You can't buy this!
 Abilities=Tremors.FullForceBlow
@@ -862,7 +921,7 @@ Hits=1
 BasePower=3
 Upgrade=50000
 [Shadow_Blade]
-Cost=9999999
+Cost=99999999
 Type=Sword
 Info=You can't buy this!
 Abilities=GigaSlash.KickBack.DarkNova
@@ -870,8 +929,9 @@ Element=dark
 Hits=1
 BasePower=5
 Upgrade=50000
+
 [MenosPower]
-Cost=9999999
+Cost=99999999
 Type=HandToHand
 Info=You can't buy this!
 Abilities=Cero
@@ -879,8 +939,9 @@ Element=dark
 Hits=1
 BasePower=15
 Upgrade=50000
+
 [DragonFangs]
-Cost=9999999
+Cost=99999999
 Type=HandToHand
 Info=You can't buy this!
 Abilities=FangRush.RadiantBreath.HurricaneBreath.SpikeFlail.AbsoluteTerror
@@ -888,8 +949,9 @@ Element=none
 Hits=$rand(1,2)
 BasePower=8
 Upgrade=50000
+
 [BeeStinger]
-Cost=9999999
+Cost=99999999
 Type=HandToHand
 Info=You can't buy this!
 Abilities=FinalSting.SharpSting.FrenzySting
@@ -897,8 +959,9 @@ Element=none
 Hits=$rand(1,2)
 BasePower=5
 Upgrade=50000
+
 [GoblinSword]
-Cost=9999999
+Cost=99999999
 Type=Sword
 Info=You can't buy this!
 Abilities=GoblinRush.BombToss.BombDrop.FastBlade
@@ -906,8 +969,9 @@ Element=none
 Hits=$rand(1,2)
 BasePower=5
 Upgrade=50000
+
 [GoblinWand]
-Cost=9999999
+Cost=99999999
 Type=Wand
 Info=You can't buy this!
 Abilities=GoblinRush.BombToss.BombDrop.Firaja.Stoneja.Waterja.Aeroja.Blizzaja.Thundaja.Cura.Flare.Quake.Flood
@@ -917,7 +981,7 @@ BasePower=5
 Upgrade=50000
 
 [Quetzalcoatl]
-Cost=9999999
+Cost=99999999
 Type=Wand
 Info=You can't buy this!
 Abilities=FirajaII.StonejaII.WaterjaII.AerojaII.BlizzajaII.ThundajaII.Meteor.Poison
@@ -925,8 +989,9 @@ Element=none
 Hits=1
 BasePower=5
 Upgrade=50000
+
 [TigerFangs]
-Cost=9999999
+Cost=99999999
 Type=HandtoHand
 Info=You can't buy this!
 Abilities=Roar.RazorFang.ClawCyclone
@@ -934,8 +999,9 @@ Element=none
 Hits=$rand(1,2)
 BasePower=5
 Upgrade=50000
+
 [Pinchers]
-Cost=9999999
+Cost=99999999
 Type=HandtoHand
 Info=You can't buy this!
 Abilities=BubbleShower.BigScissors
@@ -943,8 +1009,9 @@ Element=water
 Hits=$rand(1,2)
 BasePower=5
 Upgrade=50000
+
 [ImpHorn]
-Cost=9999999
+Cost=99999999
 Type=HandtoHand
 Info=You can't buy this!
 Abilities=Frenetic_Rip.Abrasive_Tantara.Flare.Tornado
@@ -952,8 +1019,9 @@ Element=none
 Hits=1
 BasePower=5
 Upgrade=50000
+
 [BoneScythe]
-Cost=9999999
+Cost=99999999
 Type=scythe
 Info=You can't buy this!
 Abilities=BloodSaber.BloodSlash.HorrorCloud.Fire.Stone.Aero.FireIV.WaterIV.BlizzardIV.Poison.Blind.Firaja.Stoneja.Waterja.Aeroja.Blizzaja.Thundaja
@@ -961,8 +1029,9 @@ Element=none
 Hits=1
 BasePower=5
 Upgrade=50000
+
 [VampireFangs]
-Cost=9999999
+Cost=99999999
 Type=HandtoHand
 Info=Vampire fangs that you cannot buy!
 Abilities=VampireBite.DoublePunch.ShoulderTackle.SpinningAttack
@@ -970,8 +1039,9 @@ Element=Dark
 Hits=2
 BasePower=10
 Upgrade=50000
+
 [SuccubusPower]
-Cost=9999999
+Cost=99999999
 Type=HandtoHand
 Info=The power of a succubus!  You wish you could have it.
 Abilities=VampireBite.Temptation.FireII
@@ -980,8 +1050,9 @@ Hits=2
 BasePower=10
 Upgrade=50000
 
+
 [SpaceGun]
-Cost=9999999
+Cost=99999999
 Type=gun
 Info=You can't buy this!
 Abilities=SpaceBeam.Sacrifice.SpaceAbsorb.SpaceBoost
@@ -991,7 +1062,7 @@ BasePower=10
 Upgrade=50000
 
 [CerberusClaws]
-Cost=9999999
+Cost=99999999
 Type=HandtoHand
 Info=You can't buy this!
 Abilities=IceRain.Roar.ShoulderTackle
@@ -1001,7 +1072,7 @@ BasePower=10
 Upgrade=50000
 
 [ElementalPower]
-Cost=9999999
+Cost=99999999
 Type=Wand
 Info=You can't buy this!
 Abilities=FireII.StoneII.IceII.AeroII.WaterII.ThunderII.Firaja.FireV.Stoneja.Waterja.Aeroja.Blizzaja.Thundaja
@@ -1009,8 +1080,9 @@ Element=none
 Hits=1
 BasePower=10
 Upgrade=50000
+
 [MarioFists]
-Cost=9999999
+Cost=99999999
 Type=HandtoHand
 Info=You can't buy this!
 Abilities=Jump.FireFlower.StarPower
@@ -1020,7 +1092,7 @@ BasePower=10
 Upgrade=50000
 
 [FishBite]
-Cost=9999999
+Cost=99999999
 Type=HandtoHand
 Info=You can't buy this!
 Abilities=Screwdriver.AquaBall.Water
@@ -1030,7 +1102,7 @@ BasePower=10
 Upgrade=50000
 
 [OctoArms]
-Cost=9999999
+Cost=99999999
 Type=HandtoHand
 Info=You can't buy this!
 Abilities=Maelstrom.InkJet.Tentacle
@@ -1040,177 +1112,177 @@ BasePower=3
 Upgrade=50000
 
 [Egyptian_Rod]
-Cost=9999999
+Cost=99999999
 Type=Wand
 Info=A golden rod belonging to a beautiful Egyptian woman. So no, you can't buy this!
 Abilities=Temptation.DeltaSpark.TypoonRod.ScarfStab
 Element=Dark
 Hits=1
 BasePower=15
-Upgrade=500000
+Upgrade=50000
 
 [SinistralPower]
-Cost=9999999
+Cost=99999999
 Type=HandToHand
 Info=Daos' power which obviously can't be bought!
 Abilities=RayGion.FuReia.RahGian.WoRud.ReeDelt
 Element=Dark
 Hits=2
 BasePower=15
-Upgrade=500000
+Upgrade=50000
 
 [JesterWand]
-Cost=9999999
+Cost=99999999
 Type=Wand
 Info=The wand of the insane demon, Jester. Cannot be bought!
 Abilities=Portal.ClownHead.ClownFire
 Element=Dark
 Hits=1
 BasePower=12
-Upgrade=500000
+Upgrade=50000
 
 [VampireArt]
-Cost=9999999
+Cost=99999999
 Type=HandToHand
 Info=Brauner's art ability!
 Abilities=BloordArtTechnique.PaintingofSoul.PortraitSmash.CursePainting
 Element=Dark
 Hits=2
 Basepower=13
-Upgrade=500000
+Upgrade=50000
 
 [Puppetry]
-Cost=9999999
+Cost=99999999
 Type=HandToHand
 Info=The Puppet Master's weapon
 Abilities=FrenchDollAttack.PuppetControl.IronMaiden.MetalStrings
 Element=Dark
 Hits=$rand(2,4)
 Basepower=13
-Upgrade=500000
+Upgrade=50000
 
 [Benihime]
-Cost=9999999
+Cost=99999999
 Type=Katana
 Info=The zanpakutou that belongs to Urahara. Not for sale.
 Abilities=NakeBenihime.ShibariBenihime.HiasobiBenihimeJuzutsunagi
 Element=none
 Hits=1
 BasePower=20
-Upgrade=500000
+Upgrade=50000
 
 [PeoplesFist]
-Cost=9999999
+Cost=99999999
 Type=HandToHand
 Info=The Rock's fist!
 Abilities=RockBottom.PeoplesElbow.SamoanDrop.FlyingClothesline.Spinebuster
 Element=none
 Hits=2
 BasePower=20
-Upgrade=500000
+Upgrade=50000
 
 [DragonShouts]
-Cost=9999999
+Cost=99999999
 Type=HandToHand
 Info=Only the Dragonborn can use this!
 Abilities=FusRoDah.YolToorShul.FoKrahDiin.StrunBahQo
 Element=None
 Hits=2
 BasePower=20
-Upgrade=500000
+Upgrade=50000
 
 [CyberFists]
-Cost=9999999
+Cost=99999999
 Type=HandToHand
 Info=The fists of a Cyberman. Cannot be bought.
 Abilities=WristLaser.CyberParalyze.TempUpgrade.BrainControl
 Element=None
 Hits=2
 BasePower=15
-Upgrade=500000
+Upgrade=50000
 
 [Gunstick]
-Cost=9999999
+Cost=99999999
 Type=Rifle
 Info=The weapon of the Daleks. Cannot be bought.
 Abilities=DalekParalyze.DalekExterminate.DalekLaser
 Element=None
 Hits=1
 BasePower=15
-Upgrade=500000
+Upgrade=50000
 
 [BlueEyesPower]
-Cost=9999999
+Cost=99999999
 Type=HandToHand
 Info=the power of the Blue Eyes White Dragon.
 Abilities=BurstStream.AbsoluteTerror.FangRush
 Element=Light
 Hits=2
 BasePower=10
-Upgrade=500000
+Upgrade=50000
 
 [BlackMagic]
-Cost=9999999
+Cost=99999999
 Type=Stave
 Info=The power of the Dark Magician.
 Abilities=BlackMagicAttack.ThousandKnives.FireIV
 Element=Dark
 Hits=1
 BasePower=10
-Upgrade=500000
+Upgrade=50000
 
 [DragonSword]
-Cost=9999999
+Cost=99999999
 Type=GreatSword
 Info=the weapon of Buster Blader.
 Abilities=HardSlash.PowerSlash.Resolution
 Element=None
 Hits=1
 BasePower=10
-Upgrade=500000
+Upgrade=50000
 
 [Casull&Jackal]
-Cost=9999999
+Cost=99999999
 Type=Gun
 Info=The handguns custom made for Alucard. They are far too heavy for a human to use.
 Abilities=LastStand.RapidShot.Rainstorm.BloodDrain.CromwellApproval
 Element=None
 Hits=2
 BasePower=20
-Upgrade=500000
+Upgrade=50000
 
 [AlucardSword]
-Cost=9999999
+Cost=99999999
 Type=Sword
 Info=Alucard's sword.
 Abilities=Requiescat.ChantduCygne.UrielBlade.SoulSteal.TetraSpirit
 Element=None
 Hits=$rand(1,2)
 BasePower=15
-Upgrade=500000
+Upgrade=50000
 
 [Auto9]
-Cost=9999999
+Cost=99999999
 Type=Gun
 Info=Robocop's gun. A modified Berreta93R which also has a large barrel extension.
 Abilities=RapidShot.LastStand.Detonator.ChargedShot
 Element=None
 Hits=$rand(2,3)
 BasePower=10
-Upgrade=500000
+Upgrade=50000
 
 [Railgun]
-Cost=9999999
+Cost=99999999
 Type=Rifle
 Info=The Railgun that belongs to Metal Gear Rex.
 Abilities=SniperShot.Detonator.RailShot.RailNuke.RexKick
 Element=None
 Hits=1
 BasePower=20
-Upgrade=500000
+Upgrade=50000
 
 [WoolyTusks]
-Cost=9999999
+Cost=99999999
 Type=HandtoHand
 Info=You can't buy this!
 Abilities=Stomp.Charge.Roar
@@ -1219,416 +1291,446 @@ Hits=1
 BasePower=3
 
 [OrochiPower]
-Cost=9999999
+Cost=99999999
 Type=HandToHand
 Info=The power of Orochi that Iori wields.
 Abilities=YamiBarai.AoiHana.YaOtome.SakuTsumagushi
 Element=Dark
 Hits=2
 BasePower=12
-Upgrade=500000
+Upgrade=50000
 
 [BogardGloves]
-Cost=9999999
+Cost=99999999
 Type=HandToHand
 Info=The gloves worn by Terry Bogard.
 Abilities=PowerWave.BurnKnuckle.RisingTackle.PowerGeyser.BusterWolf
 Element=None
 Hits=2
 BasePower=12
-Upgrade=500000
+Upgrade=50000
 
 [GiygasPower]
-Cost=9999999
+Cost=99999999
 Type=HandToHand
 Info=The massive power of Giygas!!
 Abilities=CannotGrasp.HurtsPlayer.PKRockin
 Element=Dark
 Hits=2
 BasePower=12
-Upgrade=500000
+Upgrade=50000
 
 [AtlantisPower]
-Cost=9999999
+Cost=99999999
 Type=HandtoHand
 Info=The power of Ashi!
 Abilities=BloodDagger.BloodBoost.BloodBlast
 Element=Dark
 Hits=$rand(1,2)
 BasePower=15
-Upgrade=500000
+Upgrade=50000
 
 [RedEyedDragoon]
-Cost=9999999
+Cost=99999999
 Type=Sword
 Info=The spirit of the Red-Eyed Dragon!
 Abilities=DoubleSlash.MadnessHero.Flameshot.FinalBurst.RedDragon
 Element=Fire
 Hits=1
 BasePower=15
-Upgrade=500000
+Upgrade=50000
 
 [DarknessDragoon]
-Cost=9999999
+Cost=99999999
 Type=Sword
 Info=The spirit of the Darkness Dragon!
 Abilities=WhipSmack.DemonsDance.AstralDrain.DeathDimension.DarkDragoon
 Element=Dark
 Hits=1
 BasePower=15
-Upgrade=500000
+Upgrade=50000
 
 [ShihouinFists]
-Cost=9999999
+Cost=99999999
 Type=HandtoHand
 Info=The fists of Yoruichi!
 Abilities=DoublePunch.ShoulderTackle.ShunkoRaigeki.AsuranFists
 Element=None
 Hits=2
 BasePower=20
-Upgrade=500000
+Upgrade=50000
 
 [GhostPower]
-Cost=9999999
+Cost=99999999
 Type=HandToHand
 Info=The weapon of a ghost!
 Abilities=HighJump.CamlannsTorment.LegSweep.SonicThrust.Tachi:Fudo.Tachi:Shoha.Tachi:Rana.GraveCurse
 Element=none
 Hits=$rand(1,2)
 BasePower=10
-Upgrade=500000
+Upgrade=50000
 
 [AndroidKi]
-Cost=9999999
+Cost=99999999
 Type=HandToHand
 Info=It's the weapon of an Android
 Abilities=AsuranFists.BioWeaponX
 Element=none
 Hits=$rand(2,3)
 BasePower=10
-Upgrade=500000
+Upgrade=50000
 
 [Orcish_Gun]
-Cost=9999999
+Cost=99999999
 Type=Gun
 Info=A gun for an orc
 Abilities=HotShot.RainStorm.ChargedShot.ShoulderTackle.BattleDance
 Element=None
 Hits=2
 BasePower=5
-Upgrade=500000
+Upgrade=50000
 
 [SubZeroFists]
-Cost=9999999
+Cost=99999999
 Type=HandToHand
 Info=It's the weapon of Sub Zero!
 Abilities=IceBall.GroundIce
 Element=ice
 Hits=$rand(2,3)
 BasePower=15
-Upgrade=500000
+Upgrade=50000
 
 [Ninjutsu]
-Cost=9999999
+Cost=99999999
 Type=HandToHand
 Info=It's the weapon of a ninja.
 Abilities=Shurikan.Backstab.Smokebomb
 Element=none
 Hits=$rand(1,2)
 BasePower=15
-Upgrade=500000
+Upgrade=50000
 
 [CuteRabbitTeeth]
-Cost=9999999
+Cost=99999999
 Type=HandToHand
 Info=It's the weapon of a ninja.
 Abilities=LookAtTheBones
 Element=none
 Hits=$rand(1,5)
 BasePower=15
-Upgrade=500000
+Upgrade=50000
 
 [RyukotsukiPower]
-Cost=9999999
+Cost=99999999
 Type=HandtoHand
 Info=The power of the demon, Ryukotsuki.
 Abilities=Decapiclops.Oxocutioner.Chimyriad.CursePunch.FireballStop
 Element=Dark
 Hits=2
 BasePower=15
-Upgrade=500000
+Upgrade=50000
 
 [DecapiclopsPower]
-Cost=9999999
+Cost=99999999
 Type=HandtoHand
 Info=The power of the demon, Decapiclops.
 Abilities=FireSpit.FirePillar.FireExplosion
 Element=Dark
 Hits=1
 BasePower=15
-Upgrade=500000
+Upgrade=50000
 
 [OxocutionerPower]
-Cost=9999999
+Cost=99999999
 Type=Sword
 Info=The power of the demon, Oxocutioner.
 Abilities=SwordToss.SwordStorm.SwordStab
 Element=Dark
 Hits=1
 BasePower=15
-Upgrade=500000
+Upgrade=50000
 
 [ChimyriadPower]
-Cost=9999999
+Cost=99999999
 Type=HandtoHand
 Info=The power of the demon, Chimyriad.
 Abilities=ChimyriadRush.FireWave.GroundFire
 Element=Dark
 Hits=1
 BasePower=15
-Upgrade=500000
+Upgrade=50000
 
 [GekkoWeapon]
-Cost=9999999
+Cost=99999999
 Type=Rifle
 Info=The weapon of the Gekko.
 Abilities=RapidShot.GekkoGrenade.ManipulatorArm.GekkoKick.GekkoStomp
 Element=None
 Hits=2
 BasePower=15
-Upgrade=500000
+Upgrade=50000
 
 [GekkoArms]
-Cost=9999999
+Cost=99999999
 Type=HandtoHand
 Info=The arms of the Gekko Dwarf.
 Abilities=GekkoGrab.GekkoParalyze.DoublePunch.OneInchPunch
 Element=None
 Hits=2
 BasePower=15
-Upgrade=500000
+Upgrade=50000
 
 [GearRayWeapons]
-Cost=9999999
+Cost=99999999
 Type=Rifle
 Info=The weapons belonging to Metal Gear Ray.
 Abilities=HydroCutter.MissileBarrage.RayKick.GatlingGuns
 Element=None
 Hits=1
 BasePower=20
-Upgrade=500000
+Upgrade=50000
 
 [CactuarNeedles]
-Cost=9999999
+Cost=99999999
 Type=HandtoHand
 Info=The needles of a cactuar.
 Abilities=200Needles.DoublePunch.AsuranFists.ShoulderTackle.OneInchPunch.SpinningAttack
 Element=None
 Hits=2
 BasePower=19
-Upgrade=500000
+Upgrade=50000
 
 [JumboCactuarNeedles]
-Cost=9999999
+Cost=99999999
 Type=HandtoHand
 Info=The needles of a Jumbo Cactuar.
 Abilities=500Needles.DoublePunch.AsuranFists.ShoulderTackle.OneInchPunch.SpinningAttack
 Element=none
 Hits=2
 BasePower=15
-Upgrade=500000
+Upgrade=50000
 
 [KainsLance]
-Cost=9999999
+Cost=99999999
 Type=Spear
 Info=The spear of the legendary Dragoon, Kain Highwind.
 Abilities=Jump.HighJump.SpiritJump.SoulJump.Drakesbane.StarDiver.LegSweep
 Element=None
 Hits=1
 BasePower=15
-Upgrade=500000
+Upgrade=50000
 
 
 
 [PrishePowers]
-Cost=9999999
+Cost=99999999
 Type=HandtoHand
 Info=The powers of Prishe!
 Abilities=AsuranFists.NullifyingDropkick.AuroralUppercut.TornadoKick.OneInchPunch.ShinjinSpiral.Holy.BanishV.CureIV
 Element=Light
 Hits=2
 BasePower=15
-Upgrade=500000
+Upgrade=50000
 
 [AbsolutePolearm]
-Cost=9999999
+Cost=99999999
 Type=Spear
 Info=The spear of Absolute Virtue.
 Abilities=ImpactStream.MedusaJavelin.WingThrust.EagleEyeShot.AuroralWind.CureV.TornadoII.Meteor
 Element=Light
 Hits=1
 BasePower=30
-Upgrade=500000
+Upgrade=50000
 
 [DullahanSword]
-Cost=9999999
+Cost=99999999
 Type=Sword
 Info=The sword of Dullahan.
 Abilities=Charon.ForminaSage.Haunt.DjinnStorm.Condem.Sealing
 Element=Dark
 Hits=1
 BasePower=30
-Upgrade=500000
+Upgrade=50000
 
 [ChunLiBracelets]
-Cost=9999999
+Cost=99999999
 Type=HandtoHand
 Info=The bracelets worn by Chun-Li.
 Abilities=SpinningBirdKick.Kikoken.Hyakuretsukyaku.Kikosho.Hazanshu.Hosenka
 Element=None
 Hits=2
 BasePower=15
-Upgrade=500000
+Upgrade=50000
 
 [RyuGloves]
-Cost=9999999
+Cost=99999999
 Type=HandtoHand
 Info=the gloves worn by Ryu.
 Abilities=Hadouken.ShakunetsuHadouken.Shouryuken.TatsumakiSenpukyaku.ShinkuHadouken.ShinkuTatsumakiSenpukyaku.ShinShouryuken
 Element=None
 Hits=2
 BasePower=15
-Upgrade=500000
+Upgrade=50000
 
 [KenGloves]
-Cost=9999999
+Cost=99999999
 Type=HandtoHand
 Info=The gloves worn by Ken Masters.
 Abilities=Hadouken.Shouryuken.TatsumakiSenpukyaku.Shinryuken.ShoryuReppa
 Element=None
 Hits=2
 BasePower=15
-Upgrade=500000
+Upgrade=50000
 
 [AlexanderPower]
-Cost=9999999
+Cost=99999999
 Type=HandtoHand
 Info=The power of Alexander.
 Abilities=DivineJudgement.DivineSpear.Holy
 Element=Light
 Hits=2
 BasePower=15
-Upgrade=500000
+Upgrade=50000
 
 [BahamutPower]
-Cost=9999999
+Cost=99999999
 Type=HandtoHand
 Info=The power of Bahamut.
 Abilities=MegaFlare.Impulse.TeraFlare.ExaFlare.AbsoluteTerror.Hexafang
 Element=None
 Hits=2
 BasePower=15
-Upgrade=500000
+Upgrade=50000
 
 [CarbunclePower]
-Cost=9999999
+Cost=99999999
 Type=HandtoHand
 Info=The power of Carbuncle.
 Abilities=SearingLight.PoisonNails.HealingRuby
 Element=Light
 Hits=2
 BasePower=15
-Upgrade=500000
+Upgrade=50000
 
 [DoomtrainPower]
-Cost=9999999
+Cost=99999999
 Type=HandtoHand
 Info=The power of Doomtrain.
 Abilities=RunawayTrain.PoisonTrain.CurseTrain.ZombieTrain.DarknessTrain
 Element=Dark
 Hits=2
 BasePower=15
-Upgrade=500000
+Upgrade=50000
 
 [FalcorrPower]
-Cost=9999999
+Cost=99999999
 Type=HandtoHand
 Info=The power of Faithful Falcorr.
 Abilities=BackHeel.Jettatura.ChokeBreath
 Element=None
 Hits=2
 BasePower=15
-Upgrade=500000
+Upgrade=50000
 
 [FenrirPower]
-Cost=9999999
+Cost=99999999
 Type=HandtoHand
 Info=The power of Fenrir.
 Abilities=HowlingMoon.CrescentFang.EclipseBite
 Element=Dark
 Hits=2
 BasePower=15
-Upgrade=500000
+Upgrade=50000
 
 [GarudaPower]
-Cost=9999999
+Cost=99999999
 Type=HandtoHand
 Info=The power of Garuda.
 Abilities=AerialBlast.PredatorClaws.WindBlade.Tornado
 Element=Wind
 Hits=2
 BasePower=15
-Upgrade=500000
+Upgrade=50000
 
 [IfritPower]
-Cost=9999999
+Cost=99999999
 Type=HandtoHand
 Info=The power of Ifrit.
 Abilities=Hellfire.MeteorStrike.BurningStrike.Flare
 Element=Fire
 Hits=2
 BasePower=15
-Upgrade=500000
+Upgrade=50000
 
 [LeviathanPower]
-Cost=9999999
+Cost=99999999
 Type=HandtoHand
 Info=The power of Leviathan.
 Abilities=TidalWave.TailWhip.GrandFall.Flood
 Element=Water
 Hits=2
 BasePower=15
-Upgrade=500000
+Upgrade=50000
 
 [OlduumStaff]
-Cost=9999999
+Cost=99999999
 Type=Stave
 Info=The staff of Ramuh.
 Abilities=JudgementBolt.Thunderstorm.ChaoticStrike.Burst
 Element=Lightning
 Hits=1
 BasePower=15
-Upgrade=500000
+Upgrade=50000
 
 [ShivaPower]
-Cost=9999999
+Cost=99999999
 Type=HandtoHand
 Info=The power of Shiva.
 Abilities=DiamondDust.HeavenlyStrike.AxeKick.Freeze
 Element=Ice
 Hits=2
 BasePower=15
-Upgrade=500000
+Upgrade=50000
 
 [TitanPower]
-Cost=9999999
+Cost=99999999
 Type=HandtoHand
 Info=The power of Titan.
 Abilities=AngerOfTheLand.MountainBuster.Geocrush.Quake
 Element=Earth
 Hits=2
 BasePower=15
-Upgrade=500000
+Upgrade=50000
+
+[DreddGun]
+Cost=99999999
+Type=Gun
+Info=The gun of Judge Dredd.
+Abilities=TheLaw.RapidShot.LastStand.GrenadeShot.PierceShot
+Element=None
+Hits=2
+BasePower=20
+Upgrade=50000
+
+[SlimePower]
+Cost=99999999
+Type=HandtoHand
+Info=The power of the slimes.
+Abilities=SlimeRam.SlimeStomp.CureV.Curaga.FireII.IceII.LightningII.StoneII.WaterII.AeroII.Flare.Freeze.Burst.Quake.Flood.Tornado.Poison.Blind.Paralyze.Tentacle
+Element=None
+Hits=2
+BasePower=15
+Upgrade=50000
+
+[PowerOfWords]
+Cost=99999999
+Type=HandtoHand
+Info=The words of power known to the Knights of Ni.
+Abilities=Ni.Herring.Shrubbery
+Element=None
+Hits=2
+BasePower=30
+Upgrade=50000
 
 ; Omega Weapon
 [FFOmegaWeapon]

@@ -132,6 +132,9 @@ on 1:CONNECT: {
   var %bot.pass $readini(system.dat, botinfo, botpass)
   if (%bot.pass != $null) { /.msg nickserv identify %bot.pass }
 
-  if (%isbattle = on) { $next }
-  else { $clear_battle } 
+  if (%battleis = on) { 
+    if ($readini(battle2.txt, BattleInfo, Monsters) = $null) { $clear_battle }
+    else { $next }
+  }
+  if (%battleis = off) { $clear_battle } 
 }

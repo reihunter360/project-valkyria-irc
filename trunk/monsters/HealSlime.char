@@ -1,20 +1,20 @@
 [BaseStats]
-Hp=110
-Tp=40
-Str=9
-Def=8
-Int=8
-Spd=9
-Name=Succubus
+Hp=80
+Tp=100
+Str=3
+Def=4
+Int=10
+Spd=10
+Name=Heal Slime
 
 
 [Battle]
-Hp=110
-Tp=40
-Str=9
-Def=8
-Int=8
-Spd=9
+Hp=80
+Tp=100
+Str=3
+Def=4
+Int=10
+Spd=10
 Status=alive
 
 
@@ -22,15 +22,9 @@ Status=alive
 RageBar=0
 RageCountDown=0
 
-[Limit]
-Level=1
-Percent=0
-
 
 [Descriptions]
-Hused=1
-Dused=1
-Char=is woman with long black hair, firey red eyes and is wearing little to leave to the imagination.  She winks at the heroes.
+Char=appears to be a cross between a blue slime and a jelly fish. It has large eyes and a large grin along with four tentacles. It floats around in the air and knows healing magic!
 Rage=screams in rage 
 
 [Stuff]
@@ -40,8 +34,8 @@ ShopLevel=1.0
 
 [Info]
 Flag=monster
-Gender=her
-Gender2=her
+Gender=its
+Gender2=it
 password=battlearena
 passhurt=0
 LastSeen=N/a
@@ -49,7 +43,7 @@ LastIP=N/a
 Created=N/a
 
 [Monster]
-Type=Undead
+Type=
 
 [Status]
 Poison=no
@@ -85,25 +79,35 @@ stun=no
 MPRegenerating=no
 
 [Weapons]
-Equipped=SuccubusPower
-SuccubusPower=5
+Equipped=SlimePower
+SlimePower=6
 
 [Skills]
-Resist-charm=100
-Resist-zombie=100
+Resist-Charm=100
+Resist-Zombie=100
+Resist-Intimidate=100
+Zen=5
+ClearMind=1
+MartialArts=12
+Wizardy=10
 
 
 
 [Techniques]
-VampireBite=15
-Temptation=10
-FireII=15
+CureV=10
+Curaga=10
+Paralyze=10
+Tentacle=10
 
 
 [Item_Amount]
 
 
-
 [Element]
-Weakness=Light
-Strong=Dark.Ice.Fire
+Weakness=Fire
+Strong=Ice
+
+[Styles]
+Equipped=SpellMaster
+SpellMaster=2
+SpellMasterXP=1

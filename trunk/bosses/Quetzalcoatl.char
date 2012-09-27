@@ -1,18 +1,18 @@
 [BaseStats]
-Hp=420
+Hp=320
 Tp=520
 Str=30
-Def=65
+Def=45
 Int=69
 Spd=40
 Name=Quetzalcoatl
 
 
 [Battle]
-Hp=420
+Hp=320
 Tp=520
 Str=30
-Def=65
+Def=45
 Int=69
 Spd=40
 Status=alive

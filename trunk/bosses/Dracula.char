@@ -1,7 +1,7 @@
 [BaseStats]
-Hp=120
+Hp=130
 Tp=50
-Str=17
+Str=27
 Def=13
 Int=22
 Spd=20
@@ -9,9 +9,9 @@ Name=Dracula
 
 
 [Battle]
-Hp=120
+Hp=130
 Tp=50
-Str=17
+Str=27
 Def=15
 Int=22
 Spd=20

@@ -1,20 +1,20 @@
 [BaseStats]
-Hp=1200
-Tp=300
-Str=100
-Def=100
-Int=100
-Spd=100
-Name=Dullahan
+Hp=150
+Tp=120
+Str=15
+Def=12
+Int=20
+Spd=10
+Name=The Knights Who Say Ni
 
 
 [Battle]
-Hp=1200
-Tp=300
-Str=100
-Def=100
-Int=100
-Spd=100
+Hp=150
+Tp=120
+Str=15
+Def=12
+Int=20
+Spd=10
 Status=alive
 
 
@@ -24,16 +24,16 @@ RageCountDown=0
 
 
 [Descriptions]
-Char=is a large suit of purple armor that is animated by powerful magic. Perhaps the strongest entity in Golden Sun.
-Rage=yells out in rage!
-BossQuote=I am the shadow, the keeper of light. If you want the sun's power, show me your own!
+Char=are a group of knights led by a much taller knight dressed in all black.
+Rage=screams in rage as the word "It!" is used against them!
+BossQuote=We are the knights who say..... NI!
 
 
 [Stuff]
 RedOrbs=0
 BlackOrbs=1
 ShopLevel=1.0
-Drops=Potion.vip-membercard.x-potion.goldorb.tonic
+Drops=Potion.VitalStar.Tonic
 
 [Monster]
 Type=
@@ -82,46 +82,37 @@ stun=no
 MPRegenerating=no
 
 [Weapons]
-Equipped=DullahanSword
-DullahanSword=85
+Equipped=PowerOfWords
+PowerOFWords=30
 
 [Skills]
-SwordMaster=100
-Wizardy=100
 Resist-Charm=100
 Resist-Poison=100
 Resist-Zombie=100
 Resist-Intimidate=100
-royalguard.on=on
-manawall.on=on
 Zen=5
-ClearMind=3
 Impetus=20
-ElementalSeal=5
-MightyStrike=5
+MightyStrike=1
 Resist-Amnesia=100
-Resist-Blind=100
-Resist-Slow=100
-Resist-Stop=100
-Resist-Paralysis=100
-BloodBoost=10
+MartialArts=30
+
 
 [Techniques]
-Charon=85
-ForminaSage=85
-Haunt=85
-DjinnStorm=90
-Condem=85
-Sealing=70
+Ni=20
+Herring=20
+Shrubbery=20
+
 
 [Item_Amount]
 
-[Style]
-Equipped=SpellMaster
-SpellMaster=10
-SpellMasterXP=1
+
 
 [Element]
 Weakness=None
 Strong=None
-Heal=Dark.Light
+
+
+[Styles]
+Equipped=Guardian
+Guardian=3
+GuardianXP=1

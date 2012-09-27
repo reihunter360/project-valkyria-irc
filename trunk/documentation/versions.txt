@@ -184,3 +184,28 @@ Battle Arena Bot VERSIONS
 - Fixed a bug where if something was weak to lightning it would also take double damage for light element as well.
 - Fixed a bug with Fullbring when used on +TP items.
 - Fixed a bug in which monsters killed by AOEs were giving double the style points that it should have.
+
+1.4
+- Added bow type weapons.
+- Added the passive skill Vogue.  This skill will increase the amount of style XP you get at the end of a battle by your
+  current skill level.
+- Added the active skill Aggressor.  This skill will increase your strength by a percent of your defense based on the 
+  level that you have in the skill, up to 100% of your def.  Afterwards it will reduce your def down to 5.
+- Added the active skill Defender.  This skill will increase your defense by a percent of your strength based on the 
+  level that you have in the skill, up to 100% of your str.  Afterwards it will reduce your str down to 5.
+- Added the passive skill Archery. This skill will increase damage done with a bow.
+- Changed the way the utsusemi/royalguard/manawall blocked messages are displayed. They're shown after the attack desc now, not
+  before it. This actually saves a line being pushed to the channel.
+- Changed the way status types are inflicted upon a target. Much cleaner code and now any type of tech or weapon can inflict a 
+  status.  Just add a StatusType=(status type) to the weapon/tech.  The Type=Status is now defunct, and it should be set as 
+  Single or AOE.
+- Changed the way the red orb rewards are listed so that it now shows what each person gets based on his/her skills/accessories
+  rather than simply showing just the base amount that everyone gets.
+- Changed the formula for how monsters get boosted when generated. 
+- Fixed a bug in which AOE Heals were subtracting the target's def from the amount when it shouldn't have.
+- Fixed the ability for a charmed player to use a FinalGetsuga type boost, thus resetting the player at the end of battle against
+  his/her will.
+- Fixed a bug with !clear battle stats
+- Fixed a minor bug in which the "<person> peforms a 4-hit" and "performs a 5-hit" attack message wasn't showing.
+- Fixed a bug in which weaponbash was ignoring a target's stun resistance.
+- Fixed a bug with the bot not resuming battles if it gets disconnected in the middle of one.

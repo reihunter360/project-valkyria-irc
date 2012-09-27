@@ -59,6 +59,9 @@ alias calculate_damage_weapon {
   ; $2 = weapon equipped
   ; $3 = target / %enemy 
 
+  var %status.type $readini(weapons.db, $2, StatusType)
+  if (%status.type != $null) { $inflict_status($1, $3, %status.type) }
+
   unset %absorb
   set %attack.damage 0
   var %random.attack.damage.increase $rand(1,10)
@@ -139,8 +142,10 @@ alias calculate_damage_weapon {
   set %current.playerstyle.level $readini($char($1), styles, %current.playerstyle)
   if (%current.playerstyle = HitenMitsurugi-ryu) {
     if ($readini(weapons.db, $2, type) = Katana) {
-      var %amount.to.increase $round($calc((.10 * %current.playerstyle.level) * %attack.damage),0)
-      inc %attack.damage %amount.to.increase
+      var %amount.to.increase $calc(.05 * %current.playerstyle.level)
+      if (%amount.to.increase >= .80) { var %amount.to.increase .80 }
+      var %hmr.increase $round($calc(%amount.to.increase * %attack.damage),0)
+      inc %attack.damage %hmr.increase
     }    
   }
 
@@ -191,14 +196,14 @@ alias calculate_damage_weapon {
   var %utsusemi.flag $readini($char($3), skills, utsusemi.on)
   if ((%utsusemi.flag = off) || (%utsusemi.flag = $null)) {
     ; does the target have RoyalGuard on?  If so, reduce the damage to 0.
-    if ($readini($char($3), skills, royalguard.on) = on) { writeini $char($3) skills royalguard.on off | set %attack.damage 0 | $set_chr_name($3) | query %battlechan $readini(translation.dat, skill, RoyalGuardBlocked) | return }
+    if ($readini($char($3), skills, royalguard.on) = on) { writeini $char($3) skills royalguard.on off | set %attack.damage 0 | $set_chr_name($3) | set %guard.message $readini(translation.dat, skill, RoyalGuardBlocked) | return }
   }
   if (%utsusemi.flag = on) {
     var %number.of.shadows $readini($char($3), skills, utsusemi.shadows)
     dec %number.of.shadows 1 
     writeini $char($3) skills utsusemi.shadows %number.of.shadows
     if (%number.of.shadows <= 0) { writeini $char($3) skills utsusemi.on off }
-    $set_chr_name($3) | query %battlechan $readini(translation.dat, skill, UtsusemiBlocked) | set %attack.damage 0 | return 
+    $set_chr_name($3) | set %guard.message $readini(translation.dat, skill, UtsusemiBlocked) | set %attack.damage 0 | return 
   }
 
   ; Now we're ready to calculate the enemy's defense..  
@@ -273,6 +278,7 @@ alias mastery_check {
   if (%type.of.weapon = stave) { set %mastery.type Wizardry }
   if (%type.of.weapon = glyph) { set %mastery.type Wizardry }
   if (%type.of.weapon = spear) { set %mastery.type Polemaster }
+  if (%type.of.weapon = bow) { set %mastery.type Archery }
   set %mastery.bonus $readini($char($1), skills, %mastery.type) 
   if (%mastery.bonus = $null) { set %mastery.bonus 0 }
   unset %mastery.type
@@ -296,7 +302,7 @@ alias weapon_bash_check {
     set %resist.skill $readini($char($2), skills, %resist.have)
     $ribbon.accessory.check($2)
     if (%resist.have = 100) { return }
-    unset %resist.have
+    unset %resist.skill
 
     if ($readini($char($2), skills, royalguard.on) = on) { return }
     if ($readini($char($2), skills, utsusemi.on) = on) { return }
@@ -366,7 +372,7 @@ alias fourhit.attack.check {
   if (%attack.damage4 <= 0) { set %attack.damage4 1 }
   var %attack.damage.total $calc(%attack.damage4 + %attack.damage.total)
 
-  set %attack.damage %attack.damage.total | $set_chr_name($1) | query %battlechan $readini(translation.dat, system, PerformsA4HitAttack)
+  set %attack.damage %attack.damage.total | $set_chr_name($1) |  query %battlechan $readini(translation.dat, battle, PerformsA4HitAttack)
 }
 
 alias fivehit.attack.check {
@@ -389,8 +395,7 @@ alias fivehit.attack.check {
   set %attack.damage5 $abs($round($calc(%attack.damage.total / 5),0))
   if (%attack.damage5 <= 0) { set %attack.damage5 1 }
   var %attack.damage.total $calc(%attack.damage5 + %attack.damage.total)
-
-  set %attack.damage %attack.damage.total | $set_chr_name($1) | query %battlechan $readini(translation.dat, system,PerformsA5HitAttack)
+  set %attack.damage %attack.damage.total | $set_chr_name($1) | query %battlechan $readini(translation.dat, battle, PerformsA5HitAttack)
 }
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

@@ -667,6 +667,34 @@ alias shop.weapons {
 
     unset %shop.list
 
+    ; CHECKING Bows
+    unset %weapon.list
+    set %weapon.list $readini(weapons.db, Weapons, Bows)
+    var %number.of.items $numtok(%weapon.list, 46)
+
+    var %value 1
+    while (%value <= %number.of.items) {
+      set %weapon.name $gettok(%weapon.list, %value, 46)
+      ; Does the player own this weapon?  If so, add it to the upgrade list.  If not,add it to the new weapon list.
+      if ($readini($char($1), weapons, %weapon.name) != $null) {
+        set %weapon.price $round($calc(%shop.level * $readini(weapons.db, %weapon.name, upgrade)),0)
+        %upgrade.list2 = $addtok(%upgrade.list2, $+ %weapon.name $+ +1 ( $+ %weapon.price $+ ),46)
+        inc %value 1 
+      }
+      else {  
+        set %weapon.price $readini(weapons.db, %weapon.name, cost)
+        %shop.list = $addtok(%shop.list, $+ %weapon.name $+  ( $+ %weapon.price $+ ),46)
+        inc %value 1 
+      }
+    }
+
+    if (%shop.list != $null) {  $shop.cleanlist 
+      /.timerBows $+ $nick 1 1 /.msg $nick 2New Bow Weapons:  %shop.list
+    }
+
+    unset %shop.list
+
+
     ; CHECKING Katanas
     unset %weapon.list 
     set %weapon.list $readini(weapons.db, Weapons, Katanas)
@@ -964,12 +992,14 @@ alias inc.shoplevel {
   var %max.shop.level $readini(system.dat, system, maxshoplevel)
   if (%max.shop.level = $null) { var %max.shop.level 25 }
 
-  if (%shop.level >= %max.shop.level) { writeini $char($1) stuff shoplevel %max.shop.level | .msg $1 2Your Shop Level has been capped at %max.shop.level  | halt }
+
+
+  if (%shop.level >= %max.shop.level) { writeini $char($1) stuff shoplevel %max.shop.level | .msg $1 2Your Shop Level has been capped at %max.shop.level  }
   else { 
     writeini $char($1) stuff shoplevel %shop.level  
     .msg $1 2Your Shop Level has been increased to %shop.level 
   }
-  $achievement_check($1, Don'tYouHaveAHome)
+  $achievement_check($1, Don'tYouHaveaHome)
   unset %shop.level
 
 }

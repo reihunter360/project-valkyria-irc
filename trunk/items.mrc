@@ -145,84 +145,10 @@ alias item.status {
   ; $3 = item used
 
   var %status.type $readini(items.db, $3, StatusType) 
-
-  if (%status.type = random) { 
-    var %random.status.type $rand(1,11)
-    if (%random.status.type = 1) { set %status.type poison | var %tech.status.grammar poisoned }
-    if (%random.status.type = 2) { set %status.type stop | var %tech.status.grammar weighed down }
-    if (%random.status.type = 3) { set %status.type silence | var %tech.status.grammar silenced }
-    if (%random.status.type = 4) { set %status.type blind | var %tech.status.grammar blinded }
-    if (%random.status.type = 5) { set %status.type virus | var %tech.status.grammar inflicted with a virus }
-    if (%random.status.type = 6) { set %status.type amnesia | var %tech.status.grammar inflicted with amnesia }
-    if (%random.status.type = 7) { set %status.type paralysis | var %tech.status.grammar paralyzed }
-    if (%random.status.type = 8) { set %status.type zombie | var %tech.status.grammar a zombie }
-    if (%random.status.type = 9) { set %status.type slow | var %tech.status.grammar slowed }
-    if (%random.status.type = 10) { set %status.type stun | var %tech.status.grammar stunned }
-    if (%random.status.type = 11) { set %status.type intimidate | var %tech.status.grammar intimidated }
-  }
-
-  if (%status.type = stop) { var %tech.status.grammar frozen in time }
-  if (%status.type = poison) { var %tech.status.grammar poisoned }
-  if (%status.type = silence) { var %tech.status.grammar silenced }
-  if (%status.type = blind) { var %tech.status.grammar blind }
-  if (%status.type = virus) { var %tech.status.grammar inflicted with a virus }
-  if (%status.type = amnesia) { var %tech.status.grammar inflicted with amnesia }
-  if (%status.type = paralysis) { var %tech.status.grammar paralyzed }
-  if (%status.type = zombie) { var %tech.status.grammar a zombie }
-  if (%status.type = slow) { var %tech.status.grammar slowed }
-  if (%status.type = stun) { var %tech.status.grammar stunned }
-  if (%status.type = curse) { var %tech.status.grammar cursed }
-  if (%status.type = intimidate) { var %tech.status.grammar intimidated }
-
-  if ($readini($char($2), skills, utsusemi.on) = on) { set%chance 0 } 
+  if (%status.type != $null) { $inflict_status($1, $2, %status.type) }
 
   $calculate_damage_items($1, $3, $2)
   $deal_damage($1, $2, $3)
-
-  ; Check for resistance to that status type.
-  var %chance $rand(1,100) | $set_chr_name($1) 
-  set %resist.have resist- $+ %status.type
-  set %resist.skill $readini($char($2), skills, %resist.have)
-
-  $ribbon.accessory.check($2)
-
-  if (%status.type = charm) {
-    if ($readini($char($2), status, zombie) != no) { set %resist.skill 100 }
-    if ($readini($char($2), monster, type) = undead) { set %resist.skill 100 }
-  }
-
-  if ((%resist.skill != $null) && (%resist.skill > 0)) { 
-    if (%resist.skill >= 100) { set %statusmessage.display 4 $+ %real.name is immune to the %status.type status! }
-    else { dec %chance %resist.skill }
-  }
-
-  if ((%resist.skill < 100) || (%resist.skill = $null)) {
-    if ((%resist.skill != $null) && (%resist.skill > 0)) { dec %chance %resist.skill }
-
-    if (%chance >= 50) {
-      $set_chr_name($2) 
-      if ((%chance = 50) && (%status.type = poison)) { $set_chr_name($3) | set %statusmessage.display 4 $+ %real.name is now %tech.status.grammar $+ !  | writeini $char($2) Status poison-heavy yes }
-      if ((%chance = 50) && (%status.type != poison)) { $set_chr_name($3) | set %statusmessage.display 4 $+ %real.name is now %tech.status.grammar $+ !  | writeini $char($2) Status %status.type yes }
-      else { $set_chr_name($2) | set %statusmessage.display 4 $+ %real.name is now %tech.status.grammar $+ !  | writeini $char($2) Status %status.type yes 
-        if (%status.type = charm) { writeini $char($2) status charmed yes | writeini $char($2) status charmer $1 | writeini $char($2) status charm.timer $rand(2,3) }
-        if (%status.type = curse) { writeini $char($2) battle tp 0 }
-      }
-    }
-    else {
-      if (%resist.skill >= 100) { $set_chr_name($2) | set %statusmessage.display 4 $+ %real.name is immune to the %status.type status! }
-      if ((%resist.skill  >= 1) && (%resist.skill < 100)) { $set_chr_name($2) | set %statusmessage.display 4 $+ %real.name has resisted $set_chr_name($1) %real.name $+ 's $lower(%status.type) status effect! }
-      else { $set_chr_name($1) | set %statusmessage.display 4 $+ %real.name $+ 's $lower(%status.type) status effect has failed against $set_chr_name($3) %real.name $+ ! }
-    }
-  }
-
-  ; If a monster, increase the resistance.
-  if ($readini($char($2), info, flag) = monster) {
-    if (%resist.skill = $null) { set %resist.skill 2 }
-    else { inc %resist.skill 2 }
-    writeini $char($2) skills %resist.have %resist.skill
-  }
-  unset %resist.have | unset %chance 
-
   $display_Statusdamage_item($1, $2, item, $3) 
   return
 }
@@ -237,7 +163,10 @@ alias display_Statusdamage_item {
   if ($3 != fullbring) {
     query %battlechan 3 $+ %user $+  $readini(items.db, $4, desc)
   }
-  query %battlechan The attack did4 %attack.damage damage %style.rating
+
+  if (%guard.message = $null) { query %battlechan The attack did4 $bytes(%attack.damage,b) damage %style.rating }
+  if (%guard.message != $null) { query %battlechan %guard.message | unset %guard.message }
+
   ; Did the person die?  If so, show the death message.
   if ($readini($char($2), battle, HP) <= 0) { 
     writeini $char($2) battle status dead 
@@ -340,8 +269,6 @@ alias calculate_damage_items {
   if ($4 = fullbring) { set %item.base $readini(items.db, $2, FullbringAmount) }
   if (($4 = item) || ($4 = $null)) { set %item.base $readini(items.db, $2, Amount) }
 
-  ; If we have a skill that enhances items, check it here
-  ; TBA
 
   ; If the target is weak to the element, double the attack power of the base item
   ; If the target is strong to the element, cut the attack of the item by half.
@@ -382,7 +309,7 @@ alias calculate_damage_items {
     dec %number.of.shadows 1 
     writeini $char($3) skills utsusemi.shadows %number.of.shadows
     if (%number.of.shadows <= 0) { writeini $char($3) skills utsusemi.on off }
-    $set_chr_name($3) | query %battlechan $readini(translation.dat, skill, UtsusemiBlocked) | set %attack.damage 0 | return 
+    $set_chr_name($3) | set %guard.message $readini(translation.dat, skill, UtsusemiBlocked) | set %attack.damage 0 | return 
   }
 }
 

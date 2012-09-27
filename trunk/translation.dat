@@ -189,8 +189,8 @@ NoPlayersOnField=$chr(3) $+ 4 $+ There were no players to meet the monsters on t
 BattleIsOver=$chr(3) $+ 4 $+ The Battle is Over!
 EvilhasWon=$chr(3) $+ 12 $+ The forces of evil have won this battle!
 GoodHasWon=$chr(3) $+ 12 $+ The forces of good have won this battle!
-RewardOrbsLoss=$chr(3) $+ 3 $+ Players have been rewarded with $bytes(%base.redorbs,b)  $+ $readini(system.dat, system, currency) for their efforts.
-RewardOrbsWin=$chr(3) $+ 3 $+ Players have been rewarded with $bytes(%base.redorbs,b)  $+ $readini(system.dat, system, currency) for their victory!
+RewardOrbsLoss=$chr(3) $+ 3 $+ For their efforts, these players have been rewarded with $readini(system.dat, system, currency) $+ : %red.orb.winners
+RewardOrbsWin=$chr(3) $+ 3 $+ For their victory, these players have been rewarded with $readini(system.dat, system, currency) $+ : %red.orb.winners
 BlackOrbWin=$chr(3) $+ 3 $+ The following players have absorbed a black orb from the boss: %black.orb.winners
 BonusItemWin=$chr(3) $+ 10 $+  $+ %real.name was the most stylish and finds 1 %boss.item $+ !
 EnteredTheBattle=$chr(3) $+ 4 $+  $+ %real.name has entered the battle! 
@@ -251,7 +251,7 @@ CharmWornOff=$chr(3) $+ 3 $+  $+ %real.name $+  has broken $set_chr_name(%cha
 CharmerDeathWornOff=$chr(3) $+ 3 $+ With %real.name $+ 's death, $set_chr_name($1) $+ %real.name is no longer charmed and can now do actions again! 
 CurrentlyParalyzed=$chr(3) $+ 4 $+ %real.name is currently too paralyzed to fight.
 ParalysisWornOff=$chr(3) $+ 3 $+ $+ %real.name $+ 's paralysis has worn off.
-FrozenDeath=$chr(3) $+ 4 $+ %real.name screams in pain as $gender($1) body is freezing from the ice! Suddenly the ice covers %real.name $+ 's body and shatters, leaving nothing but a puddle. 
+FrozenDeath=$chr(3) $+ 4 $+ %real.name screams in pain as $gender($1) body is freezing from the ice! Suddenly the ice covers %real.name $+ 's body and shatters, leaving nothing but a puddle. 
 FrozenMessage=$chr(3) $+ 4 $+ %real.name screams in pain as $gender($1) body is freezing from the ice! 
 ShockDeath=$chr(3) $+ 4 $+ %real.name screams in pain as $gender($1) body is shocked from the electricity! Suddenly the electricity becomes too much for %real.name $+ 's body to handle and %real.name falls over dead, a burnt corpse.
 ShockMessage=$chr(3) $+ 4 $+ %real.name screams in pain as $gender($1) body is shocked from the electricity! 
@@ -292,7 +292,7 @@ Tech Related Messages
 [Tech]
 StolenPower=$chr(3) $+ 3 $+ %real.name has stolen and absorbs %amount.of.str strength, %amount.of.def defense, %amount.of.int intelligence and %amount.of.spd speed from $set_chr_name($3) %real.name $+ !
 SuicideUseAllHP=$chr(3) $+ 4 $+ %real.name uses all of $gender($1) health to perform this technique!
-DisplayAOEDamage=The attack did4 $bytes(%attack.damage,b) damage to %enemy $+ ! %element.desc  $+ %style.rating
+DisplayAOEDamage=The attack did4 $bytes(%attack.damage,b) damage to %enemy $+ ! %element.desc  $+ %style.rating %statusmessage.display
 AbsorbHPBack=$chr(3) $+ 3 $+ %user absorbs $bytes(%absorb.amount,b) HP back from the damage.
 
 

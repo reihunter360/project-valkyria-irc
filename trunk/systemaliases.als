@@ -1,4 +1,4 @@
-battle.version { return 1.3 }
+battle.version { return 1.4beta_092612 }
 quitmsg { return Battle Arena version $battle.version written by James  "Iyouboushi" }
 checkscript {
   if (| isin $1-) { msg $nick $readini(translation.dat, errors, NoScriptsWithCommands) | halt }
@@ -122,6 +122,7 @@ weapons.get.list {
   set %weapons %weapons $+ . $+ $readini(weapons.db, Weapons, GreatSwords)
   set %weapons %weapons $+ . $+ $readini(weapons.db, Weapons, Glyphs)
   set %weapons %weapons $+ . $+ $readini(weapons.db, Weapons, Rifles)
+  set %weapons %weapons $+ . $+ $readini(weapons.db, Weapons, Bows)
   set %weapons2 $readini(weapons.db, Weapons, MonsterWpns)
   set %weapons3 $readini(weapons.db, Weapons, MonsterWpns2)
   set %weapons4 $readini(weapons.db, Weapons, MonsterWpns4)
@@ -497,6 +498,7 @@ clear_skills {
   writeini $char($1) skills mightystrike.on off | writeini $char($1) skills royalguard.on off | writeini $char($1) skills conservetp.on off
   writeini $char($1) skills drainsamba.turn 0 | writeini $char($1) skills drainsamba.on off | writeini $char($1) skills utsusemi.on off
   writeini $char($1) skills utsusemi.shadows 0 | writeini $char($1) skills Quicksilver.turn 0 | writeini $char($1) skills CoverTarget none
+  writeini $char($1) skills aggressor.on off | writeini $char($1) skills defender.on off
 }
 clear_status {
   if ($readini($char($1), status, finalgetsuga) = yes) {
@@ -708,7 +710,7 @@ hp_status_hpcommand {
 }
 
 clear_variables { 
-  unset %bloodmoon |  unset %line | unset %file | unset %name | unset %curbat | unset %real.name | unset %attack.target
+  unset %red.orb.winners |  unset %bloodmoon |  unset %line | unset %file | unset %name | unset %curbat | unset %real.name | unset %attack.target
   unset %battle.type | unset %number.of.monsters.needed | unset %who
   unset %next.person | unset %status | unset %hstats | unset %baseredorbs | unset %hp.percent
   unset %monster.list | unset %monsters.total | unset %random.monster | unset %monster.name
@@ -743,7 +745,7 @@ clear_variables {
   unset %attacker.spd | unset %playerstyle.* | unset %stylepoints.to.add | unset %current.playerstyle.* | unset %styles
   unset %styles.list | unset %style.name | unset %style.level | unset %player.style.level | unset %style.price | unset %styles
   unset %ai.skill | unset %weapon.name.used | unset %weapon.used.type | unset %quicksilver.used | unset %upgrade.list2
-  unset %upgrade.list3 | unset %ai.skilllist | unset %ai.type
+  unset %upgrade.list3 | unset %ai.skilllist | unset %ai.type | unset %statusmessage.display
 }
 
 skillhave.check {

@@ -4,7 +4,7 @@ BattleItems=Holy_Water.Stop_Watch.Red_Fang.Thunder_Orb.Fire_Flower.Ice_Coin.Holy
 FoodItems=Pizza.PotRoast.Ramen.Cavier.BisonDollar.DragonMeat.SuperMushroom.FireDragonWine.Ambrosia.FoieGras.KnowledgeSource.SoulPainting.FishAndChips.Slurm.CerberusMeat.SilverApple
 ConsumeItems=Shihei
 SummonItems=DarkMagicianCard.BusterBladerCard.BlueEyesCard.FishOilBroth.ElvishMedallian.AlexanderMateria.BahamutMateria.BahamutZeroMateria.CarbuncleMateria.SolomonRing.LuckyBroth.FenrirMateria.GarudaMateria.IfritMateria.LeviathanMateria.RamuhMateria.ShivaMateria.TitanMateria
-ShopReset=DiscountCard
+ShopReset=DiscountCard.UltraDiscountCard
 Accessories=Wizard's-Amulet.Blessed-Ankh.Blood-Ring.Black-Belt.Miser-Ring.Thief-Ring.Fool's-Tablet.Ribbon.Aztec-Goldcoin.Lucky-Rabbit'sFoot.VIP-MemberCard
 
 
@@ -432,7 +432,12 @@ Amount=10.0
 Desc=pulls out a Discount Card and gives it to %enemy who shows it to the shop clerk.  "Ah yes, indeed, part of of our..secret club."  Score!
 Cost=150000
 
-
+[UltraDiscountCard]
+Type=shopreset
+Target=Single
+Amount=25.0
+Desc=pulls out a shiny silver Ultra Discount Card and gives it to %enemy who shows it to the shop clerk.  "Woah! No way! You know the president of the shop? Why yes, of course, please!  Here's a hefty discount for you!" 
+Cost=400000
 
 =========================
 ACCESSORIES
@@ -441,12 +446,14 @@ ACCESSORIES
 
 [Wizard's-Amulet]
 Type=accessory
+AccessoryType=IncreaseSpellDamage
 Cost=9999999999
 Desc=A shiny metal amulet imbuded with the power of ancient wizards.  This accessory will increase the power of your spells.
 Amount=.07
 
 [Blessed-Ankh]
 Type=accessory
+AccessoryType=IncreaseHealing
 Cost=9999999999
 Desc=A small ankh that has been blessed by priests.  This accessory will increase the potentcy of healing.
 ; .20 = 20% increase in how much healing does.  Keep in mind the value is in percent.. so if you change it to 20 then it'll be 2000%
@@ -454,6 +461,7 @@ Amount=.20
 
 [Blood-Ring]
 Type=accessory
+AccessoryType=IncreaseRedOrbs
 Cost=9999999999
 Desc=A small ring with a small blood-red stone in it.  This accessory will increase the amount of orbs you gain at the end of battles.
 ; .10 = 10% more orbs.  if the reward is 1000 you'll get +100.
@@ -462,12 +470,14 @@ Amount=.10
 [Black-Belt]
 Type=accessory
 Cost=9999999999
+AccessoryType=IncreaseH2HDamage
 Desc=A cloth belt that proves you're a real hand to hand master!.  This accessory will increase the power of hand to hand attacks.
 Amount=.30
 
 [Miser-Ring]
 Type=accessory
 Cost=9999999999
+AccessoryType=IncreaseMeleeDamage
 Desc=A reddish gold ring that increases melee damage based on how many $readini(system.dat, system, currency) you currently have on hand.
 Amount=.005
 ; The miser-ring's max +damage will be 500, which means at .005 amount it would require 100,000 red orbs on hand to do that damage.
@@ -475,6 +485,7 @@ Amount=.005
 [Thief-Ring]
 Type=accessory
 Cost=9999999999
+AccessoryType=IncreaseSteal
 Desc=A tiny ring that increases the chance of successfully stealing from a target.
 Amount=5
 ; The amount is the +#% that it will increase the stealing chance.  Set this number to 100 if you want it to be 100% chance while wearing this ring.
@@ -482,27 +493,32 @@ Amount=5
 [Fool's-Tablet]
 Type=accessory
 Cost=9999999999
+AccessoryType=IncreaseMeleeAddPoison
 Desc=A stone tablet that poisons the user but gives an increase to melee damage.  Note: the poison can not be cured and will not wear off inside battle.
 Amount=.30
 
 [Ribbon]
 Type=accessory
 Cost=9999999999
+AccessoryType=BlockAllStatus
 Desc=A pretty pink ribbon said to have been worn by a goddess. While wearing this accessory you will become immune to all status effects EXCEPT for curse under a Curse Night.
 
 [Aztec-Goldcoin]
 Type=accessory
 Cost=9999999999
+AccessoryType=IncreaseMeleeAddCurse
 Desc=A shiny piece of cursed Aztec Gold. While equipped, this coin will inflict the curse status but will add a +HP Absorb to every melee attack.  The person equipped with this accessory will remain at 0 tp each turn even if items or skills are used.
 
 [Lucky-Rabbit'sFoot]
 Type=accessory
 Cost=9999999999
+AccessoryType=IncreaseCriticalHits
 Desc=A lucky rabbit's foot that enhances the chance for critical hits.
 Amount=10
 
 [VIP-MemberCard]
 Type=accessory
 Cost=9999999999
+AccessoryType=ReduceShopLevel
 Desc=A special VIP membership card to the shop. While wearing this accessory all purchases will be -1 shop level.  Note, your shop level cannot drop below 1 even while wearing this accessory and your shop level will continue to rise as it would normally.
 Amount=1

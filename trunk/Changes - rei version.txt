@@ -1,5 +1,6 @@
 ITEMS.DB
 DiscountCard=150000
+UltimateDiscountCard=400000
 
 SKILLS.MRC
     if (%steal.chance >= 85) {
@@ -15,9 +16,8 @@ SKILLS.MRC
 
 SKILLS.DB
 Steal Cooldown=15, Max=50
-Regen Cooldown=90
-Bloodboost Cooldown 15
-Bloodboost Max 60
+Regen Cooldown=90; Max=200
+Bloodboost Cooldown 15 Max=60
 DrainSamba Cooldown = 180 to 30
 ConserveTP Cooldown=500
 Meditate Cooldown=60
@@ -28,12 +28,12 @@ Cover Cooldown=20 from 270
 Impetus Max=40
 FieldMedic Max=500
 Clearmind Max=5
-OrbHunter Max=200
-Regen Max=200
-Zen=10
+OrbHunter Max=200; Amount=20
+Zen Max=10
 WeaponBashMax=2
+BloodPact Max=50
 
-Gunslinger,Swordmaster,Wizardy,Martialarts,Polemaster Max to 500 (from 100)
+Gunslinger,Swordmaster,Wizardy,Martialarts,Polemaster, ARchery Max to 500 (from 100)
 
 TECHNIQUES.DB
 ; Valkyria-IRC Customs
@@ -57,7 +57,7 @@ magic=yes
 
 [SonicBlow]
 ; Ragnarok Online Move
-Type=Status
+Type=Single
 StatusType=Stun
 TP=20
 Desc=approaches %enemy $+ then starts stabbing them at sonic speeds! Then, $name jumps back and whips $gender($1) sword to the side. [Sonic Blow]
@@ -70,6 +70,7 @@ magic=no
 [BrandishSpear]
 ; Ragnarok Online Move
 Type=AOE
+StatusType=Stun
 TP=10
 Desc=uses $gender($1) weapon and slams it hard into the ground creating a shockwave that damages all enemies! [Brandish Spear!]
 BasePower=30
@@ -79,8 +80,8 @@ magic=no
 
 [JupitelThunder]
 ; Ragnarok Online Move
-Type=Status
-StatusType=Stun.Paralysis
+Type=Single
+StatusType=Paralysis
 TP=20
 Desc=casts spell forming a ball of lightning and propells it at %enemy $+ !  [Jupitel Thunder!]
 cost=9000
@@ -204,6 +205,7 @@ Desc=forms a giant ball burning a bright blue, then tosses it at the enemies. [B
 basepower=55
 cost=9000
 element=Fire
+magic=no
 
 [BlackStarPower]
 type=boost
@@ -220,6 +222,7 @@ statustype=Burning
 tp=25
 Desc=changes the "Rock Cannon" into a large spear and slams it hard on %enemy! 
 basepower=35
+cost=2000
 magic=no
 
 ; DiEndDriver Details
@@ -241,7 +244,7 @@ cost=10000
 magic=yes
 
 [DiendBlast]
-type=status
+type=single
 statustype=Stun
 tp=20
 element=Lightning
@@ -251,6 +254,7 @@ Desc= shifts the mode on the DiendDriver and goes full automatic on %enemy $+ ! 
 
 [DiEndDimensionShoot]
 type=AOE
+statustype=paralysis
 tp=100
 Element=Lightning
 cost=5000
@@ -264,11 +268,12 @@ magic=yes
 type=AOE
 element=Earth
 tp=200
-cost=99999
+cost=2000
 Desc= jumps into the air and lands on the earth below, creating massive shafts of the ground to grow unstable and almost destroy the battlefield! [Earthquake!]
 statustype=Shaking
 basepower=100
 magic=no
+
 
 [UltimateSwallow]
 type=AOE
@@ -280,7 +285,7 @@ basepower=50
 magic=no
 
 [Slurp]
-type=status
+type=single
 statustype=Paralysis
 tp=30
 basepower=40
@@ -288,15 +293,17 @@ desc=licks and tastes %enemy $+ ! [Slurp]
 element=water
 absorb=yes
 magic=no
+cost=2000
 
 [Dinostomp]
-type=status
+type=single
 statustype=Stun
 tp=40
 basepower=60
 desc=lifts $gender($1) $+ giant leg and stomps on %enemy $+ ! [Dinosaur Stomp!]
 element=none
 magic=no
+cost=2000
 
 Desc=scoffs at everyone again as a silver aura appears around $gender($1) $+self  . "Let's see how you fare against my full goddess power, you scum."
 ^ Eldora's WiseReflection
