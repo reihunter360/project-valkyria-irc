@@ -123,7 +123,7 @@ alias item.summon {
   writeini $char($1) Battle TP 0
 
   var %bloodpact.level $readini($char($1), skills, BloodPact)
-  if (%blodopact.level > 1) { $boost_summon_stats($1, %bloodpact.level)  }
+  if (%bloodpact.level > 1) { $boost_summon_stats($1, %bloodpact.level)  }
 
   unset %summon.name
 }

@@ -88,23 +88,27 @@ MPRegenerating=no
 
 [Weapons]
 Equipped=TRexWeapon
-TRexWeapon=25
+TRexWeapon=35
 
 
 [Skills]
 ClearMind=3
 Mightystrike=10
-bloodboost=350
+bloodboost=500
 MartialArts=200
 DesperateBlows=1
 Zen=10
+Regen=200
+
+resist-stun=100
+resist-curse=70
 
 [Techniques]
 ; TRexWeapon=Roar.Swallow.SpikeFlail.VolcanicRush.SurvivalInstinct
 Roar=100
 Swallow=900
-SpikeFlail=450
-VolcanicRush=500
+SpikeFlail=650
+VolcanicRush=750
 SurvivalInstinct=200
 
 [Element]

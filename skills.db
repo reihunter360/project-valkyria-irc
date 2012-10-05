@@ -77,10 +77,10 @@ Info=This skill will increase your chances of performing a critical hit by 1% ea
 Max=40
 
 [BloodPact]
-Cost=2500
+Cost=250
 Type=Passive
 Info=This skill will allow you to activate summoning items and summon pets/summons to the field to fight for you. Increased levels of the skill will enhance the summon.
-Max=50
+Max=500
 
 [Zen]
 Cost=500
@@ -176,7 +176,7 @@ Cooldown=500
 [BloodBoost]
 Cost=500
 Type=Active
-Max=10
+Max=100
 Info=This skill will consume 100 HP to give you a (level * 2) boost to your STR.
 Cooldown=15
 
