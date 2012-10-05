@@ -86,7 +86,7 @@ MPRegenerating=no
 
 [Weapons]
 Equipped=PhoenixmonWeapon
-PhoenixmonWeapon=40
+PhoenixmonWeapon=50
 
 [Skills]
 Wizardry=9000
@@ -95,14 +95,15 @@ Speed=9000
 Regen=3333
 resist-amnesia=60
 resist-slow=50
+resist-stun=70
 
 [Techniques]
-StarLightExplosion=200
-CrimsonFlame=200
-CureV=200
-MeteorPhoenix=300
-DoubleHurricane=300
-BusterPhoenix=200
+StarLightExplosion=500
+CrimsonFlame=500
+CureV=500
+MeteorPhoenix=500
+DoubleHurricane=700
+BusterPhoenix=400
 
 [Item_Amount]
 

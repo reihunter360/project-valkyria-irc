@@ -5,22 +5,23 @@ check_for_battle {
 }
 
 boost_summon_stats {
+
   var %hp $readini($char($1 $+ _summon), BaseStats, HP)
   var %tp $readini($char($1 $+ _summon), BaseStats, TP)
   var %str $readini($char($1 $+ _summon), BaseStats, Str)
-  var %def $readini($char($1 $+ _ summon), BaseStats, Def)
+  var %def $readini($char($1 $+ _summon), BaseStats, Def)
   var %int $readini($char($1 $+ _summon), BaseStats, Int)
   var %spd $readini($char($1 $+ _summon), BaseStats, Spd)
 
   set %increase.amount $calc(.25 * $2) 
   inc %increase.amount $calc($rand(1,5) / 100)
 
-  %hp = $round($calc(%hp * %increase.amount),0) 
-  %tp = $round($calc(%tp * %increase.amount),0) 
-  %str = $round($calc(%str * %increase.amount),0) 
-  %def = $round($calc(%def * %increase.amount),0) 
-  %int = $round($calc(%int * %increase.amount),0) 
-  %spd = $round($calc(%spd * %increase.amount),0) 
+  inc %hp $round($calc(%hp * %increase.amount),0) 
+  inc %tp $round($calc(%tp * %increase.amount),0) 
+  inc %str $round($calc(%str * %increase.amount),0) 
+  inc %def $round($calc(%def * %increase.amount),0) 
+  inc %int $round($calc(%int * %increase.amount),0) 
+  inc %spd $round($calc(%spd * %increase.amount),0) 
 
   writeini $char($1 $+ _summon) BaseStats HP %hp
   writeini $char($1 $+ _summon) BaseStats TP %tp
@@ -28,6 +29,8 @@ boost_summon_stats {
   writeini $char($1 $+ _summon) BaseStats Def %def
   writeini $char($1 $+ _summon) BaseStats Int %int
   writeini $char($1 $+ _summon) BaseStats Spd %spd
+
+  $fulls($1 $+ _summon)
 }
 
 boost_monster_stats {

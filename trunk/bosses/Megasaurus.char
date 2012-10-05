@@ -93,17 +93,20 @@ MegasaurusWeapon=30
 Regen=200
 Mightystrike=5
 Utsumei=5
-Bloodboost=500
+Bloodboost=1000
 MartialArts=200
-Clearmind=2
+Clearmind=3
 Zen=20
 DesperateBlows=5
+
+resist-stun=100
+resist-curse=100
 
 
 [Techniques]
 UltimateSwallow=400
 SpikeFlail=550
-VolcanicRush=600
+VolcanicRush=1000
 SurvivalInstinct=300
 Earthquake=400
 Dinostomp=600

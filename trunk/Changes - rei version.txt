@@ -16,8 +16,8 @@ SKILLS.MRC
 
 SKILLS.DB
 Steal Cooldown=15, Max=50
-Regen Cooldown=90; Max=200
-Bloodboost Cooldown 15 Max=60
+Regen Cooldown=60; Max=200
+Bloodboost Cooldown 15 Max=100
 DrainSamba Cooldown = 180 to 30
 ConserveTP Cooldown=500
 Meditate Cooldown=60
@@ -305,6 +305,77 @@ element=none
 magic=no
 cost=2000
 
+; Omega Weapon MK12's Techs
+
+[WaveCannon]
+type=AOE
+element=Lightning
+tp=30
+basepower=40
+cost=2000
+desc=fires up a wide range laser attack on all enemies. [Wave Cannon!]
+magic=no
+
+[LightPillar]
+type=single
+statustype=Amnesia
+tp=15
+basepower=25
+cost=2000
+desc= takes aim on %enemy $+ and fires a very bright laser on them. [Light Pillar!]
+magic=yes
+
+[Ultima]
+type=AOE
+element=none
+magic=yes
+tp=60
+basepower=150
+desc=holds up $gender($1) $+'s weapon to collect magical energy, then finally releases them in a black and white flame towards all enemies. [Ultima!]
+cost=9000
+
+[Gravija]
+type=AOE
+statustype=weight
+magic=yes
+element=dark
+tp=90
+basepower=120
+desc=flies up into the sky and intesifies the gravity on the battlefield! [Gravija!]
+cost=12000
+absorb=yes
+
+[TerraBreak]
+type=single
+statustype=Earth-quake
+tp=30
+basepower=60
+magic=no
+desc=uses $gender($1) $+'s weapon and smashes %enemy $+ into the ground, creating a massive hole in the ground! [Terra Break]
+cost=9000
+element=earth
+
+[MeggidoFlame]
+type=aoe
+statustype=blind
+tp=60
+basepower=90
+magic=yes
+element=light
+cost=2000
+desc=casts a very large spell into the heavens and finally a holy fire burns everything within range! [Meggido Flame]
+
+[LV5_Death]
+type=AOE
+statustype=curse
+magic=yes
+tp=333
+;basepower=if ($calc($readini($char($3), Stuff, shoplevel) % 5) == 0) { $calc($readini($char($3), basestats, HP) * 1.1) } else { $calc(0 * 1.1) }
+basepower=666
+element=dark
+
+
+
 Desc=scoffs at everyone again as a silver aura appears around $gender($1) $+self  . "Let's see how you fare against my full goddess power, you scum."
 ^ Eldora's WiseReflection
 
@@ -383,5 +454,13 @@ basepower=70
 hits=$rand(1,2)
 upgrade=500000
 
+[OmegaMultipurposeCannon]
+cost=9999999
+Type=Rifle
+Info=A Omega Weapon MK12 Weapon
+abilities=WaveCannon.LightPillar.MeggidoFlame.Ultima.Gravija.TerraBreak.Meteor.LV5_Death
+basepower
+hits=$rand(2,4)
+upgrade=500000
 
 Cost and Upgrade to 99999 and 500000
