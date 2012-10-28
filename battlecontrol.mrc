@@ -187,8 +187,8 @@ alias startnormal {
   if ($1 = orbfountain) { set %battle.type orbfountain }
   if ($1 = orbbattle) { set %battle.type orbfountain }
 
-  /.timerBattleBegin 1 120 /battlebegin
-  ; /.timerBattleBegin 1 30 /battlebegin
+  ;/.timerBattleBegin 1 120 /battlebegin
+  /.timerBattleBegin 1 60 /battlebegin
 }
 
 
