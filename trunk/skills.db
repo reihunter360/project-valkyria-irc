@@ -77,10 +77,10 @@ Info=This skill will increase your chances of performing a critical hit by 1% ea
 Max=40
 
 [BloodPact]
-Cost=250
+Cost=200
 Type=Passive
 Info=This skill will allow you to activate summoning items and summon pets/summons to the field to fight for you. Increased levels of the skill will enhance the summon.
-Max=500
+Max=1000
 
 [Zen]
 Cost=500
@@ -162,7 +162,7 @@ Cooldown=960
 [Meditate]
 Cost=400
 Type=Active
-Max=10
+Max=20
 Info=This skill will give you (level * 5) TP back to you instantly.
 Cooldown=60
 
@@ -190,7 +190,7 @@ Cooldown=30
 [Regen]
 Cost=700
 Type=Active
-Max=200
+Max=500
 Info=This skill will give you the HP regeneration effect.  Every turn you will regenerate (skill level * 2) HP back.  The effect will wear off when you reach your maximum HP or if you die.
 Cooldown=60
 
