@@ -1,12 +1,36 @@
 [Items]
-HealingItems=Potion.VitalStar.X-Potion.Senzu.SuperPotion.DustyWing.Ether.Tonic.GoldOrb
-BattleItems=Holy_Water.Stop_Watch.Red_Fang.Thunder_Orb.Fire_Flower.Ice_Coin.HolyHandGrenade
-FoodItems=Pizza.PotRoast.Ramen.Cavier.BisonDollar.DragonMeat.SuperMushroom.FireDragonWine.Ambrosia.FoieGras.KnowledgeSource.SoulPainting.FishAndChips.Slurm.CerberusMeat.SilverApple
-ConsumeItems=Shihei
-SummonItems=DarkMagicianCard.BusterBladerCard.BlueEyesCard.FishOilBroth.ElvishMedallian.AlexanderMateria.BahamutMateria.BahamutZeroMateria.CarbuncleMateria.SolomonRing.LuckyBroth.FenrirMateria.GarudaMateria.IfritMateria.LeviathanMateria.RamuhMateria.ShivaMateria.TitanMateria
-ShopReset=DiscountCard.UltraDiscountCard
-Accessories=Wizard's-Amulet.Blessed-Ankh.Blood-Ring.Black-Belt.Miser-Ring.Thief-Ring.Fool's-Tablet.Ribbon.Aztec-Goldcoin.Lucky-Rabbit'sFoot.VIP-MemberCard
+; Healing Items can restore HP, TP, status or bestow the "revive" status
+HealingItems=Potion.VitalStar.X-Potion.Senzu.DustyWing.Tonic.GoldOrb
 
+; Battle Items are used for damaging enemies in battle
+BattleItems=Stop_Watch.Hour_Glass.Holy_Water.Red_Fang.Thunder_Orb.Fire_Flower.Ice_Coin
+
+; Food Items increase stats
+FoodItems=Pizza.PotRoast.Ramen.Cavier.BisonDollar.DragonMeat.SuperMushroom.FireDragonWine.Ambrosia.FoieGras.KnowledgeSource.SoulPainting.FishAndChips.Slurm.CerberusMeat.SilverApple.DefenseSource.PowerSource.Herring.TurkeyLeg
+
+; Consume items are used by skills
+ConsumeItems=Shihei.Sokubaku
+
+; Summon Items are used with BloodPact to summon an ally
+SummonItems=DarkMagicianCard.BusterBladerCard.BlueEyesCard.FishOilBroth.ElvishMedallian.AlexanderMateria.BahamutMateria.BahamutZeroMateria.CarbuncleMateria.SolomonRing.LuckyBroth.FenrirMateria.GarudaMateria.IfritMateria.LeviathanMateria.RamuhMateria.ShivaMateria.TitanMateria
+
+; Shop Reset items reduce the player's shop level
+ShopReset=DiscountCard.UltraDiscountCard
+
+; Accessories are special items that cannot be bought in stores and are found by defeating bosses.
+Accessories=Wizard's-Amulet.Blessed-Ankh.Blood-Ring.Blood-Pendant.Purple-Belt.Brown-Belt.Black-Belt.Miser-Ring.Thief-Ring.Fool's-Tablet.Ribbon.Aztec-Goldcoin.Lucky-Rabbit'sFoot.VIP-MemberCard.Spear-Pin.Mugger's-Belt.Prism-Specs
+
+; The gems cannot be bought in store and this list is used by the jewel sword. I've added Zircon multiple times because that was the most common drop in SotN.
+Gems=Zircon.Topaz.Emerald.Ruby.Zircon.Diamond.Sapphire.Opal.Zircon.Onyx
+
+; Keys are used to open chests. They cannot be bought in stores.
+Keys=BlueKey.BrownKey.RedKey.OrangeKey.GreenKey.GoldKey.BlueKey.BrownKey.BlueKey.RedKey
+
+; These are special items that are only available when crafting (or potentially drops from bosses)
+CraftedItems=SuperPotion.Ether.Dynamite.HolyHandGrenade.Angon.SauceAmpulla.Shihei.Mugger's-Belt.Blood-Pendant.VIP-MemberCard.Prism-Specs.Paper
+
+; Misc items aren't used for anything except crafting.
+Misc=Ink.Paper.AshLog.Hatchet.IronOre.Ectoplasm.BrokenLance.SilverChain.FireGem.IceStone.WindRock.WaterJewel.EarthSphere.Glass
 
 =========================
 HEALING ITEMS
@@ -95,7 +119,7 @@ Desc=pulls out a small bottle of bubbling tonic and hands it to %enemy who drink
 
 [GoldOrb]
 Type=Revive
-Cost=10000
+Cost=8000
 Desc=pulls out a small, pulsing, gold orb and holds it up to %enemy $+ ! %enemy is covered by a bright golden light as the gold orb floats above %real.name $+ 's head and becomes a halo.  %enemy will be automatically revived upon death.
 
 
@@ -150,6 +174,42 @@ FullbringTarget=AOE
 Fullbringdesc=draws out the soul from the stop watch.  A giant stop watch appears on the battlefield and slowly stops.  All the enemies on the battlefield begin to feel as though time has stopped for them.
 FullbringAmount=5
 
+[Hour_Glass]
+Type=Status
+Target=Single
+StatusType=slow
+Amount=10
+Cost=150
+Desc=takes out a small hour glass and flips it before handing it to %enemy $+ .  The hour glass glows green and %enemy begins to feel slow.
+FullbringLevel=3
+FullbringTarget=AOE
+Fullbringdesc=draws out the soul from the hour glass.  It floats into the sky and then rains down upon all targets, making them all feel slowed.
+FullbringAmount=5
+
+[Angon]
+Type=Status
+Target=Single
+StatusType=defensedown
+Amount=50
+Cost=100
+Desc=takes out a large lance that is glowing red and throws it at %enemy $+ .  After being hit, %enemy starts to feel as though $gender($2) defense has been weakened.
+FullbringLevel=5
+FullbringTarget=AOE
+FullbringAmount=100
+Fullbringdesc=draws out the soul from the angon.  The soul splits into large javalins that slam into all of the enemies on the battlefield. 
+
+[SauceAmpulla]
+Type=Status
+Target=Single
+StatusType=strengthdown
+Amount=50
+Cost=100
+Desc=takes out a small flask that has a strange bubbling liquid inside and throws it at %enemy $+ .  After being hit by the exploding flask, %enemy starts to feel as though $gender($2) strength has been weakened.
+FullbringLevel=5
+FullbringTarget=AOE
+FullbringAmount=100
+Fullbringdesc=draws out the soul from the ampulla.  The soul splits into several copies of itself and floats over all the targets on the battlefield before falling down upon them all at once. 
+
 [Fire_Flower]
 Type=Damage
 Target=Single
@@ -173,6 +233,18 @@ FullbringLevel=3
 FullbringTarget=AOE
 FullbringAmount=100
 Fullbringdesc=draws out the soul from the ice coin.  The soul glows a bright blue and then explodes, causing ice to rain down on all targets on the battlefield.
+
+[Dynamite]
+Type=Damage
+Target=Single
+Amount=310
+Cost=350
+Desc=takes out a small stick of dynamite and tosses it at %enemy causing a massive explosion.
+Element=fire
+FullbringLevel=4
+FullbringTarget=AOE
+FullbringAmount=250
+Fullbringdesc=draws out the soul from the stick of dynamite.  The soul floats over the battlefield and then glows a bright red before violently exploding, causing damage to all targets.
 
 [HolyHandGrenade]
 Type=Damage
@@ -235,6 +307,13 @@ Amount=1
 Desc=pulls out a piece of Cerberus meat and hands it to %enemy $+ , who cooks it and eats it.  Dude, you just ate some of a three-headed dog!
 Cost=5000000
 
+[TurkeyLeg]
+Type=food
+Target=str
+Amount=1
+Desc=pulls out a turkey leg meat and hands it to %enemy $+ , who cooks it and eats it. Mmm! Gobble gobble indeed!
+Cost=5000000
+
 [SuperMushroom]
 Type=food
 Target=hp
@@ -246,7 +325,7 @@ Cost=5000000
 Type=food
 Target=def
 Amount=1
-Desc=pulls out a bottle of alcohol labeled "Fire Dragon Wine" and drinks the entire bottle. After a moment of intense pain and nausea, %enemy feels that $gender($1) defense has increased!
+Desc= pulls out a bottle of alcohol labeled "Fire Dragon Wine" and hands it to %enemy %+ , who drinks the entire bottle. After a moment of intense pain and nausea, %enemy feels that $gender($2) defense has increased! 
 Cost=5000000
 
 [Ambrosia]
@@ -298,6 +377,47 @@ Amount=10
 Desc=pulls out a small silver apple and hands it to %enemy who eats it. Woah, a silver apple? That's pretty cool, right? Stylish!
 Cost=10000000
 
+[DefenseSource]
+
+Type=Food
+
+Target=int
+
+Amount=1
+
+Desc=pulls out a source of defense and hands it to %enemy $+ , who then reads it and feels a little stronger!
+
+Cost=5000000
+
+
+
+[PowerSource]
+
+Type=Food
+
+Target=int
+
+Amount=1
+
+Desc=pulls out a source of power and hands it to %enemy $+ , who then reads it and feels a little more powerful!
+
+Cost=5000000
+
+
+
+[Herring]
+
+Type=food
+
+Target=spd
+
+Amount=2
+
+Desc=takes out a herring and hands it to %enemy $+ , who then stares at it. %enemy then cooks and eats it, though $gender3 then feels an urge to chop down the mightiest tree in the forest...
+
+Cost=10000000
+
+
 
 =========================
 CONSUMABLE ITEMS (for skills)
@@ -306,6 +426,11 @@ CONSUMABLE ITEMS (for skills)
 Type=consume
 Cost=100
 Skill=Utsusemi
+
+[Sokubaku]
+type=consume
+Cost=100
+Skill=WeaponLock
 
 
 =========================
@@ -420,6 +545,90 @@ Summon=Titan
 SummonName=Titan
 
 
+=========================
+GEMS
+=========================
+
+[Zircon]
+Type=gem
+Cost=20
+Desc=A small zircon. It is often mistaken for a diamond at first glance but isn't worth anywhere near as much.
+
+[Topaz]
+Type=gem
+Cost=50
+Desc=A small topaz
+
+[Sapphire]
+Type=gem
+Cost=80
+Desc=A small sapphire
+
+[Onyx]
+Type=gem
+Cost=90
+Desc=A small black onyx
+
+[Opal]
+Type=gem
+Cost=95
+Desc=A small white opal
+
+[Emerald]
+Type=gem
+Cost=210
+Desc=A small green emerald
+
+[Ruby]
+Type=gem
+Cost=205
+Desc=A small red ruby
+
+[Diamond]
+Type=gem
+Cost=900
+Desc=A bright white diamond
+
+=========================
+KEYS
+=========================
+
+[BlueKey]
+Type=key
+Unlocks=blue
+Cost=5
+Desc=A small blue key. It will unlock blue-colored chests.
+
+[RedKey]
+Type=key
+Unlocks=red
+Cost=5
+Desc=A small red key. It will unlock red-colored chests.
+
+[OrangeKey]
+Type=key
+Unlocks=orange
+Cost=5
+Desc=A small orange key. It will unlock orange-colored chests.
+
+[GreenKey]
+Type=key
+Unlocks=green
+Cost=5
+Desc=A small green key. It will unlock green-colored chests.
+
+[GoldKey]
+Type=key
+Unlocks=gold
+Cost=5
+Desc=A small gold key. It will unlock gold-colored chests.
+
+[BrownKey]
+Type=key
+Unlocks=brown
+Cost=5
+Desc=A small brown key. It will unlock brown-colored chests.
+
 
 =========================
 SHOP RESET ITEMS
@@ -467,6 +676,28 @@ Desc=A small ring with a small blood-red stone in it.  This accessory will incre
 ; .10 = 10% more orbs.  if the reward is 1000 you'll get +100.
 Amount=.10
 
+[Blood-Pendant]
+Type=accessory
+AccessoryType=IncreaseRedOrbs
+Cost=9999999999
+Desc=A small ring with a small blood-red stone in it.  This accessory will increase the amount of orbs you gain at the end of battles.
+; .15 = 15% more orbs.  if the reward is 1000 you'll get +150.
+Amount=.15
+
+[Purple-Belt]
+Type=accessory
+Cost=9999999999
+AccessoryType=IncreaseH2HDamage
+Desc=A cloth belt that proves you're on the path to becoming a martial arts master!  This accessory will increase the power of hand to hand attacks.
+Amount=.10
+
+[Brown-Belt]
+Type=accessory
+Cost=9999999999
+AccessoryType=IncreaseH2HDamage
+Desc=A cloth belt that proves you're almost finished with your training as a martial arts master master!.  This accessory will increase the power of hand to hand attacks.
+Amount=.20
+
 [Black-Belt]
 Type=accessory
 Cost=9999999999
@@ -490,6 +721,12 @@ Desc=A tiny ring that increases the chance of successfully stealing from a targe
 Amount=5
 ; The amount is the +#% that it will increase the stealing chance.  Set this number to 100 if you want it to be 100% chance while wearing this ring.
 
+[Mugger's-Belt]
+Type=accessory
+Cost=9999999999
+AccessoryType=Mug
+Desc=A belt that changes the standard Steal command into Mug. If you wear this accessory you will deal melee damage to the target in addition to stealing from it.
+
 [Fool's-Tablet]
 Type=accessory
 Cost=9999999999
@@ -506,7 +743,7 @@ Desc=A pretty pink ribbon said to have been worn by a goddess. While wearing thi
 [Aztec-Goldcoin]
 Type=accessory
 Cost=9999999999
-AccessoryType=IncreaseMeleeAddCurse
+AccessoryType=CurseAddDrain
 Desc=A shiny piece of cursed Aztec Gold. While equipped, this coin will inflict the curse status but will add a +HP Absorb to every melee attack.  The person equipped with this accessory will remain at 0 tp each turn even if items or skills are used.
 
 [Lucky-Rabbit'sFoot]
@@ -522,3 +759,90 @@ Cost=9999999999
 AccessoryType=ReduceShopLevel
 Desc=A special VIP membership card to the shop. While wearing this accessory all purchases will be -1 shop level.  Note, your shop level cannot drop below 1 even while wearing this accessory and your shop level will continue to rise as it would normally.
 Amount=1
+
+[Spear-Pin]
+Type=accessory
+Cost=9999999999
+AccessoryType=IncreasePolearmDamage
+Desc=A small pin that is shaped like a spear. This accessory will increase melee damage done with a spear weapon.
+Amount=.30
+
+[Prism-Specs]
+Type=accessory
+Cost=9999999999
+AccessoryType=ElementalDefense
+Desc=A special pair of sunglasses that enhances the elemental defense of anyone who wears it. This accessory will cut elemental damage done by half, but will also do the same to healing.
+
+=========================
+MISC ITEMS
+=========================
+
+[Ink]
+Type=misc
+Cost=50
+Desc=A small tube of black ink.
+
+[Paper]
+Type=misc
+Cost=50
+Desc=A blank piece of paper.
+
+[AshLog]
+Type=misc
+Cost=50
+Desc=A log from an ash tree.
+
+[Hatchet]
+Type=misc
+Cost=50
+Desc=A rusted hatchet.
+
+[IronOre]
+Type=misc
+Cost=50
+Desc=A chunk of iron ore.
+
+[BrokenLance]
+Type=misc
+Cost=50
+Desc=A splintered lance that is no use as a weapon in its current state.
+
+[Ectoplasm]
+Type=misc
+Cost=200
+Desc=The gooey remains of a ghost. It's slimey to the touch.
+
+[SilverChain]
+Type=misc
+Cost=100
+Desc=A chain made of silver.
+
+[FireGem]
+Type=misc
+Cost=100
+Desc=A small glowing red rock.
+
+[IceStone]
+Type=misc
+Cost=100
+Desc=A frozen stone pulsing with magical energy.
+
+[WindRock]
+Type=misc
+Cost=100
+Desc=A green rock that seems to carry the power of the wind inside it.
+
+[WaterJewel]
+Type=misc
+Cost=100
+Desc=A bright blue jewel that has a tiny waterfall inside it.
+
+[EarthSphere]
+Type=misc
+Cost=100
+Desc=A perfectly round brown sphere that's pulsing with energy.
+
+[Glass]
+Type=misc
+Cost=100
+Desc=A piece of glass.

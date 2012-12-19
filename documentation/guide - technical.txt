@@ -44,6 +44,10 @@ MaxShopLevel=  the maximum shop level players can achieve goes here.  By default
 
 EnableDoppelganger=   if you want the doppelganger boss fights to be enabled or not. Put true or false.  It's set to true by default.
 
+EnableWarMachine=  if you want the war machine boss fights to be enabled or not. Put true or false. It's set to true by default.
+
+EnableChests=  If you want chests and keys to drop. Put true or false. It's set to true by default. If set to false, neither keys nor chests will drop.
+
 
 [StatPrices]
 This whole section is the base cost, in red orbs, that the shop will sell stat upgrades for.  You can lower the prices or raise them here.

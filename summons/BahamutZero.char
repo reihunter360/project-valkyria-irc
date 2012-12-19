@@ -1,19 +1,19 @@
 [BaseStats]
 Hp=600
-Tp=60
-Str=25
-Def=25
-Int=25
+Tp=90
+Str=35
+Def=35
+Int=45
 Spd=25
 Name=Bahamut Zero
 
 
 [Battle]
 Hp=600
-Tp=60
-Str=25
-Def=25
-Int=25
+Tp=90
+Str=35
+Def=35
+Int=45
 Spd=25
 Status=alive
 
@@ -107,9 +107,9 @@ Wizardy=35
 Zen=5
 
 [Techniques]
-MegaFlare=20
-TeraFlare=25
-Impulse=20
+MegaFlare=95
+TeraFlare=95
+Impulse=80
 
 
 [Item_Amount]

@@ -20,12 +20,14 @@ on 2:TEXT:!shop*:*: {
 
 
   if ($2 = sell) {
-    var %sellable.stuff items.accessories.accessory
+    var %sellable.stuff items.accessories.accessory.gems.techs
     if ($3 !isin %sellable.stuff) { .msg $nick $readini(translation.dat, errors, Can'tSellThat) | halt }
     var %amount.to.sell $abs($5)
     if (%amount.to.sell = $null) { var %amount.to.sell 1 }
     if (($3 = item) || ($3 = items)) { $shop.items($nick, sell, $4, %amount.to.sell) | halt }
     if (($3 = accessories) || ($3 = accessory))  { $shop.accessories($nick, sell, $4, %amount.to.sell) | halt }
+    if (($3 = gems) || ($3 = gem))  { $shop.items($nick, sell, $4, %amount.to.sell) | halt }
+    if (($3 = tech) || ($3 = techs)) { $shop.techs($nick, sell, $4, %amount.to.sell) | halt }
   }
 
   if (($2 = buy) || ($2 = purchase)) { 
@@ -55,7 +57,13 @@ on 2:TEXT:!shop*:*: {
     if (($3 = stats) || ($3 = stat)) { $shop.stats($nick, list) }
     if (($3 = items) || ($3 = item)) { $shop.items($nick, list) }
     if (($3 = techs) || ($3 = techniques))  { $shop.techs($nick, list) }
-    if (($3 = skills) || ($3 = skill)) { $shop.skills($nick, list) }
+    if (($3 = skills) || ($3 = skill)) { 
+      if ($4 = passive) { $shop.skills.passive($nick) }
+      if ($4 = active) { $shop.skills.active($nick) }
+      if (($4 = resists) || ($4 = resistances)) { $shop.skills.resists($nick) }
+      if ($4 = $null) { $shop.skills($nick, list) }
+    }
+
     if (($3 = weapons) || ($3 = weapon)) { $shop.weapons($nick, list) }
     if ($3 = orbs) { $shop.orbs($nick, list) }
     if (($3 = style) || ($3 = styles))  { $shop.styles($nick, list, $4) | halt }
@@ -103,7 +111,6 @@ alias shop.accessories {
 
     .msg $nick $readini(translation.dat, system, SellMessage)
   }
-
 }
 
 alias shop.items {
@@ -124,7 +131,7 @@ alias shop.items {
     }
 
     if (%shop.list != $null) {  $shop.cleanlist 
-      /.timerHealingItems $+ $nick 1 1 /.msg $nick 2Healing Items: %shop.list
+      /.timerHealingItems $+ $nick 1 1 /.msg $nick 3Healing Items:2 %shop.list
     }
 
     ; CHECKING BATTLE ITEMS
@@ -141,7 +148,7 @@ alias shop.items {
     }
 
     if (%shop.list != $null) {  $shop.cleanlist 
-      /.timerBattleItems $+ $nick 1 1 /.msg $nick 2Battle Items: %shop.list
+      /.timerBattleItems $+ $nick 1 1 /.msg $nick 4Battle Items:2 %shop.list
     }
 
     ; CHECKING CONSUMABLE ITEMS
@@ -158,7 +165,7 @@ alias shop.items {
     }
 
     if (%shop.list != $null) {  $shop.cleanlist 
-      /.timerConsumeItems $+ $nick 1 1 /.msg $nick 2Items Used For Skills: %shop.list
+      /.timerConsumeItems $+ $nick 1 1 /.msg $nick 14Items Used For Skills:2 %shop.list
     }
 
     ; CHECKING SUMMON ITEMS
@@ -175,7 +182,7 @@ alias shop.items {
     }
 
     if (%shop.list != $null) {  $shop.cleanlist 
-      /.timerSummonItems $+ $nick 1 1 /.msg $nick 2Items Used For Summons: %shop.list
+      /.timerSummonItems $+ $nick 1 1 /.msg $nick 10Items Used For Summons:2 %shop.list
     }
 
     ; CHECKING SHOP RESET ITEMS
@@ -192,7 +199,7 @@ alias shop.items {
     }
 
     if (%shop.list != $null) {  $shop.cleanlist 
-      /.timerShopResetItems $+ $nick 1 1 /.msg $nick 2Items Used To Lower Shop Levels: %shop.list
+      /.timerShopResetItems $+ $nick 1 1 /.msg $nick 12Items Used To Lower Shop Levels:2 %shop.list
     }
 
 
@@ -287,14 +294,15 @@ alias shop.techs {
 
     ; display the list with the prices.
     $shop.cleanlist
-    .msg $nick 2Stat Prices in $readini(system.dat, system, currency) $+ : %shop.list
+    .msg $nick 2Tech Prices in $readini(system.dat, system, currency) $+ : %shop.list
   }
 
   if (($2 = buy) || ($2 = purchase)) {
     ; is it a valid tech?
     $weapon_equipped($1)
-    if ($3 !isin $readini(weapons.db, %weapon.equipped, abilities)) { .msg $nick 4Error: Invalid item. Use! !shop list techs to get a valid list | halt }
-
+    set %weapon.abilities $readini(weapons.db, %weapon.equipped, abilities)
+    if ($istok(%weapon.abilities,$3,46) = $false) { .msg $nick 4Error: Invalid item. Use! !shop list techs to get a valid list | halt }
+    unset %weapon.abilities
 
     ; do you have enough to buy it?
     var %player.redorbs $readini($char($1), stuff, redorbs)
@@ -319,16 +327,51 @@ alias shop.techs {
     ; Increase the shop level.
     $inc.shoplevel($1, $4)
   }
+
+  if ($2 = sell) {
+    ; is it a valid item?
+    if ($readini(techniques.db, $3, type) = $null) { .msg $nick 4Error: Invalid tech. Use! !techs to get a valid list of techs you own. | halt }
+
+    ; Does the player have it?
+    var %player.items $readini($char($1), techniques, $3)
+    if (%player.items = $null) { .msg $nick 4Error: You do not have this tech to sell! | halt }
+    if (%player.items < $4) { .msg $nick 4Error: You do not have $4 levels of this tech to sell! | halt }
+
+    var %total.price $readini(techniques.db, $3, cost)
+    %total.price = $round($calc(%total.price / 2.5),0)
+    if ((%total.price = 0) || (%total.price = $null)) {  set %total.price 50  }
+
+    ; If so, decrease the amount
+    dec %player.items $4
+    writeini $char($1) techniques $3 %player.items
+
+    if ($readini($char($1), skills, haggling) > 0) { 
+      inc %total.price $calc($readini($char($1), skills, Haggling) * 20)
+    }
+
+    if (%total.price >= $readini(techniques.db, $3, cost)) { %total.price = $readini(items.db, $3, cost) }
+    if (%total.price > 500) { %total.price = 500 }
+    if (%total.price <= 0) { %total.price = 50 }
+
+    %total.price = $calc($4 * %total.price)
+
+    var %player.redorbs $readini($char($1), stuff, redorbs)
+    inc %player.redorbs %total.price
+    writeini $char($1) stuff redorbs %player.redorbs
+
+    .msg $nick 3A shop keeper wearing a green and white bucket hat uses a special incantation to take $4 level(s) of $3 $+  from you and gives you %total.price $readini(system.dat, system, currency) $+ !
+    unset %total.price
+  }
 }
 
 alias shop.skills {
-  unset %shop.list.activeskills | unset %shop.list.passiveskills | unset %shop.list.resistanceskills
+  unset %shop.list.activeskills | unset %shop.list.passiveskills | unset %shop.list.resistanceskills | unset %total.passive.skills | unset %total.active.skills
   if ($2 = list) {
     ; get the list of the skills
     $shop.get.shop.level($1)
 
     ; CHECKING PASSIVE SKILLS
-    unset %shop.list | unset %skill.list
+    unset %shop.list | unset %skill.list | unset %shop.list.passiveskills2 | unset %total.passive.skills
     set %skill.list $readini(skills.db, Skills, PassiveSkills)
     var %number.of.items $numtok(%skill.list, 46)
 
@@ -341,15 +384,15 @@ alias shop.skills {
       if (%skill.have >= %skill.max) { inc %value 1 }
       else { 
         set %skill.price $round($calc(%shop.level * $readini(skills.db, %skill.name, cost)),0)
-        %shop.list.passiveskills = $addtok(%shop.list.passiveskills, $+ %skill.name $+ +1 ( $+ %skill.price $+ ),46)
-        inc %value 1 
+        if ((%total.passive.skills <= 11) || (%total.passive.skills = $null)) {  %shop.list.passiveskills = $addtok(%shop.list.passiveskills, $+ %skill.name $+ +1 ( $+ %skill.price $+ ),46) }
+        if (%total.passive.skills > 11) {  %shop.list.passiveskills2 = $addtok(%shop.list.passiveskills2, $+ %skill.name $+ +1 ( $+ %skill.price $+ ),46) }
+        inc %value 1 | inc %total.passive.skills 1
       }
     }
-
-    set %replacechar $chr(044) $chr(032) |  %shop.list.passiveskills = $replace(%shop.list.passiveskills, $chr(046), %replacechar)
+    set %replacechar $chr(044) $chr(032) |  %shop.list.passiveskills = $replace(%shop.list.passiveskills, $chr(046), %replacechar) | %shop.list.passiveskills2 = $replace(%shop.list.passiveskills2, $chr(046), %replacechar)
 
     ; CHECKING ACTIVE SKILLS
-    unset %skill.list | unset %value
+    unset %skill.list | unset %value | unset %shop.list.activeskills2 | unset %total.active.skills
     set %skill.list $readini(skills.db, Skills, ActiveSkills)
     var %number.of.items $numtok(%skill.list, 46)
 
@@ -362,12 +405,14 @@ alias shop.skills {
       if (%skill.have >= %skill.max) { inc %value 1 }
       else { 
         set %skill.price $round($calc(%shop.level * $readini(skills.db, %skill.name, cost)),0)
-        %shop.list.activeskills = $addtok(%shop.list.activeskills, $+ %skill.name $+ +1 ( $+ %skill.price $+ ),46)
-        inc %value 1 
+        if ((%total.active.skills <= 13) || (%total.active.skills = $null)) {   %shop.list.activeskills = $addtok(%shop.list.activeskills, $+ %skill.name $+ +1 ( $+ %skill.price $+ ),46) }
+        if (%total.active.skills > 13) {   %shop.list.activeskills2 = $addtok(%shop.list.activeskills2, $+ %skill.name $+ +1 ( $+ %skill.price $+ ),46) }
+
+        inc %value 1 |  inc %total.active.skills 1
       }
     }
 
-    set %replacechar $chr(044) $chr(032) |  %shop.list.activeskills = $replace(%shop.list.activeskills, $chr(046), %replacechar)
+    set %replacechar $chr(044) $chr(032) |  %shop.list.activeskills = $replace(%shop.list.activeskills, $chr(046), %replacechar) | %shop.list.activeskills2 = $replace(%shop.list.activeskills2, $chr(046), %replacechar)
 
     ; CHECKING RESISTANCES
     unset %skill.list | unset %value
@@ -392,10 +437,14 @@ alias shop.skills {
 
     ; display the list with the prices.
     if (%shop.list.activeskills != $null) {  .msg $nick 2Active Skill Prices in $readini(system.dat, system, currency) $+ : %shop.list.activeskills }
+    if (%shop.list.activeskills2 != $null) {  .msg $nick 2 $+ %shop.list.activeskills2 }
+
     if (%shop.list.passiveskills != $null) {  .msg $nick 2Passive Skill Prices in $readini(system.dat, system, currency) $+ : %shop.list.passiveskills }
+    if (%shop.list.passiveskills2 != $null) {  .msg $nick 2 $+ %shop.list.passiveskills2 }
+
     if (%shop.list.resistanceskills != $null) {  .msg $nick 2Resistance Skill Prices in $readini(system.dat, system, currency) $+ : %shop.list.resistanceskills }
 
-    unset %shop.list.activeskills | unset %shop.list.passiveskills | unset %shop.list.resistanceskills
+    unset %shop.list.activeskills | unset %shop.list.passiveskills | unset %shop.list.resistanceskills | unset %shop.list.activeskills2 | unset %shop.list.passiveskills2 | unset %total.active.skills | unset %total.passives.skills
   }
 
 
@@ -431,6 +480,106 @@ alias shop.skills {
   }
 }
 
+alias shop.skills.passive {
+  unset %shop.list.passiveskills | unset %shop.list.passiveskills2
+  ; get the list of the skills
+  $shop.get.shop.level($1)
+
+  ; CHECKING PASSIVE SKILLS
+  unset %shop.list | unset %skill.list | unset %shop.list.passiveskills2 | unset %total.passive.skills
+  set %skill.list $readini(skills.db, Skills, PassiveSkills)
+  var %number.of.items $numtok(%skill.list, 46)
+
+  var %value 1
+  while (%value <= %number.of.items) {
+    set %skill.name $gettok(%skill.list, %value, 46)
+    set %skill.max $readini(skills.db, %skill.name, max)
+    set %skill.have $readini($char($1), skills, %skill.name)
+
+    if (%skill.have >= %skill.max) { inc %value 1 }
+    else { 
+      set %skill.price $round($calc(%shop.level * $readini(skills.db, %skill.name, cost)),0)
+      if ((%total.passive.skills <= 11) || (%total.passive.skills = $null)) {  %shop.list.passiveskills = $addtok(%shop.list.passiveskills, $+ %skill.name $+ +1 ( $+ %skill.price $+ ),46) }
+      if (%total.passive.skills > 11) {  %shop.list.passiveskills2 = $addtok(%shop.list.passiveskills2, $+ %skill.name $+ +1 ( $+ %skill.price $+ ),46) }
+      inc %value 1 | inc %total.passive.skills 1
+    }
+  }
+  set %replacechar $chr(044) $chr(032) |  %shop.list.passiveskills = $replace(%shop.list.passiveskills, $chr(046), %replacechar) | %shop.list.passiveskills2 = $replace(%shop.list.passiveskills2, $chr(046), %replacechar)
+
+  ; display the list with the prices.
+  if (%shop.list.passiveskills != $null) {  .msg $nick 2Passive Skill Prices in $readini(system.dat, system, currency) $+ : %shop.list.passiveskills }
+  if (%shop.list.passiveskills2 != $null) {  .msg $nick 2 $+ %shop.list.passiveskills2 }
+
+  unset %shop.list.passiveskills |   unset %shop.list.passiveskills2 | unset %total.passive.skills
+}
+
+alias shop.skills.active {
+  unset %shop.list.activeskills | unset %shop.list.activeskills2
+  ; get the list of the skills
+  $shop.get.shop.level($1)
+
+  ; CHECKING ACTIVE SKILLS
+  unset %skill.list | unset %value | unset %shop.list.activeskills2 | unset %total.active.skills
+  set %skill.list $readini(skills.db, Skills, ActiveSkills)
+  var %number.of.items $numtok(%skill.list, 46)
+
+  var %value 1
+  while (%value <= %number.of.items) {
+    set %skill.name $gettok(%skill.list, %value, 46)
+    set %skill.max $readini(skills.db, %skill.name, max)
+    set %skill.have $readini($char($1), skills, %skill.name)
+
+    if (%skill.have >= %skill.max) { inc %value 1 }
+    else { 
+      set %skill.price $round($calc(%shop.level * $readini(skills.db, %skill.name, cost)),0)
+      if ((%total.active.skills <= 13) || (%total.active.skills = $null)) {   %shop.list.activeskills = $addtok(%shop.list.activeskills, $+ %skill.name $+ +1 ( $+ %skill.price $+ ),46) }
+      if (%total.active.skills > 13) {   %shop.list.activeskills2 = $addtok(%shop.list.activeskills2, $+ %skill.name $+ +1 ( $+ %skill.price $+ ),46) }
+
+      inc %value 1 |  inc %total.active.skills 1
+    }
+  }
+
+  set %replacechar $chr(044) $chr(032) |  %shop.list.activeskills = $replace(%shop.list.activeskills, $chr(046), %replacechar) | %shop.list.activeskills2 = $replace(%shop.list.activeskills2, $chr(046), %replacechar)
+
+  ; display the list with the prices.
+  if (%shop.list.activeskills != $null) {  .msg $nick 2Active Skill Prices in $readini(system.dat, system, currency) $+ : %shop.list.activeskills }
+  if (%shop.list.activeskills2 != $null) {  .msg $nick 2 $+ %shop.list.activeskills2 }
+
+  unset %shop.list.activeskills |   unset %shop.list.activeskills2 | unset %total.active.skills
+}
+
+alias shop.skills.resists {
+  unset %shop.list.resistanceskills
+  ; get the list of the skills
+  $shop.get.shop.level($1)
+
+  ; CHECKING RESISTANCES
+  unset %skill.list | unset %value
+  set %skill.list $readini(skills.db, Skills, Resists)
+  var %number.of.items $numtok(%skill.list, 46)
+
+  var %value 1
+  while (%value <= %number.of.items) {
+    set %skill.name $gettok(%skill.list, %value, 46)
+    set %skill.max $readini(skills.db, %skill.name, max)
+    set %skill.have $readini($char($1), skills, %skill.name)
+
+    if (%skill.have >= %skill.max) { inc %value 1 }
+    else { 
+      set %skill.price $round($calc(%shop.level * $readini(skills.db, %skill.name, cost)),0)
+      %shop.list.resistanceskills = $addtok(%shop.list.resistanceskills, $+ %skill.name $+ +1 ( $+ %skill.price $+ ),46)
+      inc %value 1 
+    }
+  }
+
+  set %replacechar $chr(044) $chr(032) |  %shop.list.resistanceskills = $replace(%shop.list.resistanceskills, $chr(046), %replacechar)
+
+  ; display the list with the prices.
+  if (%shop.list.resistanceskills != $null) {  .msg $nick 2Resistance Skill Prices in $readini(system.dat, system, currency) $+ : %shop.list.resistanceskills }
+
+  unset %shop.list.resistanceskills
+}
+
 alias shop.stats {
   if ($2 = list) {
     ; get the list of all the shop items..
@@ -453,7 +602,6 @@ alias shop.stats {
     if (%player.current.tp < %player.max.tp) {
       %shop.list = $addtok(%shop.list,TP+5 ( $+ %tp.price $+ ),46)
     }
-
 
     %shop.list = $addtok(%shop.list,Str+1 ( $+ %str.price $+ ),46)
     %shop.list = $addtok(%shop.list,Def+1 ( $+ %def.price $+ ),46)
@@ -500,13 +648,12 @@ alias shop.stats {
     %shop.statbonus = $calc(%shop.statbonus * $4)
     inc %basestat.to.increase %shop.statbonus
 
-
     if ($3 = hp) {
-      if (%base.stat.to.increase > $readini(system.dat, system, maxHP)) { .msg $nick 4Error: This amount will push you over the limit allowed for HP. Please lower the amount and try again. | halt }
+      if (%basestat.to.increase > $readini(system.dat, system, maxHP)) { .msg $nick 4Error: This amount will push you over the limit allowed for HP. Please lower the amount and try again. | halt }
     }
 
     if ($3 = tp) {
-      if (%base.stat.to.increase > $readini(system.dat, system, maxTP)) { .msg $nick 4Error: This amount will push you over the limit allowed for TP. Please lower the amount and try again. | halt }
+      if (%basestat.to.increase > $readini(system.dat, system, maxTP)) { .msg $nick 4Error: This amount will push you over the limit allowed for TP. Please lower the amount and try again. | halt }
     }
 
 
@@ -862,15 +1009,15 @@ alias shop.weapons {
       set %replacechar $chr(044) $chr(032) 
       if (%upgrade.list != $null) {
         %upgrade.list = $replace(%upgrade.list, $chr(046), %replacechar)
-        /.timerUpgradeList1 $+ $nick 1 2 /.msg $nick 2 $+ %upgrade.list
+        /.timerUpgradeList1 $+ $nick 1 2 /.msg $nick 2 $+ %upgrade.list
       }
       if (%upgrade.list2 != $null) {
         %upgrade.list2 = $replace(%upgrade.list2, $chr(046), %replacechar)
-        /.timerUpgradeList2 $+ $nick 1 2 /.msg $nick 2 $+ %upgrade.list2
+        /.timerUpgradeList2 $+ $nick 1 2 /.msg $nick 2 $+ %upgrade.list2
       }
       if (%upgrade.list3 != $null) {
         %upgrade.list3 = $replace(%upgrade.list3, $chr(046), %replacechar)
-        /.timerUpgradeList3 $+ $nick 1 2 /.msg $nick 2 $+ %upgrade.list3
+        /.timerUpgradeList3 $+ $nick 1 2 /.msg $nick 2 $+ %upgrade.list3
       }
 
     }
@@ -1016,6 +1163,7 @@ alias inc.redorbsspent {
   inc %orbs.spent $2
   writeini $char($1) stuff RedOrbsSpent %orbs.spent
   $achievement_check($1, BigSpender)
+  $achievement_check($1, BattleArenaAnon)
   return
 }
 alias inc.blackorbsspent {

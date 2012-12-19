@@ -12,5 +12,5 @@ The bot doesn't work in any folder that has spaces in the name of it.  For examp
 * Lagging Giving Multiple Errors
 If the bot lags and the person keeps using the same command over and over it could potentially break the bot.  For example, using attack on a monster more than once.  Although it shouldn't happen, sometimes the lag will cause it to process the command a bunch of times in a row.  The only thing I can think of to fix this error is to find a way to not lag and make your players slow down if you are lagging.
 
-* Monsters Attacking Themselves
-This seems to be rather rare but occasionally monsters will just randomly decide they hate themselves.  I haven't found the source of this bug yet. If it happens you can have a bot owner use !next or just wait til the automatic next timer kicks in to get past it.  Will be investigating this more in the future so that it hopefully will be fixed.
+* Monsters Randomly Losing Turns
+As it stands, very very occasionally monsters might end up losing their turn. As of yet I haven't figured out exactly what's causing this but it doesn't seem to happen very often.

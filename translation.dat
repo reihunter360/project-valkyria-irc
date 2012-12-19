@@ -30,6 +30,7 @@ System | Player Messages
 BattleStatsData=$chr(3) $+ 2 $+ There has been a total of %total.battles battles fought.  The players have won %total.wins ( $+ $round($calc(($readini(battlestats.dat, Battle, TotalWins) / $readini(battlestats.dat, Battle, TotalBattles))*100),2) $+ $chr(37) $+ ) and have lost %total.losses ( $+ $round($calc(($readini(battlestats.dat, Battle, TotalLoss) / $readini(battlestats.dat, Battle, TotalBattles))*100),2) $+ $chr(37) $+ )
 BattleStatsWinningStreak=$chr(3) $+ 2 $+ The players have won $bytes($readini(battlestats.dat, Battle, WinningStreak),b) battle(s) in a row!  %winning.record 
 BattleStatsLosingStreak=$chr(3) $+ 2 $+ The players have lost $bytes($readini(battlestats.dat, Battle, LosingStreak),b) battle(s) in a row!
+BattleStatsGauntletRecord=$chr(3) $+ 2 $+ The Gauntlet Record is %total.gauntlet.wins 
 WipedBattleStats=$chr(3) $+ 4 $+ The Battle Stats have been wiped!
 ChangeTime=$chr(3) $+ 4 $+ Time between battles has been set to: $4 minutes
 PlayerExists=$chr(3) $+ 4 $+ A character with the name $nick already exists.  If this is you, use the !id command with your password in query to log in.  If not, please change your nick and try again.
@@ -42,15 +43,17 @@ NewPassword=$chr(3) $+ 3 $+ Your new password has been set to $3 
 SetGenderNeither=$chr(3) $+ 3 $+ Your gender has been set to its 
 SetGenderMale=$chr(3) $+ 3 $+ Your gender has been set to $2
 SetGenderFemale=$chr(3) $+ 3 $+ Your gender has been set to $2
-ViewMyHP=$chr(3) $+ 3 $+  $+ %real.name $+ 's HP is: $readini($char($nick), Battle, HP) $chr(47) $readini($char($nick), BaseStats, HP)  $chr(91) $+  %hstats $+ 3 $+ $chr(93)  
+ViewMyHP=$chr(3) $+ 3 $+  $+ %real.name $+ 's HP is: $readini($char($nick), Battle, HP) $chr(47) $readini($char($nick), BaseStats, HP)  $+ $chr(91) $+ %hstats $+ 3 $+ $chr(93)  
 ViewMyTP=$chr(3) $+ 3 $+  $+ %real.name $+ 's TP is: $readini($char($nick), Battle, TP) $chr(47) $readini($char($nick), BaseStats, TP) 
 ViewMyOrbs=$chr(3) $+ 3 $+  $+ %real.name has $bytes($readini($char($nick), stuff, RedOrbs),b)  $+ $readini(system.dat, system, currency) and $readini($char($nick), stuff, BlackOrbs) Black Orb(s) and has spent %orbs.spent  $+ $readini(system.dat, system, currency) and %blackorbs.spent Black Orb(s) total! 
 ViewOthersOrbs=$chr(3) $+ 3 $+  $+ %real.name has $bytes($readini($char($2), stuff, RedOrbs),b)  $+ $readini(system.dat, system, currency) and $readini($char($2), stuff, BlackOrbs) Black Orb(s) and has spent %orbs.spent  $+ $readini(system.dat, system, currency) and %blackorbs.spent Black Orb(s) total! 
 HereIsYourCurrentStats=$chr(3) $+ 3 $+ Here are your current stats:
+HereIsOtherCurrentStats=$chr(3) $+ 3 $+ Here are the current stats for $2 $+ :
 CurrentWeaponEquipped=Current Weapon Equipped
 CurrentAccessoryEquipped=Current Accessory Equipped
 ViewWeaponList=$chr(3) $+ 3 $+  $+ %real.name has the following weapons: %weapon.list
 ViewCurrentStyle=$chr(3) $+ 3 $+  $+ %real.name is currently using the %current.playerstyle style. [XP: %current.playerstyle.xp $chr(47) %current.playerstyle.xptolevel $+ ] 
+ViewCurrentStyleMaxed=$chr(3) $+ 3 $+  $+ %real.name is currently using the %current.playerstyle style. [Currently Maxed] 
 ViewStyleList=$chr(3) $+ 3 $+  $+ %real.name knows the following styles: %styles.list
 SwitchStyles=$chr(3) $+ 3 $+  $+ %real.name has switched to the $3 style! 
 ViewMyTechs=$chr(3) $+ 3 $+  $+ %real.name knows the following techniques for $gender($nick) %weapon.equipped $+ : %techs.list 
@@ -58,17 +61,26 @@ ViewOthersTechs=$chr(3) $+ 3 $+  $+ %real.name knows the following techniques 
 NoTechsForMe=$chr(3) $+ 3 $+  $+ %real.name does not know any techniques for $gender($nick) %weapon.equipped $+ .
 NoTechsForOthers=$chr(3) $+ 3 $+  $+ %real.name does not know any techniques for $gender($2) %weapon.equipped $+ .
 ViewPassiveSkills=$chr(3) $+ 3 $+  $+ %real.name knows the following passive skills: %passive.skills.list
+ViewPassiveSkills2=$chr(3) $+ 3 $+  $+ %passive.skills.list2
 ViewActiveSkills=$chr(3) $+ 3 $+  $+ %real.name knows the following active skills: %active.skills.list
+ViewActiveSkills2=$chr(3) $+ 3 $+  $+ %active.skills.list2
 ViewResistanceSkills=$chr(3) $+ 3 $+  $+ %real.name has the following resistances: %resists.skills.list 
 HasNoSkills=$chr(3) $+ 3 $+  $+ %real.name currently knows no skills.
-ViewItems=$chr(3) $+ 3 $+  $+ %real.name has the following items %items.list 
+ViewItems=$chr(3) $+ 3 $+  $+ %real.name has the following items: %items.list 
+ViewSummonItems=$chr(3) $+ 3 $+  $+ %real.name has the following summon items: %summons.items.list 
+ViewShopResetItems=$chr(3) $+ 3 $+  $+ %real.name has the following shop lowering items: %reset.items.list 
+ViewGemItems=$chr(3) $+ 3 $+  $+ %real.name has the following gems: %gems.items.list 
+ViewKeysItems=$chr(3) $+ 3 $+  $+ %real.name has the following keys: %keys.items.list 
+ViewMiscItems=$chr(3) $+ 3 $+  $+ %real.name has the following misc items: %misc.items.list 
 HasNoItems=$chr(3) $+ 3 $+  $+ %real.name currently has no items. 
+HasNoKeys=$chr(3) $+ 3 $+  $+ %real.name currently has no keys.
 ViewAccessories=$chr(3) $+ 3 $+  $+ %real.name has the following accessories %accessories.list
 ViewEquippedAccessory=$chr(3) $+ 3 $+  $+ %real.name has the following accessory equipped %equipped.accessory
 HasNoAccessories=$chr(3) $+ 3 $+  $+ %real.name currently has no accessories. 
 HasNoEquippedAccessory=$chr(3) $+ 3 $+  $+ %real.name currently has no accessory equipped. 
 EquipWeaponGM=$chr(3) $+ 3 $+  $+ %real.name has equipped $3
 EquipWeaponPlayer=$chr(3) $+ 3 $+  $+ %real.name has equipped $2
+EquipWeaponMonster=$chr(3) $+ 3 $+  $+ %real.name has equipped %weapon.name
 UnequipWeapon=$chr(3) $+ 3 $+  $+ %real.name unequipped the %weapon.equipped
 ViewStatus=$chr(3) $+ 3 $+  $+ %real.name $+ 's status is currently:4 %all_status
 OKDesc=$chr(3) $+ 3 $+ Your $2 desc was entered correctly!
@@ -83,14 +95,30 @@ ShopLevelLowered=$chr(3) $+ 2 $+ Your shop level has been lowered.  It is now
 FoodStatIncrease=$chr(3) $+ 2 $+ Your %food.type has permanantly increased by %food.bonus $+ !
 SellMessage=$chr(3) $+ 3 $+ A shop keeper wearing a green and white bucket hat takes $4 $3 $+ (s) from you and gives you %total.price $readini(system.dat, system, currency) $+ !
 CurrentShopLevel=$chr(3) $+ 2 $+ Your current shop level is $readini($char($nick), stuff, shoplevel) 
+ConvertToGem=$chr(3) $+ 2 $+ %enemy is consumed by a bright rainbow of light and then converted into 1 %gem $+ ! %user then collects it.
+ChestDrops=$chr(3) $+ 12 $+ The monsters were protecting a %color.chest treasure chest.  It can be unlocked with a %color.chest key; the chest will disappear in 45 seconds.
+ChestDestroyed=$chr(3) $+ 4 $+ The unopened chest fades from existence, its contents never to be revealed...
+ChestOpened=$chr(3) $+ 10 $+  $+ %real.name unlocks the treasure chest and obtains %chest.amount %chest.item $+ ! The chest then disappears.
+SaveBattleStreak=$chr(3) $+ 3 $+  $+ %real.name has saved winning streak # $bytes($readini(battlestats.dat, Battle, WinningStreak),b) to $gender($nick) file.
+ReloadBattleStreak=$chr(3) $+ 3 $+  $+ %real.name has reloaded winning streak # $bytes($readini($char($nick), Info, SavedStreak),b) from $gender($nick) file.
+ViewBattleStreak=$chr(3) $+ 3 $+  $+ %real.name currently has winning streak # $bytes(%saved.streak,b) saved in $gender($nick) file
+GiveItemToTarget=$chr(3) $+ 3 $+ %real.name gives $3 $4 $+ (s) to $set_chr_name($2) %real.name $+ !
+FinalGetsugaWarning=$chr(3) $+ 4 $+ This technique is a Final Getsuga type, which means if you use it at the end of the battle you will be reduced back to basically a new character.
+ScoreBoardTitle=$chr(3) $+ 3The Top 3 Players in %battlechan
+CurrentScore=$chr(3) $+ 2 $+ %real.name $+ 's current score is: $bytes(%score,b)
+PlayerStyleLevelUp=$chr(3) $+ 3 $+  $+ %real.name $+ 's %current.playerstyle style has leveled up! It is now level %current.playerstyle.level $+ !
+AnotherWaveArrives=$chr(3) $+ 4 $+ Another wave of monsters has arrived to the battlefield!
+ViewDifficulty=$chr(3) $+ 3 $+  $+ %real.name has a difficulty of %saved.difficulty set currently.
+SaveDifficulty=$chr(3) $+ 3 $+  $+ %real.name sets $gender($nick) difficulty to $3 $+ .
 
 =======================
 Health Titles
 =======================
 [health]
 Perfect=$chr(3) $+ 12 $+ Perfect 
-Decent=$chr(3) $+ 10 $+ Decent 
+Great=$chr(3) $+ 3 $+ Great
 Good=$chr(3) $+ 10 $+ Good 
+Decent=$chr(3) $+ 10 $+ Decent 
 Scratched=$chr(3) $+ 2 $+ Scratched 
 Bruised=$chr(3) $+ 2 $+ Bruised 
 Hurt=$chr(3) $+ 7 $+ Hurt 
@@ -106,7 +134,11 @@ Event Messages
 [Events]
 CurseNight=$chr(3) $+ 14 $+ What a horrible night for a curse! 
 BloodMoon=$chr(3) $+ 14 $+ The Blood Moon Rises! 
+AncientMeleeOnlySeal=$chr(3) $+ 14 $+ An ancient Melee-Only symbol glows on the ground of the battlefield.
 DoppelgangerFight=$chr(3) $+ 14 $+ The Monsters wheel out a large mirror in front of the heroes.  The mirror shimmers as evil doppelgangers of the heroes step out ready to fight.  The mirror then shatters.
+SurpriseAttack=$chr(3) $+ 14 $+ The monsters take the heroes by surprise and get to go first in battle! 
+WarmachineFight=$chr(3) $+ 14 $+ The ground begins to shake violently as the Forces of Evil unleash their newest creation: The Monster Warmachine! The massive tank-like machine rolls out ready to attack.
+
 
 
 =======================
@@ -114,10 +146,12 @@ Error Messages
 =======================
 
 [Errors]
+Can'tHaveMoreThanTwoChars=$chr(3) $+ 4 $+ Error: You cannot make any more characters. Log into your other characters or have a bot owner erase some first.
 NoScriptsWithCommands=$chr(3) $+ 4 $+ Error: You cannot build scripts with your command!
 NotInDataBank=$chr(3) $+ 4 $+ Error: $1 isn't in my data banks!
 NoCurrentBattle=$chr(3) $+ 4 $+ Error: There is no current battle
 WaitYourTurn=$chr(3) $+ 4 $+ Error: $1 wait for your turn!
+Can'tDoThisInBattle=$chr(3) $+ 4 $+ Error: This command only works outside of battle.
 NotInBattle=$chr(3) $+ 4 $+ Error: %real.name is not currently in this battle!
 NoMonsAvailable=$chr(3) $+ 4 $+ Error: There are no monsters in the monster folder.. Have the bot admin check to make sure there are monsters for players to battle! 
 MonsterLimit=$chr(3) $+ 4 $+ Error: There's already ten monsters in battle! No more monsters can be added.
@@ -148,6 +182,7 @@ CanOnlyAttackMonsters=$chr(3) $+ 4 $+ %real.name can only attack monsters!
 CanNotAttackWhileUnconcious=$chr(3) $+ 4  $+ %real.name cannot attack while unconcious!
 CanNotAttackSomeoneWhoIsDead=$chr(3) $+ 4 $+ %real.name cannot attack someone who is dead! 
 CanNotAttackSomeoneWhoFled=$chr(3) $+ 4 $+ %real.name cannot attack $set_chr_name($2) %real.name $+ , because %real.name has run away from the fight! 
+CanNotAttackSomeoneWhoFledTech=$chr(3) $+ 4 $+ %real.name cannot attack $set_chr_name($3) %real.name $+ , because %real.name has run away from the fight! 
 DoesNotKnowTech=$chr(3) $+ 4 $+ %real.name does not know how to perform the $2 technique!
 Can'tPerformTechWithWeapon=$chr(3) $+ 4 $+ %real.name cannot perform that technique using $gender($1) %weapon.equipped
 NotEnoughTPforTech=$chr(3) $+ 4 $+ %real.name does not have enough TP to perform this technique! 
@@ -155,8 +190,11 @@ AlreadyBoosted=$chr(3) $+ 4 $+ %real.name is already powered up and cannot do 
 AlreadyUsedFinalGetsuga=$chr(3) $+ 4 $+ %real.name has already used this technique and cannot do so again. 
 CanOnlySwitchAccessoriesOutsideBattle=$chr(3) $+ 4 $+ Error: You can only switch accessories outside of battles.
 CannotCoverMonsters=$chr(3) $+ 4 $+ Error: $set_chr_name($1) cannot cover monsters.
-CannotUseItemOnDead=$chr(3) $+ 4 $+ Error: This item cannot be used on someone who's dead. 
-DoesNotHaveThatItem=$chr(3) $+ 4 $+ Error: %real.name does not have that item.
+CannotProvokePlayers=$chr(3) $+ 4 $+ Error: $set_chr_name($1) cannot provoke players or npcs.
+CannotUseItemOnDead=$chr(3) $+ 4 $+ Error: This item cannot be used on someone who's dead.
+CannotWeaponLockPlayers=$chr(3) $+ 4 $+ Error: $set_chr_name($1) cannot weapon lock players or npcs. 
+CannotDisarmPlayers=$chr(3) $+ 4 $+ Error: $set_chr_name($1) cannot disarm players or npcs. 
+DoesNotHaveThatItem=$chr(3) $+ 4 $+ Error: %real.name does not have that item.
 ItemIsUsedInSkill=$chr(3) $+ 4 $+ Error: This item is used via performing a skill. 
 ItemIsAccessoryEquipItInstead=$chr(3) $+ 4 $+ Error: This item is an accessory and cannot be used like this. Use !wear to equip it.
 ItemCanOnlyBeUsedOnPlayers=$chr(3) $+ 4 $+ Error: This item can only be used on players!
@@ -173,26 +211,50 @@ DoNotHaveEnoughItemToSell=$chr(3) $+ 4 $+ Error: You do not have $4 of this it
 StillWearingAccessory=$chr(3) $+ 4 $+ Error: You can't sell this accessory because you're still wearing it! 
 ItemUseCommandError=$chr(3) $+ 4 $+ Error: !use <item> ON <person> 
 Can'tBuy0ofThat=$chr(3) $+ 4 $+ Error: You can't buy 0 of that! 
-Can'tSellThat=$chr(3) $+ 4 $+ Error: You can only sell items or accessories
+Can'tSellThat=$chr(3) $+ 4 $+ Error: You can only sell items, accessories and techniques
 MustSpecifyName=$chr(3) $+ 4 $+ Error: You must specify a name, rather than "me"
 NoBattleCurrently=$chr(3) $+ 4 $+ Error: There is no battle currently!
-
+NoChestExists=$chr(3) $+ 4 $+ Error: There is no chest to unlock!
+WrongChestKey=$chr(3) $+ 4 $+ Error: This key does not unlock this color of chest!
+Can'tLogIntoThisChar=$chr(3) $+ 4 $+ Error: You cannot log into this character.
+Can'tSaveALosingStreak=$chr(3) $+ 4 $+ Error: %real.name cannot save a losing streak to $gender($nick) file.
+Can'tSaveALowerStreak=$chr(3) $+ 4 $+ Error: %real.name cannot save a winning streak lower than $gender($nick) previous save.
+Can'tReloadOnAWinningStreak=$chr(3) $+ 4 $+ Error: %real.name cannot reload while a winning streak is ongoing. It must be a losing streak to reload.
+NoWinningStreakSaved=$chr(3) $+ 4 $+ Error: %real.name does not have a winning streak to reload!
+NotEnoughTimeToSave=$chr(3) $+ 4 $+ Error: Not enough time has passed since the last save %real.name did. %real.name still has $calc(7200 - %time.difference) seconds left. 
+Can'tGiveToNonChar=$chr(3) $+ 4 $+ Error: %real.name cannot give items to a monster or NPC! 
+Can'tGiveNegativeItem=$chr(3) $+ 4 $+ Error: %real.name cannot give a part or negative amounts of an item.
+CannotGiveThatMuchofItem=$chr(3) $+ 4 $+ Error: %real.name does not have $3 of $4 to give!
+CannotGiveToYourself=$chr(3) $+ 4 $+ Error: %real.name cannot give items to $gender2($1) $+ self.
+CannotCraftThisItem=$chr(3) $+ 4 $+ Error: This item cannot be made via alchemy.
+MissingCorrectGem=$chr(3) $+ 4 $+ Error: %real.name is missing the correct gem to craft a $2 $+ !
+MissingIngredients=$chr(3) $+ 4 $+ Error: %real.name is missing the correct ingredients to craft a $2 $+ !
+PlayersCannotUseSkill=$chr(3) $+ 4 $+ Error: Players are unable to use this skill!
+Can'tBoostHasVirus=$chr(3) $+ 4 $+ Error: %real.name has a virus that is preventing $gender2($1) from boosting! 
+DarknessAlreadyInEffect=$chr(3) $+ 4 $+ Error: %real.name cannot use this skill because darkness has already taken effect on the battlefield.
+ScoreBoardNotEnoughPlayers=$chr(3) $+ 4 $+ Error: Not enough players to generate a scoreboard.
+ScoreBoardNotDuringBattle=$chr(3) $+ 4 $+ Error: The scoreboard can only be generated outside of battle.
+SkillCommandOnlyOnPlayers=$chr(3) $+ 4 $+ Error: This command can only be used on players!
+DifficultyMustBeNumber=$chr(3) $+ 4 $+ Error: The difficulty must be a whole number.
+DifficultyCan'tBeNegative=$chr(3) $+ 4 $+ Error: The difficulty must be either 0 or greater than 0.
 
 =======================
 Battle Related Messages
 =======================
 [Battle]
 StartBattle=$chr(3) $+ 2 $+ * A battle will begin in %time.between.battles minutes.
-BattleOpen=$chr(3) $+ 4 $+ A dimensional portal has been detected.  The enemy force will arrive in 2 minutes. type !enter if you wish to join the battle!  
+BattleOpen=$chr(3) $+ 4 $+ A dimensional portal has been detected.  The enemy force will arrive in %time.to.enter.minutes minute(s). type !enter if you wish to join the battle!  
 BattleClosed=$chr(3) $+ 4 $+  $+ %real.name cannot join this battle as either there is no battle or the entry period is already closed.
 NoPlayersOnField=$chr(3) $+ 4 $+ There were no players to meet the monsters on the battlefield!  The battle is over.
+NotEnoughPlayersOnField=$chr(3) $+ 4 $+ There was not enough players for a PVP match!  The battle is over.
 BattleIsOver=$chr(3) $+ 4 $+ The Battle is Over!
-EvilhasWon=$chr(3) $+ 12 $+ The forces of evil have won this battle!
-GoodHasWon=$chr(3) $+ 12 $+ The forces of good have won this battle!
+EvilhasWon=$chr(3) $+ 12 $+ The forces of evil have won this battle after %current.turn turn(s)! The heroes have lost $bytes($calc($readini(battlestats.dat, Battle, LosingStreak) + 1),b) battle(s) in a row!
+GoodHasWon=$chr(3) $+ 12 $+ The forces of good have won this battle in %current.turn turn(s)! The heroes have won $bytes($calc($readini(battlestats.dat, Battle, WinningStreak) + 1),b) battle(s) in a row!
 RewardOrbsLoss=$chr(3) $+ 3 $+ For their efforts, these players have been rewarded with $readini(system.dat, system, currency) $+ : %red.orb.winners
 RewardOrbsWin=$chr(3) $+ 3 $+ For their victory, these players have been rewarded with $readini(system.dat, system, currency) $+ : %red.orb.winners
 BlackOrbWin=$chr(3) $+ 3 $+ The following players have absorbed a black orb from the boss: %black.orb.winners
 BonusItemWin=$chr(3) $+ 10 $+  $+ %real.name was the most stylish and finds 1 %boss.item $+ !
+KeyWin=$chr(3) $+ 10 $+  $+ %real.name finds 1 %key.color key $+ !
 EnteredTheBattle=$chr(3) $+ 4 $+  $+ %real.name has entered the battle! 
 CurrentWeather=$chr(3) $+ 3 $+ The weather is currently: $readini(weather.lst, weather, current)
 TauntRage=$chr(3) $+ 4 $+  $+ %real.name becomes enraged!
@@ -203,10 +265,12 @@ TauntBored=$chr(3) $+ 4 $+  $+ %real.name is bored with $set_chr_name($1) %rea
 TauntLaugh=$chr(3) $+ 4 $+  $+ %real.name laughs the taunt off!
 TauntSmile=$chr(3) $+ 4 $+  $+ %real.name gives a large grin! 
 FleeBattle=$chr(3) $+ 4 $+  $+ %real.name has run away from the battle! 
+CannotFleeBattle=$chr(3) $+ 4 $+ %real.name attempts to flee the battle...but fails.
+DarknessWarning=$chr(3) $+ 4 $+ Darkness will overcome the battlefield in 5 minutes..
 DarknessCoversBattlefield=$chr(3) $+ 4 $+ Darkness covers the battlefield enhancing the strength of all remaining monsters!
 TurnMessage=$chr(3) $+ 3 $+ It is $set_chr_name($1) %real.name $+ 's turn [Health Status: %hstats $+ 3] [Status Effects:4 %all_status $+ 3]
 NoOneJoinedBattleYet=$chr(3) $+ 4 $+ No one has joined the battle yet! 
-BatListTitleMessage=$chr(3) $+ 10 $+ -=BATTLE LIST=-
+BatListTitleMessage=$chr(3) $+ 10 $+ -=BATTLE INFORMATION=-
 StepsUpFirst=$chr(3) $+ 2 $+  $+ %who steps up first in the battle!
 LandsACriticalHit=$chr(3) $+ 4 $+ %real.name lands a critical hit! 
 PerformsADoubleAttack=$chr(3) $+ 4 $+ %real.name performs a double attack against $set_chr_name($2) %real.name $+ !
@@ -219,6 +283,8 @@ AttackDidDamage=The attack did4 $bytes(%attack.damage,b) damage %style.ratin
 TargetCovered=$chr(3) $+ 7 $+ $set_chr_name(%attack.target) $+ %real.name jumps in front of the attack to shield $set_chr_name($1) %real.name $+ !
 NotAllowedBattleCondition=$chr(3) $+ 4 $+ $+ %real.name is not allowed to do that action due to the current battle conditions!
 GoldOrbUsed=$chr(3) $+ 7 $+ %real.name $+ 's body is lifted off the ground by a bright golden light.  It flashes for a moment and %real.name is brought back to life!
+TricksterDodged=$chr(3) $+ 7 $+ %real.name dodges the attack stylishly using $gender($1) Trickster style! %style.rating
+WeaponParry=$chr(3) $+ 7 $+ %real.name parries $set_chr_name($2) %real.name $+ 's attack using $gender($1) %parry.weapon $+ ! %style.rating
 
 
 =======================
@@ -233,6 +299,7 @@ PoisonMessage=$chr(3) $+ 4 $+  $+ %real.name grabs $gender($1) chest in pain f
 CurrentlyCursed=$chr(3) $+ 4 $+  $+ %real.name is cursed!
 CurseWornOff=$chr(3) $+ 3 $+  $+ %real.name $+ 's curse has worn off.
 TooBlindToFight=$chr(3) $+ 4 $+  $+ %real.name is too blind to fight!
+TooPetrifiedToFight=$chr(3) $+ 4 $+  $+ %real.name is too petrified to fight!
 TooIntimidatedToFight=$chr(3) $+ 4 $+  $+ %real.name is too intimidated to fight!
 TooStaggeredToFight=$chr(3) $+ 4 $+  $+ %real.name is staggered and is unable to fight this round!
 CurrentlyAsleep=$chr(3) $+ 4 $+ %real.name is currently asleep!
@@ -241,6 +308,7 @@ CurrentlyStopped=$chr(3) $+ 4 $+ %real.name is currently frozen in time and un
 CurrentlyWeighed=$chr(3) $+ 4 $+ %real.name $+ 's body feels really heavy.
 CurrentlyDrunk=$chr(3) $+ 4 $+ %real.name is drunk! 
 DrunkWornOff=$chr(3) $+ 3 $+  $+ %real.name has sobered up.
+VirusWornOff=$chr(3) $+ 3 $+  $+ %real.name $+ 's body has fought off the virus.
 CurrentlySlowed=$chr(3) $+ 4 $+ %real.name $+ 's body feels really slow. 
 SlowWornOff=$chr(3) $+ 3 $+  $+ %real.name $+ 's slow has worn off.
 CurrentlyHasAmensia=$chr(3) $+ 4 $+ %real.name currently has amnesia.
@@ -264,8 +332,18 @@ DrowningMessage=$chr(3) $+ 4 $+ %real.name gasps for air as $gender3($1) is en
 EarthquakeDeath=$chr(3) $+ 4 $+ %real.name screams as the earth opens up beneath $gender($2) and swallows $gender2($1) whole! 
 EarthquakeMessage=$chr(3) $+ 4 $+ %real.name screams as the earth opens up, and boulders fall ontop of $gender($1) body!
 StaggerHappens=$chr(3) $+ 4 $+ %enemy is staggered from the damage and collapses to the ground unable to move! 
-MostStatusesCleared=$chr(3) $+ 3 $+ Most of %real.name  $+ 's status effects have been cleared.
-
+MostStatusesCleared=$chr(3) $+ 3 $+ Most of %real.name $+ 's status effects have been cleared.
+CurrentlyDefenseDown=$chr(3) $+ 4 $+ %real.name $+ 's body feels less defensive. 
+DefenseDownWornOff=$chr(3) $+ 3 $+  $+ %real.name $+ 's defense down status has worn off. 
+CurrentlyStrengthDown=$chr(3) $+ 4 $+ %real.name $+ 's body strength feels weaker. 
+CurrentlyWeaponLocked=$chr(3) $+ 4 $+ %real.name $+ 's weapon is locked and $gender3($1) is unable to change it. 
+StrengthDownWornOff=$chr(3) $+ 3 $+  $+ %real.name $+ 's strength down status has worn off. 
+WeaponLockWornOff=$chr(3) $+ 3 $+  $+ %real.name $+ 's weapon lock has broken. %real.name is able to change weapons again.
+EtherealBlocked=$chr(3) $+ 3 $+  $+ %real.name $+ 's attack goes right through $set_chr_name($3) %real.name doing no damage!
+EtherealWornOff=$chr(3) $+ 3 $+  $+ %real.name has become corporeal.
+CurrentlyEthereal=$chr(3) $+ 4 $+ %real.name is ethereal! 
+CurrentlyCocoonEvolve=$chr(3) $+ 4 $+ %real.name is in a state of evolution and is unable to act this round.
+CocoonWornOff=$chr(3) $+ 12 $+  $+ %real.name breaks through the protective barrier, now stronger and better than before!
 
 =======================
 Skill Related Messages
@@ -283,8 +361,18 @@ UtsusemiBlocked=$chr(3) $+ 7 $+ One of %real.name $+ 's shadows absorbs the at
 DrainSambaWornOff=$chr(3) $+ 12 $+ %real.name $+ 's drain samba has worn off. 
 AlreadyBeingCovered=$set_chr_name($2) $+ $chr(3) $+ 4 $+ %real.name is already being covered by someone else!
 CoverTargetDead=$set_chr_name($2) $chr(3) $+ 4 $+ %real.name cannot be covered because $gender3($2) is dead or has fled!
+AlreadyBeingProvoked=$set_chr_name($2) $+ $chr(3) $+ 4 $+ %real.name is already being provoked by someone else!
+ProvokeTargetDead=$set_chr_name($2) $chr(3) $+ 4 $+ %real.name cannot be provoked because $gender3($2) is dead or has fled!
 AlreadyUsedBloodPact=$chr(3) $+ 4 $+ Error: %real.name has already used Blood Pact for this battle and cannot use it again!
-
+CraftingSuccess=$chr(3) $+ 2 $+ %real.name has successfully crafted $readini(crafting.db, $2, amount) $2 $+ (s)!
+CraftingFailure=$chr(3) $+ 2 $+ %real.name $+ 's alchemy attempt has failed! %real.name loses the gem and all ingredients involved.
+HolyAuraAlreadyOn=$chr(3) $+ 4 $+ Error: A holy aura already protects this battlefield.
+HolyAuraEnd=$chr(3) $+ 12 $+ %real.name $+ 's holy aura has faded. The darkness begins to move towards the battlefield once more.
+AlreadyWeaponLocked=$set_chr_name($2) $+ $chr(3) $+ 4 $+ %real.name is already weapon locked!
+WeaponLockTargetDead=$set_chr_name($2) $chr(3) $+ 4 $+ %real.name cannot be weapon locked because $gender3($2) is dead or has fled!
+DisarmTargetDead=$set_chr_name($2) $chr(3) $+ 4 $+ %real.name cannot be disarmed because $gender3($2) is dead or has fled!
+UnableToDisarm=$chr(3) $+ 4 $+ %real.name was unable to disarm $set_chr_name($2) %real.name $+ !
+DisarmedTarget=$chr(3) $+ 4 $+ %real.name was successfully able to disarm $set_chr_name($2) %real.name $+ !
 
 =======================
 Tech Related Messages
@@ -321,6 +409,11 @@ ScardyCat=$chr(3) $+ 10 $+ %real.name has unlocked the achievement: Scardy Ca
 Cheapskate=$chr(3) $+ 10 $+ %real.name has unlocked the achievement: Cheapskate and receives $bytes($3,b) $readini(system.dat, system, currency) as a reward!
 Can'tKeepAGoodManDown=$chr(3) $+ 10 $+ %real.name has unlocked the achievement: You Can't Keep A Good Man Down and receives $bytes($3,b) $readini(system.dat, system, currency) as a reward!
 MonsterSlayer=$chr(3) $+ 10 $+ %real.name has unlocked the achievement: %real.name The Monster Slayer and receives $bytes($3,b) Silver Apple as a reward!
+PrettyGemCollector=$chr(3) $+ 10 $+ %real.name has unlocked the achievement: Pretty Gem Collector and receives 1 Gold Orb as a reward!
+MasterOfUnlocking=$chr(3) $+ 10 $+ %real.name has unlocked the achievement: Master of Unlocking and receives 5 Gold Keys as a reward!
+Santa'sLittleHelper=$chr(3) $+ 10 $+ %real.name has unlocked the achievement: Santa's Little Helper and receives $bytes($3,b) $readini(system.dat, system, currency) as a reward!
+BattleArenaAnon=$chr(3) $+ 10 $+ %real.name has unlocked the achievement: I belong in Battle Arena Anonymous! Seriously, please! Get some help! and receives $bytes($3,b) $readini(system.dat, system, currency) as a reward!
+AreYouTheKeyMaster=$chr(3) $+ 10 $+ %real.name has unlocked the achievement: Are You The Keymaster? and receives 5 Gold Keys as a reward!
 
 
 =======================

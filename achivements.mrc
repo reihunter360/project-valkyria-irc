@@ -28,6 +28,14 @@ alias achievement_check {
     }
   }
 
+  if ($2 = BattleArenaAnon) {
+    var %red.orbs.spent $readini($char($1), stuff, RedOrbsSpent)
+    if (%red.orbs.spent >= 100000000 ) { writeini $char($1) achievements $2 true 
+      $announce_achievement($1, $2, 10000)
+      var %current.redorbs $readini($char($1), stuff, redorbs) | inc %current.redorbs 10000 | writeini $char($1) stuff redorbs %current.redorbs
+    }
+  }
+
   if ($2 = SirDiesALot) {
     var %total.deaths $readini($char($1), stuff, TotalDeaths)
     if (%total.deaths >= 100) { writeini $char($1) achievements $2 true 
@@ -89,8 +97,37 @@ alias achievement_check {
     }
   }
 
+  if ($2 = PrettyGemCollector) {
+    var %total.mtog $readini($char($1), stuff, MonstersToGems)
+    if (%total.mtog >= 200) { writeini $char($1) achievements $2 true 
+      $announce_achievement($1, $2, 1)
+      var %current.goldorbs $readini($char($1), item_amount, GoldOrb) | inc %current.goldorbs 1 | writeini $char($1) Item_Amount GoldOrb %current.goldorbs
+    }
+  }
 
+  if ($2 = MasterOfUnlocking) {
+    var %total.chests $readini($char($1), stuff, ChestsOpened)
+    if (%total.chests >= 100) { writeini $char($1) achievements $2 true 
+      $announce_achievement($1, $2, 5)
+      var %current.goldkeys $readini($char($1), item_amount, GoldKey) | inc %current.goldkeys 5 | writeini $char($1) Item_Amount GoldKey %current.goldkeys
+    }
+  }
 
+  if ($2 = Santa'sLittleHelper) {
+    var %number.of.gifts $readini($char($1), stuff, ItemsGiven)
+    if (%number.of.gifts >= 20) { writeini $char($1) achievements $2 true 
+      $announce_achievement($1, $2, 1000)
+      var %current.redorbs $readini($char($1), stuff, redorbs) | inc %current.redorbs 1000 | writeini $char($1) stuff redorbs %current.redorbs
+    }
+  }
+
+  if ($2 = AreYouTheKeyMaster) {
+    var %number.of.keys $readini($char($1), stuff, TotalNumberOfKeys)
+    if (%number.of.keys >= 100) { writeini $char($1) achievements $2 true 
+      $announce_achievement($1, $2, 5)
+      var %gold.keys $readini($char($1), item_amount, GoldKey) | inc %gold.keys 5 | writeini $char($1) item_amount GoldKey %gold.keys
+    }
+  }
 
 }
 

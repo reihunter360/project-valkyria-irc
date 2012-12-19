@@ -19,18 +19,29 @@ alias ai_turn {
   ; Is it the AI's turn?  This is to prevent some bugs showing up..
   if (%who != $1) { return }
 
+  ; If it's an AI's turn, give the AI 60 seconds to make an action.. in case it hangs up.
+  /.timerBattleNext 1 60 /next
+
   ; For now the AI will be very, very basic and random.  Later on I'll try to make it more complicated.
   unset %ai.target | unset %ai.targetlist | unset %ai.tech | unset %opponent.flag | unset %ai.skill | unset %ai.skilllist | unset %ai.type
 
   set %ai.type $readini($char($1), info, ai_type) 
 
+  ; Monsters can change their weapons.
+  $ai.changeweapon($1)  
+
   ; First off, let's figure out how much TP the monster has.  If it's less than 15, it's going to do an attack
   var %tp.have $readini($char($1), battle, tp) 
   if (%tp.have < 15) { set %action attack }
 
+  ; If techs aren't allowd, we'll force monsters to attack.
+  if ((no-tech isin %battleconditions) || (no-techs isin %battleconditions)) { set %action attack }
+
   ; Get the type of opponent we need to search for
   if ($readini($char($1), info, flag) = monster) { set %opponent.flag player }
   if ($readini($char($1), info, flag) = npc) { set %opponent.flag monster }
+
+  if (%mode.pvp = on) { set %opponent.flag player }
 
   if ($readini($char($1), status, charmed) = yes) { 
     if ($readini($char($1), info, flag) = monster) { set %opponent.flag monster } 
@@ -48,24 +59,47 @@ alias ai_turn {
     $ai_skillcheck($1)
 
     if (%ai.skilllist = $null) {
-      var %random.action $rand(1,100)
+      if ($readini($char($1), info, CanFlee) = true) { var %random.action $rand(1,110) }
+      if ($readini($char($1), info, CanFlee) != true) { var %random.action $rand(1,99) }
+
       if (%random.action <= 45) { $ai_gettech($1) | $ai_gettarget($1) | $tech_cmd($1, %ai.tech, %ai.target) | halt }
-      if ((%random.action > 45) && (%random.action <= 55)) { $ai_gettarget($1) |  $taunt($1 , %ai.target) | halt } 
-      else {  $ai_gettarget($1) | $attack_cmd($1 , %ai.target)  | halt  }
+      if ((%random.action > 45) && (%random.action <= 55)) { $ai_gettarget($1) | $taunt($1 , %ai.target) | halt } 
+      if ((%random.action > 55) && (%random.action <= 99)) { $ai_gettarget($1) | $attack_cmd($1 , %ai.target) | halt  }
+      if (%random.action >= 100) { $ai.flee($1) | halt }
     }
     if (%ai.skilllist != $null) {
-      var %random.action $rand(1,100)
+      if ($readini($char($1), info, CanFlee) = true) { var %random.action $rand(1,110) }
+      if ($readini($char($1), info, CanFlee) != true) { var %random.action $rand(1,99) }
+
       if (%random.action <= 45) { $ai_gettech($1) | $ai_gettarget($1) | $tech_cmd($1, %ai.tech, %ai.target) | halt }
       if ((%random.action > 45) && (%random.action <= 50)) { $ai_gettarget($1) |  $taunt($1 , %ai.target) | halt } 
       if ((%random.action > 50) && (%random.action <= 65)) { $ai_chooseskill($1) | halt }
-      if (%random.action > 65) { $ai_gettarget($1) | $attack_cmd($1 , %ai.target) | halt  }
+      if ((%random.action > 65) && (%random.action <= 99)) { $ai_gettarget($1) | $attack_cmd($1 , %ai.target) | halt  }
+      if (%random.action >= 100) { $ai.flee($1) | halt }
     }
 
+  }
+}
+alias ai.flee {
+  var %flee.chance $rand(1,100)
+  if (%flee.chance <= 60) { $flee($1) | halt }
+  if (%flee.chance > 60) {  
+    $set_chr_name($1)
+    query %battlechan $readini(translation.dat, battle, CannotFleeBattle)
+    /.timerCheckForDoubleTurnWait 1 1 /check_for_double_turn $1 | halt 
   }
 }
 
 alias ai_gettarget {
   unset %ai.targetlist
+  var %provoke.target $readini($char($1), skills, provoke.target)
+
+  if (%provoke.target != $null) { 
+    set %ai.target %provoke.target
+    remini $char($1) skills provoke.target
+    return
+  }
+
   if ($readini(techniques.db, %ai.tech, type) = heal) {
     if (%opponent.flag = player) { set %opponent.flag monster | goto gettarget }
     if (%opponent.flag = monster) { set %opponent.flag player | goto gettarget }
@@ -141,18 +175,22 @@ alias ai_gettech {
 
   $ai_choosetech
 
-  if (($readini(techniques.db, %ai.tech, Type) = boost)  && ($readini($char($1), status, boosted) = yes)) {
-    ; The monster is already boosted, so let's remove that tech from the list and get another tech.
-    set %tech.to.remove $findtok(%tech.list, %ai.tech, 46)
-    set %tech.list $deltok(%tech.list,%tech.to.remove,46)
-    $ai_choosetech
+  if ($readini(techniques.db, %ai.tech, type) = boost) {
+    if (($readini($char($1), status, virus) = yes) || ($readini($char($1), status, boosted) = yes)) {
+      ; The monster is already boosted or has a virus and can't boost, so let's remove that tech from the list and get another tech.
+      set %tech.to.remove $findtok(%tech.list, %ai.tech, 46)
+      set %tech.list $deltok(%tech.list,%tech.to.remove,46)
+      $ai_choosetech
+    }
   }
 
-  if (($readini(techniques.db, %ai.tech, Type) = FinalGetsuga)  && ($readini($char($1), status, FinalGetsuga) = yes)) {
-    ; The monster is already boosted, so let's remove that tech from the list and get another tech.
-    set %tech.to.remove $findtok(%tech.list, %ai.tech, 46)
-    set %tech.list $deltok(%tech.list,%tech.to.remove,46)
-    $ai_choosetech
+  if ($readini(techniques.db, %ai.tech, Type) = FinalGetsuga)  {
+    if (($readini($char($1), status, virus) = yes) || ($readini($char($1), status, FinalGetsuga) = yes)) {
+      ; The monster is already boosted or has a virus and can't boost, so let's remove that tech from the list and get another tech.
+      set %tech.to.remove $findtok(%tech.list, %ai.tech, 46)
+      set %tech.list $deltok(%tech.list,%tech.to.remove,46)
+      $ai_choosetech
+    }
   }
 
   ; As a note, if it manages to pick it again (somehow) it will go ahead and boost anyway.
@@ -160,6 +198,9 @@ alias ai_gettech {
   ; Does the monster have enough TP to use that tech?  If not, just move on to an attack
   set %tp.have $readini($char($1), battle, tp) | set %tp.needed $readini(techniques.db, %ai.tech, tp)
   if (%tp.have < %tp.needed) {  unset %ai.tech | unset %tp.have | unset %tp.needed | $ai_gettarget($1) | $attack_cmd($1 , %ai.target) | halt  }
+
+  ; Another check for no-techs in the battle conditions..
+  if ((no-tech isin %battleconditions) || (no-techs isin %battleconditions)) { unset %ai.tech | unset %tp.have | unset %tp.needed | $ai_gettarget($1) | $attack_cmd($1 , %ai.target) | halt  }
 
   if (%ai.tech = $null) { 
     ; If, for whatever reason, it can't find a tech.. it'll revert back to attacking normally.
@@ -180,17 +221,47 @@ alias ai_choosetech {
 
 alias ai_skillcheck {
   if ($readini($char($1), info, flag) = $null) { return }
+  if ((no-skill isin %battleconditions) || (no-skills isin %battleconditions)) { return }
+
   ; Check to see if a monster knows certain skills..
-  if ($readini($char($1), skills, royalguard) != $null) { writeini $char($1) skills royalguard.time 0 | %ai.skilllist = $addtok(%ai.skilllist, royalguard, 46) }
-  if ($readini($char($1), skills, manawall) != $null) { writeini $char($1) skills manawall.time 0 | %ai.skilllist  = $addtok(%ai.skilllist, manawall, 46) }
+  if ($readini($char($1), skills, royalguard) != $null) { 
+    if ($readini($char($1), skills, royalguard.on) != on) {
+      writeini $char($1) skills royalguard.time 0 | %ai.skilllist = $addtok(%ai.skilllist, royalguard, 46) 
+    }
+  }
+  if ($readini($char($1), skills, manawall) != $null) { 
+    if ($readini($char($1), skills, manawall.on) != on) {
+      writeini $char($1) skills manawall.time 0 | %ai.skilllist  = $addtok(%ai.skilllist, manawall, 46) 
+    }
+  }
   if ($readini($char($1), skills, bloodboost) != $null) { writeini $char($1) skills bloodboost.time 0 | %ai.skilllist  = $addtok(%ai.skilllist, bloodboost, 46) }
   if ($readini($char($1), skills, sugitekai) != $null) { writeini $char($1) skills doubleturn.time 0 | %ai.skilllist  = $addtok(%ai.skilllist, sugitekai, 46) }
-  if ($readini($char($1), skills, mightystrike) != $null) { writeini $char($1) skills mightystrike.time 0 | %ai.skilllist  = $addtok(%ai.skilllist, mightystrike, 46) }
-  if ($readini($char($1), skills, elementalseal) != $null) { writeini $char($1) skills elementalseal.time 0 | %ai.skilllist  = $addtok(%ai.skilllist, elementalseal, 46) }
-  if ($readini($char($1), skills, drainsamba) != $null) { writeini $char($1) skills drainsamba.time 0 | %ai.skilllist  = $addtok(%ai.skilllist, drainsamba, 46) }
-  if ($readini($char($1), skills, utsusemi) != $null) { writeini $char($1) skills utsusemi.time 0 | writeini $char($1) item_amount shihei 100 | %ai.skilllist  = $addtok(%ai.skilllist, utsusemi, 46) }
+  if ($readini($char($1), skills, mightystrike) != $null) { 
+    if ($readini($char($1), skills, mightystrike.on) != on) {
+      writeini $char($1) skills mightystrike.time 0 | %ai.skilllist  = $addtok(%ai.skilllist, mightystrike, 46) 
+    }
+  }
+  if ($readini($char($1), skills, elementalseal) != $null) { 
+    if ($readini($char($1), skills, elementalseal.on) != on) {
+      writeini $char($1) skills elementalseal.time 0 | %ai.skilllist  = $addtok(%ai.skilllist, elementalseal, 46) 
+    }
+  }
+  if ($readini($char($1), skills, drainsamba) != $null) {
+    ; check to make sure drain samba isn't already on
+    if ($readini($char($1), skills, drainsamba.on) != on) {
+      writeini $char($1) skills drainsamba.turn 0 | %ai.skilllist  = $addtok(%ai.skilllist, drainsamba, 46)
+    }
+  }
+  if ($readini($char($1), skills, utsusemi) != $null) { 
+    if ($readini($char($1), skills, utsusemi.shadows) <= 1) {
+      writeini $char($1) skills utsusemi.time 0 | writeini $char($1) item_amount shihei 100 | %ai.skilllist  = $addtok(%ai.skilllist, utsusemi, 46) 
+    }
+  }
   if ($readini($char($1), skills, shadowcopy) >= 1) {
-    if ($isfile($char($1 $+ _clone)) = $false) { %ai.skilllist  = $addtok(%ai.skilllist, shadowcopy, 46) }
+    if ($isfile($char($1 $+ _clone)) = $false) { %ai.skilllist  = $addtok(%ai.skilllist, shadowcopy, 46)  }
+  }
+  if ($readini($char($1), skills, cocoonevolve) >= 1) { 
+    %ai.skilllist  = $addtok(%ai.skilllist,cocoonevolve, 46) 
   }
 }
 
@@ -207,10 +278,44 @@ alias ai_chooseskill {
   if (%ai.skill = elementalseal) { $skill.elementalseal($1) }
   if (%ai.skill = drainsamba) { $skill.drainsamba($1) } 
   if (%ai.skill = utsusemi) { $skill.utsusemi($1)  }
+  if (%ai.skill = cocoonevolve) { $skill.cocoon.evolve($1) }
   if (%ai.skill = shadowcopy) {  
     var %shadowcopy.name $readini($char($1), skills, shadowcopy_name)
     if (%shadowcopy.name != $null) { $skill.clone($1, %shadowcopy.name) }
     if (%shadowcopy.name = $null) { $skill.clone($1) } 
   }
   halt
+}
+
+alias ai.changeweapon {
+  if ($readini($char($1), status, weapon.locked) != $null) { return }
+
+
+  if ($readini($char($1), info, clone) = yes) {
+    set %changeweapon.chance $rand(1,100)
+    if (%changeweapon.chance > 20) { unset %changeweapon.chance | return }
+  }
+  if ($readini($char($1), info, clone) != yes) {
+    var %changeweapon.chance $rand(1,100)
+    if (%changeweapon.chance > 70) { unset %changeweapon.chance | return }
+  }
+
+  $weapons.get.list($1)
+
+  if (%base.weapon.list = $null) { return }
+
+  if ($readini($char($1), weapons, fists) = $null) {   %base.weapon.list = $deltok(%base.weapon.list,Fists,46) }
+
+
+  var %current.weapon $readini($char($1), weapons, equipped)
+  set %weapons.total $numtok(%base.weapon.list,46)
+  set %random.weapon $rand(1, %weapons.total) 
+  set %weapon.name $gettok(%base.weapon.list,%random.weapon,46)
+
+  unset %weapons.total | unset %random.weapon | unset %base.weapon.list
+
+  if (%weapon.name = %current.weapon) { unset %weapon.name | return }
+
+  writeini $char($1) weapons equipped %weapon.name | $set_chr_name($1) | query %battlechan $readini(translation.dat, system, EquipWeaponMonster)
+  unset %weapon.name
 }

@@ -29,23 +29,36 @@ ON 1:TEXT:!view-info*:*: {
     .msg $nick [4Name12 $3 $+ 1] [4Target Type12 %info.type $+ 1] [4TP needed to use12 %info.tp $+ 1]  %info.statustype %info.magic
     .msg $nick [4Base Power12 %info.basepower $+ 1] [4Base Cost (before Shop Level)12 %info.basecost red orbs1] [4Element of Tech12 %info.element $+ 1] 
 
+    if (%info.type = FinalGetsuga) { .msg $nick $readini(translation.dat, system, FinalGetsugaWarning) }
   }
 
   if ($2 = accessory) { 
     if ($readini(items.db, $3, type) = $null) { query $nick 4Invalid item | halt }
     .msg $nick [4Name12 $3 $+ 1] [4Type12 Accessory $+ 1] [4Description12 $readini(items.db, $3, desc) $+ 1] 
   }
+  if ($2 = gem) { 
+    if ($readini(items.db, $3, type) = $null) { query $nick 4Invalid item | halt }
+    .msg $nick [4Name12 $3 $+ 1] [4Type12 Gem $+ 1] [4Description12 $readini(items.db, $3, desc) $+ 1] 
+  }
+
+  if ($2 = key) { 
+    if ($readini(items.db, $3, type) = $null) { query $nick 4Invalid item | halt }
+    .msg $nick [4Name12 $3 $+ 1] [4Type12 Key $+ 1] [4Description12 $readini(items.db, $3, desc) $+ 1] 
+  }
+
   if ($2 = item) { unset %info.fullbring
     if ($readini(items.db, $3, type) = $null) { query $nick 4Invalid item | halt }
     var %info.type $readini(items.db, $3, type) | var %info.amount $readini(items.db, $3, amount)
     var %info.cost $bytes($readini(items.db, $3, cost),b) | var %info.element $readini(items.db, $3, element)
     var %info.target $readini(items.db, $3, target)
     var %info.fullbring $readini(items.db, $3, fullbringlevel)
+    var %info.status $readini(items.db, $3, statustype) | var %info.amount $readini(items.db, $3, amount)
     if (%info.fullbring != $null) { set %info.fullbringmsg  [4Fullbring Level12 %info.fullbring $+ 1] } 
     if (%info.target = AOE-monster) { var %info.target All monsters }
 
     if (%info.type = heal) { .msg $nick [4Name12 $3 $+ 1] [4Type12 Healing $+ 1] [4Heal Amount12 %info.amount $+ 1]  [4Item Cost12 %info.cost red orbs1] %info.fullbringmsg }
     if (%info.type = Damage) { .msg $nick [4Name12 $3 $+ 1] [4Type12 Damage $+ 1] [4Target12 %info.target $+ 1]  [4Damage Amount12 %info.amount $+ 1] [4Item Cost12 %info.cost red orbs1] %info.fullbringmsg  }
+    if (%info.type = Status) { .msg $nick [4Name12 $3 $+ 1] [4Type12 Status $+ 1] [4Target12 %info.target $+ 1]  [4Damage Amount12 %info.amount $+ 1] [4Status Type12 %info.status $+ 1] [4Item Cost12 %info.cost red orbs1] %info.fullbringmsg }
     if (%info.type = Food) { .msg $nick [4Name12 $3 $+ 1] [4Type12 Stat Increase $+ 1] [4Stat to Increase12 %info.target $+ 1] [4Increase Amount12 $chr(43) $+ %info.amount $+ 1]   }
     if (%info.type = Consume) { .msg $nick [4Name12 $3 $+ 1] [4Type12 Skill Consumable $+ 1] [4Skill That Uses This Item12 $readini(items.db, $3, skill) $+ 1] [4Item Cost12 %info.cost red orbs1]    }
     if (%info.type = Summon) { .msg $nick [4Name12 $3 $+ 1] [4Type12 Summon $+ 1] [4This item summons12 $readini(items.db, $3, summonname) 4to fight with you $+ 1] [4Item Cost12 %info.cost red orbs1]    }
@@ -54,6 +67,11 @@ ON 1:TEXT:!view-info*:*: {
     if (%info.type = CureStatus) { .msg $nick [4Name12 $3 $+ 1] [4Type12 Cure Status $+ 1] [4Item Cost12 %info.cost red orbs1] [4Note12 This item will not cure Charm or Intimidation $+ 1] %info.fullbringmsg }
     if (%info.type = accessory) {  .msg $nick [4Name12 $3 $+ 1] [4Type12 Accessory $+ 1] [4Description12 $readini(items.db, $3, desc) $+ 1]  }
     if (%info.type = revive) {  .msg $nick [4Name12 $3 $+ 1] [4Type12 Automatic Revival $+ 1] [4Description12 When used this item will activate the "Automatic Revive" status.  If you die in battle, you will be revived with 1/2 HP.  $+ 1]  }
+    if (%info.type = key) {  .msg $nick [4Name12 $3 $+ 1] [4Type12 Key $+ 1] [4Description12 $readini(items.db, $3, desc) $+ 1]  }
+    if (%info.type = gem) {  .msg $nick [4Name12 $3 $+ 1] [4Type12 Gem $+ 1] [4Description12 $readini(items.db, $3, desc) $+ 1]  }
+    if (%info.type = misc) {  .msg $nick [4Name12 $3 $+ 1] [4Type12 Crafting Ingredient $+ 1] [4Description12 $readini(items.db, $3, desc) $+ 1]  }
+
+    unset %info.fullbringmsg
   }
 
   if ($2 = skill) { 
@@ -80,6 +98,31 @@ ON 1:TEXT:!view-info*:*: {
     .msg $nick [4Weapon Description12 $readini(weapons.db, $3, Info) $+ 1]
   }
 
+  if ($2 = alchemy) {
 
+    if ($3 = list) { 
+      var %crafted.items $readini(items.db, items, crafteditems)
+
+      if ($chr(046) isin %crafted.items) { set %replacechar $chr(044) $chr(032)
+        %crafted.items = $replace(%crafted.items, $chr(046), %replacechar)
+      }
+      .msg $nick 3Items that can be crafted: %crafted.items
+      halt
+    }
+
+
+    var %gem.required $readini(crafting.db, $3, gem)
+    if (%gem.required = $null) { .msg $nick $readini(translation.dat, errors, CannotCraftThisItem) | halt }
+
+    var %ingredients $readini(crafting.db, $3, ingredients)
+    var %base.success $readini(crafting.db, $3, successrate) $+ $chr(37)
+
+    if ($chr(046) isin %ingredients) { set %replacechar $chr(032) $chr(043) $chr(032)
+      %ingredients = $replace(%ingredients, $chr(046), %replacechar)
+    }
+
+    .msg $nick [4Name12 $3 $+ 1] [4Gem Required12 %gem.required $+ 1] [4Ingredients12 %ingredients $+ 1] [4Base Success Rate12 %base.success $+ 1] 
+
+  }
 
 }

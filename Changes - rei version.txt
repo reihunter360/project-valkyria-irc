@@ -24,6 +24,7 @@ Meditate Cooldown=60
 Mightystrike = 30
 ElementalSeal = 60
 Cover Cooldown=20 from 270
+Alchemy=40
 
 Impetus Max=40
 FieldMedic Max=500
@@ -33,7 +34,11 @@ Zen Max=10
 WeaponBashMax=2
 BloodPact Max=50
 
+WeaponLock CD =60
+
 Gunslinger,Swordmaster,Wizardy,Martialarts,Polemaster, ARchery Max to 500 (from 100)
+
+Resist == 70%
 
 TECHNIQUES.DB
 ; Valkyria-IRC Customs

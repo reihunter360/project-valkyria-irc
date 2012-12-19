@@ -86,7 +86,7 @@ ChimyriadPower=12
 Resist-Charm=100
 Resist-Zombie=100
 Resist-Poison=100
-Wizardy=10
+wizardry=10
 Resist-Intimidate=100
 
 [Styles]

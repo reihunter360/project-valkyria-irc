@@ -1,5 +1,5 @@
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-Battle Arena Bot - Version 1.3
+Battle Arena Bot - Version 1.5
 Programmed by James "Iyouboushi" (Iyouboushi@gmail.com)
 FREEWARE!
 =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -81,128 +81,38 @@ C:\Program Files\BattleArena   as IT WILL NOT WORK RIGHT.
 \_______________________________________________________________________/
 
 
-This version update continues to add new things but also adds several major
-fixes that fix potential exploits/cheats. As usual be sure to read the
-versions.txt in the documentation folder for a full list of everything 
-this version does.  Listed below are some of the highlights.
+As usual be sure to read the versions.txt in the documentation folder
+for a full list of everything this version does.  Listed below are some 
+of the highlights.
 
-* Added the translation.dat file
-This file contains most of the bot messages. You can edit this file to do
-translations or just to change the way the various messages read. Open the
-translation.dat file in notepad and be sure to read the top of the file 
-before you start editing.
+* New Status Effects
+Added a "Strength Down" status effect.  While under this effect, a target's str will be divided by 4 on attacks.
+Also added the "Weapon Locked" status effect. While under this effect, a target cannot change weapons.
 
-* Added the Ability to Sell Items & Accessories
-Use !shop sell items (item/accessory name) (amount)  [without the () of course]
-to sell an unwanted item back to the shop.  Keep in mind you won't get the
-full price back for the item.
+* Added new skills:
+- Added the active skill Provoke -- Will cause a monster you use it on to attack you its next round.
+- Added the active skill Disarm -- Will attempt to disarm a target back to their base fists. 
+- Added the active skill "WeaponLock" -- Will consume Sokubaku to lock a target's weapon in place for a # of turns.
 
-* Added AOE Heal Techs
-The Heal-AOE type tech will heal all allies on the battlefield. 
-This type of tech cannot be used on your enemies, even if they're
-undead or zombies.
 
-* Added new skills
-- Analysis allows you to analyze a monster. Increased levels of the skill
-  will give you more detailed information.
-- Zen is a passive skill that increases the amount of TP you get back
-  each turn you're not cursed. It's +(5 * skill level)
-- Haggling is a passive skill that increase the amount of orbs you
-  get for selling items back to the shop.
-- Cover is an active skill that will allow you to jump in front of an 
-  ally, basically taking damage for him/her.
-- WeaponBash is a passive skill that gives a chance of inflicting the 
-  'stun' status effect to a target with each melee hit. Note, if the 
-  target is immune to stun it will never take effect.
+* Changes
+- Changed doppelgangers around so that they can't use the Final Getsuga type boosts.
+- Changed the Doppelganger style so that it now has various uses against clones and evil doppelgangers.
+- Changed it so monster's weapon levels will be increased if the file setting is lower than the streak.
+- Changed the formula for magic damage slightly.
+- Changed the formula for 4-hit and 5-hit weapons slightly.
 
-* Added an Anti-Cheat System On Monster Weapons
-If somehow players get ahold of monster weapons they will be useless
-to them now and will do 0-5 damage max.  Monster techs will also do
-0-5 damage max and boosts will increase the stats by 0.
 
-* Added New Item Types
-- ShopReset is an item type that will lower the target's shop level.
-- Revive is an item type that will grant the Revive status on a target.
-  Should the target's HP fall to 0 with that status on, they'll be brought
-  back to life with 1/2 their HP.
-
-* Added Doppelganger Battles
-When the bot chooses a boss battle there is now a 5% chance that it will
-be a Doppelganger battle. In this battle type, evil copies of all players
-who have entered the battle will be made and they must fight them.
-
-* Changed the Monster Generation
-I changed the way the monsters are generated for battle and put into
-the battle to hopefully make it a little more random and to prevent a
-future bug that would eventually happen via the old method.
-
-* Changed the Max Damage of Suicide Techs For Players
-Due to people exploiting suicide type techs with insane amounts of HP,
-I changed the max amount of damage of suicide techs that can be done 
-by players to 500.
-
-* Changed the Maximum Number of Times Steal Will Work
-Due to an exploit of people using steal on orb fountains on blood moon
-resulting in a potential of receiving thousands of free orbs, I've
-set the max number of times steal will work on a single target per
-battle to two.
-
-* Changed Max HP/TP and Style Points
-The maximum number of HP you can have in the game is now 2500. The max
-TP is now 500. The style points, while hidden, will now be capped at
-5000.  The reason being someone could taunt an orb fountain for an hour
-to get their style up to obscene levels and then kill the fountain to
-get a gigantic bonus amount of orbs (as bonus is based on style points
-upon a monster's death).  
-
-* Changed Location of Skill Cooldown Timers
-The cooldown timers are now located in the skills.db.  Bot owners
-can now edit these directly to change the skill reuse times. Remember
-these times are in seconds.
-
-* Changed The Way Boss Drops Work
-I changed it so that they can have multiple drops. The bot will still only 
-pick one drop, but now you can make it random.  Also, I changed it so if more
-than one boss enters the battle all of their drops should be in the pool 
-rather than just the most recent boss to join.
-
-* Changed Poison
-I Changed the damage formula on poison.  Instead of doing random 5-10 damage 
-a turn (which is nothing when players have HP over 1000), it now does a 
-percentage of a target's max HP.  The "Heavily Poisoned" status does even 
-more than normal poison.
-
-* Changed Spawning Code
-Changed the code so that boss battles may spawn normal monsters as well
-when the winning streak is greater than 50.
-
-* Changed !style change
-Players can now change their styles within battle at the cost of a turn.
-
-* Bug Fixes
-As usual, there's always a few bugs to squish.  Here's a quick breakdown.
-
-- Fixed zombie regen not wearing off at the end of battle.
-- Fixed Amnesia so it actually works now.
-- Fixed a bug where some mastery skills weren't working right.
-- Fixed a bug in which steal wasn't adding the items correctly
-- Fixed a bug in which +TP item descriptions weren't working right.
-- Fixed the bot so that it'll give the right access level to all bot owners in the
-  list upon start up.
-- Fixed a bug in which style levels were occasionally not leveling right.
-- Fixed a bug in which players could purchase monster weapons.
-- Fixed a bug in which consumable items could be consumed with !use 
-- Fixed a bug in which MightyStrike could be used continuously without cooldown.
-- Fixed a bug in which fleeing would cause the bot to break in a one vs one battle
-  against an orb fountain.
-- Fixed a bug in which you could use consumable items with the !use command and 
-  the item would be decreased from your inventory.
-- Fixed a bug in which MightyStrike could be used continuously without a cooldown.
-- Fixed a bug where if something was weak to lightning it would also take double 
-  damage for light element as well.
-- Fixed a bug with Fullbring when used on +TP items.
-- Fixed a bug in which monsters killed by AOEs were giving double the style 
-  points that it should have.
+* Fixes
+- Fixed a bug with ClearStatus type items (i.e. the Tonic).
+- Fixed a major security flaw.
+- Fixed a bug in which DARK type spells weren't being enhanced by GLOOMY type weather.
+- Fixed a bug in which the WIZARDRY passive skill wasn't working right due to a mispelling. 
+  ** There's a temporary fix in the bot that will be removed in 1.6. 
+     Have one battle end before characters buy any more into the wizardry skill to fix it.
+- Fixed a bug with the Aztec-GoldCoin accessory and gave its absorb effect a bit of a boost.
+- Fixed a bug in which it was possible to cover a non-existent character, thus causing errors that would freeze the bot.
+- Fixed a bug with AOEs being used on players in PVP in which it would hit the user and miss some other players.
 
 
 Again, this isn't everything. Be sure to read the versions.txt in the documentation

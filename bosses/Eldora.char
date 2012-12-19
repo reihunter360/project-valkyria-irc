@@ -1,20 +1,20 @@
 [BaseStats]
 Hp=400
-Tp=120
-Str=50
-Def=40
-Int=30
-Spd=60
+Tp=200
+Str=65
+Def=55
+Int=40
+Spd=70
 Name=Eldora Adlanna
 
 
 [Battle]
 Hp=400
-Tp=120
-Str=50
-Def=40
-Int=30
-Spd=60
+Tp=200
+Str=65
+Def=55
+Int=40
+Spd=70
 Status=alive
 
 
@@ -39,7 +39,7 @@ BossQuote=You must prove yourselves before moving forward.
 RedOrbs=0
 BlackOrbs=1
 ShopLevel=1.0
-Drops=ElvishMedallian.Ambrosia.Superpotion.Miser-Ring
+Drops=ElvishMedallian.Ambrosia.Superpotion.Miser-Ring.FireDragonWine
 
 [Monster]
 Type=
@@ -53,6 +53,7 @@ passhurt=0
 LastSeen=N/a
 LastIP=N/a
 Created=N/a
+Streak=100
 
 [Status]
 Poison=no
@@ -89,11 +90,14 @@ MPRegenerating=no
 
 [Weapons]
 Equipped=Silver_Goddess_Sword
-Silver_Goddess_Sword=55
+Silver_Goddess_Sword=80
 
 [Skills]
-Swordmaster=35
-MartialArts=30
+Zen=5
+WeaponBash=1
+Impetus=20
+Swordmaster=75
+MartialArts=75
 Resist-Paralysis=10
 Resist-Amnesia=10
 Resist-Zombie=100
@@ -105,17 +109,18 @@ royalguard.on=on
 Resist-Intimidate=100
 
 [Techniques]
-TwinSlice=50
-BiteOfLightning=50
-BladeBeam=50
-HyperTwinSlice=50
-WiseReflection=50
+TwinSlice=75
+BiteOfLightning=75
+BladeBeam=75
+HyperTwinSlice=75
+WiseReflection=300
 
 [Styles]
 Equipped=Weaponmaster
-Weaponmaster=3
+Weaponmaster=5
 WeaponmasterXP=1
 
 [Element]
 Weakness=Dark
 Strong=Light
+Heal=Light

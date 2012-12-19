@@ -1,20 +1,20 @@
 [BaseStats]
-Hp=1500
-Tp=50
-Str=20
-Def=20
-Int=20
-Spd=15
+Hp=2500
+Tp=150
+Str=50
+Def=50
+Int=40
+Spd=35
 Name=Simon Belmont
 
 
 [Battle]
-Hp=1500
-Tp=50
-Str=20
-Def=20
-Int=20
-Spd=20
+Hp=2500
+Tp=150
+Str=50
+Def=50
+Int=40
+Spd=35
 Status=alive
 
 
@@ -96,37 +96,40 @@ zombie.timer=1
 conservetp.on=off
 
 [Weapons]
-Equipped=Vampire_Killer
-Vampire_Killer=50
-
+Equipped=VampireKiller
+VampireKiller=65
 
 
 [Skills]
-speed.on=no
-doubleturn.on=off
-soulvoice.on=off
-manawall.on=off
-elementalseal.on=off
+MartialArts=60
+Wizardy=50
+MightyStrike=1
 mightystrike.on=off
+RoyalGuard=1
 royalguard.on=off
+Resist-Curse=100
 Resist-Charm=100
-Resist-Zombie=100
 Resist-Intimidate=100
+Resist-Amnesia=100
+Impetus=20
+WeaponBash=1
 Zen=5
+ClearMind=3
 
 
 [Techniques]
-HolyLash=50
-TwinDragonLash=50
-CircularChain=50
+Dagger=50
+HolyWater=50
+Cross=60
+StopWatch=50
+Axe=60
+DoubleAxe=75
 
 
 [Item_Amount]
-potion=1
-DustyWing=0
 
 
 [Styles]
 Equipped=WeaponMaster
-WeaponMaster=2
+WeaponMaster=4
 WeaponMasterXP=1

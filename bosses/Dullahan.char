@@ -1,5 +1,5 @@
 [BaseStats]
-Hp=1200
+Hp=1000
 Tp=300
 Str=100
 Def=100
@@ -9,7 +9,7 @@ Name=Dullahan
 
 
 [Battle]
-Hp=1200
+Hp=1000
 Tp=300
 Str=100
 Def=100
@@ -47,6 +47,7 @@ passhurt=0
 LastSeen=N/a
 LastIP=N/a
 Created=N/a
+Streak=105
 
 [Status]
 Poison=no

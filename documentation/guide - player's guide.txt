@@ -10,7 +10,7 @@ ThereÅfs a bunch of weapons that can be bought and each weapon has a few techniq
 
 ThatÅfs really the gist of what IÅfve been working on thus far.
 
-One more thing to mention here in the "overview" is that the bot is currently unbalanced.  New players will probably find themselves dying a lot while older players will probably dominate almost everything (to a point).   Some weapons are overpowered, others aren't strong enough.  The bot is only on version 1.2 so hopefully things will improve in those areas later on down the road.
+One more thing to mention here in the "overview" is that the bot is currently unbalanced.  New players will probably find themselves dying a lot while older players will probably dominate almost everything (to a point).   Some weapons are overpowered, others aren't strong enough.  The bot is only on version 1.4 so hopefully things will improve in those areas later on down the road.
 
 
 STARTING OUT (i.e. how do I join and what do I do first?)
@@ -74,7 +74,7 @@ Some basic commands you may want to check out:
 
 !style - This command tells you which style you have equipped, which styles you own, and how much XP you have into the current style.
 
-!style change name - This command will change your style. Note you can only change your style outside of battle.
+!style change name - This command will change your style.
 
 !stats - Tells you your stats.
 
@@ -115,9 +115,7 @@ Next up you can try out the list command for the various things.
 !shop list skills
 !shop list stats
 !shop list weapons
-
 !shop list styles
-
 !shop list orbs
 
 Throughout all this you'll notice something like   name(number).  The (number) is the amount of red orbs you need to purchase it.  Also take note that new weapons are listed in BLACK ORB prices.  Black Orbs are special orbs you get for surviving a successful boss battle and cannot be obtained any other way.
@@ -161,8 +159,11 @@ This battle is simply to let players gain orbs.  An Orb_Fountain monster will jo
 Boss Battle (10% chance of happening)
 1 boss will be picked from a list of bosses and it will join the battle.  Players have to work together to defeat this terrible foe.  If the boss is defeated, at the end of battle everyone who's still alive will receive a black orb and the person who's the most stylish will receive an item (usually; but more on style later).
 
-Doppelganger Battle (5% chance of replacing a normal boss battle)
+Doppelganger Battle (10% chance of replacing a normal boss battle)
 Evil doppelgangers of all participating players will be generated and the heroes will be forced to fight themselves.
+
+Warmachine Battle (20% chance of replacing a normal boss battle)
+The monsters will build a large tank-like boss that will roll out onto the battlefield for the players to fight.
 
 Monster Battle (80% chance of happening)
 As expected, this is the most common type of battle.  The bot will generate a number of monsters (the number depends on how many players join the battle) and will add them to battle.  The object is to defeat them all.
@@ -222,9 +223,8 @@ Here's a small note about monsters in this bot:
 The current winning/losing streak will either enhance or nerf monsters' strengths.  If players have been winning a lot of battles then monsters will progressively get stronger and stronger.  If the players have lost a lot in a row, the bot will try to decrease the strength of monsters to give players a bigger chance of winning.  Monsters will also be strengthened by how many players are in the battle (a monster fighting 5 players will be stronger than the same monster fighting 1 player).
 
 
-
 SKILLS
-** As of September 12, 2012.
+** As of October 28, 2012.
 
 There are three types of skills in this bot: Passive Skills that are always on, Active Skills that have commands, and Resists that help you resist against various status types found in the bot.  Each skill has a maximum level that you can obtain in it. Some active skills can only be used once every certain number of minutes.  Of course you must first purchase the skills in the shop before you can use them.
 
@@ -270,6 +270,15 @@ This skill will increase the amount of TP you regain each turn by 5*skill level.
 
 Haggling
 This skill will increase the amount of orbs you can sell items back for by 20 * skill level.
+
+WeaponBash
+This skill will add a chance of inflicting the stun status after each melee hit. Note, if the target is immune to stun it will never take effect.  The chance is (skill level * 10)%.
+
+Vogue
+This skill will increase the amount of style XP you get at the end of battle.
+
+Alchemy
+This skill will allow you to use gems to create items. Each level of this skill will raise the success rate of creating an item by 1%.  Use !view-info alchemy list  to get a list of items you can craft and !view-info alchemy (item)  to view the ingredients necessary.
 
 
 Active Skills
@@ -317,7 +326,7 @@ Kikouheni - !kikouheni weathertype
 This skill allows the user to change the current weather.  The default reuse time is 10 minutes.  Increased levels of this skill will reduce the amount of time inbetween uses.  Valid weather types are: calm, bright, gloomy, rainy, stormy, snowy, windy, hot, and dry
 
 ShadowCopy - !shadow copy
-This skill will create a shadow clone of yourself to fight in battle with you as an NPC.  It can only be used once per battle, even if the clone dies. The amount of HP the clone has is varient on whether or not you're using the Doppelganger style.
+This skill will create a shadow clone of yourself to fight in battle with you as an NPC.  It can only be used once per battle, even if the clone dies.  The amount of HP the clone has is varient on whether or not you're using the Doppelganger style.
 
 Utsusemi - !utsusemi
 This skill will create 2 shadows that will absorb all types of attacks.  The default reuse time is 30 minutes.  Increased levels decreases the amount of time inbetween uses.
@@ -327,6 +336,18 @@ This skill will let you try to steal an item or red orbs from a target.  Each le
 
 Analysis - !analyze (target name)
 This skill will allow you to analyze a target. Each level of the skill gives you more detail about the target.
+
+Cover - !cover (target)
+This skill allows you to jump in front of an attack and cover an ally of your choosing.
+
+Aggressor - !aggressor
+When used, this skill will take (skill level * 10%) of your defense and add it to your strength but will leave your defense at 5.
+
+Defender - !defender
+When used, this skill will take (skill level * 10%) of your strength and add it to your defense but will leave your strength at 5.
+
+Holy Aura - !holy aura
+When used, this skill will extend the amount of time you have to fight before Darkness sets onto the battlefield by (skill level) minute(s).
 
 
 Resistance Skills
@@ -348,12 +369,12 @@ resist-stop
 
 
 ITEM LIST
-** As of September 12, 2012.
+** As of November 1, 2012.
 
-There's six  types of items in the bot currently.  Healing Items, Battle Items, Consumable (Skill) Items, +Stat Items, Summon Items and Shop Level Reducing Items.  Here's a list of each.
+There's a bunch of different types of items in the bot currently:  Healing Items, Battle Items, Consumable (Skill) Items, +Stat Items, Summon Items, Shop Level Reducing Items, Gems, Keys, Accessories, and Misc (Crafting) items.  Here's a list of each.
 
 Healing Items
-These are items that, obviously, will heal HP or TP on you or an ally when used.
+These are items that are beneficial to the targets.
 
 Potion - 50 Red Orbs
 The potion will heal roughly 20 HP when used.  It can be used with Fullbring and requires level 1 of that skill.
@@ -374,21 +395,29 @@ DustyWing - 100 Red Orbs
 The Dusty Wing will instantly restore 20 TP when used. It can be used with Fullbring and requires level 1 of that skill.
 
 Ether - 500 Red Orbs
-
 The Ether will instantly restore 60 TP when used. It can be used with Fullbring and requires level 2 of that skill.
 
 Tonic - 1000 Red Orbs
 The tonic will instantly cure most status effects.  It will not cure Charm or Intimidation though.
 
+GoldOrb - 8000 Red Orbs
+This item, when used, will bestow the target with the "revive" status.  If the target dies in the same battle, he/she will be revived with 1/2 hp.
+
 
 Battle Items
-These items can be used on monsters to deal damage to them.
+These items can be used on monsters to deal damage or inflict status effects to them.
 
 Holy_Water - 100 Red Orbs
 The Holy Water will inflict roughly 45 light elemental damage to a target.  It can be used with Fullbring and requires level 2 of that skill.
 
 Stop_Watch - 150 Red Orbs
 The Stop Watch will attempt to inflict the 'stop' status effect on a target.  It can be used wtih Fullbring and requires level 3 of that skill.
+
+Hour_Glass - 150 Red Orbs
+The Hour Glass will attempt to inflict the 'slow' status effect on a target.  It can be used wtih Fullbring and requires level 3 of that skill.
+
+Angon - Crafting Only
+This item will attempt to inflict the "Defense Down" status on a target.
 
 Red_Fang - 100 Red Orbs
 The Red Fang will inflict roughly 45 fire elemental damage to a target.  It can be used with Fullbring and requires level 2 of that skill.
@@ -402,6 +431,11 @@ The Fire Flower will inflict roughly 150 fire elemental damage to a target.  It 
 Ice_Coin - 150 Red Orbs
 The Ice Coin will inflict roughly 150 ice elemental damage to a target.  It can be used with Fullbring and requires level 3 of that skill.
 
+Dynamite - Crafting Only
+The dynamite will inflict roughly 310 fire damage to a target.  It can be used with Fullbring and requires level 4 of that skill.
+
+HolyHandGrenade - Crafting Only
+The Holy Hand Grenade item will inflict roughly 2500 damage to a single target.
 
 
 +Stat Items
@@ -409,7 +443,6 @@ These items, when used, will increase your stats by a certain amount.  You canno
 
 To keep a little bit of mystery with these items, I'll give a list but won't say what they do.  If you want to know, get out there and defeat the bosses and be stylish about it.
 
-List
 Pizza
 PotRoast
 Ramen
@@ -425,6 +458,10 @@ SoulPainting
 FishAndChips
 Slurm
 CerberusMeat
+SilverApple
+DefenseSource
+PowerSource
+Herring
 
 
 Consumable (Skill) Items
@@ -432,6 +469,9 @@ These items are used in conjunction with skills and will be consumed when the sk
 
 Shihei - 100 red orbs
 This item is used to create shadows using the Utsusemi skill.  One shihei will produce 2 shadows.
+
+Sokubaku - 100 red orbs
+This item is used with the skill Weapon Lock to lock enemies' weapons for a number of turns.
 
 
 Summon Items
@@ -498,9 +538,78 @@ When used, these items will reduce your current shop level by an amount.  The sh
 DiscountCard - 250,000 Red Orbs
 This item will reduce your shop level by 10 points.
 
+UltraDiscountCard - 500,000 Red Orbs
+This item will reduce your shop level by 25 points.
+
+
+Gems
+Gems are used to craft items. They can be obtained via treasure chest or by killing a monster via the JewelSword weapon.
+
+Zircon
+Topaz
+Emerald
+Ruby
+Sapphire
+Opal
+Onyx
+Diamond
+
+
+Keys
+Keys are obtained at the end of battle after enough wins have been accumulated.  They open their respective colored-chests.
+
+BlueKey
+BrownKey
+RedKey
+OrangeKey
+GreenKey
+GoldKey
+
+
+Accessories
+Accessories are special items that you can wear to bestow various bonus effects to your character.  Here's a list of current accessories.
+
+Wizard's-Amulet
+Blessed-Ankh
+Blood-Ring
+Purple-Belt
+Brown-Belt
+Black-Belt
+Miser-Ring
+Thief-Ring
+Fool's-Tablet
+Ribbon
+Aztec-Goldcoin
+Lucky-Rabbit'sFoot
+VIP-MemberCard
+Spear-Pin
+Mugger's-Belt
+Prism-Specs
+
+
+Misc (Crafting) Items
+These items are used with the alchemy skill to craft items.
+
+Ink
+Paper
+AshLog
+Hatchet
+IronOre
+BrokenLance
+SilverChain
+FireGem
+IceStone
+WindRock
+WaterJewel
+EarthSphere
+
 
 ACCESSORIES
 Accessories are special items that can be equipped.  The accessories themselves will grant bonuses or status effects on the wearer.  How do you get the accessories?  Well, they're rare boss drops from certain bosses.  Once you manage to find one, you can equip it with !wear <accessory name>  If you ever decide that you no longer want to wear that accessory you can remove it with !remove <accessory name>. 
+
+
+TREASURE CHESTS
+Treasure Chests appear at the end of victories after a certain number of wins have happened in a row (currently 25 wins).  At the end of battle a random colored chest will appear. Anyone who has the right colored key can open the chest but they have to act fast! Chests will disappear after 45 seconds of being unopened. Each color contains its own item pool but combined, chests can contain every item in the game (including rare accessories and shop discount items).
 
 
 STYLE POINTS
@@ -546,7 +655,7 @@ Each style has a level [the (#) next to the name] and can level up by accumulati
 So now you're wondering what the various styles are and what they do in-game.  Here's a list.
 
 TRICKSTER
-This style will enhance the amount of style points you get for taunting.  Higher levels of Trickster will increase the amount of style points you get.  It'll also give you a bonus to your speed when the bot generates the turn order.  Higher levels of the style will result in a bigger increase in speed, thus giving you a better chance of getting your turn earlier.  Finally, it will enhance the steal % by a random amount (style level doesn't matter in this case, it's the same random chance each time).
+This style will enhance the amount of style points you get for taunting.  Higher levels of Trickster will increase the amount of style points you get.  It'll also give you a bonus to your speed when the bot generates the turn order.  Higher levels of the style will result in a bigger increase in speed, thus giving you a better chance of getting your turn earlier. When equipped with this style there's also a (style level)% chance of dodging attacks. Finally, it will enhance the steal % by a random amount (style level doesn't matter in this case, it's the same random chance each time).
 
 WEAPONMASTER
 The Weapon Master will enhance melee attacks of all weapon types.  It does this by increasing the random damage added onto every melee attack and by enhancing the mastery skill slightly.  The amount increases each time the style levels.
@@ -568,17 +677,21 @@ This style will allow you to access the !quicksilver command that freezes everyo
 
 
 MONSTER LIST
-** As of September 21, 2012.
+** As of December 3, 2012.
 Here's a list of monsters that are in the bot.
 
 Air Elemental
 Bark Spider
+Bigclaw
+BloodGoyle
+Blue Slime
 Bone Soldier
 Cactuar
 Chimyriad
 Creeper
 Cursed Bishop
 Cursed Pawn
+Cursed Queen
 Cursed Rook
 Cyberman
 Dalek
@@ -589,6 +702,7 @@ Devil Manta
 Dragoon Ghost
 Earth Elemental
 Enchanted Bones
+Ermit Imp
 Female Vampire
 Final Guard
 Forest Giant
@@ -598,11 +712,14 @@ Goblin Berserker
 Goblin Enchanter
 Goblin Shaman
 Goblin Smithy
+Heal Slime
 Heraldic Imp
 Ironshell
 Mad Piranha
 Male Vampire
 Mammoth
+Maneating Hornet
+Metal Slime
 Minotaur
 Moblin
 Nightmare Hornet
@@ -611,11 +728,22 @@ Ninja Assassin
 Orb Fountain
 Orcish Grunt
 Orcish Gunshooter
+Orcish Impaler
+Orcish Predator
+Orcish Wyrmbrander
 Oxocutioner
+Poison Slime
 Pride Demon
+Red Slime
+Revenant
 Ruby Quadav
+Ruly Imp
 Sabertooth Tiger
 Samurai Ghost
+Sandy Claws
+Sapphire Quadav
+Shrapnel
+Sierra Tiger
 Snow Giant
 Snow Wight
 Stone Eater
@@ -629,22 +757,27 @@ Undead Monk
 Undead Ranger
 Undead RedMage
 Undead Samurai
+Volcano Wasp
 Water Elemental
 Wooden Puppet
 Wyvern
+Yagudo Oracle
+Yagudo Prior
 Yagudo Scribe
 Yagudo Zealot
 Zarklet
 Zombie
 
 
-
 BOSS LIST
-** As of September 21, 2012.
+** As of December 3, 2012.
 Here's a list of bosses that are in the bot.
 
 Absolute Virtue
 a tall humanoid creature. It is blue and white in color and has four wings on its back. One of the strongest monsters in all of Vana'diel and the ruler of Al'Taieu.  From FFXI
+
+Amon
+Amon, the Sinistral of Chaos, from the Lufia series.
 
 Android X
 a 7'5" tall man with bright neon green hair wearing a Red Ribbon Army ripped jean jacket and dark pants. With an evil grin he holds up his gloved right hand which has a small round cut that reveals a glowing red spot that pulsates. He is the ultimate android created as a failsafe in case Cell failed.  From #DBZRPG
@@ -663,6 +796,9 @@ A tall Egyptian woman of irresistible beauty. She wears a gold bikini, a golden 
 
 Bahamut Fury
 A larger version of Bahamut that is gold in color. His unique wings has three spikes on them that can be fired at his opponents. From Final Fantasy.
+
+Bigmouth Billy
+A large worm.  Based on a monster in Final Fantasy XI.
 
 Bloody Bones
 A larger than normal skeleton with red bones and carrying a large scythe. From Final Fantasy XI.
@@ -706,8 +842,14 @@ A gigantic pale white spider with a huge round abdomin.  From Final Fantasy XI.
 Eldora Adlanna
 A clone of a mighty Elven goddess, mimicing her full power. She wears the usual Swordmaster armor has a sword on the left side of her waist.
 
+Erim
+A woman with long blue hair that wears a white dress and carries a sword and shield. She is Erim, the Sinistral of Death. From the Lufia series.
+
 Fafnir
 A large brownish grey dragon that gives off an angry roar!
+
+Gades
+A man with red hair that wears full body armor and carries a large sword. He is Gades, the Sinistral of Destruction. From the Lufia series.
 
 Metal Gear Ray
 A machine that stands at 20 meters in height. It is tan and black in color. It is slightly more organic in design, with large "wings," a long tail and a face where the pilot seat is. Contains various weapons and a powerful water cutter. From the Metal Gear series.
@@ -718,6 +860,12 @@ A very large machine piloted by Liquid Snake. Notabale features are the large "s
 Giygas
 The final boss of Earthbound and is said to be the ultimate evil.
 
+Gobbles
+A seasonal boss that is a giant evil turkey.
+
+Guard Daos
+A power being that is a combination of Daos, Gades and Amon. From the Lufia series.
+
 Jester
 An insane demon that wears a black and purple oufit, along with a red and blue jester cap. He also has a pure white face, a giant nose, plus red and blue eyes.  From Devil May Cry 3.
 
@@ -727,21 +875,41 @@ A far larger verision of a cactuar. It has the same appearence except with a cur
 Killer Rabbit
 A a cute little bunny.  Tim the Enchanter once said that it was a creature so foul, so cruel that no man yet has fought with it and lived. Bones of full fifty men lie strewn about its lair. So, brave knights, if you do doubt your courage or your strength, come no further, for death awaits you all with nasty, big, pointy teeth.  From Monty Python's Search for the Holy Grail
 
+King Slime
+A much larger version of the Blue Slimes. It wears a large gold crown on its head. From the Dragon Quest series.
+
+Knights Who Say Ni
+A group of knights led by a much taller knight dressed in all black. From Monty Python's Search for the Holy Grail
+
 M Bison
 A tall man wearing all red with a blue cape and a large military beret.  He is the leader of the crime syndicate Shadaloo.  From the Street Fighter series
 
 Menos Grande
 A huge hollow standing 2-6 stories tall.  It is all black except for its face, which is pure white and has a long pointed nose.  This is a Gillian-class Menos, also known as the Menos Grante.  From the Bleach series.
 
+Metal King Slime
+This slime takes the same appearence of the King Slime, but is all metal instead. It wears a large metal crown as well. From the Dragon Quest series.
+
+Pallid Percy
+A giant pink and red worm sticking out of the ground and waving back and forth. It's based on a monster in Final Fantasy XI.
+
+Poison
+A huge slug-like monster with an old woman's face and several large arms. From DmC.
+
+Poisonhand Gnadgad
+A large green orc wearing a light gi and has a headband wrapped around its head. It's based on a monster in Final Fantasy XI.
+
 Puppet Master
 A giant wooden head with four spider-like arms. From the Castlevania series.
 
 Quetzalcoatl
-
 The Aztec god of intelligence and self-reflection.  It is a giant feathered serpent and it doesn't look happy.
 
 Ryukotsuki
 A large demon that is composed of bones. He has glowing red eyes along with a large red orb around the middle of his chest.
+
+Smothered Schmidt
+The ghost of a dead mage who suffocated in a mine. Based on a monster in Final Fantasy XI.
 
 Sea Horror
 A gigantic sea kraken that is orange and black in color known around the world as the Horror of the Sea.
@@ -752,11 +920,17 @@ The warlord that organized the Beastman Confederate into launching an all-out wa
 Stinging Sophie
 A large angry black and yellow bee.  From Final Fantasy XI.
 
+Stubbon Dredvodd
+A large green orc dragoon carrying a large pike. It likes to hide and rarely makes itself known to the world. Only has a chance of appearing at 1 specific boss battle. From the Final Fantasy XI series.
+
 Sub Zero
 A ninja wearing a blue mask and blue tekko.  From the Mortal Kombat series.
 
 Tiamat
 A large and powerful brown dragon.  From Final Fantasy XI.
+
+True Erim
+A taller a far more powerful version of Erim. From the Lufia series.
 
 Vergil
 Dante's twin brother.  He wears a long blue trenchcoat and carries the Yamato, his favorite weapon.  From the Devil May Cry series.
@@ -768,95 +942,8 @@ Zark
 A grotesque orange alien with two very long tentacles.  He is carrying a weird looking gun.  From #DBZRPG.
 
 
-
-NPC ALLY LIST
+NPCS
 NPCs are helpful allies that show up occasionally to help the forces of good win battles.  At the moment there's a 10% chance of them showing up normally.  If the players have been losing a lot (5+ in a row) they will show up 100% of the time.  NPCs will stay in battle until they die or until all players die.  In other words, NPCs won't keep fighting the good fight after all players are dead; at least one player must stay alive for the battle to continue.
-
-This is a current list of NPCs as of September 21, 2012:
-
-Alucard
-From Castlevania, the son of Dracula.  He is a powerful vampire fighting on the side of humans.
-
-Arucard (Alucard)
-From the Hellsing anime, Alucard is a tall man with short black hair dressed in a dark grey suit with a red overcoat, white gloves, a large red fedora and circular sunglasses with an orange tint. Formally known as Dracula, he is perhaps the strongest vampire in existance.
-
-Ash Williams
-A man who works in the Housewares section of S-Mart. He wears a blue shirt, dark brown khaki pants, and brown leather boots. He wields a boomstick in his left hand and has a chainsaw attached to his right hand.  He's from the Evil Dead series of movies.
-
-Chun-Li
-An agent of Interpol. She has brown hair, wears a blue chinese dress with a gold trim, white boots and large bracelets with spikes on them. From the Street Fighter series.
-
-Dante
-From Devil May Cry, this is the main hero of the series.  He's a master of the Rebellion sword and a trickster.
-
-Dart
-A young man who wears red armor and a red bandana. He wields the spirit of the Red-Eyed Dragon. From The Legend of the Dragoon.
-
-Don Kanonji
-From Bleach, he's a silly medium who can see spirits.  He's not very strong though.
-
-Dovahkiin
-A rare individual born with the blood and soul of a dragon but has the body of a mortal. A natural master of the Thu'um, otherwise known as Dragon Shouts.  From Skyrim.
-
-Ichigo
-Also from Bleach.  He's the main hero and has full mastery over the Zangetsu weapon.
-
-Indiana Jones
-The main hero of the Indiana Jones movies. He's a master of using a whip.
-
-Iori Yagami
-A tall man with red hair that wears a black shirt and red pants. He's from the King of Fighters series.
-
-Kain
-A tall man that is a friend of Cecil. He wears dark blue and black dragoon armor along with a helm that is designed similiar to a Dragon. He is a highly-skilled Dragoon.  From Final Fantasy IV.
-
-Ken Masters
-A man with medium length blonde hair that wears a red gi. He also wears a black belt and red gloves. From the Street Fighter series.
-
-Maat
-An older looking man who is a master of the martial arts.  He's the second strongest NPCs in the game.  He's from Final Fantasy XI.
-
-Mario
-A plumber with a large bushy mustache wearing a blue long-sleeved shirt with red overalls over it and a red hat with an "M" on it.  From the Super Mario Brothers game series.
-
-Mr. Satan
-Is a man with a large afro, large sideburns, a horseshoe mustache and giant muscles. He wears a dark brown dogi shirt, with a white belt wrapped around, white pants and black boots. The Earth's so-called "Greatest Champion!"  From Dragonball Z.
-
-Nauthima Tiranadel
-No longer a boss, Nauthima now fights for the forces of good.  She's the strongest NPC in the game and a master of powerful magic.  If she shows up you're almost guaranteed an easy win.
-
-Prishe
-She appears to be a young Elvaan female with long lavender hair, pointed ears and blue eyes. She wears black shorts with a black top and frilly purple sleeves, along with tan boots. From Final Fantasy XI.
-
-Robocop
-A cyborg cop in silver and black armor. He carries his large Auto9 gun in hand. From the Robocop movies.
-
-The Rock
-A tall man with a dark tan and a tattoo of a bull on his right arm and a Samoan design on his left shoulder.  From the WWE.
-
-Rose
-She is a mysterious woman that wears dark purple armor that has a gold trim. The wielder of the Darkness Dragon spirit.  She's from The Legend of Dragoon.
-
-Ryu
-A man with medium length brown hair and wears a white gi wlong with a black belt. He also wears red gloves and a red bandanna. From the Street Fighter series.
-
-Shanoa
-A young woman who is a member of Ecclesia and a powerful user of magical glyphs. She's from the Castlevania series
-
-Shantotto
-A Tarutaru that wears the Black Mage AF armor, excluding the hat. She is well-known in Windurst and one of the strongest magic users in Vana'diel.  She's from Final Fantasy XI.
-
-Simon Belmont
-From the Castlevania series, he's a master of the Vampire Killer whip and is the bane of anything that is weak to holy weapons.  He'll be a powerful companion.
-
-Terry Bogard
-A muscular man wearing a white shirt, blue jeans, a red vest with torn sleeves and his trademark baseball cap.  From the King of Fighters series.
-
-Urahara Kisuke
-A tall man with light blonde hair. He wears a dark green shirt and pants, along with a black coat, wooden clogs on his feet and a bucket hat with green and white stripes.  From the Bleach series.
-
-Yoruichi Shihouin
-A woman with dark skin, long purple hair and golden eyes, dressed in a black sleevless shirt, black pants, white shoes and an orange coat. The former 2nd Division Captain of the Gotei 13.  From the Bleach series.
 
 
 MISC INFO

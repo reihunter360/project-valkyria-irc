@@ -54,6 +54,7 @@ LastIP=N/a
 Created=N/a
 CanStagger=yes
 StaggerAmount=$rand(100,130)
+streak=15
 
 [Status]
 Poison=no

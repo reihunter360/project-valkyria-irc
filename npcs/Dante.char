@@ -107,7 +107,7 @@ manawall.on=off
 elementalseal.on=off
 mightystrike.on=off
 royalguard.on=on
-Swordsmanship=30
+Swordsmanship=70
 royalguard=1
 Zen=5
 Resist-Charm=100
@@ -115,15 +115,10 @@ Resist-Zombie=100
 Resist-Intimidate=100
 
 [Techniques]
-Stinger=50
-MillionStab=50
-Drive=50
-DevilTrigger=20
-
-
-[Item_Amount]
-potion=1
-DustyWing=0
+Stinger=90
+MillionStab=80
+Drive=60
+DevilTrigger=30
 
 
 [Styles]

@@ -43,6 +43,8 @@ LastIP=N/a
 Created=N/a
 OrbBonus=yes
 BattleStats=ignoreHP
+CanFlee=true
+Streak=30
 
 [Monster]
 Type=

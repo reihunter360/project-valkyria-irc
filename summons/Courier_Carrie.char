@@ -1,17 +1,17 @@
 [BaseStats]
-Hp=250
+Hp=280
 Tp=30
 Str=7
-Def=12
+Def=15
 Int=7
 Spd=5
 Name=Courier Carrie
 
 [Battle]
-Hp=250
+Hp=280
 Tp=30
 Str=7
-Def=12
+Def=15
 Int=7
 Spd=5
 Status=alive
@@ -108,5 +108,5 @@ Strong=water
 
 [Styles]
 Equipped=Guardian
-Guardian=2
+Guardian=3
 GuardianXP=1
