@@ -49,7 +49,7 @@ LastIP=N/a
 Created=N/a
 
 [Monster]
-Type=Undead
+Type=
 
 [Status]
 Poison=no

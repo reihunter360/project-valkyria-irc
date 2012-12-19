@@ -1,20 +1,20 @@
 [BaseStats]
-Hp=150
-Tp=120
-Str=15
-Def=12
-Int=20
-Spd=10
+Hp=200
+Tp=200
+Str=50
+Def=40
+Int=60
+Spd=50
 Name=The Knights Who Say Ni
 
 
 [Battle]
-Hp=150
-Tp=120
-Str=15
-Def=12
-Int=20
-Spd=10
+Hp=200
+Tp=200
+Str=50
+Def=40
+Int=60
+Spd=50
 Status=alive
 
 
@@ -33,7 +33,7 @@ BossQuote=We are the knights who say..... NI!
 RedOrbs=0
 BlackOrbs=1
 ShopLevel=1.0
-Drops=Potion.VitalStar.Tonic
+Drops=Potion.VitalStar.X-Potion.Senzu.DustyWing.Tonic.GoldOrb.FireDragonWine.Shihei.DiscountCard.UltraDiscountCard.BlueEyesCard.Stop_Watch.Hour_Glass.Holy_Water.Red_Fang.Thunder_Orb.Fire_Flower.Ice_Coin.Ectoplasm.BrokenLance.Herring.Potion.Herring.Paper
 
 [Monster]
 Type=
@@ -47,6 +47,8 @@ passhurt=0
 LastSeen=N/a
 LastIP=N/a
 Created=N/a
+Streak=150
+
 
 [Status]
 Poison=no
@@ -83,9 +85,10 @@ MPRegenerating=no
 
 [Weapons]
 Equipped=PowerOfWords
-PowerOFWords=30
+PowerOFWords=50
 
 [Skills]
+Resist-Curse=100
 Resist-Charm=100
 Resist-Poison=100
 Resist-Zombie=100
@@ -93,14 +96,15 @@ Resist-Intimidate=100
 Zen=5
 Impetus=20
 MightyStrike=1
+WeaponBash=1
 Resist-Amnesia=100
-MartialArts=30
+MartialArts=50
 
 
 [Techniques]
-Ni=20
-Herring=20
-Shrubbery=20
+Ni=75
+Herring=50
+Shrubbery=50
 
 
 [Item_Amount]
@@ -114,5 +118,5 @@ Strong=None
 
 [Styles]
 Equipped=Guardian
-Guardian=3
+Guardian=4
 GuardianXP=1

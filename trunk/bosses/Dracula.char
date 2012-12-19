@@ -1,6 +1,6 @@
 [BaseStats]
-Hp=130
-Tp=50
+Hp=150
+Tp=550
 Str=27
 Def=13
 Int=22
@@ -9,8 +9,8 @@ Name=Dracula
 
 
 [Battle]
-Hp=130
-Tp=50
+Hp=150
+Tp=550
 Str=27
 Def=15
 Int=22
@@ -57,6 +57,7 @@ passhurt=0
 LastSeen=N/a
 LastIP=N/a
 Created=N/a
+Streak=70
 
 [Status]
 Poison=no
@@ -93,25 +94,23 @@ MPRegenerating=no
 
 [Weapons]
 Equipped=Dark_Vampiric_Power
-Dark_Vampiric_Power=10
+Dark_Vampiric_Power=25
 Weakness=Whip
 
 
 
 [Skills]
-resist-stun=10
+resist-stun=50
+resist-curse=100
+resist-charm=100
 ManaWall=1
 RoyalGuard=1
 Sugitekai=1
 
 [Techniques]
-Dark_Inferno=10
-Demonic_Megiddo=20
-TrueForm=10
-
-
-[Item_Amount]
-pizza=1
+Dark_Inferno=20
+Demonic_Megiddo=40
+TrueForm=20
 
 
 [Element]

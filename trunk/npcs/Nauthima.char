@@ -1,20 +1,20 @@
 [BaseStats]
-Hp=1800
-Tp=250
-Str=30
-Def=40
-Int=60
-Spd=50
+Hp=2000
+Tp=300
+Str=40
+Def=45
+Int=120
+Spd=60
 Name=Nauthima Tiranadel
 
 
 [Battle]
-Hp=1800
-Tp=250
-Str=30
-Def=40
-Int=60
-Spd=50
+Hp=2000
+Tp=300
+Str=40
+Def=45
+Int=120
+Spd=60
 Status=alive
 
 
@@ -61,7 +61,7 @@ Created=N/a
 [Status]
 Poison=no
 HeavyPoison=no
-Regenerating=yes
+Regenerating=no
 Blind=no
 Frozen=no
 Shock=no
@@ -102,10 +102,9 @@ conservetp.on=off
 
 [Weapons]
 Equipped=Black_Goddess_Staff
-Black_Goddess_Staff=50
+Black_Goddess_Staff=80
 
 [Skills]
-Speed=20
 Utsusemi=1
 ManaWall=1
 RoyalGuard=1
@@ -113,9 +112,9 @@ royalguard.on=off
 manawall.on=on
 elementalseal.on=off
 ElementalSeal=1
-Wizardy=50
-Swordmaster=35
-MartialArts=25
+Wizardy=100
+Swordmaster=50
+MartialArts=40
 Resist-Paralysis=10
 Resist-Amnesia=100
 Resist-Charm=100
@@ -129,11 +128,11 @@ Zen=5
 ClearMind=3
 
 [Techniques]
-AeroV=50
-BlizzardV=50
-AerogaV=50
-FireV=50
-Composure=50
+AeroV=125
+BlizzardV=110
+AerogaV=90
+FireV=110
+Composure=300
 
 [Item_Amount]
 
@@ -148,5 +147,5 @@ Heal=Light
 
 [Styles]
 Equipped=SpellMaster
-SpellMaster=2
+SpellMaster=5
 SpellMasterXP=1

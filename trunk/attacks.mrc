@@ -24,20 +24,23 @@ ON 50:TEXT:*attacks *:*:{
 
 alias attack_cmd { $check_for_battle($1) | $person_in_battle($2) | $checkchar($2) | var %user.flag $readini($char($1), info, flag) | var %target.flag $readini($char($2), info, flag)
   if ($is_charmed($1) = true) { var %user.flag monster }
+  if (%mode.pvp = on) { var %user.flag monster }
 
   if (%ai.type != berserker) {
-    if (($2 = $1) && ($is_charmed($1) = false))  { query %battlechan $readini(translation.dat, errors, Can'tAttackYourself) | unset %real.name | halt  }
+    if (%mode.pvp != on) {
+      if (($2 = $1) && ($is_charmed($1) = false))  { query %battlechan $readini(translation.dat, errors, Can'tAttackYourself) | unset %real.name | halt  }
+    }
   }
 
   if ((%user.flag = $null) && (%target.flag != monster)) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, CanOnlyAttackMonsters) | halt }
   if ($readini($char($1), Battle, Status) = dead) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, CanNotAttackWhileUnconcious)  | unset %real.name | halt }
   if ($readini($char($2), Battle, Status) = dead) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, CanNotAttackSomeoneWhoIsDead) | unset %real.name | halt }
-  if ($readini($char($2), Battle, Status) = RunAway) { query %battlechan $readini(translation.dat, errors, CanNotAttackSomeoneWhoFled) | unset %real.name | halt } 
+  if ($readini($char($2), Battle, Status) = RunAway) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, CanNotAttackSomeoneWhoFled) | unset %real.name | halt } 
 
   ; Make sure the old attack damages have been cleared, and clear a few variables.
   unset %attack.damage | unset %attack.damage1 | unset %attack.damage2 | unset %attack.damage3 | unset %attack.damage4
   unset %double.attack | unset %triple.attack | unset %fourhit.attack | unset %fivehit.attack | unset %drainsamba.on | unset %absorb
-  unset %enemy | unset %user | unset %real.name
+  unset %enemy | unset %user | unset %real.name | unset %trickster.dodged
 
   ; Get the weapon equipped
   $weapon_equipped($1)
@@ -59,9 +62,6 @@ alias calculate_damage_weapon {
   ; $2 = weapon equipped
   ; $3 = target / %enemy 
 
-  var %status.type $readini(weapons.db, $2, StatusType)
-  if (%status.type != $null) { $inflict_status($1, $3, %status.type) }
-
   unset %absorb
   set %attack.damage 0
   var %random.attack.damage.increase $rand(1,10)
@@ -71,7 +71,10 @@ alias calculate_damage_weapon {
 
   if (%base.power = $null) { var %base.power 1 }
 
-  var %base.stat $readini($char($1), battle, str)
+  set %base.stat $readini($char($1), battle, str)
+  $strength_down_check($1)
+
+
   var %weapon.base $readini($char($1), weapons, $2)
   inc %weapon.base $round($calc(%weapon.base * 1.5),0)
 
@@ -81,6 +84,9 @@ alias calculate_damage_weapon {
   }
 
   inc %weapon.base %base.power
+
+  set %current.accessory $readini($char($3), equipment, accessory) 
+  set %current.accessory.type $readini(items.db, %current.accessory, accessorytype)
 
   ; If the target is weak to the element, double the attack power of the weapon. 
   ; If the target is strong to the element, cut the attack of the weapon by half.
@@ -94,7 +100,8 @@ alias calculate_damage_weapon {
       if (%def.of.monster < 1) { inc %def.of.monster 1 }
       writeini $char($3) battle def %def.of.monster
     }
-    if ($istok(%target.element.strong,%weapon.element,46) = $true) { %weapon.base = $round($calc(%weapon.base / 2), 0) 
+    if (($istok(%target.element.strong,%weapon.element,46) = $true) || (%current.accessory.type = ElementalDefense)) { 
+      %weapon.base = $round($calc(%weapon.base / 2), 0) 
       var %str.of.monster $readini($char($3), battle, str) | inc %str.of.monster 1 | writeini $char($3) battle str %str.of.monster
     }
   }
@@ -110,16 +117,24 @@ alias calculate_damage_weapon {
   ; Does the user have any mastery of the weapon?
   $mastery_check($1, $2)
 
-
   if ($readini(weapons.db, $2, type) = HandToHand) {
-    ;  Check for the black belt accessory
-    if ($readini($char($1), equipment, accessory) = black-belt) {
-      var %accessory.amount $readini(items.db, black-belt, amount)
+    ;  Check for a +h2h damage accessory
+
+    if ($readini(items.db, %current.accessory, accessorytype) = IncreaseH2HDamage) {
+      var %accessory.amount $readini(items.db, %current.accessory, amount)
       inc %attack.damage $round($calc(%attack.damage * %accessory.amount),0)
     }
   }
 
+  if ($readini(weapons.db, $2, type) = Spear) {
+    ;  Check for a +spear damage accessory
 
+    set %current.accessory $readini($char($1), equipment, accessory) 
+    if ($readini(items.db, %current.accessory, accessorytype) = IncreaseSpearDamage) {
+      var %accessory.amount $readini(items.db, %current.accessory, amount)
+      inc %attack.damage $round($calc(%attack.damage * %accessory.amount),0)
+    }
+  }
 
   ; Is the person using the WeaponMaster style?  If so, increase the mastery bonus.
 
@@ -137,6 +152,7 @@ alias calculate_damage_weapon {
   ; Let's add that to the base power and set it as the attack damage.
   inc %base.stat %weapon.base
   inc %attack.damage %base.stat
+  unset %base.stat
 
   set %current.playerstyle $readini($char($1), styles, equipped)
   set %current.playerstyle.level $readini($char($1), styles, %current.playerstyle)
@@ -169,19 +185,18 @@ alias calculate_damage_weapon {
     if ((%hp.percent > 0) && (%hp.percent <= 2)) { %attack.damage = $round($calc(%attack.damage * 2.5),0) }
   }
 
-  ; Check for the weapon bash skill
-  $weapon_bash_check($1, $3)
+
 
   ; Let's increase the attack by a random amount.
   inc %attack.damage %random.attack.damage.increase
   unset %current.playerstyle | unset %current.playerstyle.level
-
 
   ;  Check for the miser ring accessory
   if ($readini($char($1), equipment, accessory) = miser-ring) {
     var %accessory.amount $readini(items.db, miser-ring, amount)
     var %redorb.amount $readini($char($1), stuff, redorbs)
     var %miser-ring.increase $round($calc(%redorb.amount * %accessory.amount),0)
+
     if (%miser-ring.increase <= 0) { var %miser-ring.increase 1 }
     if (%miser-ring.increase > 500) { var %miser-ring.increase 500 }
     inc %attack.damage %miser-ring.increase
@@ -193,29 +208,59 @@ alias calculate_damage_weapon {
     inc %attack.damage $round($calc(%attack.damage * %accessory.amount)
   }
 
-  var %utsusemi.flag $readini($char($3), skills, utsusemi.on)
-  if ((%utsusemi.flag = off) || (%utsusemi.flag = $null)) {
-    ; does the target have RoyalGuard on?  If so, reduce the damage to 0.
-    if ($readini($char($3), skills, royalguard.on) = on) { writeini $char($3) skills royalguard.on off | set %attack.damage 0 | $set_chr_name($3) | set %guard.message $readini(translation.dat, skill, RoyalGuardBlocked) | return }
-  }
-  if (%utsusemi.flag = on) {
-    var %number.of.shadows $readini($char($3), skills, utsusemi.shadows)
-    dec %number.of.shadows 1 
-    writeini $char($3) skills utsusemi.shadows %number.of.shadows
-    if (%number.of.shadows <= 0) { writeini $char($3) skills utsusemi.on off }
-    $set_chr_name($3) | set %guard.message $readini(translation.dat, skill, UtsusemiBlocked) | set %attack.damage 0 | return 
+  unset %current.accessory.type
+
+  $weapon_parry_check($3, $1, $2)
+  $trickster_dodge_check($3, $1)
+
+  if (%guard.message = $null) {
+    var %utsusemi.flag $readini($char($3), skills, utsusemi.on)
+    if ((%utsusemi.flag = off) || (%utsusemi.flag = $null)) {
+      ; does the target have RoyalGuard on?  If so, reduce the damage to 0.
+      if ($readini($char($3), skills, royalguard.on) = on) { writeini $char($3) skills royalguard.on off | set %attack.damage 0 | $set_chr_name($3) | set %guard.message $readini(translation.dat, skill, RoyalGuardBlocked) | return }
+    }
+    if (%utsusemi.flag = on) {
+      var %number.of.shadows $readini($char($3), skills, utsusemi.shadows)
+      dec %number.of.shadows 1 
+      writeini $char($3) skills utsusemi.shadows %number.of.shadows
+      if (%number.of.shadows <= 0) { writeini $char($3) skills utsusemi.on off }
+      $set_chr_name($3) | set %guard.message $readini(translation.dat, skill, UtsusemiBlocked) | set %attack.damage 0 | return 
+    }
   }
 
+  if ($readini($char($3), status, ethereal) = yes) {
+    if (($readini(weapons.db, $2, HurtEthereal) = $null) || ($readini(weapons.db, $2, HurtEthereal) = false)) {
+      $set_chr_name($1) | set %guard.message $readini(translation.dat, status, EtherealBlocked) | set %attack.damage 0 | return
+    }
+  }
+
+  var %status.type $readini(weapons.db, $2, StatusType)
+  if (%status.type != $null) { $inflict_status($1, $3, %status.type) }
+
+
+  ; Check for the weapon bash skill
+  $weapon_bash_check($1, $3)
+
+  ; Elementals are strong to melee
+  if ($readini($char($3), monster, type) = elemental) { %attack.damage = $round($calc(%attack.damage - (%attack.damage * .20)),0) } 
+
   ; Now we're ready to calculate the enemy's defense..  
-  var %enemy.defense $readini($char($3), battle, def)
+  set %enemy.defense $readini($char($3), battle, def)
 
   $guardian_style_check($3)
 
+  $defense_down_check($3)
+
   ; And let's get the final attack damage..
-  dec %attack.damage %enemy.defense
+  dec %attack.damage %enemy.defense 
+
+  unset %enemy.defense
 
   ; In this bot we don't want the attack to ever be lower than 1 except for rare instances...  
   if (%attack.damage <= 0) { set %attack.damage 1 }
+
+
+
 
   ; Check for a critical hit.
   var %critical.hit.chance $rand(1,100)
@@ -245,10 +290,17 @@ alias calculate_damage_weapon {
     if (%current.flag = $null) {  set %attack.damage 0 }
   }
 
-  if ($readini($char($1), equipment, accessory) = Aztec-Gold) {
+  set %current.accessory $readini($char($1), equipment, accessory) 
+  set %current.accessory.type $readini(items.db, %current.accessory, accessorytype)
+
+  if (%current.accessory.type = CurseAddDrain) {
     set %absorb absorb
   }
 
+  unset %current.accessory | unset %current.accessory.type
+
+
+  $first_round_dmg_chk($1, $3)
 
   ; Is the weapon a multi-hit weapon?  
   set %weapon.howmany.hits $readini(weapons.db, $2, hits)
@@ -279,6 +331,7 @@ alias mastery_check {
   if (%type.of.weapon = glyph) { set %mastery.type Wizardry }
   if (%type.of.weapon = spear) { set %mastery.type Polemaster }
   if (%type.of.weapon = bow) { set %mastery.type Archery }
+
   set %mastery.bonus $readini($char($1), skills, %mastery.type) 
   if (%mastery.bonus = $null) { set %mastery.bonus 0 }
   unset %mastery.type
@@ -298,14 +351,14 @@ alias desperate_blows_check {
 alias weapon_bash_check {
   if ($readini($char($1), skills, WeaponBash) > 0) {
 
-    var %resist.have resist-stun
-    set %resist.skill $readini($char($2), skills, %resist.have)
+    set %resist.skill $readini($char($2), skills, resist-stun)
     $ribbon.accessory.check($2)
-    if (%resist.have = 100) { return }
+    if (%resist.skill = 100) { return }
     unset %resist.skill
 
     if ($readini($char($2), skills, royalguard.on) = on) { return }
     if ($readini($char($2), skills, utsusemi.on) = on) { return }
+    if (%trickster.dodged = on) { return }
 
     var %stun.chance $rand(1,100)
     var %weapon.bash.chance $calc($readini($char($1), skills, weaponbash) * 10)
@@ -364,11 +417,11 @@ alias fourhit.attack.check {
   if (%attack.damage2 <= 0) { set %attack.damage2 1 }
   var %attack.damage.total $calc(%attack.damage1 + %attack.damage2)
 
-  set %attack.damage3 $abs($round($calc(%attack.damage.total / 2.2),0))
+  set %attack.damage3 $abs($round($calc(%attack.damage.total / 3.2),0))
   if (%attack.damage3 <= 0) { set %attack.damage3 1 }
   var %attack.damage.total $calc(%attack.damage3 + %attack.damage.total)
 
-  set %attack.damage4 $abs($round($calc(%attack.damage.total / 3.5),0))
+  set %attack.damage4 $abs($round($calc(%attack.damage.total / 3.9),0))
   if (%attack.damage4 <= 0) { set %attack.damage4 1 }
   var %attack.damage.total $calc(%attack.damage4 + %attack.damage.total)
 
@@ -384,15 +437,15 @@ alias fivehit.attack.check {
   if (%attack.damage2 <= 0) { set %attack.damage2 1 }
   var %attack.damage.total $calc(%attack.damage1 + %attack.damage2)
 
-  set %attack.damage3 $abs($round($calc(%attack.damage.total / 2.2),0))
+  set %attack.damage3 $abs($round($calc(%attack.damage.total / 3.2),0))
   if (%attack.damage3 <= 0) { set %attack.damage3 1 }
   var %attack.damage.total $calc(%attack.damage3 + %attack.damage.total)
 
-  set %attack.damage4 $abs($round($calc(%attack.damage.total / 3.5),0))
+  set %attack.damage4 $abs($round($calc(%attack.damage.total / 4.1),0))
   if (%attack.damage4 <= 0) { set %attack.damage4 1 }
   var %attack.damage.total $calc(%attack.damage4 + %attack.damage.total)
 
-  set %attack.damage5 $abs($round($calc(%attack.damage.total / 5),0))
+  set %attack.damage5 $abs($round($calc(%attack.damage.total / 4.9),0))
   if (%attack.damage5 <= 0) { set %attack.damage5 1 }
   var %attack.damage.total $calc(%attack.damage5 + %attack.damage.total)
   set %attack.damage %attack.damage.total | $set_chr_name($1) | query %battlechan $readini(translation.dat, battle, PerformsA5HitAttack)

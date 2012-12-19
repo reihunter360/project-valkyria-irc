@@ -83,6 +83,7 @@ slow=no
 sleep=no
 stun=no
 MPRegenerating=no
+ethereal=yes
 
 [Weapons]
 Equipped=GhostPower

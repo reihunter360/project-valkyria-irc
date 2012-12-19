@@ -6,11 +6,12 @@ on 2:TEXT:!use*:*: {  unset %real.name | unset %enemy
   if ((no-item isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan $readini(translation.dat, battle, NotAllowedBattleCondition)   | halt }
 
   var %item.type $readini(items.db, $2, type)
-  if (%item.type != summon) {
+  if ((%item.type != summon) && (%item.type != key)) {
     if (($3 != on) || ($3 = $null)) { .msg $nick $readini(translation.dat, errors, ItemUseCommandError) | halt }
     if ($4 = me) { .msg $nick $readini(translation.dat, errors, MustSpecifyName) | halt }
     if ($readini($char($4), battle, status) = dead) { query %battlechan $readini(translation.dat, errors, CannotUseItemOnDead) | halt }
-    $checkchar($4)
+    $checkchar($4) 
+    if (%battleis = on) { $person_in_battle($4) }
   }
 
   set %check.item $readini($char($nick), Item_Amount, $2) 
@@ -25,7 +26,7 @@ on 2:TEXT:!use*:*: {  unset %real.name | unset %enemy
     if (%battleis = on)  { $check_for_double_turn($1) | halt }
     halt
   }
-
+  if (%item.type = key) { $item.key($nick, $4, $2) |  $decrease_item($nick, $2)  | halt }
   if (%item.type = consume) { query %battlechan $readini(translation.dat, errors, ItemIsUsedInSkill) | halt }
   if (%item.type = accessory) { query %battlechan $readini(translation.dat, errors, ItemIsAccessoryEquipItInstead)  | halt }
 
@@ -40,12 +41,15 @@ on 2:TEXT:!use*:*: {  unset %real.name | unset %enemy
   $check_for_battle($nick) 
   if (%battleis = off) { query %battlechan $readini(translation.dat, errors, NoBattleCurrently) | halt }
 
+  if (%mode.pvp = on) { var %target.flag monster | var %user.flag monster }
+
   if (%item.type = damage) {
     if (%target.flag != monster) { query %battlechan $readini(translation.dat, errors, ItemCanOnlyBeUsedOnMonsters) | halt }
     $item.damage($nick, $4, $2)
   }
 
   if (%item.type = heal) {
+    $checkchar($4)
     if ((%target.flag = monster) && ($readini($char($4), monster, type) != zombie)) { query %battlechan $readini(translation.dat, errors, ItemCanOnlyBeUsedOnPlayers) | halt }
     $item.heal($nick, $4, $2)
   }
@@ -53,6 +57,9 @@ on 2:TEXT:!use*:*: {  unset %real.name | unset %enemy
     if ((%target.flag = monster) && ($readini($char($4), monster, type) != zombie)) { query %battlechan $readini(translation.dat, errors, ItemCanOnlyBeUsedOnPlayers)  | halt }
     $set_chr_name($4) | var %enemy %real.name
     $item.curestatus($nick, $4, $2)
+    $decrease_item($nick, $2)
+    ; Time to go to the next turn
+    if (%battleis = on)  { $check_for_double_turn($nick) | halt }
   }
 
   if (%item.type = tp) { 
@@ -93,6 +100,7 @@ on 2:TEXT:!use*:*: {  unset %real.name | unset %enemy
 
 alias decrease_item {
   ; Subtract the item and tell the new total
+  set %check.item $readini($char($1), item_amount, $2)
   dec %check.item 1 
   writeini $char($1) item_amount $2 %check.item
   unset %check.item
@@ -122,10 +130,57 @@ alias item.summon {
   ; Set the user's TP to 0.
   writeini $char($1) Battle TP 0
 
-  var %bloodpact.level $readini($char($1), skills, BloodPact)
+  set %bloodpact.level $readini($char($1), skills, BloodPact)
   if (%bloodpact.level > 1) { $boost_summon_stats($1, %bloodpact.level)  }
+  unset %bloodpact.level
 
   unset %summon.name
+}
+
+alias item.key {
+  ; $1 = user
+  ; $2 = target
+  ; $3 = item used
+
+  var %chest.color $readini(treasurechest.txt, ChestInfo, Color)
+  if (%chest.color = $null) { query %battlechan $readini(translation.dat, errors, NoChestExists) | halt }
+  if ($readini(items.db, $3, Unlocks) != %chest.color) { query %battlechan $readini(translation.dat, errors, WrongChestKey) | halt }
+
+  set %chest.item $readini(treasurechest.txt, ChestInfo, Contents)
+  set %chest.amount $readini(treasurechest.txt, ChestInfo, Amount)
+
+  if (%chest.item = blackorb) { 
+    set %chest.item Black Orb
+    var %current.orbs $readini($char($1), stuff, BlackOrbs)
+    inc %current.orbs %chest.amount
+    writeini $char($1) stuff BlackOrbs %current.orbs
+  }
+  if (%chest.item = RedOrbs) {
+    set %chest.item $readini(system.dat, system, currency)
+    var %current.orbs $readini($char($1), stuff, RedOrbs)
+    inc %current.orbs %chest.amount
+    writeini $char($1) stuff RedOrbs %current.orbs
+  }
+  if ((%chest.item != BlackOrb) && (%chest.item != RedOrbs)) {
+    set %current.items $readini($char($1), item_amount, %chest.item)
+    if (%current.items = $null) { set %current.items 0 }
+    inc %current.items %chest.amount
+    writeini $char($1) item_amount %chest.item %current.items
+  }
+
+  $set_chr_name($1)
+  query %battlechan $readini(translation.dat, system, ChestOpened)
+  /.timerChestDestroy off
+  .remove treasurechest.txt 
+
+  var %number.of.chests $readini($char($1), stuff, ChestsOpened)
+  if (%number.of.chests = $null) { var %number.of.chests 0 }
+  inc %number.of.chests 1
+  writeini $char($1) stuff ChestsOpened %number.of.chests
+  $achievement_check($1, MasterOfUnlocking)
+
+  unset %chest.item | unset %current.items | unset %chest.amount
+  return
 }
 
 alias item.damage {
@@ -176,6 +231,7 @@ alias display_Statusdamage_item {
     $achievement_check($2, SirDiesALot)
     query %battlechan $readini(translation.dat, battle, EnemyDefeated)
     $goldorb_check($2) 
+    $spawn_after_death($2)
     if ($readini($char($1), info, flag) != monster) {
       if (%battle.type = monster) {  $add.stylepoints($1, $2, mon_death, $3) | $add.style.orbbonus($1, monster) }
       if (%battle.type = boss) { $add.stylepoints($1, $2, boss_death, $3) | $add.style.orbbonus($1, boss) }
@@ -244,13 +300,13 @@ alias item.curestatus {
 
   writeini $char($2) Status poison no | writeini $char($2) Status HeavyPoison no | writeini $char($2) Status blind no
   writeini $char($2) Status Heavy-Poison no | writeini $char($2) status poison-heavy no | writeini $char($2) Status curse no 
-  writeini $char($2) Status weight no | writeini $char($2) status virus no | writeini $char($2) status poison.timer
+  writeini $char($2) Status weight no | writeini $char($2) status virus no | writeini $char($2) status poison.timer 0
   writeini $char($2) Status drunk no | writeini $char($2) Status amnesia no | writeini $char($2) status paralysis no | writeini $char($2) status amnesia.timer 1 | writeini $char($2) status paralysis.timer 1 | writeini $char($2) status drunk.timer 1
   writeini $char($2) status zombie no | writeini $char($2) Status slow no | writeini $char($2) Status sleep no | writeini $char($2) Status stun no
   writeini $char($2) status boosted no  | writeini $char($2) status curse.timer 1 | writeini $char($2) status slow.timer 1 | writeini $char($2) status zombie.timer 1
-  writeini $char($2) status zombieregenerating no
+  writeini $char($2) status zombieregenerating no | writeini $char($2) status silence no | writeini $char($2) status petrified no
 
-  $set_chr_name($3) | query %battlechan $readini(translation.dat, status, MostStatusesCleared)
+  $set_chr_name($2) | query %battlechan $readini(translation.dat, status, MostStatusesCleared)
   return
 }
 
@@ -292,14 +348,20 @@ alias calculate_damage_items {
   inc %attack.damage $rand(1,10)
 
   ; Now we're ready to calculate the enemy's defense..  
-  var %enemy.defense $readini($char($3), battle, def)
+  set %enemy.defense $readini($char($3), battle, def)
 
   ; Because it's an item, the enemy's int will play a small part too.
   var %int.bonus $round($calc($readini($char($3), battle, int) / 2),0)
   inc  %enemy.defense %int.bonus
 
+  $guardian_style_check($3)
+
+  $defense_down_check($3)
+
   ; And let's get the final attack damage..
   dec %attack.damage %enemy.defense
+
+  unset %enemy.defense
 
   ; In this bot we don't want the attack to ever be lower than 1 except for shadows
   if (%attack.damage <= 0) { set %attack.damage 1 }
@@ -311,6 +373,11 @@ alias calculate_damage_items {
     if (%number.of.shadows <= 0) { writeini $char($3) skills utsusemi.on off }
     $set_chr_name($3) | set %guard.message $readini(translation.dat, skill, UtsusemiBlocked) | set %attack.damage 0 | return 
   }
+
+  if ($readini($char($3), status, ethereal) = yes) {
+    $set_chr_name($1) | set %guard.message $readini(translation.dat, status, EtherealBlocked) | set %attack.damage 0 | return
+  }
+
 }
 
 alias calculate_heal_items {
@@ -349,25 +416,25 @@ alias item.shopreset {
   ; $3 = item
 
   var %shop.reset.amount $readini(items.db, $3, amount)
-  var %player.shop.level $readini($char($2), stuff, shoplevel)
+  set %player.shop.level $readini($char($2), stuff, shoplevel)
 
   if (%shop.reset.amount != $null) {
     dec %player.shop.level %shop.reset.amount
-    if (%player.shop.level <= 0) { writeini $char($2) stuff shoplevel 1.0 }
-    if (%player.shop.level > 0) { writeini $char($2) stuff shoplevel %player.shop.level }
+    if (%player.shop.level <= 1) { writeini $char($2) stuff shoplevel 1.0 }
+    if (%player.shop.level > 1) { writeini $char($2) stuff shoplevel %player.shop.level }
   }
 
   if (%user = %enemy ) { set %enemy $gender2($1) $+ self }
   $set_chr_name($1) | query %battlechan 3 $+ %real.name $+  $readini(items.db, $3, desc)
   query $2 $readini(translation.dat, system,ShopLevelLowered)
 
-  var %discounts.used $readini($char($1), stuff, DiscountsUsed)
+  var %discounts.used $readini($char($2), stuff, DiscountsUsed)
   inc %discounts.used 1 
-  writeini $char($1) stuff DiscountsUsed %discounts.used
+  writeini $char($2) stuff DiscountsUsed %discounts.used
 
   $achievement_check($1, Cheapskate)
 
-  unset %enemy
+  unset %player.shop.level |  unset %enemy
   return
 }
 

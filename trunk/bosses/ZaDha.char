@@ -53,6 +53,7 @@ passhurt=0
 LastSeen=N/a
 LastIP=N/a
 Created=N/a
+Streak=30
 
 [Status]
 Poison=no
@@ -97,6 +98,7 @@ ElementalSeal=5
 manawall.on=on
 elementalseal.on=on
 Manawall=1
+wizardry=10
 
 [Techniques]
 Holy=10

@@ -193,7 +193,53 @@ Battle Arena Bot VERSIONS
   level that you have in the skill, up to 100% of your def.  Afterwards it will reduce your def down to 5.
 - Added the active skill Defender.  This skill will increase your defense by a percent of your strength based on the 
   level that you have in the skill, up to 100% of your str.  Afterwards it will reduce your str down to 5.
+- Added the active skill HolyAura. This skill will extend the amount of time you have to fight before darkness occurs 
+  by (skill level) minute(s).
 - Added the passive skill Archery. This skill will increase damage done with a bow.
+- Added the passive skill Alchemy. This skills is needed to craft items.
+- Added the monster-only skill: cocoon evolve. If manually set in the monster's file, the monster can use this skill to
+  enter a protective state for a few turns and re-emerge as a stronger monster.
+- Added a way to force monsters and bosses to not show up til certain winning streaks. In [info] bot owners can put a
+  Streak=#  where the # is the minimum winning streak that the monster/boss will show up. Ex: Streak=50
+- Added a way to force monsters and bosses to stop appearing after a certain # of wins. In [info] bot owners can put a
+  StreakMax=# where # is the last winning streak # the monster will appear.
+- Added a random chance for "surprise attacks".  Like other RPGs, it just means monsters will attack first.
+- Added basic PvP combat. A person with bot owner access must initiate the PVP battle (it won't happen randomly).
+  There are no rewards for PVP.  The command is: !start bat PVP
+- Added the ability for monsters to flee from the battle at random IF the CanFlee=true flag is set in [info]
+  There's a 60% chance that the monster will successfully flee.
+- Added a one hour timer for orb battles. After one hour the battle will end.
+- Added the "gem" item type. Their only use is to sell.
+- Added the "Special=gemconvert" flag for weapons. If this is set in the weapon then enemies killed with the weapon will turn into
+  gems and given to the person who killed them. Right now the only weapon that has this flag is the JewelSword.
+- Added treasure chests. There's a random chance at the end of battles after the 25th winning streak for a chest to appear.
+  Chests can only be unlocked with the correct colored key. Chests will disappear after 45 seconds. 
+- Added a way to save and restore winning streaks. Think of it sort of like a quick save in RPGs. The commands are:
+  !save battle streak to save the streak, !reload battle streak  to reload, and !view battle save  to see what's saved.
+  Note: You can't save a streak that's lower than your previous save, you can't reload during a positive winning streak, and 
+  once you load the current save you have will be reset.
+- Added keys. Keys are dropped by monsters randomly after the 15th win on the winning streak. The person who gets the key is
+  random, but the person has to be alive at the end of battle to be considered. To use the key just use !use KeyName on Chest
+- Added a !logout command. Using it will remove your access level and de-voice you.
+- Added the Mugger's-Belt accessory. When a character wears this accessory and uses the !steal skill, it will inflict damage
+  in addition to trying to steal from the target.
+- Added a 5 minute warning to darkness/rage.  This also means all rage timers just got extended by 5 minutes, giving players 
+  more time.
+- Added a give command so that players can trade items/accessories. The command is /me gives # <item> to <person>
+  Example: /me gives 1 senzu to Iyouboushi
+  You can only trade items, not orbs.
+- Added the start of a crafting system. You can use !view-info alchemy list  to get a list of items you can craft. Then you can
+  use !view-info alchemy (item) to get the list of ingredients and gems needed to actually craft the item. To actually craft an
+  item use !craft (item)
+- Added a new special boss fight: Monster Warmachine.  In this type the bot will generate a warmachine based on the current 
+  battle streak.
+- Added the ability to sell techniques. !shop sell tech <technique> <# of levels you want to sell>
+- Added a "Defense Down" status effect.  While under this effect, a target's def against attacks will be divided by 4.
+- Added an "Ethereal" status effect. While under this effect, normal melee and non-magic techniques will not harm the target.
+  Right now it can only be set manually on monsters.
+- Added a new event in which techniques are locked, forcing players to use either items or melee.  It has a 5% chance of occuring.
+- Added new monsters
+- Added new bosses
 - Changed the way the utsusemi/royalguard/manawall blocked messages are displayed. They're shown after the attack desc now, not
   before it. This actually saves a line being pushed to the channel.
 - Changed the way status types are inflicted upon a target. Much cleaner code and now any type of tech or weapon can inflict a 
@@ -202,6 +248,11 @@ Battle Arena Bot VERSIONS
 - Changed the way the red orb rewards are listed so that it now shows what each person gets based on his/her skills/accessories
   rather than simply showing just the base amount that everyone gets.
 - Changed the formula for how monsters get boosted when generated. 
+- Changed the way !bat list lists information slightly.  It also adds colors to the list of people in battle.
+- Changed the !items command so that items are now in different colors based on what type they are.
+- Changed the cap on styles to level 10. After level 10 they will stop gaining xp.
+- Changed the end-of-battle message so that it shows how many times in a row the heroes have won/lost.
+- Changed Bloodpact to make the summons stronger based on the stats of the summoner and increased the max of the skill to 20.
 - Fixed a bug in which AOE Heals were subtracting the target's def from the amount when it shouldn't have.
 - Fixed the ability for a charmed player to use a FinalGetsuga type boost, thus resetting the player at the end of battle against
   his/her will.
@@ -209,3 +260,88 @@ Battle Arena Bot VERSIONS
 - Fixed a minor bug in which the "<person> peforms a 4-hit" and "performs a 5-hit" attack message wasn't showing.
 - Fixed a bug in which weaponbash was ignoring a target's stun resistance.
 - Fixed a bug with the bot not resuming battles if it gets disconnected in the middle of one.
+- Fixed a bug in which the cover skill was blocking heal and AOE heal type techs.
+- Fixed a bug with !regen
+- Fixed a bug in which NPCs using clones would cause the battle to continue on after all monsters were killed.
+- Fixed a bug in which BloodPact wasn't affecting the summons like it should.
+- Fixed a bug in which if defender type AI monsters were to go first in battle they would cause a few errors.
+- Fixed a bug in which "random" status effects weren't actually being applied.
+- Fixed a potential exploit in which players could log into their clones and control them.
+- Fixed a potential exploit in which players could log into their evil doppelganger bosses and control them.
+- Fixed it so the bot will reset a person's access level to 1 if they change nicks.
+- Fixed it so you can't even attempt to log into an npc or monster's file
+- Fixed a bug in which certain weapon abilities could be used with the wrong weapon.
+- Fixed a bug with Kikouheni in which it wasn't displaying the weather change in the channel.
+- Fixed a bug in which discount cards could occasionally set a player's shop level to less than 1.
+- Fixed a bug in which the "STOP" status effect wasn't being cleared on players at the end of battle.
+- Fixed the virus status effect so that it will actually do something now.
+- Fixed a serious bug in which techs could be spammed multiple times on a person's turn.
+- Fixed a bug with poison. It should be working properly now.
+
+1.5 
+- Added a check so that people can only create a certain # of characters max. This only works if the bot can look up 
+  IP addresses and people have logged into their characters with this feature on (so that it stores the IPs).  
+  The max # of chars allowed is in system.dat and can be changed to the bot owner's liking.
+- Added the ability for monsters and clones to change their weapons in the middle of battle before attacking.
+  Neither can change to glyphs if they aren't already equipped when the clone/doppelganger is created. Note that regular
+  monsters and bosses have a higher rate of changing their weapons vs both types of doppelgangers.
+- Added the active skill Provoke -- Will cause a monster you use it on to attack you its next round instead of another target.
+- Added the active skill Disarm -- Will attempt to disarm a target back to their base fists. 
+- Added the active skill "WeaponLock" -- Will consume Sokubaku to lock a target's weapon in place for a # of turns.
+- Added the resistance skill "Resist-Petrify"  -- right now it only goes to 20.  Like other resists, 
+  it decreases the chance that petrify will work on you.
+- Added a HurtEthereal=true/false flag to weapons. When set to true, that weapon can hurt ethereal monsters. Right now
+  only the Vampire_Killer whip is set to true.
+- Added a "Strength Down" status effect.  While under this effect, a target's str will be divided by 4 on attacks.
+- Added the "Weapon Locked" status effect. While under this effect, a target cannot change weapons.
+- Added the "Petrify" status effect. When petrified, a target will lose a turn.
+- Added the ability for the bot owner to set how long the idle timer is in system.dat.  Look for TimeForIdle=
+  The time needs to be set in seconds, not minutes. 180 seconds (3 min) is the default
+- Added a warning to the "Final Getsuga" type boosts in the !view-info section for them to better let players know the after
+  effects of using one.
+- Added an effect to Trickster in which there's a chance that the user can dodge an attack. The odds are level of trickster %.
+  The max is 10% (level 10 Trickster).
+- Added the command !battle hp -- This command can only be used in battle and will display the HP status of all allies. 
+- Added the !scoreboard command. This command can only be used when there's 3 or more players in the game. It will rank the
+  top 3 players based on a number of factors (including stats, orbs, chests opened, etc).
+- Added the !score command. This command will show players their individual scores.
+- Added a new flag in system.dat that bot owners can toggle manually.  It's called ShowOrbsCmdInChannel=true/false   
+  If true, the !orbs command will display the person's orb total in channel.  If set false, it will send it to the person 
+  in a private message. 
+- Added a bonus effect to using a weapon that a user has a mastery maxed in: Parrying. If a player's mastery for the 
+  weapon equipped is 100 or greater, there's a small chance that the person will parry a melee attack using that weapon.
+  Using the style Weapon Master will help the odds of parrying an attack, but a person still needs 100 mastery first.
+- Added a notification to the player style leveling up so players know when their style levels.
+- Added the ability for multiple waves of monsters. The higher the winning streak, the bigger the chance that there will be
+  more than one wave of monsters to arrive. Battles with multiple waves will have a higher max orb reward limit.
+- Added the ability for monsters to spawn other monsters/bosses upon death. In [Info] add SpawnAfterDeath=nameofmonster
+- Added a gauntlet mode. Bot admins can use !start bat gauntlet to begin the gauntlet. The gauntlet ends when the players
+  are defeated.
+- Added the ability for players to increase the difficulty of battles if they want. Players can use !view difficulty to see their
+  current difficulty level and !save difficulty #  to set it. The # can be 0 or any number greater than 0. 
+- Changed the !shop list skills command so that you can tell it which type of skill you want to see only. They are:
+  !shop list skills active/passive/resists
+- Changed doppelgangers around so that they can't use the Final Getsuga type boosts.
+- Changed the Doppelganger style so that it now has various uses against clones and evil doppelgangers.
+- Changed it so monster's weapon levels will be increased if the file setting is lower than the streak.
+- Changed the formula for magic damage slightly.
+- Changed the formula for 4-hit and 5-hit weapons slightly.
+- Changed the code to try and reduce the odds of monsters one-shotting players on turn #1. 
+- Changed !stats so that you can now use it on other players to see what their stats are.  It cannot be used on NPCs 
+  or Monsters (you need the skill Analysis for that).  Just use it as !stats for your own and !stats person to look
+  up the other person.
+- Changed it so bosses will no longer appear below streak #10.
+- Changed /me gives so that you don't HAVE to specify a number if you only want to give 1 of an item.
+- Changed a few things in the way monsters are boosted if they're added before players join the battle.
+- Fixed a bug with ClearStatus type items (i.e. the Tonic).
+- Fixed a major security flaw.
+- Fixed a bug in which DARK type spells weren't being enhanced by GLOOMY type weather.
+- Fixed a bug in which the WIZARDRY passive skill wasn't working right due to a mispelling. There's a temporary fix in the bot
+  that will be removed in 1.6. Have one battle end before characters buy any more into the wizardry skill to fix it.
+- Fixed a bug with the Aztec-GoldCoin accessory and gave its absorb effect a bit of a boost.
+- Fixed a bug in which it was possible to cover a non-existent character, thus causing errors that would freeze the bot.
+- Fixed a bug with AOEs being used on players in PVP in which it would hit the user and miss some other players.
+- Fixed the skill list so hopefully lines won't be cut off/not display everything.
+- Fixed a bug in which players could purchase more HP and TP than would be allowed by the maximum set limit.
+- Fixed a bug in which players could purchase invalid techniques if they didn't spell them right.
+- Fixed a bug in which sometimes all of an item would be consumed when used.

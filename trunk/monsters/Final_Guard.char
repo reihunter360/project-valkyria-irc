@@ -1,18 +1,18 @@
 [BaseStats]
-Hp=4
+Hp=5
 Tp=20
 Str=12
-Def=1300
+Def=5300
 Int=13
 Spd=5
 Name=Final Guard
 
 
 [Battle]
-Hp=4
+Hp=5
 Tp=20
 Str=12
-Def=1300
+Def=5300
 Int=13
 Spd=5
 Status=alive
@@ -41,6 +41,7 @@ LastIP=N/a
 Created=N/a
 OrbBonus=yes
 BattleStats=ignoreHP
+Streak=80
 
 [Status]
 Poison=no
@@ -88,10 +89,13 @@ shield_smash=3
 shockwave=5
 
 
-[Item_Amount]
-pizza=1
-
 
 [Element]
 Weakness=
 Strong=
+
+
+[Styles]
+Equipped=Guardian
+Guardian=10
+GuardianXP=0

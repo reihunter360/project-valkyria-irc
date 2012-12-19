@@ -71,7 +71,7 @@ alias add.style.orbbonus {
   if ($2 = boss) { %multiplier = 1.7 }
 
   var %orb.bonus.flag $readini($char($3), info, OrbBonus)
-  if (%orb.bonus.flag = yes) { inc %multiplier $rand(4,6) }
+  if (%orb.bonus.flag = yes) { inc %multiplier $rand(10,15) }
 
   set %current.orb.bonus $readini(battle2.txt, BattleInfo, OrbBonus)
   if (%current.orb.bonus = $null) { set %current.orb.bonus 0 }
@@ -99,6 +99,8 @@ alias add.playerstyle.xp {
   set %current.playerstyle.level $readini($char($1), styles, %current.playerstyle)
   set %current.playerstyle.xptolevel $calc(500 * %current.playerstyle.level)
 
+  if (%current.playerstyle.level >= 10) { return }
+
   if ($2 = $null) { var %style.xp.to.add 1 } 
   if ($2 != $null) { var %style.xp.to.add $2 }
 
@@ -108,6 +110,7 @@ alias add.playerstyle.xp {
   if (%current.playerstyle.xp >= %current.playerstyle.xptolevel) {
     inc %current.playerstyle.level 1 | writeini $char($1) styles %current.playerstyle %current.playerstyle.level
     writeini $char($1) styles %current.playerstyle $+ XP 0
+    $set_chr_name($1) | query %battlechan $readini(translation.dat, system, PlayerStyleLevelUp)
   }
   unset %current.playerstyle |  unset %current.playerstyle.*
   return

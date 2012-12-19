@@ -7,7 +7,11 @@ on 1:EXIT: {  .auser 1 $nick | .flush 1 }
 on 1:PART:%battlechan:.auser 1 $nick | .flush 1
 on 1:KICK:%battlechan:.auser 1 $knick | .flush 1 
 on 1:JOIN:%battlechan:{  .auser 1 $nick | .flush 1 }
-
+on 2:NICK: { .auser 1 $nick | mode %battlechan -v $newnick | .flush 1 }
+on *:DNS: { 
+  if ($isfile($char($nick)) = $true) { writeini $char($nick) info lastIP $iaddress  }
+  set %ip.address. [ $+ [ $nick ] ] $iaddress
+}
 
 on 50:TEXT:!quit*:*:{ /quit $battle.version }
 
@@ -49,27 +53,7 @@ on 1:START: {
       echo 12*** OK.  Your password has been set to4 %botpass  -- Don't forget to register the bot with nickserv.
     }
 
-    if (%player_folder = $null) { set %player_folder characters\ }
-    if (%boss_folder = $null) { set %boss_folder bosses\ }
-    if (%monster_folder = $null) { set %monster_folder monsters\ }
-    if (%zapped_folder = $null) { set %zapped_folder zapped\ }
-    if (%npc_folder = $null) { set %npc_folder npcs\ }
-    if (%summon_folder = $null) { set %summon_folder summons\ }
-    if (%help_folder = $null) { set %help_folder help-files\ }
-    if (%battleis = $null) { set %battleis off }
-    if (%battleisopen = $null) { set %battleisopen off }
-
-    if ($readini(system.dat, system, automatedbattlesystem) = $null) { writeini system.dat system automatedbattlesystem on } 
-    if ($readini(system.dat, system, aisystem) = $null) { writeini system.dat system aisystem on } 
-    if ($readini(system.dat, system, basexp) = $null) { writeini system.dat system basexp 100 } 
-    if ($readini(system.dat, system, basebossxp) = $null) { writeini system.dat system basebossxp 500 } 
-    if ($readini(system.dat, system, startingorbs) = $null) { writeini system.dat system startingorbs 1000 } 
-    if ($readini(system.dat, system, maxHP) = $null) { writeini system.dat system maxHP 2500 } 
-    if ($readini(system.dat, system, maxTP) = $null) { writeini system.dat system maxTP 500 } 
-    if ($readini(system.dat, system, maxOrbReward) = $null) { writeini system.dat system maxOrbReward 20000 } 
-    if ($readini(system.dat, system, maxshoplevel) = $null) { writeini system.dat system maxshoplevel 25 } 
-    if ($readini(battlestats.dat, battle, LevelAdjust) = $null) { writeini battlestats.dat battle LevelAdjust 0 }
-    if ($readini(system.dat, system, EnableDoppelganger) = $null) { writeini system.dat system EnableDoppelganger true }
+    $system_defaults_check
   }
 
   if ((%first.run = true) || (%first.run = $null)) { 
@@ -97,27 +81,8 @@ on 1:START: {
     set %first.run false
     .auser 50 %bot.owner
 
-    if (%player_folder = $null) { set %player_folder characters\ }
-    if (%boss_folder = $null) { set %boss_folder bosses\ }
-    if (%monster_folder = $null) { set %monster_folder monsters\ }
-    if (%zapped_folder = $null) { set %zapped_folder zapped\ }
-    if (%npc_folder = $null) { set %npc_folder npcs\ }
-    if (%summon_folder = $null) { set %summon_folder summons\ }
-    if (%help_folder = $null) { set %help_folder help-files\ }
-    if (%battleis = $null) { set %battleis off }
-    if (%battleisopen = $null) { set %battleisopen off }
+    $system_defaults_check
 
-    if ($readini(system.dat, system, automatedbattlesystem) = $null) { writeini system.dat system automatedbattlesystem on } 
-    if ($readini(system.dat, system, aisystem) = $null) { writeini system.dat system aisystem on } 
-    if ($readini(system.dat, system, basexp) = $null) { writeini system.dat system basexp 100 } 
-    if ($readini(system.dat, system, basebossxp) = $null) { writeini system.dat system basebossxp 500 } 
-    if ($readini(system.dat, system, startingorbs) = $null) { writeini system.dat system startingorbs 1000 } 
-    if ($readini(system.dat, system, maxHP) = $null) { writeini system.dat system maxHP 2500 } 
-    if ($readini(system.dat, system, maxTP) = $null) { writeini system.dat system maxTP 500 } 
-    if ($readini(system.dat, system, maxOrbReward) = $null) { writeini system.dat system maxOrbReward 20000 } 
-    if ($readini(system.dat, system, maxshoplevel) = $null) { writeini system.dat system maxshoplevel 25 } 
-    if ($readini(battlestats.dat, battle, LevelAdjust) = $null) { writeini battlestats.dat battle LevelAdjust 0 }
-    if ($readini(system.dat, system, EnableDoppelganger) = $null) { writeini system.dat system EnableDoppelganger true }
   }
 }
 

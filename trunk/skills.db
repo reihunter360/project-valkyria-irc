@@ -1,13 +1,12 @@
 [Skills]
-PassiveSkills=Swordmaster.Gunslinger.Wizardy.MartialArts.Polemaster.Archery.ClearMind.DesperateBlows.OrbHunter.FieldMedic.Impetus.BloodPact.Zen.Haggling.WeaponBash.Vogue
-ActiveSkills=Speed.ElementalSeal.MightyStrike.ManaWall.RoyalGuard.Fullbring.Sugitekai.Meditate.ConserveTP.BloodBoost.DrainSamba.Regen.Kikouheni.ShadowCopy.Utsusemi.Steal.Analysis.Cover.Aggressor.Defender
-Resists=resist-paralysis.resist-blind.resist-poison.resist-amnesia.resist-curse.resist-zombie.resist-slow.resist-stun.resist-stop.resist-charm
+PassiveSkills=Swordmaster.Gunslinger.Wizardry.MartialArts.Polemaster.Archery.ClearMind.DesperateBlows.OrbHunter.FieldMedic.Impetus.BloodPact.Zen.Haggling.WeaponBash.Vogue.Alchemy
+ActiveSkills=Speed.ElementalSeal.MightyStrike.ManaWall.RoyalGuard.Fullbring.Sugitekai.Meditate.ConserveTP.BloodBoost.DrainSamba.Regen.Kikouheni.ShadowCopy.Utsusemi.Steal.Analysis.Cover.Aggressor.Defender.HolyAura.Provoke.Disarm.WeaponLock
+Resists=resist-paralysis.resist-blind.resist-poison.resist-amnesia.resist-curse.resist-zombie.resist-slow.resist-stun.resist-stop.resist-charm.resist-petrify
 
 
 =============================================
 PASSIVE SKILLS
 =============================================
-
 
 [Swordmaster]
 Cost=200
@@ -27,7 +26,7 @@ Max=500
 Type=Passive
 Info=This skill increases damage done with a gun.  Increased levels increases the damage.
 
-[Wizardy]
+[Wizardry]
 Cost=200
 Max=500
 Type=Passive
@@ -56,7 +55,7 @@ Amount=20
 Cost=450
 Type=Passive
 Info=This skill will increase magical damage.  Increased levels of this skill will increase the damage.
-Max=5
+Max=3
 
 [DesperateBlows]
 Cost=1000
@@ -68,7 +67,7 @@ Max=1
 Cost=300
 Type=Passive
 Info=This skill will increase the amount of health items will heal by 5*skill level.
-Max=500
+Max=30
 
 [Impetus]
 Cost=150
@@ -77,10 +76,10 @@ Info=This skill will increase your chances of performing a critical hit by 1% ea
 Max=40
 
 [BloodPact]
-Cost=200
+Cost=1900
 Type=Passive
 Info=This skill will allow you to activate summoning items and summon pets/summons to the field to fight for you. Increased levels of the skill will enhance the summon.
-Max=1000
+Max=50
 
 [Zen]
 Cost=500
@@ -101,12 +100,17 @@ Info=This skill will increase the amount of style XP you get at the end of battl
 Max=5
 
 [WeaponBash]
-Cost=1500
+Cost=2500
 Type=passive
 Info=This skill will add a chance of inflicting the stun status after each melee hit. Note, if the target is immune to stun it will never take effect.  The chance is (skill level * 10)%.
 Max=2
 ; For this skill, the max=# is (# * 10)%.  So if you set it to 10, then it's 100% active if someone gets it to level 10.  
 
+[Alchemy]
+Cost=400
+Type=passive
+Info=This skill will allow you to use gems to create items. Each level of this skill will raise the success rate of creating an item by 1%.  Use !view-info alchemy list  to get a list of items you can craft and !view-info alchemy (item)  to view the ingredients necessary.
+Max=40
 
 =============================================
 ACTIVE SKILLS
@@ -162,7 +166,7 @@ Cooldown=960
 [Meditate]
 Cost=400
 Type=Active
-Max=20
+Max=10
 Info=This skill will give you (level * 5) TP back to you instantly.
 Cooldown=60
 
@@ -178,7 +182,7 @@ Cost=500
 Type=Active
 Max=100
 Info=This skill will consume 100 HP to give you a (level * 2) boost to your STR.
-Cooldown=15
+Cooldown=30
 
 [DrainSamba]
 Cost=750
@@ -190,7 +194,7 @@ Cooldown=30
 [Regen]
 Cost=700
 Type=Active
-Max=500
+Max=200
 Info=This skill will give you the HP regeneration effect.  Every turn you will regenerate (skill level * 2) HP back.  The effect will wear off when you reach your maximum HP or if you die.
 Cooldown=60
 
@@ -212,7 +216,7 @@ Cost=500
 Type=Active
 Info=This skill will create 2 shadows that will absorb all types of attacks.  Increased levels decreases the amount of time inbetween uses.
 Max=10
-Cooldown=1200
+Cooldown=1100
 
 [Steal]
 Cost=250
@@ -232,7 +236,7 @@ Cost=600
 Type=Active
 Info=This skill allows you to jump in front of an attack and cover an ally of your choosing.
 Max=1
-Cooldown=20
+Cooldown=60
 
 [Aggressor]
 Cost=500
@@ -245,6 +249,34 @@ Cost=500
 Type=Active
 Info=When used, this skill will take (skill level * 10%) of your strength and add it to your defense but will leave your strength at 5.
 Max=10
+
+[HolyAura]
+Cost=1000
+Type=Active
+Info=This skill will extend the amount of time you have to fight before Darkness sets onto the battlefield by (skill level) minute(s).
+Max=5
+Cooldown=1260
+
+[Provoke]
+Cost=600
+Type=Active
+Info=This skill allows you to provoke an enemy into attacking you instead of another target.
+Max=1
+Cooldown=120
+
+[Disarm]
+Cost=500
+Type=Active
+Info=This skill will let you try to disarm a target.  Each level increases the percentage of success by 1%.
+Max=30
+Cooldown=200
+
+[WeaponLock]
+Cost=1000
+Type=Active
+Info=This skill will consume the item "Sokubaku" and lock a target's weapon for a number of turns.
+Max=1
+CoolDown=60
 
 =============================================
 RESISTS
@@ -315,3 +347,9 @@ Cost=150
 Max=70
 Type=Resistance
 Info=This skill lowers the chance that you will become frozen in time in battle by 1% each level.
+
+[Resist-Petrify]
+Cost=200
+Max=20
+Type=Resistance
+Info=This skill lowers the chance that you will be come petrified in battle by 1% each level

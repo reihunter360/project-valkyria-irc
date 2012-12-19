@@ -1,18 +1,18 @@
 [BaseStats]
-Hp=45
+Hp=55
 Tp=30
 Str=12
 Def=5
-Int=5
+Int=9
 Spd=7
 Name=Snow Wight
 
 [Battle]
-Hp=45
+Hp=55
 Tp=30
 Str=10
 Def=5
-Int=5
+Int=9
 Spd=7
 Status=alive
 
@@ -46,6 +46,7 @@ passhurt=0
 LastSeen=N/a
 LastIP=N/a
 Created=N/a
+Streak=30
 
 [Monster]
 Type=undead
@@ -96,14 +97,14 @@ ClearMind=2
 
 
 [Techniques]
-BloodSaber=20
-BloodSlash=20
-HorrorCloud=12
-Poison=10
-Firaja=10
-Waterja=10
-Aeroja=10
-Blizzaja=20
+BloodSaber=40
+BloodSlash=40
+HorrorCloud=22
+Poison=20
+Firaja=20
+Waterja=20
+Aeroja=20
+Blizzaja=30
 
 
 [Item_Amount]

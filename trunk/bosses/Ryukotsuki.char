@@ -49,6 +49,7 @@ LastIP=N/a
 Created=N/a
 CanStagger=yes
 StaggerAmount=$rand(190,205)
+Streak=20
 
 
 [Status]

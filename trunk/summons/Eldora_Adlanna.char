@@ -1,20 +1,20 @@
 [BaseStats]
 Hp=400
 Tp=100
-Str=45
-Def=34
-Int=20
-Spd=50
+Str=75
+Def=54
+Int=40
+Spd=70
 Name=Eldora Adlanna
 
 
 [Battle]
 Hp=400
 Tp=100
-Str=45
-Def=34
-Int=20
-Spd=50
+Str=75
+Def=54
+Int=40
+Spd=70
 Status=alive
 
 

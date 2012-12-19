@@ -86,7 +86,7 @@ DecapiclopsPower=10
 Resist-Charm=100
 Resist-Zombie=100
 Resist-Poison=100
-Wizardry=10
+wizardry=10
 Resist-Intimidate=100
 
 [Styles]

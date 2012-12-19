@@ -95,13 +95,11 @@ Zen=5
 [Techniques]
 500Needles=25
 DoublePunch=20
-AsuranFists=20
 ShoulderTackle=12
-OneInchPunch=20
 SpinningAtatck=20
+
+
 [Item_Amount]
-
-
 
 [Element]
 Weakness=Ice

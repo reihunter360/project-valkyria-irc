@@ -101,10 +101,6 @@ DalekLaser=15
 DalekExterminate=15
 
 
-[Item_Amount]
-pizza=1
-
-
 [Element]
 Weakness=lightning
 Strong=light.dark.fire.ice.water.wind
