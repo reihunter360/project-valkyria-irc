@@ -1,6 +1,6 @@
 ITEMS.DB
 DiscountCard=150000
-UltimateDiscountCard=400000
+FFUltimateDiscountCard=400000
 
 SKILLS.MRC
     if (%steal.chance >= 85) {
@@ -49,7 +49,8 @@ TRexWeapon=Roar.Swallow.SpikeFlail.VolcanicRush.SurvivalInstinct
 PhoenixmonWeapon=StarlightExplosion.CureV.CrimsonFlame.MeteorPhoenix.DoubleHurricane.BusterPhoenix
 BlackRockShooter=RockCannon.RockDeltaVulcan.BlackStarSlash.BlackStarGrenade.BlackStarPower.RockCannonSpear.CureV
 DiendDriver=DiendHenshin.DiendGekijouban.DiendBlast.DiendDimensionShoot.CureII
-MegasaurusWeapon=SurvivalInstinct.Earthquake.UltimateSwallow.SpikeFlail.Slurp.Dinostomp.VolcanicRush
+MegasaurusWeapon=SurvivalInstinct.Earthquake.FFUltimateSwallow.SpikeFlail.Slurp.Dinostomp.VolcanicRush
+OmegaMultipurposeCannon=WaveCannon.LightPillar.MeggidoFlame.FFUltima.Gravija.TerraBreak.Meteor.LV5_Death
 
 [Repairs]
 Type=heal
@@ -280,11 +281,11 @@ basepower=100
 magic=no
 
 
-[UltimateSwallow]
+[FFUltimateSwallow]
 type=AOE
 tp=100
 cost=99999
-Desc= grabs all the enemies on the battlefield and chews on them for a while, then spits them back out! [Ultimate Swallow]
+Desc= grabs all the enemies on the battlefield and chews on them for a while, then spits them back out! [FFUltimate Swallow]
 absorb=yes
 basepower=50
 magic=no
@@ -330,13 +331,13 @@ cost=2000
 desc= takes aim on %enemy $+ and fires a very bright laser on them. [Light Pillar!]
 magic=yes
 
-[Ultima]
+[FFUltima]
 type=AOE
 element=none
 magic=yes
 tp=60
 basepower=150
-desc=holds up $gender($1) $+'s weapon to collect magical energy, then finally releases them in a black and white flame towards all enemies. [Ultima!]
+desc=holds up $gender($1) $+'s weapon to collect magical energy, then finally releases them in a black and white flame towards all enemies. [FFUltima!]
 cost=9000
 
 [Gravija]
@@ -386,14 +387,14 @@ Desc=scoffs at everyone again as a silver aura appears around $gender($1) $+self
 
 WEAPONS.DB
 Guns=Ebony&Ivory.Quicksilver.Magnum.Hexagun.DiEndDriver
-FFOmegaWeapon.Valkyrie_Sword.TRexWeapon.PhoenixmonWeapon.BlackRockShooter.MegasaurusWeapon
+FFOmegaWeapon.Valkyrie_Sword.TRexWeapon.PhoenixmonWeapon.BlackRockShooter.MegasaurusWeapon.OmegaMultipurposeCannon
 ^ MonsterWpns
 
 ; Omega Weapon
 [FFOmegaWeapon]
 Cost=99999
 Type=Rifle
-Info=The Ultimate Fantasy Weapon
+Info=The FFUltimate Fantasy Weapon
 Abilities=Repairs.SpaceBeam
 element=none
 hits=$rand(1,4)
@@ -454,7 +455,7 @@ Upgrade=350
 Cost=9999999
 Type=HandtoHand
 Info=A Megasaurus' Weapon
-abilities=SurvivalInstinct.Earthquake.UltimateSwallow.SpikeFlail.Slurp.Dinostomp.VolcanicRush
+abilities=SurvivalInstinct.Earthquake.FFUltimateSwallow.SpikeFlail.Slurp.Dinostomp.VolcanicRush
 basepower=70
 hits=$rand(1,2)
 upgrade=500000
@@ -463,9 +464,49 @@ upgrade=500000
 cost=9999999
 Type=Rifle
 Info=A Omega Weapon MK12 Weapon
-abilities=WaveCannon.LightPillar.MeggidoFlame.Ultima.Gravija.TerraBreak.Meteor.LV5_Death
+abilities=WaveCannon.LightPillar.MeggidoFlame.FFUltima.Gravija.TerraBreak.Meteor.LV5_Death
 basepower
 hits=$rand(2,4)
 upgrade=500000
 
 Cost and Upgrade to 99999 and 500000
+
+SYSTEM.DAT
+[botinfo]
+bot.owner=rei_hunter.CraN.Icarus_Wings
+questchan=#wolfbane
+botname=Valkyria
+botpass=dekaron
+
+[System]
+automatedbattlesystem=on
+aisystem=on
+basexp=3000
+basebossxp=20000
+startingorbs=3000
+currency=Red Orbs
+TimeBetweenBattles=3
+TimeForIdle=180
+TimeToEnter=120
+maxHP=999999
+maxTP=999999
+MaxOrbReward=999999
+Maxshoplevel=25
+EnableDoppelganger=false
+EnableWarMachine=true
+EnableChests=true
+MaxCharacters=2
+ShowOrbsCmdInChannel=false
+
+
+[StatPrices]
+hp=150
+tp=150
+str=250
+def=250
+int=250
+spd=175
+
+[Style]
+BossDeath=800
+MonDeath=200

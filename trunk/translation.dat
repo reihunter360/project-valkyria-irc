@@ -110,6 +110,8 @@ PlayerStyleLevelUp=$chr(3) $+ 3 $+  $+ %real.name $+ 's %current.playerstyle s
 AnotherWaveArrives=$chr(3) $+ 4 $+ Another wave of monsters has arrived to the battlefield!
 ViewDifficulty=$chr(3) $+ 3 $+  $+ %real.name has a difficulty of %saved.difficulty set currently.
 SaveDifficulty=$chr(3) $+ 3 $+  $+ %real.name sets $gender($nick) difficulty to $3 $+ .
+ViewLevelAdjust=$chr(3) $+ 3 $+ The overall battle level adjust is set to %leveladjust $+ .
+SaveLevelAdjust=$chr(3) $+ 3 $+ The overall battle level adjust has been set to $2 $+ .
 
 =======================
 Health Titles
