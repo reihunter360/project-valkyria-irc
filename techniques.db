@@ -244,6 +244,7 @@ PhoenixmonWeapon=StarlightExplosion.CureV.CrimsonFlame.MeteorPhoenix.DoubleHurri
 BlackRockShooter=RockCannon.RockDeltaVulcan.BlackStarSlash.BlackStarGrenade.BlackStarPower.RockCannonSpear.CureV
 DiendDriver=DiendHenshin.DiendGekijouban.DiendBlast.DiendDimensionShoot.CureII
 MegasaurusWeapon=SurvivalInstinct.Earthquake.UltimateSwallow.SpikeFlail.Slurp.Dinostomp.VolcanicRush
+OmegaMultipurposeCannon=WaveCannon.LightPillar.MeggidoFlame.FFUltima.Gravija.TerraBreak.Meteor.LV5_Death
 
 
 =======================
@@ -7186,7 +7187,7 @@ Absorb=Yes
 
 [VolcanicRush]
 Type=AOE
-StatusType=Burning.Shaking
+StatusType=Burning
 TP=50
 Desc=flails around and stomps on the ground, causing small tremors and finally rushes into the enemy, a giant volcano erupting and hitting everything in range.
 basepower=20
@@ -7408,7 +7409,7 @@ cost=2000
 desc= takes aim on %enemy $+ and fires a very bright laser on them. [Light Pillar!]
 magic=yes
 
-[Ultima]
+[FFUltima]
 type=AOE
 element=none
 magic=yes

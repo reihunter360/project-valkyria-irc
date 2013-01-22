@@ -1522,3 +1522,25 @@ alias paralysis_check {
 alias boosted_check { 
   if ($readini($char($1), Status, boosted) = yes) { $status_message_check(power boosted) }
 }
+
+; Bot admins can adjust the "level adjust"
+on 50:TEXT:!leveladjust*:*:{  
+  if ($2 = $null) { $view.leveladjust }
+  if ($2 != $null) {  
+
+    if ($2 !isnum) { query %battlechan $readini(translation.dat, errors, DifficultyMustBeNumber) | halt }
+    if (. isin $2) { query %battlechan $readini(translation.dat, errors, DifficultyMustBeNumber) | halt }
+    if ($2 < 0) { query %battlechan $readini(translation.dat, errors, DifficultyCan'tBeNegative) | halt }
+
+    writeini battlestats.dat battle leveladjust $2
+    query %battlechan $readini(translation.dat, system, SaveLevelAdjust)
+  }
+}
+
+on 2:TEXT:!leveladjust*:*:{ $view.leveladjust }
+
+alias view.leveladjust {
+  var %leveladjust $readini(battlestats.dat, battle, LevelAdjust)
+  if (%leveladjust = $null) { var %leveladjust 0 }
+  query %battlechan $readini(translation.dat, system, ViewLevelAdjust)
+}

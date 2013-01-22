@@ -975,7 +975,6 @@ alias calculate_damage_magic {
 
   unset %magic.bonus.modifier
 
-  $first_round_dmg_chk($1, $3)
 }
 
 
