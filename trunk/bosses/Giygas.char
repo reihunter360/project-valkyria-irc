@@ -47,7 +47,7 @@ passhurt=0
 LastSeen=N/a
 LastIP=N/a
 Created=N/a
-Streak=100
+Streak=120
 
 [Status]
 Poison=no
@@ -84,19 +84,19 @@ MPRegenerating=no
 
 [Weapons]
 Equipped=GiygasPower
-GiygasPower=70
+GiygasPower=100
 
 [Skills]
 Resist-Charm=100
 Resist-Zombie=100
 Resist-Stun=10
-MartialArts=50
+MartialArts=85
 Resist-Paralysis=10
 
 [Techniques]
-CannotGrasp=70
-HurtsPlayer=70
-PKRockin=70
+CannotGrasp=80
+HurtsPlayer=80
+PKRockin=80
 
 
 [Item_Amount]
@@ -105,3 +105,8 @@ PKRockin=70
 [Element]
 Weakness=None
 Strong=Dark
+
+[Styles]
+Equipped=SpellMaster
+SpellMaster=6
+SpellMasterXP=1

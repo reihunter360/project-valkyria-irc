@@ -22,3 +22,6 @@ Helped give me a ton of ideas for the bot (including, but not limited to, moving
 
 Trunks on Esper.net
 Since he was translating the bot into German, it sparked the idea of the translation.dat file to try and make the bot a little more friendly for translation.
+
+Roy of Esper.net
+He helped test a few things, found a few bugs and suggested the scoreboard.

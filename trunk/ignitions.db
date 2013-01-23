@@ -1,0 +1,14 @@
+[Ignitions]
+List=Overdrive
+
+
+[Overdrive]
+Str=1.2
+def=1
+int=1
+spd=1.5
+Augment=MeleeBonus
+Effect=FireBurst
+IgnitionTrigger=5
+IgnitionConsume=1
+Cost=10

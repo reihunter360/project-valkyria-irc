@@ -121,8 +121,9 @@ alias calculate_damage_weapon {
     ;  Check for a +h2h damage accessory
 
     if ($readini(items.db, %current.accessory, accessorytype) = IncreaseH2HDamage) {
-      var %accessory.amount $readini(items.db, %current.accessory, amount)
+      set %accessory.amount $readini(items.db, %current.accessory, amount)
       inc %attack.damage $round($calc(%attack.damage * %accessory.amount),0)
+      unset %accessory.amount
     }
   }
 
@@ -131,8 +132,9 @@ alias calculate_damage_weapon {
 
     set %current.accessory $readini($char($1), equipment, accessory) 
     if ($readini(items.db, %current.accessory, accessorytype) = IncreaseSpearDamage) {
-      var %accessory.amount $readini(items.db, %current.accessory, amount)
+      set %accessory.amount $readini(items.db, %current.accessory, amount)
       inc %attack.damage $round($calc(%attack.damage * %accessory.amount),0)
+      unset %accessory.amount
     }
   }
 
@@ -185,8 +187,6 @@ alias calculate_damage_weapon {
     if ((%hp.percent > 0) && (%hp.percent <= 2)) { %attack.damage = $round($calc(%attack.damage * 2.5),0) }
   }
 
-
-
   ; Let's increase the attack by a random amount.
   inc %attack.damage %random.attack.damage.increase
   unset %current.playerstyle | unset %current.playerstyle.level
@@ -205,7 +205,12 @@ alias calculate_damage_weapon {
   ;  Check for the fool's tablet accessory
   if ($readini($char($1), equipment, accessory) = Fool's-Tablet) {
     var %accessory.amount $readini(items.db, fool's-tablet, amount)
-    inc %attack.damage $round($calc(%attack.damage * %accessory.amount)
+    inc %attack.damage $round($calc(%attack.damage * %accessory.amount),0)
+  }
+
+  if ($augment.check($1, MeleeBonus) = true) { 
+    var %augment.power.increase.amount $round($calc(.25 * %attack.damage),0)
+    inc %attack.damage %augment.power.increase.amount
   }
 
   unset %current.accessory.type
@@ -229,7 +234,7 @@ alias calculate_damage_weapon {
   }
 
   if ($readini($char($3), status, ethereal) = yes) {
-    if (($readini(weapons.db, $2, HurtEthereal) = $null) || ($readini(weapons.db, $2, HurtEthereal) = false)) {
+    if (($readini(weapons.db, $2, HurtEthereal) != true) && ($augment.check($1, HurtEthereal) = false)) {
       $set_chr_name($1) | set %guard.message $readini(translation.dat, status, EtherealBlocked) | set %attack.damage 0 | return
     }
   }
@@ -237,6 +242,8 @@ alias calculate_damage_weapon {
   var %status.type $readini(weapons.db, $2, StatusType)
   if (%status.type != $null) { $inflict_status($1, $3, %status.type) }
 
+
+  $metal_defense_check($3, $1)
 
   ; Check for the weapon bash skill
   $weapon_bash_check($1, $3)
@@ -297,6 +304,10 @@ alias calculate_damage_weapon {
     set %absorb absorb
   }
 
+  if ($augment.check($1, Drain) = true) { 
+    set %absorb absorb
+  }
+
   unset %current.accessory | unset %current.accessory.type
 
 
@@ -304,14 +315,17 @@ alias calculate_damage_weapon {
 
   ; Is the weapon a multi-hit weapon?  
   set %weapon.howmany.hits $readini(weapons.db, $2, hits)
+
+  if ($augment.check($1, AdditionalHit) = true) { inc %weapon.howmany.hits 1 }
+
   if (%weapon.howmany.hits = $null) || (%weapon.howmany.hits <= 0) { set %weapon.howmany.hits 1 | $double.attack.check($1, $3, $rand(1,100)) }
   if (%weapon.howmany.hits = 1) {  $double.attack.check($1, $3, $rand(1,100)) }
   if (%weapon.howmany.hits = 2) {  $double.attack.check($1, $3, 100) }
   if (%weapon.howmany.hits = 3) { $triple.attack.check($1, $3, 100) }
   if (%weapon.howmany.hits = 4) { set %weapon.howmany.hits 4 | $fourhit.attack.check($1, $3, 100) }
-  if (%weapon.howmany.hits >= 5) { set %weapon.howmany.hits 5 | $fivehit.attack.check($1, $3, 100) }
+  if (%weapon.howmany.hits = 5) { set %weapon.howmany.hits 5 | $fivehit.attack.check($1, $3, 100) }
+  if (%weapon.howmany.hits >= 6) { set %weapon.howmany.hits 6 | $sixhit.attack.check($1, $3, 100) }
 }
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Skill and Mastery checks
@@ -449,6 +463,34 @@ alias fivehit.attack.check {
   if (%attack.damage5 <= 0) { set %attack.damage5 1 }
   var %attack.damage.total $calc(%attack.damage5 + %attack.damage.total)
   set %attack.damage %attack.damage.total | $set_chr_name($1) | query %battlechan $readini(translation.dat, battle, PerformsA5HitAttack)
+}
+
+alias sixhit.attack.check {
+  unset %attack.damage1 | unset %attack.damage2 | unset %attack.damage3 | unset %attack.damage4 | unset %attack.damage5 | unset %attack.damage6 | unset %attack.damage.total
+  set %sixhit.attack true
+
+  set %attack.damage1 %attack.damage
+  set %attack.damage2 $abs($round($calc(%attack.damage / 2.1),0))
+  if (%attack.damage2 <= 0) { set %attack.damage2 1 }
+  var %attack.damage.total $calc(%attack.damage1 + %attack.damage2)
+
+  set %attack.damage3 $abs($round($calc(%attack.damage.total / 3.2),0))
+  if (%attack.damage3 <= 0) { set %attack.damage3 1 }
+  var %attack.damage.total $calc(%attack.damage3 + %attack.damage.total)
+
+  set %attack.damage4 $abs($round($calc(%attack.damage.total / 4.1),0))
+  if (%attack.damage4 <= 0) { set %attack.damage4 1 }
+  var %attack.damage.total $calc(%attack.damage4 + %attack.damage.total)
+
+  set %attack.damage5 $abs($round($calc(%attack.damage.total / 4.9),0))
+  if (%attack.damage5 <= 0) { set %attack.damage5 1 }
+  var %attack.damage.total $calc(%attack.damage5 + %attack.damage.total)
+
+  set %attack.damage6 $abs($round($calc(%attack.damage.total / 6.9),0))
+  if (%attack.damage6 <= 0) { set %attack.damage6 1 }
+  var %attack.damage.total $calc(%attack.damage6 + %attack.damage.total)
+
+  set %attack.damage %attack.damage.total | $set_chr_name($1) | query %battlechan $readini(translation.dat, battle, PerformsA6HitAttack)
 }
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

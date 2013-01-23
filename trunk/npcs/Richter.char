@@ -99,7 +99,7 @@ VampireKiller=80
 [Skills]
 Zen=5
 ClearMind=3
-Wizardy=60
+Wizardry=60
 MartialArts=80
 Resist-Charm=100
 Resist-Amnesia=100
@@ -111,7 +111,7 @@ WeaponBash=1
 
 
 [Techniques]
-ThousandKnives=100
+Thousand_Knives=100
 HydroStorm=75
 Dagger=50
 HolyWater=50

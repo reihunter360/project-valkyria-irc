@@ -100,4 +100,5 @@ Water=10
 
 [Element]
 Weakness=ice.lightning
-Strong=water
+Strong=none
+Heal=water

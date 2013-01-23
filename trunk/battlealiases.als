@@ -16,6 +16,8 @@ boost_summon_stats {
   set %increase.amount $calc(.505 * $2) 
   inc %increase.amount $calc($rand(1,5) / 100)
 
+  if ($augment.check($1, EnhanceSummons) = true) { inc %increase.amount 1 } 
+
   inc %hp $round($calc(%hp * %increase.amount),0) 
   inc %tp $round($calc(%tp * %increase.amount),0) 
   inc %str $round($calc(%str * %increase.amount),0) 
@@ -87,9 +89,10 @@ boost_monster_stats {
 
   if ($2 = rage) { set %increase.amount 1000 }
   if ($2 = doppelganger) {
-    if (%winning.streak < 100) {  set %increase.amount $calc(%monster.level * .01275) }
-    if ((%winning.streak >= 100) && (%winning.streak < 200)) {  set %increase.amount $calc(%monster.level * .03075) }
-    if (%winning.streak >= 200) {  set %increase.amount $calc(%monster.level * .02075) }
+    if (%winning.streak < 100) {  set %increase.amount $calc(%monster.level * .012275) }
+    if ((%winning.streak >= 100) && (%winning.streak < 200)) {  set %increase.amount $calc(%monster.level * .006075) }
+    if ((%winning.streak >= 200) && (%winning.streak < 300)) {  set %increase.amount $calc(%monster.level * .007075) }
+    if (%winning.streak >= 300) {  set %increase.amount $calc(%monster.level * .0005075) }
     if ($readini($char($1), styles, equipped) = Doppelganger) { dec %increase.amount 1.505 }
   }
   if ($2 = warmachine) {  set %increase.amount $calc(%monster.level * .0575)  }
@@ -112,7 +115,10 @@ boost_monster_stats {
   if (%increase.amount <= 0) { set %increase.amount .01 }
 
   if ($readini($char($1), info, BattleStats) = hp) { %hp = $round($calc(%hp * %increase.amount),0) | writeini $char($1) BaseStats HP %hp  | return }
-  if ($readini($char($1), info, BattleStats) != ignorehp) { %hp = $round($calc(%hp * %increase.amount),0) }
+  if ($readini($char($1), info, BattleStats) != ignorehp) { 
+    %hp = $round($calc(%hp * %increase.amount),0) 
+    if (%hp > 50000) { %hp = 50000 }
+  }
 
   %tp = $round($calc(%tp * %increase.amount),0) 
   %str = $round($calc(%str * %increase.amount),0) 
@@ -164,8 +170,8 @@ loses_nerf {
 }
 
 person_in_battle {
-  if (($1 !isin $readini(battle2.txt, Battle, List)) && (%battleis = on)) { query %battlechan $set_chr_name($1) $readini(translation.dat, errors, NotInbattle) | unset %real.name | halt }
-  if (($1 !isin $readini(rbattle.txt, Battle, List)) && (%rt = on)) { query %battlechan $set_chr_name($1) $readini(translation.dat, errors, NotInbattle) | unset %real.name | halt }
+  set %temp.battle.list $readini(battle2.txt, Battle, List)
+  if ($istok(%temp.battle.list,$1,46) = $false) {  unset %temp.battle.list | query %battlechan $set_chr_name($1) $readini(translation.dat, errors, NotInbattle) | unset %real.name | halt }
   else { return }
 }
 
@@ -205,7 +211,11 @@ deal_damage {
   ; $3 = action that was done (tech name, item, etc)
   ; $4 = absorb or none
 
-  if ($readini($char($2), Status, cocoon) = yes) { set %attack.damage 1 }
+  if ($readini($char($2), Status, cocoon) = yes) { 
+
+    set %attack.damage 0 
+    $set_chr_name($2) | set %guard.message $readini(translation.dat, skill, CocoonBlock)
+  }
 
 
   var %life.target $readini($char($2), Battle, HP)
@@ -213,7 +223,7 @@ deal_damage {
   writeini $char($2) battle hp %life.target
 
   ; Add some style points to the user
-  $add.stylepoints($1, $2, %attack.damage, $3)
+  if ($3 != renkei) { $add.stylepoints($1, $2, %attack.damage, $3) }
 
   ; If it's an Absorb HP type, we need to add the hp to the person.
   if ($4 = absorb) { 
@@ -248,6 +258,8 @@ deal_damage {
     }
   }
 
+  if (%guard.message = $null) { $renkei.calculate($1, $2, $3) }
+
 }
 
 inc_monster_kills {
@@ -263,7 +275,7 @@ check.clone.death {
     if ($readini($char($1 $+ _clone), battle, status) != dead) { writeini $char($1 $+ _clone) battle status dead | writeini $char($1 $+ _clone) battle hp 0 | $set_chr_name($1 $+ _clone) | /.timerCloneDeath $+ $1 1 1 /query %battlechan 4 $+ %real.name disappears back into $set_chr_name($1) %real.name $+ 's shadow. }
   }
   if ($isfile($char($1 $+ _summon)) = $true) { 
-    if ($readini($char($1 $+ _summon), battle, status) != dead) { writeini $char($1 $+ _summon) battle status dead | writeini $char($1 $+ _summon) battle hp 0 | $set_chr_name($1 $+ _clone) | /.timerSummonDeath $+ $1 1 1 /query %battlechan 4 $+ %real.name fades away. }
+    if ($readini($char($1 $+ _summon), battle, status) != dead) { writeini $char($1 $+ _summon) battle status dead | writeini $char($1 $+ _summon) battle hp 0 | $set_chr_name($1 $+ _summon) | /.timerSummonDeath $+ $1 1 1 /query %battlechan 4 $+ %real.name fades away. }
   }
 }
 
@@ -300,6 +312,14 @@ display_damage {
 
   if ($3 = tech) {
     if (%showed.tech.desc != true) { query %battlechan 3 $+ %user $+  $readini(techniques.db, $4, desc) }
+
+    if ($readini(techniques.db, $4, magic) = yes) {
+      ; Clear elemental seal
+      if ($readini($char($1), skills, elementalseal.on) = on) { 
+        writeini $char($1) skills elementalseal.on off 
+      }
+    }
+
   }
 
   if ($3 = item) {
@@ -310,10 +330,15 @@ display_damage {
     query %battlechan 3 $+ %user $+  $readini(items.db, $4, fullbringdesc)
   } 
 
-  ; Show the damage
-  if ($3 != item) { $calculate.stylepoints($1) }
+  if ($3 = renkei) {
+    query %battlechan $readini(translation.dat, system, RenkeiPerformed)  3 $+ %renkei.description
+    unset %style.rating
+  }
 
-  if ((((%double.attack = $null) && (%triple.attack = $null) && (%fourhit.attack = $null) && (%fivehit.attack = $null)))) { 
+  ; Show the damage
+  if (($3 != item) && ($3 != renkei)) { $calculate.stylepoints($1) }
+
+  if (((((%double.attack = $null) && (%triple.attack = $null) && (%fourhit.attack = $null) && (%fivehit.attack = $null) && (%sixhit.attack = $null))))) { 
 
     if ($3 != aoeheal) {
       if (%guard.message = $null) { query %battlechan The attack did4 $bytes(%attack.damage,b) damage %style.rating }
@@ -349,6 +374,12 @@ display_damage {
     if (%guard.message = $null) { query %battlechan 1The first attack did4 $bytes(%attack.damage1,b) damage.  The second attack did4 $bytes(%attack.damage2,b) damage.  The third attack did4 $bytes(%attack.damage3,b) damage. The fourth attack did4 $bytes(%attack.damage4,b) damage. The fifth attack did4 $bytes(%attack.damage5,b) damage. Total physical damage:4 $bytes(%attack.damage,b)  $+ %style.rating }
     if (%guard.message != $null) { query %battlechan %guard.message | unset %guard.message }
     unset %attack.damage1 | unset %attack.damage2 | unset %attack.damage3 | unset %attack.damage5 | unset %fourhit.attack | unset %fivehit.attack
+  }
+
+  if (%sixhit.attack = true) { 
+    if (%guard.message = $null) { query %battlechan 1The first attack did4 $bytes(%attack.damage1,b) damage.  The second attack did4 $bytes(%attack.damage2,b) damage.  The third attack did4 $bytes(%attack.damage3,b) damage. The fourth attack did4 $bytes(%attack.damage4,b) damage. The fifth attack did4 $bytes(%attack.damage5,b) damage. The sixth attack did4 $bytes(%attack.damage6,b) damage.  Total physical damage:4 $bytes(%attack.damage,b)  $+ %style.rating }
+    if (%guard.message != $null) { query %battlechan %guard.message | unset %guard.message }
+    unset %attack.damage1 | unset %attack.damage2 | unset %attack.damage3 | unset %attack.damage5 | unset %attack.damage6 | unset %fourhit.attack | unset %fivehit.attack | unset %sixhit.attack
   }
 
   if (%statusmessage.display != $null) { 
@@ -387,20 +418,25 @@ display_damage {
     query %battlechan 4 $+ %enemy has been defeated by %user $+ !  %overkill
     $goldorb_check($2) 
     $spawn_after_death($2)
+    remini $char($2) Renkei
   }
 
 
   if ($readini($char($2), battle, HP) > 0) {
+
     ; Check to see if the monster can be staggered..  
     var %stagger.check $readini($char($2), info, CanStagger)
-    if ((%stagger.check = $null) || (%stagger.check = no)) { return }
+    if (($stagger.check != $null) && (%stagger.check != no)) {
 
-    ; Do the stagger if the damage is above the threshold.
-    var %stagger.amount.needed $readini($char($2), info, StaggerAmount)
-    dec %stagger.amount.needed %attack.damage | writeini $char($2) info staggeramount %stagger.amount.needed
-    if (%stagger.amount.needed <= 0) { writeini $char($2) status staggered yes |  writeini $char($2) info CanStagger no
-      query %battlechan $readini(translation.dat, status, StaggerHappens)
+      ; Do the stagger if the damage is above the threshold.
+      var %stagger.amount.needed $readini($char($2), info, StaggerAmount)
+      dec %stagger.amount.needed %attack.damage | writeini $char($2) info staggeramount %stagger.amount.needed
+      if (%stagger.amount.needed <= 0) { writeini $char($2) status staggered yes |  writeini $char($2) info CanStagger no
+        query %battlechan $readini(translation.dat, status, StaggerHappens)
+      }
     }
+
+    if ($3 = tech) { unset %attack.damage | $renkei.check($1, $2) }
   }
 
   return 
@@ -423,7 +459,8 @@ display_heal {
     $set_chr_name($1) | query %battlechan 3 $+ %real.name $+  $readini(items.db, $4, desc)
   }
   ; Show the damage healed
-  $set_chr_name($2) | query %battlechan 3 $+ %real.name has been healed for %attack.damage health! 
+  if (%guard.message = $null) {  $set_chr_name($2) |  $set_chr_name($2) | query %battlechan 3 $+ %real.name has been healed for %attack.damage health! }
+  if (%guard.message != $null) { query %battlechan %guard.message | unset %guard.message }
 
   ; Did the person die?  If so, show the death message.
   if ($readini($char($2), battle, HP) <= 0) { 
@@ -433,13 +470,15 @@ display_heal {
   return 
 }
 
+
+
 gemconvert_check { 
   ; $1 = user
   ; $2 = target
   ; $3 = what was used (check for "weapon")
   ; $4 = weapon name
   if ($3 != weapon) { return }
-  if ($readini(weapons.db, $4, special) != gemconvert) { return }
+  if (($readini(weapons.db, $4, special) != gemconvert) && ($augment.check($1, GemConvert) = false)) { return }
   if ($readini($char($2), info, flag) != monster) { return }
   if ($readini($char($1), info, flag) != $null) { return }
 
@@ -466,15 +505,22 @@ gemconvert_check {
   return
 }
 
+random.battlefield.pick {
+  var %battlefields.list $readini(battlefields.lst, battlefields, list)
+  set %random $rand(1, $numtok(%battlefields.list,46))
+  if (%random = $null) { var %random 1 }
+  set %current.battlefield $gettok(%battlefields.list,%random,46)
+  unset %random 
+}
 
 random.weather.pick {
-  var %weather.list $readini(weather.lst, weather, list)
+  set %weather.list $readini(battlefields.lst, %current.battlefield, weather)
   set %random $rand(1, $numtok(%weather.list,46))
   if (%random = $null) { var %random 1 }
   set %new.weather $gettok(%weather.list,%random,46)
   writeini weather.lst weather current %new.weather
   query %battlechan 10The weather changes.  It is now %new.weather
-  unset %number.of.weather | unset %new.weather | unset %random
+  unset %number.of.weather | unset %new.weather | unset %random | unset %weather.list
 }
 
 random.battlefield.curse {
@@ -618,6 +664,9 @@ generate_evil_clones {
       inc %battletxt.current.line 1 
     }
   }
+
+  set %boss.item $readini(items.db, items, foodItems) $+ . $+ $readini(items.db, items, runes) $+ . $+ $readini(items.db, items, BattleItems)
+  writeini battle2.txt battle bonusitem %boss.item | unset %boss.item
 }
 
 generate_monster_warmachine {
@@ -670,6 +719,10 @@ generate_monster_warmachine {
   var %battlemonsters $readini(battle2.txt, BattleInfo, Monsters) | inc %battlemonsters 1 | writeini battle2.txt BattleInfo Monsters %battlemonsters
   inc %battletxt.current.line 1 
   unset %current.battlestreak | unset %monster.name | unset %monster.realname
+
+  set %boss.item $readini(items.db, items, SummonItems) $+ . $+ $readini(items.db, items, Gems) $+ . $+ $readini(items.db, items, BattleItems)
+  writeini battle2.txt battle bonusitem %boss.item
+  unset %boss.item
 }
 
 
@@ -802,12 +855,13 @@ winningstreak.addmonster.amount {
 }
 
 first_round_dmg_chk {
-  if (%current.turn != 1) { return }
+  if ((%current.turn != 1) && (%first.round.protection = $null)) { return }
 
   if (($readini($char($1), info, flag) = monster) && ($readini($char($2), info, flag) = $null)) {
     var %max.health $readini($char($2), basestats, hp) 
     if (%attack.damage >= %max.health) { 
       set %attack.damage $round($calc(%max.health * .20),0)
+      unset %first.round.protection
     }
   }
 }
@@ -895,7 +949,9 @@ multiple_wave_check {
 
   ; Create the next wave
   if (%mode.gauntlet = $null) {  query %battlechan $readini(translation.dat, system,AnotherWaveArrives) }
-  set %number.of.monsters.needed $rand(1,2)
+  set %number.of.monsters.needed $rand(2,3)
+
+  set %first.round.protection yes
 
   if ($readini(battle2.txt, battleinfo, players) > 1) { inc %number.of.monsters.needed 1 }
   if (%mode.gauntlet = $null) { $winningstreak.addmonster.amount | $generate_monster(monster) }
@@ -976,4 +1032,58 @@ spawn_after_death {
   $fulls(%monster.to.spawn)
 
   set %multiple.wave.bonus yes
+  set %first.round.protection yes
+}
+
+metal_defense_check {
+  if ($augment.check($2, IgnoreMetalDefense) = true) { return true }
+  else { 
+    if ($readini($char($1), info, MetalDefense) = true) {  set %attack.damage 0  }
+    return
+  }
+}
+
+
+renkei.check {
+  var %renkei.techs.total $readini($char($2), renkei, NumberOfTechs)
+  if ((%renkei.techs.total <= 1) || (%renkei.techs.total = $null)) { return }
+  writeini $char($2) renkei NumberOfTechs 0
+
+  var %renkei.tech.damage $readini($char($2), renkei, TotalTechDamage)
+  var %renkei.tech.value $readini($char($2), renkei, TotalRenkeiValue)  
+
+  if (%renkei.tech.value < 3) { set %attack.damage $round($calc(%renkei.tech.damage * .05),0) | set %renkei.name Impaction | $set_chr_name($2) | set %renkei.description The techniques combine together to create a large vaccum of air that sucks %real.name inwards before exploding with energy! }
+  if ((%renkei.tech.value >= 3) && (%renkei.tech.value <= 5)) { set %attack.damage $round($calc(%renkei.tech.damage * .10),0) | set %renkei.name Scission | $set_chr_name($2) | set %renkei.description The techniques combine together to create a large cut across %real.name $+ 's chest! }
+  if ((%renkei.tech.value >= 5) && (%renkei.tech.value < 10)) { set %attack.damage $round($calc(%renkei.tech.damage * .15),0) | set %renkei.name Distortion | $set_chr_name($2) | set %renkei.description The techniques combine together to create a large amount of green energy that surrounds and then slams into %real.name $+ ! }
+  if ((%renkei.tech.value >= 10) && (%renkei.tech.value < 15)) { set %attack.damage $round($calc(%renkei.tech.damage * .20),0) | set %renkei.name Fragmentation | $set_chr_name($2) | set %renkei.description The techniques combine together and cause large silver crystals to grow out of %real.name $+ 's body.  The crystals then explode, dealing damage. }
+  if ((%renkei.tech.value >= 15) && (%renkei.tech.value <= 20)) { set %attack.damage $round($calc(%renkei.tech.damage * .25),0) | set %renkei.name Darkness | $set_chr_name($2) | set %renkei.description The techniques combine together and the sky grows dark. A huge orb of dark energy appears above %real.name $+ 's head.  The orb grows bigger and bigger before exploding violently ontop of %real.name dealing damage. }
+  if (%renkei.tech.value > 20)  { set %attack.damage $round($calc(%renkei.tech.damage * .30),0) | set %renkei.name Light | $set_chr_name($2) | set %renkei.description The techniques combine together and the sky grows bright. A huge orb of pure light energy appears above %real.name $+ 's head.  The orb grows bigger and bigger before exploding violently ontop of %real.name dealing damage. }
+
+  $deal_damage($1, $2, renkei)
+  $display_damage($1,$2, renkei)
+}
+
+renkei.calculate {
+  if ($readini(techniques.db, $3, magic) = yes) { return }
+  var %renkei.tech.value $readini($char($2), renkei, TotalRenkeiValue)  
+  var %renkei.tech.amount $readini(techniques.db, $3, Renkei)
+
+  if ((%renkei.tech.amount = $null) || (%renkei.tech.amount = 0)) { return }
+
+  if ($augment.check($1, RenkeiBonus) = true) { %renkei.tech.amount = $calc(%renkei.tech.amount * 2) }
+
+  if (%renkei.tech.value = $null) { writeini $char($2) renkei TotalRenkeiValue %renkei.tech.amount }
+  if (%renkei.tech.value != $null) { inc %renkei.tech.value %renkei.tech.amount | writeini $char($2) renkei TotalRenkeiValue %renkei.tech.value }
+
+  var %renkei.techs.total $readini($char($2), renkei, NumberOfTechs)
+  if (%renkei.techs.total = $null) { var %renkei.techs.total 0 }
+
+  if ($readini($char($1), skills, konzen-ittai.on) = on) { inc %renkei.techs.total 2 | writeini $char($1) skills konzen-ittai.on off }
+  if ($readini($char($1), skills, konzen-ittai.on) != on) { inc %renkei.techs.total 1 }
+
+  writeini $char($2) renkei NumberOfTechs %renkei.techs.total 
+
+  var %renkei.tech.damage $readini($char($2), renkei, TotalTechDamage)
+  if (%renkei.tech.damage = $null) { writeini $char($2) renkei TotalTechDamage %attack.damage }
+  if (%renkei.tech.damage != $null) { inc %renkei.tech.damage %attack.damage | writeini $char($2) renkei TotalTechDamage %renkei.tech.damage }
 }

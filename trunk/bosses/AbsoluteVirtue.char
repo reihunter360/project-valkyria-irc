@@ -47,7 +47,7 @@ passhurt=0
 LastSeen=N/a
 LastIP=N/a
 Created=N/a
-Streak=250
+Streak=-1000
 
 [Status]
 Poison=no
@@ -92,26 +92,26 @@ Resist-Poison=100
 Resist-Zombie=100
 Resist-Intimidate=100
 PoleMaster=100
-wizardry=100
+Wizardy=100
 royalguard.on=on
 manawall.on=on
 Zen=5
 ClearMind=3
 Impetus=20
-ElementalSeal=5
-MightyStrike=5
+ElementalSeal=1
+MightyStrike=1
 Resist-Amnesia=100
 Resist-Blind=100
 Resist-Slow=100
 Resist-Stop=100
 Resist-Paralysis=100
-BloodBoost=10
+BloodBoost=20
 
 [Techniques]
 ImpactStream=100
 MedusaJavelin=100
 WingThrust=100
-EagleEyeShot=100
+Eagle_Eye_Shot=100
 AuroralWind=100
 CureV=100
 TornadoII=100

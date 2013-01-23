@@ -24,7 +24,7 @@ RageCountDown=0
 
 
 [Descriptions]
-Char=takes the same appearence of the Poison Slime, but is made out of metal instead!
+Char=takes the same appearence of the Blue Slime, but is made out of metal instead!
 Rage=screams in rage 
 
 [Stuff]
@@ -35,7 +35,7 @@ ShopLevel=1.0
 [Info]
 Flag=monster
 Gender=its
-Gender2=it
+Gender2=its
 password=battlearena
 passhurt=0
 LastSeen=N/a
@@ -44,7 +44,9 @@ Created=N/a
 OrbBonus=yes
 BattleStats=ignoreHP
 CanFlee=true
-Streak=30
+Streak=21
+StreakMax=79
+MetalDefense=true
 
 [Monster]
 Type=
@@ -90,7 +92,7 @@ Strong=HandToHand.Sword.Whip.Gun.Rifle.Katana.Wand.Spear.Scythe.Glyph.GreatSword
 
 [Skills]
 Resist-Charm=100
-Resist-Poison=100
+Resist-Poison=50
 Resist-Zombie=100
 Resist-Intimidate=100
 Zen=5

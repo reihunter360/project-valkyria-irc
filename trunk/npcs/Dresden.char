@@ -33,7 +33,7 @@ Hused=1
 Dused=1
 Char=is a tall man with brown hair. He wears all black with a dark brown duster and a dark brown hat. He carries his trusty staff with him.
 Rage=needs to set a rage desc by typing !ragedesc <desc>
-Utsusemi=mutters "Lumen, camerus... factum," and two more versions of %user appears.
+Utsusemi=mutters "Lumen, camerus... factum," and two more versions of Harry Dresden appears.
 RoyalGuard=raises his left arm and a silver chain is visible. The chain has five small shields made out of five different metals. A light yellow barrier appears around %user to block melee attacks.
 RoyalGuard=raises his left arm and a silver chain is visible. The chain has five small shields made out of five different metals. A light blue barrier appears around %user to block magic attacks.
 
@@ -98,13 +98,13 @@ zombie.timer=1
 
 [Weapons]
 Equipped=RuneOakStaff
-RuneOakStaff=75
+RuneOakStaff=100
 
 [Skills]
 Zen=5
 ClearMind=3
 ElementalSeal=1
-Wizardy=70
+Wizardry=70
 Gunslinger=50
 MartialArts=50
 Resist-Charm=100
@@ -127,7 +127,7 @@ Dormio=50
 Fulminos=70
 Arctis=70
 Dispertius=60
-Gravitus==50
+Gravitus=50
 FlickumBicus=50
 Galvinius=50
 

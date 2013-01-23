@@ -3,6 +3,8 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 alias aicheck { 
   unset %statusmessage.display
+  remini $char($1) renkei
+
   ; Determine if the current person in battle is a monster or not.  If so, they need to do a turn.  If not, return.
   if ($is_charmed($1) = true) { /.timerAIthink $+ $rand(a,z) $+ $rand(1,1000) 1 8 /ai_turn $1 | halt }
 
@@ -63,7 +65,7 @@ alias ai_turn {
       if ($readini($char($1), info, CanFlee) != true) { var %random.action $rand(1,99) }
 
       if (%random.action <= 45) { $ai_gettech($1) | $ai_gettarget($1) | $tech_cmd($1, %ai.tech, %ai.target) | halt }
-      if ((%random.action > 45) && (%random.action <= 55)) { $ai_gettarget($1) | $taunt($1 , %ai.target) | halt } 
+      if ((%random.action > 45) && (%random.action <= 55)) { set %taunt.action true | $ai_gettarget($1) | $taunt($1 , %ai.target) | halt } 
       if ((%random.action > 55) && (%random.action <= 99)) { $ai_gettarget($1) | $attack_cmd($1 , %ai.target) | halt  }
       if (%random.action >= 100) { $ai.flee($1) | halt }
     }
@@ -72,7 +74,7 @@ alias ai_turn {
       if ($readini($char($1), info, CanFlee) != true) { var %random.action $rand(1,99) }
 
       if (%random.action <= 45) { $ai_gettech($1) | $ai_gettarget($1) | $tech_cmd($1, %ai.tech, %ai.target) | halt }
-      if ((%random.action > 45) && (%random.action <= 50)) { $ai_gettarget($1) |  $taunt($1 , %ai.target) | halt } 
+      if ((%random.action > 45) && (%random.action <= 50)) { set %taunt.action true | $ai_gettarget($1) |  $taunt($1 , %ai.target) | halt } 
       if ((%random.action > 50) && (%random.action <= 65)) { $ai_chooseskill($1) | halt }
       if ((%random.action > 65) && (%random.action <= 99)) { $ai_gettarget($1) | $attack_cmd($1 , %ai.target) | halt  }
       if (%random.action >= 100) { $ai.flee($1) | halt }
@@ -112,41 +114,53 @@ alias ai_gettarget {
   set %battletxt.lines $lines(battle.txt) | set %battletxt.current.line 1
 
   while (%battletxt.current.line <= %battletxt.lines) { 
-    set %who.battle $read -l $+ %battletxt.current.line battle.txt
+    set %who.battle.ai $read -l $+ %battletxt.current.line battle.txt
 
     if (%ai.type != berserker) { 
       if (%opponent.flag = player) {
-        if ($readini($char(%who.battle), info, flag) = monster) { inc %battletxt.current.line }
+        if ($readini($char(%who.battle.ai), info, flag) = monster) { inc %battletxt.current.line }
         else { $add_target }
       }
       if (%opponent.flag = monster) {
-        if ($readini($char(%who.battle), info, flag) != monster) { inc %battletxt.current.line }
+        if ($readini($char(%who.battle.ai), info, flag) != monster) { inc %battletxt.current.line }
         else { $add_target }
       }
     }
 
     if (%ai.type = berserker) { 
-      if (%who.battle != $1) { $add_target }
-      if (%who.battle = $1) { inc %battletxt.current.line }
+      if (%who.battle.ai != $1) { $add_target }
+      if (%who.battle.ai = $1) { inc %battletxt.current.line }
     } 
-
   }
 
   set %total.targets $numtok(%ai.targetlist, 46)
   set %random.target $rand(1,%total.targets)
   set %ai.target $gettok(%ai.targetlist,%random.target,46)
-  $covercheck(%ai.target)
-  set %ai.target %attack.target
-  unset %random.target | unset %total.targets
+
+  if (%ai.target = $null) { 
+    ; Try a second time.
+    set %total.targets $numtok(%ai.targetlist, 46)
+    set %random.target $rand(1,%total.targets)
+    set %ai.target $gettok(%ai.targetlist,%random.target,46)
+  }
+
+  if (%taunt.action != true) { 
+    $covercheck(%ai.target) 
+    set %ai.target %attack.target
+  }
+
+  unset %random.target | unset %total.targets | unset %taunt.action
 }
 
 
 alias add_target {
-  var %current.status $readini($char(%who.battle), battle, status)
+  if (%who.battle.ai = $null) { return }
+
+  var %current.status $readini($char(%who.battle.ai), battle, status)
   if ((%current.status = dead) || (%current.status = runaway)) { inc %battletxt.current.line 1 }
 
   else { 
-    %ai.targetlist = $addtok(%ai.targetlist, %who.battle, 46)
+    %ai.targetlist = $addtok(%ai.targetlist, %who.battle.ai, 46)
     inc %battletxt.current.line 1 
   }
   return
@@ -241,6 +255,11 @@ alias ai_skillcheck {
       writeini $char($1) skills mightystrike.time 0 | %ai.skilllist  = $addtok(%ai.skilllist, mightystrike, 46) 
     }
   }
+  if ($readini($char($1), skills, konzen-ittai) != $null) { 
+    if ($readini($char($1), skills, konzen-ittai.on) != on) {
+      writeini $char($1) skills konzen-ittai.time 0 | %ai.skilllist  = $addtok(%ai.skilllist, konzen-ittai, 46) 
+    }
+  }
   if ($readini($char($1), skills, elementalseal) != $null) { 
     if ($readini($char($1), skills, elementalseal.on) != on) {
       writeini $char($1) skills elementalseal.time 0 | %ai.skilllist  = $addtok(%ai.skilllist, elementalseal, 46) 
@@ -275,6 +294,7 @@ alias ai_chooseskill {
   if (%ai.skill = bloodboost) { $skill.bloodboost($1) }
   if (%ai.skill = sugitekai) { $skill.doubleturn($1)  }
   if (%ai.skill = mightystrike) { $skill.mightystrike($1) }
+  if (%ai.skill = konzen-ittai) { $skill.konzen-ittai($1) }
   if (%ai.skill = elementalseal) { $skill.elementalseal($1) }
   if (%ai.skill = drainsamba) { $skill.drainsamba($1) } 
   if (%ai.skill = utsusemi) { $skill.utsusemi($1)  }

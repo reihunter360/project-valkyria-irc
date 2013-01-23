@@ -53,7 +53,9 @@ passhurt=0
 LastSeen=N/a
 LastIP=N/a
 Created=N/a
+ai_type=berserker
 Streak=100
+StreakMax=390
 
 [Status]
 Poison=no
@@ -90,7 +92,7 @@ MPRegenerating=no
 
 [Weapons]
 Equipped=Silver_Goddess_Sword
-Silver_Goddess_Sword=80
+Silver_Goddess_Sword=100
 
 [Skills]
 Zen=5
@@ -113,7 +115,7 @@ TwinSlice=75
 BiteOfLightning=75
 BladeBeam=75
 HyperTwinSlice=75
-WiseReflection=300
+WiseReflection=200
 
 [Styles]
 Equipped=Weaponmaster

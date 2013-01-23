@@ -95,10 +95,12 @@ zombie.timer=1
 [Weapons]
 Equipped=ValkyrieSword
 ValkyrieSword=100
+Gandiva=100
 
 [Skills]
-Wizardy=100
+Wizardry=100
 Swordmaster=100
+Archery=100
 Zen=5
 ClearMind=3
 MightyStrike=1
@@ -123,6 +125,9 @@ NibelungValesti=150
 ChantduCygne=120
 Requiescat=120
 Atonement=90
+EagleEyeShot=120
+JishnusRadiance=90
+ApexArrow=90
 
 [Item_Amount]
 

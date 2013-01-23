@@ -53,13 +53,13 @@ Glyphs=Ignis.Grando.Fulgur.Nitesco.Globus.Acerbatus.Luminatio.Dominus
 
 
 ; Wands/Staves
-YewWand=Fire.Stone.Ice.Aero.Water.Thunder.Cure
-OakWand=FireII.StoneII.IceII.AeroII.WaterII.ThunderII.CureII
-PineWand=FireIII.StoneIII.IceIII.AeroIII.WaterIII.ThunderIII.CureIII
-ElderWand=Firaja.Stoneja.Waterja.Aeroja.Blizzaja.Thundaja.Cura.Merlin'sFinalSpell
-IridialStaff=Flare.Quake.Flood.Tornado.Freeze.Burst.CureIV
-Laevatein=FlareII.QuakeII.FloodII.TornadoII.FreezeII.BurstII.CureV.Merlin'sFinalSpell
-EbonyWand=FirajaII.StonejaII.WaterjaII.AerojaII.BlizzajaII.ThundajaII.Curaga.Merlin'sFinalSpell
+YewWand=Fire.Stone.Ice.Aero.Water.Thunder.Cure.Dark.Banish.Poison.Blind.Paralyze
+OakWand=FireII.StoneII.IceII.AeroII.WaterII.ThunderII.CureII.DarkII.BanishII
+PineWand=FireIII.StoneIII.IceIII.AeroIII.WaterIII.ThunderIII.CureIII.DarkIII.BanishIII
+ElderWand=Firaja.Stoneja.Waterja.Aeroja.Blizzaja.Thundaja.Cura.Darkra.Holy.Merlin'sFinalSpell
+IridialStaff=Flare.Quake.Flood.Tornado.Freeze.Burst.CureIV.Darkness.Light
+Laevatein=FlareII.QuakeII.FloodII.TornadoII.FreezeII.BurstII.CureV.DarknessII.LightII.Merlin'sFinalSpell
+EbonyWand=FirajaII.StonejaII.WaterjaII.AerojaII.BlizzajaII.ThundajaII.Curaga.DarkraII.HolyII.Merlin'sFinalSpell
 BahamutsStaff=Ultima.Kaustra.Merlin'sFinalSpell
 
 ; Guns 
@@ -104,6 +104,16 @@ LamianKamen=EmpyrealArrow.ArchingArrow.PiercingArrow
 Yoichinoyumi=EagleEyeShot.NamasArrow.RefulgentArrow
 Gandiva=EagleEyeShot.JishnusRadiance.ApexArrow
 
+; Axes
+Ukonvasara=FellCleave.UkkosFury.KingsJustice
+Bravura=MetatronTorment.Upheaval.SteelCyclone
+Guttler=Onslaught.BoraAxe.Rampage
+Farsha=Cloudsplitter.Ruinator.PrimalRend
+
+; Daggers
+Mandau=MercyStroke.AeolianEdge.Evisceration
+Terpsichore=PyrrhicKleos.RudrasStorm.Exenterator
+
 
 ; Monster / NPC Weapons
 Yagudo_Fists=Sweep.DoubleKick.FeatherStorm
@@ -120,10 +130,10 @@ SpiderLegs=SpiderWeb.SickleSlash
 ZombieFists=ZombieBite.ShoulderTackle
 PsychoPower=PsychoCrusher
 BedrockBite=Tremors.FullForceBlow.StoneII.Quake
-Mistilteinn=Holy.BanishV.WrathOfGuDha.TormentOfGuDha
-QuadavWand_R=FireIV.WaterIV.BlizzardIV.Poison.Blind
+Mistilteinn=Holy.BanishV.WrathOfGuDha.TormentOfGuDha.FireIV.WaterIV.BlizzardIV.Headbutt
+QuadavWand_R=FireIV.WaterIV.BlizzardIV.Poison.Blind.Headbutt.Paralyze
 ; Silver_Goddess_Sword=TwinSlice.BiteOfLightning.BladeBeam.HyperTwinSlice.WiseReflection
-Black_Goddess_Staff=AeroV.BlizzardV.AerogaV.FireV.Composure
+Black_Goddess_Staff=AeroV.BlizzardV.AerogaV.FireV.Composure.Blind.Poison.Paralyze.Darkra.DarkV.BanishV
 Shadow_Blade=GigaSlash.KickBack.DarkNova
 MenosPower=Cero
 DragonFangs=FangRush.RadiantBreath.HurricaneBreath.SpikeFlail.AbsoluteTerror
@@ -163,7 +173,7 @@ OrochiPower=YamiBarai.AoiHana.YaOtome.SakuTsumagushi
 BogardGloves=PowerWave.BurnKnuckle.RisingTackle.PowerGeyser.BusterWolf
 GiygasPower=CannotGrasp.HurtsPlayer.PKRockin
 AtlantisPower=BloodDagger.BloodBoost.BloodBlast
-RedEyedDragoon=DoubleSlash.MadnessHero.FlameShot.FinalBurst.RedDragon
+RedEyedDragoon=DoubleSlash.MadnessHero.FlameShot.FinalBurst.RedDragoon
 DarknessDragoon=WhipSmack.DemonsDance.AstralDrain.DeathDimension.DarkDragoon
 ShihouinFists=DoublePunch.ShoulderTackle.ShunkoRaigeki.AsuranFists
 ImpHorn=Frenetic_Rip.Abrasive_Tantara.Flare.Tornado
@@ -184,7 +194,7 @@ CactuarNeedles=200Needles.DoublePunch.AsuranFists.ShoulderTackle.OneInchPunch.Sp
 JumboCactuarNeedles=500Needles.DoublePunch.AsuranFists.ShoulderTackle.OneInchPunch.SpinningAttack
 KainsLance=Jump.HighJump.SpiritJump.SoulJump.Drakesbane.Stardiver.LegSweep
 PrishePowers=AsuranFists.NullifyingDropkick.AuroralUppercut.TornadoKick.OneInchPunch.ShinjinSpiral.Holy.BanishV.CureIV
-AbsolutePolearm=ImpactStream.MedusaJavelin.WingThrust.EagleEyeShot.AuroralWind.CureV.TornadoII.Meteor
+AbsolutePolearm=ImpactStream.MedusaJavelin.WingThrust.Eagle_Eye_Shot.AuroralWind.CureV.TornadoII.Meteor
 DullahanSword=Charon.ForminaSage.Haunt.DjinnStorm.Condem.TrueCollide
 ChunLiBracelets=SpinningBirdKick.Kikoken.Hyakuretsukyaku.Kikosho.Hazanshu.Hosenka
 RyuGloves=Hadouken.ShakunetsuHadouken.Shouryuken.TatsumakiSenpukyaku.ShinkuHadouken.ShinkuTatsumakiSenpukyaku.ShinShouryuken
@@ -214,10 +224,10 @@ BusterSword=Braver.CrossSlash.Blade_Beam.Climhazzard.Meteorain.FinishingTouch.Om
 DekarBlade=ExplosionFist.ExplosionSword.GlacialBlast.Thundershriek.BombAttack.ArticFreeze.HolyEnergy.PhoenixBlow.OctoStrike.Skysplitter
 RuneOakStaff=Forzare.SoulForzare.Fuego.Pyrofeugo.Dormio.Fulminos.Arctis.Dispertius.Gravitus.FlickumBicus.Galvinius
 AdamantAxe=Thundershriek.BombAttack.FellCleave.UkkosFury.KingsJustice
-VampireKiller=GrandCross.HydroStorm.Dagger.HolyWater.Cross.StopWatch.Axe.DoubleAxe.ThousandKnives
+VampireKiller=GrandCross.HydroStorm.Dagger.HolyWater.Cross.StopWatch.Axe.DoubleAxe.Thousand_Knives
 KosmosRevolver=R-Cannon.R-Blade.X-Buster.R-Dragon.G-Shot.D-Teneritas.K-Axe.Hilbert_Effect.Nemesis.BloodDancer.S-Chain.F-Scythe.DexEtherRa.DexEtherFa.DexEtherLe
 HoleyGloves=SeraphimRush.AngelShot.DemonBanisher.DivineSpear.Cataclysm.PhoenixStrike.SeraphimWave.HealingDew.BloodDancer
-ValkyrieSword=NibelungValesti.ChantduCygne.Requiescat.Atonement.EagleEyeShot.Sidewinder
+ValkyrieSword=NibelungValesti.ChantduCygne.Requiescat.Atonement
 BlazefireSaber=ArmyOfOne.Blindside.Flamestrike.Froststrike.Sparkstrike.Aquastrike
 MariaPower=Doves.Seiryu.Byakko.Suzaku.Genbu.GuardianFist
 DualBlade=WaveMotion.Requiscat.FlatBlade.SwiftBlade.OctoStrike.Skysplitter
@@ -234,6 +244,26 @@ ErimPower=RayGion.FuReia.RahGian.WoRud.ReeDelt.CureV.ChantDuCygne.DeathBlossom.S
 EvilChainsaw=DefenseRip.ChainsawSlash
 TurkeyPower=Gobble
 PoisonFists=PoisonVomit.AcidRain
+HybridElementalPower=Flare.Quake.Flood.Tornado.Freeze.Burst.FlareII.QuakeII.FloodII.TornadoII.FreezeII.BurstII.Firaja.FirajaII.Stoneja.StonejaII.Waterja.WaterjaII.Aeroja.AerojaII.Blizzaja.BlizzajaII.Thundaja.ThundajaII.Darkra_I.Darkra_II.DarkV.Holy.HolyII.BanishV.CureIV
+BatFangs=SonicBoom.BatBite.BatDrill
+BalrogPower=WhipLash.TwinDragonLash.CircularChain.DarkLash.FlameStrike
+DemonicWeapon=HectacombWave.QuadraStrike.SoulDrain.FireIII.ThunderIII.Tachi:Rana.SwiftBlade.Firaja.Thundaja
+DhalmelSaliva=Stomping.ColdStare.HealingBreeze.SonicWave
+LizardPower=BlockHead.Fireball.Snowball.TailBlow.PoisonBreath.BalefulGaze
+TreantPower=Leafstorm.DrillBranch.PinecombBomb.Entangle.SproutSmack.SproutSpin
+StarmanGun=StarBeam.PK-StarStorm.PK-Fire.PK-Ice.PK-Thunder
+GnoleClaws=FeveredPitch.CallOfTheMoon.AsuranClaws.PleniluneEmbrace.NoxBlast
+HippiePeace=Toothbrush.Ruler.YardStick.Calculator
+UnicornHorn=HornStab.UnicornKick.UnicornStomp.UnicornBite.Holy.HolyII.BanishV.DarkV.Darkra_I.Darkra_II.BurstII.ThundajaII.Thors_Hammer
+BirdBeak=TornadoII.AerojaII.WingCutter.HellDive.BroadsideBarrage
+YovraPower=ConcussiveOscillation.PrimalDrill.LuminousDrape.IonShower
+PinkChainsaw=ChainsawDash.ChainsawSpin.ChainsawTornado.ChainsawCut.ChainsawAttack.ChainsawCannon
+MegaBuster=EnergyShot.ChargedEnergyShot.HyperBomb.SuperArm.RollingCutter.ThunderBeam.IceSlasher.FireStorm.ShotgunIce.StormTornado.FireWave.ChameleonSting.ElectricSpark.RollingShield.BoomerangCutter.HomingTorpedo.ArmorChange
+SwordOfTheFallenDevil=HandOfPyro.Bite_Of_Lightning.HailOfHeavens.PinnacleOfTheSun.HammerOfEvil.ColdnessOfDestruction.FeathersOfTheHurricane.BoltOfThunder.SmokeOfPain.FalconOfDeath
+ChozoSuit=PoweredShot.Missile.SuperMissile.Bomb.PowerBomb.ScrewAttack
+ZeroSaber=Raijingeki.Rakuhouha.Ryuenjin.Kuuenzan.Shippuuga.Hyoretsuzan.BlackArmor
+SantaRifle=LaserStorm.GrenadeGift.BazookaGift
+BrainWeapon=Rinka.LavaFall.LaserDefense.HyperBeam.BombBeam.PlasmaLaser.BrainStomp.BrainGrab
 
 ; Valkyria-IRC Customs
 FFOmegaWeapon=Repairs.SpaceBeam
@@ -245,28 +275,28 @@ BlackRockShooter=RockCannon.RockDeltaVulcan.BlackStarSlash.BlackStarGrenade.Blac
 DiendDriver=DiendHenshin.DiendGekijouban.DiendBlast.DiendDimensionShoot.CureII
 MegasaurusWeapon=SurvivalInstinct.Earthquake.UltimateSwallow.SpikeFlail.Slurp.Dinostomp.VolcanicRush
 OmegaMultipurposeCannon=WaveCannon.LightPillar.MeggidoFlame.FFUltima.Gravija.TerraBreak.Meteor.LV5_Death
-
+Perfect_Chaos_Water=Chaos_Tsunami.Hyrdro_Cannon.Chaos_Rain.Chaos_Chomp.PerfectChaosR2.Chaos_Water_Beam.Dark_Power_of_Chaos_Emeralds
 
 =======================
 HAND TO HAND
 ========================
-
 [DoublePunch]
 Type=Single
 TP=5
 Desc=performs two very quick punches on %enemy $+ !
-BasePower=5
-Cost=200
+BasePower=15
+Cost=500
 Element=none
 magic=no
 stat=str
+Renkei=1
 
 [ShoulderTackle]
-Type=Status
+Type=Single
 StatusType=Stun
 TP=10
 Desc=takes off into a run towards %enemy and with all $gender($1) might, $gender3($1) rams $gender($1) shoulder into %enemy $+ !
-BasePower=11
+BasePower=10
 Cost=500
 Element=none
 magic=no
@@ -274,10 +304,10 @@ stat=str
 
 [SpinningAttack]
 Type=AOE
-TP=10
+TP=15
 Desc=lures all the battle targets close before performing a swift spinning attack, hitting all of $gender($1) targets at once!
-BasePower=10
-Cost=450
+BasePower=15
+Cost=500
 Element=none
 magic=no
 stat=str
@@ -286,38 +316,41 @@ stat=str
 Type=Single
 TP=20
 Desc=performs an eight-hit attack on %enemy with all $gender($1) might! 
-BasePower=25
-Cost=600
+BasePower=35
+Cost=1000
 Element=none
 magic=no
 stat=str
+renkei=8
 
 [Revolver]
 Type=Single
 TP=10
 Desc=spins violently in mid-air before crashing into %enemy 
-BasePower=10
-Cost=300
+BasePower=20
+Cost=500
 Element=ice
 magic=no
 stat=str
+renkei=1
 
 [Windmill]
 Type=Single
 TP=10
 Desc=spins the nunchuks around in a propeller-like motion to rapidly slice into %enemy
-BasePower=15
-Cost=400
+BasePower=25
+Cost=500
 Element=ice
 magic=no
 stat=str
+renkei=2
 
 [Crystal]
 Type=AOE
 TP=15
 Desc=thrusts the nunchucks into the ground's surface to sprout huge ice pillars that shatter and hit all targets on the battlefield!
 BasePower=15
-Cost=800
+Cost=1000
 Element=ice
 magic=yes
 stat=int
@@ -326,18 +359,19 @@ stat=int
 Type=Single
 TP=10
 Desc=leaps up into the air and dives down onto %enemy $+ , with the flame gauntlets covered in flames.
-BasePower=15
-Cost=350
+BasePower=25
+Cost=500
 Element=fire
 magic=no
 stat=str
+renkei=1
 
 [RollingBlaze]
 Type=Single
 TP=15
 Desc=becomes surrounded in fire as $gender3($1) attacks %enemy $+ !
-BasePower=20
-Cost=400
+BasePower=30
+Cost=1000
 Element=fire
 magic=no
 stat=str
@@ -346,8 +380,8 @@ stat=str
 Type=AOE
 TP=15
 Desc=jumps into the air as the flame gauntlets glow a bright red.  Suddenly a the floor of the battlefield fills with fire then exploding into a massive wall of flames, hitting all enemy targets.
-BasePower=25
-Cost=650
+BasePower=20
+Cost=1000
 Element=fire
 magic=yes
 stat=int
@@ -356,39 +390,42 @@ stat=int
 Type=Single
 TP=30
 Desc=slowly pulls back $gender($1) right fist before quickly punching forward and hitting %enemy with a tremendous force of power!
-BasePower=30
+BasePower=40
 Element=None
-Cost=700
+Cost=1500
 Magic=No
 stat=str
+renkei=8
 
 [VictorySmite]
 Type=Single
 TP=30
 Desc=hits %enemy with a four-fold attack that is imbued with Light energy!
-BasePower=25
+BasePower=40
 Element=Light
-Cost=700
+Cost=1500
 Magic=No
 stat=str
+renkei=11
 
 [ShinjinSpiral]
 Type=Single
-TP=20
+TP=30
 Desc=hits %enemy with a punch, uppercut, a spinning kick that hits twice and ends with slamming the back of $gender($1) fist into %enemy $+ !
-BasePower=20
+BasePower=30
 Element=Fire
-Cost=600
+Cost=1000
 Magic=No
 stat=str
+renkei=6
 
 [TornadoKick]
 Type=AOE
 TP=15
 Desc=performs a spinning kick to all enemies in range before leaping into the air to deliver a second spinning kick to all enemies on the battlefield!
-BasePower=15
+BasePower=20
 Element=Wind
-Cost=500
+Cost=1000
 Magic=No
 stat=str
 
@@ -396,11 +433,12 @@ stat=str
 Type=Single
 TP=15
 Desc=punches %enemy with $gender($1) left fist that causes a small explosion of green energy to hit %enemy $+ !
-BasePower=15
+BasePower=20
 Element=None
 Cost=400
 Magic=No
 stat=str
+renkei=3
 
 
 ===================
@@ -411,27 +449,29 @@ Type=Single
 TP=10
 Desc=launches $gender2($1) $+ self forward, sword first, like a torpedo towards %enemy doing piercing damage!
 BasePower=20
-Cost=300
+Cost=500
 Element=none
 magic=no
 stat=str
+renkei=1
 
 [MillionStab]
 Type=Single
 TP=15
 Desc=swings the weapon so fast that it becomes a blur of a million stabs on %enemy $+ !
 BasePower=25
-Cost=400
+Cost=500
 Element=none
 magic=no
 stat=str
+renkei=3
 
 [Drive]
 Type=AOE
-TP=10
+TP=15
 Desc=lures all the monsters close before performing a swift spinning attack, hitting all of $gender($1) targets at once!
 BasePower=20
-Cost=600
+Cost=1000
 Element=Lightning
 magic=no
 stat=str
@@ -441,7 +481,7 @@ Type=AOE
 TP=30
 Desc=holds the sword up high into the air.  It glows with a holy aura, before %user slams it into the ground, sending out waves of holy light that basks the battlefield, hitting all targets.
 BasePower=35
-Cost=900
+Cost=1000
 Element=light
 magic=yes
 stat=int
@@ -450,51 +490,54 @@ stat=int
 Type=Single
 TP=5
 Desc=performs two very quick slashes on %enemy $+ !
-BasePower=10
-Cost=150
+BasePower=15
+Cost=500
 Element=none
 magic=no
 stat=str
+renkei=1
 
 [Flatblade]
-Type=Status
+Type=Single
 StatusType=Stun
 TP=10
 Desc=hits %enemy hard enough with the flat side of the sword to stun $gender2($2)
-BasePower=11
-Cost=200
+BasePower=10
+Cost=500
 Element=none
 magic=no
 stat=str
 
 [CircleBlade]
 Type=AOE
-TP=10
+TP=15
 Desc=runs around the battle field in a circle, slashing at all targets.
-BasePower=10
-Cost=400
+BasePower=15
+Cost=1000
 Element=none
 magic=no
 stat=str
+renkei=2
 
 [BurningBlade]
 Type=Single
-TP=5
+TP=15
 Desc=$+ 's sword catches fire as %user slashes twice at %enemy $+ !
-BasePower=8
-Cost=200
+BasePower=20
+Cost=500
 Element=fire
 magic=no
-stat=int
+stat=str
+renkei=3
 
 [GlorySlash]
-Type=Status
+Type=Single
 StatusType=Stun
 TP=10
 Desc=hits %enemy with a back swing that causes a golden light to cover %enemy for a chance of stunning.
 BasePower=10
 Element=None
-Cost=300
+Cost=500
 Magic=no
 stat=str
 
@@ -504,79 +547,86 @@ TP=15
 Desc=leaps into the air and slams the sword into the ground, causing an explosion of Light energy to hit all enemies on the battlefield.
 BasePower=15
 Element=Light
-Cost=400
+Cost=1000
 Magic=no
-stat=int
+stat=str
 
 [SpiritsWithin]
 Type=Single
-TP=10
+TP=15
 Desc=covers the sword in dark energy and simply stabs %enemy with the sword.
-BasePower=10
+BasePower=20
 Element=Dark
-Cost=300
+Cost=500
 Magic=no
-stat=int
+stat=str
+renkei=2
 
 [VorpalBlade]
 Type=Single
-TP=10
+TP=20
 Desc=quickly slices %enemy four times with the sword!
-BasePower=15
+BasePower=35
 Element=none
-Cost=200
+Cost=1000
 Magic=no
 stat=str
+renkei=5
 
 [SeraphBlade]
 Type=Single
-TP=10
+TP=15
 Desc=covers the sword in Light energy and slashes %enemy twice.
-BasePower=10
+BasePower=20
 Element=Light
-Cost=200
+Cost=500
 Magic=no
-stat=int
+stat=str
+renkei=2
 
 [DeathBlossom]
 Type=Single
-TP=20
+TP=40
 Desc=slashes %enemy three times, forming a rose to appear around %enemy which explodes in Dark energy.
-BasePower=20
+BasePower=40
 Element=Dark
-Cost=300
-Magic=yes
-stat=int
+Cost=1500
+Magic=no
+stat=str
+renkei=8
 
 [SwiftBlade]
 Type=Single
-TP=15
+TP=20
 Desc=slashes %enemy three times with the sword.
-BasePower=15
+BasePower=30
 Element=none
-Cost=300
+Cost=1000
 Magic=no
 stat=str
+renkei=5
 
 [SavageBlade]
 Type=Single
-TP=20
+TP=40
 Desc=hits %enemy with a back swing and leaps into the air before stabbing %enemy and causing an explosion of Light energy.
-BasePower=20
+BasePower=40
 Element=Light
-Cost=400
-Magic=yes
-stat=int
+Cost=1500
+Magic=no
+stat=str
+renkei=11
 
 [ChantduCygne]
 Type=Single
 TP=30
 Desc=slashes %enemy in a Z pattern which causes an explosion of golden energy.
-BasePower=25
+BasePower=35
 Element=Fire
-Cost=400
+Cost=1500
 Magic=no
-stat=int
+stat=str
+renkei=6
 
 [Requiescat]
 Type=Single
@@ -584,18 +634,18 @@ TP=30
 Desc=$+ 's sword glows bright as $gender3($1) begins a dance of sword swings upon %enemy before spinning into the air and slashing %enemy once more that causes an explosion of Light energy.
 BasePower=30
 Element=Light
-Cost=600
-Magic=no
+Cost=1500
+Magic=yes
 stat=int
 
 [SanguineBlade]
 Type=Single
-TP=15
+TP=40
 Desc=stabs %enemy with the sword covered in dark red energy to steal some health from %enemy to add to $gender($1) own health!
-BasePower=15
+BasePower=30
 Element=Dark
-Cost=500
-Magic=no
+Cost=1500
+Magic=yes
 absorb=yes
 stat=int
 
@@ -603,128 +653,134 @@ stat=int
 ===================
 GREAT SWORDS
 ===================
-
 [HardSlash]
 Type=Single
 TP=10
 Desc=swings the greatsword down with great power.
-BasePower=15
+BasePower=25
 Element=None
-Cost=200
+Cost=500
 Magic=no
 stat=str
+renkei=1
 
 [PowerSlash]
 Type=Single
-TP=10
+TP=15
 Desc=stabs forward with the greatsword towards %enemy $+ .
-BasePower=15
+BasePower=30
 Element=none
-Cost=200
+Cost=1000
 Magic=no
 stat=str
+renkei=3
 
 [Shockwave]
 Type=AOE
 TP=15
 Desc=lures all of the enemies close and swings the greatsword in a half circle to hit all enemies!
-BasePower=10
+BasePower=15
 Element=none
-Cost=300
+Cost=1000
 Magic=no
 stat=str
 
 [SickleMoon]
 Type=Single
-TP=10
+TP=20
 Desc=does an upward swing with the greatsword then a downward swing a moment later.
-BasePower=15
+BasePower=35
 Element=none
-Cost=200
+Cost=1000
 Magic=no
 stat=str
+renkei=5
 
 [Freezebite]
 Type=Single
 TP=15
 Desc=does a backswing with the greatsword then stabs forward with the greatsword.
-BasePower=15
+BasePower=25
 Element=Ice
-Cost=300
+Cost=1000
 Magic=no
 stat=str
+renkei=2
 
 [GroundStrike]
 Type=AOE
-TP=15
+TP=20
 Desc=leaps into the air and slams the greatsword into the ground, causing an explosion that hits all enemies in range.
-BasePower=15
+BasePower=20
 Element=none
-Cost=400
+Cost=1000
 Magic=no
 stat=str
 
 [SpinningSlash]
 Type=Single
-TP=10
+TP=20
 Desc=does an impressive spinning attack upon %enemy with the greatsword.
-BasePower=15
+BasePower=30
 Element=none
-Cost=300
+Cost=1000
 Magic=no
 stat=str
+renkei=5
 
 [Scourge]
 Type=Single
-TP=20
+TP=40
 Desc=swings the greatsword down and a large bolt of energy slams into %enemy $+ !
-BasePower=20
+BasePower=40
 Element=Lightning
-Cost=600
+Cost=1500
 Magic=no
 stat=str
+renkei=8
 
 [HerculeanSlash]
 Type=Single
-TP=20
+TP=40
 Desc=swings the greatsword in a half circle and large ice crystals shoot towards %enemy $+ .
-BasePower=20
+BasePower=35
 Element=Ice
-Cost=400
+Cost=1500
 Magic=no
 stat=str
+renkei=8
 
 [Torcleaver]
 Type=AOE
-TP=25
+TP=40
 Desc=leaps into the air and slams the greatsword into the ground, causing a mini-quake to hit all enemies!
-BasePower=25
+BasePower=30
 Element=Earth
-Cost=700
+Cost=1500
 Magic=yes
 stat=str
 
 [Resolution]
 Type=Single
-TP=30
+TP=40
 Desc=does an impress series of swings with the greatsword upon %enemy before leaping into the air and slamming the greatsword down on %enemy $+ .
-BasePower=25
+BasePower=40
 Element=none
-Cost=700
+Cost=1500
 Magic=no
 stat=str
+renkei=11
 
 ===================
 SCYTHE
 ===================
-
 [ShadowOfDeath]
 Type=Single
 TP=15
 Desc=does a downward slash with the scythe to %enemy $+ , causing an explosion of dark energy.
-BasePower=15
+BasePower=20
 Element=Dark
-Cost=400
+Cost=500
 Magic=yes
 stat=str
 
@@ -732,162 +788,169 @@ stat=str
 Type=single
 TP=10
 Desc=gathers dark energy on the scythe and slices %enemy with the darkness-infused scythe.
-BasePower=15
+BasePower=25
 Element=Dark
-Cost=300
+Cost=500
 Magic=no
 stat=str
+renkei=1
 
 [VorpalScythe]
 Type=Single
-TP=10
+TP=20
 Desc=does an upward swing with the scythe, causing grey and red blades to shoot up from the ground and close in upon %enemy $+ .
-BasePower=15
+BasePower=30
 Element=Dark
-Cost=300
+Cost=1000
 Magic=no
 stat=str
+renkei=2
 
 [InfernalScythe]
 Type=Single
-TP=15
+TP=30
 Desc=raises the scythe into the air before quickly swinging the scythe at enemy, causing dark energy blades to shoot up from the ground and cut into %enemy $+ .
-BasePower=15
+BasePower=30
 Element=Dark
-Cost=400
+Cost=1500
 Magic=yes
-stat=str
+stat=int
 
 [CrossReaper]
 Type=Single
-TP=10
+TP=20
 Desc=slices %enemy with the scythe and spins around to slice %enemy once more.
-BasePower=15
+BasePower=30
 Element=Dark
-Cost=300
+Cost=1000
 Magic=no
 stat=str
+renkei=3
 
 [SpinningScythe]
 Type=AOE
-TP=15
+TP=20
 Desc=raises the scythe into the air and lures all enemies close, slashing quickly with the scythe to hit all enemies.
-BasePower=15
+BasePower=20
 Element=Dark
-Cost=500
+Cost=1000
 Magic=no
 stat=str
 
 [Catastrophe]
 Type=Single
-TP=20
+TP=30
 Desc=raises the scythe as dark energy surrounds $gender2($1) and slices %enemy with the scythe to create an explosion of Dark energy.
-BasePower=20
+BasePower=30
 Element=Dark
-Cost=600
+Cost=1500
 Magic=yes
 stat=str
 
 [Entropy]
 Type=Single
-TP=20
+TP=30
 Desc=slices %enemy multiple times with the scythe, even cutting the air which causes dark energy to bleed from the air.
-BasePower=20
+BasePower=30
 Element=Dark
-Cost=600
+Cost=1000
 Magic=no
 stat=str
+renkei=5
 
 [Guillotine]
 Type=Single
-TP=15
+TP=20
 Desc=quickly slices %enemy four times with the scythe!
-BasePower=15
+BasePower=25
 Element=Dark
 Cost=500
 Magic=no
 stat=str
+renkei=2
 
 [Quietus]
 Type=Single
-TP=25
+TP=40
 Desc=spins the scythe around before quickly doing a downward swing to slice into %enemy $+ .
-BasePower=25
+BasePower=40
 Element=Dark
-Cost=700
+Cost=1500
 Magic=no
 stat=str
+renkei=6
 
 [Insurgency]
 Type=Single
-TP=20
+TP=40
 Desc=slices %enemy with the scythe and quickly does a spinning slice afterwards before finally spinning the scythe around, slicing %enemy one last time.
-BasePower=20
+BasePower=50
 Element=Dark
-Cost=600
+Cost=1500
 Magic=no
 stat=str
+renkei=8
 
 [NightmareScythe]
 Type=Status
 StatusType=Blind
-TP=20
+TP=15
 Desc=slices %enemy twice with the scythe and causes dark energy to cover %enemy $+ 's face in an attempt to cause blindness.
-BasePower=20
+BasePower=10
 Element=Dark
-Cost=700
+Cost=500
 Magic=no
 stat=int
 
 ===================
 WHIPS
 ===================
-
 [HolyLash]
 Type=Single
-TP=10
-Desc=cracks the whip and hits %enemy with a holy power
-BasePower=10
-Cost=300
+TP=15
+Desc=cracks the whip and hits %enemy with a holy power.
+BasePower=15
+Cost=500
 Element=light
 magic=yes
 stat=int
 
 [TwinDragonLash]
 Type=Single
-TP=10
+TP=15
 Desc=cracks $gender($1) whip at %enemy and slashes, doing two hits.
-BasePower=20
-Cost=400
-Element=light
+BasePower=25
+Cost=500
+Element=none
 magic=no
 stat=str
+renkei=2
 
 [CircularChain]
 Type=AOE
 TP=15
-Desc=strikes out with the whip then begins to spin at a high speed to hit everyone in range with the Vampire Killer.
+Desc=strikes out with the whip then begins to spin at a high speed to hit everyone in range with the whip!
 BasePower=15
-Cost=700
-Element=light
+Cost=1000
+Element=none
 magic=no
 stat=str
 
 [Whiplash]
-Type=Status
+Type=Single
 StatusType=Paralysis
-TP=10
-Desc=cracks $gender($1) whip at %enemy $+ , causing paralysis
+TP=15
+Desc=cracks $gender($1) whip at %enemy $+ , causing paralysis.
 BasePower=5
 Element=None
-Cost=300
+Cost=500
 Magic=no
 stat=int
 
 [DarkLash]
 Type=Single
 TP=15
-Desc=cracks the whip and hits %enemy with a dark power
+Desc=cracks the whip and hits %enemy with a dark power.
 BasePower=15
 Element=Dark
 Cost=500
@@ -895,11 +958,11 @@ Magic=Yes
 stat=int
 
 [SerpentBite]
-Type=Status
+Type=Single
 StatusType=Poison
 TP=15
 Desc=cracks $gender($1) whip at %enemy $+ , causing %enemy to be poisoned.
-BasePower=10
+BasePower=5
 Element=None
 Cost=500
 Magic=No
@@ -908,13 +971,12 @@ stat=int
 ===================
 GUNS & RIFLES
 ===================
-
 [Rainstorm]
 Type=AOE
 TP=15
 Desc=leaps high into the air and rains hundreds of bullets down upon all targets on the battle field
-BasePower=10
-Cost=300
+BasePower=15
+Cost=1000
 Element=none
 magic=no
 stat=str
@@ -923,186 +985,201 @@ stat=str
 Type=Single
 TP=10
 Desc=charges the weapon and releases a powerful bullet infused with energy towards %enemy $+ !
-BasePower=15
-Cost=300
+BasePower=25
+Cost=500
 Element=none
 magic=no
 stat=str
+renkei=2
 
 [RapidShot]
 Type=Single
 TP=15
 Desc=fires rapidly at %enemy sending a barrage of bullets to do damage.
-BasePower=20
+BasePower=30
 Cost=500
 Element=none
 magic=no
 stat=str
+renkei=3
 
 [Coronach]
 Type=Single
 TP=30
 Desc=fires a dark burst of energy from $gender($1) gun and into %enemy $+ !
-BasePower=30
+BasePower=35
 Element=Dark
-Cost=700
+Cost=1000
 Magic=No
 stat=str
+renkei=8
 
 [Wildfire]
 Type=Single
-TP=20
+TP=30
 Desc=takes aim at %enemy for a moment before firing a blast of fire from the gun at %enemy $+ !
-BasePower=25
+BasePower=35
 Element=Fire
-Cost=700
+Cost=1000
 Magic=No
-stat=int
+stat=str
+renkei=5
 
 [LeadenSalute]
 Type=Single
-TP=30
+TP=40
 Desc=takes aim at %enemy for a moment before firing a blue and green energy blast from the gun at %enemy $+ !
-BasePower=20
+BasePower=40
 Element=Wind
-Cost=600
+Cost=1500
 Magic=No
 stat=str
+renkei=11
 
 [HotShot]
 Type=Single
 TP=10
 Desc=takes aim and fires a small fire blast at %enemy $+ !
-BasePower=5
+BasePower=15
 Element=Fire
-Cost=300
+Cost=500
 Magic=No
-stat=int
+stat=str
+renkei=1
 
 [LastStand]
 Type=Single
 TP=15
 Desc=takes aim and fires a shot at %enemy and then spins around and shoots %enemy for a second time!
-BasePower=15
+BasePower=25
 Element=None
 Cost=500
 Magic=No
 stat=str
+renkei=2
 
 [Detonator]
 Type=AOE
-TP=10
+TP=15
 Desc=lines up all enemies in the battle and fires a shot that hits all of the enemies!
-BasePower=12
+BasePower=15
 Element=None
-Cost=400
+Cost=1000
 Magic=No
 stat=str
 
 [SlugShot]
 Type=Single
-TP=15
+TP=20
 Desc=fires a shot from $gender($1) gun that pierces right through %enemy $+ !
-BasePower=17
+BasePower=25
 Element=None
-Cost=450
+Cost=1000
 Magic=No
 stat=str
+renkei=3
 
 [BlastShot]
 Type=Single
-TP=10
-Desc=slams $gender($1) gun into %enemy $+ 's face and then fires a point-blank shot at %enemy $+ !
-BasePower=15
+TP=25
+Desc=backhands %enemy in the face with $gender($1) gun and then fires a point-blank shot at %enemy $+ 's body!
+BasePower=30
 Element=None
-Cost=400
+Cost=1000
 Magic=No
 stat=str
+renkei=5
 
 [SniperShot]
 Type=Single
 TP=15
 Desc=watches %enemy from a far distance, studying %enemy $+ 's movements. Once %enemy stops, a shot is fired from the gun which slams into %enemy $+ !
-BasePower=17
+BasePower=25
 Element=None
 Cost=500
 Magic=No
 stat=str
+renkei=5
 
 ===================
 SPEARS
 ===================
-
 [Jump]
 Type=Single
-TP=10
+TP=15
 Desc=leaps high into the air and lands down on %enemy $+ !
-BasePower=10
+BasePower=20
 Element=none
 magic=no
-cost=200
+cost=500
 stat=str
+renkei=1
 
 [HighJump]
 Type=Single
-TP=15
-Desc=leaps even higher into the air and lands down upon %enemy for greater damage!
-BasePower=15
-Element=None
-cost=300
-magic=no
-stat=str
-
-[SpiritJump]
-Type=Single
 TP=20
-Desc=gains a light blue aura on $gender($1) spear as $gender3($1) leaps into the air and lands down upon %enemy $+ , stabbing with the powered spear.
-BasePower=20
-Element=none
-cost=400
-magic=no
-stat=str
-
-[SoulJump]
-Type=Single
-TP=25
-Desc=gains a brighter blue aura on $gender($1) spear as $gender3($1) leaps high into the air and lands down upon %enemy $+ , stabbing with the powered spear.
+Desc=leaps even higher into the air and lands down upon %enemy for greater damage!
 BasePower=25
 Element=None
 cost=500
 magic=no
 stat=str
+renkei=2
+
+[SpiritJump]
+Type=Single
+TP=25
+Desc=gains a light blue aura on $gender($1) spear as $gender3($1) leaps into the air and lands down upon %enemy $+ , stabbing with the powered spear.
+BasePower=30
+Element=none
+cost=600
+magic=no
+stat=str
+renkei=3
+
+[SoulJump]
+Type=Single
+TP=30
+Desc=gains a brighter blue aura on $gender($1) spear as $gender3($1) leaps high into the air and lands down upon %enemy $+ , stabbing with the powered spear.
+BasePower=35
+Element=None
+cost=700
+magic=no
+stat=str
+renkei=4
 
 [LegSweep]
-Type=Status
+Type=Single
 StatusType=Stun
-TP=10
+TP=15
 Desc=hits %enemy in the legs with the spear to take %enemy off of $gender($2) feet!
 BasePower=10
 Element=none
-cost=300
+cost=500
 magic=no
 stat=str
 
 [PentaThrust]
 Type=Single
-TP=15
+TP=40
 Desc=hits %enemy with a five-hit attack with the spear!
-BasePower=15
+BasePower=40
 Element=None
-cost=400
+cost=1500
 magic=no
 stat=str
+renkei=5
 
 [ImpulseDrive]
 Type=Single
-TP=15
+TP=30
 Desc=slams the bottom of the spear into %enemy before quickly following up with a stab from the top of the spear.
-BasePower=15
+BasePower=30
 Element=Dark
-cost=500
+cost=1000
 magic=no
 stat=str
+renkei=8
 
 [Geirskogul]
 Type=Single
@@ -1116,41 +1193,44 @@ stat=int
 
 [CamlannsTorment]
 Type=Single
-TP=20
+TP=35
 Desc=twirls the spear around as lightning begins to cover the spear before quickly stabbing %enemy with the spear!
-BasePower=20
+BasePower=35
 Element=Lightning
-cost=600
-magic=yes
+cost=1000
+magic=no
 stat=str
+renkei=5
 
 [Drakesbane]
 Type=Single
-TP=25
+TP=45
 Desc=hits %enemy with the spear a few times before spinning the lance around to stab %enemy as bright light covers the spear.
-BasePower=20
+BasePower=50
 Element=Light
-cost=700
-magic=Yes
+cost=1500
+magic=no
 stat=str
+renkei=11
 
 [Stardiver]
 Type=Single
-TP=30
+TP=45
 Desc=stabs %enemy three times before leaping into the air and stabbing once more on the way down as an explosion of Dark energy happens!
-BasePower=25
+BasePower=50
 Element=Dark
-cost=800
-magic=yes
+cost=1500
+magic=no
 stat=str
+renkei=8
 
 [SonicThrust]
 Type=AOE
 TP=15
-Desc=gathers all the monsters into a single line and thrusts the spear towards the closest, sending a wave of energy to hit the others!
+Desc=gathers all targets in a general line and stabs forward with the spear, sending a wave of green energy to hit all of the target!
 BasePower=15
 Element=none
-cost=500
+cost=1000
 magic=no
 stat=str
 
@@ -1161,28 +1241,30 @@ KATANA
 Type=Single
 TP=25
 Desc=sends out a wave of dark energy towards %enemy $+ !
-BasePower=25
-Cost=400
+BasePower=30
+Cost=500
 Element=dark
 magic=no
-stat=int
+stat=str
+renkei=4
 
 [GetsugaTenshou]
 Type=Single
 TP=15
 Desc=charges up energy in Zangetsu before releasing it as a huge wave of blue energy towards %enemy $+ !
 BasePower=25
-Cost=450
+Cost=500
 Element=none
 magic=no
 stat=str
+renkei=3
 
 [Chire]
 Type=AOE
 TP=20
 Desc=looks at the battlefield and goes "Scatter, Senbonzakura."  Senbonzakura's blade separates into a thousand slender, tiny blade fragments, which then fly away from the hilt and hit everyone on the battlefield before reforming into the sword.
 BasePower=20
-Cost=500
+Cost=1000
 Element=none
 magic=no
 stat=str
@@ -1192,52 +1274,55 @@ Type=Single
 TP=15
 Desc=looks at %enemy and says "Sit Upon the Frozen Heavens!" A long slender ice dragon shoots out of the blade and slams into %enemy $+ !
 BasePower=25
-Cost=400
+Cost=600
 Element=ice
 magic=yes
 stat=str
 
 [Tachi:Enpi]
 Type=Single
-TP=10
+TP=15
 Desc=does two quick slashes in the shape of an X onto %enemy $+ !
-BasePower=15
-Cost=150
+BasePower=25
+Cost=500
 Element=light
 magic=no
 stat=str
+Renkei=1
 
 [Tachi:Hobaku]
-Type=Status
+Type=Single
 StatusType=Stun
 TP=10
 Desc=does a fancy spin with $gender($1) katana before slicing into the ground, sending small chunks of the earth into %enemy $+ !
 BasePower=15
-Cost=300
+Cost=500
 Element=earth
 magic=no
 stat=str
 
 [Tachi:Jinpu]
 Type=Single
-TP=10
+TP=20
 Desc=spins $gender($1) sword fast enough to create two powerful gusts of wind that slash at %enemy $+ ! 
-BasePower=15
-Cost=300
+BasePower=25
+Cost=500
 Element=wind
 magic=no
 stat=str
+renkei=3
 
 [Tachi:Gekko]
 Type=Status
 StatusType=Curse
-TP=15
+TP=20
 Desc=charges up a dark energy in $gender($1) blade before doing an impressive spin to release the power on %enemy $+ !
-BasePower=15
-Cost=500
+BasePower=20
+Cost=600
 Element=dark
 magic=no
 stat=str
+renkei=0
 
 [A5]
 Type=Status
@@ -1245,7 +1330,7 @@ StatusType=Stun
 TP=15
 Desc=hits %enemy and a loud A power chord echoes the battlefield.  %enemy feels stunned!
 BasePower=15
-Cost=300
+Cost=500
 Element=fire
 magic=no
 stat=str
@@ -1256,7 +1341,7 @@ StatusType=Curse
 TP=15
 Desc=hits %enemy and a low and deep E power chord echoes the battlefield.  %enemy feels cursed!
 BasePower=15
-Cost=300
+Cost=500
 Element=dark
 magic=no
 stat=str
@@ -1267,7 +1352,7 @@ StatusType=Blind
 TP=15
 Desc=hits %enemy and a light C power chord echoes the battlefield.  %enemy feels blind!
 BasePower=15
-Cost=300
+Cost=500
 Element=light
 magic=no
 stat=str
@@ -1278,114 +1363,118 @@ StatusType=Slow
 TP=15
 Desc=hits %enemy and a medium D power chord echoes the battlefield.  %enemy feels slow!
 BasePower=15
-Cost=300
+Cost=500
 Element=ice
 magic=no
 stat=str
 
 [Tachi:Goten]
 Type=Single
-TP=10
+TP=20
 Desc=charges up lightning onto $gender($1) katana and thrusts the katana into %enemy $+ , causing a small burst of lightning to shock %enemy $+ !
-BasePower=15
+BasePower=25
 Element=Lightning
-Cost=300
-Magic=yes
-stat=int
+Cost=500
+Magic=no
+stat=str
+renkei=3
 
 [Tachi:Kagero]
 Type=Single
-TP=10
+TP=20
 Desc=raises $gender($1) katana and slashes %enemy and backs up as a small pillar of flame erupts around %enemy $+ .
-BasePower=15
+BasePower=25
 Element=Fire
-Cost=300
-Magic=yes
-stat=int
+Cost=500
+Magic=no
+stat=str
+renkei=3
 
 [Tachi:Yukikaze]
-Type=Status
+Type=Single
 StatusType=Blind
 TP=15
 Desc=stabs %enemy with the katana and encases %enemy in ice. The ice then shatters, causing Blindness to %enemy $+ !
 BasePower=15
 Element=Ice
-Cost=400
+Cost=600
 Magic=no
 stat=str
 
 [Tachi:Kasha]
-Type=Status
+Type=Single
 StatusType=Paralysis
 TP=15
 Desc=returns $gender($1) katana to its sheath and pauses for a second before quickly slashing %enemy as a feint image of flower petals appears for a second, causing Paralysis in %enemy $+ !
 BasePower=15
 Element=Light
-Cost=400
+Cost=600
 magic=no
 stat=str
 
 [Tachi:Kaiten]
 Type=Single
-TP=20
+TP=40
 Desc=raises $gender($1) katana and gathers energy into the blade before swinging it quickly down and sends a large beam of Light energy to slam into %enemy $+ !
-BasePower=20
+BasePower=40
 Element=Light
-Cost=500
-magic=yes
+Cost=1500
+magic=no
 stat=str
+renkei=11
 
 [Tachi:Rana]
 Type=Single
-TP=25
+TP=40
 Desc=covers $gender($1) katana with dark energy and quickly slashes %enemy three times.
-BasePower=20
+BasePower=40
 Element=Dark
-Cost=500
-Magic=yes
+Cost=1500
+Magic=no
 stat=str
+renkei=8
 
 [Tachi:Ageha]
 Type=AOE
 TP=15
 Desc=lures all of the monsters close and then spins in a quick circle, hitting every monster and leaves behind a brief image of a butterfly.
-BasePower=10
+BasePower=15
 Element=Earth
-Cost=400
+Cost=1000
 magic=no
 stat=str
 
 [Tachi:Fudo]
 Type=Single
-TP=30
+TP=45
 Desc=returns $gender($1) katana to its sheath and pauses for a second before quickly slashing %enemy with the blade, that's now covered in Light energy.
-BasePower=25
+BasePower=45
 Element=Light
-Cost=500
-magic=yes
+Cost=1500
+magic=no
 stat=str
+renkei=11
 
 [Tachi:Shoha]
 Type=Single
-TP=30
+TP=50
 Desc=spins the blade around and quickly slashes at %enemy before leaping in the air and slashing %enemy on the way down.
-BasePower=30
+BasePower=50
 Element=Lightning
-cost=700
+cost=1500
 magic=no
 stat=str
+renkei=6
 
 ===================
 WAND/SPELLS
 ===================
-
-
 [Fire]
 Type=Single
 TP=5
 Desc=casts a small fire spell on %enemy $+ !
 BasePower=5
-Cost=100
+Cost=200
 Element=fire
 magic=yes
 stat=int
@@ -1395,8 +1484,8 @@ Type=Single
 TP=5
 Desc=casts a small stone spell on %enemy $+ !
 BasePower=5
-Cost=100
-Element=stone
+Cost=200
+Element=earth
 magic=yes
 stat=int
 
@@ -1405,7 +1494,7 @@ Type=Single
 TP=5
 Desc=casts a small wind spell on %enemy $+ !
 BasePower=5
-Cost=100
+Cost=200
 Element=wind
 magic=yes
 stat=int
@@ -1415,7 +1504,7 @@ Type=Single
 TP=5
 Desc=casts a small ice spell on %enemy $+ !
 BasePower=5
-Cost=100
+Cost=200
 Element=ice
 magic=yes
 stat=int
@@ -1425,7 +1514,7 @@ Type=Single
 TP=5
 Desc=casts a small water spell on %enemy $+ !
 BasePower=5
-Cost=100
+Cost=200
 Element=water
 magic=yes
 stat=int
@@ -1435,127 +1524,127 @@ Type=Single
 TP=5
 Desc=casts a small lightning spell on %enemy $+ !
 BasePower=5
-Cost=100
+Cost=200
 Element=lightning
 magic=yes
 stat=int
 
 [FireII]
 Type=Single
-TP=5
+TP=10
 Desc=casts a big fireball on %enemy $+ !
 BasePower=10
-Cost=200
+Cost=300
 Element=fire
 magic=yes
 stat=int
 
 [StoneII]
 Type=Single
-TP=5
+TP=10
 Desc=casts a boulder that slams into %enemy $+ !
 BasePower=10
-Cost=200
-Element=stone
+Cost=300
+Element=earth
 magic=yes
 stat=int
 
 [AeroII]
 Type=Single
-TP=5
+TP=10
 Desc=casts a mini tornado that flies into %enemy $+ !
 BasePower=10
-Cost=200
+Cost=300
 Element=wind
 magic=yes
 stat=int
 
 [IceII]
 Type=Single
-TP=5
+TP=10
 Desc=casts a large chunk of ice on %enemy $+ !
 BasePower=10
-Cost=200
+Cost=300
 Element=ice
 magic=yes
 stat=int
 
 [WaterII]
 Type=Single
-TP=5
+TP=10
 Desc=casts a mini tsunami on %enemy $+ !
 BasePower=10
-Cost=200
+Cost=300
 Element=water
 magic=yes
 stat=int
 
 [ThunderII]
 Type=Single
-TP=5
+TP=10
 Desc=casts several lightning bolts at %enemy $+ !
 BasePower=10
-Cost=200
+Cost=300
 Element=lightning
 magic=yes
 stat=int
 
 [FireIII]
 Type=Single
-TP=10
+TP=15
 Desc=casts three dancing fireballs that fly into %enemy $+ !
 BasePower=15
-Cost=200
+Cost=400
 Element=fire
 magic=yes
 stat=int
 
 [StoneIII]
 Type=Single
-TP=10
+TP=15
 Desc=casts Stone III.  The ground cracks beneath %enemy and several boulders appear above, falling down ontop of %enemy $+ !
 BasePower=15
-Cost=200
-Element=stone
+Cost=400
+Element=earth
 magic=yes
 stat=int
 
 [AeroIII]
 Type=Single
-TP=10
+TP=15
 Desc=casts a large tornado that sucks %enemy up into it, dealing damage!
 BasePower=15
-Cost=200
+Cost=400
 Element=wind
 magic=yes
 stat=int
 
 [IceIII]
 Type=Single
-TP=10
+TP=15
 Desc=casts three large icecicles that pierce %enemy $+ !
 BasePower=15
-Cost=200
+Cost=400
 Element=ice
 magic=yes
 stat=int
 
 [WaterIII]
 Type=Single
-TP=10
+TP=15
 Desc=casts a huge wave of water that slams into %enemy $+ !
 BasePower=15
-Cost=200
+Cost=400
 Element=water
 magic=yes
 stat=int
 
 [ThunderIII]
 Type=Single
-TP=10
+TP=15
 Desc=casts Thunder III.  The sky grows dark as giant lightning bolts shoot out of the sky and slam into %enemy $+ !
 BasePower=15
-Cost=200
+Cost=400
 Element=lightning
 magic=yes
 stat=int
@@ -1620,115 +1709,46 @@ Element=lightning
 magic=yes
 stat=int
 
-[FireIV]
-Type=Single
-TP=10
-Desc=blasts %enemy with a large column of fire!
-BasePower=20
-Element=fire
-Cost=999999
-Magic=yes
-stat=int
-
-[WaterIV]
-Type=single
-TP=10
-Desc=covers %enemy with a large wave of water!
-BasePower=20
-Element=water
-Cost=999999
-Magic=yes
-stat=int
-
-[BlizzardIV]
-Type=single
-TP=10
-Desc=blasts %enemy with a barrage of ice crystals!
-BasePower=20
-Element=ice
-Cost=999999
-Magic=yes
-stat=int
-
 [Poison]
-Type=Status
+Type=Single
 StatusType=poison
-TP=10
-Desc=casts poison. A green mist covers %enemy for a moment before disappearing.
+TP=15
+Desc=casts Poison. A green mist covers %enemy for a moment before disappearing.
 BasePower=10
-Cost=999999
+Cost=400
 Element=none
 Magic=no
 stat=int
 
 [Blind]
-Type=Status
+Type=Single
 StatusType=blind
-TP=10
-Desc=casts blind. A black cloud covers %enemy for a moment and blinds them!
+TP=15
+Desc=casts Blind. A black cloud covers %enemy for a moment and blinds $gender2($2) $+ !
 BasePower=10
-Cost=999999
+Cost=400
+Element=none
+Magic=no
+stat=int
+
+[Paralyze]
+Type=Single
+StatusType=Paralysis
+TP=15
+Desc=casts paralyze. Yellow bolts of lightning strikes %enemy to cause paralysis!
+BasePower=10
+Cost=400
 Element=none
 Magic=no
 stat=int
 
 [Holy]
 Type=AOE
-TP=10
+TP=30
 Desc=casts Holy. A large explosion of Light energy damages everyone in range!
-BasePower=20
+BasePower=35
 Element=light
-Cost=no
-Magic=yes
-stat=int
-
-[BanishV]
-Type=Single
-TP=10
-Desc=casts a smaller but more potent explosion of Light energy upon %enemy $+ !
-BasePower=25
-Element=light
-Cost=999999
-Magic=yes
-stat=int
-
-[AeroV]
-Type=Single
-TP=10
-Desc=looks at %enemy and raises $gender($1) staff. A moment later, a large tornado engulfs %enemy and slams them into the ground.
-BasePower=25
-Element=Wind
-Cost=999999
-Magic=yes
-stat=int
-
-[BlizzardV]
-Type=single
-TP=10
-Desc=swings $gender($1) staff at %enemy $+ 's direction and several large ice shards shoot towards %enemy $+ .
-BasePower=25
-Element=Ice
-Cost=999999
-Magic=yes
-stat=int
-
-[AerogaV]
-Type=AOE
-TP=10
-Desc=spins around before raising $gender($1) staff and arms into the air. Tornado speed winds suddenly blow around all targets, throwing them high into the air and causes them to slam into the ground with great force.
-BasePower=30
-Element=Wind
-Cost=999999
-Magic=yes
-stat=int
-
-[FireV]
-Type=single
-TP=10
-Desc=points towards %enemy $+ . A moment later, several large pillars of flame explode from the ground and close in upon %enemy $+ , causing large fire damage.
-BasePower=25
-Element=Fire
-Cost=999999
+Cost=1000
 Magic=yes
 stat=int
 
@@ -1737,7 +1757,7 @@ Type=heal
 TP=5
 Desc=casts a small healing spell on %enemy $+ !
 BasePower=20
-Cost=100
+Cost=200
 Element=light
 magic=yes
 stat=int
@@ -1747,7 +1767,7 @@ Type=heal
 TP=10
 Desc=casts a healing spell on %enemy $+ !  $set_chr_name($2) %real.name is bathed in a refreshing white light.
 BasePower=30
-Cost=200
+Cost=300
 Element=light
 magic=yes
 stat=int
@@ -1757,7 +1777,7 @@ Type=heal
 TP=15
 Desc=casts a healing spell on %enemy $+ !  $set_chr_name($2) %real.name is bathed in a refreshing white light.
 BasePower=40
-Cost=300
+Cost=400
 Element=light
 magic=yes
 stat=int
@@ -1767,17 +1787,17 @@ Type=heal
 TP=25
 Desc=casts a healing spell on %enemy $+ !  $set_chr_name($2) %real.name is bathed in a refreshing white light.
 BasePower=50
-Cost=400
+Cost=500
 Element=light
 magic=yes
 stat=int
 
 [Cura]
 Type=heal-AOE
-TP=20
+TP=15
 Desc=casts a healing spell on the battlefield.  All of %user $+ 's allies are bathed in a refreshing white light.
 BasePower=35
-Cost=500
+Cost=400
 Element=light
 magic=yes
 stat=int
@@ -1787,7 +1807,7 @@ Type=heal-AOE
 TP=30
 Desc=casts Curaga on the battlefield.  All of %user $+ 's allies are bathed in a refreshing white light.
 BasePower=55
-Cost=550
+Cost=600
 Element=light
 magic=yes
 stat=int
@@ -1796,9 +1816,9 @@ stat=int
 Type=Single
 TP=30
 Desc=summons a large sphere a fire above %enemy $+ . $set_chr_name($1) %real.name lets the sphere stay for a moment before allowing it to suddenly crash into %enemy $+ , causing severe burn damage!
-BasePower=30
+BasePower=40
 Element=Fire
-Cost=900
+Cost=1000
 Magic=Yes
 stat=int
 
@@ -1806,9 +1826,9 @@ stat=int
 Type=Single
 TP=30
 Desc=summons boulders above %enemy which then crushes %enemy underneath $+ !
-BasePower=30
+BasePower=40
 Element=Earth
-Cost=900
+Cost=1000
 Magic=Yes
 stat=int
 
@@ -1816,9 +1836,9 @@ stat=int
 Type=Single
 TP=30
 Desc=causes the ground to shake under %enemy as it opens up and causes %enemy to fall into the hole!
-BasePower=30
+BasePower=40
 Element=Earth
-Cost=900
+Cost=1000
 Magic=Yes
 stat=int
 
@@ -1826,9 +1846,9 @@ stat=int
 Type=Single
 TP=30
 Desc=summons a large flood of water that engulfs %enemy $+ !
-BasePower=30
+BasePower=40
 Element=Water
-Cost=900
+Cost=1000
 Magic=Yes
 stat=int
 
@@ -1836,9 +1856,9 @@ stat=int
 Type=Single
 TP=30
 Desc=summons a large tornado upon %enemy $+ !
-BasePower=30
+BasePower=40
 Element=Wind
-Cost=900
+Cost=1000
 Magic=Yes
 stat=int
 
@@ -1846,9 +1866,9 @@ stat=int
 Type=Single
 TP=30
 Desc=encases %enemy in a large crystal of ice, which then explodes to cause ice damage.
-BasePower=30
+BasePower=40
 Element=Ice
-Cost=900
+Cost=1000
 Magic=Yes
 stat=int
 
@@ -1856,17 +1876,17 @@ stat=int
 Type=Single
 TP=30
 Desc=summons a dark cloud above %enemy $+ . A moment later, a giant bolt of lightning strikes %enemy $+ !
-BasePower=30
+BasePower=40
 Element=Lightning
-Cost=900
+Cost=1000
 Magic=Yes
 stat=int
 
 [FlareII]
 Type=Single
 TP=60
-Desc=summons a gigantic sphere of fire above %enemy $+ . $set_chr_name($1) %real.name waits for a moment before allowing the sphere to drop on %enemy $+ , dealing tremendous fire damage!!
-BasePower=55
+Desc=summons a gigantic sphere of fire above %enemy $+ . $set_chr_name($1) %real.name waits for a moment before allowing the sphere to drop on %enemy $+ , dealing tremendous fire damage!
+BasePower=60
 Element=Fire
 Cost=1500
 Magic=Yes
@@ -1876,7 +1896,7 @@ stat=int
 Type=Single
 TP=60
 Desc=rips out a huge chunk of the earth from below %enemy and proceeds to drop it on %enemy $+ , burying $gender2($2) $+ !
-BasePower=55
+BasePower=60
 Element=Earth
 Cost=1500
 Magic=Yes
@@ -1886,7 +1906,7 @@ stat=int
 Type=Single
 TP=60
 Desc=traps %enemy in a giant sphere of water and sends $gender2($2) flying into the air! A minute later, %enemy proceeds to slam into the ground with great force.
-BasePower=55
+BasePower=60
 Element=Water
 Cost=1500
 Magic=Yes
@@ -1896,7 +1916,7 @@ stat=int
 Type=Single
 TP=60
 Desc=summons a gigantic tornado that is black in color. The tornado pulls %enemy inside, giving $gender2($2) large cuts and slams various objects into %enemy as well!
-BasePower=55
+BasePower=60
 Element=Wind
 Cost=1500
 Magic=Yes
@@ -1906,7 +1926,7 @@ stat=int
 Type=Single
 TP=60
 Desc=traps %enemy in an iceberg, freezing $gender2($2) instantly. The ice shatters a moment later, burying %enemy in a mass of shattered ice!
-BasePower=55
+BasePower=60
 Element=Ice
 Cost=1500
 Magic=Yes
@@ -1916,7 +1936,7 @@ stat=int
 Type=Single
 TP=60
 Desc=summons several dark clouds to the battlefield. Several large bolts of lightning then proceeds to slam into %enemy $+ , giving $gender2($2) a terrible shock therapy treatment!
-BasePower=55
+BasePower=60
 Element=Lightning
 Cost=1500
 Magic=Yes
@@ -1934,60 +1954,60 @@ stat=int
 
 [FirajaII]
 Type=AOE
-TP=60
+TP=50
 Desc=casts the most powerful fire spell known by any wizard, Firaja II.  The battlefield erupts in flames!
 BasePower=50
-Cost=1500
+Cost=1800
 Element=fire
 magic=yes
 stat=int
 
 [StonejaII]
 Type=AOE
-TP=60
+TP=50
 Desc=casts the most powerful stone spell known by any wizard, Stoneja II.  The ground shakes violently as the earth spits out giant boulders at all targets.
 BasePower=50
-Cost=1500
+Cost=1800
 Element=earth
 magic=yes
 stat=int
 
 [WaterjaII]
 Type=AOE
-TP=60
+TP=50
 Desc=casts the most powerful water spell known by any wizard, Waterja II.  A huge tidal wave floods the battle field, pushing all targets under the water
 BasePower=50
-Cost=1500
+Cost=1800
 Element=water
 magic=yes
 stat=int
 
 [AerojaII]
 Type=AOE
-TP=60
+TP=50
 Desc=casts the most powerful wind spell known by any wizard, Aeroja II.  The battlefield howls as sharp wind that cuts like knives flies over all of the targets
 BasePower=50
-Cost=1500
+Cost=1800
 Element=wind
 magic=yes
 stat=int
 
 [BlizzajaII]
 Type=AOE
-TP=60
+TP=50
 Desc=casts the most powerful ice spell known by any wizard, Blizzaja II.  An ice wind fills the battlefield as the ground begins to freeze.  Large columns of ice shoot out of the ground and explode on all targets.
 BasePower=50
-Cost=1500
+Cost=1800
 Element=ice
 magic=yes
 stat=int
 
 [ThundajaII]
 Type=AOE
-TP=60
+TP=50
 Desc=casts the most powerful lightning spell known by any wizard, Thundaja II.  Dark clouds cover the battlefield and large bolts of lightning shoot out and strike all enemies.  
 BasePower=50
-Cost=1500
+Cost=1800
 Element=lightning
 magic=yes
 stat=int
@@ -1997,7 +2017,7 @@ Type=AOE
 TP=50
 Desc=chants loudly as the sun is blacked out by a massive object.  As everyone looks up they see a large meteor heading straight for them. It slams into the battlefield, hitting all enemies.
 BasePower=80
-Cost=999999
+Cost=90000
 Element=none
 magic=yes
 stat=int
@@ -2006,9 +2026,9 @@ stat=int
 Type=Single
 TP=200
 Desc=traps %enemy in a large sphere of green energy. The sphere explodes a moment later, causing massive damage!
-BasePower=500
+BasePower=600
 Element=Light
-Cost=500000
+Cost=100000
 Magic=Yes
 stat=int
 
@@ -2016,95 +2036,223 @@ stat=int
 Type=Single
 TP=200
 Desc=traps %enemy in a large sphere of black energy. The sphere explodes a moment later, causing massive damage!
-BasePower=500
+BasePower=600
 Element=Dark
-Cost=500000
+Cost=100000
 Magic=Yes
+stat=int
+
+[Dark]
+Type=Single
+TP=5
+Desc=summons a small dark sphere that floats in the air for a moment before it crashes into %enemy $+ !
+BasePower=5
+Element=Dark
+Cost=200
+Magic=Yes
+stat=int
+
+[DarkII]
+Type=Single
+TP=10
+Desc=summons a medium dark sphere that floats in the air for a moment before it crashes into %enemy $+ !
+BasePower=10
+Element=Dark
+Cost=300
+Magic=Yes
+stat=int
+
+[DarkIII]
+Type=Single
+TP=15
+Desc=summons a large dark sphere that floats in the air for a moment before it crashes into %enemy $+ !
+BasePower=15
+Element=Dark
+Cost=400
+Magic=Yes
+stat=int
+
+[Darkness]
+Type=Single
+TP=30
+Desc=summons a massive dark sphere that floats above %enemy for a moment before falling onto %enemy and covers $gender2($2) in darkness!
+BasePower=40
+Element=Dark
+Cost=1000
+Magic=Yes
+stat=int
+
+[DarknessII]
+Type=Single
+TP=60
+Desc=chants as black energy covers %enemy $+ . The energy explodes a moment later, causing large darkness damage upon %enemy $+ !
+BasePower=60
+Element=Dark
+Cost=1500
+Magic=Yes
+stat=int
+
+[Darkra]
+Type=AOE
+TP=30
+Desc=floats into the air slightly as %gender3($1) gathers energy. $set_chr_name($1) %real.name then hurls the wand into the ground, causing dark energy to expand over all of the battlefield!
+BasePower=35
+Element=Dark
+Cost=1000
+Magic=Yes
+stat=int
+
+[DarkraII]
+Type=AOE
+TP=50
+Desc=floats into the air slightly as %gender3($1) gathers energy. A small dark orb appears in front of $set_chr_name($1) %real.name for a moment before the orb slams into the battlefield, covering it in darkness!
+BasePower=50
+Element=Dark
+Cost=1800
+Magic=Yes
+stat=int
+
+[HolyII]
+Type=AOE
+TP=50
+Desc=casts a stronger version of Holy. Searing light engulfs the battlefield to damage all targets!
+BasePower=50
+Element=Light
+Cost=1800
+Magic=Yes
+stat=int
+
+[Banish]
+Type=Single
+TP=5
+Desc=summons a small white sphere that floats in the air for a moment before it crashes into %enemy $+ !
+BasePower=5
+Element=light
+Cost=200
+Magic=yes
+stat=int
+
+[BanishII]
+Type=Single
+TP=10
+Desc=summons a medium white sphere that floats in the air for a moment before it crashes into %enemy $+ !
+BasePower=10
+Element=light
+Cost=300
+Magic=yes
+stat=int
+
+[BanishIII]
+Type=Single
+TP=15
+Desc=summons a large white sphere that floats in the air for a moment before it crashes into %enemy $+ !
+BasePower=15
+Element=light
+Cost=400
+Magic=yes
+stat=int
+
+[Light]
+Type=Single
+TP=30
+Desc=summons a massive white sphere that floats above %enemy for a moment before falling onto %enemy and covers $gender2($2) in holy energy!
+BasePower=40
+Element=light
+Cost=1000
+Magic=yes
+stat=int
+
+[LightII]
+Type=Single
+TP=60
+Desc=chants as white energy covers %enemy $+ . The energy explodes a moment later, causing large holy damage upon %enemy $+ !
+BasePower=60
+Element=light
+Cost=1500
+Magic=yes
 stat=int
 
 ===================
 GLYPHS
 ===================
-
-
 [Ignis]
 Type=Single
-TP=10
+TP=30
 Desc=does a backhand gesture and three flames appear and slam into %enemy $+ .
-BasePower=10
+BasePower=40
 Element=Fire
-Cost=300
+Cost=1000
 Magic=yes
 stat=int
 
 [Grando]
 Type=Single
-TP=10
+TP=30
 Desc=holds $gender($1) hands forward and a large ice crystal forms before speeding toward %enemy $+ .
-BasePower=10
+BasePower=40
 Element=Ice
-Cost=300
+Cost=1000
 Magic=yes
 stat=int
 
 [Fulgur]
 Type=Single
-TP=10
+TP=30
 Desc=swings $gender($1) right arm up into the air and causes a bolt of lightning to shoot into %enemy $+ !
-BasePower=10
+BasePower=40
 Element=Lightning
-Cost=300
+Cost=1000
 Magic=yes
 stat=int
 
 [Nitesco]
 Type=Single
-TP=15
+TP=30
 Desc=places $gender($1) hands forward and a concentrated beam of energy shoots forward into %enemy $+ .
-BasePower=15
+BasePower=40
 Element=Light
-Cost=500
+Cost=1000
 Magic=yes
 stat=int
 
 [Globus]
 Type=AOE
-TP=15
+TP=20
 Desc=summons two pink spheres of energy and tosses them into the air. The spheres bounce around the battlefield to hit all targets!
-BasePower=10
-Element=none
-Cost=400
-Magic=no
+BasePower=20
+Element=earth
+Cost=1000
+Magic=yes
 stat=int
 
 [Acerbatus]
 Type=Status
 StatusType=Curse
-TP=20
+TP=30
 Desc=summons a large ball of dark energy and sends it slamming into %enemy in an attempt to curse %enemy $+ .
-BasePower=20
+BasePower=40
 Element=Dark
-Cost=600
+Cost=1000
 Magic=yes
 stat=int
 
 [Luminatio]
 Type=Single
-TP=20
+TP=50
 Desc=summons two golden spheres of energy and sends them spinning towards %enemy $+ .
-BasePower=20
+BasePower=60
 Element=Light
-Cost=600
+Cost=3000
 Magic=yes
 stat=int
 
 [Dominus]
-Type=Suicide-AOE
-TP=30
-Desc=combines the power of Dominus Anger, Hatred and Agony, which causes a great explosion of powerful Dark energy at the cost of $gender($1) life!!
-BasePower=75
+Type=Single
+TP=50
+Desc=combines the power of Dominus Anger, Hatred, and Agony, to cause a massive explosion of dark energy upon %enemy $+ !
+BasePower=60
 Element=Dark
-Cost=9999
+Cost=3000
 magic=yes
 stat=int
 
@@ -2115,58 +2263,210 @@ AXES
 
 Type=AOE
 
-TP=10
-
+TP=15
 Desc=gathers energy for a moment before spinning around the battlefield and slashes at all targets!
 
 BasePower=20
 
 Element=None
 
-Cost=500
+Cost=1000
 
 Magic=No
 
 stat=str
 
 
-
 [UkkosFury]
 
 Type=Single
 
-TP=10
-
+TP=40
 Desc=slashes at %enemy with the axe before pulling the axe backwards and slams the axe into %enemy with great force!
 
-BasePower=20
-
+BasePower=40
 Element=None
 
-Cost=700
-
+Cost=1500
 Magic=No
 
 stat=str
+renkei=8
+
 
 
 [KingsJustice]
 
 Type=Single
 
-TP=10
+TP=40
 
 Desc=gathers energy as a white glow covers the axe. %user then strikes %enemy several times with the powered axe.
 
-BasePower=25
-
+BasePower=40
 Element=Light
 
-Cost=1000
+Cost=1500
 
-Magic=Yes
-
+Magic=no
 stat=str
+renkei=11
+
+[MetatronTorment]
+Type=Single
+TP=20
+Desc=lifts the axe above $gender($1) head for a moment before swifty bringing the axe down upon %enemy for a small explosion of fire.
+BasePower=20
+Element=Fire
+Cost=1500
+Magic=Yes
+stat=str
+
+[Upheaval]
+Type=Single
+TP=20
+Desc=slashes %enemy four times at a quick speed which ends with large ice crystals slamming into %enemy $+ !
+BasePower=20
+Element=Ice
+Cost=1500
+Magic=Yes
+stat=str
+
+[SteelCyclone]
+Type=Single
+TP=20
+Desc=spins around with the axe before perfoming a backswing with the axe upon %enemy $+ , which causes a small explosion of green energy.
+BasePower=20
+Element=Wind
+Cost=1500
+Magic=Yes
+stat=str
+
+[Onslaught]
+Type=Single
+TP=20
+Desc=quickly slashes %enemy five times with axe, ending with an explosion of dark energy.
+BasePower=20
+Element=Dark
+Cost=1500
+Magic=Yes
+stat=str
+
+[BoraAxe]
+Type=Single
+TP=20
+Desc=hurls the axe towards %enemy like a boomerang, which covers %enemy in a large sheet of ice. $set_chr_name($1) %real.name hops into the air to catch the axe as the ice explodes.
+BasePower=20
+Element=Ice
+Cost=1500
+Magic=Yes
+stat=str
+
+[Rampage]
+Type=Single
+TP=20
+Desc=performs a five hit attack upon %enemy with the axe, causing a small explosion of light energy.
+BasePower=20
+Element=Light
+Cost=1500
+Magic=Yes
+stat=str
+
+[Cloudsplitter]
+Type=Single
+TP=20
+Desc=performs a backswing with axe upon %enemy $+ , tossing the axe into the air. $set_chr_name($1) %real.name leaps into the air to catch the axe, swinging the axe downward to strike %enemy with a large lightning bolt!
+BasePower=20
+Element=Lightning
+Cost=1500
+Magic=Yes
+stat=str
+
+[Ruinator]
+Type=AOE
+TP=30
+Desc=slashes a random enemy twice with the axe before leaping into the air. A moment later, $set_chr_name($1) %real.name slams the axe into the ground, cause blades of light blue energy to cut all of the enemies!
+BasePower=30
+Element=None
+Cost=1500
+Magic=No
+stat=str
+
+[PrimalRend]
+Type=Single
+TP=20
+Desc=gathers energy before quickly slashing %enemy with the axe, surrounding %enemy with a sphere of water. The water sphere floats into the air a bit before exploding, sending %enemy crashing into the ground!
+BasePower=20
+Element=Water
+Cost=1500
+Magic=Yes
+stat=str
+
+========================
+DAGGERS
+========================
+[PyrrhicKleos]
+Type=Single
+TP=40
+Desc=cuts %enemy with a quick burst of four hits that ends with a small explosion of light energy.
+BasePower=40
+Element=Light
+Cost=1500
+Magic=No
+stat=str
+renkei=11
+
+[RudrasStorm]
+Type=Single
+TP=20
+Desc=hits %enemy with a backswing of the dagger before quickling stabbing $gender2($2) with the dagger, causing a large tornado to surround %enemy $+ !
+BasePower=20
+Element=Wind
+Cost=1500
+Magic=Yes
+stat=str
+
+[Exenterator]
+Type=Single
+TP=20
+Desc=performs a quick series of slashes with the dagger upon %enemy $+ , trapping $gender2($2) in ice before hopping into the air and stabbing %enemy on the way down, shattering the ice.
+BasePower=20
+Element=Ice
+Cost=1500
+Magic=Yes
+stat=str
+
+[MercyStroke]
+Type=Single
+TP=30
+Desc=covers the dagger in dark energy before cutting %enemy with the dagger a few times. $set_chr_name %real.name then quick stabs %enemy with the dagger, creating a small explosion of dark energy.
+BasePower=30
+Element=Dark
+Cost=1500
+Magic=no
+stat=str
+renkei=8
+
+[AeolianEdge]
+Type=AOE
+TP=20
+Desc=swings the dagger to the left, then quickly swings the dagger to the right, spinning around with it as well. A circle of green energy forms around $set_chr_name %real.name before exploding around the battlefield!
+BasePower=15
+Element=Wind
+Cost=1200
+Magic=Yes
+stat=str
+
+[Evisceration]
+Type=Single
+TP=40
+Desc=stabs %enemy several times with the dagger at a high speed!
+BasePower=40
+Element=None
+Cost=1500
+Magic=No
+stat=str
+renkei=8
 
 ===================
 BOWS
@@ -2177,68 +2477,69 @@ TP=10
 Desc=lights an arrow on fire and fires it at %enemy $+ !
 BasePower=10
 Element=Fire
-Cost=200
+Cost=500
 Magic=Yes
-stat=int
+stat=str
 
 [PiercingArrow]
 Type=Single
 TP=15
 Desc=takes aim at %enemy and fires an arrow strong enough to pierce armor!
-BasePower=15
+BasePower=25
 Element=None
-Cost=250
+Cost=500
 Magic=No
 stat=str
 
 [DullingArrow]
-Type=Status
+Type=Single
 StatusType=Stun
 TP=15
 Desc=takes careful aim at %enemy before quickly firing an arrow that has a flat tip. The arrow slams into %enemy $+ 's solar plexis and stuns $gender2($2) $+ !
 BasePower=10
 Element=None
-Cost=250
+Cost=500
 Magic=No
 stat=str
 
 [BlastArrow]
 Type=Single
-TP=15
+TP=20
 Desc=hits %enemy with the bow before hopping back and firing an arrow at %enemy $+ !
-BasePower=15
+BasePower=30
 Element=None
-Cost=250
+Cost=500
 Magic=No
 stat=str
+renkei=3
 
 [Sidewinder]
 Type=AOE
-TP=15
-Desc=lines up allf the the enemies and fires an arrow strong enough to pierce all targets!
-BasePower=12
+TP=30
+Desc=lines up all of the enemies and fires an arrow strong enough to pierce all targets!
+BasePower=20
 Element=None
-Cost=300
+Cost=1000
 Magic=No
 stat=str
 
 [EmpyrealArrow]
 Type=Single
-TP=20
+TP=30
 Desc=fires an arrow at %enemy which also causes a cyclone to slam into %enemy $+ !
-BasePower=15
+BasePower=35
 Element=Wind
-Cost=400
+Cost=1500
 Magic=Yes
 stat=str
 
 [ArchingArrow]
 Type=AOE
-TP=20
+TP=30
 Desc=aims the bow at the sky and fires an arrow. After a moment, a storm of ice arrows hits the battlefield!
-BasePower=15
+BasePower=35
 Element=Ice
-Cost=400
+Cost=1500
 Magic=Yes
 stat=str
 
@@ -2246,9 +2547,9 @@ stat=str
 Type=Single
 TP=30
 Desc=takes aim at %enemy and fires an arrow that hits %enemy with powerful Light energy!
-BasePower=20
+BasePower=35
 Element=Light
-Cost=500
+Cost=1500
 Magic=Yes
 stat=str
 
@@ -2256,9 +2557,9 @@ stat=str
 Type=Single
 TP=30
 Desc=takes aim at %enemy and fires an arrow that hits %enemy with powerful Dark energy!
-BasePower=20
+BasePower=35
 Element=Dark
-Cost=500
+Cost=1500
 Magic=Yes
 stat=str
 
@@ -2266,21 +2567,32 @@ stat=str
 Type=Single
 TP=30
 Desc=takes aim at %enemy and fires an arrow that hits %enemy with powerful lightning!
-BasePower=25
+BasePower=35
 Element=Lightning
-Cost=600
+Cost=1500
 Magic=Yes
 stat=str
 
 [ApexArrow]
 Type=AOE
-TP=30
+TP=50
 Desc=takes aim and fires an arrow that hits all targets before stepping back as multiple energy arrows storm the battlefield!
-BasePower=20
+BasePower=40
 Element=None
-Cost=650
+Cost=2000
 Magic=No
 stat=str
+
+[EagleEyeShot]
+Type=Single
+TP=60
+Desc=summons an arrow of powerful energy and takes aim with the bow for a moment before firing the devastating energy arrow into %enemy $+ !
+BasePower=70
+Element=Light
+Cost=5000
+Magic=No
+stat=str
+renkei=11
 
 ===================
 BOOSTS
@@ -2291,39 +2603,39 @@ TP=20
 Desc=screams as $gender($1) body morphs into demon form. 
 BasePower=5
 Element=none
-cost=200
+cost=300
 
 [TensaZangetsu]
 Type=boost
 TP=20
 Desc=holds up Zangetsu and yells "BANKAI!"  A flash of light appears and when it disappears, %user $+ 's clothes have changed and Zangetsu has changed shape into a long black katana.
-BasePower=4
+BasePower=5
 Element=none
-cost=150
+cost=300
 
 [Kageyoshi]
 Type=boost
 TP=20
 Desc=holds Senbonzakura in front of $gender2($1) and says "Bankai".  %user drops Senbonzakura and it disappears. Suddenly huge blades appear behind %user and shatter into millions of tiny little blades that look like sakura petals, ready to be used to help fight.
-BasePower=3
+BasePower=5
 Element=none
-cost=120
+cost=300
 
 [DaigurenHyourinmaru]
 Type=boost
 TP=20
 Desc=holds up Hyourinmaru and yells "Bankai! Daiguren Hyourinmaru!"  Ice flows over %user $+ 's body starting at $gender($1) right arm which ice forms in the shape of a dragon's head around $gender($1) sword hand, encasing the sword up to the hilt; which also changes from the shape of a four-pointed star to that of eight-pointed star.
-BasePower=3
+BasePower=5
 Element=ice
-cost=120
+cost=300
 
 [Bankai]
 Type=boost
 TP=20
 Desc=activates the true power of the zanpakutou to enhance $gender($1) body
-BasePower=3
+BasePower=5
 Element=none
-cost=100
+cost=300
 
 [FinalGetsuga]
 Type=finalgetsuga
@@ -2354,24 +2666,24 @@ Type=boost
 TP=10
 Desc=laughs as a red and blue aura appears around Nauthima, greatly increasing her power.
 BasePower=10
-Element=none
-Cost=999999
+Element=Wind
+Cost=90000
 
 [WiseReflection]
 Type=boost
 TP=10
-Desc=scoffs at everyone again as a silver aura appears around $gender($1) $+self  . "Let's see how you fare against my full goddess power, you scum."
+Desc=narrows her eyes at everyone as a silver aura appears around $gender2($1). "Let's see how you shall fare against my full goddess power...."
 BasePower=10
-Element=none
-Cost=999999
+Element=Light
+Cost=5000
 
 [TrueForm]
 Type=boost
 TP=10
 Desc=begins to morph and change into a large demonic beast.  
-BasePower=3
+BasePower=10
 Element=none
-Cost=999999
+Cost=90000
 
 [PerfectForm]
 Type=boost
@@ -2379,7 +2691,7 @@ TP=10
 Desc=absorbs Android 18 and transforms into his perfect form.  His power increases and he laughs.  "Finally, I have achieved my perfect form!" 
 BasePower=10
 Element=none
-Cost=999999
+Cost=90000
 
 [SpaceBoost]
 Type=boost
@@ -2387,20 +2699,100 @@ TP=10
 Desc=uses some of the power he has absorbed from the planet to transform into his second form.  His tentacles split and grow larger, and his entire body becomes harder.
 BasePower=10
 Element=none
-Cost=999999
+Cost=90000
 
 [CromwellApproval]
 Type=boost
 TP=10
 Desc=smirks and says "Releasing control art restriction to level one."  The surrounding area gains a dark red shade as Alucard now wears a dark red leather straight jacket, longer black hair, and is almost at his full power. Alucard then proceeds to laugh.
 BasePower=10
-Element=none
-Cost=999999
+Element=Dark
+Cost=90000
 
 ===================
 MONSTER TECHS
 ===================
 As a note here: Monster techniques should always cost 10 or less TP to perform for the AI system to work properly.
+
+[FireIV]
+Type=Single
+TP=10
+Desc=blasts %enemy with a large column of fire!
+BasePower=35
+Element=fire
+Cost=90000
+Magic=yes
+stat=int
+
+[WaterIV]
+Type=single
+TP=10
+Desc=covers %enemy with a large wave of water!
+BasePower=35
+Element=water
+Cost=90000
+Magic=yes
+stat=int
+
+[BlizzardIV]
+Type=single
+TP=10
+Desc=blasts %enemy with a barrage of ice crystals!
+BasePower=35
+Element=ice
+Cost=90000
+Magic=yes
+stat=int
+
+[BanishV]
+Type=Single
+TP=10
+Desc=casts a smaller but more potent explosion of Light energy upon %enemy $+ !
+BasePower=40
+Element=light
+Cost=90000
+Magic=yes
+stat=int
+
+[AeroV]
+Type=Single
+TP=10
+Desc=looks at %enemy and raises $gender($1) staff. A moment later, a large tornado engulfs %enemy and slams them into the ground.
+BasePower=40
+Element=Wind
+Cost=90000
+Magic=yes
+stat=int
+
+[BlizzardV]
+Type=single
+TP=10
+Desc=swings $gender($1) staff at %enemy $+ 's direction and several large ice shards shoot towards %enemy $+ .
+BasePower=40
+Element=Ice
+Cost=90000
+Magic=yes
+stat=int
+
+[AerogaV]
+Type=AOE
+TP=10
+Desc=spins around before raising $gender($1) staff and arms into the air. Tornado speed winds suddenly blow around all targets, throwing them high into the air and causes them to slam into the ground with great force.
+BasePower=35
+Element=Wind
+Cost=90000
+Magic=yes
+stat=int
+
+[FireV]
+Type=single
+TP=10
+Desc=points towards %enemy $+ . A moment later, several large pillars of flame explode from the ground and close in upon %enemy $+ , causing large fire damage.
+BasePower=40
+Element=Fire
+Cost=90000
+Magic=yes
+stat=int
 
 [Sweep]
 Type=AOE
@@ -2410,7 +2802,7 @@ Desc=charges up energy and then does a roundhouse kick strong enough to hit ever
 BasePower=15
 Element=none
 magic=no
-Cost=999999
+Cost=90000
 stat=str
 
 [DoubleKick]
@@ -2421,7 +2813,7 @@ Desc=leaps up into the air and performs two very quick kicks on %enemy $+ , send
 BasePower=12
 Element=None
 magic=no
-Cost=999999
+Cost=90000
 stat=str
 
 [Headbutt]
@@ -2432,7 +2824,7 @@ Desc=runs forward and hits %enemy with $gender($1) head!
 BasePower=10
 Element=None
 magic=no
-Cost=999999
+Cost=90000
 stat=str
 
 [FeatherStorm]
@@ -2443,7 +2835,7 @@ Desc=sends several sharp and poisoned feathers flying at %enemy with amazing spe
 BasePower=12
 Element=None
 magic=no
-Cost=999999
+Cost=90000
 stat=str
 
 [Dark_Inferno]
@@ -2453,7 +2845,7 @@ Desc=looks at %enemy and opens his cape, releasing two large black orbs of energ
 BasePower=10
 Element=dark
 magic=no
-Cost=999999
+Cost=90000
 stat=int
 
 [Demonic_Megiddo]
@@ -2463,7 +2855,7 @@ Desc=glows with a red energy as he charges up his most powerful dark energy.  Wi
 BasePower=25
 Element=fire
 magic=yes
-Cost=999999
+Cost=90000
 stat=int
 
 [Shield_Smash]
@@ -2473,7 +2865,7 @@ Desc=looks at %enemy and bends to a knee before its giant shield slams towards %
 BasePower=10
 Element=none
 magic=no
-Cost=999999
+Cost=90000
 stat=str
 
 [Shockwave]
@@ -2483,7 +2875,7 @@ Desc=glows with a yellow aura as it slams its massive sword into the ground, sen
 BasePower=12
 Element=lightning
 magic=no
-Cost=999999
+Cost=90000
 stat=str
 
 [BattleDance]
@@ -2493,7 +2885,7 @@ Desc=glows with a blue aura as %user spins $gender($1) weapon around, sending wa
 BasePower=12
 Element=wind
 magic=no
-Cost=999999
+Cost=90000
 stat=str
 
 [Sacrifice]
@@ -2503,7 +2895,7 @@ Desc=consumes all remaining life to create a massive explosion on %enemy $+ !
 BasePower=10
 Element=Fire
 magic=no
-Cost=999999
+Cost=90000
 stat=int
 
 [Explode]
@@ -2513,7 +2905,7 @@ Desc=swells up to five times its normal size before violently exploding into a r
 BasePower=30
 Element=Fire
 magic=yes
-Cost=999999
+Cost=90000
 stat=int
 
 [CellExplode]
@@ -2523,7 +2915,7 @@ Desc=begins laughing like a madman as his body swells up three times its normal 
 BasePower=10
 Element=Fire
 magic=yes
-Cost=999999
+Cost=90000
 stat=int
 
 [CreeperExplode]
@@ -2533,16 +2925,16 @@ Desc=glows as the gunpowder that makes up its body begins to ignite.  Within sec
 BasePower=5
 Element=Fire
 magic=yes
-Cost=999999
+Cost=90000
 stat=int
 
 [WrathofGuDha]
 Type=AOE
 TP=10
 Desc=forces an invisble explosion of energy to explode from around himself, throwing all of his opponents away by a large radius.
-BasePower=12
+BasePower=15
 Element=none
-Cost=999999
+Cost=90000
 Magic=no
 stat=int
 
@@ -2551,8 +2943,8 @@ Type=Status
 StatusType=Slow
 TP=10
 Desc=blasts %enemy with a wave of energy, forcing %enemy to move slower than usual.
-BasePower=10
-Cost=999999
+BasePower=15
+Cost=90000
 Element=None
 Magic=no
 stat=int
@@ -2561,9 +2953,9 @@ stat=int
 Type=single
 TP=10
 Desc=quickly dashes towards %enemy and slices with the sword as she does. Eldora then spins to face %enemy and swings her sword down across %enemy $+ 's back before moving away.
-BasePower=25
+BasePower=35
 Element=none
-Cost=999999
+Cost=90000
 Magic=no
 stat=str
 
@@ -2573,7 +2965,7 @@ TP=10
 Desc=smirks as lightning begins to dance on her sword. She slices %enemy multiple times before leaping back, swinging her sword to send the lightning into %enemy $+ .
 BasePower=25
 Element=Lightning
-Cost=999999
+Cost=90000
 Magic=yes
 stat=int
 
@@ -2583,7 +2975,7 @@ TP=10
 Desc=holds up her sword as a blue energy covers it as she drives it into the ground. The energy shoots towards one target then splits to hit everyone else once it hit her main target.
 BasePower=25
 Element=Light
-Cost=999999
+Cost=90000
 Magic=no
 stat=str
 
@@ -2591,9 +2983,9 @@ stat=str
 Type=single
 TP=10
 Desc=gives %enemy a death glare as her sword glows red. She instantly appears before %enemy $+ , then proceeds to slash %enemy multiple times before %enemy has a chance to react. Eldora then shoves %enemy away from her. "You are not ready to pass me, %enemy $+ ...."
-BasePower=30
+BasePower=50
 Element=none
-Cost=999999
+Cost=90000
 Magic=no
 stat=str
 
@@ -2604,7 +2996,7 @@ Desc=cups $gender($1) hands to $gender($1) side and starts to charge up energy. 
 BasePower=15
 Element=none
 magic=no
-Cost=999999
+Cost=90000
 stat=str
 
 [GrimReaper]
@@ -2613,7 +3005,7 @@ TP=10
 Desc=holds up $gender($1) giant scythe as smaller sycthes appear out of thin air and begin to fill up the battlefield.  They fly towards and slice up all the targets
 BasePower=20
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=no
 stat=int
 
@@ -2623,7 +3015,7 @@ TP=10
 Desc=flies up into the air before swinging $gender($1) giant scythe straight down towards %enemy $+ !
 BasePower=23
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=no
 stat=str
 
@@ -2633,7 +3025,7 @@ TP=10
 Desc=leaps up into the air and slashes %enemy on the way down
 BasePower=15
 Element=none
-Cost=999999
+Cost=90000
 Magic=no
 stat=str
 
@@ -2645,7 +3037,7 @@ Desc=shoots a sticky web all over %enemy $+ !
 BasePower=10
 Element=None
 magic=no
-Cost=999999
+Cost=90000
 stat=int
 
 [ZombieBite]
@@ -2656,16 +3048,16 @@ Desc=bites into %enemy $+ !
 BasePower=10
 Element=Dark
 magic=no
-Cost=999999
+Cost=90000
 stat=str
 
 [PsychoCrusher]
 Type=Single
 TP=10
 Desc=charges up electric energy around his body before he leaps into the air and flies forward over the ground towards %enemy $+ !
-BasePower=15
+BasePower=25
 Element=lightning
-Cost=999999
+Cost=90000
 Magic=no
 stat=str
 
@@ -2675,7 +3067,7 @@ TP=10
 Desc=leans back and slams into %enemy with all $gender($1) speed
 BasePower=12
 Element=none
-Cost=999999
+Cost=90000
 Magic=no
 stat=str
 
@@ -2685,7 +3077,7 @@ TP=10
 Desc=dives into the ground and causes a mini-earthquake to attack all targets on the field.
 BasePower=13
 Element=Earth
-Cost=999999
+Cost=90000
 Magic=no
 stat=int
 
@@ -2695,7 +3087,7 @@ TP=10
 Desc=shoves the massive sword into the ground, sending out waves of dark energy to hit all targets on the battlefield
 BasePower=13
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=no
 stat=int
 
@@ -2705,7 +3097,7 @@ TP=10
 Desc=leaps towards %enemy and goes into a frenzy with $gender($1) sword, slashing as many time as possible before leaping back out of %enemy $+ 's reach.
 BasePower=15
 Element=dark
-Cost=999999
+Cost=90000
 Magic=no
 stat=str
 
@@ -2717,16 +3109,16 @@ Desc=throws the sword into the ground before taking off into a run towards %enem
 BasePower=10
 Element=None
 magic=no
-Cost=999999
+Cost=90000
 stat=str
 
 [Cero]
 Type=AOE
 TP=20
 Desc=opens its mouth and charges up a huge red ball of energy in front of it.  Finally the ball of energy shoots out and covers the whole battlefield with a powerful dark energy.
-BasePower=10
+BasePower=20
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=no
 stat=int
 
@@ -2736,7 +3128,7 @@ TP=20
 Desc=swings its massive tail around the battlefield, hitting all targets.
 BasePower=10
 Element=none
-Cost=999999
+Cost=90000
 Magic=no
 stat=str
 
@@ -2746,7 +3138,7 @@ TP=10
 Desc=leaps forward at %enemy and bites with $gender($1) fangs
 BasePower=10
 Element=dark
-Cost=999999
+Cost=90000
 Magic=no
 stat=str
 
@@ -2757,7 +3149,7 @@ TP=10
 Desc=spews out a light colored mist all over %enemy $+ !
 BasePower=10
 Element=light
-Cost=999999
+Cost=90000
 Magic=no
 stat=int
 
@@ -2767,7 +3159,7 @@ TP=10
 Desc=sucks in a gust of air before giving a loud roar and spewing a powerful breath all over the battlefield, hitting all targets
 BasePower=10
 Element=wind
-Cost=999999
+Cost=90000
 Magic=no
 stat=int
 
@@ -2778,7 +3170,7 @@ TP=10
 Desc=gives off a gigantic roar that strikes fear into %enemy $+ 's heart.
 BasePower=10
 Element=none
-Cost=999999
+Cost=90000
 Magic=no
 stat=int
 
@@ -2789,7 +3181,7 @@ Desc=glows a bright yellow before ramming $gender($1) stinger into everyone one 
 BasePower=10
 Element=none
 magic=no
-Cost=999999
+Cost=90000
 stat=str
 
 [FrenzySting]
@@ -2798,7 +3190,7 @@ TP=10
 Desc=buzzes loudly as $gender3($1) goes crazy, flying around the battlefield stinging all the targets
 BasePower=10
 Element=no
-Cost=999999
+Cost=90000
 Magic=no
 stat=str
 
@@ -2808,7 +3200,7 @@ TP=10
 Desc=flies forward and stings %enemy $+ !
 BasePower=15
 Element=none
-Cost=999999
+Cost=90000
 Magic=no
 stat=str
 
@@ -2818,7 +3210,7 @@ TP=10
 Desc=rushes %enemy and attacks three times, knocking %enemy backwards.
 BasePower=15
 Element=none
-Cost=999999
+Cost=90000
 Magic=no
 stat=str
 
@@ -2829,7 +3221,7 @@ Desc=pulls out a lit bomb and looks at the enemies on the battlefield but instea
 BasePower=20
 Element=none
 magic=no
-Cost=999999
+Cost=90000
 stat=int
 
 [BombToss]
@@ -2838,7 +3230,7 @@ TP=10
 Desc=pulls out a lit bomb and glares at everyone before tossing it right before it explodes.  The bomb damages all foes on the battlefield.
 BasePower=20
 Element=no
-Cost=999999
+Cost=90000
 Magic=no
 stat=int
 
@@ -2848,7 +3240,7 @@ TP=10
 Desc=rushes towards %enemy and slices with its claws.
 BasePower=10
 Element=none
-Cost=999999
+Cost=90000
 Magic=no
 stat=str
 
@@ -2858,7 +3250,7 @@ TP=10
 Desc=stands up on its hind legs and swings its claws forward, causing a gust of powerful wind to slice all targets on the battlefield.
 BasePower=10
 Element=wind
-Cost=999999
+Cost=90000
 Magic=no
 stat=str
 
@@ -2869,7 +3261,7 @@ TP=10
 Desc=gives off a loud roar that strikes fear into %enemy $+ 's heart.
 BasePower=10
 Element=none
-Cost=999999
+Cost=90000
 Magic=no
 stat=int
 
@@ -2880,7 +3272,7 @@ TP=10
 Desc=releases tons of bubbles that cover the battlefield and explode into water damage on all enemies
 BasePower=10
 Element=water
-Cost=999999
+Cost=90000
 Magic=no
 stat=int
 
@@ -2890,7 +3282,7 @@ TP=10
 Desc=lunges at %enemy and snaps hard with its pinchers.
 BasePower=10
 Element=water
-Cost=999999
+Cost=90000
 Magic=no
 stat=str
 
@@ -2900,7 +3292,7 @@ TP=10
 Desc=uses a powerful blood magic to deal damage to all targets within range and absorb some of the damage back into $gender2($1) $+ self.
 BasePower=10
 Element=dark
-Cost=999999
+Cost=90000
 Magic=no
 absorb=yes
 stat=int
@@ -2911,7 +3303,7 @@ TP=10
 Desc=raises $gender($1) weapon high above before charging it with a dark energy and slicing it down right on %enemy $+ !
 BasePower=10
 Element=dark
-Cost=999999
+Cost=90000
 Magic=no
 stat=str
 
@@ -2922,17 +3314,17 @@ TP=10
 Desc=laughs as a dark aura spreads from its bones and towards %enemy $+ !
 BasePower=10
 Element=dark
-Cost=999999
+Cost=90000
 Magic=no
 stat=int
 
 [VampireBite]
 Type=Single
 TP=10
-Desc=grabs %enemy and bites into $gender($2) neck, draining some blood from %enemy and into $gender2($1) $+ self to recover some health!
-BasePower=15
-Element=Dark
-Cost=999999
+Desc=grabs %enemy and bites into $gender($2) neck, draining some blood from %enemy to recover $gender($1) health!
+BasePower=20
+Element=None
+Cost=90000
 Magic=no
 absorb=yes
 stat=str
@@ -2944,7 +3336,7 @@ Desc=holds $gender($1) hands out and fires a large orange beam right into %enemy
 BasePower=15
 Element=none
 magic=no
-Cost=999999
+Cost=90000
 stat=int
 
 [IceRain]
@@ -2961,7 +3353,7 @@ Type=Single
 TP=5
 Desc=touches a Fire Flower and gains the ability to shoot fireballs.  $gender($1) aims at %enemy and shoots several large sized fire balls before the power runs out.
 BasePower=20
-Cost=999999
+Cost=90000
 Element=fire
 magic=yes
 stat=int
@@ -2971,7 +3363,7 @@ Type=Single
 TP=5
 Desc=touches a magic star that makes %user start glowing with a holy energy.  %user runs towards %enemy and does several powerful attacks before backing away as the power runs out.
 BasePower=30
-Cost=999999
+Cost=90000
 Element=light
 magic=yes
 stat=int
@@ -2982,7 +3374,7 @@ TP=10
 Desc=summons a powerful wall of water to surround its body before plowing right into %enemy with great force.
 BasePower=20
 Element=water
-Cost=999999
+Cost=90000
 Magic=no
 stat=str
 
@@ -3002,7 +3394,7 @@ TP=10
 Desc=is surrounded by hearts and says "Come hither!" to %enemy $+ , throwing the hearts at %enemy $+ . She then says, "Fight, my love!" and laughs.
 BasePower=5
 Element=none
-Cost=999999
+Cost=90000
 Magic=no
 stat=int
 
@@ -3012,7 +3404,7 @@ TP=10
 Desc=jumps over %enemy and uses her rod to create multiple green triangles of lightning energy to slam into %enemy $+ !
 BasePower=15
 Element=Lightning
-Cost=999999
+Cost=90000
 Magic=yes
 stat=int
 
@@ -3022,7 +3414,7 @@ TP=10
 Desc=switches to a blue and gold rod with a curved hook and swings her arm back, sending a tornado to slam into %enemy $+ !
 BasePower=20
 Element=Wind
-Cost=999999
+Cost=90000
 Magic=yes
 stat=int
 
@@ -3032,7 +3424,7 @@ TP=10
 Desc=says "Take this!" and lunges towards %enemy to stab $gender2($2) with her scarf.
 BasePower=10
 Element=none
-Cost=999999
+Cost=90000
 Magic=no
 stat=str
 
@@ -3042,7 +3434,7 @@ TP=10
 Desc=causes a large bolt of lightning to slam into %enemy $+ !
 BasePower=15
 Element=Lightning
-Cost=999999
+Cost=90000
 Magic=yes
 stat=int
 
@@ -3052,7 +3444,7 @@ TP=10
 Desc=causes a large column of flame to fall from the air and onto %enemy $+ !
 BasePower=15
 Element=Fire
-Cost=999999
+Cost=90000
 Magic=yes
 stat=int
 
@@ -3062,7 +3454,7 @@ TP=10
 Desc=causes an explosion to hit everyone on the battlefield!
 BasePower=15
 Element=none
-Cost=999999
+Cost=90000
 Magic=no
 stat=int
 
@@ -3072,7 +3464,7 @@ TP=10
 Desc=causes a large column of water to surround everyone on the battlefield!
 BasePower=15
 Element=Water
-Cost=999999
+Cost=90000
 Magic=yes
 stat=int
 
@@ -3082,7 +3474,7 @@ TP=10
 Desc=causes a large piece of ice in the shape of a boulder to slam into %enemy $+ !
 BasePower=15
 Element=Ice
-Cost=999999
+Cost=90000
 Magic=yes
 stat=int
 
@@ -3092,7 +3484,7 @@ TP=10
 Desc=opens two portals in the air. A moment later bouncing balls of energy fill up the battlefield while Jester just laughs!
 BasePower=12
 Element=none
-Cost=999999
+Cost=90000
 Magic=no
 stat=int
 
@@ -3102,7 +3494,7 @@ TP=10
 Desc=summons a large clown head and hops on top of it. Jester laughs and leaps towards %enemy with the clown head to crush %enemy below!
 BasePower=15
 Element=none
-Cost=999999
+Cost=90000
 Magic=no
 stat=str
 
@@ -3112,17 +3504,17 @@ TP=10
 Desc=summons a large clown head and hops on top of it. Jester laughs and the clown head smiles before quickly spitting a ball of fire at %enemy $+ !
 BasePower=15
 Element=Fire
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=int
 
 [BloodArtTechnique]
 Type=Single
 TP=10
-Desc=says "Blood Art Technique!" and makes paint stroke motion. Multiple lines of blood energy slam into %enemy $+ !
+Desc=shouts "Blood Art Technique!" and makes paint stroke motion. Multiple lines of blood energy slam into %enemy $+ !
 BasePower=15
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=no
 stat=int
 
@@ -3130,10 +3522,10 @@ stat=int
 Type=Status
 StatusType=Poison
 TP=10
-Desc=says "A painting of the soul!" and summons a portrait. A moment later, a demonic starfish rolls into %enemy to cause poison!
+Desc=shouts "A painting of the soul!" and summons a portrait. A moment later, a demonic starfish rolls into %enemy to cause poison!
 BasePower=10
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=no
 stat=int
 
@@ -3143,7 +3535,7 @@ TP=10
 Desc=summons a blank portrait and enters it. He then uses the portrait to shoot around the battlefield, slamming into everyone!
 BasePower=12
 Element=None
-Cost=999999
+Cost=90000
 Magic=no
 stat=str
 
@@ -3151,10 +3543,10 @@ stat=str
 Type=Status
 StatusType=Curse
 TP=10
-Desc=says "A painting of the soul!" and summons a portrait. A moment later, strange demons slam into %enemy to cause a curse effect!
+Desc=shouts "A painting of the soul!" and summons a portrait. A moment later, strange demons slam into %enemy to cause a curse effect!
 BasePower=10
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=yes
 stat=int
 
@@ -3165,7 +3557,7 @@ TP=10
 Desc=says "Take this!" and opens its mouth wide as tons of small french dolls fly out of it and slam into %enemy $+ !  As they explode, %enemy can feel they are cursed dolls!
 BasePower=10
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=yes
 stat=str
 
@@ -3176,7 +3568,7 @@ TP=10
 Desc=shoots a string around %enemy in an attempt to control $gender($2) actions.
 BasePower=5
 Element=none
-Cost=999999
+Cost=90000
 Magic=no
 stat=int
 
@@ -3186,7 +3578,7 @@ TP=10
 Desc=says "I need ONLY this!" before opening a large iron maiden and throwing a small wooden doll into it.  The doll then causes %enemy to be teleported in its place.  The iron maiden slams the door shut, the spikes slamming into %enemy $+ !
 BasePower=15
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=no
 stat=str
 
@@ -3196,7 +3588,7 @@ TP=10
 Desc=says "Nake, Benihime!" and swings his sword in an arc. A large red wave of energy then rips through the ground and slams into %enemy $+ .
 BasePower=15
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=int
 
@@ -3207,7 +3599,7 @@ TP=10
 Desc=says "Shibari, Benihime!" and swings his sword at %enemy $+ . A dark red net of energy generates from the sword and is tossed onto %enemy in an attempt to constrain $gender2($2) $+ .
 BasePower=10
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=int
 
@@ -3217,7 +3609,7 @@ TP=10
 Desc=constrains %enemy with the Shibari technique and stabs part of the net a bit away with his sword. He says "Hiasobi, Benihime...Juzutsunagi!" and red orbs appear along the net and explode on %enemy $+ !
 BasePower=20
 Element=Fire
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=int
 
@@ -3225,9 +3617,9 @@ stat=int
 Type=Single
 TP=10
 Desc=places his right arm under %enemy $+ 's chin. The Rock then lifts %enemy up and slams $gender2($2) hard onto the ground.
-BasePower=10
+BasePower=20
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -3235,9 +3627,9 @@ stat=str
 Type=Single
 TP=10
 Desc=slams %enemy onto the ground. The Rock removes an elbow pad and runs to the left and right before stopping at %enemy then drops down, slamming his elbow in %enemy $+ 's face!
-BasePower=20
+BasePower=30
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -3247,7 +3639,7 @@ TP=10
 Desc=lifts %enemy up and holds $gender2($2) sideways on his shoulders. A moment later, The Rock falls backwards to slam %enemy into the ground.
 BasePower=15
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -3257,7 +3649,7 @@ TP=10
 Desc=jumps towards %enemy with his right arm out, slamming his arm into %enemy $+ 's neck and sends $gender2($2) crashing to the ground.
 BasePower=10
 Element=None
-Cost=999999
+Cost=90000
 Magic=no
 stat=str
 
@@ -3267,7 +3659,7 @@ TP=10
 Desc=lifts %enemy up by $gender($2) waist and then slams %enemy into the ground, causing extreme pain to %enemy $+ 's back!
 BasePower=20
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -3277,7 +3669,7 @@ TP=10
 Desc=flings the metal strings at %enemy $+ , causing cuts.
 BasePower=20
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -3287,7 +3679,7 @@ TP=10
 Desc=is testing the steal power type tech on %enemy $+ !
 BasePower=20
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=int
 
@@ -3297,7 +3689,7 @@ TP=10
 Desc=latches out at %enemy with his tentacle and begins to absorb some of %enemy $+ 's power.
 BasePower=20
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=int
 
@@ -3305,9 +3697,9 @@ stat=int
 Type=Single
 TP=10
 Desc=takes in a deep breath before shouting out "FUS RO DAH!" which hits %enemy with unrelenting force, sending %enemy flying back!
-BasePower=25
+BasePower=40
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=int
 
@@ -3317,7 +3709,7 @@ TP=10
 Desc=takes in a deep breath before shouting out "YOL TOOR SHUL!" which hits %enemy with a forceful blast of fire!
 BasePower=20
 Element=Fire
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=int
 
@@ -3327,7 +3719,7 @@ TP=10
 Desc=takes in a deep breath before shouting out "FO KRAH DIIN!" which hits %enemy with a forceful blast of ice!
 BasePower=20
 Element=Ice
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=int
 
@@ -3337,7 +3729,7 @@ TP=10
 Desc=takes in a deep breath before shouting out "STRUN BAH QO!" A heavy storm covers the battlefield and a moment later, lightning suddenly strikes all monsters on the battlefield!
 BasePower=20
 Element=Lightning
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=int
 
@@ -3347,7 +3739,7 @@ TP=10
 Desc=aims its right arm towards %enemy and says "DELETE!" before firing a blue laser at %enemy $+ !
 BasePower=15
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=int
 
@@ -3358,7 +3750,7 @@ TP=10
 Desc=places its hands on %enemy $+ 's shoulders and gives $gender2($2) a paralyzing shock!
 Basepower=10
 Element=Lightning
-Cost=999999
+Cost=90000
 Magic=No
 stat=int
 
@@ -3369,7 +3761,7 @@ TP=10
 Desc=has two Cybermen hold %enemy down as it places headphones of sorts onto %enemy $+ 's ears. The headphones gives a shock to %enemy and takes over $gender($2) brain!
 Basepower=10
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=int
 
@@ -3380,7 +3772,7 @@ TP=10
 Desc=sets the setting on the gunstick to the lowest and shoots a small laser at %enemy $+ , which paralyzes $gender($2) body!
 BasePower=10
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=int
 
@@ -3390,7 +3782,7 @@ TP=10
 Desc=simply fires a normal charged laser from its gunstick and into %enemy $+ !
 BasePower=15
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=int
 
@@ -3400,7 +3792,7 @@ TP=10
 Desc=yells out "EXTERMINATE! EXTERMINATE!" from the suit's speaker and charges the laser to maximum power. A larger blue laser is fired from the gunstick a moment later, which slams into %enemy with great force!
 BasePower=20
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=int
 
@@ -3408,18 +3800,18 @@ stat=int
 Type=Single
 TP=10
 Desc=rears its head back as it gathers power. A moment later, a large white beam shoots out of the dragon's mouth and into %enemy $+ !
-BasePower=12
-Cost=999999
+BasePower=30
+Cost=90000
 Element=Light
 magic=no
-stat=int
+stat=str
 
 [BlackMagicAttack]
 Type=Single
 TP=10
 Desc=gathers power as a sphere of dark energy appears above the Dark Magician. A moment later, he hurls the dark sphere at %enemy $+ !
-BasePower=12
-Cost=999999
+BasePower=20
+Cost=90000
 Element=Dark
 Magic=Yes
 stat=int
@@ -3428,8 +3820,8 @@ stat=int
 Type=AOE
 TP=10
 Desc=summons multiple knives and hurls them at all targets on the battlefield!
-BasePower=12
-Cost=999999
+BasePower=15
+Cost=90000
 Element=None
 Magic=no
 stat=str
@@ -3439,7 +3831,7 @@ Type=AOE
 TP=10
 Desc=glows with a bright blue energy then releases the energy as a massive tsunami that swallows the whole battlefield.
 BasePower=10
-Cost=999999
+Cost=90000
 Element=water
 Magic=yes
 stat=int
@@ -3450,7 +3842,7 @@ StatusType=blind
 TP=10
 Desc=shoots a stream of black ink on %enemy $+ ! 
 BasePower=5
-Cost=999999
+Cost=90000
 Element=dark
 Magic=no
 stat=int
@@ -3460,7 +3852,7 @@ Type=Single
 TP=10
 Desc=leaps at %enemy and starts bashing $gender2($2) over and over with all of $gender($1) tentacles.
 BasePower=12
-Cost=999999
+Cost=90000
 Element=water
 Magic=no
 stat=str
@@ -3471,7 +3863,7 @@ TP=10
 Desc=takes aim at %enemy with its railgun and fires, sending a round into %enemy with great speed!
 BasePower=20
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -3479,9 +3871,9 @@ stat=str
 Type=AOE
 TP=10
 Desc=loads a nuclear warhead into the railgun and takes aim. A moment later, the warhead is unloaded onto the battlefield, hitting everyone with a giant explosion!
-BasePower=20
+BasePower=30
 Element=Fire
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -3489,19 +3881,19 @@ stat=str
 Type=Single
 TP=10
 Desc=quickly slams its foot right into %enemy $+ , sending $gender2($2) staggering back!
-BasePower=20
+BasePower=40
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
 [BloodDrain]
 Type=Single
 TP=10
-Desc=grabs %enemy and bites into $gender($2) neck, draining some blood from %enemy and into $gender2($1) $+ self to recover some health!
-BasePower=30
-Element=Dark
-Cost=999999
+Desc=grabs %enemy and bites into $gender($2) neck, draining some blood from %enemy to recover $gender($1) health!
+BasePower=40
+Element=None
+Cost=90000
 Magic=no
 absorb=yes
 stat=str
@@ -3510,9 +3902,9 @@ stat=str
 Type=AOE
 TP=10
 Desc=shouts out "Soul Steal!" and takes life out of all enemies to recover his own!
-BasePower=15
+BasePower=30
 Element=None
-Cost=999999
+Cost=90000
 Magic=no
 Absorb=Yes
 stat=int
@@ -3521,10 +3913,10 @@ stat=int
 Type=Single
 TP=10
 Desc=summons four small spirits that slam into %enemy $+ !
-BasePower=20
-Element=None
-Cost=999999
-Magic=No
+BasePower=30
+Element=light
+Cost=90000
+Magic=Yes
 stat=int
 
 [Charge]
@@ -3532,7 +3924,7 @@ Type=Single
 TP=10
 Desc=runs at %enemy and slams its tusks into $gender2($2)
 BasePower=10
-Cost=999999
+Cost=90000
 Element=none
 Magic=no
 stat=str
@@ -3542,7 +3934,7 @@ Type=AOE
 TP=10
 Desc=rears up on its hind legs before slamming back down onto the ground sending a shockwave of energy across the battlefield hitting all targets.
 BasePower=10
-Cost=999999
+Cost=90000
 Element=none
 Magic=no
 stat=str
@@ -3551,9 +3943,9 @@ stat=str
 Type=Single
 TP=10
 Desc=does a backhand gesture whichs makes a dark fireball appear and travel towards %enemy at a high speed!
-BasePower=15
+BasePower=25
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=No
 stat=int
 
@@ -3561,9 +3953,9 @@ stat=int
 Type=Single
 TP=10
 Desc=dashes towards %enemy and lands three quick punches upon $gender2($2) $+ !
-BasePower=15
+BasePower=40
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -3571,9 +3963,9 @@ stat=str
 Type=Single
 TP=10
 Desc=shouts out "Play time is over!" and dashes twoards %enemy $+ . Iori then yells out "Cry! Scream! Then die!" as he unleashes a barrage of attacks upon %enemy $+ !
-BasePower=20
+BasePower=50
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -3581,9 +3973,9 @@ stat=str
 Type=Single
 TP=10
 Desc=gathers power as a large ball of fire appears in his left hand. He then throws the ball of fire to the ground, which then sends a large column of dark fire hurtling towards %enemy $+ !
-BasePower=20
+BasePower=30
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=int
 
@@ -3591,19 +3983,19 @@ stat=int
 Type=Single
 TP=10
 Desc=says "Power Wave!" and slams his right fist at the ground, causing energy to shoot through the ground and hit %enemy $+ !
-BasePower=15
+BasePower=20
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
-stat=int
+stat=str
 
 [BurnKnuckle]
 Type=Single
 TP=10
 Desc=says "Burn Knuckle!" and dashes towards %enemy with his right fist out, which is covered in a light blue flame!
-BasePower=15
+BasePower=25
 Element=Fire
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -3611,9 +4003,9 @@ stat=str
 Type=Single
 TP=10
 Desc=waits for %enemy to jump into the air and shouts out "Rising Tackle!" as he does an upside down kick towards %enemy $+ !
-BasePower=15
+BasePower=30
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -3621,29 +4013,29 @@ stat=str
 Type=AOE
 TP=10
 Desc=yells out "Power Geyser!!" and slams his fists into the ground multiple times, causing large columns of energy to explode around the battlefield!
-BasePower=15
+BasePower=25
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
-stat=int
+stat=str
 
 [BusterWolf]
 Type=Single
 TP=10
 Desc=says "Are you okay? Buster Wolf!!" as he shoots across the battlefield and hits %enemy with his right fist, causing a giant explosion of energy!
-BasePower=20
+BasePower=50
 Element=Fire
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
 [CannotGrasp]
 Type=Single
 TP=10
-Desc=You cannot grasp the true form of Giygas's attack, $set_chr_name($2) %real.name $+ !
-BasePower=30
+Desc="You cannot grasp the true form of Giygas's attack, $set_chr_name($2) %real.name $+ !"
+BasePower=40
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -3651,9 +4043,9 @@ stat=str
 Type=Single
 TP=10
 Desc=$set_chr_name($2) %real.name ... $set_chr_name($2) %real.name ..... it hurts... $set_chr_name($2) %real.name ....
-BasePower=30
+BasePower=40
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=None
 stat=str
 
@@ -3663,7 +4055,7 @@ TP=10
 Desc=unleashes a deadly psi attack to everyone on the battlefield!
 BasePower=30
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=No
 stat=int
 
@@ -3671,9 +4063,9 @@ stat=int
 Type=Single
 TP=10
 Desc=cuts his wrist, casuing some blood to spill out. The blood then turns into a ball of red energy that slams into %enemy $+ !
-BasePower=30
+BasePower=40
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=None
 stat=int
 
@@ -3684,7 +4076,7 @@ TP=10
 Desc=summons a dagger that glows a dark red. He quickly slices %enemy a few times with it, sending poison into $gender($2) body!!
 BasePower=10
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -3694,15 +4086,15 @@ TP=10
 Desc=screams in anger as haunting images of defeated foes fly out of the ground all around him. The ground begins to shake, and the sky is filled with lightning. The ghosts enter Ashi's body, his eyes turn red and darken as well...
 BasePower=20
 Element=none
-Cost=999999
+Cost=90000
 
 [DoubleSlash]
 Type=Single
 TP=10
 Desc=performs two quick slashes of his sword upon %enemy $+ !
-BasePower=12
-Element=
-Cost=999999
+BasePower=30
+Element=None
+Cost=90000
 Magic=no
 stat=str
 
@@ -3710,9 +4102,9 @@ stat=str
 Type=Single
 TP=10
 Desc=performs a flurry of sword slashes upon %enemy $+ !
-BasePower=12
-Element=
-Cost=999999
+BasePower=40
+Element=None
+Cost=90000
 Magic=no
 stat=str
 
@@ -3720,9 +4112,9 @@ stat=str
 Type=Single
 TP=10
 Desc=summons a large ball of fire and sends it towards %enemy $+ !
-BasePower=15
+BasePower=20
 Element=Fire
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=int
 
@@ -3730,9 +4122,9 @@ stat=int
 Type=Single
 TP=10
 Desc=drives his sword into the ground, which causes a large explosion of fire around %enemy $+ !
-BasePower=17
+BasePower=30
 Element=Fire
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=int
 
@@ -3740,27 +4132,27 @@ stat=int
 Type=boost
 TP=10
 Desc=begins to gather power. A moment later, Dart's red armor takes a fancier look and covers his body. He also gains two large wings on his back as well.
-BasePower=6
+BasePower=20
 Element=none
-Cost=999999
+Cost=90000
 
 [WhipSmack]
 Type=Single
 TP=10
 Desc=stabs %enemy with her sword before removing it and doing a quick backhand swing with the sword.
-BasePower=12
+BasePower=30
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
 [DemonsDance]
 Type=Single
 TP=10
-Desc=says "Die.." to %enemy as she begins a series of sword swings that's almost a dance of death.
-BasePower=12
+Desc=says "Die.." to %enemy as she begins a series of sword swings that's almost like a dance of death.
+BasePower=40
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -3770,7 +4162,7 @@ TP=10
 Desc=hurls her sword at %enemy $+ , impaling $gender2($2) $+ . Red energy is drawn out from the sword and into Rose, healing her injuries. Rose then calls the sword back as the energy fades. 
 BasePower=30
 Element=None
-Cost=999999
+Cost=90000
 Magic=no
 Absorb=Yes
 stat=int
@@ -3779,9 +4171,9 @@ stat=int
 Type=AOE
 TP=10
 Desc=crosses her arms as her sword has a red sphere appear above it, which then pulls all enemies into another dimension. A moment later, the dimension is destroyed by Rose, causing a large amount of damage.
-BasePower=20
+BasePower=30
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=int
 
@@ -3789,17 +4181,17 @@ stat=int
 Type=boost
 TP=10
 Desc=is covered in dark energy. As the energy fades, Rose is now wearing dark purple and red armor that covers her body. She also gains to large wings on her back as well.
-BasePower=6
+BasePower=20
 Element=none
-Cost=999999
+Cost=90000
 
 [ShunkoRaigeki]
 Type=AOE
 TP=10
 Desc=raises her arms into the air as she gathers power. Lightning appears around Yoruichi as she aims her arms forward. A moment later, a large blast of lightning shoots through the battlefield, hitting everything in range!
-BasePower=15
+BasePower=20
 Element=Lightning
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=int
 
@@ -3809,7 +4201,7 @@ TP=10
 Desc=flies up into the air and then dives into %enemy $+ , slashing and biting before flying back up out of %enemy $+ 's reach.
 BasePower=12
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -3820,7 +4212,7 @@ TP=10
 Desc=begins to cast an ancient spell upon %enemy $+ .  %enemy feels $gender($2) head feeling rather fuzzy..
 BasePower=10
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=No
 stat=int
 
@@ -3830,7 +4222,7 @@ StatusType=Curse
 TP=10
 Desc=calls forth the power of the dead to curse %enemy $+ !
 BasePower=15
-Cost=999999
+Cost=90000
 Element=dark
 magic=no
 stat=int
@@ -3841,7 +4233,7 @@ StatusType=DefenseDown
 TP=10
 Desc=covers %enemy with a glowing green substance that makes %enemy feel less defensive.
 BasePower=15
-Cost=999999
+Cost=90000
 Element=dark
 magic=no
 stat=int
@@ -3852,7 +4244,7 @@ StatusType=random
 TP=10
 Desc=grabs %enemy by the face and sprays a bright green gas causing a random status effect.
 BasePower=15
-Cost=999999
+Cost=90000
 Element=dark
 magic=no
 stat=int
@@ -3872,7 +4264,7 @@ TP=10
 Desc=cups both hands and thrusts them forward at %enemy sending out a blast of ice
 BasePower=25
 Element=Ice
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=int
 
@@ -3882,7 +4274,7 @@ StatusType=blind
 TP=10
 Desc=throws a smokebomb at %enemy $+ 's feet.  Smoke covers %enemy and gets into $gender($2) eyes.
 BasePower=15
-Cost=999999
+Cost=90000
 Element=dark
 magic=no
 stat=int
@@ -3894,7 +4286,7 @@ TP=10
 Desc=throws a shurikan covered in poison at %enemy $+ !
 BasePower=25
 Element=none
-Cost=999999
+Cost=90000
 magic=no
 stat=str
 
@@ -3905,7 +4297,7 @@ TP=10
 Desc=sneaks behind %enemy and draws a small cursed kunai.  With a swift motion, $gender3($1) thrusts it into %enemy $+ 's back.
 BasePower=25
 Element=none
-Cost=999999
+Cost=90000
 Magic=no
 stat=str
 
@@ -3915,7 +4307,7 @@ TP=10
 Desc=leaps up at %enemy $+ 's throat and rips a massive amount out.  Tim the Enchanter can be heard laughing somewhere in the background.  "I *warned* you, but did you listen to me? Oh, no, you *knew*, didn't you? Oh, it's just a harmless little *bunny*, isn't it?"
 BasePower=$calc(1.1 * $readini($char($3), basestats, HP))
 Element=none
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -3925,7 +4317,7 @@ TP=10
 Desc=summons a copy of Decapiclops, which then uses his Fire Explosion attack!
 BasePower=20
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=No
 stat=int
 
@@ -3935,7 +4327,7 @@ TP=10
 Desc=summons a copy of Oxocutioner, which then uses his Sword Storm attack!
 BasePower=20
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -3945,29 +4337,29 @@ TP=10
 Desc=summons a copy of Chimyriad, which then uses his Fire Wave attack!
 BasePower=20
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=No
 stat=int
 
 [CursePunch]
-Type=Status
+Type=Single
 StatusType=Curse
 TP=10
 Desc=covers his right fist in dark energy and swifty punches %enemy and causes a curse status!
 BasePower=15
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=No
 stat=int
 
 [FireballStop]
-Type=Status
-StatusType=Stop
+Type=Single
+StatusType=Petrify
 TP=10
-Desc=hurls multiple balls of fire at %enemy which causes %enemy to be stopped in time!
-BasePower=15
+Desc=hurls multiple balls of fire at %enemy which causes %enemy to become a statue!
+BasePower=10
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=No
 stat=int
 
@@ -3977,7 +4369,7 @@ TP=10
 Desc=spits a large ball of fire towards %enemy $+ !
 BasePower=15
 Element=Fire
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=int
 
@@ -3997,7 +4389,7 @@ TP=10
 Desc=spits a large ball of fire at the battlefield, which then explodes to hit everyone on the field!
 BasePower=12
 Element=Fire
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=int
 
@@ -4007,7 +4399,7 @@ TP=10
 Desc=summons four swords that are then tossed towards %enemy $+ 's direction, causing cuts!
 BasePower=15
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -4017,7 +4409,7 @@ TP=10
 Desc=summons many swords above the battlefield that are then tossed at all enemies on the field!
 BasePower=12
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -4027,7 +4419,7 @@ TP=10
 Desc=summons a single sword and then proceeds to stab %enemy with it!
 BasePower=15
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -4037,7 +4429,7 @@ TP=10
 Desc=slowly backs up before quickly rushing forward and slamming right into %enemy $+ !
 BasePower=15
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -4047,7 +4439,7 @@ TP=10
 Desc=takes aim and unleashes a barrage of fireballs that are tossed at all enemies in a wave pattern!
 BasePower=12
 Element=Fire
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=int
 
@@ -4057,7 +4449,7 @@ TP=10
 Desc=hurls a ball of fire towards the ground which then shoots towards %enemy at a high speed!
 BasePower=15
 Element=Fire
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=int
 
@@ -4067,18 +4459,18 @@ TP=10
 Desc=takes out a large grenade with its manipulator arm and tosses it at the battlefield which explodes and hits everyone in range!
 BasePower=12
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=int
 
 [ManipulatorArm]
-Type=Status
+Type=Single
 StatusType=Stun
 TP=10
 Desc=hits %enemy hard enough with its manipulator arm to cause stun!
 BasePower=12
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -4088,7 +4480,7 @@ TP=10
 Desc=delivers a hard kick towards %enemy with one of its legs!
 BasePower=15
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -4098,7 +4490,7 @@ TP=10
 Desc=leaps into the air and then stomps on %enemy $+ !
 BasePower=20
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -4108,18 +4500,18 @@ TP=10
 Desc=latches onto %enemy and gives $gender2($2) a powerful shock!
 BasePower=15
 Element=Lightning
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=int
 
 [GekkoParalyze]
-Type=Status
+Type=Single
 StatusType=Paralysis
 TP=10
 Desc=summons two other Gekko Dwarves and they all leap onto %enemy $+ ! A moment later, they give %enemy a paralyzing shock before leaping off!
 BasePower=12
 Element=Lightning
-Cost=999999
+Cost=90000
 Magic=No
 stat=int
 
@@ -4127,9 +4519,9 @@ stat=int
 Type=Single
 TP=10
 Desc=opens its "face" and sticks it into a large pool of water, gathering it up. A moment later it looks back at %enemy and fires a huge compression of water at %enemy which is strong enough to cut metal!
-BasePower=25
+BasePower=40
 Element=Water
-Cost=999999
+Cost=90000
 Magic=No
 stat=int
 
@@ -4137,9 +4529,9 @@ stat=int
 Type=AOE
 TP=10
 Desc=fires a barrage of missiles that hits everyone on the battlefield!
-BasePower=12
+BasePower=15
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -4149,7 +4541,7 @@ TP=10
 Desc=delivers a hard kick towards %enemy with one of its legs!
 BasePower=20
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -4159,7 +4551,7 @@ TP=10
 Desc=takes aim and fires a barrage of bullets towards %enemy $+ !
 BasePower=20
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -4169,7 +4561,7 @@ TP=10
 Desc=hurls two hundred cactuar needles into %enemy $+ !
 BasePower=200
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -4179,7 +4571,7 @@ TP=10
 Desc=hurls five hundred cactuar needles into %enemy $+ !
 BasePower=500
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -4187,9 +4579,9 @@ stat=str
 Type=Single
 TP=10
 Desc=is covered in a light aura. Prishe then leaps towards %enemy and hits %enemy with a powerful dropkick!
-BasePower=20
+BasePower=50
 Element=Light
-Cost=999999
+Cost=90000
 Magic=no
 stat=str
 
@@ -4197,9 +4589,9 @@ stat=str
 Type=Single
 TP=10
 Desc=is covered in a light aura. Prishe closes in on %enemy and then quickly performs a powerful uppercut that sends %enemy flying back into the air!
-BasePower=25
+BasePower=40
 Element=Light
-Cost=999999
+Cost=90000
 Magic=no
 stat=str
 
@@ -4209,18 +4601,18 @@ TP=10
 Desc=fires a stream of powerful energy that slams into %enemy $+ !
 BasePower=50
 Element=Light
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
 [MedusaJavelin]
 Type=Status
-StatusType=Stop
+StatusType=Petrify
 TP=10
-Desc=hurls his polearm at %enemy with enough power to keep %enemy frozen in place!
-BasePower=35
+Desc=hurls his polearm at %enemy which causes $gender2($2) to become a statue!
+BasePower=20
 Element=Earth
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -4230,17 +4622,17 @@ TP=10
 Desc=hits %enemy with all four of his wings!
 BasePower=40
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
-[EagleEyeShot]
+[Eagle_Eye_Shot]
 Type=Single
 TP=10
-Desc=summons an arrow of powerful energy and takes aim with the bow for a moment before firing the devastating energy arrow into %enemy $+ !
-BasePower=100
+Desc=summons a bow and creates a light arrow made out of pure energy, before taking aim and firing the devastating arrow into %enemy $+ !
+BasePower=120
 Element=Light
-Cost=1000
+Cost=90000
 Magic=No
 stat=str
 
@@ -4250,7 +4642,7 @@ TP=10
 Desc=summons a powerful wind that hits everyone on the field and knocks them back!
 BasePower=30
 Element=Wind
-Cost=999999
+Cost=90000
 Magic=No
 stat=int
 
@@ -4270,7 +4662,7 @@ TP=10
 Desc=summons a huge beam of energy in the shape of a large sword and hits %enemy with it!
 BasePower=40
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=No
 stat=int
 
@@ -4281,7 +4673,7 @@ TP=10
 Desc=summons numerous ghosts that surround %enemy $+ !
 BasePower=20
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=No
 stat=int
 
@@ -4291,7 +4683,7 @@ TP=10
 Desc=causes a gigantic explosion of dark purple to cover the battlefield!
 BasePower=50
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=int
 
@@ -4302,7 +4694,7 @@ TP=10
 Desc=projects an image of he Grim Reaper that approaches %enemy $+ . The image slashes at %enemy to cause curse!
 BasePower=25
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=No
 stat=int
 
@@ -4312,7 +4704,7 @@ TP=10
 Desc=summons dark purple energy orbs that attach onto %enemy $+ . The orbs glow red and siphon health from %enemy and adds it to Dullahan!
 BasePower=40
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=No
 stat=int
 
@@ -4320,9 +4712,9 @@ stat=int
 Type=Single
 TP=10
 Desc=performs an upside down spinning kick upon %enemy $+ !
-BasePower=20
+BasePower=30
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -4330,10 +4722,10 @@ stat=str
 Type=Single
 TP=10
 Desc=leans back then places her arms forward and hurls a ball of energy from her hands that slams into %enemy $+ !
-BasePower=15
+BasePower=20
 Element=Light
-Cost=999999
-Magic=No
+Cost=90000
+Magic=Yes
 stat=int
 
 [Hyakuretsukyaku]
@@ -4342,7 +4734,7 @@ TP=10
 Desc=stand on one her legs and begins a barrage of kicks with her other leg, which appears to be a blur to %enemy $+ !
 BasePower=25
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -4350,10 +4742,10 @@ stat=str
 Type=AOE
 TP=10
 Desc=holds her arms back as she gathers power while a blue aura appears around herself. A moment later she thrusts her arms forward and hurls a much larger ball of energy to the battlefield, hitting all targets!
-BasePower=25
+BasePower=30
 Element=Light
-Cost=999999
-Magic=No
+Cost=90000
+Magic=Yes
 stat=int
 
 [Hazanshu]
@@ -4362,7 +4754,7 @@ TP=10
 Desc=spins into the air towards %enemy and slams the back of her heel into %enemy with a high amount of power!
 BasePower=20
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -4370,9 +4762,9 @@ stat=str
 Type=Single
 TP=10
 Desc=hits %enemy with her Hyakuretsukyaku then performs a vertical version of the Spinning Bird Kick, launching %enemy into the air. A moment later she knocks %enemy back down to the ground and Chun-Li then stomps on %enemy $+ !
-BasePower=30
+BasePower=50
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -4380,29 +4772,29 @@ stat=str
 Type=Single
 TP=10
 Desc=cups his hands to the side and gathers energy. A moment later, he thrusts his hands forward and hurls a ball of energy towards %enemy $+ !
-BasePower=20
+BasePower=25
 Element=Light
-Cost=999999
-Magic=No
+Cost=90000
+Magic=Yes
 stat=int
 
 [ShakunetsuHadouken]
 Type=Single
 TP=10
 Desc=cups his hands to the side and gathers energy. A moment later, he thrusts his hands forward and hurls a ball of red fire towards %enemy $+ !
-BasePower=20
+BasePower=30
 Element=Fire
-Cost=999999
-Magic=No
+Cost=90000
+Magic=Yes
 stat=int
 
 [Shouryuken]
 Type=Single
 TP=10
 Desc=performs a rising punch that launches %enemy into the air!
-BasePower=20
+BasePower=35
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -4410,9 +4802,9 @@ stat=str
 Type=Single
 TP=10
 Desc=hops shortly into the air and performs a spinning kick towards %enemy $+ !
-BasePower=20
+BasePower=35
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -4420,19 +4812,19 @@ stat=str
 Type=AOE
 TP=10
 Desc=cups his hands to the side and gathers a large amount of energy. A moment later, he thrusts his hands forward and unleashes a giant ball of energy onto the battlefield!
-BasePower=25
+BasePower=40
 Element=Light
-Cost=999999
-Magic=No
+Cost=90000
+Magic=Yes
 stat=int
 
 [ShinkuTatsumakiSenpukyaku]
 Type=AOE
 TP=10
 Desc=hops shortly into the air and begins to perfom a spinning kick in place that draws in all enemies to get hit!
-BasePower=25
-Element=Wind
-Cost=999999
+BasePower=45
+Element=None
+Cost=90000
 Magic=No
 stat=str
 
@@ -4440,9 +4832,9 @@ stat=str
 Type=Single
 TP=10
 Desc=performs a rising punch that hits %enemy three times and sends them flying even higher into the air!
-BasePower=30
+BasePower=60
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -4450,19 +4842,19 @@ stat=str
 Type=Single
 TP=10
 Desc=performs a rising punch upon %enemy which then causes an explosion of fire to happen!
-BasePower=25
+BasePower=30
 Element=Fire
-Cost=999999
-Magic=No
+Cost=90000
+Magic=Yes
 stat=str
 
 [ShoryuReppa]
 Type=Single
 TP=10
 Desc=spins towards %enemy and hits $gender2($2) with a much stronger rising punch and repeats this a few more times!
-BasePower=30
+BasePower=60
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -4472,7 +4864,7 @@ TP=10
 Desc=opens its shoulders to reveal many cannons. After a moment, a volley of Light energy is fired and hits all targets on the battlefield!
 BasePower=25
 Element=Light
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=int
 
@@ -4482,7 +4874,7 @@ TP=10
 Desc=summons a large spear made of Holy power and hurls it towards %enemy $+ !
 BasePower=20
 Element=Light
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=int
 
@@ -4492,7 +4884,7 @@ TP=10
 Desc=flies higher into the air and gathers power. A moment later, Bahamut fires a large blue energy sphere that slams into %enemy to cause an explosion!
 BasePower=20
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=int
 
@@ -4502,7 +4894,7 @@ TP=10
 Desc=summons four spheres of dark blue energy and hurls them at %enemy $+ !
 BasePower=20
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=int
 
@@ -4512,7 +4904,7 @@ TP=10
 Desc=flies high into space and begins to gather power. A moment later, a hugh beam of energy is fired that causes a massive explosion!
 BasePower=25
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=int
 
@@ -4522,7 +4914,7 @@ TP=10
 Desc=flies high into space and stops near the moon. He focuses power into the moon, casuing it to glow yellow. A moment later, a massive beam of yellow energy slams into the earth, causing a gigantic explosion!
 BasePower=25
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=int
 
@@ -4532,7 +4924,7 @@ TP=10
 Desc=releases the spikes on his wings and hurls them towards %enemy to cause large cuts!
 BasePower=25
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -4542,7 +4934,7 @@ TP=10
 Desc=hops into the air and causes a bright light to cover the battlefield with enough power to cause searing pain!
 BasePower=20
 Element=Light
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=int
 
@@ -4553,7 +4945,7 @@ TP=10
 Desc=runs up and scratches %enemy with his nails to cause poison!
 BasePower=10
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -4563,7 +4955,7 @@ TP=10
 Desc=causes a soothing light to engluf the battlefield, healing all allies.
 BasePower=40
 Element=Light
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=int
 
@@ -4573,7 +4965,7 @@ TP=10
 Desc=summons a trail of lights that resembles train tracks. Doomtrain speeds through the trail and slams into every target on the battlefield!
 BasePower=20
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -4584,7 +4976,7 @@ TP=10
 Desc=gains a green aura and rams into %enemy to inflict poison!
 BasePower=10
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=No
 stat=int
 
@@ -4595,7 +4987,7 @@ TP=10
 Desc=gains a dark aura and rams into %enemy to inflict curse!
 BasePower=10
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=No
 stat=int
 
@@ -4606,7 +4998,7 @@ TP=10
 Desc=gains a dark purple aura and rams into %enemy to inflict zombie status!
 BasePower=10
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=No
 stat=int
 
@@ -4617,7 +5009,7 @@ TP=10
 Desc=dains a dark gray aura and rams into %enemy to inflict blindness!
 BasePower=10
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=No
 stat=int
 
@@ -4627,7 +5019,7 @@ TP=10
 Desc=turns around and kicks %enemy with one of its hind legs!
 BasePower=15
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -4637,7 +5029,7 @@ TP=10
 Desc=claws at %enemy before leaping back and charges right into %enemy at a high speed!
 BasePower=25
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -4647,7 +5039,7 @@ TP=10
 Desc=quickly spins in a circle and causes a mini-tornado to surround %enemy $+ !
 BasePower=20
 Element=Wind
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=int
 
@@ -4657,7 +5049,7 @@ TP=10
 Desc=howls loudly at the moon and causes powerful Dark energy to engulf the battlefield!
 BasePower=25
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=int
 
@@ -4667,7 +5059,7 @@ TP=10
 Desc=runs up to %enemy and bites with his fangs!
 BasePower=20
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -4677,7 +5069,7 @@ TP=10
 Desc=bites %enemy a few times and hops back. A moment later, Fenrir howls and a large ball of Dark energy slams into %enemy $+ !
 BasePower=20
 Element=Dark
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=int
 
@@ -4687,7 +5079,7 @@ TP=10
 Desc=causes large tornados to cover the battlefield!
 BasePower=25
 Element=Wind
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=int
 
@@ -4697,7 +5089,7 @@ TP=10
 Desc=rushes torwards %enemy and slashes multiple times with her claws!
 BasePower=20
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -4707,7 +5099,7 @@ TP=10
 Desc=summons a circular blade of wind energy and hurls it towards %enemy $+ !
 BasePower=20
 Element=Wind
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=int
 
@@ -4717,7 +5109,7 @@ TP=10
 Desc=roars loudly and creates a massive ball of fire to cover the battlefield. Ifrit moves back and rips out a chunk of earth and hurls it towards the battlefield, causing the ball of fire to explode!
 BasePower=25
 Element=Fire
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=int
 
@@ -4727,7 +5119,7 @@ TP=10
 Desc=rips a small chunk of earth and covers it with fire. He juggles with it for a moment before hurling it towards %enemy $+ !
 BasePower=20
 Element=Fire
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=int
 
@@ -4737,7 +5129,7 @@ TP=10
 Desc=covers his fist with fire and delivers a hard punch upon %enemy $+ !
 BasePower=20
 Element=Fire
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=str
 
@@ -4747,7 +5139,7 @@ TP=10
 Desc=summons a massive tidal wave to cover the entire battlefield!
 BasePower=20
 Element=Water
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=int
 
@@ -4758,7 +5150,7 @@ TP=10
 Desc=performs a sudden strike with his tail to cause stun!
 BasePower=12
 Element=Water
-Cost=999999
+Cost=90000
 Magic=No
 stat=int
 
@@ -4768,7 +5160,7 @@ TP=10
 Desc=summons a large stone and has a waterfall crash right into %enemy $+!
 BasePower=20
 Element=Water
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=int
 
@@ -4778,7 +5170,7 @@ TP=10
 Desc=leaps into the air and hurls his staff to the middle of the battlefield. Lightning dances around the staff for a moment before huge bolts of lightning strikes the entire battlefield!
 BasePower=25
 Element=Lightning
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=int
 
@@ -4788,7 +5180,7 @@ TP=10
 Desc=summons a large cloud above %enemy $+ . A moment later, it begins to storm on %enemy and then strikes $gender2($2) with a small bolt of lightning!
 BasePower=20
 Element=Lightning
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=int
 
@@ -4799,7 +5191,7 @@ TP=10
 Desc=charges lightning into his staff and strikes %enemy a few times to cause paralysis!
 BasePower=12
 Element=Lightning
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -4809,7 +5201,7 @@ TP=10
 Desc=holds her arms above her head as the battlefield starts to cool. A moment later she thrusts her arms forward and covers the battlefield with ice. She then snaps her fingers and the ice explodes!
 BasePower=25
 Element=Ice
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=int
 
@@ -4819,7 +5211,7 @@ TP=10
 Desc=raises her hands up and a large ice crystal falls from the sky and slams into %enemy $+ !
 BasePower=20
 Element=Ice
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=int
 
@@ -4829,7 +5221,7 @@ TP=10
 Desc=rushes towards %enemy and leaps into the air. A moment later Shiva comes down and slams the back of her heel into %enemy $+ !
 BasePower=20
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -4839,7 +5231,7 @@ TP=10
 Desc=lifts the battlefield with great power and hurls it into the air. After a few minutes, the battlefield crashes into the earth!
 BasePower=25
 Element=Earth
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=str
 
@@ -4849,7 +5241,7 @@ TP=10
 Desc=slams his right fist into %enemy and sends them flying into a mountain, destroying the mountain in the process!
 BasePower=20
 Element=Earth
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=str
 
@@ -4859,37 +5251,37 @@ TP=10
 Desc=grabs two giant rocks and then crushes them together with %enemy in the middle of the rocks!
 BasePower=20
 Element=Earth
-Cost=999999
+Cost=90000
 Magic=Yes
 stat=str
 
 [TheLaw]
 Type=Single
 TP=10
-Desc=says "How do you plead?" %enemy says "Not guilty!" %user then smirks and says, "I knew you would say that!" and fires his gun at %enemy $+ !
-BasePower=35
+Desc=says "How do you plead?" %enemy says "Not guilty!"  Dredd then smirks and says, "I knew you would say that!" and fires his gun at %enemy $+ !
+BasePower=60
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
 [GrenadeShot]
 Type=AOE
 TP=10
-Desc=says "Grenade!" and the gun beeps, changeing ammo. %user takes aim and fires at the battlefield, hitting all targets!
-BasePower=15
+Desc=says "Grenade!" and the gun beeps, changeing ammo. Dredd takes aim and fires at the battlefield, hitting all targets!
+BasePower=20
 Element=Fire
-Cost=999999
-Magic=No
-stat=int
+Cost=90000
+Magic=Yes
+stat=str
 
 [PierceShot]
 Type=Single
 TP=10
-Desc=says "Armor Piercng!" and the gun beeps, changing ammo. %user takes aim and fires a shot at %enemy $+ , which pierces their armor!
+Desc=says "Armor Piercng!" and the gun beeps, changing ammo. Dredd takes aim and fires a shot at %enemy $+ , which pierces $gender($2) armor!
 BasePower=40
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -4899,7 +5291,7 @@ TP=10
 Desc=rams into %enemy with force!
 BasePower=10
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -4909,28 +5301,17 @@ TP=10
 Desc=leaps high into the air and crashes down upon %enemy $+ !
 BasePower=15
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
-
-[Paralyze]
-Type=Single
-TP=10
-StatusType=Paralysis
-Desc=casts paralyze. Yellow bolts of lightning strikes %enemy to cause paralysis!
-BasePower=10
-Cost=999999
-Element=none
-Magic=no
-stat=int
 
 [Ni]
 Type=AOE
 TP=10
 Desc=take in a deep breath and says "NI!" over and over! Everyone on the battlefield cringes as The Knights say Ni!
-BasePower=25
+BasePower=30
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=int
 
@@ -4938,9 +5319,9 @@ stat=int
 Type=AOE
 TP=10
 Desc=say "You must cut down the mightiest tree in the battlefield wiiiiiiith....   A HERRING!" The thought hurts everyone's brain as such a thing cannot be done!
-BasePower=25
+BasePower=40
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -4948,11 +5329,11 @@ stat=str
 Type=AOE
 TP=10
 Desc=say "We demand a sacrifice. We want... A SHRUBBERY!" Everyone is stunned by the request! "One that looks nice, and isn't too expensive. Now go, or else you won't leave this battlefield alive!"
-BasePower=25
+BasePower=20
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
-stat=int
+stat=str
 
 [OpticalShot]
 
@@ -4966,7 +5347,7 @@ BasePower=20
 
 Element=Dark
 
-Cost=999999
+Cost=90000
 
 Magic=No
 stat=int
@@ -4988,7 +5369,7 @@ BasePower=20
 
 Element=Dark
 
-Cost=999999
+Cost=90000
 
 Magic=No
 stat=int
@@ -5010,8 +5391,20 @@ BasePower=20
 
 Element=None
 
-Cost=999999
+Cost=90000
 
+Magic=No
+stat=int
+
+
+[TorporRain]
+Type=AOE
+StatusType=Stop
+TP=10
+Desc=leaps above %enemy and fires a light brown energy shot which traps %enemy in place!
+BasePower=20
+Element=None
+Cost=90000
 Magic=No
 stat=int
 
@@ -5029,10 +5422,11 @@ Desc=gains an aura of fire and performs a spinning kick that slams into %enemy $
 BasePower=20
 
 Element=Fire
-Cost=999999
+Cost=90000
 
 Magic=Yes
 stat=str
+
 
 
 
@@ -5049,7 +5443,7 @@ BasePower=20
 
 Element=Ice
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 stat=int
@@ -5065,11 +5459,11 @@ TP=10
 
 Desc=dances around the battlefield while shooting several times at all enemies with all four guns.
 
-BasePower=20
+BasePower=30
 
 Element=None
 
-Cost=999999
+Cost=90000
 
 Magic=No
 
@@ -5091,7 +5485,7 @@ BasePower=20
 
 Element=None
 
-Cost=999999
+Cost=90000
 
 Magic=No
 
@@ -5107,11 +5501,11 @@ TP=10
 
 Desc=leaps into the air and summons a magical wheel with spikes on it. Bayonetta slams the wheel onto %enemy and kicks it, causing the wheel to spin rapidly!
 
-BasePower=30
+BasePower=40
 
 Element=None
 
-Cost=999999
+Cost=90000
 
 Magic=No
 
@@ -5127,11 +5521,11 @@ TP=10
 
 Desc=punches at %enemy with her right fist, which causes a much larger magical fist to slam into %enemy $+ !
 
-BasePower=25
+BasePower=40
 
 Element=None
 
-Cost=999999
+Cost=90000
 
 Magic=No
 stat=str
@@ -5147,11 +5541,11 @@ TP=10
 
 Desc=kicks at %enemy with her right leg, which causes a much larger magical foot to slam into %enemy $+ !
 
-BasePower=25
+BasePower=40
 
 Element=None
 
-Cost=999999
+Cost=90000
 
 Magic=No
 stat=str
@@ -5167,15 +5561,15 @@ TP=10
 
 Desc=shouts out "AVAVAGO!" and summons a large dragon that proceeds to bite %enemy $+!
 
-BasePower=30
+BasePower=60
 
 Element=Dark
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
-stat=str
+stat=int
 
 
 
@@ -5187,15 +5581,15 @@ TP=10
 
 Desc=shouts out "A GRAA ORS!" and summons a large crow that proceeds to slam its large beak into %enemy $+ !
 
-BasePower=30
+BasePower=60
 
 Element=Dark
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
-stat=str
+stat=int
 
 
 
@@ -5207,15 +5601,15 @@ TP=10
 
 Desc=shouts out "AFFA IADA!" and summons six large arms that procced to pummel %enemy $+ !
 
-BasePower=30
+BasePower=60
 
 Element=Dark
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
-stat=str
+stat=int
 
 [Scolopendra]
 
@@ -5225,15 +5619,15 @@ TP=10
 
 Desc=shouts out "TELOCH VOVIN!" and summons a massive centipede, which quickly wraps around %enemy and crushes %enemy with great force!
 
-BasePower=30
+BasePower=60
 
 Element=Dark
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
-stat=str
+stat=int
 
 
 
@@ -5245,15 +5639,15 @@ TP=10
 
 Desc=shouts out "AZAZAZ PIADPH!" and summons a massive spider which then spits multiple balls of fire at %enemy $+ !
 
-BasePower=30
+BasePower=60
 
 Element=Fire
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
-stat=str
+stat=int
 
 
 
@@ -5261,19 +5655,19 @@ Magic=Yes
 
 Type=Single
 
-TP=10
+TP=20
 
 Desc=shouts out "TELOCH VOVIN A GRAA ORS TABAORD AVAVAGO!" and summons the mighty Queen Sheba. Queen Sheba kisses her right fist and slams the fist into %enemy with tremendous force!
 
-BasePower=50
+BasePower=120
 
 Element=Dark
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
-stat=str
+stat=int
 
 
 
@@ -5285,11 +5679,11 @@ TP=10
 
 Desc=leaps into the air and slashes %enemy on the way down with the Buster Sword.
 
-BasePower=20
+BasePower=30
 
 Element=None
 
-Cost=999999
+Cost=90000
 
 Magic=No
 
@@ -5311,7 +5705,7 @@ BasePower=20
 
 Element=None
 
-Cost=999999
+Cost=90000
 
 Magic=No
 
@@ -5331,7 +5725,7 @@ BasePower=20
 
 Element=None
 
-Cost=999999
+Cost=90000
 
 Magic=No
 
@@ -5347,11 +5741,11 @@ TP=10
 
 Desc=impales the Buster Sword into %enemy and then leaps high into the air.
 
-BasePower=20
+BasePower=40
 
 Element=None
 
-Cost=999999
+Cost=90000
 
 Magic=No
 
@@ -5371,7 +5765,7 @@ BasePower=20
 
 Element=Fire
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -5390,7 +5784,7 @@ BasePower=20
 
 Element=Wind
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -5402,15 +5796,15 @@ Magic=Yes
 
 Type=Single
 
-TP=10
+TP=20
 
 Desc=holds the Buster Sword forward as it gains a white glow. Cloud then proceeds to unleash a barrage of sword slashes upon %enemy $+ !
 
-BasePower=30
+BasePower=60
 
 Element=None
 
-Cost=999999
+Cost=90000
 
 Magic=No
 
@@ -5430,7 +5824,7 @@ BasePower=20
 
 Element=None
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -5446,11 +5840,11 @@ TP=10
 
 Desc=says, "This is one of my 100 special tricks!" and leaps into the air before slamming his sword on %enemy and causing a small explosion to happen!
 
-BasePower=20
+BasePower=50
 
 Element=None
 
-Cost=999999
+Cost=90000
 
 Magic=No
 
@@ -5466,15 +5860,15 @@ TP=10
 
 Desc=swings his staff and shouts "Forzare!"  An invisible force of energy then proceeds to slam into %enemy $+ !
 
-BasePower=20
+BasePower=50
 
 Element=None
 
-Cost=999999
+Cost=90000
 
 Magic=No
 
-stat=int
+stat=str
 
 
 
@@ -5490,7 +5884,7 @@ BasePower=30
 
 Element=Light
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -5506,11 +5900,11 @@ TP=10
 
 Desc=aims his staff at %enemy and shouts "Fuego!"  A large blast of fire slams into %enemy $+ !
 
-BasePower=20
+BasePower=30
 
 Element=Fire
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -5524,11 +5918,11 @@ TP=10
 
 Desc=shouts out "Pyrofuego!" and he hits the ground with his staff. A large burst of fire then explodes on the battlefield!
 
-BasePower=25
+BasePower=40
 
 Element=Fire
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -5546,11 +5940,11 @@ TP=10
 
 Desc=looks at %enemy and mutters, "Dormino."  A wave of darkness covers %enemy in an attempt to stop %enemy in place!
 
-BasePower=20
+BasePower=10
 
 Element=Dark
 
-Cost=999999
+Cost=90000
 
 Magic=No
 
@@ -5566,11 +5960,11 @@ TP=10
 
 Desc=shouts out "Fulminos!" as he points the staff at %enemy $+ , which causes a bolt of lightning to strike!
 
-BasePower=20
+BasePower=30
 
 Element=Lightning
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -5586,11 +5980,11 @@ TP=10
 
 Desc=shouts out "Arctis!" as he points the staff at %enemy $+ , which causes a wave of ice to slam into %enemy $+ !
 
-BasePower=20
+BasePower=30
 
 Element=Ice
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -5606,11 +6000,11 @@ TP=10
 
 Desc=shouts out "Dispertius!" and strikes the ground with his staff. A moment later, the battlefield splits to cause all enemies to fall in!
 
-BasePower=20
+BasePower=30
 
 Element=Earth
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -5628,11 +6022,11 @@ TP=10
 
 Desc=shouts out "Gravitus!" as he swings his staff. All enemies on the battlefield feels gravity increase, causing them to slow down!
 
-BasePower=20
+BasePower=10
 
 Element=Dark
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -5652,7 +6046,7 @@ BasePower=10
 
 Element=Fire
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -5674,7 +6068,7 @@ BasePower=10
 
 Element=Lightning
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -5694,12 +6088,11 @@ BasePower=20
 
 Element=Lightning
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
-stat=str
-
+stat=int
 
 
 [BombAttack]
@@ -5710,13 +6103,13 @@ TP=10
 
 Desc=leaps into the air and slams the axe into %enemy which causes an explosion.
 
-BasePower=20
+BasePower=30
 
 Element=None
 
-Cost=999999
+Cost=90000
 
-Magic=Yes
+Magic=No
 
 stat=str
 
@@ -5735,7 +6128,7 @@ BasePower=20
 
 Element=Light
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -5755,7 +6148,7 @@ BasePower=20
 
 Element=Light
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -5770,11 +6163,11 @@ TP=10
 
 Desc=pulls out a few daggers and hurls them at %enemy $+ !
 
-BasePower=20
+BasePower=30
 
 Element=None
 
-Cost=999999
+Cost=90000
 
 Magic=No
 
@@ -5794,7 +6187,7 @@ BasePower=20
 
 Element=Light
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -5809,11 +6202,11 @@ Type=Single
 TP=10
 
 Desc=hurls a boomerang in the shape of a cross at %enemy which strikes and passes by before reversing direction to strike %enemy once more.
-BasePower=20
+BasePower=30
 
 Element=None
 
-Cost=999999
+Cost=90000
 
 Magic=No
 
@@ -5829,11 +6222,11 @@ TP=10
 
 Desc=takes out a stopwatch and throws it to the ground. It shatters and covers all enemies with energy that freezes them in place!
 
-BasePower=20
+BasePower=10
 
 Element=None
 
-Cost=999999
+Cost=90000
 
 Magic=No
 
@@ -5849,11 +6242,11 @@ TP=10
 
 Desc=hurls an axe into the air which slams into %enemy a moment later.
 
-BasePower=20
+BasePower=30
 
 Element=None
 
-Cost=999999
+Cost=90000
 
 Magic=No
 
@@ -5869,11 +6262,11 @@ TP=10
 
 Desc=hurls two axes into the air which both slam into %enemy a moment later.
 
-BasePower=25
+BasePower=50
 
 Element=None
 
-Cost=999999
+Cost=90000
 
 Magic=No
 
@@ -5881,7 +6274,7 @@ Magic=No
 
 
 
-[ThousandKnives]
+[Thousand_Knives]
 
 Type=AOE
 
@@ -5889,11 +6282,11 @@ TP=10
 
 Desc=gathers energy before unleashing multiple barrages of daggers upon the battlefield!
 
-BasePower=25
+BasePower=40
 
 Element=None
 
-Cost=999999
+Cost=90000
 
 Magic=No
 
@@ -5913,7 +6306,7 @@ BasePower=30
 
 Element=Fire
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -5929,11 +6322,11 @@ TP=10
 
 Desc=rushes towards %enemy as her right arm morphs into a blade. %user slashes at %enemy several times before hopping back.
 
-BasePower=30
+BasePower=50
 
 Element=None
 
-Cost=999999
+Cost=90000
 
 Magic=No
 
@@ -5952,7 +6345,7 @@ BasePower=30
 
 Element=Light
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -5968,11 +6361,11 @@ TP=10
 
 Desc=rushes towards %enemy as her right arm morphes into a dragon head. %user strikes %enemy a few times before leaping into the air and striking once more on the way down.
 
-BasePower=30
+BasePower=70
 
 Element=None
 
-Cost=999999
+Cost=90000
 
 Magic=No
 
@@ -5988,11 +6381,11 @@ TP=10
 
 Desc=summons two massive gatling guns which has three barrels each. %user says "Eliminating." and fires a large barrage of bullets from the guns into %enemy $+ .
 
-BasePower=30
+BasePower=50
 
 Element=None
 
-Cost=999999
+Cost=90000
 
 Magic=No
 
@@ -6012,7 +6405,7 @@ BasePower=40
 
 Element=Fire
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -6027,11 +6420,11 @@ TP=10
 
 Desc=leaps into the air and slams the back of her heel onto %enemy with great force!
 
-BasePower=30
+BasePower=50
 
 Element=None
 
-Cost=999999
+Cost=90000
 
 Magic=No
 
@@ -6049,11 +6442,11 @@ TP=10
 
 Desc=mutters "Hilbert Effect activated." and gathers energy as part of her visor opens. A moment later, a dark aura expands from %user which covers the battlefield.
 
-BasePower=10
+BasePower=5
 
 Element=Dark
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -6069,11 +6462,11 @@ TP=10
 
 Desc=rushes towards %enemy as her right arm morphs into a blade. %user slashes at %enemy several times before hopping back as her arm morphs into a cannon and fires at %enemy $+ .
 
-BasePower=30
+BasePower=70
 
 Element=Fire
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -6089,11 +6482,11 @@ TP=10
 
 Desc=concentrates and an aura of red and gold energy explodes around %user $+ , vastly increasing their power!
 
-BasePower=5
+BasePower=20
 
 Element=None
 
-Cost=999999
+Cost=90000
 
 
 [S-Chain]
@@ -6106,11 +6499,10 @@ TP=10
 
 Desc=mutters "La Serutou Ettal..." and a dark sphere covers %enemy for a moment to cause a random status effect!
 
-BasePower=10
-
+BasePower=5
 Element=Dark
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -6126,13 +6518,12 @@ TP=10
 
 Desc=summons a scythe with a powerful energy blade. %user leaps forward and unleashes a barrage of slashes upon %enemy $+ .
 
-BasePower=35
+BasePower=80
+Element=None
 
-Element=Light
+Cost=90000
 
-Cost=999999
-
-Magic=Yes
+Magic=No
 
 stat=str
 
@@ -6146,11 +6537,11 @@ TP=10
 
 Desc=holds her arms forward and mutters "La Serutou Ettal..." as Greek lettering appears around %user $+ , which causes a wave of ice to slam into %enemy $+ .
 
-BasePower=30
+BasePower=40
 
 Element=Ice
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -6166,11 +6557,11 @@ TP=10
 
 Desc=holds her arms forward and mutters "La Serutou Ettal..." as Greek lettering appears around %user $+ , which causes a stream of fire to cover %enemy $+ .
 
-BasePower=30
+BasePower=40
 
 Element=Fire
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -6186,11 +6577,11 @@ TP=10
 
 Desc=holds her arms forward and mutters "La Serutou Ettal..." as Greek lettering appears around %user $+ , which causes several bolts of lightning to strike %enemy $+ .
 
-BasePower=30
+BasePower=40
 
 Element=Lightning
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -6206,11 +6597,11 @@ TP=10
 
 Desc=gains a white aura while he rushes towards %enemy and quickly unleashes a barrage of punches.
 
-BasePower=30
+BasePower=50
 
 Element=Light
 
-Cost=999999
+Cost=90000
 
 Magic=No
 
@@ -6226,11 +6617,11 @@ TP=10
 
 Desc=gains white wings as he leaps into the air and gathers power. He holds his right hand forward and a sphere of light slams into %enemy $+ .
 
-BasePower=30
+BasePower=40
 
 Element=Light
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -6248,13 +6639,13 @@ TP=10
 
 Desc=says "Unleash some of thy powers!" as a sphere of energy slams into %enemy to cause curse!
 
-BasePower=10
+BasePower=5
 
 Element=Light
 
-Cost=999999
+Cost=90000
 
-Magic=No
+Magic=Yes
 
 stat=int
 
@@ -6268,11 +6659,11 @@ TP=10
 
 Desc=says "Unleash some of thy powers!" as a spear of holy energy appears in chaos' hand. He hurls the energy spear into %enemy for a small explosion of holy energy.
 
-BasePower=30
+BasePower=50
 
 Element=Light
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -6292,7 +6683,7 @@ BasePower=30
 
 Element=Earth
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -6308,11 +6699,11 @@ TP=10
 
 Desc=says "Grant freedom to this soul bound by flesh!" as he slowly circles his hands around before suddenly slamming the palms of his hands into %enemy $+ !
 
-BasePower=30
+BasePower=70
 
 Element=Light
 
-Cost=999999
+Cost=90000
 
 Magic=No
 
@@ -6332,7 +6723,7 @@ BasePower=30
 
 Element=Light
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -6348,11 +6739,11 @@ TP=10
 
 Desc=says "Tired beings, wounded souls, feel my light of tranquility!" as a green light covers all of his allies to heal their wounds.
 
-BasePower=55
+BasePower=50
 
 Element=Light
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -6369,11 +6760,11 @@ TP=10
 
 Desc=shouts out "It shall be engraved upon your soul!" and slashes %enemy several times before leaping into the air and hurling a massive spear into %enemy $+ !
 
-BasePower=40
+BasePower=80
 
 Element=Light
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -6389,11 +6780,11 @@ TP=10
 
 Desc=scoffs and quickly proceeds to slash all enemies multiple times with the blade form of her weapon.
 
-BasePower=30
+BasePower=40
 
 Element=None
 
-Cost=999999
+Cost=90000
 
 Magic=No
 
@@ -6434,11 +6825,11 @@ BasePower=30
 
 Element=Fire
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
-stat=str
+stat=int
 
 
 
@@ -6454,11 +6845,11 @@ BasePower=30
 
 Element=Ice
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
-stat=str
+stat=int
 
 
 
@@ -6474,10 +6865,10 @@ BasePower=30
 
 Element=Lightning
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
-stat=str
+stat=int
 
 [Aquastrike]
 
@@ -6491,11 +6882,11 @@ BasePower=30
 
 Element=Water
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
-stat=str
+stat=int
 
 
 
@@ -6507,11 +6898,11 @@ TP=10
 
 Desc=swings her arm forward ans several white doves slam into %enemy $+ .
 
-BasePower=20
+BasePower=40
 
 Element=Light
 
-Cost=999999
+Cost=90000
 
 Magic=No
 
@@ -6527,11 +6918,11 @@ TP=10
 
 Desc=shouts out "Seiryu!" and summons a large blue dragon which unleashes lightning across the battlefield!
 
-BasePower=40
+BasePower=30
 
 Element=Lightning
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -6551,11 +6942,11 @@ BasePower=30
 
 Element=Ice
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
-stat=str
+stat=int
 
 
 
@@ -6571,7 +6962,7 @@ BasePower=30
 
 Element=Fire
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -6591,7 +6982,7 @@ BasePower=30
 
 Element=Earth
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -6607,13 +6998,13 @@ TP=10
 
 Desc=shouts out "Guardian Fist!" and a darker clone of Maria is summoned, which proceeds to pummel %enemy $+ !
 
-BasePower=30
+BasePower=50
 
 Element=Dark
 
-Cost=999999
+Cost=90000
 
-Magic=Yes
+Magic=No
 
 stat=str
 
@@ -6627,11 +7018,11 @@ TP=10
 
 Desc=holds the Dual Blade into the air as white energy covers the battlefield to freeze all enemies in place.
 
-BasePower=10
+BasePower=5
 
 Element=Light
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -6645,17 +7036,17 @@ Type=Single
 
 TP=10
 
-Desc=leaps high into the and and slashes %enemy with a lightning covered blade!
+Desc=leaps high into the air before coming down and slashes at %enemy with a lightning covered blade!
 
 BasePower=30
 
 Element=Lightning
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
-stat=str
+stat=int
 
 
 
@@ -6667,11 +7058,11 @@ TP=10
 
 Desc=shouts out "Tenseiken Slash!" as he slashes %enemy several times.
 
-BasePower=30
+BasePower=50
 
 Element=None
 
-Cost=999999
+Cost=90000
 
 Magic=No
 
@@ -6687,11 +7078,11 @@ TP=10
 
 Desc=commands Skye to lift %enemy into the air and release. Ryudo says "Here goes... Flying Tenseiken!" and slashes at %enemy $+ .
 
-BasePower=30
+BasePower=60
 
 Element=None
 
-Cost=999999
+Cost=90000
 
 Magic=No
 
@@ -6711,11 +7102,11 @@ BasePower=30
 
 Element=Lightning
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
-stat=str
+stat=int
 
 
 
@@ -6731,7 +7122,7 @@ BasePower=40
 
 Element=Light
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -6751,7 +7142,7 @@ BasePower=30
 
 Element=Light
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -6771,7 +7162,7 @@ BasePower=30
 
 Element=Fire
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -6787,12 +7178,11 @@ TP=10
 
 Desc=rushes forward and slashes %enemy several times with his gunblade.
 
-BasePower=30
+BasePower=50
 
 Element=None
 
-Cost=999999
-
+Cost=3000
 Magic=No
 
 
@@ -6805,12 +7195,11 @@ TP=10
 
 Desc=slashes %enemy with a backhand swing of the gunblade, causing a small explosion of energy.
 
-BasePower=30
+BasePower=70
 
 Element=None
 
-Cost=999999
-
+Cost=8600
 Magic=No
 
 stat=str
@@ -6829,11 +7218,10 @@ BasePower=30
 
 Element=None
 
-Cost=999999
-
+Cost=10000
 Magic=No
 
-stat=int
+stat=str
 
 
 
@@ -6845,15 +7233,16 @@ TP=10
 
 Desc=raises his gunblade into the air as a massive line of yellow energy shoots into the sky. Squall then slams the energy on the battlefield to hit all targets.
 
-BasePower=30
+statustype=Stun
+BasePower=90
 
 Element=None
 
-Cost=999999
+Cost=90000
 
 Magic=No
 
-stat=int
+stat=str
 
 
 
@@ -6865,15 +7254,14 @@ TP=10
 
 Desc=rushes forward as the gunblade changes to the Lionheart and glows white. Squall slashes %enemy over and over before hopping back. He then says, "Mission accomplished." and slashes %enemy one final time.
 
-BasePower=40
+BasePower=150
 
 Element=Light
 
-Cost=999999
-
+Cost=50000
 Magic=Yes
 
-stat=str
+stat=int
 
 
 
@@ -6885,11 +7273,11 @@ TP=10
 
 Desc=slashes %enemy a few times with his sword and leaps into the air, shouting out "Cutlass Fury!" and slashing once more on the way down.
 
-BasePower=30
+BasePower=50
 
 Element=None
 
-Cost=999999
+Cost=90000
 
 Magic=No
 
@@ -6907,7 +7295,7 @@ BasePower=30
 
 Element=Lightning
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 stat=int
@@ -6920,11 +7308,11 @@ TP=10
 
 Desc=mutters "Behold..." as a dome of stars appears around Vyse and %enemy $+ . Vyse rushes forward and yells "Pirate's Wrath!" as he slashes %enemy several times as the dome then explodes.
 
-BasePower=30
+BasePower=70
 
 Element=None
 
-Cost=999999
+Cost=90000
 
 Magic=No
 
@@ -6938,11 +7326,11 @@ TP=10
 
 Desc=holds her right arm forward and shouts, "Holy Flames!" as three balls of flame slam into %enemy $+ !
 
-BasePower=30
+BasePower=40
 
 Element=Fire
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -6960,7 +7348,7 @@ BasePower=30
 
 Element=Ice
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -6974,11 +7362,11 @@ TP=10
 
 Desc=swings her wand and shouts, "Holy Lightning!" as three balls of lightning slam into %enemy multiple times!
 
-BasePower=30
+BasePower=50
 
 Element=Lightning
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -6995,7 +7383,7 @@ BasePower=30
 
 Element=Ice
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 
@@ -7009,11 +7397,11 @@ TP=10
 
 Desc=rushes forward and slashes %enemy eight times with the sword!
 
-BasePower=30
+BasePower=60
 
 Element=None
 
-Cost=999999
+Cost=90000
 
 Magic=No
 
@@ -7027,13 +7415,13 @@ TP=10
 
 Desc=gathers energy before quickly summoning a large red beam to slam into %enemy $+ !
 
-BasePower=45
+BasePower=60
 
-Element=None
+Element=Dark
 
-Cost=999999
+Cost=90000
 
-Magic=No
+Magic=Yes
 
 stat=int
 
@@ -7045,11 +7433,11 @@ TP=10
 
 Desc=laughs as she begins to gather power. A moment later, she says "It's time for you all to die!" and summons several red beams of energy to strike the battlefield!
 
-BasePower=50
+BasePower=60
 
 Element=Dark
 
-Cost=999999
+Cost=90000
 
 Magic=Yes
 stat=int
@@ -7065,7 +7453,7 @@ BasePower=45
 
 Element=None
 
-Cost=999999
+Cost=90000
 
 Magic=No
 
@@ -7083,7 +7471,7 @@ BasePower=45
 
 Element=None
 
-Cost=999999
+Cost=90000
 
 Magic=No
 
@@ -7095,7 +7483,7 @@ TP=10
 Desc=leaps up and tries to nom on %enemy $+ , stealing %enemy $+ 's power as he does so.
 BasePower=20
 Element=None
-Cost=999999
+Cost=90000
 Magic=No
 stat=str
 
@@ -7109,7 +7497,7 @@ TP=10
 Desc=takes a deep breath before vomiting up a huge amount of brownish-green acid that is poisonous to the touch across the entire battlefield.
 BasePower=50
 
-Cost=999999
+Cost=90000
 
 Magic=no
 stat=str
@@ -7124,12 +7512,1110 @@ TP=10
 Desc=leaps up into the air and releases a massive amount of brown acid that rains down upon the entire battlefield.
 BasePower=50
 
-Cost=999999
+Cost=90000
 
 Magic=no
 stat=str
 
+[Darkra_I]
+Type=AOE
+TP=10
+Desc=floats into the air slightly as %gender3($1) gathers energy. $set_chr_name($1) %real.name then slams the staff into the ground, causing dark energy to expand over all of the battlefield!
+BasePower=35
+Element=Dark
+Cost=90000
+Magic=Yes
+stat=int
 
+[Darkra_II]
+Type=AOE
+TP=10
+Desc=spins around as it gathers power for the spell. A small dark orb appears before the orb slams into the battlefield, covering it in darkness!
+BasePower=50
+Element=Dark
+Cost=90000
+Magic=Yes
+stat=int
+
+[Holy_II]
+Type=AOE
+TP=10
+Desc=casts a stronger version of Holy. Searing light engulfs the battlefield to damage all targets!
+BasePower=50
+Element=Light
+Cost=90000
+Magic=Yes
+stat=int
+
+[DarkV]
+Type=Single
+TP=10
+Desc=summons a very large dark sphere that floats in the air for a moment before it crashes into %enemy $+ !
+BasePower=60
+Element=Dark
+Cost=6000
+Magic=Yes
+stat=int
+
+[SonicBoom]
+Type=AOE
+StatusType=DefenseDown
+TP=10
+Desc=shrieks at a high pitch that hurts everyones ears and lowers their defense!
+BasePower=10
+Element=Dark
+Cost=90000
+Magic=No
+stat=int
+
+[BatBite]
+Type=Single
+TP=10
+Desc=lands on %enemy and sinks its fangs into %enemy $+ 's shoulder to steal some blood!
+BasePower=20
+Element=None
+Cost=90000
+Magic=No
+Absorb=Yes
+stat=str
+
+[BatDrill]
+Type=Single
+TP=10
+Desc=begins to spin at a high speed and proceeds to slam into %enemy $+ !
+BasePower=25
+Element=None
+Cost=90000
+Magic=No
+stat=str
+
+[FlameStrike]
+Type=Single
+TP=10
+Desc=raises $gender($1) sword as fire flares around the sword. $set_chr_name($1) %real.name then slams the sword onto %enemy with great force!
+BasePower=40
+Element=Fire
+Cost=90000
+Magic=Yes
+stat=int
+
+[Stomping]
+Type=Single
+TP=10
+Desc=rears back on its hind legs and slams the front hooves onto %enemy $+ !
+BasePower=25
+Element=None
+Cost=90000
+Magic=No
+stat=str
+
+[ColdStare]
+Type=Single
+StatusType=Intimidate
+TP=10
+Desc=looks at %enemy with an unnerving stare in an attempt to intimidate %enemy $+ !
+BasePower=5
+Element=None
+Cost=90000
+Magic=No
+stat=int
+
+[HealingBreeze]
+Type=Heal-AOE
+TP=10
+Desc=bleats loudly and a green burst of energy cover the battlefield to heal all allies!
+BasePower=60
+Element=Light
+Cost=90000
+Magic=Yes
+stat=int
+
+[SonicWave]
+Type=AOE
+StatusType=StrengthDown
+TP=10
+Desc=bleats loudly and a blue burst of energy covers all of the battlefield to lower the strength of everyone!
+BasePower=10
+Element=None
+Cost=90000
+Magic=No
+stat=int
+
+[BlockHead]
+Type=Single
+StatusType=Stun
+TP=10
+Desc=quickly rams into %enemy to stun $gender2($2) $+ !
+BasePower=10
+Element=None
+Cost=90000
+Magic=No
+stat=str
+
+[Fireball]
+Type=AOE
+TP=10
+Desc=spits out a ball of fire that explodes once it hits the ground, hitting everyone in the battle!
+BasePower=20
+Element=Fire
+Cost=90000
+Magic=Yes
+stat=int
+
+[Snowball]
+Type=AOE
+TP=10
+Desc=spits out a ball of ice that explodes once it hits the ground, hitting everyone in the battle!
+BasePower=20
+Element=Ice
+Cost=90000
+Magic=Yes
+stat=int
+
+[TailBlow]
+Type=Single
+TP=10
+Desc=quickly spins and slams its tail into %enemy $+ !
+BasePower=20
+Element=None
+Cost=90000
+Magic=No
+stat=str
+
+[PoisonBreath]
+Type=Single
+StatusType=Poison
+TP=10
+Desc=spits out a dark green breath that covers %enemy and poisons $gender2($2) $+ !
+BasePower=10
+Element=Dark
+Cost=90000
+Magic=No
+stat=int
+
+[BalefulGaze]
+Type=Single
+StatusType=petrify
+TP=10
+Desc=stares into %enemy $+ 's eyes as light grey energy covers %enemy in an attempt to petrify $gender2($2) $+ !
+BasePower=10
+Element=None
+Cost=90000
+Magic=No
+stat=int
+
+[LeafStorm]
+Type=AOE
+TP=10
+Desc=shakes off several leaves that then procced fly around the battlefield, cutting all targets!
+BasePower=20
+Element=Wind
+Cost=90000
+Magic=Yes
+stat=int
+
+[DrillBranch]
+Type=Single
+TP=10
+Desc=summons a few branches to take a drill shape and pierces %enemy with them!
+BasePower=50
+Element=None
+Cost=90000
+Magic=No
+stat=str
+
+[PineconeBomb]
+Type=Single
+StatusType=Paralysis
+TP=10
+Desc=hurls several pincecones at %enemy in an attemp to paralyze $gender2($2) $+ !
+BasePower=10
+Element=None
+Cost=90000
+Magic=No
+stat=str
+
+[Entangle]
+Type=Single
+StatusType=Stun
+TP=10
+Desc=summons several branches to entagle %enemy to keep $gender2($2) in place!
+BasePower=5
+Element=None
+Cost=90000
+Magic=No
+stat=str
+
+[SproutSmack]
+Type=Single
+StatusType=Slow
+TP=10
+Desc=hops towards %enemy and hits them with the sprout in an attempt to slow %enemy down!
+BasePower=20
+Element=None
+Cost=90000
+Magic=No
+stat=str
+
+[SproutSpin]
+Type=AOE
+TP=10
+Desc=spins the sprout around to hit all targets on the battlefield!
+BasePower=15
+Element=None
+Cost=90000
+Magic=No
+stat=str
+
+[StarBeam]
+Type=Single
+TP=10
+Desc=takes aim with its gun and fires a medium blue beam at %enemy $+ !
+BasePower=10
+Element=None
+Cost=90000
+Magic=No
+stat=str
+
+[PK-StarStorm]
+Type=AOE
+TP=10
+Desc=summons forth a deadly PSI attack to hit everyone on the battlefield with stars of energy!
+BasePower=20
+Element=Light
+Cost=90000
+Magic=Yes
+stat=int
+
+[PK-Fire]
+Type=Single
+TP=10
+Desc=hurls a small bolt of PSI energy at %enemy which causes a small explosion of fire!
+BasePower=15
+Element=Fire
+Cost=90000
+Magic=Yes
+stat=int
+
+[PK-Ice]
+Type=Single
+TP=10
+Desc=summons forth a medium ice crystal and hurls it at %enemy $+ !
+BasePower=14
+Element=Ice
+Cost=90000
+Magic=Yes
+stat=int
+
+[PK-Thunder]
+Type=Single
+TP=10
+Desc=summons forth a medium bolt of lightning that dances around the battlefield before it slams into %enemy at a high speed!
+BasePower=15
+Element=Lightning
+Cost=90000
+Magic=Yes
+stat=int
+
+[FeveredPitch]
+Type=Single
+StatusType=DefenseDown
+TP=10
+Desc=unleashes an ear-piercing howl that lowers %enemy $+ 's defense!
+BasePower=5
+Element=Dark
+Cost=90000
+Magic=No
+stat=int
+
+[CallOfTheMoon]
+Type=Single
+StatusType=Intimidate
+TP=10
+Desc=unleashes an ear-piercing howl in an attempt to intimidate %enemy $+ !
+BasePower=5
+Element=Dark
+Cost=90000
+Magic=No
+stat=int
+
+[AsuranClaws]
+Type=Single
+TP=10
+Desc=stands up on its hind legs and proceeds to strike %enemy eight times with the claws on its front legs!
+BasePower=30
+Element=Dark
+Cost=90000
+Magic=No
+stat=str
+
+[PleniluneEmbrace]
+Type=Heal
+TP=10
+Desc=howls at the moon and gains a green glow that proceeds to recover a large amount of health!
+BasePower=80
+Element=Light
+Cost=90000
+Magic=Yes
+star=int
+
+[NoxBlast]
+Type=Single
+StatusType=Poison
+TP=10
+Desc=stands up on its hind legs and unleashes a dark breath upon %enemy in an attempt to cause poison!
+BasePower=5
+Element=Dark
+Cost=90000
+Magic=No
+stat=int
+
+[Toothbrush]
+Type=Single
+StatusType=Petrify
+TP=10
+Desc=hits %enemy with a toothbrush that somehow causes petrification!
+BasePower=5
+Element=None
+Cost=90000
+Magic=No
+stat=str
+
+[Ruler]
+Type=Single
+TP=10
+Desc=uses the ruler to measure the distance that %enemy is at before launching an attack!
+BasePower=1
+Element=None
+Cost=90000
+Magic=No
+stat=int
+
+[Yardstick]
+Type=Single
+TP=10
+Desc=gets angry and pulls out a yardstick, proceeding to hit %enemy several times!!
+BasePower=5
+Element=None
+Cost=90000
+Magic=No
+stat=str
+
+[Calculator]
+Type=Single
+StatusType=Stun
+TP=10
+Desc=takes out a calculator and plays around with it. A moment later, $set_chr_name($1) %real.name hurls it at %enemy $+ 's head for a surprise attack!!
+BasePower=5
+Element=None
+Cost=90000
+Magic=No
+stat=str
+
+[HornStab]
+Type=Single
+TP=10
+Desc=allows %enemy to pet it, acting like it's harmless. Just when %enemy suspects nothing, $set_chr_name($1) %real.name stabs the horn into %enemy $+ !!
+BasePower=$calc(2.2 * $readini($char($3), basestats, HP))
+Element=None
+Cost=90000
+Magic=No
+stat=str
+
+[UnicornKick]
+Type=Single
+TP=10
+Desc=kicks at %enemy with one of its legs!
+BasePower=35
+Element=None
+Cost=90000
+Magic=No
+stat=str
+
+[UnicornStomp]
+Type=Single
+TP=10
+Desc=knocks %enemy down to the ground and proceeds to stomp on %enemy $+ !
+BasePower=40
+Element=None
+Cost=90000
+Magic=No
+stat=str
+
+[UnicornBite]
+Type=Single
+TP=10
+Desc=runs up to %enemy and bites $gender2($2) on the arm with great force!
+BasePower=45
+Element=None
+Cost=90000
+Magic=No
+stat=str
+
+[Thors_Hammer]
+Type=AOE
+TP=10
+Desc=gathers power for a moment before a large burst of lightning shoots out from its horn and strikes all targets on the battlefield!
+BasePower=50
+Element=Lightning
+Cost=90000
+Magic=Yes
+stat=int
+
+[WingCutter]
+Type=AOE
+TP=10
+Desc=flaps its wings with great force to create a small hurricane that hits the battlefield!
+BasePower=20
+Element=Wind
+Cost=90000
+Magic=Yes
+stat=str
+
+[HellDive]
+Type=Single
+StatusType=Stun
+TP=10
+Desc=dives into %enemy hard enough to cause stun!
+BasePower=10
+Element=None
+Cost=90000
+Magic=No
+stat=str
+
+[BroadsideBarrage]
+Type=AOE
+TP=10
+Desc=flys around the battefield at a high speed to hit all targets!
+BasePower=20
+Element=None
+Cost=90000
+Magic=No
+stat=str
+
+[ConcussiveOscillation]
+Type=AOE
+TP=10
+Desc=spins around the battlefield to hit all targets!
+BasePower=30
+Element=None
+Cost=90000
+Magic=No
+stat=str
+
+[PrimalDrill]
+Type=Single
+TP=10
+Desc=forms its wings into a drill shape and slams into %enemy at a high speed!
+BasePower=50
+Element=None
+Cost=90000
+Magic=No
+stat=str
+
+[LuminousDrape]
+Type=AOE
+StatusStype=charm
+TP=10
+Desc=covers the battlefield with energy that glows in several colors to take control of all targets!
+BasePower=5
+Element=Light
+Cost=90000
+Magic=No
+stat=int
+
+[IonShower]
+Type=AOE
+TP=10
+Desc=summons a storm of lightning magic to cover the entire battlefield!
+BasePower=40
+Element=Lightning
+Cost=90000
+Magic=Yes
+stat=int
+
+[ChainsawDash]
+Type=Single
+TP=10
+Desc=revs up the chainsaw and dashes forward to cut %enemy with it!
+BasePower=30
+Element=None
+Cost=90000
+Magic=No
+stat=str
+
+[ChainsawSpin]
+Type=Single
+TP=10
+Desc=leaps into the air and spins like a wheel, slamming the chainsaw into %enemy on the way down!
+BasePower=40
+Element=None
+Cost=90000
+Magic=No
+stat=str
+
+[ChainsawTornado]
+Type=AOE
+TP=10
+Desc=revs the chainsaw and spins around the battlefield to cut all targets!
+BasePower=30
+Element=None
+Cost=90000
+Magic=No
+stat=str
+
+[ChainsawCut]
+Type=Single
+StatusType=DefenseDown
+TP=10
+Desc=cuts %enemy with the chainsaw to lower %enemy $+ 's defense!
+BasePower=35
+Element=None
+Cost=90000
+Magic=No
+stat=str
+
+[ChainsawAttack]
+Type=Single
+TP=10
+Desc=runs foward and cuts %enemy several times with the chainsaw!
+BasePower=50
+Element=None
+Cost=90000
+Magic=No
+stat=str
+
+[ChainsawCannon]
+Type=Single
+TP=10
+Desc=changes the chainsaw blade to a barrel and fires several shots at %enemy $+ !
+BasePower=45
+Element=None
+Cost=90000
+Magic=No
+stat=str
+
+[ChargedEnergyShot]
+Type=Single
+TP=10
+Desc=charges up his weapon and fires a large energy shot at %enemy $+ !
+BasePower=40
+Element=None
+Cost=90000
+Magic=No
+stat=int
+
+[HyperBomb]
+Type=AOE
+TP=10
+Desc=summons a bomb onto his hand and hurls it at the battlefield!
+BasePower=30
+Element=Fire
+Cost=90000
+Magic=No
+stat=Int
+
+[SuperArm]
+Type=Single
+TP=10
+Desc=gains great strength and lifts %enemy up and then slams %enemy into the ground!
+BasePower=60
+Element=None
+Cost=90000
+Magic=No
+stat=str
+
+[RollingCutter]
+Type=AOE
+TP=10
+Desc=creates a large scissors blade and unleashes it upon the battlefield!
+BasePower=30
+Element=None
+Cost=90000
+Magic=No
+stat=int
+
+[ThunderBeam]
+Type=Single
+TP=10
+Desc=sends three beams of lightning to crash into %enemy $+ !
+BasePower=35
+Element=Lightning
+Cost=90000
+Magic=Yes
+stat=int
+
+[IceSlasher]
+Type=Single
+TP=10
+Desc=creates a large icicle and hurls it at %enemy $+ !
+BasePower=35
+Element=Ice
+Cost=90000
+Magic=Yes
+stat=int
+
+[FireStorm]
+Type=AOE
+TP=10
+Desc=creates several fireballs that spin around before spreading to the entire battlefield!
+BasePower=30
+Element=Fire
+Cost=90000
+Magic=Yes
+stat=int
+
+[ShotgunIce]
+Type=Single
+TP=10
+Desc=shoots a large chunk of ice out of his weapon that slams into %enemy $+ !
+BasePower=40
+Element=Ice
+Cost=90000
+Magic=Yes
+stat=int
+
+[StormTornado]
+Type=Single
+TP=10
+Desc=fires a tornado towards %enemy that travels horizontally!
+BasePower=40
+Element=Wind
+Cost=90000
+Magic=Yes
+stat=int
+
+[FireWave]
+Type=AOE
+TP=10
+Desc=fires several waves of fire that covers the battlefield!
+BasePower=40
+Element=Fire
+Cost=90000
+Magic=Yes
+stat=int
+
+[ChameleonSting]
+Type=Single
+TP=10
+Desc=fires three needles of energy that pierce through %enemy $+ !
+BasePower=50
+Element=None
+Cost=90000
+Magic=No
+stat=int
+
+[ElectricSpark]
+Type=Single
+TP=10
+Desc=slams his fist into the ground and medium orbs of lightning travel the ground and slam into %enemy $+ !
+BasePower=40
+Element=Lightning
+Cost=90000
+Magic=Yes
+stat=int
+
+[RollingShield]
+Type=Single
+TP=10
+Desc=fires a large enegy sphere from his weapon that slams into %enemy at a high speed!
+BasePower=50
+Element=None
+Cost=90000
+Magic=No
+stat=int
+
+[BoomerangCutter]
+Type=AOE
+TP=10
+Desc=summons a large boomerang and hurls it at all targets on the battlefield!
+BasePower=40
+Element=None
+Cost=90000
+Magic=No
+stat=int
+
+[HomingTorpedo]
+Type=AOE
+TP=10
+Desc=charges up energy and unleashes several homing torpedos that hit all targets!
+BasePower=45
+Element=None
+Cost=90000
+Magic=No
+stat=int
+
+[ArmorChange]
+Type=noost
+TP=10
+Desc=vists a Dr. Light capsule and gains new armor that is white and gold incolor. It increases his power by a large amount!
+BasePower=20
+Cost=90000
+Element=None
+
+[HandOfPyro]
+Type=Single
+TP=10
+Desc=shouts "The Hand of Pyro!" and hurls a large ball of fire at %enemy $+ !
+BasePower=40
+Element=Fire
+Cost=90000
+Magic=Yes
+stat=int
+
+[Bite_Of_Lightning]
+Type=AOE
+TP=10
+Desc=shouts "The Bite of Lightning!" and causes a storm of lightning to hit the battlefield!
+BasePower=40
+Element=Lightning
+Cost=90000
+Magic=Yes
+stat=int
+
+[HailOfHeavens]
+Type=AOE
+TP=10
+Desc=shouts "The Hail of Heavens!" and a large icestorm covers the battlefield!
+BasePower=40
+Element=Ice
+Cost=90000
+Magic=Yes
+stat=int
+
+[PinnacleOfTheSun]
+Type=AOE
+TP=10
+Desc=shouts "The Pinnacle of the Sun!" and a massive ball of fire slams into the battlefield!
+BasePower=40
+Element=Fire
+Cost=90000
+Magic=Yes
+stat=int
+
+[ColdnessOfDestruction]
+Type=Single
+TP=10
+Desc=shouts "The Coldness of Destruction!" and hurls a large chunk of ice at %enemy $+ !
+BasePower=40
+Element=Ice
+Cost=90000
+Magic=Yes
+stat=int
+
+[FeathersOfTheHurricane]
+Type=AOE
+TP=10
+Desc=shouts "The Feathers of the Hurricane!" and a large hurricane strikes the battlefield!
+BasePower=40
+Element=Wind
+Cost=90000
+Magic=Yes
+stat=int
+
+[BoltOfThunder]
+Type=Single
+TP=10
+Desc=shouts "The Bolt of Thunder!" and a large bolt of lightning strikes %enemy $+ !
+BasePower=40
+Element=Lightning
+Cost=90000
+Magic=Yes
+stat=int
+
+[SmokeOfPain]
+Type=Single
+TP=10
+Desc=shouts "The Smoke of Pain!" and dark smoke covers %enemy for a moment!
+BasePower=40
+Element=Dark
+Cost=90000
+Magic=Yes
+stat=int
+
+[FalconOfDeath]
+Type=Single
+TP=10
+Desc=shouts "The Falcone of Death!" and summons a large burst of wind energy that resembles a falcon, which slams into %enemy with great force!
+BasePower=40
+Element=Wind
+Cost=90000
+Magic=Yes
+stat=int
+
+[PoweredShot]
+Type=Single
+TP=10
+Desc=charges up her weapon for a moment before unleashing a large energy shot upon %enemy $+ !
+BasePower=60
+Element=None
+Cost=90000
+Magic=No
+stat=int
+
+[Missile]
+Type=Single
+TP=10
+Desc=takes aim and fires a missile at %enemy $+ !
+BasePower=45
+Element=None
+Cost=90000
+Magic=No
+stat=str
+
+[SuperMissile]
+Type=Single
+TP=10
+Desc=takes aim and gathers energy in her weapon. A moment later, she fires and giant missile that slams into %enemy with force!
+BasePower=85
+Element=none
+Cost=90000
+Magic=No
+stat=str
+
+[Bomb]
+Type=Single
+TP=10
+Desc=changes to morph ball form and surrounds %enemy with three small bombs that explode a few seconds later!
+BasePower=45
+Element=None
+Cost=90000
+Magic=No
+stat=int
+
+[PowerBomb]
+Type=AOE
+TP=10
+Desc=changes to morph ball form and gathers energy. A moment later, a massive explosion covers the battlefield!
+BasePower=90
+Element=None
+Cost=90000
+Magic=No
+stat=int
+
+[ScrewAttack]
+Type=Single
+TP=10
+Desc=spins into the air as energy forms around her, the energy taking the form of a buzzsaw blade. Samus then slams into %enemy to cut them like a buzzsaw!
+BasePower=150
+Element=None
+Cost=90000
+Magic=No
+stat=int
+
+[Raijingeki]
+Type=Single
+TP=10
+Desc=gains lightning on his saber and strikes %enemy with it several times before stepping back.
+BasePower=40
+Element=Lightning
+Cost=90000
+Magic=Yes
+stat=str
+
+[Rakuhouha]
+Type=AOE
+TP=10
+Desc=slams his fist into the ground and seveal pillars of energy explode upon the battlefield!
+BasePower=40
+Element=None
+Cost=90000
+Magic=No
+stat=int
+
+[Ryuenjin]
+Type=Single
+TP=10
+Desc=gains fire on his saber and performs an upward fire slash that sends %enemy flying backwards!
+BasePower=40
+Element=Fire
+Cost=90000
+Magic=Yes
+stat=str
+
+[Kuuenzan]
+Type=Single
+TP=10
+Desc=leaps into the air and performs a powerful spinning slash upon %enemy $+ !
+BasePower=60
+Element=None
+Cost=90000
+Magic=No
+stat=str
+
+[Shippuuga]
+Type=Single
+TP=10
+Desc=gains a brighter green glow on his saber and quickly slashes %enemy three times, hitting %enemy with wind energy!
+BasePower=40
+Element=Wind
+Cost=90000
+Magic=Yes
+stat=str
+
+[Hyoretsuzan]
+Type=Single
+TP=10
+Desc=gains ice on his saber and leaps into the air for a moment, before diving down and stabbing %enemy with the ice!
+BasePower=40
+Element=Ice
+Cost=90000
+Magic=Yes
+stat=str
+
+[BlackArmor]
+Type=boost
+TP=10
+Desc=finds a mysterious capsule with a small 'W' on it. Zero steps inside and his armor changes from red to black, increasing his power.
+BasePower=20
+Cost=90000
+Element=None
+
+[LaserStorm]
+Type=AOE
+TP=10
+Desc=hops onto his sled and flys around the battlefield and fires lasers from hit rifle at everyone!
+BasePower=15
+Element=None
+Cost=90000
+Magic=No
+stat=int
+
+[GrenadeGift]
+Type=AOE
+TP=10
+Desc=reaches into his sack... and pulls out a grenade!! Robot Santa pulls out the pin and hurls it at the battlefield!
+BasePower=17
+Element=Fire
+Cost=90000
+Magic=Yes
+stat=int
+
+[BazookaGift]
+Type=Single
+TP=10
+Desc=reaches into his sack... and pulls out a rocket launcher!! Robot Santa takes aim at %enemy and fires a rocket!!
+BasePower=20
+Element=Fire
+Cost=90000
+Magic=Yes
+stat=int
+
+[HectacombWave]
+Type=AOE
+StatusType=Slow
+TP=10
+Desc=unleashes a light blue wave of energy upon the battlefield to slow everyone down!
+BasePower=5
+Element=None
+Cost=90000
+Magic=No
+stat=int
+
+[QuadraStrike]
+Type=Single
+TP=10
+Desc=rushes forward and strikes %enemy four times with its weapon!
+BasePower=40
+Element=None
+Cost=90000
+Magic=No
+stat=str
+
+[SoulDrain]
+Type=Single
+TP=10
+Desc=laughs as $set_chr_name($1) %real.name hurls a blue ball of energy into %enemy $+ ! A moment later, the energy ball is pulled out of %enemy and back to the demon, stealing some health from %enemy $+ !
+BasePower=40
+Element=None
+Cost=90000
+Magic=No
+stat=int
+absorb=yes
+
+[Rinka]
+Type=AOE
+TP=10
+Desc=causes the surrounding weapon systems to cover the battlefield with small circles of energy!
+BasePower=25
+Element=None
+Cost=90000
+Magic=No
+stat=int
+
+[LaserDefense]
+Type=Single
+TP=10
+Desc=makes the laser rifles focus upon %enemy and several lasers shoot into %enemy $+ !
+BasePower=40
+Element=None
+Cost=90000
+Magic=No
+stat=int
+
+[LavaFall]
+Type=AOE
+TP=10
+Desc=causes lava to fall from above to cover the battlefield!
+BasePower=25
+Element=Fire
+Cost=90000
+Magic=Yes
+stat=int
+
+[HyperBeam]
+Type=Single
+TP=10
+Desc=gathers power for a moment before unleashing a massive beam of blue energy upon %enemy $+ !
+BasePower=70
+Element=None
+Cost=90000
+Magic=No
+stat=int
+
+[BombBeam]
+Type=AOE
+TP=10
+Desc=unleashes several beams of energy that explodes upon the battlefield!
+BasePower=30
+Element=Fire
+Cost=90000
+Magic=Yes
+stat=int
+
+[PlasmaLaser]
+Type=Single
+TP=10
+Desc=fires a green beam of plasma at %enemy $+ !
+BasePower=50
+Element=None
+Cost=90000
+Magic=No
+stat=int
+
+[BrainStomp]
+Type=Single
+TP=10
+Desc=leaps into the air and stomps on %enemy $+ !
+BasePower=40
+Element=None
+Cost=90000
+Magic=No
+stat=str
+
+[BrainGrab]
+Type=Single
+TP=10
+Desc=grabs %enemy and pierces its claws into %enemy $+ 's body in an attempt to steal some of $gender($2) life!
+BasePower=50
+Element=None
+Cost=90000
+Magic=No
+stat=int
+absorb=yes
+;
+; FF Valkyria Weapons
+; 
 [Repairs]
 Type=heal
 TP=5
@@ -7138,6 +8624,7 @@ BasePower=20
 cost=90000
 Element=none
 magic=yes
+stat=int
 
 [SonicBlow]
 ; Ragnarok Online Move
@@ -7150,6 +8637,7 @@ hit=$rand(2,5)
 cost=500
 Element=none
 magic=no
+stat=str
 
 [BrandishSpear]
 ; Ragnarok Online Move
@@ -7161,6 +8649,7 @@ BasePower=30
 cost=6000
 Element=none
 magic=no
+stat=str
 
 [JupitelThunder]
 ; Ragnarok Online Move
@@ -7172,6 +8661,7 @@ cost=9000
 basepower=20
 Element=Lightning
 magic=yes
+stat=int
 
 ; Tyrannosaurus Moveset
 
@@ -7184,6 +8674,7 @@ Element=none
 cost=9000
 magic=0
 Absorb=Yes
+stat=str
 
 [VolcanicRush]
 Type=AOE
@@ -7194,6 +8685,7 @@ basepower=20
 Element=Fire
 cost=9000
 magic=yes
+stat=int
 
 [SurvivalInstinct]
 Type=boost
@@ -7215,6 +8707,7 @@ basepower=30
 element=light
 magic=yes
 cost=9000
+stat=int
 
 [CrimsonFlame]
 ; Digimon Moveset
@@ -7226,16 +8719,18 @@ basepower=45
 element=fire
 magic=yes
 cost=9000
+stat=int
 
 [MeteorPhoenix]
 type=AOE
 tp=20
-; statustype=Shaking
+statustype=Shaking
 Desc= 's body burns with an orange fire, then finally heads towards a good height and dives into the battlefield, burning everything within range.
 magic=no
 basepower=60
 element=fire
 cost=9000
+stat=str
 
 [DoubleHurricane]
 type=AOE
@@ -7246,6 +8741,7 @@ element=Wind
 magic=no
 basepower=30
 cost=9000
+stat=int
 
 [BusterPhoenix]
 type=boost
@@ -7254,6 +8750,7 @@ element=Fire
 Desc= starts to burn a bright orange fire around itself!
 basepower=20
 cost=9000
+
 
 ; Black Rock Shooter moves
 
@@ -7264,6 +8761,7 @@ Desc=aims and fires a barrage of blue spheres at %enemy $+ ! [Rock Cannon!]
 basepower=30
 cost=9000
 magic=no
+stat=str
 
 [RockDeltaVulcan]
 type=single
@@ -7272,6 +8770,7 @@ Desc=changes the "Rock Cannon" on $gender($1) hands and becomes a "Delta Vulcan 
 basepower=45
 cost=9000
 magic=no
+stat=str
 
 [BlackStarSlash]
 type=AOE
@@ -7281,6 +8780,7 @@ basepower=60
 cost=9000
 element=Light
 magic=yes
+stat=str
 
 [BlackStarGrenade]
 type=AOE
@@ -7290,6 +8790,7 @@ basepower=55
 cost=9000
 element=Fire
 magic=no
+stat=int
 
 [BlackStarPower]
 type=boost
@@ -7299,6 +8800,7 @@ basepower=20
 element=Fire
 cost=9000
 magic=no
+stat=str
 
 [RockCannonSpear]
 type=status
@@ -7308,6 +8810,7 @@ Desc=changes the "Rock Cannon" into a large spear and slams it hard on %enemy!
 basepower=35
 cost=2000
 magic=no
+stat=str
 
 ; DiEndDriver Details
 
@@ -7326,6 +8829,7 @@ basepower=170
 desc=quickly slides a card into the DiendDriver Card slot and fires it into the air. "D-D-D-Diend Final Attack Ride! GEKIJOBAN!" The attack summons 8 masked riders and takes turn in hitting %enemy $+ !
 cost=10000
 magic=yes
+stat=int
 
 [DiendBlast]
 type=single
@@ -7335,6 +8839,7 @@ element=Lightning
 basepower=25
 cost=4000
 Desc= shifts the mode on the DiendDriver and goes full automatic on %enemy $+ ! [Diend Blast!]
+stat=str
 
 [DiEndDimensionShoot]
 type=AOE
@@ -7345,6 +8850,7 @@ cost=5000
 Desc= locks the DiendDriver, then aims at the enemies, and then 9 ring of cards appear in a straight line, and a large beam from the Diend Driver hits all the enemies! "Final Attack Ride! Dimension Shoot!" a voice seemingly echoing all over.
 basepower=50
 magic=yes
+stat=int
 
 ; Megasaurus Attacks
 
@@ -7357,7 +8863,7 @@ Desc= jumps into the air and lands on the earth below, creating massive shafts o
 statustype=Shaking
 basepower=100
 magic=no
-
+stat=int
 
 [UltimateSwallow]
 type=AOE
@@ -7367,6 +8873,7 @@ Desc= grabs all the enemies on the battlefield and chews on them for a while, th
 absorb=yes
 basepower=50
 magic=no
+stat=str
 
 [Slurp]
 type=single
@@ -7378,6 +8885,7 @@ element=water
 absorb=yes
 magic=no
 cost=2000
+stat=str
 
 [Dinostomp]
 type=single
@@ -7388,6 +8896,7 @@ desc=lifts $gender($1) $+ giant leg and stomps on %enemy $+ ! [Dinosaur Stomp!]
 element=none
 magic=no
 cost=2000
+stat=str
 
 ; Omega Weapon MK12's Techs
 
@@ -7408,6 +8917,7 @@ basepower=25
 cost=2000
 desc= takes aim on %enemy $+ and fires a very bright laser on them. [Light Pillar!]
 magic=yes
+stat=int
 
 [FFUltima]
 type=AOE
@@ -7417,6 +8927,7 @@ tp=60
 basepower=150
 desc=holds up $gender($1) $+'s weapon to collect magical energy, then finally releases them in a black and white flame towards all enemies. [Ultima!]
 cost=9000
+stat=int
 
 [Gravija]
 type=AOE
@@ -7428,6 +8939,7 @@ basepower=120
 desc=flies up into the sky and intesifies the gravity on the battlefield! [Gravija!]
 cost=12000
 absorb=yes
+stat=int
 
 [TerraBreak]
 type=single
@@ -7438,6 +8950,7 @@ magic=no
 desc=uses $gender($1) $+'s weapon and smashes %enemy $+ into the ground, creating a massive hole in the ground! [Terra Break]
 cost=9000
 element=earth
+stat=str
 
 [MeggidoFlame]
 type=aoe
@@ -7448,6 +8961,7 @@ magic=yes
 element=light
 cost=2000
 desc=casts a very large spell into the heavens and finally a holy fire burns everything within range! [Meggido Flame]
+stat=int
 
 [LV5_Death]
 type=AOE
@@ -7457,3 +8971,72 @@ tp=333
 ;basepower=if ($calc($readini($char($3), Stuff, shoplevel) % 5) == 0) { $calc($readini($char($3), basestats, HP) * 1.1) } else { $calc(0 * 1.1) }
 basepower=666
 element=dark
+desc=casts a large scale spell that surrounds all enemies with the Grim Reaper's Influence! [LV5 Death]
+stat=int
+
+; Perfect Chaos' Techniques
+
+[Chaos_Tsunami]
+type=aoe
+statustype=Drowning
+tp=60
+element=Water
+magic=yes
+basepower=150
+desc=sends a powerful tsunami, destroying the landscape with furious waters! [Chaos Tsunami
+stat=int
+
+[Hydro_Cannon]
+type=single
+statustype=Stun
+magic=yes
+tp=200
+basepower=400
+element=Water
+desc=fires a large geyser of water towards %enemy $+ !! [Hydro Cannon]
+stat=int
+
+[Chaos_Rain]
+type=heal-AOE
+element=water
+basepower=50
+magic=yes
+tp=30
+desc=sends a black rain all over the battlefield, curing all allies! [Chaos Rain]
+stat=int
+
+[Chaos_Chomp]
+type=single
+absorb=yes
+element=Water
+basepower=400
+statustype=Drowning
+tp=300
+desc=chomps at %enemy $+! and gets devoured by the waters! [Chaos Chomp]
+magic=no
+stat=str
+
+[PerfectChaosR2]
+type=boost
+element=water
+basepower=900
+tp=5000
+desc=submerges itself in the water... and resurfaces with a lot more pressure! Perfect Chaos lets out a wild roar and more water geysers form within its surroundings!
+
+[Chaos_Water_Beam]
+type=single
+element=dark
+basepower=350
+tp=140
+magic=no
+desc=fires a giant beam from its mouth towards %enemy $+ !! [Chaos Water Beam]
+stat=int
+
+[Dark_Power_of_Chaos_Emeralds]
+type=aoe
+statustype=Curse
+basepower=500
+tp=4000
+magic=yes
+desc=summons the darkness within the 7 Chaos Emeralds and showers the entire battlefield with it! [Dark Power of the 7 Chaos Emeralds]
+stat=int

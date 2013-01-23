@@ -49,8 +49,6 @@ LastIP=N/a
 Created=N/a
 ai_type=defender
 
-[Monster]
-Type=zombie
 
 [Status]
 Poison=no

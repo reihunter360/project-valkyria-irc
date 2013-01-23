@@ -1,20 +1,20 @@
 [BaseStats]
-Hp=1600
-Tp=170
-Str=25
-Def=22
-Int=35
-Spd=50
+Hp=2600
+Tp=270
+Str=55
+Def=42
+Int=75
+Spd=60
 Name=Urahara Kisuke
 
 
 [Battle]
-Hp=1600
-Tp=170
-Str=25
-Def=22
-Int=35
-Spd=50
+Hp=2600
+Tp=270
+Str=55
+Def=42
+Int=75
+Spd=60
 Status=alive
 
 
@@ -100,7 +100,7 @@ conservetp.on=off
 
 [Weapons]
 Equipped=Benihime
-Benihime=50
+Benihime=100
 
 [Skills]
 mightystrike=1
@@ -114,7 +114,7 @@ manawall.on=on
 mightystrike.on=off
 royalguard.on=on
 Swordmaster=40
-Wizardy=35
+Wizardry=35
 Resist-Charm=100
 Resist-Zombie=100
 Resist-Intimidate=100
@@ -123,14 +123,14 @@ Utsusemi=1
 
 
 [Techniques]
-NakeBenihime=50
+NakeBenihime=75
 ShibariBenihime=40
-HiasobiBenihimeJuzutsunagi=50
+HiasobiBenihimeJuzutsunagi=75
 
 [Item_Amount]
 
 
 [Styles]
 Equipped=WeaponMaster
-WeaponMaster=2
+WeaponMaster=3
 WeaponMasterXP=1

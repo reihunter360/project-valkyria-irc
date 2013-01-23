@@ -1,20 +1,20 @@
 [BaseStats]
-Hp=1400
-Tp=100
-Str=20
-Def=20
-Int=30
-Spd=30
+Hp=2500
+Tp=500
+Str=50
+Def=45
+Int=80
+Spd=45
 Name=Shanoa
 
 
 [Battle]
-Hp=1400
-Tp=100
-Str=20
-Def=20
-Int=30
-Spd=30
+Hp=2400
+Tp=500
+Str=50
+Def=45
+Int=80
+Spd=45
 Status=alive
 
 
@@ -97,14 +97,13 @@ conservetp.on=off
 
 [Weapons]
 Equipped=Glyphs
-Glyphs=50
+Glyphs=100
 
 [Skills]
 ElementalSeal=1
 manawall.on=off
 elementalseal.on=off
-Glyph=50
-Wizardy=30
+Wizardry=100
 Resist-Amnesia=100
 Resist-Charm=100
 Resist-Intimidate=100
@@ -112,22 +111,22 @@ Resist-Curse=100
 Zen=5
 RoyalGuard=1
 ManaWall=1
-
+ClearMind=3
 
 [Techniques]
-Ignis=50
-Grando=50
-Fulgar=50
-Nitesco=50
-Globus=50
-Acerbatus=50
-Luminatio=50
-Dominus=50
+Ignis=75
+Grando=75
+Fulgar=75
+Nitesco=75
+Globus=75
+Acerbatus=75
+Luminatio=75
+Dominus=100
 
 [Item_Amount]
 
 
 [Styles]
 Equipped=SpellMaster
-SpellMaster=2
+SpellMaster=4
 SpellMasterXP=1

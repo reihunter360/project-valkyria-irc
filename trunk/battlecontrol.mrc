@@ -31,7 +31,7 @@ on 50:TEXT:!toggle automated battle system*:*:{
   }
 }
 
-; Bot owners can toggle the AI system on/off.
+; Bot admins can toggle the AI system on/off.
 
 on 50:TEXT:!toggle ai system*:*:{   
   if ($readini(system.dat, system, aisystem) = off) { 
@@ -43,6 +43,30 @@ on 50:TEXT:!toggle ai system*:*:{
     query %battlechan $readini(translation.dat, system, AiSystemOff)
   }
 }
+
+; Bot admins can adjust the "level adjust"
+on 50:TEXT:!leveladjust*:*:{  
+  if ($2 = $null) { $view.leveladjust }
+  if ($2 != $null) {  
+
+    if ($2 !isnum) { query %battlechan $readini(translation.dat, errors, DifficultyMustBeNumber) | halt }
+    if (. isin $2) { query %battlechan $readini(translation.dat, errors, DifficultyMustBeNumber) | halt }
+    if ($2 < 0) { query %battlechan $readini(translation.dat, errors, DifficultyCan'tBeNegative) | halt }
+
+    writeini battlestats.dat battle leveladjust $2
+    query %battlechan $readini(translation.dat, system, SaveLevelAdjust)
+  }
+}
+
+on 2:TEXT:!leveladjust*:*:{ $view.leveladjust }
+
+alias view.leveladjust {
+  var %leveladjust $readini(battlestats.dat, battle, LevelAdjust)
+  if (%leveladjust = $null) { var %leveladjust 0 }
+  query %battlechan $readini(translation.dat, system, ViewLevelAdjust)
+}
+
+; Everyone can save and view a battle streak.
 
 on 2:TEXT:!view battle save*:*:{   $set_chr_name($nick) | $checkchar($nick) 
   var %saved.streak $readini($char($nick), info, savedstreak)
@@ -206,7 +230,7 @@ alias clear_battle {
     }
   }
 
-  unset %file |  unset %name 
+  unset %file |  unset %name | unset %battletxt.current.line
 
   if ($readini(system.dat, system, automatedbattlesystem) != off) {
 
@@ -243,10 +267,10 @@ alias startnormal {
   if ($1 = orbbattle) { set %battle.type orbfountain }
   if ($1 = pvp) { set %mode.pvp on }
   if ($1 = gauntlet) { set %mode.gauntlet on | set %mode.gauntlet.wave 1 }
+  if ($1 = manual) { set %battle.type manual }
 
 
   /.timerBattleBegin 1 %time.to.enter /battlebegin
-  ; /.timerBattleBegin 1 30 /battlebegin
 }
 
 
@@ -338,12 +362,13 @@ alias battlebegin {
     if ((%number.of.players < 2) || (%number.of.players = $null)) {  query %battlechan $readini(translation.dat, battle, NotEnoughPlayersOnField) | $clear_battle | halt }
   }
 
+  $random.battlefield.pick
   $random.weather.pick
 
   if (%mode.pvp != on) {
     set %winning.streak $readini(battlestats.dat, battle, winningstreak)
 
-    set %boss.battle.numbers 10.15.20.30.60.100.150.180.220.280.320
+    set %boss.battle.numbers 10.15.20.30.60.100.150.180.220.280.320.350.401.440.460.501.560
     if ($istok(%boss.battle.numbers,%winning.streak,46) = $true) { set %bosschance 1 }
     if ($istok(%boss.battle.numbers,%winning.streak,46) = $false) {   
       ; Now we determine what kind of battle it is
@@ -392,10 +417,16 @@ alias battlebegin {
     if (%battle.type = boss) {
       $generate_monster(boss)
 
-      if (%winning.streak >= 50) { 
-        set %number.of.monsters.needed $round($calc(%number.of.players / 2),0)
-        if (%number.of.monsters.needed = $null) { set %number.ofmonsters.needed 2 }
-        if (%number.of.monsters.needed > 0) { $generate_monster(monster)   }
+
+      var %difficulty $readini(battle2.txt, BattleInfo, Difficulty)
+      if (%difficulty > 0) { inc %winning.streak %difficulty }
+
+      if (%battle.type != manual) { 
+        if (%winning.streak >= 50) { 
+          set %number.of.monsters.needed $round($calc(%number.of.players / 2),0)
+          if (%number.of.monsters.needed = $null) { set %number.ofmonsters.needed 2 }
+          if (%number.of.monsters.needed > 0) { $generate_monster(monster)   }
+        }
       }
     }
 
@@ -446,6 +477,7 @@ alias generate_monster {
   if ($1 = monster) {
     $get_mon_list
     var %monsters.total $numtok(%monster.list,46)
+
     if ((%monsters.total = 0) || (%monster.list = $null)) { query %battlechan $readini(translation.dat, Errors, NoMonsAvailable) | $clear_battle | halt }
     if (%monsters.total = 1) { 
       .copy -o $mon(%monster.list) $char(%monster.list) | set %curbat $readini(battle2.txt, Battle, List) |  %curbat = $addtok(%curbat,%monster.list,46) | writeini battle2.txt Battle List %curbat | write battle.txt %monster.list 
@@ -760,6 +792,7 @@ alias endbattle {
       }
 
       if (%base.redorbs > %max.orb.reward) { set %base.redorbs %max.orb.reward }
+      $orb.adjust
 
       $battle.reward.redorbs
       query %battlechan $readini(translation.dat, battle, RewardOrbsLoss)
@@ -770,13 +803,17 @@ alias endbattle {
     query %battlechan $readini(translation.dat, battle, BattleIsOver) 
 
     if (%mode.pvp != on) {
-      query %battlechan $readini(translation.dat, battle, GoodHasWon)
-      var %wins $readini(battlestats.dat, battle, totalWins) | inc %wins 1 | writeini battlestats.dat battle totalWins %wins
-      writeini battlestats.dat battle LosingStreak 0
+
       var %winning.streak $readini(battlestats.dat, battle, WinningStreak) | inc %winning.streak 1 | writeini battlestats.dat battle WinningStreak %winning.streak
+
       var %winning.streak.record $readini(battlestats.dat, battle, WinningStreakRecord)
       if (%winning.streak.record = $null) { var %winning.streak.record 0 }
       if (%winning.streak > %winning.streak.record) { writeini battlestats.dat battle WinningStreakRecord %winning.streak }
+
+      var %wins $readini(battlestats.dat, battle, totalWins) | inc %wins 1 | writeini battlestats.dat battle totalWins %wins
+      writeini battlestats.dat battle LosingStreak 0
+
+      query %battlechan $readini(translation.dat, battle, GoodHasWon)
 
       ; Add base orbs.
       if (%battle.type = monster) { set %base.redorbs $readini(system.dat, System, basexp) }
@@ -791,12 +828,17 @@ alias endbattle {
       if (%max.orb.reward = $null) { var %max.orb.reward 20000 }
       if (%multiple.wave.bonus = yes) { 
         var %winning.streak $readini(battlestats.dat, battle, WinningStreak)
+        if (%mode.gauntlet.wave != $null) { inc %winning.streak %mode.gauntlet.wave }      
+
         if (%winning.streak <= 100) { %max.orb.reward = $round($calc(%max.orb.reward * 2.1),0)  }
         if ((%winning.streak > 100) && (%winning.streak <= 200)) { %max.orb.reward = $round($calc(%max.orb.reward * 2.8),0)  }
         if ((%winning.streak > 200) && (%winning.streak <= 400)) { %max.orb.reward = $round($calc(%max.orb.reward * 3),0)  }
         if (%winning.streak > 400) { %max.orb.reward = $round($calc(%max.orb.reward * 3.5),0) }
       }
       if (%base.redorbs > %max.orb.reward) { set %base.redorbs %max.orb.reward }
+      $orb.adjust
+
+      if (%difficulty != 0) { inc %base.redorbs $round($calc(%difficulty * 4.0),0) }
 
       $battle.reward.redorbs
       $battle.reward.playerstylepoints
@@ -816,7 +858,7 @@ alias endbattle {
           if (%winning.streak >= 15) {  $give_random_key_reward }
           if (%winning.streak >= 25) { 
             var %chest.chance $rand(1,100)
-            if (%chest.chance >= 65) {  $create_treasurechest }
+            if (%chest.chance >= 60) {  $create_treasurechest }
           }
         }
       }
@@ -999,7 +1041,7 @@ alias battlelist {
   if (%battle.list = $null) { query %battlechan $readini(translation.dat, battle, NoOneJoinedBattleYet) | unset %battle.list | unset %who.battle | halt }
   query %battlechan $readini(translation.dat, battle, BatListTitleMessage)  
   if (%current.turn = $null) { var %current.turn 0 }
-  query %battlechan 4[Turn #:12 %current.turn $+ 4][Weather:12 $readini(weather.lst, weather, current) $+ 4] [Battlefield:12 normal $+ 4]
+  query %battlechan 4[Turn #:12 %current.turn $+ 4][Weather:12 $readini(weather.lst, weather, current) $+ 4] [Battlefield:12 %current.battlefield $+ 4]
   query %battlechan 4[Battle Order: %battle.list $+ 4] | unset %battle.list | unset %who.battle
 }
 
@@ -1293,7 +1335,7 @@ alias asleep_check {
 
 alias stunned_check {
   if ($readini($char($1), Status, Stun) = yes) { $status_message_check(stunned)
-  $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 2 query %battlechan $readini(translation.dat, status, CurrentlyStunned)  }
+  $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 1 query %battlechan $readini(translation.dat, status, CurrentlyStunned)  }
   else { return } 
 }
 
@@ -1357,7 +1399,7 @@ alias weight_check {
 alias weapon_locked {
   if ($readini($char($1), Status, weapon.locked) != $null) { 
     set %weaponlock.timer $readini($char($1), status, weaponlock.timer)  
-    if (%weaponlock.timer < 3) { %weaponlock.timer = $calc(%weaponlock.timer + 1) | writeini $char($1) status weaponlock.timer %weaponlock.timer | $status_message_check(Weapon Locked)
+    if (%weaponlock.timer < 4) { %weaponlock.timer = $calc(%weaponlock.timer + 1) | writeini $char($1) status weaponlock.timer %weaponlock.timer | $status_message_check(Weapon Locked)
       $set_chr_name($1) | .timerThrottle $+ $rand(a,z) $+ $rand(1,100) $+ $rand(a,z) 1 3 query %battlechan $readini(translation.dat, status, CurrentlyWeaponLocked) | unset %weaponlock.timer | return 
     }
     else {
@@ -1521,26 +1563,4 @@ alias paralysis_check {
 
 alias boosted_check { 
   if ($readini($char($1), Status, boosted) = yes) { $status_message_check(power boosted) }
-}
-
-; Bot admins can adjust the "level adjust"
-on 50:TEXT:!leveladjust*:*:{  
-  if ($2 = $null) { $view.leveladjust }
-  if ($2 != $null) {  
-
-    if ($2 !isnum) { query %battlechan $readini(translation.dat, errors, DifficultyMustBeNumber) | halt }
-    if (. isin $2) { query %battlechan $readini(translation.dat, errors, DifficultyMustBeNumber) | halt }
-    if ($2 < 0) { query %battlechan $readini(translation.dat, errors, DifficultyCan'tBeNegative) | halt }
-
-    writeini battlestats.dat battle leveladjust $2
-    query %battlechan $readini(translation.dat, system, SaveLevelAdjust)
-  }
-}
-
-on 2:TEXT:!leveladjust*:*:{ $view.leveladjust }
-
-alias view.leveladjust {
-  var %leveladjust $readini(battlestats.dat, battle, LevelAdjust)
-  if (%leveladjust = $null) { var %leveladjust 0 }
-  query %battlechan $readini(translation.dat, system, ViewLevelAdjust)
 }

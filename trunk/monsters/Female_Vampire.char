@@ -9,7 +9,7 @@ Name=Female Vampire
 
 
 [Battle]
-Hp=200
+Hp=110
 Tp=40
 Str=8
 Def=7
@@ -47,6 +47,8 @@ passhurt=0
 LastSeen=N/a
 LastIP=N/a
 Created=N/a
+Streak=6
+StreakMax=50
 
 [Monster]
 Type=Undead
@@ -86,24 +88,24 @@ MPRegenerating=no
 
 [Weapons]
 Equipped=VampireFangs
-VampireFangs=5
+VampireFangs=10
 
 [Skills]
-Resist-stun=5
+Resist-stun=10
 Resist-charm=100
 Resist-zombie=100
-MartialArts=5
-DesperateBlows=1
+MartialArts=10
+
 
 [Techniques]
-VampireBite=8
+VampireBite=10
 DoublePunch=5
 ShoulderTackle=5
 SpinningAttack=5
 
 
 [Item_Amount]
-pizza=1
+
 
 
 [Element]

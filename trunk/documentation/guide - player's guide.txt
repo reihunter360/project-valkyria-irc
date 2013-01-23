@@ -369,7 +369,7 @@ resist-stop
 
 
 ITEM LIST
-** As of November 1, 2012.
+** As of January 20, 2013.
 
 There's a bunch of different types of items in the bot currently:  Healing Items, Battle Items, Consumable (Skill) Items, +Stat Items, Summon Items, Shop Level Reducing Items, Gems, Keys, Accessories, and Misc (Crafting) items.  Here's a list of each.
 
@@ -418,6 +418,9 @@ The Hour Glass will attempt to inflict the 'slow' status effect on a target.  It
 
 Angon - Crafting Only
 This item will attempt to inflict the "Defense Down" status on a target.
+
+SauceAmpulla - Crafting Only
+This item will attempt to inflict the "Strength Down" status on a target.
 
 Red_Fang - 100 Red Orbs
 The Red Fang will inflict roughly 45 fire elemental damage to a target.  It can be used with Fullbring and requires level 2 of that skill.
@@ -564,6 +567,7 @@ RedKey
 OrangeKey
 GreenKey
 GoldKey
+SilverKey
 
 
 Accessories
@@ -604,8 +608,28 @@ WaterJewel
 EarthSphere
 
 
+Runes
+Runes are used to augment your physical melee weapons with new abilities.
+
+EthRune
+MtlRune
+HiRune
+GeRune
+MaRune
+TeRune
+MeRune
+SmnRune
+DrnRune
+ItmRune
+RenRune
+
+
 ACCESSORIES
 Accessories are special items that can be equipped.  The accessories themselves will grant bonuses or status effects on the wearer.  How do you get the accessories?  Well, they're rare boss drops from certain bosses.  Once you manage to find one, you can equip it with !wear <accessory name>  If you ever decide that you no longer want to wear that accessory you can remove it with !remove <accessory name>. 
+
+
+AUGMENTS
+Augments are a way to enhance a melee weapon of your choosing.  First you must get a rune.  Once you have one you can use !augment add (weapon) (rune)  To remove an augment: !augment remove (weapon)  Remember to get rid of the ( ) when using the actual commands. Use the command !augment by itself to see the augments you have equipped, !augment list (player) to see other player's augments. 
 
 
 TREASURE CHESTS
@@ -676,19 +700,42 @@ QUICKSILVER
 This style will allow you to access the !quicksilver command that freezes everyone except you in battle, effectively giving you an extra turn. You can use the !quicksilver command as many times as your style is currently leveled.
 
 
+RENKEI SYSTEM
+Renkei (˜AŒg) is Japanese for "link" or "cooperation".  This system is heavily borrowed from the MMORPG Final Fantasy XI in which you could link various weapon techniques together to create a Renkei, or a Skillchain (as they called it in the English version).  The version that I'm doing for Battle Arena is a bit more simplistic than FFXI.  In FFXI you had to have the correct linking techs (not all techniques could be linked together) and had to have a specific timing down in order to make it work.  Also, you could do more techniques to create better skillchains (you could link three together to create a level 3 skillchain, for example).
+
+Because of the way mIRC works and how the battles are set up in Battle Arena, I immediately ditched the timing idea.  Forcing players to do stuff within a time limit on IRC is a really bad idea (I learned that first-hand with my first Battle Bot, Kaiou).  To simplify things, and make it easier for myself, I decided that all PLAYER techniques could link together--ditching the idea that only certain techniques could create skillchains. Techniques are rarely used to begin with and limiting them to linking with only other certain techniques would make the system pointless, I felt.
+
+So here's how it's going to really work.  First off, each technique will be worth a "renkei" value.  The renkei value is what determines which renkei is performed.  Higher level renkeis will result in higher damage.  The damage that the renkei done will be a percentage of the total damage done by the techniques to create the renkei.  Two techniques are needed to create a renkei on a monster.  But there's a catch to that: when it's the monster's turn, the # of techniques used on the monster, the technique damage value, and the renkei value are all reset to 0.  "But Iyou! That means I can't self-skillchain when I'm soloing on here!"  Well, you can and here's how.  You have two options to self-renkei now.  First, you could use Sugitekai to give yourself two turns in a row then use a technique on both turns thus resulting in a renkei.  The other option is via the active skill called Konzen-Ittai.  This skill will double the technique number value.  Basically it means that 1 technique will be counted as 2, thus allowing you to self-skillchain without needing another person or using Sugitekai.
+
+One thing to note though is that magic, status, and AOE type techniques will not cause a renkei to happen.  Mainly this is done to help prevent the bot from flooding out (especially on AOE techniques) but also because magic and status techniques are already sort of haxx to begin with.
+
+
 MONSTER LIST
-** As of December 3, 2012.
+** As of January 9, 2013.
 Here's a list of monsters that are in the bot.
 
+Acrobat
 Air Elemental
+Baelfyr
+Balrog
 Bark Spider
+Bear Shark
+Bee Bear
 Bigclaw
-BloodGoyle
+Bloodgoyle
 Blue Slime
+Blue Medusa Head
 Bone Soldier
+Byrgen
 Cactuar
 Chimyriad
+Citadel Bats
+Combat
+Vampire Count
+Vampire Countess
 Creeper
+Crimson Slime
+Cure Slime
 Cursed Bishop
 Cursed Pawn
 Cursed Queen
@@ -698,34 +745,60 @@ Dalek
 Dark Knight
 Dark Octopus
 Decapiclops
+Demonic Succubus
+Demon Knight
+Demon Samurai
+Demon Warrior
+Demon Wizard
 Devil Manta
+Dhalmel
+Ding Bats
+Drachenlizard
 Dragoon Ghost
 Earth Elemental
+Elder Treant
+Emerald Quadav
 Enchanted Bones
 Ermit Imp
 Female Vampire
 Final Guard
+Final Starman
+Football Zombie
 Forest Giant
 Gekko
-GekkoDwarf
+Gekko Dwarf
+Geyfyrst
+Ghost Bomb
+Ghost Samurai
+Gnole
 Goblin Berserker
 Goblin Enchanter
 Goblin Shaman
 Goblin Smithy
+Gold Medusa Head
+Guardian Treant
+Healing Slime
 Heal Slime
 Heraldic Imp
+Highland Treant
 Ironshell
+Kindred Knight
+Kindred Samurai
+Kindred Warrior
+Kindred Wizard
 Mad Piranha
 Male Vampire
-Mammoth
+Wooly Mammoth
 Maneating Hornet
 Metal Slime
+Midnight Blue Slime
 Minotaur
 Moblin
+Moonfang Warrior
 Nightmare Hornet
 Nightmare Vanguard
 Ninja Assassin
-Orb Fountain
+Red Orb Fountain
 Orcish Grunt
 Orcish Gunshooter
 Orcish Impaler
@@ -734,8 +807,11 @@ Orcish Wyrmbrander
 Oxocutioner
 Poison Slime
 Pride Demon
+Reaver
 Red Slime
+New Age Retro Hippie
 Revenant
+Rock Lizard
 Ruby Quadav
 Ruly Imp
 Sabertooth Tiger
@@ -744,19 +820,29 @@ Sandy Claws
 Sapphire Quadav
 Shrapnel
 Sierra Tiger
+Silver Medusa Head
 Snow Giant
+Snow Lizard
 Snow Wight
+Starman Deluxe
+Ghost of Starman
+Starman Junior
 Stone Eater
+Strolling Sapling
 Succubus
 Thunder Elemental
-Undead BlackMage
+Treant
+Ugly Knight
+Undead Black Mage
 Undead Corsair
 Undead Dragoon
 Undead Knight
 Undead Monk
 Undead Ranger
-Undead RedMage
+Undead Red Mage
 Undead Samurai
+Ungeweder
+Unicorn
 Volcano Wasp
 Water Elemental
 Wooden Puppet
@@ -767,179 +853,89 @@ Yagudo Scribe
 Yagudo Zealot
 Zarklet
 Zombie
+Zu
 
 
 BOSS LIST
-** As of December 3, 2012.
+** As of January 9, 2013.
 Here's a list of bosses that are in the bot.
 
 Absolute Virtue
-a tall humanoid creature. It is blue and white in color and has four wings on its back. One of the strongest monsters in all of Vana'diel and the ruler of Al'Taieu.  From FFXI
-
+Ahtu
 Amon
-Amon, the Sinistral of Chaos, from the Lufia series.
-
+Alpha Gnole Anders
 Android X
-a 7'5" tall man with bright neon green hair wearing a Red Ribbon Army ripped jean jacket and dark pants. With an evil grin he holds up his gloved right hand which has a small round cut that reveals a glowing red spot that pulsates. He is the ultimate android created as a failsafe in case Cell failed.  From #DBZRPG
-
 Aris
-A minion of Ashi, Aris is a frail old man with a longe white beard and short white hair that is balding.  But don't let his frail apperance fool you, he is a master of black magic.  From #DBZRPG
-
 Ashi
-In #DBZRPG, Ashi was the strongest being in the universe who was on a mission to control the ancient power of Atlantis.  He a tall young man with long flowing silver hair. His skin is as pale as the moon, but his eyes are dark and evil.
-
 Ashmaker Gotblut
-A larger than normal green orc that uses a large pike.  From Final Fantasy XI
-
 Astarte
-A tall Egyptian woman of irresistible beauty. She wears a gold bikini, a golden Pharoah helm and a pink scarf that is attached to her wrists.  From the Castlevania series.
-
 Bahamut Fury
-A larger version of Bahamut that is gold in color. His unique wings has three spikes on them that can be fired at his opponents. From Final Fantasy.
-
 Bigmouth Billy
-A large worm.  Based on a monster in Final Fantasy XI.
-
 Bloody Bones
-A larger than normal skeleton with red bones and carrying a large scythe. From Final Fantasy XI.
-
 Brauner
-A former human artist that is now a vampire. He is bald, wears a purple suit with a white design on the interior and wears a gold monocle on his right eye.  From the Castlevania series.
-
 Cell
-An ugly green and black bug-looking monster from the series Dragon Ball Z.
-
 Cerberus
-A massive three-headed dog that has an affinity for ice.  From Devil May Cry 3.
-
 Chuckie
-A doll that is scarred and has a magnum in his hands.  From the Chuckie series of movies.
-
+Count Bifrons
 Cursed King
-A large stone chesspiece, the king to be exact.  It has a captured soul of a demon inside it.
-
-Cyberlord
-A monster that looks similiar to the other Cybermen, however it has a black faceplate with black handlebars on the head with a transparent window to show its brain. It controls the lesser Cybermen.
-
+Cyberman Lord
 Dalek Emperor
-It's simliar to the Daleks except has a different suit of armor. The bottom is replaced with a capsule that shows a Dalek's true form and has three giant legs for movement. The suit is far larger and taller than the normal Dalek suit.
-
 Daos
-A tall man dressed in regal attire that is red in color and wears a gold crown. He is the Sinistral of Terror and the leader of the other three Sinistrals.  From the Estpolis Denki/Lufia game series.
-
+Dark Ixion
 Death
-The right-hand of Dracula.  He wears a thick black cloak and carries a large scythe.  He's from Castlevania
-
 Dracula
-The master of Castlevania himself, Dracula is a powerful vampire with very powerful attacks.  From Castlevania (obviously)
-
 Dullahan
-A large suit of purple armor that is animated by powerful magic. Perhaps the strongest entity in Golden Sun.
-
 Dune Widow
-A gigantic pale white spider with a huge round abdomin.  From Final Fantasy XI.
-
 Eldora Adlanna
-A clone of a mighty Elven goddess, mimicing her full power. She wears the usual Swordmaster armor has a sword on the left side of her waist.
-
 Erim
-A woman with long blue hair that wears a white dress and carries a sword and shield. She is Erim, the Sinistral of Death. From the Lufia series.
-
 Fafnir
-A large brownish grey dragon that gives off an angry roar!
-
 Gades
-A man with red hair that wears full body armor and carries a large sword. He is Gades, the Sinistral of Destruction. From the Lufia series.
-
 Metal Gear Ray
-A machine that stands at 20 meters in height. It is tan and black in color. It is slightly more organic in design, with large "wings," a long tail and a face where the pilot seat is. Contains various weapons and a powerful water cutter. From the Metal Gear series.
-
 Metal Gear Rex
-A very large machine piloted by Liquid Snake. Notabale features are the large "shield" on its left side and a giant railgun on its right side.
-
+Gilgamesh
 Giygas
-The final boss of Earthbound and is said to be the ultimate evil.
-
-Gobbles
-A seasonal boss that is a giant evil turkey.
-
+Gothmog
 Guard Daos
-A power being that is a combination of Daos, Gades and Amon. From the Lufia series.
-
+Juggler Hecatomb
+Jailor of Love
+Jeffery
 Jester
-An insane demon that wears a black and purple oufit, along with a red and blue jester cap. He also has a pure white face, a giant nose, plus red and blue eyes.  From Devil May Cry 3.
-
 Jumbo Cactuar
-A far larger verision of a cactuar. It has the same appearence except with a curly mustache drawn on!
-
 Killer Rabbit
-A a cute little bunny.  Tim the Enchanter once said that it was a creature so foul, so cruel that no man yet has fought with it and lived. Bones of full fifty men lie strewn about its lair. So, brave knights, if you do doubt your courage or your strength, come no further, for death awaits you all with nasty, big, pointy teeth.  From Monty Python's Search for the Holy Grail
-
 King Slime
-A much larger version of the Blue Slimes. It wears a large gold crown on its head. From the Dragon Quest series.
-
-Knights Who Say Ni
-A group of knights led by a much taller knight dressed in all black. From Monty Python's Search for the Holy Grail
-
-M Bison
-A tall man wearing all red with a blue cape and a large military beret.  He is the leader of the crime syndicate Shadaloo.  From the Street Fighter series
-
+The Knights Who Say Ni
+Leaping Lizzie
+Marquis Caim
 Menos Grande
-A huge hollow standing 2-6 stories tall.  It is all black except for its face, which is pure white and has a long pointed nose.  This is a Gillian-class Menos, also known as the Menos Grante.  From the Bleach series.
-
 Metal King Slime
-This slime takes the same appearence of the King Slime, but is all metal instead. It wears a large metal crown as well. From the Dragon Quest series.
-
+Mother Brain
+Mother Brain
+M.Bison
 Pallid Percy
-A giant pink and red worm sticking out of the ground and waving back and forth. It's based on a monster in Final Fantasy XI.
-
 Poison
-A huge slug-like monster with an old woman's face and several large arms. From DmC.
-
 Poisonhand Gnadgad
-A large green orc wearing a light gi and has a headband wrapped around its head. It's based on a monster in Final Fantasy XI.
-
 Puppet Master
-A giant wooden head with four spider-like arms. From the Castlevania series.
-
 Quetzalcoatl
-The Aztec god of intelligence and self-reflection.  It is a giant feathered serpent and it doesn't look happy.
-
 Ryukotsuki
-A large demon that is composed of bones. He has glowing red eyes along with a large red orb around the middle of his chest.
-
 Smothered Schmidt
-The ghost of a dead mage who suffocated in a mine. Based on a monster in Final Fantasy XI.
-
 Sea Horror
-A gigantic sea kraken that is orange and black in color known around the world as the Horror of the Sea.
-
 Shadow Lord
-The warlord that organized the Beastman Confederate into launching an all-out war against the Allied Forces of Altana; he stands an impressive 9 feet tall and carries a broadsword as big as his body.  He wears black armor that is glowing with purple vein-like lines.  From Final Fantasy XI.
-
 Stinging Sophie
-A large angry black and yellow bee.  From Final Fantasy XI.
-
-Stubbon Dredvodd
-A large green orc dragoon carrying a large pike. It likes to hide and rarely makes itself known to the world. Only has a chance of appearing at 1 specific boss battle. From the Final Fantasy XI series.
-
+Stubborn Dredvodd
 Sub Zero
-A ninja wearing a blue mask and blue tekko.  From the Mortal Kombat series.
-
 Tiamat
-A large and powerful brown dragon.  From Final Fantasy XI.
-
 True Erim
-A taller a far more powerful version of Erim. From the Lufia series.
-
+Vampire Bat
 Vergil
-Dante's twin brother.  He wears a long blue trenchcoat and carries the Yamato, his favorite weapon.  From the Devil May Cry series.
-
-ZaDha Adamantking
-A very large Quadav that towers over at nine feet tall, has white armor and a large staff with four large spikes on it. The Quadav God, Za'Dha Adamantking.  From Final Fantasy XI.
-
+Scorched Yanthu
+Za'Dha Adamantking
 Zark
-A grotesque orange alien with two very long tentacles.  He is carrying a weird looking gun.  From #DBZRPG.
+
+
+SEASONAL BOSSES
+Evil Xmas Tree
+Robot Santa
+Gobbles the Mad Turkey
 
 
 NPCS

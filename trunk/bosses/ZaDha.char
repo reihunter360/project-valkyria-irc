@@ -1,20 +1,20 @@
 [BaseStats]
-Hp=100
-Tp=60
-Str=15
-Def=15
-Int=20
-Spd=25
+Hp=120
+Tp=100
+Str=25
+Def=45
+Int=40
+Spd=45
 Name=Za'Dha Adamantking
 
 
 [Battle]
-Hp=100
-Tp=60
-Str=15
-Def=15
-Int=20
-Spd=25
+Hp=120
+Tp=100
+Str=25
+Def=45
+Int=40
+Spd=45
 Status=alive
 
 
@@ -39,7 +39,7 @@ BossQuote=Your fo-ossilized corpse shall make a fine co-ornerstone for my subter
 RedOrbs=0
 BlackOrbs=1
 ShopLevel=1.0
-Drops=Pizza
+Drops=Pizza.X-Potion.Ether.Tonic
 
 [Monster]
 Type=
@@ -53,7 +53,8 @@ passhurt=0
 LastSeen=N/a
 LastIP=N/a
 Created=N/a
-Streak=30
+Streak=60
+StrakMax=200
 
 [Status]
 Poison=no
@@ -90,28 +91,39 @@ MPRegenerating=no
 
 [Weapons]
 Equipped=Mistilteinn
-Mistilteinn=10
+Mistilteinn=100
 
 [Skills]
-Desperateblows=5
-ElementalSeal=5
-manawall.on=on
-elementalseal.on=on
+Desperateblows=1
+ElementalSeal=1
 Manawall=1
-wizardry=10
+manawall.on=on
+Zen=5
+ClearMind=3
+Wizardry=75
+Resist-Intimidate=100
+Resist-Charm=100
+Resist-Poison=20
+Resist-Paralysis=20
+Resist-Stun=20
 
 [Techniques]
-Holy=10
-BanishV=10
-HeadButt=10
-WrathofGuDha=10
-TormentOfGuDha=10
-
+Holy=20
+BanishV=20
+HeadButt=15
+WrathofGuDha=25
+TormentOfGuDha=25
+FireIV=20
+WaterIV=20
+BlizzardIV=20
 
 [Item_Amount]
-pizza=1
-
 
 [Element]
 Weakness=Lightning
 Strong=Water
+
+[Styles]
+Equipped=SpellMaster
+SpellMaster=5
+SpellMasterXP=1

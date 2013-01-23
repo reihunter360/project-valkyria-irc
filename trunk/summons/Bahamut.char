@@ -103,7 +103,7 @@ Resist-Intimidate=100
 Resist-Amnesia=100
 Resist-Stun=100
 MartialArts=30
-Wizardy=30
+Wizardry=30
 Zen=5
 
 [Techniques]
@@ -119,5 +119,5 @@ Strong=Lightning.Wind
 
 [Styles]
 Equipped=WeaponMaster
-WeaponMaster=2
+WeaponMaster=3
 WeaponMasterXP=1

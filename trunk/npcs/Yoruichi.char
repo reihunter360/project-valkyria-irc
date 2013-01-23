@@ -1,20 +1,20 @@
 [BaseStats]
-Hp=1500
-Tp=170
-Str=30
-Def=25
-Int=30
-Spd=60
+Hp=2500
+Tp=270
+Str=50
+Def=45
+Int=50
+Spd=70
 Name=Yoruichi Shihouin
 
 
 [Battle]
-Hp=1500
-Tp=170
-Str=30
-Def=25
-Int=30
-Spd=60
+Hp=2500
+Tp=270
+Str=50
+Def=45
+Int=50
+Spd=70
 Status=alive
 
 
@@ -31,7 +31,7 @@ Percent=0
 [Descriptions]
 Hused=1
 Dused=1
-Char=is woman with dark skin, long purple hair and golden eyes, dressed in a black sleevless shirt, black pants, white shoes and an orange coat. The former 2nd Division Captain of the Gotei 13.
+Char=is a woman with dark skin, long purple hair and golden eyes, dressed in a black sleevless shirt, black pants, white shoes and an orange coat. The former 2nd Division Captain of the Gotei 13.
 Rage=narrows her eyes and says "I guess you can keep up with me after all..."
 Utsusemi=laughs as she activates the ability. "What's the matter? Can't find the real me?"
 ShadowCopy=laughs once more as she creates a clone of herself. "Can you handle two of me?"
@@ -102,7 +102,7 @@ conservetp.on=off
 
 [Weapons]
 Equipped=ShihouinFists
-ShihouinFists=55
+ShihouinFists=100
 
 [Skills]
 mightystrike=1
@@ -113,8 +113,8 @@ soulvoice.on=off
 manawall.on=off
 mightystrike.on=off
 royalguard.on=on
-MartialArts=55
-Wizardy=40
+MartialArts=90
+Wizardry=70
 Resist-Charm=100
 Resist-Zombie=100
 Resist-Intimidate=100
@@ -127,12 +127,12 @@ Speed=100
 Sugitekai=1
 
 [Techniques]
-DoublePunch=60
-ShoulderTackle=60
-ShunkoRaigeki=60
-AsuranFists=60
-TornadoKick=60
-ShinjinSpiral=60
+DoublePunch=75
+ShoulderTackle=75
+ShunkoRaigeki=75
+AsuranFists=75
+TornadoKick=75
+ShinjinSpiral=75
 
 
 [Item_Amount]
@@ -140,5 +140,5 @@ ShinjinSpiral=60
 
 [Styles]
 Equipped=WeaponMaster
-WeaponMaster=2
+WeaponMaster=3
 WeaponMasterXP=1

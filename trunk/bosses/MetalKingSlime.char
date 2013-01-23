@@ -95,7 +95,7 @@ Strong=HandToHand.Sword.Whip.Gun.Rifle.Katana.Wand.Spear.Scythe.Glyph.GreatSword
 
 [Skills]
 Resist-Charm=100
-Resist-Poison=100
+Resist-Poison=50
 Resist-Zombie=100
 Resist-Intimidate=100
 Zen=5
@@ -103,7 +103,7 @@ Impetus=20
 MightyStrike=1
 Resist-Amnesia=100
 MartialArts=30
-Wizardy=30
+Wizardry=30
 RoyalGuard=1
 royalguard.on=on
 ManaWall=1

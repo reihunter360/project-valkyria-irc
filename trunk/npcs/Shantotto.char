@@ -1,20 +1,20 @@
 [BaseStats]
-Hp=1500
-Tp=150
-Str=20
-Def=20
-Int=30
-Spd=25
+Hp=2500
+Tp=250
+Str=35
+Def=35
+Int=70
+Spd=35
 Name=Shantotto
 
 
 [Battle]
-Hp=1500
-Tp=150
-Str=20
-Def=20
-Int=30
-Spd=25
+Hp=2500
+Tp=250
+Str=35
+Def=35
+Int=70
+Spd=35
 Status=alive
 
 
@@ -94,13 +94,13 @@ zombie.timer=1
 
 [Weapons]
 Equipped=IridialStaff
-IridialStaff=50
+IridialStaff=75
 
 [Skills]
 Resist-Charm=100
 Resist-Zombie=100
 Resist-Intimidate=100
-Wizardy=30
+Wizardy=75
 Zen=5
 ClearMind=3
 ElementalSeal=1
@@ -108,13 +108,13 @@ ManaWall=1
 manawall.on=off
 
 [Techniques]
-Flare=50
-Quake=50
-Flood=50
-Tornado=55
-Freeze=50
-Burst=50
-CureIV=50
+Flare=75
+Quake=75
+Flood=75
+Tornado=75
+Freeze=75
+Burst=75
+CureIV=75
 
 
 [Item_Amount]
@@ -122,5 +122,5 @@ CureIV=50
 
 [Styles]
 Equipped=SpellMaster
-SpellMaster=2
+SpellMaster=3
 SpellMasterXP=1

@@ -5,7 +5,11 @@
 ON 2:ACTION:goes *:#:{ 
   if ($3 != $null) { halt }
   if ($is_charmed($nick) = true) { $set_chr_name($nick) | query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
-  $set_chr_name($nick) | $tech_cmd($nick , $2, $nick) | halt
+  $set_chr_name($nick) 
+
+  set %ignition.list $readini(ignitions.db, ignitions, list)
+  if ($istok($2,%ignition.list,46) = $true) { unset %ignition.list | $ignition_cmd($nick, $2, $nick) | halt }
+  else { $tech_cmd($nick , $2, $nick) | halt }
 } 
 ON 2:ACTION:uses * * on *:#:{ 
   if ($is_charmed($nick) = true) { $set_chr_name($nick) | query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
@@ -34,7 +38,6 @@ alias tech_cmd {
   if ($readini($char($1), techniques, $2) = $null) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, DoesNotKnowTech) | halt }
 
   if ((no-tech isin %battleconditions) || (no-techs isin %battleconditions)) { $set_chr_name($1) | query %battlechan $readini(translation.dat, battle, NotAllowedBattleCondition) | halt }
-
 
   if ($readini($char($1), Battle, Status) = dead) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, CanNotAttackWhileUnconcious)  | unset %real.name | halt }
   if ($readini($char($3), Battle, Status) = dead) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, CanNotAttackSomeoneWhoIsDead) | unset %real.name | halt }
@@ -367,7 +370,7 @@ alias tech.suicideaoe {
 
   ; If it's player, search out remaining players that are alive and deal damage and display damage
   if ($4 = player) {
-    var %battletxt.lines $lines(battle.txt) | var %battletxt.current.line 1 
+    var %battletxt.lines $lines(battle.txt) | var %battletxt.current.line 1 | set %aoe.turn 1
     while (%battletxt.current.line <= %battletxt.lines) { 
       set %who.battle $read -l $+ %battletxt.current.line battle.txt
       if ($readini($char(%who.battle), info, flag) = monster) { inc %battletxt.current.line }
@@ -382,7 +385,7 @@ alias tech.suicideaoe {
             $calculate_damage_suicide($1, $2, %who.battle)
             $deal_damage($1, %who.battle, $2)
             $display_aoedamage($1, %who.battle, $2)
-            inc %battletxt.current.line 1 
+            inc %battletxt.current.line 1 |  inc %aoe.turn 1
           } 
         }
       }
@@ -391,7 +394,7 @@ alias tech.suicideaoe {
 
   ; If it's monster, search out remaining monsters that are alive and deal damage and display damage.
   if ($4 = monster) { 
-    var %battletxt.lines $lines(battle.txt) | var %battletxt.current.line 1 
+    var %battletxt.lines $lines(battle.txt) | var %battletxt.current.line 1 | set %aoe.turn 1
     while (%battletxt.current.line <= %battletxt.lines) { 
       set %who.battle $read -l $+ %battletxt.current.line battle.txt
       if ($readini($char(%who.battle), info, flag) != monster) { inc %battletxt.current.line }
@@ -403,7 +406,7 @@ alias tech.suicideaoe {
           $calculate_damage_suicide($1, $2, %who.battle)
           $deal_damage($1, %who.battle, $2)
           $display_aoedamage($1, %who.battle, $2)
-          inc %battletxt.current.line 1 
+          inc %battletxt.current.line 1 |  inc %aoe.turn 1
         } 
       }
     }
@@ -413,6 +416,7 @@ alias tech.suicideaoe {
 
   writeini $char($1) battle hp 0 | writeini $char($1) battle status dead | $set_chr_name($1)
 
+  unset %aoe.turn 
   /.timerCheckForDoubleSleep $+ $rand(a,z) $+ $rand(1,1000) 1 %timer.time /check_for_double_turn $1
   halt
 
@@ -585,7 +589,7 @@ alias tech.aoe {
 
   ; If it's monster, search out remaining monsters that are alive and deal damage and display damage.
   if ($4 = monster) { 
-    var %battletxt.lines $lines(battle.txt) | var %battletxt.current.line 1 
+    var %battletxt.lines $lines(battle.txt) | var %battletxt.current.line 1 | set %aoe.turn 1
     while (%battletxt.current.line <= %battletxt.lines) { 
       set %who.battle $read -l $+ %battletxt.current.line battle.txt
       if ($readini($char(%who.battle), info, flag) != monster) { inc %battletxt.current.line }
@@ -603,14 +607,22 @@ alias tech.aoe {
             $deal_damage($1, %who.battle, $2, %absorb)
             $display_aoedamage($1, %who.battle, $2, %absorb)
           }
-          inc %battletxt.current.line 1 
+          inc %battletxt.current.line 1 | inc %aoe.turn 1
         } 
       }
     }
   }
 
-  unset %element.desc | unset %showed.tech.desc
+  unset %element.desc | unset %showed.tech.desc | unset %aoe.turn
   set %timer.time $calc(%number.of.hits * 1.5) 
+
+  if ($readini(techniques.db, $2, magic) = yes) {
+    ; Clear elemental seal
+    if ($readini($char($1), skills, elementalseal.on) = on) { 
+      writeini $char($1) skills elementalseal.on off 
+    }
+  }
+
   /.timerCheckForDoubleSleep $+ $rand(a,z) $+ $rand(1,1000) 1 %timer.time /check_for_double_turn $1
   halt
 }
@@ -627,7 +639,6 @@ alias display_aoedamage {
 
   if (%guard.message = $null) { query %battlechan $readini(translation.dat, tech, DisplayAOEDamage)  }
   if (%guard.message != $null) { query %battlechan %guard.message | unset %guard.message }
-
 
   if ($4 = absorb) { 
     ; Show how much the person absorbed back.
@@ -742,6 +753,11 @@ alias calculate_damage_techs {
 
   inc %attack.damage %base.stat
 
+  if ($augment.check($1, TechBonus) = true) { 
+    var %augment.power.increase.amount $round($calc(.30 * %attack.damage),0)
+    inc %attack.damage %augment.power.increase.amount
+  }
+
   ; Let's increase the attack by a random amount.
   inc %attack.damage $rand(1,10)
 
@@ -778,6 +794,8 @@ alias calculate_damage_techs {
   ; And let's get the final attack damage..
   dec %attack.damage %enemy.defense
 
+  $metal_defense_check($3)
+
   ; In this bot we don't want the attack to ever be lower than 1 except for rare instances..
   if (%attack.damage <= 0) { set %attack.damage 1 }
 
@@ -812,7 +830,6 @@ alias calculate_damage_techs {
   if (%status.type != $null) { $inflict_status($1, $3, %status.type, $2) }
 
   $first_round_dmg_chk($1, $3)
-
 }
 
 alias calculate_damage_suicide {
@@ -897,6 +914,8 @@ alias calculate_damage_suicide {
 
   unset %enemy.defense
 
+  $metal_defense_check($3)
+
   ; In this bot we don't want the attack to ever be lower than 1.  
   if (%attack.damage <= 0) { set %attack.damage 1 }
 
@@ -924,7 +943,6 @@ alias calculate_damage_suicide {
   $first_round_dmg_chk($1, $3)
 }
 
-
 alias calculate_damage_magic {
   ; $1 = user
   ; $2 = technique used
@@ -934,6 +952,8 @@ alias calculate_damage_magic {
   set %current.playerstyle.level $readini($char($1), styles, %current.playerstyle)
 
   set %magic.bonus.modifier 0.5
+
+  if ($augment.check($1, MagicBonus) = true) { inc %magic.bonus.modifier .3 }
 
   if (%current.playerstyle = SpellMaster) { inc %magic.bonus.modifier $calc(%current.playerstyle.level * .115)
     if (%magic.bonus.modifier >= 1) { set %magic.bonus.modifier .90 }
@@ -950,7 +970,6 @@ alias calculate_damage_magic {
   }
 
   if ($readini($char($1), skills, elementalseal.on) = on) { 
-    writeini $char($1) skills elementalseal.on off 
     var %enhance.value $readini($char($1), skills, ElementalSeal) * .195
     inc %magic.bonus.modifier %enhance.value
   }
@@ -974,9 +993,7 @@ alias calculate_damage_magic {
   }
 
   unset %magic.bonus.modifier
-
 }
-
 
 alias spell.weather.check { 
   var %spell.element $readini(techniques.db, $3, element)
@@ -1021,7 +1038,6 @@ alias magic.effect.check {
   if (%spell.element  = earth) { writeini $char($2) Status earth-quake yes | set %element.desc $readini(translation.dat, element, earth) | return }
 }
 
-
 ; ======================
 ; Ribbon type accessory check
 ; ======================
@@ -1031,4 +1047,21 @@ alias ribbon.accessory.check {
     set %resist.skill 100
   }
   unset %current.accessory
+}
+
+; ======================
+; Ignition Aliases
+; ======================
+
+alias ignition_cmd { 
+  ; $1 = user
+  ; $2 = boost name
+
+  $check_for_battle($1) 
+  $amnesia.check($1, ignition) 
+
+  if ((no-ignition isin %battleconditions) || (no-ignitions isin %battleconditions)) { $set_chr_name($1) | query %battlechan $readini(translation.dat, battle, NotAllowedBattleCondition) | halt }
+  if ($readini($char($1), status, virus) = yes) { query %battlechan $readini(translation.dat, errors, Can'tBoostHasVirus) | halt }
+
+
 }

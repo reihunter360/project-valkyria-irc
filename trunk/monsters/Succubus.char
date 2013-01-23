@@ -1,20 +1,20 @@
 [BaseStats]
 Hp=110
-Tp=40
-Str=9
-Def=8
-Int=8
-Spd=9
+Tp=70
+Str=15
+Def=13
+Int=12
+Spd=12
 Name=Succubus
 
 
 [Battle]
 Hp=110
-Tp=40
-Str=9
-Def=8
-Int=8
-Spd=9
+Tp=70
+Str=15
+Def=13
+Int=12
+Spd=12
 Status=alive
 
 
@@ -47,6 +47,8 @@ passhurt=0
 LastSeen=N/a
 LastIP=N/a
 Created=N/a
+Streak=50
+streakmax=150
 
 [Monster]
 Type=Undead
@@ -86,7 +88,7 @@ MPRegenerating=no
 
 [Weapons]
 Equipped=SuccubusPower
-SuccubusPower=5
+SuccubusPower=50
 
 [Skills]
 Resist-charm=100
@@ -95,9 +97,9 @@ Resist-zombie=100
 
 
 [Techniques]
-VampireBite=15
+VampireBite=35
 Temptation=10
-FireII=15
+FireII=30
 
 
 [Item_Amount]

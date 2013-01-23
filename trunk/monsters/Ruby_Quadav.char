@@ -87,10 +87,11 @@ MPRegenerating=no
 
 [Weapons]
 Equipped=QuadavWand_R
-Quadav_Red_Mage=5
+QuadavWand_R=5
 
 [Skills]
-wizardy=3
+Zen=5
+Wizardry=3
 
 [Techniques]
 FireIV=5
@@ -98,7 +99,8 @@ WaterIV=5
 BlizzardIV=5
 Poison=3
 Blind=3
-
+Headbutt=3
+Paralyze=3
 
 [Element]
 Weakness=Lightning

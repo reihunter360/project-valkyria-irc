@@ -1,6 +1,6 @@
 [Skills]
-PassiveSkills=Swordmaster.Gunslinger.Wizardry.MartialArts.Polemaster.Archery.ClearMind.DesperateBlows.OrbHunter.FieldMedic.Impetus.BloodPact.Zen.Haggling.WeaponBash.Vogue.Alchemy
-ActiveSkills=Speed.ElementalSeal.MightyStrike.ManaWall.RoyalGuard.Fullbring.Sugitekai.Meditate.ConserveTP.BloodBoost.DrainSamba.Regen.Kikouheni.ShadowCopy.Utsusemi.Steal.Analysis.Cover.Aggressor.Defender.HolyAura.Provoke.Disarm.WeaponLock
+PassiveSkills=Swordmaster.Gunslinger.Wizardry.MartialArts.Polemaster.Archery.ClearMind.DesperateBlows.OrbHunter.FieldMedic.Impetus.BloodPact.Zen.Haggling.WeaponBash.Vogue.Alchemy.TreasureHunter
+ActiveSkills=Speed.ElementalSeal.MightyStrike.ManaWall.RoyalGuard.Fullbring.Sugitekai.Meditate.ConserveTP.BloodBoost.DrainSamba.Regen.Kikouheni.ShadowCopy.Utsusemi.Steal.Analysis.Cover.Aggressor.Defender.HolyAura.Provoke.Disarm.WeaponLock.Konzen-ittai
 Resists=resist-paralysis.resist-blind.resist-poison.resist-amnesia.resist-curse.resist-zombie.resist-slow.resist-stun.resist-stop.resist-charm.resist-petrify
 
 
@@ -34,7 +34,7 @@ Info=This skill increases damage done with stave and wand weapons.  Increased le
 
 [MartialArts]
 Cost=200
-max=500
+Max=500
 Type=Passive
 Info=This skill increases damage done with your hand to hand weapons.  Increased levels increases the damage.
 
@@ -55,7 +55,7 @@ Amount=20
 Cost=450
 Type=Passive
 Info=This skill will increase magical damage.  Increased levels of this skill will increase the damage.
-Max=3
+Max=5
 
 [DesperateBlows]
 Cost=1000
@@ -67,7 +67,7 @@ Max=1
 Cost=300
 Type=Passive
 Info=This skill will increase the amount of health items will heal by 5*skill level.
-Max=30
+Max=500
 
 [Impetus]
 Cost=150
@@ -79,7 +79,7 @@ Max=40
 Cost=1900
 Type=Passive
 Info=This skill will allow you to activate summoning items and summon pets/summons to the field to fight for you. Increased levels of the skill will enhance the summon.
-Max=50
+Max=500
 
 [Zen]
 Cost=500
@@ -100,7 +100,7 @@ Info=This skill will increase the amount of style XP you get at the end of battl
 Max=5
 
 [WeaponBash]
-Cost=2500
+Cost=105000
 Type=passive
 Info=This skill will add a chance of inflicting the stun status after each melee hit. Note, if the target is immune to stun it will never take effect.  The chance is (skill level * 10)%.
 Max=2
@@ -111,6 +111,12 @@ Cost=400
 Type=passive
 Info=This skill will allow you to use gems to create items. Each level of this skill will raise the success rate of creating an item by 1%.  Use !view-info alchemy list  to get a list of items you can craft and !view-info alchemy (item)  to view the ingredients necessary.
 Max=40
+
+[TreasureHunter]
+Cost=1000
+Type=passive
+Info=This skill will increase the odds of better colored chests at the end of battle. This skill is culumulative with everyone who has it at the end of battle.  In order for this skill to take effect, you must be alive at the end of battle when a chest is created.
+Max=5
 
 =============================================
 ACTIVE SKILLS
@@ -168,21 +174,21 @@ Cost=400
 Type=Active
 Max=10
 Info=This skill will give you (level * 5) TP back to you instantly.
-Cooldown=60
+Cooldown=120
 
 [ConserveTP]
 Cost=500
 Type=Active
 Max=5
 Info=This skill will reduce the cost of your next technique to 0 TP. Increased levels decreases the amount of time inbetween uses.
-Cooldown=500
+Cooldown=300
 
 [BloodBoost]
 Cost=500
 Type=Active
 Max=100
 Info=This skill will consume 100 HP to give you a (level * 2) boost to your STR.
-Cooldown=30
+Cooldown=20
 
 [DrainSamba]
 Cost=750
@@ -236,7 +242,7 @@ Cost=600
 Type=Active
 Info=This skill allows you to jump in front of an attack and cover an ally of your choosing.
 Max=1
-Cooldown=60
+Cooldown=30
 
 [Aggressor]
 Cost=500
@@ -276,7 +282,14 @@ Cost=1000
 Type=Active
 Info=This skill will consume the item "Sokubaku" and lock a target's weapon for a number of turns.
 Max=1
-CoolDown=60
+CoolDown=300
+
+[Konzen-Ittai]
+Cost=5000
+Type=Active
+Info=This skill, when active, will allow you to perform a Renkei by yourself with a non-magic technique that you use.
+Max=1
+CoolDown=600
 
 =============================================
 RESISTS

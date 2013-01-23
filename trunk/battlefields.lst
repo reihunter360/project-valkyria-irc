@@ -1,0 +1,30 @@
+[battlefields]
+list=plains.cavern.volcano
+; list=plains.fairgrounds.cavern.volcano.forest.beach
+
+[plains]
+weather=calm.bright.gloomy.rainy.stormy.snowy.windy.hot.dry
+event=none
+eventchance=0
+eventDesc=none
+eventTarget=none
+
+
+[Volcano]
+weather=bright.hot.dry.stormy.gloomy
+event=status
+statusType=Burning
+eventChance=50
+EventDesc=The volcano erupts violently, raining magma down upon everyone.
+EventTarget=all
+EventDamage=$rand(50,100)
+
+
+[Cavern]
+weather=gloomy
+event=Damage
+eventChance=50
+EventDesc=A large stalactite falls from the ceiling and slams into a random target.
+EventTarget=random
+EventDamage=$rand(50,100)
+

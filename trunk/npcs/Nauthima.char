@@ -30,14 +30,12 @@ Percent=0
 [Descriptions]
 Hused=1
 Dused=1
-Char=is a clone of an Elven Goddess, who has tremendous magical might. She wears the Red Mage AF armor and wields a large staff along with a sword on the left side of her waist.
+Char=is a clone of an Elven goddess, who has tremendous magical might. She wears the Red Mage AF armor and wields a large staff along with a sword on the left side of her waist.
 Rage=narrows her eyes as her blue and red aura flares wildly around herself as she starts to get angry. "I'm done playing with you now."
-BossQuote=Yahoo~!
 Speed=chants in Elvish and a red clock appears above Nauthima. A moment later it explodes and covers Nauthima with red stars that causes her speed to increase.
 RoyalGuard=chants in Elvish and a moment later, Nauthima is covered with a blue barrier that blocks all melee attacks.
 ManaWall=chants in Elvish and a moment later, Nauthima is covered with a green barrier that blocks all magic attacks.
-Utsusemi=chants in Elvish and a moment later, Nauthima appears to be a little blurry when you look directly at her..
-
+Utsusemi=chants in Elvish and a moment later, Nauthima appears to be a little blurry when you look directly at her.
 
 
 [Stuff]
@@ -102,7 +100,11 @@ conservetp.on=off
 
 [Weapons]
 Equipped=Black_Goddess_Staff
-Black_Goddess_Staff=80
+Black_Goddess_Staff=100
+Fists=100
+Almace=100
+Murgleis=100
+Mandau=100
 
 [Skills]
 Utsusemi=1
@@ -113,8 +115,8 @@ manawall.on=on
 elementalseal.on=off
 ElementalSeal=1
 Wizardy=100
-Swordmaster=50
-MartialArts=40
+Swordmaster=80
+MartialArts=60
 Resist-Paralysis=10
 Resist-Amnesia=100
 Resist-Charm=100
@@ -132,13 +134,26 @@ AeroV=125
 BlizzardV=110
 AerogaV=90
 FireV=110
-Composure=300
+Composure=700
+Poison=60
+Blind=50
+Paralyze=50
+Darkra=80
+DarkV=100
+BanishV=100
+DoublePunch=40
+AsuranFists=60
+DeathBlossom=100
+SwiftBlade=100
+SavageBlade=100
+ChantduCygne=100
+Requiescat=100
+SanguineBlade=100
+MercyStroke=80
+AeolianEdge=50
+Evisceration=85
 
 [Item_Amount]
-
-
-[Stuff]
-Drops=FireDragonWine
 
 [Element]
 Weakness=Dark
@@ -147,5 +162,5 @@ Heal=Light
 
 [Styles]
 Equipped=SpellMaster
-SpellMaster=5
+SpellMaster=10
 SpellMasterXP=1

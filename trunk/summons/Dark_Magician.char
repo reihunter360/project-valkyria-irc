@@ -104,7 +104,7 @@ Resist=Stun=100
 Resist-Amnesia=100
 Zen=5
 Wizardry=25
-ClearMind=2
+ClearMind=3
 ManaWall=1
 manawall.on=off
 ElementalSeal=1

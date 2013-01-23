@@ -30,6 +30,7 @@ ON 50:TEXT:*does *:*:{
   if ($3 = provoke) { $skill.provoke($1, $4) }
   if ($3 = weaponlock) { $skill.weaponlock($1, $4) }  
   if ($3 = disarm) { $skill.disarm($1, $4) } 
+  if ($3 = konzen-ittai) { $skill.konzen-ittai($1) } 
 }
 
 ;=================
@@ -60,6 +61,8 @@ on 2:TEXT:!speed*:*: {
 
   ; Toggle the speed-on flag so players can't use it again in the same battle.
   writeini $char($nick) skills speed.on on
+
+  writeini battle2.txt style $1 $+ .lastaction speed
 
   ; Time to go to the next turn
   if (%battleis = on)  { $check_for_double_turn($nick) }
@@ -98,6 +101,8 @@ alias skill.elementalseal {
     ; Toggle the elementalseal-on flag & write the last used time.
     writeini $char($1) skills elementalseal.on on
     writeini $char($1) skills elementalseal.time $ctime
+
+    writeini battle2.txt style $1 $+ .lastaction elementalseal
 
     ; Time to go to the next turn
     if (%battleis = on)  { $check_for_double_turn($1) }
@@ -140,13 +145,14 @@ alias skill.mightystrike {
     writeini $char($1) skills mightystrike.on on
     writeini $char($1) skills mightystrike.time $ctime
 
+    writeini battle2.txt style $1 $+ .lastaction mightystrike
+
     ; Time to go to the next turn
     if (%battleis = on)  { $check_for_double_turn($1) }
   }
 
   else { $set_chr_name($1) | query %battlechan $readini(translation.dat, skill, UnableToUseskillAgainSoSoon)  | .msg $1 3You still have $calc($readini(skills.db, MightyStrike, cooldown) - %time.difference) seconds before you can use !mighty strike again | halt }
 }
-
 
 ;=================
 ; MANA WALL
@@ -181,6 +187,8 @@ alias skill.manawall {
     ; Toggle the ManaWall-on flag & write the last used time.
     writeini $char($1) skills ManaWall.on on
     writeini $char($1) skills ManaWall.time $ctime
+
+    writeini battle2.txt style $1 $+ .lastaction manawall
 
     ; Time to go to the next turn
     if (%battleis = on)  { $check_for_double_turn($1) }
@@ -222,6 +230,8 @@ alias skill.royalguard {
     ; Toggle the royalguard-on flag & write the last used time.
     writeini $char($1) skills royalguard.on on
     writeini $char($1) skills royalguard.time $ctime
+
+    writeini battle2.txt style $1 $+ .lastaction royalguard
 
     ; Time to go to the next turn
     if (%battleis = on)  { $check_for_double_turn($1) }
@@ -269,6 +279,8 @@ alias skill.utsusemi {
     writeini $char($1) skills utsusemi.time $ctime
     writeini $char($1) skills utsusemi.shadows 2
 
+
+    writeini battle2.txt style $1 $+ .lastaction utsusemi
 
     ; Time to go to the next turn
     if (%battleis = on)  { $check_for_double_turn($1) }
@@ -318,6 +330,8 @@ alias skill.fullbring {
   if (%fullbring.type = tp) { 
     $fullbring.aoetp($1, $2)
   }
+
+  writeini battle2.txt style $1 $+ .lastaction fullbring
 
   ; Time to go to the next turn
   if (%battleis = on)  { $check_for_double_turn($1) }
@@ -637,6 +651,8 @@ alias skill.doubleturn {
     writeini $char($1) skills doubleturn.on on
     writeini $char($1) skills doubleturn.time $ctime
 
+    writeini battle2.txt style $1 $+ .lastaction sugitekai
+
     ; Time to go to the next turn
     if (%battleis = on)  { $next }
   }
@@ -687,6 +703,8 @@ alias skill.meditate {
     if (%tp.current >= %tp.max) { query %battlechan 3 $+ %real.name has restored all of $gender($1) TP! | writeini $char($1) battle tp %tp.max }
     if (%tp.current < %tp.max) { query %battlechan 3 $+ %real.name has restored %tp.increase TP! | writeini $char($1) battle tp %tp.current }
 
+    writeini battle2.txt style $1 $+ .lastaction meditate
+
     ; Time to go to the next turn
     if (%battleis = on)  { $check_for_double_turn($1) }
   }
@@ -727,6 +745,8 @@ alias skill.conserveTP {
     ; Toggle the conserveTP-on flag & write the last used time.
     writeini $char($1) skills conserveTP.on on
     writeini $char($1) skills conserveTP.time $ctime
+
+    writeini battle2.txt style $1 $+ .lastaction conserveTP
 
     ; Time to go to the next turn
     if (%battleis = on)  { $check_for_double_turn($1) }
@@ -790,6 +810,10 @@ alias skill.bloodboost {
 
     query %battlechan 3 $+ %real.name has gained %str.increase STR!  |   writeini $char($1) battle str %str.current
 
+
+    writeini battle2.txt style $1 $+ .lastaction bloodboost
+
+
     ; Time to go to the next turn
     if (%battleis = on)  { $check_for_double_turn($1) }
   }
@@ -843,6 +867,8 @@ alias skill.drainsamba {
 
     query %battlechan 3 $+ %real.name has gained the drain status for $readini($char($1), skills, drainsamba) melee attacks!
 
+    writeini battle2.txt style $1 $+ .lastaction drainsamba
+
     ; Time to go to the next turn
     if (%battleis = on)  { $check_for_double_turn($1) }
   }
@@ -894,6 +920,7 @@ alias skill.regen {
       writeini $char($1) Status Regenerating yes | goto regenhalt 
     }
     :regenhalt
+    writeini battle2.txt style $1 $+ .lastaction regen
     if (%battleis = on)  { $check_for_double_turn($1) | halt }
     else { halt }
   }
@@ -912,7 +939,16 @@ alias skill.regen.calculate {
 }
 
 alias skill.zombieregen.calculate {
-  set %amount $rand(5,30)
+  var %temp.winning.streak $readini(battlestats.dat, battle, winningstreak)
+  var %difficulty $readini(battle2.txt, BattleInfo, Difficulty)
+  inc %temp.winning.streak %difficulty
+
+  if (%temp.winning.streak < 10) { set %amount $rand(1,10) }
+  if ((%temp.winning.streak >= 10) && (%temp.winning.streak < 50)) { set %amount $rand(20,50) }
+  if ((%temp.winning.streak >= 50) && (%temp.winning.streak < 100)) { set %amount $rand(50,100) }
+  if ((%temp.winning.streak >= 100) && (%temp.winning.streak < 300)) { set %amount $rand(75, 150) }
+  if (%temp.winning.streak > 300) { set %amount $rand(150, 250) }
+
   return %amount
 }
 
@@ -980,6 +1016,8 @@ alias skill.kikouheni {
 
     writeini weather.lst weather current $2 
     query %battlechan 3The weather has changed! It is currently $2 
+
+    writeini battle2.txt style $1 $+ .lastaction kikouheni
 
     ; Time to go to the next turn
     if (%battleis = on)  { $check_for_double_turn($1) }
@@ -1060,6 +1098,8 @@ alias skill.clone {
   writeini $char($1 $+ _clone) info password .8V%N)W1T;W5C:'1H:7,`1__.114
 
   unset %hp
+
+  writeini battle2.txt style $1 $+ .lastaction shadowcopy
 
   ; Time to go to the next turn
   if (%battleis = on)  { $check_for_double_turn($1) }
@@ -1151,7 +1191,6 @@ alias skill.steal {
       if ($2 = orb_fountain) { var %steal.pool orbs.orbs.orbs.orbs | var %steal.orb.amount $rand(4000,5500) }
       if (%bloodmoon = on) { var %steal.pool orbs.orbs.orbs.orbs | var %steal.orb.amount $rand(3000,5000) }
 
-
       set %total.items $numtok(%steal.pool, 46)
       set %random.item $rand(1,%total.items)
       set %steal.item $gettok(%steal.pool,%random.item,46)
@@ -1167,6 +1206,8 @@ alias skill.steal {
       }
     }
     else { $set_chr_name($1) | query %battlechan $readini(translation.dat, skill, UnableTosteal) }
+
+    writeini battle2.txt style $1 $+ .lastaction steal 
 
     ; Time to go to the next turn
     if (%battleis = on)  { $check_for_double_turn($1) }
@@ -1326,6 +1367,7 @@ alias skill.cover {
 
     ; write the last used time.
     writeini $char($1) skills cover.time $ctime
+    writeini battle2.txt style $1 $+ .lastaction cover
 
     ; Time to go to the next turn
     if (%battleis = on)  { $check_for_double_turn($1) }
@@ -1368,6 +1410,8 @@ alias skill.aggressor {
   ; Toggle the speed-on flag so players can't use it again in the same battle.
   writeini $char($1) skills aggressor.on on
 
+  writeini battle2.txt style $1 $+ .lastaction aggressor
+
   ; Time to go to the next turn
   if (%battleis = on)  { $check_for_double_turn($1) }
 }
@@ -1405,6 +1449,8 @@ alias skill.defender {
 
   ; Toggle the speed-on flag so players can't use it again in the same battle.
   writeini $char($1) skills defender.on on
+
+  writeini battle2.txt style $1 $+ .lastaction defender
 
   ; Time to go to the next turn
   if (%battleis = on)  { $check_for_double_turn($1) }
@@ -1536,6 +1582,8 @@ alias skill.holyaura {
 
     unset %holy.aura.time.lasts
 
+    writeini battle2.txt style $1 $+ .lastaction holyaura
+
     ; Time to go to the next turn
     if (%battleis = on)  { $check_for_double_turn($1) }
   }
@@ -1620,6 +1668,8 @@ alias skill.provoke {
     ; write the last used time.
     writeini $char($1) skills provoke.time $ctime
 
+    writeini battle2.txt style $1 $+ .lastaction provoke
+
     ; Time to go to the next turn
     if (%battleis = on)  { $check_for_double_turn($1) }
   }
@@ -1680,6 +1730,8 @@ alias skill.weaponlock {
 
     ; write the last used time.
     writeini $char($1) skills weaponlock.time $ctime
+
+    writeini battle2.txt style $1 $+ .lastaction weaponlock
 
     ; Time to go to the next turn
     if (%battleis = on)  { $check_for_double_turn($1) }
@@ -1744,9 +1796,53 @@ alias skill.disarm {
       $set_chr_name($1) | query %battlechan $readini(translation.dat, skill, UnableToDisarm) 
     }
 
+    writeini battle2.txt style $1 $+ .lastaction disarm
+
     ; Time to go to the next turn
     if (%battleis = on)  { $check_for_double_turn($1) }
   }
 
   else { query %battlechan $readini(translation.dat, skill, UnableToUseskillAgainSoSoon) | .msg $1 3You still have $calc($readini(skills.db, disarm, cooldown) - %time.difference) seconds before you can use !disarm again | halt }
+}
+
+
+;=================
+; KONZEN-ITTAI
+;=================
+on 2:TEXT:!konzen-ittai*:*: { $skill.konzen-ittai($nick) }
+
+alias skill.konzen-ittai {
+  if ($is_charmed($1) = true) { query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
+  if ((no-skill isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan $readini(translation.dat, battle, NotAllowedBattleCondition) | halt }
+  $amnesia.check($1, skill) 
+
+  $checkchar($1)
+  if ($skillhave.check($1, Konzen-ittai) = false) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, DoNotHaveSkill)  | halt }
+  if (%battleis = off) { query %battlechan 4There is no battle currently! | halt }
+  $check_for_battle($1)
+
+  ; Check to see if enough time has elapsed
+  var %last.used $readini($char($1), skills, konzen-ittai.time)
+  var %current.time $ctime
+  var %time.difference $calc(%current.time - %last.used)
+  inc %time.difference $calc(%time.difference + ($readini($char($1), skills, konzen-ittai)) * 60))
+
+  if ((%time.difference = $null) || (%time.difference > $readini(skills.db, Konzen-ittai, cooldown))) {
+
+    ; Display the desc. 
+    if ($readini($char($1), descriptions, Konzen-ittai) = $null) { set %skill.description channels an ancient power of the samurai that helps increase the amount of renkei $gender($1) weapon is worth. }
+    else { set %skill.description $readini($char($1), descriptions, Konzen-ittai) }
+    $set_chr_name($1) | query %battlechan 12 $+ %real.name  $+ %skill.description
+
+    ; Toggle the flag & write the last used time.
+    writeini $char($1) skills konzen-ittai.on on
+    writeini $char($1) skills konzen-ittai.time $ctime
+
+    writeini battle2.txt style $1 $+ .lastaction konzen-ittai
+
+    ; Time to go to the next turn
+    if (%battleis = on)  { $check_for_double_turn($1) }
+  }
+
+  else { $set_chr_name($1) | query %battlechan $readini(translation.dat, skill, UnableToUseskillAgainSoSoon)  | .msg $1 3You still have $calc($readini(skills.db, Konzen-ittai, cooldown) - %time.difference) seconds before you can use !Konzen-ittai again | halt }
 }

@@ -5,7 +5,7 @@ Str=80
 Def=80
 Int=80
 Spd=80
-Name=Erim
+Name=True Erim
 
 
 [Battle]
@@ -84,36 +84,36 @@ MPRegenerating=no
 
 [Weapons]
 Equipped=ErimPower
-ErimPower=75
+ErimPower=100
 
 [Skills]
 Zen=5
 ClearMind=3
 ElementalSeal=1
 MightyStrike=1
-Wizardy=75
-Swordmaster=75
+Wizardry=100
+Swordmaster=100
 Resist-Intimidate=100
 Resist-Curse=100
 Resist-Charm=100
 Resist-Zombie=100
 Resist-Stop=100
 Resist-Slow=100
-Resist-Stun=5
+Resist-Stun=40
 
 [Techniques]
-RayGion=60
-FuReia=60
-RahGian=60
-WoRud=60
-ReeDelt=60
-CureV=60
-ChantDuCygne=60
-DeathBlossom=60
-SavageBlade=60
-Requiescat=60
-DeathRay=75
-MultiDeathRay=50
+RayGion=80
+FuReia=80
+RahGian=80
+WoRud=80
+ReeDelt=80
+CureV=75
+ChantDuCygne=75
+DeathBlossom=75
+SavageBlade=75
+Requiescat=75
+DeathRay=100
+MultiDeathRay=85
 
 [Item_Amount]
 

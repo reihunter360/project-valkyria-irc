@@ -42,6 +42,8 @@ Created=N/a
 OrbBonus=yes
 BattleStats=ignoreHP
 Streak=80
+StreakMax=160
+MetalDefense=true
 
 [Status]
 Poison=no
