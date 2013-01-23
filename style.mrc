@@ -18,8 +18,8 @@ alias calculate.stylepoints {
   if ((%style.points > 250) && (%style.points <=  450)) { set %style.rating $readini(translation.dat, styles, SShowtime) }
   if ((%style.points > 450) && (%style.points <= 750)) { set %style.rating $readini(translation.dat, styles, SSStylish) }
   if ((%style.points > 750) && (%style.points <= 2500)) { set %style.rating $readini(translation.dat, styles, SSSSmokingHotStyle) }
-  if ((%style.points > 2500) && (%style.points < 5000)) { set %style.rating $readini(translation.dat, styles, Jackpot) }
-  if (%style.points >= 5000) { set %style.rating $readini(translation.dat, styles, MaximumStyle) }
+  if ((%style.points > 2500) && (%style.points < 6000)) { set %style.rating $readini(translation.dat, styles, Jackpot) }
+  if (%style.points >= 6000) { set %style.rating $readini(translation.dat, styles, MaximumStyle) }
 }
 
 alias add.stylepoints {
@@ -32,20 +32,26 @@ alias add.stylepoints {
   if ($readini($char($1), info, flag) = monster) { return }
 
   unset %style.multiplier
-  var %lastaction $readini(battle2.txt, style, $1 $+ .lastaction) 
-  if (%lastaction = $4) { set %style.multiplier .15 }  
-  else { set %style.multiplier 1.1 | writeini battle2.txt style $1 $+ .lastaction $4 }
+
+  set %style.multiplier $calc.stylemultiplier($1, $2, $3, $4)
   set %stylepoints.current $readini(battle2.txt, style, $1)  
 
-  if (($3 != mon_death) && ($3 != boss_death)) { set %stylepoints.toadd $round($calc($3 * %style.multiplier),0)) }
+  if (($3 != mon_death) && ($3 != boss_death)) {
+    if (%style.multiplier > 0) {  set %stylepoints.toadd $round($calc($3 * %style.multiplier),0)) }
+    else { set %stylepoints.toadd $round($calc(%stylepoints.current * %style.multiplier),0)) }
+  }
+
   if ($3 = mon_death) {  set %stylepoints.toadd $readini(system.dat, style, MonDeath) | $add.playerstyle.xp($1, $rand(1,2)) }
   if ($3 = boss_death) {  set %stylepoints.toadd $readini(system.dat, style, BossDeath) | $add.playerstyle.xp($1, $rand(3,4)) }
 
   if (%stylepoints.current = $null) { set %stylepoints.current 0 }
   if (%stylepoints.current >= 5000) { set %stylepoints.to.add 0 }
+  if (%aoe.turn > 2) { set %stylepoints.to.add 0 }
   inc %stylepoints.current %stylepoints.toadd
+
+  if (%stylepoints.current < 0) { set %stylepoints.current 0 }
   writeini battle2.txt style $1 %stylepoints.current
-  unset %stylepoints.toadd | unset %stylepoints.current
+  unset %stylepoints.toadd | unset %stylepoints.current | unset %style.multiplier | unset %lastaction
 }
 
 alias decrease.stylepoints {
@@ -62,6 +68,33 @@ alias decrease.stylepoints {
   unset %stylepoints.toremove | unset %stylepoints.current
 }
 
+alias calc.stylemultiplier {
+  set %lastaction $readini(battle2.txt, style, $1 $+ .lastaction) 
+
+  if (%lastaction = $4) { 
+    if ($4 = taunt) { return -.65 }
+    else { 
+      if ((%aoe.turn = $null) || (%aoe.turn = 1)) {
+        if ($3 <= 10) { return -.05 }
+        if (($3 > 10) && ($3 < 1000)) { return -.45 }
+        if (($3 >= 1000) && ($3 < 5000)) { return -.55 }
+        if ($3 >= 5000) { return -.65 }
+      }
+    }
+  }
+
+  if (%lastaction != $4) { 
+    writeini battle2.txt style $1 $+ .lastaction $4
+    if ((%aoe.turn = $null) || (%aoe.turn < 2)) { 
+      if ($3 <= 100) { return 1.1 }
+      if (($3 > 100) && ($3 < 1000)) { return 1.0 }
+      if ($3 > 1000) { return .9 }
+    }
+    if ((%aoe.turn > 2) && (%aoe.turn < 4)) { return .7 }
+    if (%aoe.turn > 4) { return .2 }
+  }
+}
+
 alias add.style.orbbonus {
   set %style.points $readini(battle2.txt, style, $1)
   if (%style.points = $null) { %style.points = 1 }
@@ -71,12 +104,13 @@ alias add.style.orbbonus {
   if ($2 = boss) { %multiplier = 1.7 }
 
   var %orb.bonus.flag $readini($char($3), info, OrbBonus)
-  if (%orb.bonus.flag = yes) { inc %multiplier $rand(10,15) }
+  if (%orb.bonus.flag = yes) { inc %multiplier $rand(50,75) }
 
   set %current.orb.bonus $readini(battle2.txt, BattleInfo, OrbBonus)
   if (%current.orb.bonus = $null) { set %current.orb.bonus 0 }
 
   %style.points = $round($calc(%style.points / 1.7),0)
+
   set %total.orbs.to.add $calc(%style.points * %multiplier)
   if (%total.orbs.to.add <= 0) { set %total.orbs.to.add 1 } 
 

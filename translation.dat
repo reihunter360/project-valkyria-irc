@@ -45,6 +45,7 @@ SetGenderMale=$chr(3) $+ 3 $+ Your gender has been set to $2
 SetGenderFemale=$chr(3) $+ 3 $+ Your gender has been set to $2
 ViewMyHP=$chr(3) $+ 3 $+  $+ %real.name $+ 's HP is: $readini($char($nick), Battle, HP) $chr(47) $readini($char($nick), BaseStats, HP)  $+ $chr(91) $+ %hstats $+ 3 $+ $chr(93)  
 ViewMyTP=$chr(3) $+ 3 $+  $+ %real.name $+ 's TP is: $readini($char($nick), Battle, TP) $chr(47) $readini($char($nick), BaseStats, TP) 
+ViewMyIG=$chr(3) $+ 3 $+  $+ %real.name $+ 's Ignition Gauge is: $readini($char($nick), Battle, IgnitionGauge) $chr(47) $readini($char($nick), BaseStats, IgnitionGauge) 
 ViewMyOrbs=$chr(3) $+ 3 $+  $+ %real.name has $bytes($readini($char($nick), stuff, RedOrbs),b)  $+ $readini(system.dat, system, currency) and $readini($char($nick), stuff, BlackOrbs) Black Orb(s) and has spent %orbs.spent  $+ $readini(system.dat, system, currency) and %blackorbs.spent Black Orb(s) total! 
 ViewOthersOrbs=$chr(3) $+ 3 $+  $+ %real.name has $bytes($readini($char($2), stuff, RedOrbs),b)  $+ $readini(system.dat, system, currency) and $readini($char($2), stuff, BlackOrbs) Black Orb(s) and has spent %orbs.spent  $+ $readini(system.dat, system, currency) and %blackorbs.spent Black Orb(s) total! 
 HereIsYourCurrentStats=$chr(3) $+ 3 $+ Here are your current stats:
@@ -69,6 +70,7 @@ HasNoSkills=$chr(3) $+ 3 $+  $+ %real.name currently knows no skills.
 ViewItems=$chr(3) $+ 3 $+  $+ %real.name has the following items: %items.list 
 ViewSummonItems=$chr(3) $+ 3 $+  $+ %real.name has the following summon items: %summons.items.list 
 ViewShopResetItems=$chr(3) $+ 3 $+  $+ %real.name has the following shop lowering items: %reset.items.list 
+ViewStatPlusItems=$chr(3) $+ 3 $+  $+ %real.name has the following +stat items: %statplus.items.list 
 ViewGemItems=$chr(3) $+ 3 $+  $+ %real.name has the following gems: %gems.items.list 
 ViewKeysItems=$chr(3) $+ 3 $+  $+ %real.name has the following keys: %keys.items.list 
 ViewMiscItems=$chr(3) $+ 3 $+  $+ %real.name has the following misc items: %misc.items.list 
@@ -76,7 +78,9 @@ HasNoItems=$chr(3) $+ 3 $+  $+ %real.name currently has no items.
 HasNoKeys=$chr(3) $+ 3 $+  $+ %real.name currently has no keys.
 ViewAccessories=$chr(3) $+ 3 $+  $+ %real.name has the following accessories %accessories.list
 ViewEquippedAccessory=$chr(3) $+ 3 $+  $+ %real.name has the following accessory equipped %equipped.accessory
+ViewRunes=$chr(3) $+ 3 $+  $+ %real.name has the following runes %runes.list
 HasNoAccessories=$chr(3) $+ 3 $+  $+ %real.name currently has no accessories. 
+HasNoRunes=$chr(3) $+ 3 $+  $+ %real.name currently has no runes. 
 HasNoEquippedAccessory=$chr(3) $+ 3 $+  $+ %real.name currently has no accessory equipped. 
 EquipWeaponGM=$chr(3) $+ 3 $+  $+ %real.name has equipped $3
 EquipWeaponPlayer=$chr(3) $+ 3 $+  $+ %real.name has equipped $2
@@ -112,6 +116,10 @@ ViewDifficulty=$chr(3) $+ 3 $+  $+ %real.name has a difficulty of %saved.diff
 SaveDifficulty=$chr(3) $+ 3 $+  $+ %real.name sets $gender($nick) difficulty to $3 $+ .
 ViewLevelAdjust=$chr(3) $+ 3 $+ The overall battle level adjust is set to %leveladjust $+ .
 SaveLevelAdjust=$chr(3) $+ 3 $+ The overall battle level adjust has been set to $2 $+ .
+WeaponAugmented=$chr(3) $+ 3 $+  $+ %real.name $+ 's $3 is now augmented with the %augment.name augment! 
+WeaponDeAugmented=$chr(3) $+ 3 $+  $+ %real.name $+ 's $3 is now no longer augmented. 
+ListOfAugments=$chr(3) $+ 3 $+  $+ %real.name has the following augments: %weapon.list
+RenkeiPerformed=$chr(3) $+ 4 $+ The Renkei %renkei.name has been performed!
 
 =======================
 Health Titles
@@ -239,19 +247,25 @@ ScoreBoardNotDuringBattle=$chr(3) $+ 4 $+ Error: The scoreboard can only be ge
 SkillCommandOnlyOnPlayers=$chr(3) $+ 4 $+ Error: This command can only be used on players!
 DifficultyMustBeNumber=$chr(3) $+ 4 $+ Error: The difficulty must be a whole number.
 DifficultyCan'tBeNegative=$chr(3) $+ 4 $+ Error: The difficulty must be either 0 or greater than 0.
+AugmentAddCmd=$chr(3) $+ 4 $+ Error: To add an augment use the following: !augment add (weapon name) (rune)
+AugmentRemoveCmd=$chr(3) $+ 4 $+ Error: To remove an augment use the following: !augment remove (weapon name)
+DoNotHaveRune=$chr(3) $+ 4 $+ Error: %real.name does not have that rune to use!
+AugmentWpnAlreadyAugmented=$chr(3) $+ 4 $+ Error: %real.name $+ 's $3 is already augmented! Remove the old augment first before using a new rune.
+AugmentWpnNotAugmented=$chr(3) $+ 4 $+ Error: %real.name $+ 's $3 is not augmented! 
+NoAugments=$chr(3) $+ 4 $+ Error: %real.name currently has no augmented weapons!
 
 =======================
 Battle Related Messages
 =======================
 [Battle]
 StartBattle=$chr(3) $+ 2 $+ * A battle will begin in %time.between.battles minutes.
-BattleOpen=$chr(3) $+ 4 $+ A dimensional portal has been detected.  The enemy force will arrive in %time.to.enter.minutes minute(s). type !enter if you wish to join the battle!  
+BattleOpen=$chr(3) $+ 4 $+ A dimensional portal has been detected.  The enemy force will arrive in %time.to.enter seconds. type !enter if you wish to join the battle!  
 BattleClosed=$chr(3) $+ 4 $+  $+ %real.name cannot join this battle as either there is no battle or the entry period is already closed.
 NoPlayersOnField=$chr(3) $+ 4 $+ There were no players to meet the monsters on the battlefield!  The battle is over.
 NotEnoughPlayersOnField=$chr(3) $+ 4 $+ There was not enough players for a PVP match!  The battle is over.
 BattleIsOver=$chr(3) $+ 4 $+ The Battle is Over!
 EvilhasWon=$chr(3) $+ 12 $+ The forces of evil have won this battle after %current.turn turn(s)! The heroes have lost $bytes($calc($readini(battlestats.dat, Battle, LosingStreak) + 1),b) battle(s) in a row!
-GoodHasWon=$chr(3) $+ 12 $+ The forces of good have won this battle in %current.turn turn(s)! The heroes have won $bytes($calc($readini(battlestats.dat, Battle, WinningStreak) + 1),b) battle(s) in a row!
+GoodHasWon=$chr(3) $+ 12 $+ The forces of good have won this battle in %current.turn turn(s)! The heroes have won $bytes($calc($readini(battlestats.dat, Battle, WinningStreak)),b) battle(s) in a row! [Current record is: $bytes($readini(battlestats.dat, battle, WinningStreakRecord),b) $+ ]
 RewardOrbsLoss=$chr(3) $+ 3 $+ For their efforts, these players have been rewarded with $readini(system.dat, system, currency) $+ : %red.orb.winners
 RewardOrbsWin=$chr(3) $+ 3 $+ For their victory, these players have been rewarded with $readini(system.dat, system, currency) $+ : %red.orb.winners
 BlackOrbWin=$chr(3) $+ 3 $+ The following players have absorbed a black orb from the boss: %black.orb.winners
@@ -357,6 +371,7 @@ UnableToSteal=$chr(3) $+ 4 $+ %real.name was unable to steal anything from $s
 FinishedRegen=$chr(3) $+ 12 $+ %real.name has finished regenerating all $gender($1) $3 $+ ! 
 RegenerationMessage=$chr(3) $+ 12 $+ %real.name has regenerated $2  $+ $3 $+ !
 ZombieRegeneration=$chr(3) $+ 12 $+ %real.name has regenerated %howmuch  $+ hp $+ !
+CocoonBlock=$chr(3) $+ 7 $+ %real.name $+ 's protective evolution barrier has absorbed the attack! 
 RoyalGuardBlocked=$chr(3) $+ 7 $+ %real.name $+ 's Royal Guard has absorbed the attack! 
 ManaWallBlocked=$chr(3) $+ 7 $+ %real.name $+ 's Mana Wall has absorbed the spell!
 UtsusemiBlocked=$chr(3) $+ 7 $+ One of %real.name $+ 's shadows absorbs the attack and disappears! 

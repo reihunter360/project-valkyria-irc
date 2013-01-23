@@ -101,7 +101,7 @@ Bloodboost=1
 [Techniques]
 BloodDagger=80
 BloodBlast=80
-BloodBoost=80
+BloodBoost=150
 
 [Item_Amount]
 

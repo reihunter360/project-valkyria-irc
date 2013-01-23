@@ -31,7 +31,7 @@ Percent=0
 [Descriptions]
 Hused=1
 Dused=1
-Char=a tall man with short black hair dressed in a dark grey suit with a red overcoat, white gloves, a large red fedora and circular sunglasses with an orange tint. Formally known as Dracula, he is perhaps the strongest vampire in existance.
+Char=a tall man with short black hair dressed in a dark grey suit with a red overcoat, white gloves, a large red fedora and circular sunglasses with an orange tint. Formally known as Dracula, he is perhaps the strongest vampire in existance...
 Rage=simply laughs like a mad man!
 
 [Stuff]
@@ -94,10 +94,10 @@ zombie.timer=1
 
 [Weapons]
 Equipped=Casull&Jackal
-Casull&Jackal=50
+Casull&Jackal=100
 
 [Skills]
-Gunslinger=40
+Gunslinger=50
 Resist-Charm=100
 Resist-Zombie=100
 Resist-Stun=25
@@ -112,15 +112,15 @@ manawall.on=on
 royalguard.on=on
 
 [Techniques]
-LastStand=50
-RapidShot=50
-Rainstorm=50
-BloodDrain=50
-CromwellApproval=50
+LastStand=60
+RapidShot=60
+Rainstorm=60
+BloodDrain=70
+CromwellApproval=700
 
 [Item_Amount]
 
 [Styles]
 Equipped=WeaponMaster
-WeaponMaster=2
+WeaponMaster=3
 WeaponMasterXP=1

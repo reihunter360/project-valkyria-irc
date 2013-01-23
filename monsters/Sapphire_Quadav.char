@@ -88,17 +88,21 @@ MPRegenerating=no
 
 [Weapons]
 Equipped=QuadavWand_R
-Quadav_Red_Mage=15
+QuadavWand_R=15
 
 [Skills]
-wizardry=10
+Zen=5
+ClearMind=1
+Wizardry=10
 
 [Techniques]
 FireIV=15
 WaterIV=15
 BlizzardIV=15
-Poison=13
-Blind=13
+Poison=10
+Blind=10
+Paralyze=10
+Headbutt=10
 
 
 [Element]

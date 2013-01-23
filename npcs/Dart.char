@@ -31,7 +31,7 @@ Percent=0
 [Descriptions]
 Hused=1
 Dused=1
-Char=a young man who wears red armor and a red bandana. He wields the spirit of the Red-Eyed Dragon.
+Char=is a young man who wears red armor and a red bandana. He wields the spirit of the Red-Eyed Dragon.
 Rage=yells out in rage!
 
 [Stuff]
@@ -94,13 +94,13 @@ zombie.timer=1
 
 [Weapons]
 Equipped=RedEyedDragoon
-RedEyedDragoon=50
+RedEyedDragoon=65
 
 [Skills]
 Resist-Charm=100
 Resist-Zombie=100
-SwordMaster=35
-Wizardy=25
+SwordMaster=45
+Wizardry=35
 Resist-Intimidate=100
 Zen=5
 MightyStrike=1
@@ -110,7 +110,7 @@ DoubleSlash=50
 MadnessHero=50
 FlameShot=50
 FinalBurst=50
-RedDragoon=50
+RedDragoon=710
 
 
 [Item_Amount]

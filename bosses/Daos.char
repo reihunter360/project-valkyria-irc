@@ -53,8 +53,8 @@ passhurt=0
 LastSeen=N/a
 LastIP=N/a
 Created=N/a
-Streak=80
-StreakMax=100
+Streak=110
+SpawnAfterDeath=GuardDaos
 
 [Status]
 Poison=no
@@ -99,7 +99,7 @@ ClearMind=3
 ElementalSeal=1
 MightyStrike=1
 MartialArts=50
-Wizardy=50
+Wizardry=50
 Swordmaster=50
 Resist-Intimidate=100
 Resist-Curse=100

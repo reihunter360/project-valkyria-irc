@@ -1,6 +1,6 @@
 ITEMS.DB
 DiscountCard=150000
-FFUltimateDiscountCard=400000
+UltimateDiscountCard=400000
 
 SKILLS.MRC
     if (%steal.chance >= 85) {
@@ -14,31 +14,40 @@ SKILLS.MRC
       if ($2 = orb_fountain) { var %steal.pool orbs.orbs.orbs.orbs | var %steal.orb.amount $rand(4000,5500) }
       if (%bloodmoon = on) { var %steal.pool orbs.orbs.orbs.orbs | var %steal.orb.amount $rand(3000,5000) }
 
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+
 SKILLS.DB
-Steal Cooldown=15, Max=50
-Regen Cooldown=60; Max=200
-Bloodboost Cooldown 15 Max=100
-DrainSamba Cooldown = 180 to 30
-ConserveTP Cooldown=500
-Meditate Cooldown=60
-Mightystrike = 30
-ElementalSeal = 60
-Cover Cooldown=20 from 270
-Alchemy=40
-
-Impetus Max=40
-FieldMedic Max=500
-Clearmind Max=5
-OrbHunter Max=200; Amount=20
-Zen Max=10
-WeaponBashMax=2
-BloodPact Max=50
-
-WeaponLock CD =60
-
 Gunslinger,Swordmaster,Wizardy,Martialarts,Polemaster, ARchery Max to 500 (from 100)
 
+OrbHunter Max=200; Amount=20
+Clearmind Max=5
+FieldMedic Max=500
+Impetus Max=40
+BloodPact Max=500
+Zen Max=10
+WeaponBashMax=2 Cost=105000
+Alchemy=40
+
+ElementalSeal CD = 60
+Mightystrike CD = 30
+Meditate Cooldown= 120
+ConserveTP Cooldown=500
+Bloodboost Cooldown 20 Max=100
+
+DrainSamba Cooldown = 30
+Regen Cooldown=60; Max=200
+Steal Cooldown=15, Max=50
+
+Cover Cooldown=20 from 270
+WeaponLock CD = 300
+
 Resist == 70%
+
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
 
 TECHNIQUES.DB
 ; Valkyria-IRC Customs
@@ -49,8 +58,9 @@ TRexWeapon=Roar.Swallow.SpikeFlail.VolcanicRush.SurvivalInstinct
 PhoenixmonWeapon=StarlightExplosion.CureV.CrimsonFlame.MeteorPhoenix.DoubleHurricane.BusterPhoenix
 BlackRockShooter=RockCannon.RockDeltaVulcan.BlackStarSlash.BlackStarGrenade.BlackStarPower.RockCannonSpear.CureV
 DiendDriver=DiendHenshin.DiendGekijouban.DiendBlast.DiendDimensionShoot.CureII
-MegasaurusWeapon=SurvivalInstinct.Earthquake.FFUltimateSwallow.SpikeFlail.Slurp.Dinostomp.VolcanicRush
+MegasaurusWeapon=SurvivalInstinct.Earthquake.UltimateSwallow.SpikeFlail.Slurp.Dinostomp.VolcanicRush
 OmegaMultipurposeCannon=WaveCannon.LightPillar.MeggidoFlame.FFUltima.Gravija.TerraBreak.Meteor.LV5_Death
+Perfect_Chaos_Water=Chaos_Tsunami.Hyrdro_Cannon.Chaos_Rain.Chaos_Chomp.PerfectChaosR2.Chaos_Water_Beam.Dark_Power_of_Chaos_Emeralds
 
 [Repairs]
 Type=heal
@@ -109,7 +119,7 @@ Absorb=Yes
 
 [VolcanicRush]
 Type=AOE
-StatusType=Burning.Shaking
+StatusType=Burning
 TP=50
 Desc=flails around and stomps on the ground, causing small tremors and finally rushes into the enemy, a giant volcano erupting and hitting everything in range.
 basepower=20
@@ -281,11 +291,11 @@ basepower=100
 magic=no
 
 
-[FFUltimateSwallow]
+[UltimateSwallow]
 type=AOE
 tp=100
 cost=99999
-Desc= grabs all the enemies on the battlefield and chews on them for a while, then spits them back out! [FFUltimate Swallow]
+Desc= grabs all the enemies on the battlefield and chews on them for a while, then spits them back out! [Ultimate Swallow]
 absorb=yes
 basepower=50
 magic=no
@@ -337,7 +347,7 @@ element=none
 magic=yes
 tp=60
 basepower=150
-desc=holds up $gender($1) $+'s weapon to collect magical energy, then finally releases them in a black and white flame towards all enemies. [FFUltima!]
+desc=holds up $gender($1) $+'s weapon to collect magical energy, then finally releases them in a black and white flame towards all enemies. [Ultima!]
 cost=9000
 
 [Gravija]
@@ -379,15 +389,192 @@ tp=333
 ;basepower=if ($calc($readini($char($3), Stuff, shoplevel) % 5) == 0) { $calc($readini($char($3), basestats, HP) * 1.1) } else { $calc(0 * 1.1) }
 basepower=666
 element=dark
+desc=casts a large scale spell that surrounds all enemies with the Grim Reaper's Influence! [LV5 Death]
+
+; Perfect Chaos' Techniques
+
+[Chaos_Tsunami]
+type=aoe
+statustype=Drowning
+tp=60
+element=Water
+magic=yes
+basepower=150
+desc=sends a powerful tsunami, destroying the landscape with furious waters! [Chaos Tsunami
+
+[Hydro_Cannon]
+type=single
+statustype=Stun
+magic=yes
+tp=200
+basepower=400
+element=Water
+desc=fires a large geyser of water towards %enemy $+ !! [Hydro Cannon]
+
+[Chaos_Rain]
+type=heal-AOE
+element=water
+basepower=50
+magic=yes
+tp=30
+desc=sends a black rain all over the battlefield, curing all allies! [Chaos Rain]
+
+[PerfectChaosR2]
+type=boost
+element=water
+basepower=900
+tp=5000
+desc=submerges itself in the water... and resurfaces with a lot more pressure! Perfect Chaos lets out a wild roar and more water geysers form within its surroundings!
+
+[Chaos_Water_Beam]
+type=single
+element=dark
+basepower=350
+tp=140
+magic=no
+desc=fires a giant beam from its mouth towards %enemy $+ !! [Chaos Water Beam]
+
+[Dark_Power_of_Chaos_Emeralds]
+type=aoe
+statustype=Curse
+basepower=500
+tp=4000
+magic=yes
+desc=summons the darkness within the 7 Chaos Emeralds and showers the entire battlefield with it! [Dark Power of the 7 Chaos Emeralds]
+
+
+; wisereflection edit
+[WiseReflection]
+Type=boost
+TP=10
+Desc=narrows her eyes at everyone as a silver aura appears around $gender2($1). "Let's see how you shall fare against my full goddess power...."
+BasePower=10
+Element=Light
+Cost=5000
+
+
+[Renzokuken]
+
+Type=Single
+
+TP=10
+
+Desc=rushes forward and slashes %enemy several times with his gunblade.
+
+BasePower=50
+
+Element=None
+
+Cost=3000
+Magic=No
+
+
+stat=str
+
+[RoughDivide]
+Type=Single
+
+TP=10
+
+Desc=slashes %enemy with a backhand swing of the gunblade, causing a small explosion of energy.
+
+BasePower=70
+
+Element=None
+
+Cost=8600
+Magic=No
+
+stat=str
 
 
 
-Desc=scoffs at everyone again as a silver aura appears around $gender($1) $+self  . "Let's see how you fare against my full goddess power, you scum."
-^ Eldora's WiseReflection
+[FatedCircle]
+
+Type=AOE
+
+TP=10
+
+Desc=leaps into the air and performs an aerial spin, unleashing energy that hits the battlefield.
+
+BasePower=30
+
+Element=None
+
+Cost=10000
+Magic=No
+
+stat=str
+
+
+
+[BlastingZone]
+
+Type=AOE
+
+TP=10
+
+Desc=raises his gunblade into the air as a massive line of yellow energy shoots into the sky. Squall then slams the energy on the battlefield to hit all targets.
+
+statustype=Stun
+BasePower=90
+
+Element=None
+
+Cost=90000
+
+Magic=No
+
+stat=str
+
+
+
+[Lionheart]
+
+Type=Single
+
+TP=10
+
+Desc=rushes forward as the gunblade changes to the Lionheart and glows white. Squall slashes %enemy over and over before hopping back. He then says, "Mission accomplished." and slashes %enemy one final time.
+
+BasePower=150
+
+Element=Light
+
+Cost=50000
+Magic=Yes
+
+stat=int
+
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+
+WEAPONS.DB
+
+[Silver_Goddess_Sword]
+Cost=99999999
+Type=Sword
+Info=A longsword made out of silver and has a blue gem inserted into the guard.
+Abilities=TwinSlice.BiteOfLightning.BladeBeam.HyperTwinSlice.WiseReflection.CureV.GigaSlash.Atonement.BlizzajaII
+Element=Light
+Hits=$rand(1,3)
+BasePower=75
+Upgrade=50000
+
+[GunbladeRevolver]
+Cost=250
+Type=Sword
+Info=A gunblade that Squall uses in battle.
+Abilities=Renzokuken.RoughDivide.FatedCircle.BlastingZone.Lionheart
+Element=None
+Hits=$rand(2,3)
+BasePower=35
+Upgrade=35000
 
 WEAPONS.DB
 Guns=Ebony&Ivory.Quicksilver.Magnum.Hexagun.DiEndDriver
-FFOmegaWeapon.Valkyrie_Sword.TRexWeapon.PhoenixmonWeapon.BlackRockShooter.MegasaurusWeapon.OmegaMultipurposeCannon
+FFOmegaWeapon.Valkyrie_Sword.TRexWeapon.PhoenixmonWeapon.BlackRockShooter.MegasaurusWeapon.OmegaMultipurposeCannon.Perfect_Chaos_Water
 ^ MonsterWpns
 
 ; Omega Weapon
@@ -410,6 +597,7 @@ element=Light
 hits=$rand(1,3)
 basepower=50
 upgrade=500000
+HurtEthereal=true
 
 [TRexWeapon]
 cost=999999
@@ -430,6 +618,7 @@ element=none
 hits=$rand(1,3)
 basepower=30
 upgrade=500000
+HurtEthereal=true
 
 [BlackRockShooter]
 cost=999999
@@ -440,6 +629,7 @@ element=none
 hits=$rand(2,3)
 basepower=25
 upgrade=500000
+HurtEthereal=true
 
 [DiEndDriver]
 Cost=40
@@ -450,12 +640,13 @@ Element=none
 Hits=$rand(1,2)
 BasePower=25
 Upgrade=350
+HurtEthereal=true
 
 [MegasaurusWeapon]
 Cost=9999999
 Type=HandtoHand
 Info=A Megasaurus' Weapon
-abilities=SurvivalInstinct.Earthquake.FFUltimateSwallow.SpikeFlail.Slurp.Dinostomp.VolcanicRush
+abilities=SurvivalInstinct.Earthquake.UltimateSwallow.SpikeFlail.Slurp.Dinostomp.VolcanicRush
 basepower=70
 hits=$rand(1,2)
 upgrade=500000
@@ -465,11 +656,26 @@ cost=9999999
 Type=Rifle
 Info=A Omega Weapon MK12 Weapon
 abilities=WaveCannon.LightPillar.MeggidoFlame.FFUltima.Gravija.TerraBreak.Meteor.LV5_Death
-basepower
+basepower=999
 hits=$rand(2,4)
 upgrade=500000
+HurtEthereal=true
+
+[Perfect_Chaos_Water]
+cost=9999999
+Type=HandToHand
+Info=Perfect Chaos' ultimate form!
+basepower=500
+anbilities=Chaos_Tsunami.Hyrdro_Cannon.Chaos_Rain.Chaos_Chomp.PerfectChaosR2.Chaos_Water_Beam.Dark_Power_of_Chaos_Emeralds
+hits=$rand(1,3)
+upgrade=5000000
+HurtEthereal=true
 
 Cost and Upgrade to 99999 and 500000
+
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
 
 SYSTEM.DAT
 [botinfo]

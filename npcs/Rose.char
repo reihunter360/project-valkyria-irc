@@ -94,7 +94,7 @@ zombie.timer=1
 
 [Weapons]
 Equipped=DarknessDragoon
-DarknessDragoon=50
+DarknessDragoon=75
 
 [Skills]
 Resist-Charm=100
@@ -102,8 +102,8 @@ Resist-Zombie=100
 Resist-Intimidate=100
 Resist-Amnesia=100
 Resist-Curse=100
-SwordMaster=35
-Wizardy=40
+SwordMaster=55
+Wizardry=50
 Zen=5
 ClearMind=3
 ElementalSeal=1
@@ -114,7 +114,7 @@ WhipSmack=50
 DemonsDance=50
 AstralDrain=50
 DeathDimension=50
-DarkDragoon=50
+DarkDragoon=710
 
 
 [Item_Amount]

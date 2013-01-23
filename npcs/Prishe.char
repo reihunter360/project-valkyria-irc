@@ -94,16 +94,18 @@ zombie.timer=1
 
 [Weapons]
 Equipped=PrishePowers
-PrishePowers=50
+PrishePowers=75
 
 [Skills]
 Resist-Charm=100
 Resist-Poison=100
 Resist-Zombie=100
 Resist-Intimidate=100
-MartialArts=30
+MartialArts=50
+Wizardry=50
 RoyalGuard=1
 Zen=5
+ClearMind=1
 
 [Techniques]
 AsuranFists=50

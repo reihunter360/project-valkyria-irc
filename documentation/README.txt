@@ -85,15 +85,22 @@ As usual be sure to read the versions.txt in the documentation folder
 for a full list of everything this version does.  Listed below are some 
 of the highlights.
 
+* Parrying and Dodging are now in the game
+Parrying can be done at random when players have 100% mastery in the skill that corresponds to the weapon they
+are using (example: 100 in wizardry will allow players to parry using a wand weapon). Dodging can be done at
+random when using the Trickster style (with a max of 10% chance when Trickster is at level 10).
+
 * New Status Effects
 Added a "Strength Down" status effect.  While under this effect, a target's str will be divided by 4 on attacks.
-Also added the "Weapon Locked" status effect. While under this effect, a target cannot change weapons.
+Also added the "Weapon Locked" status effect. While under this effect, a target cannot change weapons.  Petrify
+has also been added. When petrified, a target will lose a turn.
 
 * Added new skills:
 - Added the active skill Provoke -- Will cause a monster you use it on to attack you its next round.
 - Added the active skill Disarm -- Will attempt to disarm a target back to their base fists. 
 - Added the active skill "WeaponLock" -- Will consume Sokubaku to lock a target's weapon in place for a # of turns.
-
+- Added the resistance skill "Resist-Petrify"  -- right now it only goes to 20.  Like other resists, it decreases the 
+  chance that petrify will work on you.
 
 * Changes
 - Changed doppelgangers around so that they can't use the Final Getsuga type boosts.
@@ -101,7 +108,14 @@ Also added the "Weapon Locked" status effect. While under this effect, a target 
 - Changed it so monster's weapon levels will be increased if the file setting is lower than the streak.
 - Changed the formula for magic damage slightly.
 - Changed the formula for 4-hit and 5-hit weapons slightly.
-
+- Changed the code to try and reduce the odds of monsters one-shotting players on turn #1. 
+- Changed !stats so that you can now use it on other players to see what their stats are. 
+- Changed it so bosses will no longer appear below streak #10.
+- Changed /me gives so that you don't HAVE to specify a number if you only want to give 1 of an item.
+- Changed a few things in the way monsters are boosted if they're added before players join the battle.
+- Changed Elemental Seal so that it affects all targets on an AOE magic attack instead of only the first target.
+- Changed the penalty for spamming the same tech/attack over so that it's much harsher. It's possible to drop style
+  ranks now (just like in Devil May Cry).
 
 * Fixes
 - Fixed a bug with ClearStatus type items (i.e. the Tonic).
@@ -113,7 +127,11 @@ Also added the "Weapon Locked" status effect. While under this effect, a target 
 - Fixed a bug with the Aztec-GoldCoin accessory and gave its absorb effect a bit of a boost.
 - Fixed a bug in which it was possible to cover a non-existent character, thus causing errors that would freeze the bot.
 - Fixed a bug with AOEs being used on players in PVP in which it would hit the user and miss some other players.
-
+- Fixed the skill list so hopefully lines won't be cut off/not display everything.
+- Fixed a bug in which players could purchase more HP and TP than would be allowed by the maximum set limit.
+- Fixed a bug in which players could purchase invalid techniques if they didn't spell them right.
+- Fixed a bug in which sometimes all of an item would be consumed when used.
+- Fixed a bug with mana wall not working right when a non-heal magic tech would heal a target.
 
 Again, this isn't everything. Be sure to read the versions.txt in the documentation
 folder for a full list of everything 

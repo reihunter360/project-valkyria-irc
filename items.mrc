@@ -29,6 +29,7 @@ on 2:TEXT:!use*:*: {  unset %real.name | unset %enemy
   if (%item.type = key) { $item.key($nick, $4, $2) |  $decrease_item($nick, $2)  | halt }
   if (%item.type = consume) { query %battlechan $readini(translation.dat, errors, ItemIsUsedInSkill) | halt }
   if (%item.type = accessory) { query %battlechan $readini(translation.dat, errors, ItemIsAccessoryEquipItInstead)  | halt }
+  if (%item.type = random) { $item.random($nick, $4, $2) | $decrease_item($nick, $2) | halt }
 
   if (%item.type = shopreset) {
     if (%battleis = on) { $check_for_battle($nick)   }
@@ -181,6 +182,46 @@ alias item.key {
 
   unset %chest.item | unset %current.items | unset %chest.amount
   return
+}
+
+alias item.random {
+  ; $1 = user
+  ; $2 = target
+  ; $3 = item used
+
+  var %food.items $readini(items.db, items, FoodItems)
+  var %accessories $readini(items.db, items, accessories)
+  var %gems $readini(items.db, items, gems)
+  var %shop.reset $readini(items.db, items, ShopReset)
+  var %total.items blackorb. $+ %food.items $+ . $+ %accessories $+ . $+ %gems . $+ %shop.reset
+  set %random $rand(1, $numtok(%total.items,46))
+  if (%random = $null) { var %random 1 }
+  set %random.item.contents $gettok(%total.items,%random,46)
+
+
+  if (%random.item.contents = blackorb) { 
+    set %random.item.name Black Orb
+    var %current.orbs $readini($char($2), stuff, BlackOrbs)
+    inc %current.orbs %chest.amount
+    writeini $char($2) stuff BlackOrbs %current.orbs
+  }
+
+  if (%random.item.contents != blackorb) { 
+    set %random.item.name %random.item.contents
+    set %current.reward.items $readini($char($1), item_amount, %chest.item)
+    if (%current.reward.items = $null) { set %current.reward.items 0 }
+    inc %current.reward.items %chest.amount
+    writeini $char($1) item_amount %random.item.contents %current.reward.items
+    unset %current.reward.items
+  }
+
+  ; Display the desc of the item
+  $set_chr_name($2) | var %enemy %real.name | $set_chr_name($1) 
+  query %battlechan 3 $+ %real.name  $+ $readini(items.db, $3, desc)
+
+  unset %random.item.name 
+  return
+
 }
 
 alias item.damage {
@@ -347,6 +388,10 @@ alias calculate_damage_items {
   ; Let's increase the attack by a random amount.
   inc %attack.damage $rand(1,10)
 
+  if ($augment.check($1, EnhanceItems) = true) { 
+    inc %attack.damage $round($calc(%attack.damage * .3),0)
+  }
+
   ; Now we're ready to calculate the enemy's defense..  
   set %enemy.defense $readini($char($3), battle, def)
 
@@ -402,6 +447,10 @@ alias calculate_heal_items {
 
   ; Let's increase the attack by a random amount.
   inc %attack.damage $rand(1,10)
+
+  if ($augment.check($1, EnhanceItems) = true) { 
+    inc %attack.damage $round($calc(%attack.damage * .3),0)
+  }
 
   ; If the blood moon is in effect, healing items won't work as well.
   if (%bloodmoon = on) { %attack.damage = $round($calc(%attack.damage / 2),0) }
@@ -492,7 +541,9 @@ alias item.food {
 ;=========================================
 ; Equip an accessory via the !wear command.
 ;=========================================
-on 2:TEXT:!wear*:*: {  $set_chr_name($nick)
+on 2:TEXT:!wear*:*: {  
+  if ($2 = $null) { halt }
+  $set_chr_name($nick)
   var %item.type $readini(items.db, $2, type)
   if (%item.type != accessory) { query %battlechan $readini(translation.dat, errors, ItemIsNotAccessory) | halt }
   set %check.item $readini($char($nick), Item_Amount, $2) 

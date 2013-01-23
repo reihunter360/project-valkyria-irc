@@ -41,7 +41,7 @@ ShopLevel=1.0
 [Info]
 Flag=monster
 Gender=its
-Gender2=it
+Gender2=its
 password=battlearena
 passhurt=0
 LastSeen=N/a
@@ -87,17 +87,12 @@ MPRegenerating=no
 
 [Weapons]
 Equipped=Armageddon
-Ryunohige=15
+Armageddon=15
 
 [Skills]
-Gunslinger=5
+Gunslinger=10
 
 [Techniques]
-SoulJump=15
-Drakesbane=10
-LegSweep=10
-Stardiver=15
-
 Wildfire15
 BlastShot=10
 Detonator=10

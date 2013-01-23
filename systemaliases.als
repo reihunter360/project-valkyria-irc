@@ -1,4 +1,4 @@
-battle.version { return 1.5beta_121612 }
+battle.version { return 2.0beta_012013 }
 quitmsg { return Battle Arena version $battle.version written by James  "Iyouboushi" }
 checkscript {
   if (| isin $1-) { .msg $nick $readini(translation.dat, errors, NoScriptsWithCommands) | halt }
@@ -125,6 +125,8 @@ weapons.get.list {
   set %weapons %weapons $+ . $+ $readini(weapons.db, Weapons, Spears)
   set %weapons %weapons $+ . $+ $readini(weapons.db, Weapons, Scythes)
   set %weapons %weapons $+ . $+ $readini(weapons.db, Weapons, GreatSwords)
+  set %weapons %weapons $+ . $+ $readini(weapons.db, Weapons, Axes)
+  set %weapons %weapons $+ . $+ $readini(weapons.db, Weapons, Daggers)
 
   if ($readini($char($1), info, flag) = $null) {  set %weapons %weapons $+ . $+ $readini(weapons.db, Weapons, Glyphs) }
   set %weapons %weapons $+ . $+ $readini(weapons.db, Weapons, Rifles)
@@ -255,8 +257,6 @@ styles.get.list {
   unset %value | unset %weapon.name | unset %weapon_level
   return %styles.list
 }
-
-
 
 tech.list {
   unset %techs.list
@@ -414,7 +414,7 @@ keys.list {
 }
 items.list {
   ; CHECKING HEALING ITEMS
-  unset %items.list | unset %gems.items.list | unset %summons.items.list | unset %keys.items.list | unset %misc.items.list | unset %reset.items.list 
+  unset %items.list | unset %gems.items.list | unset %summons.items.list | unset %keys.items.list | unset %misc.items.list | unset %reset.items.list | unset %statplus.items.list
   var %healing.items $readini(items.db, items, HealingItems)
   var %number.of.items $numtok(%healing.items, 46)
 
@@ -452,9 +452,9 @@ items.list {
     inc %value 1 
   }
 
-  ; CHECKING BATTLE ITEMS
+  ; CHECKING BATTLE & RANDOM ITEMS
   unset %item.name | unset %item_amount | unset %number.of.items | unset %value
-  var %battle.items $readini(items.db, items, BattleItems)
+  var %battle.items $readini(items.db, items, BattleItems) $+ . $+ $readini(items.db, items, Random)
   var %number.of.items $numtok(%battle.items, 46)
 
   var %value 1
@@ -469,22 +469,7 @@ items.list {
     inc %value 1 
   }
 
-  ; CHECKING FOOD ITEMS
-  unset %item.name | unset %item_amount | unset %number.of.items | unset %value
-  var %food.items $readini(items.db, items, FoodItems)
-  var %number.of.items $numtok(%food.items, 46)
 
-  var %value 1
-  while (%value <= %number.of.items) {
-    set %item.name $gettok(%food.items, %value, 46)
-    set %item_amount $readini($char($1), item_amount, %item.name)
-    if ((%item_amount != $null) && (%item_amount >= 1)) { 
-      ; add the item and the amount to the item list
-      var %item_to_add 12 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041) 
-      %items.list = $addtok(%items.list,%item_to_add,46)
-    }
-    inc %value 1 
-  }
 
   ; CHECKING CONSUMABLE ITEMS
   unset %item.name | unset %item_amount | unset %number.of.items | unset %value
@@ -533,6 +518,23 @@ items.list {
       ; add the item and the amount to the item list
       var %item_to_add 1 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041) 
       %misc.items.list = $addtok(%misc.items.list,%item_to_add,46)
+    }
+    inc %value 1 
+  }
+
+  ; CHECKING +STAT ITEMS
+  unset %item.name | unset %item_amount | unset %number.of.items | unset %value
+  var %food.items $readini(items.db, items, FoodItems) 
+  var %number.of.items $numtok(%food.items, 46)
+
+  var %value 1
+  while (%value <= %number.of.items) {
+    set %item.name $gettok(%food.items, %value, 46)
+    set %item_amount $readini($char($1), item_amount, %item.name)
+    if ((%item_amount != $null) && (%item_amount >= 1)) { 
+      ; add the item and the amount to the item list
+      var %item_to_add 12 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041) 
+      %statplus.items.list = $addtok(%statplus.items.list,%item_to_add,46)
     }
     inc %value 1 
   }
@@ -609,6 +611,10 @@ items.list {
     %misc.items.list = $replace(%misc.items.list, $chr(046), %replacechar)
   }
 
+  if ($chr(046) isin %statplus.items.list) { set %replacechar $chr(044) $chr(032)
+    %statplus.items.list = $replace(%statplus.items.list, $chr(046), %replacechar)
+  }
+
   unset %item.name | unset %item_amount | unset %number.of.items | unset %value | unset %food.items | unset %consume.items
   return
 }
@@ -641,6 +647,34 @@ accessories.list {
   return
 }
 
+runes.list {
+  ; CHECKING RUNES
+  unset %runes.list
+  var %runes.items $readini(items.db, items, Runes)
+  var %number.of.items $numtok(%runes.items, 46)
+
+  var %value 1
+  while (%value <= %number.of.items) {
+    set %item.name $gettok(%runes.items, %value, 46)
+    set %item_amount $readini($char($1), item_amount, %item.name)
+
+    if ((%item_amount != $null) && (%item_amount >= 1)) { 
+      ; add the item and the amount to the item list
+      var %item_to_add %item.name $+ $chr(040) $+ %item_amount $+ $chr(041) 
+      %runes.list = $addtok(%runes.list,%item_to_add,46)
+    }
+    inc %value 1 
+  }
+
+  ; CLEAN UP THE LIST
+  if ($chr(046) isin %runes.list) { set %replacechar $chr(044) $chr(032)
+    %runes.list = $replace(%runes.list, $chr(046), %replacechar)
+  }
+
+  unset %item.name | unset %item_amount | unset %number.of.items | unset %value
+  return
+}
+
 
 ; Fulls command (brings everyone back to max hp and regular stats)
 fulls {  
@@ -650,10 +684,15 @@ fulls {
   writeini $char($1) Battle Def $readini($char($1), BaseStats, Def)
   writeini $char($1) Battle Int $readini($char($1), BaseStats, Int)
   writeini $char($1) Battle Spd $readini($char($1), BaseStats, Spd)
-  writeini $char($1) Battle Status alive
+  writeini $char($1) Battle Status alive 
+
+  if ($readini($char($1), BaseStats, IgnitionGauge) = $null) { writeini $char($1) BaseStats IgnitionGauge 0 | writeini $char($1) Battle IgnitionGauge 0 }
+  if ($readini($char($1), Battle, IgnitionGauge) = $null) { writeini $char($1) Battle IgnitionGauge 0 }
 
   $clear_status($1) 
   if (($readini($char($1), info, flag) != monster) && ($readini($char($1), info, flag) != npc)) { $clear_skills($1) | var %stylelist $styles.get.list($1) }
+
+  remini $char($1) Renkei
 
   ; THIS IS A TEMPORARY FIX FOR 1.5.  It will be removed in 1.6.
   var %wizardry $readini($char($1), skills, wizardy)
@@ -667,7 +706,7 @@ clear_skills {
   writeini $char($1) skills mightystrike.on off | writeini $char($1) skills royalguard.on off | writeini $char($1) skills conservetp.on off
   writeini $char($1) skills drainsamba.turn 0 | writeini $char($1) skills drainsamba.on off | writeini $char($1) skills utsusemi.on off
   writeini $char($1) skills utsusemi.shadows 0 | writeini $char($1) skills Quicksilver.turn 0 | writeini $char($1) skills CoverTarget none
-  writeini $char($1) skills aggressor.on off | writeini $char($1) skills defender.on off
+  writeini $char($1) skills aggressor.on off | writeini $char($1) skills defender.on off | writeini $char($1) skills konzen-ittai.on off
 }
 clear_status {
   if ($readini($char($1), status, finalgetsuga) = yes) {
@@ -683,8 +722,9 @@ clear_status {
   writeini $char($1) Status drunk no | writeini $char($1) Status amnesia no | writeini $char($1) status paralysis no | writeini $char($1) status amnesia.timer 1 | writeini $char($1) status paralysis.timer 1 | writeini $char($1) status drunk.timer 1
   writeini $char($1) status zombie no | writeini $char($1) Status slow no | writeini $char($1) Status sleep no | writeini $char($1) Status stun no | writeini $char($1) Status MPRegenerating no | writeini $char($1) Status KiRegenerating no
   writeini $char($1) status boosted no  | writeini $char($1) status curse.timer 1 | writeini $char($1) status slow.timer 1 | writeini $char($1) status zombie.timer 1 | writeini $char($1) status FinalGetsuga no
-  writeini $char($1) status zombieregenerating no | writeini $char($1) status intimidate no | writeini $char($1) status revive no | writeini $char($1) status defensedown no 
+  writeini $char($1) status zombieregenerating no | writeini $char($1) status intimidate no | writeini $char($1) status revive no | writeini $char($1) status defensedown no | writeini $char($1) status strengthdown no
   writeini $char($1) status stop no | writeini $char($1) status petrified no
+  writeini $char($1) status ignition.on off | remini $char($1) status ignition.name | remini $char($1) status ignition.augment
   remini $char($1) status weapon.locked
   ; Monsters that are zombies need to be reset as zombies.
   if ($readini($char($1), monster, type) = zombie) {  writeini $char($1) status zombie yes | writeini $char($1) status zombieregenerating yes } 
@@ -727,6 +767,7 @@ get_maximum_streak {
 get_mon_list {
   unset %monster.list
   var %value 1 | var %current.winning.streak.value $readini(battlestats.dat, battle, WinningStreak) 
+  var %difficulty $readini(battle2.txt, BattleInfo, Difficulty) | inc %current.winning.streak.value %difficulty
   while ($findfile( $mon_path , *.char, %value , 0) != $null) {
     set %file $nopath($findfile($mon_path ,*.char,%value)) 
     set %name $remove(%file,.char)
@@ -740,6 +781,7 @@ get_mon_list {
         ; Check the winning streak #..  some monsters won't show up until a certain streak or higher.
         $get_minimum_streak(mon, %name)
         $get_maximum_streak(mon, %name)
+        if (%monster.info.streak <= -500) { inc %value 1 }
         if ((%monster.info.streak > -500) || (%monster.info.streak = $null)) {
           if (%current.winning.streak.value >= %monster.info.streak) {  
             if ((%current.winning.streak.value <= %monster.info.streak.max) || (%monster.info.streak.max = none)) {   write temporary_mlist.txt %name       }
@@ -768,21 +810,29 @@ get_mon_list {
 get_boss_list {
   unset %monster.list
   var %value 1 | var %current.winning.streak.value $readini(battlestats.dat, battle, WinningStreak) 
+
+  var %difficulty $readini(battle2.txt, BattleInfo, Difficulty) | inc %current.winning.streak.value %difficulty
+
   while ($findfile( $boss_path , *.char, %value , 0) != $null) {
     set %file $nopath($findfile($boss_path ,*.char,%value)) 
     set %name $remove(%file,.char)
+
     if (((%name = new_mon) || (%name = new_boss) || (%name = $null))) { inc %value 1 } 
     else { 
-      ; Check the winning streak #..  some bosses won't show up until a certain streak or higher.
-      $get_minimum_streak(boss, %name)
-      $get_maximum_streak(boss, %name)
-      if ((%monster.info.streak > -500) || (%monster.info.streak = $null)) {
-        if (%current.winning.streak.value >= %monster.info.streak) {  
-          if ((%current.winning.streak.value <= %monster.info.streak.max) || (%monster.info.streak.max = none)) {
-            write temporary_mlist.txt %name 
+
+      if (%mode.gauntlet != $null) { write temporary_mlist.txt %name | inc %value 1 }
+      else {
+
+        ; Check the winning streak #..  some bosses won't show up until a certain streak or higher.
+        $get_minimum_streak(boss, %name)
+        $get_maximum_streak(boss, %name)
+        if (%monster.info.streak <= -500) { inc %value 1 }
+        if ((%monster.info.streak > -500) || (%monster.info.streak = $null)) {
+          if (%current.winning.streak.value >= %monster.info.streak) {  
+            if ((%current.winning.streak.value <= %monster.info.streak.max) || (%monster.info.streak.max = none)) {  write temporary_mlist.txt %name     }
           }
+          inc %value 1
         }
-        inc %value 1
       }
     }
   }
@@ -799,6 +849,7 @@ get_boss_list {
   unset %token.value
   return
 }
+
 
 get_npc_list {
   unset %npc.list
@@ -948,10 +999,10 @@ clear_variables {
   unset %password | unset %passhurt | unset %userlevel | unset %comma_replace | unset %comma_new |  unset %freezing | unset %file | unset %name | unset %inc.shoplevel
   unset %poison.timer | unset %skill.description | unset %item.total | unset %black.orb.winners |  unset %file | unset %name | unset %bosschance | unset %fullbring.check | unset %check.item
   unset %fourhit.attack | unset %weapon.name | unset %shock | unset %skill.max | unset %skill.have |  unset %weapon.list | unset %tp.current | unset %drainsamba.turn | unset %absorb | unset %drainsamba.turns
-  unset %drainsamba.turn.max | unset %life.target | unset %drainsamba.on
+  unset %drainsamba.turn.max | unset %life.target | unset %drainsamba.on | unset %weapons | unset %techs | unset %number.of.players | unset %keys.items.list
   unset %amount | unset %current.shoplevel | unset %shop.list | unset %battletxt.lines | unset %battletxt.current.lint
-  unset %opponent.flag | unset %spell.element | unset %timer.time |   unset %battletxt.currentline
-  unset %npc.list | unset %random.npc | unset %npc.to.remove | unset %npc.name
+  unset %opponent.flag | unset %spell.element | unset %timer.time |   unset %battletxt.currentline | unset %first.round.protection
+  unset %npc.list | unset %random.npc | unset %npc.to.remove | unset %npc.name | unset %current.battlefield
   unset %shaken | unset %info.fullbringmsg | unset %basepower | unset %fullbring.needed
   unset %fullbring.type | unset %fullbring.target | unset %fullbring.status | unset %item.base | unset %timer.time
   unset %real.name | unset %weapon.name | unset %weapon.price | unset %steal.item
@@ -959,10 +1010,10 @@ clear_variables {
   unset %styles.list | unset %style.name | unset %style.level | unset %player.style.level | unset %style.price | unset %styles
   unset %ai.skill | unset %weapon.name.used | unset %weapon.used.type | unset %quicksilver.used | unset %upgrade.list2
   unset %upgrade.list3 | unset %ai.skilllist | unset %ai.type | unset %statusmessage.display | unset %current.turn | unset %surpriseattack
-  unset %mode.pvp | unset %summons.items.list | unset %style_level | unset %attack.damage4
+  unset %mode.pvp | unset %summons.items.list | unset %style_level | unset %attack.damage4 | unset %renkei.name | unset %renkei.description
   unset %status.type | unset %number.of.items.sold | unset %who.battle.flag | unset %shop.level | unset %overkill
   unset %style.name | unset %style_level | unset %styles | unset %trickster.dodged | unset %ip.address.* | unset %multiple.wave.bonus
-  unset %monster.to.spawn | unset %mode.gauntlet | unset %mode.gauntlet.wave
+  unset %monster.to.spawn | unset %mode.gauntlet | unset %mode.gauntlet.wave | unset %changeweapon.chance | unset %active.skills.list2 | unset %total.skills
 }
 
 skillhave.check {
@@ -1016,14 +1067,17 @@ reset_char {
   if (%number.of.resets = $null) { var %number.of.resets 0 }
   inc %number.of.resets 1 
   writeini $char($1) stuff NumberOfResets %number.of.resets
-}
 
+  ; Remove the augments
+  remini $char($1) augments
+}
 
 create_treasurechest {
 
-  var %chest.type.random $rand(0,110)
+  set %chest.type.random $rand(0,110)
+  $treasurehunter.check
 
-  if (%chest.type.random <= 5) { set %color.chest gold 
+  if (%chest.type.random < 8)  { set %color.chest gold 
     var %food.items $readini(items.db, items, FoodItems)
     var %accessories $readini(items.db, items, accessories)
     var %gems $readini(items.db, items, gems)
@@ -1033,7 +1087,15 @@ create_treasurechest {
     if (%random = $null) { var %random 1 }
     set %chest.contents $gettok(%total.items,%random,46)
   }
-  if ((%chest.type.random > 5) && (%chest.type.random <= 35)) { set %color.chest red | set %chest.contents RedOrbs | set %chest.amount $rand(100,1000) }
+
+  if ((%chest.type.random >= 9) && (%chest.type.random <= 15)) { set %color.chest silver
+    var %runes.items $readini(items.db, items, Runes)
+    set %random $rand(1, $numtok(%runes.items,46))
+    if (%random = $null) { var %random 1 }
+    set %chest.contents $gettok(%runes.items,%random,46)
+  }
+
+  if ((%chest.type.random > 15) && (%chest.type.random <= 35)) { set %color.chest red | set %chest.contents RedOrbs | set %chest.amount $rand(100,1000) }
   if ((%chest.type.random > 35) && (%chest.type.random <= 45)) { set %color.chest orange
     var %summon.items $readini(items.db, items, SummonItems)
     set %random $rand(1, $numtok(%summon.items,46))
@@ -1070,7 +1132,7 @@ create_treasurechest {
   writeini treasurechest.txt ChestInfo Contents %chest.contents
   writeini treasurechest.txt ChestInfo Amount %chest.amount
 
-  unset %color.chest | unset %chest.contents | unset %chest.amount | unset %random
+  unset %color.chest | unset %chest.contents | unset %chest.amount | unset %random | unset %chest.type.random
 }
 
 destroy_treasurechest {
@@ -1078,6 +1140,20 @@ destroy_treasurechest {
     query %battlechan $readini(translation.dat, system, ChestDestroyed)
     .remove treasurechest.txt 
   }
+}
+
+treasurehunter.check {
+  unset %battle.list | set %lines $lines(battle.txt) | set %l 1
+  while (%l <= %lines) { 
+    set %who.battle $read -l [ $+ [ %l ] ] battle.txt | set %status.battle $readini($char(%who.battle), Battle, Status)
+    if (%status.battle = dead) { inc %l 1 }
+    else { 
+      var %treasurehunter.skill $readini($char(%who.battle), skills, treasurehunter) 
+      if (%treasurehunter.skill > 0) { dec %chest.type.random %treasurehunter.skill }
+      inc %l 1 
+    } 
+  }
+  unset %lines | unset %l 
 }
 
 give_random_reward {
@@ -1102,7 +1178,7 @@ give_random_reward {
 
 give_random_key_reward {
   var %random.key.chance $rand(1,100)
-  if (%random.key.chance <= 85) { return }
+  if (%random.key.chance <= 75) { return }
 
   unset %battle.list | set %lines $lines(battle.txt) | set %l 1
   while (%l <= %lines) { 
@@ -1163,6 +1239,7 @@ system_defaults_check {
   if ($readini(system.dat, system, startingorbs) = $null) { writeini system.dat system startingorbs 1000 } 
   if ($readini(system.dat, system, maxHP) = $null) { writeini system.dat system maxHP 2500 } 
   if ($readini(system.dat, system, maxTP) = $null) { writeini system.dat system maxTP 500 } 
+  if ($readini(system.dat, system, maxIG) = $null) { writeini system.dat system maxIG 100 } 
   if ($readini(system.dat, system, maxOrbReward) = $null) { writeini system.dat system maxOrbReward 20000 } 
   if ($readini(system.dat, system, maxshoplevel) = $null) { writeini system.dat system maxshoplevel 25 } 
   if ($readini(battlestats.dat, battle, LevelAdjust) = $null) { writeini battlestats.dat battle LevelAdjust 0 }
@@ -1183,7 +1260,8 @@ get_boss_type {
   var %winning.streak.check $readini(battlestats.dat, battle, winningstreak)
   if (%mode.gauntlet.wave != $null) { inc %winning.streak.check %mode.gauntlet.wave }
 
-  if (%winning.streak.check > 150) { var %enable.doppelganger false }
+  if (%winning.streak.check > 75) { var %enable.doppelganger false }
+  if (%winning.streak.check > 200) { var %enable.warmachine false }
 
   if ((%enable.doppelganger != true) && (%enable.warmachine != true)) { set %boss.type normal | return }
   if ((%enable.doppelganger = true) && (%enable.warmachine = false)) {
@@ -1202,4 +1280,36 @@ get_boss_type {
     if ((%boss.chance > 7) && (%boss.chance <= 25)) { set %boss.type warmachine | return }
     if (%boss.chance >  25) {  set %boss.type normal | return }
   }
+}
+
+augment.check {
+  ; 1 = user
+  ; 2 = augment name
+
+  set %weapon.name.temp $readini($char($1), weapons, equipped)
+  var %iginition.augment $readini($char($1), status, ignition.augment) 
+  set %weapon.augment $readini($char($1), augments, %weapon.name.temp)
+
+  unset %weapon.name.temp
+
+  if (%ignition.augment = $2) { return true }
+  if (%weapon.augment = $2) { unset %weapon.augment | return true }
+  if ((%ignition.augment != $2) && (%weapon.augment != $2)) { unset %weapon.augment | return false }
+}
+
+orb.adjust {
+  var %winning.streak $readini(battlestats.dat, battle, WinningStreak)
+  if (%base.redorbs <= 1000) { return }
+
+  if (%mode.gauntlet.wave != $null) { inc %winning.streak %mode.gauntlet.wave }      
+
+  var %difficulty $readini(battle2.txt, BattleInfo, Difficulty)
+  if (%difficulty != 0) {  inc %winning.streak %difficulty }
+
+  if (%winning.streak < 50) { set %base.redorbs $round($calc(1000 + (%base.redorbs * .25)),0) }
+  if ((%winning.streak >= 50) && (%winning.streak < 100)) { set %base.redorbs $round($calc(1000 + (%base.redorbs * .47.5)),0) }
+  if ((%winning.streak >= 100) && (%winning.streak < 200)) { return }
+  if ((%winning.streak >= 200) && (%winning.streak < 300)) { set %base.redorbs $round($calc(%base.redorbs * 1.25),0) }
+  if ((%winning.streak >= 300) && (%winning.streak < 500)) { set %base.redorbs $round($calc(%base.redorbs * 1.355),0) }
+  if (%winning.streak >= 500) { set %base.redorbs $round($calc(%base.redorbs * 1.492),0) }
 }

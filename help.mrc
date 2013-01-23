@@ -46,6 +46,11 @@ ON 1:TEXT:!view-info*:*: {
     .msg $nick [4Name12 $3 $+ 1] [4Type12 Key $+ 1] [4Description12 $readini(items.db, $3, desc) $+ 1] 
   }
 
+  if ($2 = rune) { 
+    if ($readini(items.db, $3, augment) = $null) { query $nick 4Invalid item | halt }
+    .msg $nick [4Name12 $3 $+ 1] [4Type12 Rune $+ 1] [4Augment12 $readini(items.db, $3, augment) $+ 1] [4Description12 $readini(items.db, $3, desc) $+ 1] 
+  }
+
   if ($2 = item) { unset %info.fullbring
     if ($readini(items.db, $3, type) = $null) { query $nick 4Invalid item | halt }
     var %info.type $readini(items.db, $3, type) | var %info.amount $readini(items.db, $3, amount)
@@ -70,7 +75,11 @@ ON 1:TEXT:!view-info*:*: {
     if (%info.type = key) {  .msg $nick [4Name12 $3 $+ 1] [4Type12 Key $+ 1] [4Description12 $readini(items.db, $3, desc) $+ 1]  }
     if (%info.type = gem) {  .msg $nick [4Name12 $3 $+ 1] [4Type12 Gem $+ 1] [4Description12 $readini(items.db, $3, desc) $+ 1]  }
     if (%info.type = misc) {  .msg $nick [4Name12 $3 $+ 1] [4Type12 Crafting Ingredient $+ 1] [4Description12 $readini(items.db, $3, desc) $+ 1]  }
-
+    if (%info.type = random) {  .msg $nick [4Name12 $3 $+ 1] [4Type12 Random item inside! $+ 1] }
+    if (%info.type = rune) { 
+      if ($readini(items.db, $3, augment) = $null) { query $nick 4Invalid item | halt }
+      .msg $nick [4Name12 $3 $+ 1] [4Type12 Rune $+ 1] [4Augment12 $readini(items.db, $3, augment) $+ 1] [4Description12 $readini(items.db, $3, desc) $+ 1] 
+    }
     unset %info.fullbringmsg
   }
 

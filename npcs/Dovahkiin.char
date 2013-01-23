@@ -97,7 +97,7 @@ conservetp.on=off
 
 [Weapons]
 Equipped=DragonShouts
-DragonShouts=50
+DragonShouts=70
 
 
 [Skills]
@@ -112,8 +112,8 @@ Zen=5
 Resist-Charm=100
 Resist-Zombie=100
 Resist-Intimidate=100
-SwordMaster=30
-Wizardy=20
+SwordMaster=50
+Wizardry=40
 
 [Techniques]
 FusRoDah=50
@@ -127,5 +127,5 @@ StrunBahQo=50
 
 [Styles]
 Equipped=WeaponMaster
-WeaponMaster=2
+WeaponMaster=3
 WeaponMasterXP=1

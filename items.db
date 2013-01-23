@@ -8,6 +8,9 @@ BattleItems=Stop_Watch.Hour_Glass.Holy_Water.Red_Fang.Thunder_Orb.Fire_Flower.Ic
 ; Food Items increase stats
 FoodItems=Pizza.PotRoast.Ramen.Cavier.BisonDollar.DragonMeat.SuperMushroom.FireDragonWine.Ambrosia.FoieGras.KnowledgeSource.SoulPainting.FishAndChips.Slurm.CerberusMeat.SilverApple.DefenseSource.PowerSource.Herring.TurkeyLeg
 
+; Random items
+Random=Present
+
 ; Consume items are used by skills
 ConsumeItems=Shihei.Sokubaku
 
@@ -24,13 +27,17 @@ Accessories=Wizard's-Amulet.Blessed-Ankh.Blood-Ring.Blood-Pendant.Purple-Belt.Br
 Gems=Zircon.Topaz.Emerald.Ruby.Zircon.Diamond.Sapphire.Opal.Zircon.Onyx
 
 ; Keys are used to open chests. They cannot be bought in stores.
-Keys=BlueKey.BrownKey.RedKey.OrangeKey.GreenKey.GoldKey.BlueKey.BrownKey.BlueKey.RedKey
+Keys=BlueKey.BrownKey.RedKey.OrangeKey.GreenKey.GoldKey.BrownKey.BlueKey.RedKey.SilverKey
 
 ; These are special items that are only available when crafting (or potentially drops from bosses)
 CraftedItems=SuperPotion.Ether.Dynamite.HolyHandGrenade.Angon.SauceAmpulla.Shihei.Mugger's-Belt.Blood-Pendant.VIP-MemberCard.Prism-Specs.Paper
 
 ; Misc items aren't used for anything except crafting.
 Misc=Ink.Paper.AshLog.Hatchet.IronOre.Ectoplasm.BrokenLance.SilverChain.FireGem.IceStone.WindRock.WaterJewel.EarthSphere.Glass
+
+; Runes are for augments.
+Runes=EthRune.MtlRune.HiRune.GeRune.MaRune.TeRune.MeRune.SmnRune.DrnRune.ItmRune.RenRune
+
 
 =========================
 HEALING ITEMS
@@ -325,7 +332,7 @@ Cost=5000000
 Type=food
 Target=def
 Amount=1
-Desc= pulls out a bottle of alcohol labeled "Fire Dragon Wine" and hands it to %enemy %+ , who drinks the entire bottle. After a moment of intense pain and nausea, %enemy feels that $gender($2) defense has increased! 
+Desc= pulls out a bottle of alcohol labeled "Fire Dragon Wine" and hands it to %enemy $+ , who drinks the entire bottle. After a moment of intense pain and nausea, $2 feels that $gender($2) defense has increased! 
 Cost=5000000
 
 [Ambrosia]
@@ -381,8 +388,7 @@ Cost=10000000
 
 Type=Food
 
-Target=int
-
+Target=def
 Amount=1
 
 Desc=pulls out a source of defense and hands it to %enemy $+ , who then reads it and feels a little stronger!
@@ -395,8 +401,7 @@ Cost=5000000
 
 Type=Food
 
-Target=int
-
+Target=str
 Amount=1
 
 Desc=pulls out a source of power and hands it to %enemy $+ , who then reads it and feels a little more powerful!
@@ -417,6 +422,17 @@ Desc=takes out a herring and hands it to %enemy $+ , who then stares at it. %ene
 
 Cost=10000000
 
+
+
+=========================
+RANDOM
+=========================
+These items, when used, will give the target a random item in the game.
+
+[Present]
+Type=random
+Desc=pulls out a present and hands it to %enemy $+ , who opens it and finds a %random.item.name inside! Merry XMas!
+Cost=50000000000
 
 
 =========================
@@ -629,6 +645,11 @@ Unlocks=brown
 Cost=5
 Desc=A small brown key. It will unlock brown-colored chests.
 
+[SilverKey]
+Type=key
+Unlocks=silver
+Cost=5
+Desc=A small silver key. It will unlock silver-colored chests.
 
 =========================
 SHOP RESET ITEMS
@@ -846,3 +867,74 @@ Desc=A perfectly round brown sphere that's pulsing with energy.
 Type=misc
 Cost=100
 Desc=A piece of glass.
+
+
+=========================
+RUNES
+=========================
+
+[EthRune]
+Type=rune
+Cost=500
+Augment=HurtEthereal
+Desc=This rune will infuse a weapon with the ability to hurt Ethereal monsters.
+
+[MtlRune]
+Type=rune
+Cost=500
+Augment=IgnoreMetalDefense
+Desc=This rune will infuse a weapon with the ability to cut through the defense of strong "Metal Defense" type monsters (such as Metal Slimes).
+
+[RenRune]
+Type=rune
+Cost=500
+Augment=RenkeiBonus
+Desc=This rune will infuse a weapon with Enhanced Renkei points when a tech is done with that weapon.
+
+[MeRune]
+Type=rune
+Cost=500
+Augment=MeleeBonus
+Desc=This rune will infuse a weapon with a melee bonus when melee attacks are done with that weapon.
+
+[TeRune]
+Type=rune
+Cost=500
+Augment=TechBonus
+Desc=This rune will infuse a weapon with a tech damage bonus when techs are done with that weapon.
+
+[MaRune]
+Type=rune
+Cost=500
+Augment=MagicBonus
+Desc=This rune will infuse a weapon with a magic damage bonus when magic techs are done with that weapon.
+
+[HiRune]
+Type=rune
+Cost=500
+Augment=AdditionalHit
+Desc=This rune will infuse a weapon with the ability to do one extra hit per melee attack.
+
+[GeRune]
+Type=rune
+Cost=500
+Augment=GemConvert
+Desc=This rune will infuse a weapon with the ability to convert monsters into gems upon their deaths.
+
+[SmnRune]
+Type=rune
+Cost=500
+Augment=EnhanceSummons
+Desc=This rune will infuse a weapon with the ability to enhance summons while the augmented weapon is equipped when using a summon.
+
+[DrnRune]
+Type=rune
+Cost=500
+Augment=Drain
+Desc=This rune will infuse a weapon with the Drain status. Attacks done with the Drain status on will allow you to absorb some HP back.
+
+[ItmRune]
+Type=rune
+Cost=500
+Augment=EnhanceItems
+Desc=This rune will infuse a weapon with the ability to enhance items when the augmented weapon is equipped while using items.

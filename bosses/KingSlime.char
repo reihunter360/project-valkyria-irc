@@ -5,7 +5,7 @@ Str=15
 Def=12
 Int=5
 Spd=5
-Name=Slime King
+Name=King Slime
 
 
 [Battle]
@@ -41,7 +41,7 @@ Type=
 [Info]
 Flag=monster
 Gender=its
-Gender2=it
+Gender2=its
 password=battlearena
 passhurt=0
 LastSeen=N/a
@@ -95,7 +95,7 @@ Impetus=20
 MightyStrike=1
 Resist-Amnesia=100
 MartialArts=30
-Wizardy=20
+Wizardry=20
 
 [Techniques]
 SlimeRam=20

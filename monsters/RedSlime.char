@@ -35,13 +35,15 @@ ShopLevel=1.0
 [Info]
 Flag=monster
 Gender=its
-Gender2=it
+Gender2=its
 password=battlearena
 passhurt=0
 LastSeen=N/a
 LastIP=N/a
 Created=N/a
 CanFlee=true
+Streak=1
+StreakMax=71
 
 [Monster]
 Type=

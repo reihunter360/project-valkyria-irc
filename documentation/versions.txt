@@ -319,6 +319,12 @@ Battle Arena Bot VERSIONS
   are defeated.
 - Added the ability for players to increase the difficulty of battles if they want. Players can use !view difficulty to see their
   current difficulty level and !save difficulty #  to set it. The # can be 0 or any number greater than 0. 
+- Added the bot admin command: !leveladjust #  This will set the overall level adjust to battles. Unlike difficulty, it affects 
+  everyone at all times.  Can use !leveladjust by itself to see the current level it's set at.
+- Added Axe and Dagger weapons for players.
+- Added new monsters
+- Added new bosses
+- Added new NPCs
 - Changed the !shop list skills command so that you can tell it which type of skill you want to see only. They are:
   !shop list skills active/passive/resists
 - Changed doppelgangers around so that they can't use the Final Getsuga type boosts.
@@ -333,6 +339,9 @@ Battle Arena Bot VERSIONS
 - Changed it so bosses will no longer appear below streak #10.
 - Changed /me gives so that you don't HAVE to specify a number if you only want to give 1 of an item.
 - Changed a few things in the way monsters are boosted if they're added before players join the battle.
+- Changed Elemental Seal so that it affects all targets on an AOE magic attack instead of only the first target.
+- Changed the penalty for spamming the same tech/attack over so that it's much harsher. It's possible to drop style
+  ranks now (just like in Devil May Cry).
 - Fixed a bug with ClearStatus type items (i.e. the Tonic).
 - Fixed a major security flaw.
 - Fixed a bug in which DARK type spells weren't being enhanced by GLOOMY type weather.
@@ -345,3 +354,33 @@ Battle Arena Bot VERSIONS
 - Fixed a bug in which players could purchase more HP and TP than would be allowed by the maximum set limit.
 - Fixed a bug in which players could purchase invalid techniques if they didn't spell them right.
 - Fixed a bug in which sometimes all of an item would be consumed when used.
+- Fixed a bug with mana wall not working right when a non-heal magic tech would heal a target.
+- Fixed a bug in which it would say a clone disappeared when in fact it should have been a summon when the summon's owner died.
+- Fixed a bug with utsusemi in which the wrong name was being shown when the player didn't have enough shihei.
+- Fixed a bug with the Fool's-Tablet accessory.
+
+2.0
+- Added the Augment system. Use the command !augment by itself to see the augments you have equipped. To add augments to a 
+  weapon use: !augment add (weapon) (rune)  To remove an augment: !augment remove (weapon)
+- Added "Runes" to the items list. Runes are used to augment weapons with special effects. Use !runes to see which runes you own.
+- Added boss drops to evil doppelgangers and warmachines. The drops will be random based on various items in items.db.
+- Added silver chests and silver keys.
+- Added Renkei (Skillchains). If two techniques that qualify (non-magic) are done to a target, it will activate a renkei that
+  will deal additional damage to a target.
+- Added a new stat: Ignition Gauge.  You can see your current ignition gauge by using !ig or !ignition gauge.  You can buy it
+  in the shop with !buy stats IG #  Unlike hp/tp, buying them won't full the gauge to full.
+- Added the passive skill: TreasureHunter.  This skill will increase the odds of better colored chests when a chest is generated. 
+  It's cumulative with everyone who has it but in order to take effect, the players must be alive at the end of battle.
+- Added the active skill: Konzen-Ittai. This skill, when activated, will allow you to perform a self-Renkei with a non-magic, 
+  non-AOE, technique.
+- Changed the zombie regen to scale a bit better so that lower streaks won't have 100+ hp regenerated.
+- Changed the way red orbs are rewarded so that lower streaks have a much lower max orbs and higher streaks can actually give
+  more than 100%. 
+- Changed the key and chest drop rates.
+- Changed the shop so that there's a cap on the old-style boosts. Players can now only own 500 levels into them.
+- Changed the "First round protection" code so that it should also protect players from being one-shotted on monsters from a
+  new wave.
+- Fixed a bug in which selling a technique might result in 0 orbs back.
+- Fixed a bug in which cover would activate when a monster used taunt on a covered target.
+- Fixed an issue where setting a high difficulty would still result in low level monsters on lower streaks. Now it summons the
+  correct level monsters.
