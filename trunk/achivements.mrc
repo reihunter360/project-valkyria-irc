@@ -2,6 +2,53 @@
 ;;;; ACHIEVEMENTS 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+on 50:TEXT:!clear achievement*:*:{
+  $checkchar($3)
+  if ($4 = $null) { .msg $nick 4!clear achievement <person> <achievement name> | halt }
+
+  .remini $char($3) achievements $4 
+  query %battlechan 4Achievement ( $+ $4  $+ ) has been cleared for $3 $+ .
+}
+
+alias achievement.list {
+  ; CHECKING ACHIEVEMENTS
+  unset %achievement.list | unset %achievement.list.2 | unset %achievement.list.3
+
+  var %value 1 | var %achievements.lines $lines(achievements.lst)
+  if ((%achievements.lines = $null) || (%achievements.lines = 0)) { return }
+
+  while (%value <= %achievements.lines) {
+
+    var %achievement.name $read -l $+ %value achievements.lst
+    $achievement_already_unlocked($1, %achievement.name) 
+
+    if (%achievement.unlocked = true) {   
+      if ($numtok(%achievement.list,46) <= 12) { %achievement.list = $addtok(%achievement.list, %achievement.name, 46) }
+      else { 
+        if ($numtok(%achievement.list.2,46) >= 12) { %achievement.list.3 = $addtok(%achievement.list.3, %achievement.name, 46) }
+        else { %achievement.list.2 = $addtok(%achievement.list.2, %achievement.name, 46) }
+      }
+    }
+    unset %achievement.unlocked
+    inc %value 1 
+  }
+
+  ; CLEAN UP THE LIST
+  if ($chr(046) isin %achievement.list ) { set %replacechar $chr(044) $chr(032)
+    %achievement.list = $replace(%achievement.list, $chr(046), %replacechar)
+  }
+
+  if ($chr(046) isin %achievement.list.2 ) { set %replacechar $chr(044) $chr(032)
+    %achievement.list.2 = $replace(%achievement.list.2, $chr(046), %replacechar)
+  }
+
+  if ($chr(046) isin %achievement.list.3 ) { set %replacechar $chr(044) $chr(032)
+    %achievement.list.3 = $replace(%achievement.list.3, $chr(046), %replacechar)
+  }
+
+}
+
+
 alias achievement_check {
   if ($readini($char($1), info, flag) != $null) { return } 
   if (%achievement.system = off) { return }
@@ -36,6 +83,14 @@ alias achievement_check {
     }
   }
 
+  if ($2 = Don'tForgetYourFriendsAndFamily) {
+    var %red.orbs.spent $readini($char($1), stuff, RedOrbsSpent)
+    if (%red.orbs.spent >= 200000000 ) { writeini $char($1) achievements $2 true 
+      $announce_achievement($1, $2, 50000)
+      var %current.redorbs $readini($char($1), stuff, redorbs) | inc %current.redorbs 50000 | writeini $char($1) stuff redorbs %current.redorbs
+    }
+  }
+
   if ($2 = SirDiesALot) {
     var %total.deaths $readini($char($1), stuff, TotalDeaths)
     if (%total.deaths >= 100) { writeini $char($1) achievements $2 true 
@@ -66,7 +121,7 @@ alias achievement_check {
 
   if ($2 = ScardyCat) {
     var %number.of.flees $readini($char($1), stuff, TimesFled)
-    if (%number.of.flees >= 300) {
+    if (%number.of.flees >= 100) {
       $announce_achievement($1, $2, 1)
       var %current.goldorbs $readini($char($1), item_amount, GoldOrb) | inc %current.goldorbs 1 | writeini $char($1) Item_Amount GoldOrb %current.goldorbs
     }
@@ -121,13 +176,177 @@ alias achievement_check {
     }
   }
 
-  if ($2 = AreYouTheKeyMaster) {
+  if ($2 = AreYouTheKeyMaster) { 
     var %number.of.keys $readini($char($1), stuff, TotalNumberOfKeys)
     if (%number.of.keys >= 100) { writeini $char($1) achievements $2 true 
       $announce_achievement($1, $2, 5)
       var %gold.keys $readini($char($1), item_amount, GoldKey) | inc %gold.keys 5 | writeini $char($1) item_amount GoldKey %gold.keys
     }
   }
+
+  if ($2 = NowYou'rePlayingWithPower) { 
+    var %number.of.augments $readini($char($1), stuff, WeaponsAugmented)
+    if (%number.of.augments >= 5) { writeini $char($1) achievements $2 true 
+      $announce_achievement($1, $2, 1000)
+      var %current.redorbs $readini($char($1), stuff, redorbs) | inc %current.redorbs 1000 | writeini $char($1) stuff redorbs %current.redorbs
+    }
+  }
+
+  if ($2 = PartyIsGettingCrazy) { 
+    var %number.of.ignitions.used $readini($char($1), stuff, IgnitionsUsed)
+    if (%number.of.ignitions.used >= 10) { writeini $char($1) achievements $2 true 
+      $announce_achievement($1, $2)
+      set %player.ig.max $readini($char($1), BaseStats, IgnitionGauge)
+      writeini $char($1) Battle IgnitionGauge %player.ig.max
+      unset %player.ig.max
+    }
+  }
+
+  if ($2 = Can'tTouchThis) { 
+    var %number.of.dodges $readini($char($1), stuff, TimesDodged)
+    if (%number.of.dodges >= 25) { writeini $char($1) achievements $2 true 
+      $announce_achievement($1, $2, 1)
+      var %current.goldorbs $readini($char($1), item_amount, GoldOrb) | inc %current.goldorbs 1 | writeini $char($1) Item_Amount GoldOrb %current.goldorbs
+    }
+  }
+
+  if ($2 = NeverAskedForThis) { 
+    var %number.of.events $readini($char($1), stuff, TimesHitByBattlefieldEvent)
+    if (%number.of.events >= 30) { writeini $char($1) achievements $2 true 
+      $announce_achievement($1, $2, 1)
+      var %current.goldorbs $readini($char($1), item_amount, GoldOrb) | inc %current.goldorbs 1 | writeini $char($1) Item_Amount GoldOrb %current.goldorbs
+    }
+  }
+
+  if ($2 = AlliedScrub) { 
+    var %total.portalbattles.won $readini($char($1), stuff, PortalBattlesWon) 
+    if (%total.portalbattles.won <= 1) { writeini $char($1) achievements $2 true 
+      $announce_achievement($1, $2, 1)
+      var %current.trainingpapers $readini($char($1), item_amount, AlliedTrainingPaper) | inc %current.trainingpapers 1 | writeini $char($1) Item_Amount AlliedTrainingPaper %current.trainingpapers
+    }
+  }
+
+  if ($2 = AlliedSoldier) { 
+    var %total.portalbattles.won $readini($char($1), stuff, PortalBattlesWon) 
+    if ((%total.portalbattles.won > 10) && (%total.portalbattles.won <= 50)) {  writeini $char($1) achievements $2 true 
+      $announce_achievement($1, $2, 5000)
+      var %current.redorbs $readini($char($1), stuff, redorbs) | inc %current.redorbs 5000 | writeini $char($1) stuff redorbs %current.redorbs
+    }
+  }
+
+  if ($2 = GlassCannon) { 
+    var %total.aggression.won $readini($char($1), stuff, BattlesWonWithAggressor) 
+    if (%total.aggression.won >= 10) { writeini $char($1) achievements $2 true 
+      $announce_achievement($1, $2, 5000)
+      var %current.redorbs $readini($char($1), stuff, redorbs) | inc %current.redorbs 5000 | writeini $char($1) stuff redorbs %current.redorbs
+    }
+  }
+
+  if ($2 = StoneWall) { 
+    var %total.defender.won $readini($char($1), stuff, BattlesWonWithDefender) 
+    if (%total.defender.won >= 10) { writeini $char($1) achievements $2 true 
+      $announce_achievement($1, $2, 5000)
+      var %current.redorbs $readini($char($1), stuff, redorbs) | inc %current.redorbs 5000 | writeini $char($1) stuff redorbs %current.redorbs
+    }
+  }
+
+  if ($2 = BloodGoneDry) {
+    var %total.bloodboost $readini($char($1), stuff, BloodBoostTimes) 
+    if (%total.bloodboost >= 20) {   writeini $char($1) achievements $2 true 
+      $announce_achievement($1, $2, 5000)
+      var %current.redorbs $readini($char($1), stuff, redorbs) | inc %current.redorbs 5000 | writeini $char($1) stuff redorbs %current.redorbs
+    }
+  }
+
+  if ($2 = IceIceBaby) { 
+    var %total.spell $readini($char($1), stuff, IceSpellsCasted) 
+    if (%total.spell >= 50) { writeini $char($1) achievements $2 true 
+      $announce_achievement($1, $2, 5)
+      var %ethers $readini($char($1), item_amount, Ether) 
+      if (%ethers = $null) { var %ethers 0 }
+      inc %ethers 1
+      writeini $char($1) item_amount Ether %ethers
+    }
+  }
+
+  if ($2 = DiscoInferno) { 
+    var %total.spell $readini($char($1), stuff, FireSpellsCasted) 
+    if (%total.spell >= 50) { writeini $char($1) achievements $2 true 
+      $announce_achievement($1, $2, 5)
+      var %ethers $readini($char($1), item_amount, Ether) 
+      if (%ethers = $null) { var %ethers 0 }
+      inc %ethers 1
+      writeini $char($1) item_amount Ether %ethers
+    }
+  }
+
+  if ($2 = BlindedBytheLight) { 
+    var %total.spell $readini($char($1), stuff, LightSpellsCasted) 
+    if (%total.spell >= 50) { writeini $char($1) achievements $2 true 
+      $announce_achievement($1, $2, 5)
+      var %ethers $readini($char($1), item_amount, Ether) 
+      if (%ethers = $null) { var %ethers 0 }
+      inc %ethers 1
+      writeini $char($1) item_amount Ether %ethers
+    }
+  }
+
+  if ($2 = RockYouLikeAHurricane) { 
+    var %total.spell $readini($char($1), stuff, WindSpellsCasted) 
+    if (%total.spell >= 50) { writeini $char($1) achievements $2 true 
+      $announce_achievement($1, $2, 5)
+      var %ethers $readini($char($1), item_amount, Ether) 
+      if (%ethers = $null) { var %ethers 0 }
+      inc %ethers 1
+      writeini $char($1) item_amount Ether %ethers
+    }
+  }
+
+  if ($2 = 1.21gigawatts) { 
+    var %total.spell $readini($char($1), stuff, LightningSpellsCasted) 
+    if (%total.spell >= 50) { writeini $char($1) achievements $2 true 
+      $announce_achievement($1, $2, 5)
+      var %ethers $readini($char($1), item_amount, Ether) 
+      if (%ethers = $null) { var %ethers 0 }
+      inc %ethers 1
+      writeini $char($1) item_amount Ether %ethers
+    }
+  }
+
+  if ($2 = It'sAllDoomAndGloom) { 
+    var %total.spell $readini($char($1), stuff, DarkSpellsCasted) 
+    if (%total.spell >= 50) { writeini $char($1) achievements $2 true 
+      $announce_achievement($1, $2, 5)
+      var %ethers $readini($char($1), item_amount, Ether) 
+      if (%ethers = $null) { var %ethers 0 }
+      inc %ethers 1
+      writeini $char($1) item_amount Ether %ethers
+    }
+  }
+
+  if ($2 = InTuneWithMotherEarth) { 
+    var %total.spell $readini($char($1), stuff, EarthSpellsCasted) 
+    if (%total.spell >= 50) { writeini $char($1) achievements $2 true 
+      $announce_achievement($1, $2, 5)
+      var %ethers $readini($char($1), item_amount, Ether) 
+      if (%ethers = $null) { var %ethers 0 }
+      inc %ethers 1
+      writeini $char($1) item_amount Ether %ethers
+    }
+  }
+
+  if ($2 = TimeToBuildAnArk) { 
+    var %total.spell $readini($char($1), stuff, WaterSpellsCasted) 
+    if (%total.spell >= 50) { writeini $char($1) achievements $2 true 
+      $announce_achievement($1, $2, 5)
+      var %ethers $readini($char($1), item_amount, Ether) 
+      if (%ethers = $null) { var %ethers 0 }
+      inc %ethers 1
+      writeini $char($1) item_amount Ether %ethers
+    }
+  }
+
+
 
 }
 

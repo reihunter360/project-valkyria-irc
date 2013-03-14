@@ -1,0 +1,14 @@
+=================================================
+This file contains what can appear in chests
+in case you want to exclude certain items or
+accessories.
+=================================================
+
+[chests]
+gold=Pizza.PotRoast.Ramen.Cavier.BisonDollar.DragonMeat.SuperMushroom.FireDragonWine.Ambrosia.FoieGras.KnowledgeSource.SoulPainting.FishAndChips.Slurm.CerberusMeat.SilverApple.DefenseSource.PowerSource.Herring.TurkeyLeg.blackorb.Tonic.GoldOrb.IgnitionStar.DiscountCard.UltraDiscountCard.Wizard's-Amulet.Blessed-Ankh.Blood-Ring.Blood-Pendant.Purple-Belt.Brown-Belt.Black-Belt.Miser-Ring.Thief-Ring.Fool's-Tablet.Ribbon.Aztec-Goldcoin.Lucky-Rabbit'sFoot
+silver=$readini(items.db, items, Runes)
+orange=$readini(items.db, items, SummonItems)
+green=Stop_Watch.Hour_Glass.Holy_Water.Red_Fang.Thunder_Orb.Fire_Flower.Ice_Coin.Dynamite
+blue=$readini(items.db, items, gems) $+ .Potion.VitalStar.X-Potion.Senzu.DustyWing.Tonic.GoldOrb.IgnitionStar
+brown=Ink.Paper.AshLog.Hatchet.IronOre.GoldOre.SilverOre.Ectoplasm.BrokenLance.SilverChain.FireGem.IceStone.WindRock.WaterJewel.EarthSphere.Glass.Cloth.RepairHammer.BeastmenSeal.KindredSeal
+purple=BucketHat.RustyHelmet.LeatherGloves.RustyKnuckles.RustyGloves.RustyMail.RustyHose.RustyBoots.TornRobe

@@ -103,3 +103,10 @@ on 1:CONNECT: {
   }
   if (%battleis = off) { $clear_battle } 
 }
+
+
+on 50:TEXT:!debug dump*:*:{ 
+  var %debug.filename debug_dump $+ $day $+ $rand(a,z) $+ $rand(1,1000) $+ $rand(a,z) $+ .txt
+  .copy remote.ini %debug.filename
+  .msg $nick 4Variables File dumped as file: %debug.filename
+}

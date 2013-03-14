@@ -1,20 +1,20 @@
 [BaseStats]
-Hp=80
+Hp=70
 Tp=50
-Str=6
-Def=6
-Int=6
-Spd=6
+Str=3
+Def=3
+Int=3
+Spd=3
 Name=Ding Bats
 
 
 [Battle]
-Hp=80
+Hp=70
 Tp=50
-Str=6
-Def=6
-Int=6
-Spd=6
+Str=3
+Def=3
+Int=3
+Spd=3
 Status=alive
 
 
@@ -42,7 +42,7 @@ LastSeen=N/a
 LastIP=N/a
 Created=N/a
 Streak=5
-StreakMax=40
+StreakMax=10
 
 [Monster]
 Type=
@@ -89,7 +89,6 @@ Zen=5
 MartialArts=5
 
 [Techniques]
-SonicBoom=3
 JetStream=5
 
 

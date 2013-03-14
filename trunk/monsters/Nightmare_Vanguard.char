@@ -29,7 +29,7 @@ Percent=0
 [Descriptions]
 Hused=1
 Dused=1
-Char=is a cheap imitation of death, a vanguard of nightmares.  It's dressed in a flowly black cloak and carrying a large scythe
+Char=is a cheap imitation of Death, a vanguard of nightmares.  It's dressed in a flowly black cloak and carrying a large scythe
 Rage=screams in rage 
 
 
@@ -54,7 +54,7 @@ LastIP=N/a
 Created=N/a
 CanStagger=yes
 StaggerAmount=$rand(100,130)
-streak=15
+streak=25
 
 [Status]
 Poison=no

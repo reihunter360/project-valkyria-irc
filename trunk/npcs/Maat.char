@@ -125,9 +125,12 @@ ShoulderTackle=25
 [Item_Amount]
 
 [Styles]
-Equipped=WeaponMaster
-WeaponMaster=4
+Equipped=CounterStance
+CounterStance=10
 WeaponMasterXP=1
 
 [equipment]
 Accessory=Black-Belt
+
+[augments]
+Fists=EnhanceCounter

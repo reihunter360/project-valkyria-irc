@@ -115,7 +115,7 @@ royalguard.on=off
 
 [Techniques]
 WaveMotion=40
-Requiscat=75
+Requiescat=75
 FlatBlade=50
 SwiftBlade=60
 OctoStrike=80

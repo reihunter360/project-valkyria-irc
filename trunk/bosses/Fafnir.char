@@ -1,7 +1,7 @@
 [BaseStats]
 Hp=105
 Tp=95
-Str=17
+Str=57
 Def=10
 Int=8
 Spd=10
@@ -11,7 +11,7 @@ Name=Fafnir
 [Battle]
 Hp=105
 Tp=95
-Str=17
+Str=57
 Def=10
 Int=8
 Spd=10
@@ -51,7 +51,7 @@ passhurt=0
 LastSeen=N/a
 LastIP=N/a
 Created=N/a
-Streak=30
+Streak=100
 
 [Monster]
 Type=
@@ -91,7 +91,7 @@ MPRegenerating=no
 
 [Weapons]
 Equipped=DragonFangs
-DragonFangs=20
+DragonFangs=100
 
 
 [Skills]
@@ -99,9 +99,9 @@ DesperateBlows=1
 
 
 [Techniques]
-FangRush=20
-AbsoluteTerror=15
-SpikeFlail=25
+FangRush=120
+AbsoluteTerror=115
+SpikeFlail=125
 
 
 

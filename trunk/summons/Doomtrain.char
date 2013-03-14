@@ -42,8 +42,8 @@ RedOrbsSpent=0
 BlackOrbsSpent=0
 
 [Info]
-Gender=his
-Gender2=him
+Gender=its
+Gender2=its
 password=dbzrpg
 passhurt=0
 LastSeen=N/a
@@ -102,16 +102,11 @@ Resist-Zombie=100
 Resist-Intimidate=100
 Resist-Stun=100
 Resist-Amnesia=100
-Wizardry=30
-MartialArts=30
+MartialArts=50
 Zen=5
 
 [Techniques]
-RunawayTrain=25
-PoisonTrain=12
-CurseTrain=15
-ZombieTrain=12
-DarknessTrain=12
+RunawayTrain=30
 
 
 [Item_Amount]
@@ -124,6 +119,6 @@ Heal=Dark
 
 
 [Styles]
-Equipped=SpellMaster
-SpellMaster=2
-SpellMasterXP=1
+Equipped=WeaponMaster
+WeaponMaster=2
+WeaponMasterXP=1

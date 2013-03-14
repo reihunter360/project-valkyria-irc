@@ -1,5 +1,5 @@
 [BaseStats]
-Hp=10000000
+Hp=5000000
 Tp=2000000
 Str=450
 Def=350
@@ -9,7 +9,7 @@ Name=Omega Weapon Mark-12
 
 
 [Battle]
-Hp=10000000
+Hp=5000000
 Tp=2000000
 Str=450
 Def=350

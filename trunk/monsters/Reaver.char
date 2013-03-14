@@ -2,18 +2,18 @@
 Hp=250
 Tp=150
 Str=43
-Def=17
-Int=26
-Spd=15
+Def=15
+Int=23
+Spd=11
 Name=Reaver
 
 [Battle]
 Hp=250
 Tp=150
 Str=43
-Def=17
-Int=26
-Spd=15
+Def=15
+Int=23
+Spd=11
 Status=alive
 
 

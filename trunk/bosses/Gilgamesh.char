@@ -24,10 +24,10 @@ RageCountDown=0
 
 
 [Descriptions]
-Char=is a man with eight arms, who wears an outfit that is red, orange and grey in color. He arrives from The Void and carries a weapon in each arm.
+Char=is a man who wears an outfit that is red, orange and grey in color. He arrives from The Rift and carries the Ryunohige spear in hand.
 Rage=screams in rage 
 BossQuote=Enough expository banter! Now we fight like men! And ladies! And ladies who dress like men! For Gilgamesh... it is morphing time!
-
+CocoonEvolve=says, "Two arms are not enough! In just a short time... you'll have to face the full fury of my eight arms!"
 
 [Stuff]
 RedOrbs=0
@@ -110,6 +110,7 @@ Resist=Slow=25
 Resist-Poison=50
 MightyStrike=1
 WeaponBash=1
+CocoonEvolve=1
 
 [Techniques]
 Drakesbane=60

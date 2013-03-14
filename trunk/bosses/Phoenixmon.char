@@ -33,7 +33,7 @@ BossQuote=*Kyaa*! *Kyaa*!
 RedOrbs=0
 BlackOrbs=1
 ShopLevel=1.0
-Drops=DiscountCard
+Drops=UltimateDiscountCard
 
 [Monster]
 Type=
@@ -49,7 +49,7 @@ LastIP=N/a
 Created=N/a
 RageMode=Ignore
 OrbBonus=yes
-Battlestats=IgnoreHP
+Battlestats=ignore
 
 [Status]
 Poison=no

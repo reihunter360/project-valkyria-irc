@@ -46,6 +46,8 @@ passhurt=0
 LastSeen=N/a
 LastIP=N/a
 Created=N/a
+Streak=22
+StreakMax=71
 
 [Monster]
 Type=undead

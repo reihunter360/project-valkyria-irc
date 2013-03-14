@@ -1,0 +1,9 @@
+[stealpool]
+; The first three lines are "default" in case the individual monsters are missing
+; You can modify these three lines if you want, but don't remove them outright.
+monster=orbs.vitalstar.orbs.potion.x-potion.holy_water.Pizza.PotRoast.Ramen.Cavier.BisonDollar.DragonMeat.SuperMushroom.FireDragonWine.Ambrosia.FoieGras.KnowledgeSource.SoulPainting.FishAndChips.Slurm.CerberusMeat.SilverApple.BeastMenSeal
+boss=orbs.senzu.Red_Fang.Thunder_Orb.Tonic.Superpotion.DarkMagicianCard.BusterBladerCard.BlueEyesCard.FishOilBroth.ElvishMedallian.AlexanderMateria.BahamutMateria.BahamutZeroMateria.CarbuncleMateria.SolomonRing.LuckyBroth.FenrirMateria.GarudaMateria.IfritMateria.LeviathanMateria.RamuhMateria.ShivaMateria.TitanMateria.Pizza.PotRoast.Ramen.Cavier.BisonDollar.DragonMeat.SuperMushroom.FireDragonWine.Ambrosia.FoieGras.KnowledgeSource.SoulPainting.FishAndChips.Slurm.CerberusMeat.SilverApple.Superpotion. $+ $readini(items.db, items, misc)
+orb_fountain=orbs
+
+; Add your monsters and bosses below this line: 
+brauner=x-potion.orbs.SoulPainting

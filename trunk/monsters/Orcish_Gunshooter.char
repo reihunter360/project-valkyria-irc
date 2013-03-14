@@ -37,6 +37,7 @@ Rage=screams in rage
 RedOrbs=0
 BlackOrbs=1
 ShopLevel=1.0
+drops=BeastmenSeal
 
 [Info]
 Flag=monster
@@ -47,7 +48,7 @@ passhurt=0
 LastSeen=N/a
 LastIP=N/a
 Created=N/a
-StreakMax=50
+Streak=51
 
 [Status]
 Poison=no
@@ -87,7 +88,7 @@ Equipped=orcish_gun
 orcish_gun=5
 
 [Skills]
-List=
+demonportal=1
 
 
 [Techniques]

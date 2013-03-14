@@ -4,7 +4,7 @@ Tp=5000000
 Str=400
 Def=2000
 Int=1500
-Spd=500
+Spd=2000
 Name=Perfect Chaos
 
 
@@ -24,7 +24,7 @@ RageCountDown=0
 
 
 [Descriptions]
-Char= the entire battlefield collapses as water rushes and fills the entire battlefield. A large giant snake-like head appears from the center baring its large water jaw and its eyes towards the heroes. 
+Char=is a large giant snake-like head that appears from the center of the giant water source baring its large water jaw and its eyes towards the heroes. 
 Rage=screams in rage 
 BossQuote=lets out a giant roar, and water spouts and lightning spread through out the field!
 
@@ -50,6 +50,11 @@ Created=N/a
 OrbBonus=yes
 battlestats=ignore
 RageMode=ignore
+ai_type=
+Streak=50
+StreakMax=
+Fleeing=false
+SpawnAfterDeath=
 
 [Status]
 MightyStrike=yes
@@ -88,7 +93,7 @@ MPRegenerating=no
 
 [Weapons]
 Equipped=Perfect_Chaos_Water
-Perfect_Chaos_Water=63
+Perfect_Chaos_Water=10000
 
 [Skills]
 Regen=333

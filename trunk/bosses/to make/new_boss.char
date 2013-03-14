@@ -71,7 +71,15 @@ Created=N/a
 ;
 ; SPAWNING ANOTHER MONSTER UPON DEATH: If set, when this monster is killed, it'll summon another one that's set.
 ; SpawnAfterDeath=nameofmonster
-
+;
+; BOSS LEVELS are used for bosses that are summoned via portal items. You can make them harder or easier by setting a level.
+; BossLevel=
+; 
+; IGNORE DRAIN is true or false. If set to true, stuff like drainsamba won't work.
+; IgnoreDrain=true/false
+;
+; BIOME is for if you want the boss to only appear under certain battlefields. You can list multiple with periods inbetween.
+; Biome=
 
 [Status]
 Poison=no
@@ -109,6 +117,10 @@ MPRegenerating=no
 [Weapons]
 Equipped=monsterweaponname
 monsterweaponname=1
+; It is possible to make monsters weak or strong against certain weapon types:
+; Weapon types are: HandToHand.Whip.Sword.Gun.Rifle.Katana.Wand.Spear.Scythe.Glyph.GreatSword
+; Weakness=list.weapon.types  
+; Strong=list.weapon.types  
 
 [Skills]
 
@@ -124,5 +136,7 @@ TechName=1
 [Element]
 Weakness=
 Strong=
-Absorb=
-;
+
+; Setting the null to an element makes that monster completely immune to that element
+null=
+

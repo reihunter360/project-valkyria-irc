@@ -1,19 +1,19 @@
 [BaseStats]
 Hp=100
-Tp=20
-Str=5
-Def=3
-Int=1
+Tp=30
+Str=6
+Def=6
+Int=2
 Spd=5
 Name=Yagudo Zealot
 
 
 [Battle]
 Hp=100
-Tp=20
-Str=5
-Def=3
-Int=1
+Tp=30
+Str=6
+Def=6
+Int=2
 Spd=5
 Status=alive
 
@@ -37,6 +37,7 @@ Rage=screams in rage
 RedOrbs=0
 BlackOrbs=1
 ShopLevel=1.0
+drops=BeastmenSeal
 
 [Info]
 Flag=monster
@@ -47,6 +48,8 @@ passhurt=0
 LastSeen=N/a
 LastIP=N/a
 Created=N/a
+Streak=7
+StreakMax=21
 
 [Status]
 Poison=no
@@ -83,10 +86,10 @@ MPRegenerating=no
 
 [Weapons]
 Equipped=yagudo_fists
-yagudo_fists=1
+yagudo_fists=5
 
 [Skills]
-
+Zen=5
 
 
 [Techniques]

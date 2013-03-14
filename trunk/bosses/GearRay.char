@@ -1,5 +1,5 @@
 [BaseStats]
-Hp=150
+Hp=220
 Tp=100
 Str=10
 Def=12
@@ -9,7 +9,7 @@ Name=Metal Gear Ray
 
 
 [Battle]
-Hp=150
+Hp=220
 Tp=100
 Str=10
 Def=12
@@ -42,11 +42,14 @@ Type=
 Flag=monster
 Gender=its
 Gender2=it
+CanStagger=yes
+StaggerAmount=$rand(240,290)
 password=battlearena
 passhurt=0
 LastSeen=N/a
 LastIP=N/a
 Created=N/a
+Streak=61
 
 [Status]
 Poison=no
@@ -83,7 +86,7 @@ MPRegenerating=no
 
 [Weapons]
 Equipped=GearRayWeapons
-GearRayWeapons=20
+GearRayWeapons=30
 
 [Skills]
 Resist-Charm=100
@@ -94,6 +97,7 @@ Resist-Stun=5
 Resist-Blind=5
 Resist-Amnesia=100
 Gunslinger=20
+Zen=5
 
 [Techniques]
 Hydrocutter=35
