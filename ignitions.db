@@ -1,14 +1,147 @@
+==============================================
+Valid Augments are:
+For a full list of valid augments, open
+augments.lst and look through the list
+(just be sure not to change anything in that
+list)
+
+Valid Effect Types are:
+ None, Status
+
+Valid Status Targets are:
+  Enemy, Self, Allies
+==============================================
+
+
 [Ignitions]
-List=Overdrive
+List=Overdrive.Benediction.Manafont.Karakuri.Skydance.Sentinel.LastResort.SSJ
 
 
 [Overdrive]
-Str=1.2
-def=1
-int=1
+Name=Overdrive
+hp=1.1
+Str=1.3
+def=1.1
+int=1.1
 spd=1.5
 Augment=MeleeBonus
-Effect=FireBurst
+Effect=Status
 IgnitionTrigger=5
 IgnitionConsume=1
 Cost=10
+Desc=$+ 's body glows a firey red as $gender($1) body bulges with a new-found power. The battlefield explodes into flames, setting all of %real.name $+ 's enemies on fire!
+StatusTarget=enemy
+StatusType=Burning
+
+
+[Benediction]
+Name=Benediction
+hp=1.2
+Str=1.1
+def=1.1
+int=1.4
+spd=1.1
+Augment=CuringBonus
+Effect=Status
+IgnitionTrigger=7
+IgnitionConsume=2
+Cost=15
+Desc=$+ 's body begins to glow a bright light as a giant golden halo appears above $gender2($1) $+ . White wings made of a holy energy float behind %real.name $+ .  
+StatusTarget=Self
+StatusType=revive
+
+[Manafont]
+Name=Manafont
+hp=1.1
+Str=1.1
+def=1.1
+int=1.4
+spd=1.1
+Augment=MagicBonus
+Effect=Status
+IgnitionTrigger=7
+IgnitionConsume=2
+Cost=15
+Desc=$+ 's body begins to glow a with a dark and ancient energy. The battlefield seems to lose all light as %real.name gains black robes and a straw hat that hides $gender($1) face. %real.name feels as though $gender($1) spells will do more damage now and all allies of %real.name feel that their next techniques will consume no TP.
+StatusTarget=Allies
+StatusType=ConserveTP
+
+[Karakuri]
+Name=Karakuri
+hp=1.1
+Str=1.1
+def=1.1
+int=1.1
+spd=2.5
+Augment=EnhanceDodge
+Effect=Status
+IgnitionTrigger=10
+IgnitionConsume=5
+Cost=20
+Desc=$+ 's body feels light as a feather as $gender($1) speed is enhanced. %real.name also feels as though $gender3($1) could dodge attacks more easily now! The battlefield glows orange as all of %real.name $+ 's enemies begin to feel as though they can barely move.
+StatusTarget=enemy
+StatusType=Slow
+
+[Skydance]
+Name=Skydance
+hp=1.1
+Str=1.4
+def=1.2
+int=1.0
+spd=1.2
+Augment=AdditionalHit
+Effect=Status
+IgnitionTrigger=15
+IgnitionConsume=5
+Cost=20
+Desc=$+ 's clothes become a bright neon color as it seems to suck in all color, leaving a black and white battleground. A great force rips through all enemies, flinging them into the air leaving them helpelessly staggered.
+StatusTarget=enemy
+StatusType=Staggered
+
+[Sentinel]
+Name=Sentinel
+hp=1.6
+Str=1.0
+def=1.5
+int=1.0
+spd=1.0
+Augment=UtsusemiBonus
+Effect=Status
+IgnitionTrigger=15
+IgnitionConsume=5
+Cost=20
+Desc=$+ 's body is covered with a magical silver armor that helps deflect damage. All of %real.name $+ 's enemies feel weaker than usual as a strange blue energy shoots through their bodies.
+StatusTarget=enemy
+StatusType=strengthdown
+
+[LastResort]
+Name=LastResort
+hp=1.5
+Str=1.7
+def=.5
+int=1.0
+spd=1.0
+Augment=Drain
+Effect=Status
+IgnitionTrigger=15
+IgnitionConsume=5
+Cost=20
+Desc=unleashes an unholy blood magic upon $gender($1) weapon.  The magic consumes part of %real.name $+ 's defense but increases $gender($1) strength and adds the drain status to any of $gender($1) weapons. Blood-red ghosts appear on the battlefield and fly into all of %real.name $+ 's enemies, lowering their defense.
+StatusTarget=enemy
+StatusType=defensedown
+
+[SSJ]
+Name=SSJ
+hp=2
+Str=2
+def=1.8
+int=1.9
+spd=2.4
+Augment=TechBonus.MeleeBonus.EnhanceZen.RenkeiBonus.EnhanceBloodBoost
+Effect=Status
+IgnitionTrigger=30
+IgnitionConsume=20
+Cost=60
+StatusTarget=allies
+StatusType=TPRegenerating
+Desc=begins to channel an ancient power meant for another race. $gender($1) energy flares around $gender($1) body, then swirls all around $gender2($1) into a cone in the shape of his body, which then turns into $gender($1) aura. The aura is flashing very brightly and violently at the moment. %real.name $+ 's body overloads as energy flares out like wild fire and $gender($1) hair turns gold and $gender($1) eyes green.

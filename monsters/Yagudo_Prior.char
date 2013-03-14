@@ -37,6 +37,7 @@ Rage=screams in rage
 RedOrbs=0
 BlackOrbs=1
 ShopLevel=1.0
+drops=BeastmenSeal
 
 [Info]
 Flag=monster
@@ -48,6 +49,7 @@ LastSeen=N/a
 LastIP=N/a
 Created=N/a
 Streak=101
+StreakMax=300
 
 
 [Status]
@@ -89,7 +91,7 @@ yagudo_wand=15
 
 [Skills]
 wizardry=20
-
+demonportal=1
 
 [Techniques]
 Sweep=20

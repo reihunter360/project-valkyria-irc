@@ -36,6 +36,7 @@ Rage=needs to set a rage desc by typing !ragedesc <desc>
 Utsusemi=mutters "Lumen, camerus... factum," and two more versions of Harry Dresden appears.
 RoyalGuard=raises his left arm and a silver chain is visible. The chain has five small shields made out of five different metals. A light yellow barrier appears around %user to block melee attacks.
 RoyalGuard=raises his left arm and a silver chain is visible. The chain has five small shields made out of five different metals. A light blue barrier appears around %user to block magic attacks.
+MagicMirror=mutters a few words under his breath and reflective barrier forms around himself.
 
 
 [Stuff]
@@ -48,7 +49,7 @@ BlackOrbsSpent=0
 [Info]
 Gender=his
 Gender2=him
-password=dbzrpg
+password=battlearena
 passhurt=0
 LastSeen=N/a
 LastIP=N/a
@@ -117,6 +118,7 @@ ManaWall=1
 manawall.on=on
 Utsusemi=1
 WeaponBash=1
+MagicMirror=10
 
 [Techniques]
 Forzare=70
@@ -141,3 +143,6 @@ SpellmasterXP=1
 
 [equipment]
 accessory=Wizard's-Amulet
+
+[augments]
+RuneOakStaff=MagicBonus

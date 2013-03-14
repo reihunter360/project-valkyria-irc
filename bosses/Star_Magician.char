@@ -1,0 +1,143 @@
+[BaseStats]
+HP=7486
+TP=560
+STR=460
+DEF=139
+INT=460
+SPD=268
+IgnitionGauge=0
+Name=Star Magician
+
+
+[Battle]
+HP=7486
+TP=560
+STR=460
+DEF=139
+INT=460
+SPD=268
+IgnitionGauge=0
+Status=alive
+
+
+[Rage]
+RageBar=0
+RageCountDown=0
+
+
+[Descriptions]
+Char=set a character desc here that appears when the monster is summoned.
+Rage=screams in rage 
+BossQuote=enter a quote that the boss says when he enters the battle.
+
+
+[Stuff]
+RedOrbs=0
+BlackOrbs=1
+ShopLevel=1.0
+Drops=Potion
+
+[Monster]
+Type=
+
+[Info]
+Flag=monster
+Gender=his
+Gender2=him
+password=battlearena
+passhurt=0
+LastSeen=N/a
+LastIP=N/a
+Created=N/a
+battlestats=ignore
+orbbonus=yes
+;=======================================
+; These are optional flags you can set:
+;========================================
+; STAGGER:  do you want the monster to be able to be staggered after being hurt for a certain # of damage? 
+; CanStagger=yes/no  
+; StaggerAmount=$rand(#,#)   
+; 
+; IGNORE RAGEMODE
+; RageMode=ignore   
+;
+; AI TYPE: berserkers will attack their own allies, defenders won't get a turn. Leave blank for normal.
+; ai_type=
+;
+; STREAK MIN/MAX: Streak= for the minimum streak it takes for the monster to show up. StreakMax= for max.
+; Streak=
+; StreakMax=
+;
+; FLEEING: Do you want monsters to be able to flee the battle?
+; CanFlee=true/false
+;
+; SPAWNING ANOTHER MONSTER UPON DEATH: If set, when this monster is killed, it'll summon another one that's set.
+; SpawnAfterDeath=nameofmonster
+
+
+[Status]
+Poison=no
+HeavyPoison=no
+Regenerating=no
+Blind=no
+Frozen=no
+Shock=no
+Burning=no
+Drowning=no
+Earth-quake=no
+Heavy-Poison=no
+silence=no
+intimidated=no
+weight=no
+poison-heavy=no
+virus=no
+virus.timer=1
+charmed=no
+charmer=noonethatIknowlol
+charm.timer=1
+amnesia=no
+paralysis=no
+amnesia.timer=1
+paralysis.timer=1
+tornado=no
+drunk=no
+drunk.timer=1
+zombie=no
+slow=no
+sleep=no
+stun=no
+MPRegenerating=yes
+
+[Weapons]
+Equipped=StarMageStaff
+StarMageStaff=100
+
+[Techniques]
+;Mystic Call
+;Mine Ball - Earth AoE Magic
+;Spark Plasma - Lightning AoE Magic
+;Mega Cool - Water AoE Magic - Freeze
+;Curaga - Heal
+
+[Skills]
+Zen=30
+resist-stun=90
+resist-poison=80
+resist-petrify=80
+resist-curse=100
+resist-zombie=50
+resist-slow=50
+resist-amnesia=50
+resist-stop=70
+resist-blind=100
+resist-paralysis=60
+
+[Item_Amount]
+
+
+
+[Element]
+Weakness=Fire
+Strong=Lightning.Wind
+Absorb=Water
+;

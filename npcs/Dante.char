@@ -113,6 +113,8 @@ Zen=5
 Resist-Charm=100
 Resist-Zombie=100
 Resist-Intimidate=100
+royalguard.dmgblocked=9103
+JustRelease=100
 
 [Techniques]
 Stinger=90

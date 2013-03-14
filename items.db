@@ -1,18 +1,22 @@
 [Items]
-; Healing Items can restore HP, TP, status or bestow the "revive" status
-HealingItems=Potion.VitalStar.X-Potion.Senzu.DustyWing.Tonic.GoldOrb
+; Healing Items can restore HP, TP, IG, status or bestow the "revive" status
+HealingItems=Potion.VitalStar.X-Potion.Senzu.DustyWing.Tonic.GoldOrb.IgnitionStar
 
 ; Battle Items are used for damaging enemies in battle
-BattleItems=Stop_Watch.Hour_Glass.Holy_Water.Red_Fang.Thunder_Orb.Fire_Flower.Ice_Coin
+BattleItems=Stop_Watch.Hour_Glass.Holy_Water.Red_Fang.Thunder_Orb.Fire_Flower.Ice_Coin.Love_Potion.Grappling_Hook
 
 ; Food Items increase stats
-FoodItems=Pizza.PotRoast.Ramen.Cavier.BisonDollar.DragonMeat.SuperMushroom.FireDragonWine.Ambrosia.FoieGras.KnowledgeSource.SoulPainting.FishAndChips.Slurm.CerberusMeat.SilverApple.DefenseSource.PowerSource.Herring.TurkeyLeg
+FoodItems=Pizza.PotRoast.Ramen.Cavier.BisonDollar.DragonMeat.SuperMushroom.FireDragonWine.Ambrosia.FoieGras.KnowledgeSource.SoulPainting.FishAndChips.Slurm.CerberusMeat.SilverApple.DefenseSource.PowerSource.Herring.TurkeyLeg.BloodyHeart
 
 ; Random items
 Random=Present
 
 ; Consume items are used by skills
-ConsumeItems=Shihei.Sokubaku
+ConsumeItems=Shihei.Sokubaku.Hankai.MirrorShard
+
+; Portal items are used to summon a special boss..
+; PortalItems=NewsOrb
+PortalItems=AlliedTrainingPaper.WormFood.DemonBell.VirilityCan.IgnisFatuus.BanishingCharm.GemOfTheNorth.GodSeal
 
 ; Summon Items are used with BloodPact to summon an ally
 SummonItems=DarkMagicianCard.BusterBladerCard.BlueEyesCard.FishOilBroth.ElvishMedallian.AlexanderMateria.BahamutMateria.BahamutZeroMateria.CarbuncleMateria.SolomonRing.LuckyBroth.FenrirMateria.GarudaMateria.IfritMateria.LeviathanMateria.RamuhMateria.ShivaMateria.TitanMateria
@@ -21,22 +25,39 @@ SummonItems=DarkMagicianCard.BusterBladerCard.BlueEyesCard.FishOilBroth.ElvishMe
 ShopReset=DiscountCard.UltraDiscountCard
 
 ; Accessories are special items that cannot be bought in stores and are found by defeating bosses.
-Accessories=Wizard's-Amulet.Blessed-Ankh.Blood-Ring.Blood-Pendant.Purple-Belt.Brown-Belt.Black-Belt.Miser-Ring.Thief-Ring.Fool's-Tablet.Ribbon.Aztec-Goldcoin.Lucky-Rabbit'sFoot.VIP-MemberCard.Spear-Pin.Mugger's-Belt.Prism-Specs
+Accessories=Wizard's-Amulet.Blessed-Ankh.Blood-Ring.Blood-Pendant.Purple-Belt.Brown-Belt.Black-Belt.Red-Belt.Miser-Ring.Thief-Ring.Fool's-Tablet.Ribbon.Aztec-Goldcoin.Lucky-Rabbit'sFoot.VIP-MemberCard.Spear-Pin.Mugger's-Belt.Prism-Specs.4leaf-clover
 
 ; The gems cannot be bought in store and this list is used by the jewel sword. I've added Zircon multiple times because that was the most common drop in SotN.
 Gems=Zircon.Topaz.Emerald.Ruby.Zircon.Diamond.Sapphire.Opal.Zircon.Onyx
 
 ; Keys are used to open chests. They cannot be bought in stores.
-Keys=BlueKey.BrownKey.RedKey.OrangeKey.GreenKey.GoldKey.BrownKey.BlueKey.RedKey.SilverKey
+Keys=BlueKey.BrownKey.RedKey.OrangeKey.GreenKey.GoldKey.BrownKey.BlueKey.RedKey.SilverKey.PurpleKey
 
 ; These are special items that are only available when crafting (or potentially drops from bosses)
-CraftedItems=SuperPotion.Ether.Dynamite.HolyHandGrenade.Angon.SauceAmpulla.Shihei.Mugger's-Belt.Blood-Pendant.VIP-MemberCard.Prism-Specs.Paper
+CraftedItems=SuperPotion.MegaPotion.Ether.Dynamite.HolyHandGrenade.Angon.SauceAmpulla.DunceCap.Shihei.MirrorShard.Mugger's-Belt.Blood-Pendant.VIP-MemberCard.Prism-Specs.Paper.SilverChain.PurpleKey.GoldKey.SilverKey
+CraftedArmor=SpikedKnuckles.ClothRobe.MageRobe.Haubergeon.DarksteelGloves.DarksteelBoots.DarksteelHose.DarksteelHelmet.DarksteelMail
 
-; Misc items aren't used for anything except crafting.
-Misc=Ink.Paper.AshLog.Hatchet.IronOre.Ectoplasm.BrokenLance.SilverChain.FireGem.IceStone.WindRock.WaterJewel.EarthSphere.Glass
+; Misc items aren't used for anything except crafting or trading for portal items.
+Misc=Ink.Paper.AshLog.Hatchet.IronOre.GoldOre.SilverOre.DarksteelOre.Ectoplasm.BrokenLance.SilverChain.FireGem.IceStone.WindRock.WaterJewel.EarthSphere.Glass.Cloth.RepairHammer.BeastmenSeal.KindredSeal.TigerFang.Sand.ByakkoSeal.GenbuSeal.SeiryuSeal.SuzakuSeal.KirinSeal
 
 ; Runes are for augments.
-Runes=EthRune.MtlRune.HiRune.GeRune.MaRune.TeRune.MeRune.SmnRune.DrnRune.ItmRune.RenRune
+Runes=EthRune.MtlRune.HiRune.GeRune.MaRune.TeRune.MeRune.SmnRune.DrnRune.ItmRune.RenRune.NinRune.IgDef
+
+; HeadEquipment is for equipment for the head
+HeadEquipment=BucketHat.RustyHelmet.JesterHat.DarksteelHelmet.BloodCrown.MyochinKabuto.Genbu'sKabuto
+
+; BodyEquipment is for equipment for the body
+BodyEquipment=RustyMail.TornRobe.ClothRobe.MageRobe.BloodHauberk.MyochinDomaru.Kirin'sOsode
+
+; LegsEquipment is for equipment for the legs
+LegsEquipment=RustyHose.DarksteelHose.MyochinHaidate
+
+; FeetEquipment is for equipment for the feet
+FeetEquipment=RustyBoots.DarksteelBoots.BloodSocks.MyochinSune-Ate
+
+; HandsEquipment is for equipment for the hands
+HandsEquipment=LeatherGloves.RustyKnuckles.SpikedKnuckles.DarksteelGloves.MyochinKote
+
 
 
 =========================
@@ -97,6 +118,18 @@ FullbringTarget=AOE
 FullbringAmount=800
 Fullbringdesc=draws out the soul from the potion.  The potion's soul is drawn towards everyone and gives off a bright light that heals everyone.
 
+[MegaPotion]
+Type=heal
+Target=Single
+Amount=5000
+Desc=pulls out bottle of liquid made with blood labeled "Mega Potion" and hands it to %enemy $+ , who drinks it down.  Ahh! Refreshing!
+Cost=0
+FullbringLevel=5
+FullbringTarget=AOE
+FullbringAmount=3500
+Fullbringdesc=draws out the soul from the potion.  The potion's soul is drawn towards everyone and gives off a bright light that heals everyone.
+Currency=none
+
 [DustyWing]
 Type=tp
 Target=Single
@@ -123,6 +156,13 @@ Fullbringdesc=draws out the soul from the Ether.  A light white rain begins to r
 Type=CureStatus
 Cost=1000
 Desc=pulls out a small bottle of bubbling tonic and hands it to %enemy who drinks it.  After a few seconds, %enemy feels $gender($4) body being restored from most status effects.
+
+[IgnitionStar]
+Type=IgnitionGauge
+Target=single
+Amount=10
+Cost=0
+Desc=pulls out a strange purple star and tosses it at %enemy $+ .  The star is absorbed and a sense of power overcomes $gender2($2) $+ .
 
 [GoldOrb]
 Type=Revive
@@ -197,7 +237,7 @@ FullbringAmount=5
 Type=Status
 Target=Single
 StatusType=defensedown
-Amount=50
+Amount=150
 Cost=100
 Desc=takes out a large lance that is glowing red and throws it at %enemy $+ .  After being hit, %enemy starts to feel as though $gender($2) defense has been weakened.
 FullbringLevel=5
@@ -209,13 +249,27 @@ Fullbringdesc=draws out the soul from the angon.  The soul splits into large jav
 Type=Status
 Target=Single
 StatusType=strengthdown
-Amount=50
+Amount=150
 Cost=100
 Desc=takes out a small flask that has a strange bubbling liquid inside and throws it at %enemy $+ .  After being hit by the exploding flask, %enemy starts to feel as though $gender($2) strength has been weakened.
 FullbringLevel=5
 FullbringTarget=AOE
 FullbringAmount=100
 Fullbringdesc=draws out the soul from the ampulla.  The soul splits into several copies of itself and floats over all the targets on the battlefield before falling down upon them all at once. 
+
+
+[DunceCap]
+Type=Status
+Target=Single
+StatusType=intdown
+Amount=150
+Cost=100
+Desc=takes out a large glowing pointed hat and quickly runs over to %enemy and sits the hat upon $gender($2) head.  After wearing the hat, $gender3($2) doesn't feel so smart any more.. 
+FullbringLevel=5
+FullbringTarget=AOE
+FullbringAmount=100
+Fullbringdesc=takes out a large glowing pointed hat and draws out its soul.  The hat splits into multiple copies that land upon all the targets on the battlefield before fading away.
+
 
 [Fire_Flower]
 Type=Damage
@@ -241,6 +295,15 @@ FullbringTarget=AOE
 FullbringAmount=100
 Fullbringdesc=draws out the soul from the ice coin.  The soul glows a bright blue and then explodes, causing ice to rain down on all targets on the battlefield.
 
+[Love_Potion]
+Type=Status
+Target=Single
+StatusType=charm
+Amount=100
+Cost=0
+Desc=takes out a pink glowing potion and tosses it to %enemy who decides to drink it. Hey, why not?  When life gives you a glowing pink potion, you drink it! %enemy begins to feel a bit enamored with %user $+ !
+
+
 [Dynamite]
 Type=Damage
 Target=Single
@@ -260,6 +323,13 @@ Amount=2500
 Desc=takes out a holy hand grenade.  An angelic voice is heard from above. First shalt thou take out the Holy Pin. Then, shalt thou count to three, no more, no less. Three shalt be the number thou shalt count, and the number of the counting shall be three.  After doing so, %user tosses the grenade at %enemy which causes a small nuclear explosion. 
 Cost=0
 Element=light
+
+[Grappling_Hook]
+Type=Snatch
+Target=Single
+Amount=1
+Cost=1000
+Desc=takes out a grappling hook and swings it around %enemy $+ . After %enemy is hooked, %real.name begins to pull in an attempt to drag %enemy over to $gender2($1) to use as a protective shield.
 
 
 =========================
@@ -325,7 +395,7 @@ Cost=5000000
 Type=food
 Target=hp
 Amount=10
-Desc=pulls out a Super Mushroom from the Mushroom Kingdom and hands it to %enemy $+ , who munches it down.  %enemy does not grow bigger, but instead gains more endurance.
+Desc=pulls out a Super Mushroom from the Mushroom Kingdom and hands it to %enemy $+ , who munches it down.  $2 does not grow bigger, but instead gains more endurance.
 Cost=5000000
 
 [FireDragonWine]
@@ -369,6 +439,12 @@ Target=int
 Amount=1
 Desc=pulls out a basket of fish and chips and hands it to %enemy $+ , who eats it slowly.  Quite! Indeed!
 Cost=5000000
+
+[BloodyHeart]
+type=food
+Target=hp
+Amount=100
+Desc=pulls out a bleeding heart and looks at it. People really eat this? Well..uhh..maybe.  %enemy ends up eating it and feels sick for doing so.... but..at least $set_chr_name($2) %real.name gains some max HP for it.
 
 [Slurm]
 Type=food
@@ -448,6 +524,16 @@ type=consume
 Cost=100
 Skill=WeaponLock
 
+[Hankai]
+type=consume
+cost=1000
+Skill=SealBreak
+
+[MirrorShard]
+type=consume
+cost=3000
+Skill=MagicMirror
+
 
 =========================
 SUMMON ITEMS (npc allies)
@@ -508,7 +594,7 @@ SummonName=Carbuncle
 
 [SolomonRing]
 Type=summon
-Cost=1000
+Cost=10000
 Summon=Doomtrain
 SummonName=Doomtrain
 
@@ -569,41 +655,49 @@ GEMS
 Type=gem
 Cost=20
 Desc=A small zircon. It is often mistaken for a diamond at first glance but isn't worth anywhere near as much.
+Currency=AlliedNotes
 
 [Topaz]
 Type=gem
 Cost=50
 Desc=A small topaz
+Currency=AlliedNotes
 
 [Sapphire]
 Type=gem
 Cost=80
 Desc=A small sapphire
+Currency=AlliedNotes
 
 [Onyx]
 Type=gem
 Cost=90
 Desc=A small black onyx
+Currency=AlliedNotes
 
 [Opal]
 Type=gem
 Cost=95
 Desc=A small white opal
+Currency=AlliedNotes
 
 [Emerald]
 Type=gem
 Cost=210
 Desc=A small green emerald
+Currency=AlliedNotes
 
 [Ruby]
 Type=gem
 Cost=205
 Desc=A small red ruby
+Currency=AlliedNotes
 
 [Diamond]
 Type=gem
 Cost=900
 Desc=A bright white diamond
+Currency=AlliedNotes
 
 =========================
 KEYS
@@ -612,44 +706,50 @@ KEYS
 [BlueKey]
 Type=key
 Unlocks=blue
-Cost=5
+Cost=30
 Desc=A small blue key. It will unlock blue-colored chests.
 
 [RedKey]
 Type=key
 Unlocks=red
-Cost=5
+Cost=30
 Desc=A small red key. It will unlock red-colored chests.
 
 [OrangeKey]
 Type=key
 Unlocks=orange
-Cost=5
+Cost=500
 Desc=A small orange key. It will unlock orange-colored chests.
 
 [GreenKey]
 Type=key
 Unlocks=green
-Cost=5
+Cost=30
 Desc=A small green key. It will unlock green-colored chests.
 
 [GoldKey]
 Type=key
 Unlocks=gold
-Cost=5
+Cost=60
 Desc=A small gold key. It will unlock gold-colored chests.
 
 [BrownKey]
 Type=key
 Unlocks=brown
-Cost=5
+Cost=30
 Desc=A small brown key. It will unlock brown-colored chests.
 
 [SilverKey]
 Type=key
 Unlocks=silver
-Cost=5
+Cost=60
 Desc=A small silver key. It will unlock silver-colored chests.
+
+[PurpleKey]
+Type=key
+Unlocks=purple
+Cost=60
+Desc=A small purple key. It will unlock purple-colored chests.
 
 =========================
 SHOP RESET ITEMS
@@ -660,14 +760,14 @@ Type=shopreset
 Target=Single
 Amount=10.0
 Desc=pulls out a Discount Card and gives it to %enemy who shows it to the shop clerk.  "Ah yes, indeed, part of of our..secret club."  Score!
-Cost=150000
+Cost=250000
 
 [UltraDiscountCard]
 Type=shopreset
 Target=Single
 Amount=25.0
 Desc=pulls out a shiny silver Ultra Discount Card and gives it to %enemy who shows it to the shop clerk.  "Woah! No way! You know the president of the shop? Why yes, of course, please!  Here's a hefty discount for you!" 
-Cost=400000
+Cost=500000
 
 =========================
 ACCESSORIES
@@ -716,15 +816,22 @@ Amount=.10
 Type=accessory
 Cost=9999999999
 AccessoryType=IncreaseH2HDamage
-Desc=A cloth belt that proves you're almost finished with your training as a martial arts master master!.  This accessory will increase the power of hand to hand attacks.
+Desc=A cloth belt that proves you're almost finished with your training as a martial arts master master!  This accessory will increase the power of hand to hand attacks.
 Amount=.20
 
 [Black-Belt]
 Type=accessory
 Cost=9999999999
 AccessoryType=IncreaseH2HDamage
-Desc=A cloth belt that proves you're a real hand to hand master!.  This accessory will increase the power of hand to hand attacks.
+Desc=A cloth belt that proves you're a real hand to hand master!  This accessory will increase the power of hand to hand attacks.
 Amount=.30
+
+[Red-Belt]
+Type=accessory
+Cost=9999999999
+AccessoryType=IncreaseH2HDamage
+Desc=A cloth belt that proves you've gone way beyond the level of a black belt! This accessory will increase the power of hand to hand attacks.
+Amount=.50
 
 [Miser-Ring]
 Type=accessory
@@ -774,6 +881,13 @@ AccessoryType=IncreaseCriticalHits
 Desc=A lucky rabbit's foot that enhances the chance for critical hits.
 Amount=10
 
+[4leaf-clover]
+Type=accessory
+Cost=9999999999
+AccessoryType=IncreaseCriticalHits
+Desc=A lucky 4 leaf clover that enhances the chance for critical hits.
+Amount=15
+
 [VIP-MemberCard]
 Type=accessory
 Cost=9999999999
@@ -802,71 +916,169 @@ MISC ITEMS
 Type=misc
 Cost=50
 Desc=A small tube of black ink.
+Currency=AlliedNotes
 
 [Paper]
 Type=misc
 Cost=50
 Desc=A blank piece of paper.
+Currency=AlliedNotes
 
 [AshLog]
 Type=misc
 Cost=50
 Desc=A log from an ash tree.
+Currency=AlliedNotes
 
 [Hatchet]
 Type=misc
 Cost=50
 Desc=A rusted hatchet.
+Currency=AlliedNotes
 
 [IronOre]
 Type=misc
 Cost=50
 Desc=A chunk of iron ore.
+Currency=AlliedNotes
 
 [BrokenLance]
 Type=misc
 Cost=50
 Desc=A splintered lance that is no use as a weapon in its current state.
+Currency=AlliedNotes
 
 [Ectoplasm]
 Type=misc
 Cost=200
 Desc=The gooey remains of a ghost. It's slimey to the touch.
+Currency=AlliedNotes
 
 [SilverChain]
 Type=misc
-Cost=100
+Cost=50
 Desc=A chain made of silver.
+Currency=AlliedNotes
 
 [FireGem]
 Type=misc
 Cost=100
 Desc=A small glowing red rock.
+Currency=AlliedNotes
 
 [IceStone]
 Type=misc
 Cost=100
 Desc=A frozen stone pulsing with magical energy.
+Currency=AlliedNotes
 
 [WindRock]
 Type=misc
 Cost=100
 Desc=A green rock that seems to carry the power of the wind inside it.
+Currency=AlliedNotes
 
 [WaterJewel]
 Type=misc
 Cost=100
 Desc=A bright blue jewel that has a tiny waterfall inside it.
+Currency=AlliedNotes
 
 [EarthSphere]
 Type=misc
 Cost=100
 Desc=A perfectly round brown sphere that's pulsing with energy.
+Currency=AlliedNotes
+
+[Sand]
+Type=misc
+Cost=20
+Desc=Some sand. Watch out, it gets everywhere.
+Currency=none
 
 [Glass]
 Type=misc
-Cost=100
+Cost=20
 Desc=A piece of glass.
+Currency=AlliedNotes
+
+[Cloth]
+type=misc
+Cost=20
+Desc=a piece of cloth
+Currency=AlliedNotes
+
+[RepairHammer]
+type=misc
+Cost=100
+Desc=a hammer used to repair armor
+Currency=AlliedNotes
+
+[GoldOre]
+type=misc
+Cost=100
+Desc=a chunk of gold ore
+Currency=AlliedNotes
+
+[SilverOre]
+type=misc
+Cost=100
+Desc=a chunk of silver ore
+Currency=AlliedNotes
+
+[DarksteelOre]
+type=misc
+Cost=150
+Desc=a chunk of darksteel ore
+Currency=none
+
+[TigerFang]
+Type=misc
+Cost=100
+Desc=A fang from a tiger
+Currency=AlliedNotes
+
+[BeastmenSeal]
+type=trade
+cost=50
+Desc=Monsters use this seal as a checkpoint pass. It is used by pressing its surface onto a piece of clay.  Rumor has it that there's a strange man willing to trade these for portal items.
+Currency=AlliedNotes
+
+[KindredSeal]
+type=trade
+cost=100
+Desc=A rare seal believed to be used by the Kindred Demons as a checkpoint pass. It is used by pressing its surface onto a piece of clay.  Rumor has it there's a strange man willing to trade these for strong portal items.
+Currency=AlliedNotes
+
+[KirinSeal]
+type=misc
+cost=0
+Desc=A glowing seal that proves that Kirin, god of the sky, has been defeated.
+Currency=none
+
+[ByakkoSeal]
+type=misc
+cost=0
+Desc=A glowing seal that proves that Byakko has been defeated.
+Currency=none
+
+[GenbuSeal]
+type=misc
+cost=0
+Desc=A glowing seal that proves that Genbu has been defeated.
+Currency=none
+
+[SeiryuSeal]
+type=misc
+cost=0
+Desc=A glowing seal that proves that Seiryu has been defeated.
+Currency=none
+
+[SuzakuSeal]
+type=misc
+cost=0
+Desc=A glowing seal that proves that Suzaku has been defeated.
+Currency=none
 
 
 =========================
@@ -938,3 +1150,146 @@ Type=rune
 Cost=500
 Augment=EnhanceItems
 Desc=This rune will infuse a weapon with the ability to enhance items when the augmented weapon is equipped while using items.
+
+[NinRune]
+Type=rune
+Cost=500
+Augment=UtsusemiBonus
+Desc=This rune will infuse a weapon with the ability to enhance the Utsusemi skill when the augmented weapon is equipped while using the skill.
+
+[IgDef]
+type=rune
+Cost=500
+Augment=IgnoreDefense
+Desc=This rune will infuse a weapon with the ability to ignore some of a target's defense. 
+
+
+========================
+Portal Items
+========================
+
+; Beastmen Seal Portal Items
+
+[AlliedTrainingPaper]
+type=portal
+cost=5
+currency=BeastmenSeal
+battlefield=Allied Training Field
+Weather=calm
+Monster=Allied_Scrub
+Desc=visits the Allied Forces and hands the guard the training paper. "You must be here to train the new guy," he says to them before leading them to the training field.
+AlliedNotes=50
+
+[WormFood]
+type=portal
+cost=5
+currency=BeastmenSeal
+battlefield=Korroloka Tunnel
+Weather=gloomy
+Monster=Morion_Worm
+Desc=travels to the Korroloka Tunnel and takes out the worm food.  After opening it, %real.name sprinkles the food out on the cavern floor.  A large worm pops out of the side of the cavern wall and looks at the heroes..
+AlliedNotes=100
+
+[DemonBell]
+type=portal
+Cost=10
+Currency=BeastmenSeal
+Battlefield=Jester's Lair
+Weather=dark
+Monster=Crazy_Jester
+Desc=rings a demonic bell that opens a portal. Upon entering they are greeted with Jester, the insane clown.
+AlliedNotes=250
+
+[VirilityCan]
+type=portal
+Cost=15
+Currency=BeastmenSeal
+Battlefield=Slurm Factory
+Weather=dark
+Monster=Poison
+Desc=pulls out the Virility Can. It sure does look an awful lot like a can of Slurm. Deciding to discover the secret ingredient, %real.name ventures deep into the factory and discovers the horror: the secret ingrident comes from the behind of one awfully large demon slug named Poison. Yuck!
+AlliedNotes=300
+
+
+; Kindred Seal Portal Items
+
+[IgnisFatuus]
+type=portal
+cost=20
+currency=KindredSeal
+battlefield=Levithan's Heartcore
+Weather=calm
+Monster=LeviathanLeftHeart.LeviathanCenterHeart.LeviathanRightHeart
+Desc=is swallowed whole by the great and powerful flying demon known as Leviathan.  Once inside, the heroes take the Ignis Fatuus (a small object composed of souls of the fallen) to the demon's heartcore chamber.  The three hearts are protected by a membrane. Suddenly the Ignis Fatuus releases the souls it has collected and the membrane disappears, exposing the three hearts and the only way the beast can be defeated.
+AlliedNotes=600
+
+[NewsOrb]
+type=portal
+Cost=20
+Currency=KindredSeal
+Battlefield=Raptor News Network
+Weather=calm
+Monster=Bob_Barbas
+Desc=takes out a small glowing orb that has the initials R.N.N. on it. %real.name then tosses the orb onto the ground. It shatters and the players are teleported into the Raptor News Network.
+AlliedNotes=
+
+[BanishingCharm]
+type=portal
+cost=25
+currency=KindredSeal
+battlefield=Waughroon Shrine
+Weather=calm
+Monster=Gaki.Onki.Rasetsu
+Desc=takes out the banishing charm; a powerful charm used to banish demons. It begins to glow and creates a portal that teleports the heroes into a demonic shrine where three demons await.
+AlliedNotes=500
+
+[GemOfTheWest]
+type=portal
+Cost=15
+Currency=KindredSeal
+Battlefield=Byakko's Chamber
+Weather=stormy
+Monster=Byakko
+Desc=takes out the Gem of the West, a pulsing green gem. It glows brightly before shattering.  A green light shoots out of the sky and down onto the heroes, who are teleported up into Byakko's Chamber.
+AlliedNotes=1000
+
+[GemOfTheNorth]
+type=portal
+Cost=15
+Currency=KindredSeal
+Battlefield=Genbu's Chamber
+Weather=dry
+Monster=Genbu
+Desc=takes out the Gem of the North, a pulsing brown gem. It glows brightly before shattering.  A brown light shoots out of the sky and down onto the heroes, who are teleported up into Genbu's Chamber.
+AlliedNotes=1000
+
+[GemOfTheEast]
+type=portal
+Cost=15
+Currency=KindredSeal
+Battlefield=Seiryu's Chamber
+Weather=hot
+Monster=Genbu
+Desc=takes out the Gem of the East, a pulsing red gem. It glows brightly before shattering.  A red light shoots out of the sky and down onto the heroes, who are teleported up into Seiryu's Chamber.
+AlliedNotes=1000
+
+[GemOfTheSouth]
+type=portal
+Cost=15
+Currency=KindredSeal
+Battlefield=Suzaku's Chamber
+Weather=snowy
+Monster=Genbu
+Desc=takes out the Gem of the South, a pulsing white gem. It glows brightly before shattering.  A white light shoots out of the sky and down onto the heroes, who are teleported up into Suzaku's Chamber.
+AlliedNotes=1000
+
+[GodSeal]
+type=portal
+Cost=0
+Currency=KindredSeal
+Battlefield=The Shrine of Ru'Avitau
+Weather=light
+Monster=Kirin
+Desc=takes out the small glowing orb, which shatters and creates a large portal that leads up into the sky.  After entering, the heroes find themselves inside an ancient shrine of the sky gods, The Shrine of Ru'Avitau.  
+AlliedNotes=2000
+

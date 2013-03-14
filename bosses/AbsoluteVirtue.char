@@ -81,6 +81,8 @@ slow=no
 sleep=no
 stun=no
 MPRegenerating=no
+reflect=yes
+reflect.timer=1
 
 [Weapons]
 Equipped=AbsolutePolearm

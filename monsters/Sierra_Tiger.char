@@ -1,19 +1,19 @@
 [BaseStats]
-Hp=65
-Tp=30
-Str=30
-Def=24
-Int=13
-Spd=12
+Hp=345
+Tp=130
+Str=910
+Def=614
+Int=513
+Spd=612
 Name=Sierra Tiger
 
 [Battle]
-Hp=65
-Tp=30
-Str=30
-Def=24
-Int=13
-Spd=12
+Hp=345
+Tp=130
+Str=910
+Def=614
+Int=513
+Spd=612
 Status=alive
 
 
@@ -29,13 +29,14 @@ Percent=0
 [Descriptions]
 Hused=1
 Dused=1
-Char=is a large red and white tiger with huge fangs
+Char=is a large gray mountain tiger with huge fangs
 Rage=screams in rage 
 
 [Stuff]
 RedOrbs=0
 BlackOrbs=1
 ShopLevel=1.0
+Drops=TigerFang
 
 [Info]
 Flag=monster
@@ -46,7 +47,8 @@ passhurt=0
 LastSeen=N/a
 LastIP=N/a
 Created=N/a
-Streak=100
+Streak=501
+
 
 [Status]
 Poison=no
@@ -83,16 +85,16 @@ MPRegenerating=no
 
 [Weapons]
 Equipped=TigerFangs
-TigerFangs=30
+TigerFangs=501
 
 [Skills]
 
 
 
 [Techniques]
-Roar=30
-RazorFang=25
-ClawCyclone=25
+Roar=350
+RazorFang=350
+ClawCyclone=350
 
 [Item_Amount]
 

@@ -40,7 +40,9 @@ TimeToEnter= How long should the open period for a battle be? This is the time p
 
 maxHP=  the max amount of HP players can have.  By default it's 2500.
 
-maxTP=  the max amount of TP players can have. By default it's 500
+maxTP=  the max amount of TP players can have. By default it's 500.
+
+maxIG= the max amount of IG players can have. By default it's 100.
 
 MaxOrbReward= the max amount of orbs the battle can give out as a reward before skills and accessories are applied.  By default it's 20,000.  Note that this limit can be surpassed if more than one wave of monsters shows up.
 
@@ -50,15 +52,22 @@ EnableDoppelganger=   if you want the doppelganger boss fights to be enabled or 
 
 EnableWarMachine=  if you want the war machine boss fights to be enabled or not. Put true or false. It's set to true by default.
 
+AllowDemonwall=  yes/no  If you want the demon wall boss battles to exist at ranges 300-600, put this as yes.  It's set to yes by default.
+
 EnableChests=  If you want chests and keys to drop. Put true or false. It's set to true by default. If set to false, neither keys nor chests will drop.
 
 MaxCharacters= How many characters should each player be allowed to have? The default is 2.
 
 ShowOrbsCmdInChannel= true or false.  If set to true the !orbs command will display the results in the channel. If set to false, the !orbs command will display in a private message to the person who uses the command. If you have a lot of players in your channel it might be advisable to set this to false.
 
+EnableOldDmgFormulas= true/false  If you want the bot to use the pre version 2.0 damage formulas, set this to true.  It's set to false by default as most of the monsters are now designed for the version 2.0 formulas.
+
+EnableBattlefieldEvents= true/false  If you want the random battlefield events to happen, set this to true.  It's true by default.
+
 
 [StatPrices]
 This whole section is the base cost, in red orbs, that the shop will sell stat upgrades for.  You can lower the prices or raise them here.
+
 
 [Style]
 This section is for how many base style points a player gets for killing either a boss or a normal monster.  Note that just because the default value is 80 for bosses and 60 for monsters it doesn't mean that's exactly how many a player will get (there's other factors for calculating the resulting style points).
@@ -84,7 +93,7 @@ LevelAdjust is a way to make battles harder.  The monsters will gain a boost to 
 
 
 WEATHER.LST
-The weather.lst file controls valid weather types and how much of a bonus to magic the weather gives.
+Pre version 2.0 the weather.lst file controlled the weather for the bot.  Now, in version 2.0 and later, the weather is controlled in the battlefields.lst file. The weather.list file still contains how much of a boost magic receives under the correct weather.
 
 [weather]
 current=calm
@@ -99,6 +108,9 @@ These commands are commands that only the "bot owner" (set in the system.dat) ha
 
 !startbat or !start bat
 This command starts a battle if there isn't one already going.  If this command is used when players can already enter battle, it'll actually cancel the battle.
+
+!start bat PVP
+This command will start a player vs player battle. Monsters will not spawn in this type and players will be able to hurt each other.  The winning/losing streak won't be affected.
 
 !end bat
 Ends a battle as neither a victory or a loss.
@@ -145,6 +157,15 @@ This command will turn the automated battle system on/off.  If it's currently in
 !toggle ai system
 This command will turn the AI system on/off.  If it's set to off then monsters won't attack on their own.  Note, this doesn't affect charm.  Charmed monsters/players will continue to attack regardless if the ai system is turned on or off.
 
+!toggle battle formula
+This command will toggle between the pre version 2.0 battle damage formulas and the version 2.0 and greater battle formulas the instant it's used.  It is possible for bot admins to toggle at any time, even in the middle of battle.
+
+!toggle battlefield events
+This command will toggle the random battlefield events on or off.
+
+!leveladjust
+If bot admins want battles to be harder, they can adjust the level by which monsters are boosted by.  For example, if a player is on streak level 1, bot admins can set the leveladjust to 50 and a level 1 streak will now act as a level 51 streak including which monsters are summoned during the battles.  To turn it off, set the leveladjust to 0 (which is set by default).  The difficulty cannot be below 0.
+
 
 
 DETAILED LOOK AT NEW_CHAR.CHR
@@ -153,7 +174,7 @@ In this section we'll take a look at the blank new character template file in de
 [BaseStats]
 This section is the "resting" stats that new characters start with.  Resting stats are the stats the bot will reset the character to after each battle.
 
-Hp=100
+Hp=150
 Tp=20
 Str=5
 Def=5
@@ -165,7 +186,7 @@ Name=  This is really more for monsters, bosses and npcs, but the name of the ch
 [Battle]
 These are the stats that are read for battles.  These can be manipulated (boosting is an example of how these stats can be increased).  They'll be reset at the end of battle with the basestats.
 
-Hp=100
+Hp=150
 Tp=20
 Str=5
 Def=5
@@ -244,6 +265,7 @@ sleep=no
 stun=no
 MPRegenerating=no
 boosted=no
+reflect=no
 
 
 [Weapons]

@@ -101,8 +101,12 @@ Resist-Charm=100
 Resist-Poison=100
 Resist-Intimidate=100
 ManaWall=1
+Manawall.on=on
 RoyalGuard=1
+Royalguard.on=on
 MightyStrike=1
+MagicShift=1
+
 
 [Techniques]
 BioWeaponX=10

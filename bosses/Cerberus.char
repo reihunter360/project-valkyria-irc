@@ -30,7 +30,7 @@ Percent=0
 [Descriptions]
 Hused=1
 Dused=1
-Char=is a large three-headed dog that is surrounded by ice.
+Char=is a large three-headed dog that is surrounded by a protective ice armor.
 Rage=screams in rage 
 BossQuote=Leave now, mortal! The likes of you are forbidden in this land. You, who are powerless, are not worthy to set foot here. 
 
@@ -52,7 +52,8 @@ passhurt=0
 LastSeen=N/a
 LastIP=N/a
 Created=N/a
-Streak=5
+Streak=10
+
 
 [Status]
 Poison=no
@@ -111,3 +112,8 @@ ShoulderTackle=20
 Weakness=fire
 Strong=ice
 
+
+[NaturalArmor]
+Name=Large Protective Ice Chunks
+Max=100
+Current=100

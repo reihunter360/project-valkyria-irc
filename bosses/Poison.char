@@ -1,5 +1,5 @@
 [BaseStats]
-Hp=800
+Hp=4800
 Tp=550
 Str=70
 Def=70
@@ -9,7 +9,7 @@ Name=Poison
 
 
 [Battle]
-Hp=800
+Hp=4800
 Tp=550
 Str=70
 Def=70
@@ -33,7 +33,7 @@ BossQuote=You want to kill me? You can't kill me! I'm 1200 years old!
 RedOrbs=0
 BlackOrbs=1
 ShopLevel=1.0
-Drops=Tonic.Goldorb.Slurm
+Drops=Goldorb.Slurm.KindredSeal.Red-Belt
 
 [Monster]
 Type=
@@ -47,8 +47,10 @@ passhurt=0
 LastSeen=N/a
 LastIP=N/a
 Created=N/a
-Streak=100
-StreakMax=300
+Streak=-1000
+bosslevel=300
+
+
 
 [Status]
 Poison=no
@@ -106,11 +108,11 @@ Zen=5
 Impetus=20
 ElementalSeal=5
 MightyStrike=5
-BloodBoost=10
+BloodBoost=20
 
 [Techniques]
-PoisonVomit=50
-AcidRain=50
+PoisonVomit=150
+AcidRain=150
 
 
 [Item_Amount]

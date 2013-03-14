@@ -37,6 +37,7 @@ Rage=screams in rage
 RedOrbs=0
 BlackOrbs=1
 ShopLevel=1.0
+drops=BeastmenSeal
 
 [Info]
 Flag=monster
@@ -88,7 +89,7 @@ Equipped=orc_pike
 orc_pike=8
 
 [Skills]
-List=
+demonportal=1
 
 
 [Techniques]

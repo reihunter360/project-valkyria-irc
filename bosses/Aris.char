@@ -97,6 +97,7 @@ resist-silence=100
 resist-curse=60
 manawall.on=on
 manawall=1
+MagicMirror=10
 
 
 [Techniques]

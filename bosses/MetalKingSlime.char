@@ -42,7 +42,7 @@ Type=
 [Info]
 Flag=monster
 Gender=its
-Gender2=it
+Gender2=its
 password=battlearena
 passhurt=0
 LastSeen=N/a
@@ -50,7 +50,9 @@ LastIP=N/a
 Created=N/a
 OrbBonus=yes
 BattleStats=ignoreHP
-StreakMax=55
+Streak=21
+StreakMax=81
+MetalDefense=true
 
 
 [Status]

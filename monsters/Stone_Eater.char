@@ -1,20 +1,20 @@
 [BaseStats]
-Hp=35
+Hp=80
 Tp=50
 Str=7
-Def=6
+Def=7
 Int=10
-Spd=2
+Spd=7
 Name=Stone Eater
 
 
 [Battle]
-Hp=35
+Hp=80
 Tp=50
 Str=7
-Def=4
+Def=7
 Int=10
-Spd=2
+Spd=7
 Status=alive
 
 
@@ -47,6 +47,7 @@ passhurt=0
 LastSeen=N/a
 LastIP=N/a
 Created=N/a
+Streak=7
 StreakMax=15
 
 [Status]
@@ -87,8 +88,7 @@ Equipped=BedrockBite
 BedrockBite=5
 
 [Skills]
-List=
-
+Zen=5
 
 [Techniques]
 Tremors=5

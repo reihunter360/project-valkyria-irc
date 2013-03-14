@@ -18,8 +18,8 @@ alias calculate.stylepoints {
   if ((%style.points > 250) && (%style.points <=  450)) { set %style.rating $readini(translation.dat, styles, SShowtime) }
   if ((%style.points > 450) && (%style.points <= 750)) { set %style.rating $readini(translation.dat, styles, SSStylish) }
   if ((%style.points > 750) && (%style.points <= 2500)) { set %style.rating $readini(translation.dat, styles, SSSSmokingHotStyle) }
-  if ((%style.points > 2500) && (%style.points < 6000)) { set %style.rating $readini(translation.dat, styles, Jackpot) }
-  if (%style.points >= 6000) { set %style.rating $readini(translation.dat, styles, MaximumStyle) }
+  if ((%style.points > 2500) && (%style.points < 5000)) { set %style.rating $readini(translation.dat, styles, Jackpot) }
+  if (%style.points >= 5000) { set %style.rating $readini(translation.dat, styles, MaximumStyle) }
 }
 
 alias add.stylepoints {
@@ -119,6 +119,18 @@ alias add.style.orbbonus {
   writeini battle2.txt BattleInfo OrbBonus %current.orb.bonus
   unset %style.points | unset %current.orb.bonus | unset %total.orbs.to.add
 }
+
+alias add.style.effectdeath {  
+  set %current.orb.bonus $readini(battle2.txt, BattleInfo, OrbBonus)
+  if (%current.orb.bonus = $null) { set %current.orb.bonus 0 }
+
+  set %total.orbs.to.add $rand(10,100)
+
+  inc %current.orb.bonus %total.orbs.to.add
+
+  writeini battle2.txt BattleInfo OrbBonus %current.orb.bonus
+  unset %style.points | unset %current.orb.bonus | unset %total.orbs.to.add
+}  
 
 alias add.playerstyle.xp {
   ; $1 = person adding xp

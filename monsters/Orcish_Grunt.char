@@ -1,6 +1,6 @@
 [BaseStats]
-Hp=40
-Tp=30
+Hp=70
+Tp=40
 Str=6
 Def=2
 Int=3
@@ -9,8 +9,8 @@ Name=Orcish Grunt
 
 
 [Battle]
-Hp=40
-Tp=30
+Hp=70
+Tp=40
 Str=6
 Def=2
 Int=3
@@ -37,6 +37,7 @@ Rage=screams in rage
 RedOrbs=0
 BlackOrbs=1
 ShopLevel=1.0
+drops=BeastmenSeal
 
 [Info]
 Flag=monster
@@ -47,7 +48,8 @@ passhurt=0
 LastSeen=N/a
 LastIP=N/a
 Created=N/a
-StreakMax=25
+Streak=5
+StreakMax=10
 
 [Status]
 Poison=no
@@ -84,10 +86,10 @@ MPRegenerating=no
 
 [Weapons]
 Equipped=orc_pike
-orc_pike=1
+orc_pike=5
 
 [Skills]
-List=
+Zen=5
 
 
 [Techniques]

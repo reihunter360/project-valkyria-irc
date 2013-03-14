@@ -88,6 +88,10 @@ slow=no
 sleep=no
 stun=no
 MPRegenerating=no
+protect=yes
+protect.timer=0
+shell=yes
+shell.timer=0
 
 [Weapons]
 Equipped=Egyptian_Rod

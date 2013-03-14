@@ -12,7 +12,7 @@ AuXFire of Hawkee
 Caught a major bug with the passwords which made changing your password from the default impossible.
 
 Raiden of Esper.net
-He helped test the bot and found a bot-breaking bug in which certain encoded passwords wouldn't work with the !id and !quick id commands.  Also, several accessories and skills were ideas of his.
+This guy has helped me almost as much as Smz has. He's found countless bugs, gave me ideas for several accessories and skills and helped host the bot on Esper.net.
 
 Sealdrenxia of Twitter
 Discovered a huge bug with !new char that let players use the command over and over to get free orbs.

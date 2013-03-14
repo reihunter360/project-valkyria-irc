@@ -10,7 +10,7 @@ ThereÅfs a bunch of weapons that can be bought and each weapon has a few techniq
 
 ThatÅfs really the gist of what IÅfve been working on thus far.
 
-One more thing to mention here in the "overview" is that the bot is currently unbalanced.  New players will probably find themselves dying a lot while older players will probably dominate almost everything (to a point).   Some weapons are overpowered, others aren't strong enough.  The bot is only on version 1.4 so hopefully things will improve in those areas later on down the road.
+One more thing to mention here in the "overview" is that the bot is currently unbalanced.  New players will probably find themselves dying a lot while older players will probably dominate almost everything (to a point).   Some weapons are overpowered, others aren't strong enough.  The bot is only on version 2.0 so hopefully things will improve in those areas later on down the road.
 
 
 STARTING OUT (i.e. how do I join and what do I do first?)
@@ -39,6 +39,10 @@ Some basic commands you may want to check out:
 
 !orbs - Tells you how many black and red orbs you have.
 
+!allied notes - Tells you how many Allied Notes you have collected. Allied notes are used in the shop for certain items.
+
+!level - This will tell you what your estimated level is.  Your estimated level is based on the core 4 stats (str, def, int and spd).  In order to increase your level, increase those four stats.
+
 !weapons - This will return a list of all the weapons you own along with the current level of the weapon.  For example:  Fists(1) means you have level 1 fists.
 
 !techs - Will return a list of techniques you know along with the level of the technique.  Example: DoublePunch(1) means you have level 1 DoublePunch.
@@ -47,9 +51,17 @@ Some basic commands you may want to check out:
 
 !accessories - Will return a list of any accessories you own and which one you have equipped.
 
-!wear name - Will allow you to equip the accessory.
+!wear accessory name - Will allow you to equip the accessory.
 
-!remove name - Will allow you to remove an accessory.
+!remove accessory name - Will allow you to remove an accessory.
+
+!armor - Will return a list of any armor pieces that you own.
+
+!wear armor name - Will allow you to wear a piece of armor.
+
+!remove armor name - Will allow you to remove a piece of armor that you're wearing.
+
+!look - Will allow you to see what you're wearing.  You can also do !look person to look at someone else.
 
 !status - Will return the current status of your character.  (like poisoned, stunned, that sort of thing).
 
@@ -75,6 +87,8 @@ Some basic commands you may want to check out:
 !style - This command tells you which style you have equipped, which styles you own, and how much XP you have into the current style.
 
 !style change name - This command will change your style.
+
+/me gives # item to person - You can give items/accessories to other players using this command.
 
 !stats - Tells you your stats.
 
@@ -117,8 +131,14 @@ Next up you can try out the list command for the various things.
 !shop list weapons
 !shop list styles
 !shop list orbs
+!shop list ignitions
+!shop list portal
+!shop list misc
+!shop list gems
+!shop list alchemy
 
-Throughout all this you'll notice something like   name(number).  The (number) is the amount of red orbs you need to purchase it.  Also take note that new weapons are listed in BLACK ORB prices.  Black Orbs are special orbs you get for surviving a successful boss battle and cannot be obtained any other way.
+Most things in this game are purchased using red orbs. Red orbs are acquired by defeating enemies via participating in battles and found within red chests.  Weapons and Ignitions require black orbs. Black orbs are acquired by surviving a successful boss battle or found randomly in gold chests.  Portal Items require special seals, rather than orbs, to purchase.  The seals are found in chests and off of random enemies.  Finally, gems and alchemy items are purchased using Allied Notes.  Allied Notes are a special currency that you can acquire by defeating the foes found within the portal items.
+
 
 So let's say you want to upgrade your HP (at least one or two upgrades in HP is recommended).  You can do it like this:
 
@@ -165,6 +185,9 @@ Evil doppelgangers of all participating players will be generated and the heroes
 Warmachine Battle (20% chance of replacing a normal boss battle)
 The monsters will build a large tank-like boss that will roll out onto the battlefield for the players to fight.
 
+Demon Wall Battle (only appears on winning streaks 300-600)
+A special evil demon wall will appear and teleport the players to a special battlefield.  In this battlefield the players have 5 minutes to defeat the wall before they're crushed to death (instant loss if the timer runs out).
+
 Monster Battle (80% chance of happening)
 As expected, this is the most common type of battle.  The bot will generate a number of monsters (the number depends on how many players join the battle) and will add them to battle.  The object is to defeat them all.
 
@@ -195,8 +218,11 @@ This command will allow you to perform a melee attack using your weapon.  Some t
 For example:  /me uses his DoublePunch on monster.  
 This command will perform a technique on a monster assuming you ( A ) know the technique ( B ) have enough TP to perform the technique.  As with weapons, some techniques have elemental properties that might affect damage.  There's also a lot of different kinds of technique types in this bot.  Included are status (like inflicting a target with poison), AOE (area of effect, hits all opposing targets on the battlefield), magic (affected by the weather and elemental strengths/weaknesses), and suicide (kills the user).
 
-/me goes boost
-If your weapon has a "boost" technique and you have skill in it, you can use the boot to increase your stats 1 time per battle by using the /me goes command.  For example, Zangetsu has the "bankai" technique which is a boost.  Once you learn the technique you can use  /me goes bankai  when you have Zangetsu equipped to perform the boost.  Note that boosts aren't very strong in this bot (as opposed to my previous bot where boosts were overpowered) but will become stronger once you level the ability up more, and that you can only boost 1 time per battle.  You do not need to keep the weapon on to keep the boost (so you can swap to Zangetsu, use Bankai, then swap back to any other weapon you own).
+/me goes boost/Ignition
+This is the command to use your weapon boost or your Ignition, if you have any.  Weapon Boosts will not wear off on their own but are considerably weaker than Ignitions, which require IgnitionGauge to use.  For an example of the weapon boosts: Zangetsu has the "TensaZangetsu" technique which is a boost.  Once you learn the technique you can use  /me goes TensaZangetsu when you have Zangetsu equipped to perform the boost. You do not need to keep the weapon on to keep the boost (so you can swap to Zangetsu, use TensaZangetsu, then swap back to any other weapon you own).  for Ignitions you must first purchase one in the shop (via black orbs) and you must purchase some IgnitionGauge (using red orbs).  Your IgnitionGauge will fill up by +1 at the end of every battle or +1 every time you die.  Once you have enough IgnitionGauge to use the Ignition, you use /me goes ignitionname to activate it.  Every turn your IgnitionGauge will deplete and if you do not have enough to keep the ignition on, you will revert. 
+
+/me reverts from Ignition
+If you want to turn an Ignition off before your IgnitionGauge is empty, use this command.
 
 !use item on target
 If you have any items and wish to use them, this is how you do it.  For example, you can use a potion to restore some of your (or an allies') HP.  To do that you would use !use potion on yournamehere/targetnamehere.   Some items cannot be used on yourself (battle items) and some items can't be normally used on monsters (healing items can only be used on monsters if the monster is a zombie).
@@ -220,11 +246,11 @@ At the end, win or lose, you will receive some red orbs for your efforts.  Here'
 
 
 Here's a small note about monsters in this bot:
-The current winning/losing streak will either enhance or nerf monsters' strengths.  If players have been winning a lot of battles then monsters will progressively get stronger and stronger.  If the players have lost a lot in a row, the bot will try to decrease the strength of monsters to give players a bigger chance of winning.  Monsters will also be strengthened by how many players are in the battle (a monster fighting 5 players will be stronger than the same monster fighting 1 player).
+Monsters are leveled based on the current winning streak.  And the amount of damage you will do to a monster is partially based on the level difference between you and your foe.  If you're a higher level, you should be doing more damage to the monster, and vice versa.  If you find yourself losing battles a lot, increase your four core stats (str, def, int, and spd) to increase your level and hopefully make the monsters easier to defeat.
 
 
 SKILLS
-** As of October 28, 2012.
+** As of February 8, 2013.
 
 There are three types of skills in this bot: Passive Skills that are always on, Active Skills that have commands, and Resists that help you resist against various status types found in the bot.  Each skill has a maximum level that you can obtain in it. Some active skills can only be used once every certain number of minutes.  Of course you must first purchase the skills in the shop before you can use them.
 
@@ -279,6 +305,12 @@ This skill will increase the amount of style XP you get at the end of battle.
 
 Alchemy
 This skill will allow you to use gems to create items. Each level of this skill will raise the success rate of creating an item by 1%.  Use !view-info alchemy list  to get a list of items you can craft and !view-info alchemy (item)  to view the ingredients necessary.
+
+TreasureHunter
+This skill will increase the odds of better colored chests at the end of battle and increase the odds that a player will receive an item from a normal monster battle (if the monster has an item to drop). This skill is culumulative with everyone who has it at the end of battle.  In order for this skill to take effect, you must be alive at the end of battle when a chest is created.
+
+BackGuard
+This skill will decreaease the odds of a surprise attack against the players. This skill is culumulative with everyone who has it at the beginning of battle.
 
 
 Active Skills
@@ -349,6 +381,27 @@ When used, this skill will take (skill level * 10%) of your strength and add it 
 Holy Aura - !holy aura
 When used, this skill will extend the amount of time you have to fight before Darkness sets onto the battlefield by (skill level) minute(s).
 
+Provoke
+This skill allows you to provoke an enemy into attacking you instead of another target.
+
+Disarm
+This skill will let you try to disarm a target.  Each level increases the percentage of success by 1%.
+
+WeaponLock
+This skill will consume the item "Sokubaku" and lock a target's weapon for a number of turns.
+
+Konzen-ittai
+This skill, when active, will allow you to perform a Renkei by yourself with a non-magic technique that you use.
+
+SealBreak
+This skill will allow you to attempt to break a Melee-Only Ancient Seal placed upon a battlefield. Each level of the skill adds a 10% chance in being successful.  This skill will consume Hankai upon use.
+
+MagicMirror
+This skill will consume a MirrorShard to create a magical reflective barrier around you. The barrier will bounce a magic spell back to its caster.  Increased levels decreases the amount of time inbetween uses.
+
+Gamble
+This skill will consume 1,000 orbs in exchange for a random event to happen.  Random events include, but are not limited to: gaining a random item, refilling the Ignition Gauge, restoring HP, taking damage, and inflicting a status effect upon yourself. Increased levels decreases the amount of time inbetween uses.
+
 
 Resistance Skills
 Like Passive skills, these skills are always on.  All of them do the same thing except with different status effects.  Each level you purchase of a resistance skill lowers the chance that that status effect will take effect on you by 1%.  The maximum is 100, meaning you're completely immune to that status effect**.
@@ -364,14 +417,15 @@ resist-zombie
 resist-slow
 resist-stun
 resist-stop
+resist-petrify
 
 ** There is one exception.  Resist-Curse will not protect you when a terrible curse falls upon the battlefield (a rare event).
 
 
 ITEM LIST
-** As of January 20, 2013.
+** As of February 12, 2013.
 
-There's a bunch of different types of items in the bot currently:  Healing Items, Battle Items, Consumable (Skill) Items, +Stat Items, Summon Items, Shop Level Reducing Items, Gems, Keys, Accessories, and Misc (Crafting) items.  Here's a list of each.
+There's a bunch of different types of items in the bot currently:  Healing Items, Battle Items, Consumable (Skill) Items, +Stat Items, Summon Items, Shop Level Reducing Items, Gems, Keys, Accessories, Portal Items and Misc (Crafting) items.  Here's a list of each.
 
 Healing Items
 These are items that are beneficial to the targets.
@@ -402,6 +456,9 @@ The tonic will instantly cure most status effects.  It will not cure Charm or In
 
 GoldOrb - 8000 Red Orbs
 This item, when used, will bestow the target with the "revive" status.  If the target dies in the same battle, he/she will be revived with 1/2 hp.
+
+IgnitionStar - chests only
+This item, when used, will instantly restore 10 Ignition Gauge.
 
 
 Battle Items
@@ -440,12 +497,16 @@ The dynamite will inflict roughly 310 fire damage to a target.  It can be used w
 HolyHandGrenade - Crafting Only
 The Holy Hand Grenade item will inflict roughly 2500 damage to a single target.
 
+Love_Potion - Special Boss Drop
+This item will attempt to charm a target.
+
 
 +Stat Items
 These items, when used, will increase your stats by a certain amount.  You cannot buy these items in the shop and must be found by defeating bosses and being the most stylish.  None of these items can be used with Fullbring.
 
 To keep a little bit of mystery with these items, I'll give a list but won't say what they do.  If you want to know, get out there and defeat the bosses and be stylish about it.
 
+List
 Pizza
 PotRoast
 Ramen
@@ -465,6 +526,7 @@ SilverApple
 DefenseSource
 PowerSource
 Herring
+TurkeyLeg
 
 
 Consumable (Skill) Items
@@ -475,6 +537,12 @@ This item is used to create shadows using the Utsusemi skill.  One shihei will p
 
 Sokubaku - 100 red orbs
 This item is used with the skill Weapon Lock to lock enemies' weapons for a number of turns.
+
+Hankai - 1000 red orbs
+This item is used with the Seal Break skill.
+
+MirrorShard - 3000 red orbs
+This item is used with the Magic Mirror skill.
 
 
 Summon Items
@@ -544,7 +612,6 @@ This item will reduce your shop level by 10 points.
 UltraDiscountCard - 500,000 Red Orbs
 This item will reduce your shop level by 25 points.
 
-
 Gems
 Gems are used to craft items. They can be obtained via treasure chest or by killing a monster via the JewelSword weapon.
 
@@ -557,7 +624,6 @@ Opal
 Onyx
 Diamond
 
-
 Keys
 Keys are obtained at the end of battle after enough wins have been accumulated.  They open their respective colored-chests.
 
@@ -568,7 +634,7 @@ OrangeKey
 GreenKey
 GoldKey
 SilverKey
-
+PurpleKey
 
 Accessories
 Accessories are special items that you can wear to bestow various bonus effects to your character.  Here's a list of current accessories.
@@ -589,16 +655,19 @@ VIP-MemberCard
 Spear-Pin
 Mugger's-Belt
 Prism-Specs
-
+4leaf-clover
 
 Misc (Crafting) Items
-These items are used with the alchemy skill to craft items.
+These items are used with the alchemy skill to craft items or are seal items that are used to purchase portal items.
 
 Ink
 Paper
 AshLog
 Hatchet
 IronOre
+GoldOre
+SilverOre
+DarksteelOre
 BrokenLance
 SilverChain
 FireGem
@@ -606,7 +675,13 @@ IceStone
 WindRock
 WaterJewel
 EarthSphere
+Glass
+Cloth
+RepairHammer
+TigerFang
 
+BeastmenSeal
+KindredSeal
 
 Runes
 Runes are used to augment your physical melee weapons with new abilities.
@@ -622,18 +697,29 @@ SmnRune
 DrnRune
 ItmRune
 RenRune
+NinRune
+
+Portal Items
+These items are used in battle to transport all of the players to a special battlefield to fight a tough boss monster.
+
+WormFood
+BanishingCharm
 
 
 ACCESSORIES
-Accessories are special items that can be equipped.  The accessories themselves will grant bonuses or status effects on the wearer.  How do you get the accessories?  Well, they're rare boss drops from certain bosses.  Once you manage to find one, you can equip it with !wear <accessory name>  If you ever decide that you no longer want to wear that accessory you can remove it with !remove <accessory name>. 
+Accessories are special items that can be equipped.  The accessories themselves will grant bonuses or status effects on the wearer.  How do you get the accessories?  Well, they're rare boss drops from certain bosses or specially crafted.  Once you manage to find one, you can equip it with !wear accessory <accessory name>  If you ever decide that you no longer want to wear that accessory you can remove it with !remove accessory <accessory name>. 
+
+
+ARMOR
+Armor can be found via chests, bosses or crafted. Most armor will bestow the wearer a stat increase and some pieces of armor will grant special bonuses in the form of augments that are always on.  Once you manage to find a piece of armor, you can equip it with !wear armor <armor name>  If you ever decide that you no longer want to wear that piece of armor you can remove it with !remove armor <armor name>.   There are five slots that you can wear armor on: head, body, legs, feet and hands.  The bot will equip the armor in the correct slot when you use the command, you do not need to specify.
 
 
 AUGMENTS
-Augments are a way to enhance a melee weapon of your choosing.  First you must get a rune.  Once you have one you can use !augment add (weapon) (rune)  To remove an augment: !augment remove (weapon)  Remember to get rid of the ( ) when using the actual commands. Use the command !augment by itself to see the augments you have equipped, !augment list (player) to see other player's augments. 
+Augments are a enhancements to your character.  There are three ways to receive an augment.  First, most Ignition boosts will activate a temporary augment while the boost is on. Second, some pieces of armor will haev augments always on while you're wearing the armor.  Finally, there's a way to enhance a melee weapon of your choosing. For this method, first you must get a rune.  Once you have one you can use !augment add (weapon) (rune)  To remove an augment: !augment remove (weapon)  Remember to get rid of the ( ) when using the actual commands. Use the command !augment by itself to see the augments you have equipped, !augment list (player) to see other player's augments. 
 
 
 TREASURE CHESTS
-Treasure Chests appear at the end of victories after a certain number of wins have happened in a row (currently 25 wins).  At the end of battle a random colored chest will appear. Anyone who has the right colored key can open the chest but they have to act fast! Chests will disappear after 45 seconds of being unopened. Each color contains its own item pool but combined, chests can contain every item in the game (including rare accessories and shop discount items).
+Treasure Chests appear at the end of victories after a certain number of wins have happened in a row (currently 25 wins).  At the end of battle a random colored chest will appear. Anyone who has the right colored key can open the chest but they have to act fast! Chests will disappear after 45 seconds of being unopened. Each color contains its own item pool but combined, chests can contain nearly every item in the game (including rare accessories and shop discount items).
 
 
 STYLE POINTS
@@ -710,8 +796,16 @@ So here's how it's going to really work.  First off, each technique will be wort
 One thing to note though is that magic, status, and AOE type techniques will not cause a renkei to happen.  Mainly this is done to help prevent the bot from flooding out (especially on AOE techniques) but also because magic and status techniques are already sort of haxx to begin with.
 
 
+IGNITIONS
+Ignitions are more powerful boosts. You buy them in the shop for black orbs and they won't be too cheap.  Once you buy them you'll notice that you can't use them immediately because they require a certain amount of your Ignition Gauge to use.  You buy points into your maximum Ignition Gauge via the shop (also not too cheap when compared to the other stats you can buy).  You'll notice that your IG is not filled when you buy into the maximum. In order to fill the IG you have to be in winning battles or be killed by monsters.
+
+Once you have enough IG to use the Ignition, you activate it the same way as you would a weapon boost: /me goes (name)
+
+You'll notice that Ignitions have two special extras in addition to +stat gains: Augments and Effects.  Augments work just like weapon augments but they're only temporary until the Ignition is turned off. The Ignition effects are immediate and activated when you first use the Ignition. The effects will either affect yourself, your allies, or your enemies by usually inflicting a status effect.  You CAN manually stop the Ignition before running out of IG by using the command /me reverts from (name) on your turn.  Any effects that are activated when you use the Ignition are not lost when you revert manually (unless it's a one-turn type effect that would normally be over upon the target's turn anyway).
+
+
 MONSTER LIST
-** As of January 9, 2013.
+** As of February 12, 2013.
 Here's a list of monsters that are in the bot.
 
 Acrobat
@@ -720,6 +814,7 @@ Baelfyr
 Balrog
 Bark Spider
 Bear Shark
+Bee
 Bee Bear
 Bigclaw
 Bloodgoyle
@@ -728,6 +823,7 @@ Blue Medusa Head
 Bone Soldier
 Byrgen
 Cactuar
+Cave Tiger
 Chimyriad
 Citadel Bats
 Combat
@@ -745,14 +841,15 @@ Dalek
 Dark Knight
 Dark Octopus
 Decapiclops
-Demonic Succubus
 Demon Knight
 Demon Samurai
 Demon Warrior
 Demon Wizard
+Demonic Succubus
 Devil Manta
 Dhalmel
 Ding Bats
+Dirt Eater
 Drachenlizard
 Dragoon Ghost
 Earth Elemental
@@ -776,17 +873,20 @@ Goblin Enchanter
 Goblin Shaman
 Goblin Smithy
 Gold Medusa Head
+Greater Pugil
 Guardian Treant
 Healing Slime
 Heal Slime
 Heraldic Imp
 Highland Treant
+Icefang Tiger
 Ironshell
 Kindred Knight
 Kindred Samurai
 Kindred Warrior
 Kindred Wizard
 Mad Piranha
+Magnes Quadav
 Male Vampire
 Wooly Mammoth
 Maneating Hornet
@@ -795,6 +895,7 @@ Midnight Blue Slime
 Minotaur
 Moblin
 Moonfang Warrior
+Mud Pugil
 Nightmare Hornet
 Nightmare Vanguard
 Ninja Assassin
@@ -807,10 +908,13 @@ Orcish Wyrmbrander
 Oxocutioner
 Poison Slime
 Pride Demon
+Pugil
 Reaver
 Red Slime
 New Age Retro Hippie
 Revenant
+River Crab
+Rock Eater
 Rock Lizard
 Ruby Quadav
 Ruly Imp
@@ -818,6 +922,7 @@ Sabertooth Tiger
 Samurai Ghost
 Sandy Claws
 Sapphire Quadav
+Sea Pugil
 Shrapnel
 Sierra Tiger
 Silver Medusa Head
@@ -845,10 +950,12 @@ Ungeweder
 Unicorn
 Volcano Wasp
 Water Elemental
+Wild Rabbit
 Wooden Puppet
 Wyvern
 Yagudo Oracle
 Yagudo Prior
+Yagudo Prioress
 Yagudo Scribe
 Yagudo Zealot
 Zarklet

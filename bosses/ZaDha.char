@@ -53,8 +53,8 @@ passhurt=0
 LastSeen=N/a
 LastIP=N/a
 Created=N/a
-Streak=60
-StrakMax=200
+Streak=100
+StrakMax=300
 
 [Status]
 Poison=no
@@ -88,6 +88,7 @@ slow=no
 sleep=no
 stun=no
 MPRegenerating=no
+reflect=yes
 
 [Weapons]
 Equipped=Mistilteinn
@@ -106,6 +107,7 @@ Resist-Charm=100
 Resist-Poison=20
 Resist-Paralysis=20
 Resist-Stun=20
+MagicMirror=10
 
 [Techniques]
 Holy=20

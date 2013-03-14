@@ -6,12 +6,12 @@ alias aicheck {
   remini $char($1) renkei
 
   ; Determine if the current person in battle is a monster or not.  If so, they need to do a turn.  If not, return.
-  if ($is_charmed($1) = true) { /.timerAIthink $+ $rand(a,z) $+ $rand(1,1000) 1 8 /ai_turn $1 | halt }
+  if (($is_charmed($1) = true) || ($is_confused($1) = true)) { /.timerAIthink $+ $rand(a,z) $+ $rand(1,1000) 1 6 /ai_turn $1 | halt }
 
   var %ai.system $readini(system.dat, system, aisystem)
   if ((%ai.system = $null) || (%ai.system = on)) {
-    if ($readini($char($1), info, flag) = monster) { /.timerAIthink $+ $rand(a,z) $+ $rand(1,1000) 1 8 /ai_turn $1 | halt }
-    if ($readini($char($1), info, flag) = npc) { /.timerAIthink $+ $rand(a,z) $+ $rand(1,1000) 1 8 /ai_turn $1 | halt }
+    if ($readini($char($1), info, flag) = monster) { /.timerAIthink $+ $rand(a,z) $+ $rand(1,1000) 1 6 /ai_turn $1 | halt }
+    if ($readini($char($1), info, flag) = npc) { /.timerAIthink $+ $rand(a,z) $+ $rand(1,1000) 1 6 /ai_turn $1 | halt }
     else { return }
   }
   else { return }
@@ -21,16 +21,39 @@ alias ai_turn {
   ; Is it the AI's turn?  This is to prevent some bugs showing up..
   if (%who != $1) { return }
 
-  ; If it's an AI's turn, give the AI 60 seconds to make an action.. in case it hangs up.
-  /.timerBattleNext 1 60 /next
+  ; If it's an AI's turn, give the AI 45 seconds to make an action.. in case it hangs up.
+  /.timerBattleNext 1 45 /next
 
   ; For now the AI will be very, very basic and random.  Later on I'll try to make it more complicated.
   unset %ai.target | unset %ai.targetlist | unset %ai.tech | unset %opponent.flag | unset %ai.skill | unset %ai.skilllist | unset %ai.type
 
   set %ai.type $readini($char($1), info, ai_type) 
 
-  ; Monsters can change their weapons.
-  $ai.changeweapon($1)  
+  if (%ai.type = portal) { 
+    $portal.clear.monsters
+    if ($readini(battle2.txt, battleinfo, Monsters) >= 6) { query %battlechan 12The Demon Portal glows quietly. | $check_for_double_turn($1) | halt }
+    else {  $portal.summon.monster($1) |  halt }
+  }
+
+
+  if (($readini($char($1), info, flag) = NPC) || ($readini($char($1), info, flag) = monster)) { 
+
+    ; Release snatched targets, if any
+    var %cover.target $readini($char($1), skills, CoverTarget)
+    if ((%cover.target != none) && (%cover.target != $null)) {
+      remini $char($1) skills covertarget
+      $set_chr_name($1) | query %battlechan $readini(translation.dat, battle, ReleaseSnatchedTarget)
+    }
+
+    ; Possibly change weapons.
+    $ai.changeweapon($1) 
+  }
+
+  ; If a monster has the skill "magicshift" it can use it here at random.
+  $ai.magicshift($1)
+
+  ;  If a monster can build a demon portal, then it can use it here at random.
+  if (%curse.night != true) {  $ai.buildportal($1) }
 
   ; First off, let's figure out how much TP the monster has.  If it's less than 15, it's going to do an attack
   var %tp.have $readini($char($1), battle, tp) 
@@ -49,6 +72,12 @@ alias ai_turn {
     if ($readini($char($1), info, flag) = monster) { set %opponent.flag monster } 
     else { set %opponent.flag player }
   }
+  if ($readini($char($1), status, confuse) = yes) { 
+    var %random.target $rand(1,2)
+    if (%random.target = 1) { set %opponent.flag monster }
+    if (%random.target = 2) { set %opponent.flag player }
+  }
+
   ; If the monster is under amnesia, just attack.
   if ($readini($char($1), status, amnesia) = yes) { set %action attack }
 
@@ -102,7 +131,9 @@ alias ai_gettarget {
     return
   }
 
-  if ($readini(techniques.db, %ai.tech, type) = heal) {
+  set %tech.type $readini(techniques.db, %ai.tech, type)
+
+  if ((%tech.type = heal) || (%tech.type = buff)) {
     if (%opponent.flag = player) { set %opponent.flag monster | goto gettarget }
     if (%opponent.flag = monster) { set %opponent.flag player | goto gettarget }
   }
@@ -111,7 +142,7 @@ alias ai_gettarget {
   ; As much as I hate using the goto command, it's the only way I can think of to make the above flag change work right so that healing techs work right.
 
   :gettarget
-  set %battletxt.lines $lines(battle.txt) | set %battletxt.current.line 1
+  set %battletxt.lines $lines(battle.txt) | set %battletxt.current.line 1 | unset %tech.type
 
   while (%battletxt.current.line <= %battletxt.lines) { 
     set %who.battle.ai $read -l $+ %battletxt.current.line battle.txt
@@ -152,6 +183,27 @@ alias ai_gettarget {
   unset %random.target | unset %total.targets | unset %taunt.action
 }
 
+alias ai_getmontarget {
+  ; $1 = AI user
+
+  unset %ai.targetlist
+
+  set %battletxt.lines $lines(battle.txt) | set %battletxt.current.line 1
+
+  while (%battletxt.current.line <= %battletxt.lines) { 
+    set %who.battle.ai $read -l $+ %battletxt.current.line battle.txt
+
+    if (($readini($char(%who.battle.ai), battle, status) != runaway) && ($readini($char(%who.battle.ai), battle, hp) > 0)) {
+      if (($readini($char(%who.battle.ai), info, flag) = monster) && (%who.battle.ai != $1)) {
+
+        if ($isfile($boss(%who.battle.ai)) != $true) {  $add_target }
+
+      }
+    }
+
+    inc %battletxt.current.line 
+  } 
+}
 
 alias add_target {
   if (%who.battle.ai = $null) { return }
@@ -187,10 +239,36 @@ alias ai_gettech {
     inc %value 1 
   }
 
+  if (($readini($char($1), info, flag) = monster) || ($readini($char($1), info, flag) = npc)) { 
+    if (($readini($char($1), status, ignition.on) != on) && ($readini($char($1), battle, IgnitionGauge) >= 100)) {
+      if (($readini($char($1), status, virus) != yes) && ($readini($char($1), status, boosted) != yes))  {
+
+        ; Get Ignition list and check it
+        set %ignitions $readini(ignitions.db, ignitions, list)
+        set  %number.of.ignitions $numtok(%ignitions, 46)
+        var %value 1
+
+        while (%value <= %number.of.ignitions) {
+          set %ignition.name $gettok(%ignitions, %value, 46)
+          set %ignition.level $readini($char($1), ignitions, %ignition.name)
+
+          if ((%ignition.level != $null) && (%ignition.level >= 1)) { 
+            var %flag $readini($char($1), info, clone)  
+            if (%flag = $null) { %tech.list = $addtok(%tech.list,%ignition.name,46) }
+          }
+          inc %value
+
+        }
+      }
+      unset %ignitions | unset %number.of.ignitions | unset %ignition.name | unset %ignition.level
+    }
+  }
+
+
   $ai_choosetech
 
   if ($readini(techniques.db, %ai.tech, type) = boost) {
-    if (($readini($char($1), status, virus) = yes) || ($readini($char($1), status, boosted) = yes)) {
+    if ((($readini($char($1), status, virus) = yes) || ($readini($char($1), status, boosted) = yes) || ($readini($char($1), status, ignition.on) = on))) {
       ; The monster is already boosted or has a virus and can't boost, so let's remove that tech from the list and get another tech.
       set %tech.to.remove $findtok(%tech.list, %ai.tech, 46)
       set %tech.list $deltok(%tech.list,%tech.to.remove,46)
@@ -282,6 +360,33 @@ alias ai_skillcheck {
   if ($readini($char($1), skills, cocoonevolve) >= 1) { 
     %ai.skilllist  = $addtok(%ai.skilllist,cocoonevolve, 46) 
   }
+  if ($readini($char($1), skills, magicmirror) != $null) { 
+    if ($readini($char($1), status, reflect) != yes) {
+      writeini $char($1) skills magicmirror.time 0 | writeini $char($1) item_amount mirrorshard 100 | %ai.skilllist  = $addtok(%ai.skilllist, magicmirror, 46) 
+    }
+  }
+  if ($readini($char($1), skills, bloodpact) != $null) { 
+    if ($readini($char($1), skills, Summon) != $null) {
+      %ai.skilllist  = $addtok(%ai.skilllist, bloodpact, 46) 
+    }
+  }
+  if ($readini($char($1), skills, snatch) != $null) { 
+    var %cover.target $readini($char($1), skills, CoverTarget)
+    if ((%cover.target = none) || (%cover.target = $null)) {
+      writeini $char($1) skills snatch.time 0 | %ai.skilllist  = $addtok(%ai.skilllist, snatch, 46) 
+    }
+  }
+  if ($readini($char($1), skills, MonsterConsume) != $null) { 
+    $ai_getmontarget($1)
+    if (($numtok(%ai.targetlist, 46) = 0) || ($numtok(%ai.targetlist, 46) = $null)) { return }
+    else { %ai.skilllist  = $addtok(%ai.skilllist, monsterconsume, 46) }
+  }
+
+  if ($readini($char($1), skills, JustRelease) >= 1) {
+    if ($readini($char($1), skills, royalguard.dmgblocked) >= 100) { %ai.skilllist  = $addtok(%ai.skilllist, justrelease, 46)  }
+  }
+
+
 }
 
 alias ai_chooseskill {
@@ -298,12 +403,85 @@ alias ai_chooseskill {
   if (%ai.skill = elementalseal) { $skill.elementalseal($1) }
   if (%ai.skill = drainsamba) { $skill.drainsamba($1) } 
   if (%ai.skill = utsusemi) { $skill.utsusemi($1)  }
+  if (%ai.skill = magicmirror) { $skill.magicmirror($1)  }
   if (%ai.skill = cocoonevolve) { $skill.cocoon.evolve($1) }
+  if (%ai.skill = bloodpact) { $skill.bloodpact($1, $readini($char($1), skills, summon)) | $check_for_double_turn($1)  }
   if (%ai.skill = shadowcopy) {  
     var %shadowcopy.name $readini($char($1), skills, shadowcopy_name)
     if (%shadowcopy.name != $null) { $skill.clone($1, %shadowcopy.name) }
     if (%shadowcopy.name = $null) { $skill.clone($1) } 
   }
+
+  if (%ai.skill = snatch) { 
+    ; Get target
+    $ai_gettarget($1) 
+    $set_chr_name(%ai.target) | set %enemy %real.name
+    $set_chr_name($1) | set %user %real.name
+
+    ; Show description
+    if ($readini($char($1), descriptions, snatch) = $null) { set %skill.description grabs onto %enemy and tries to use $gender2(%ai.target) as a shield! }
+    else { set %skill.description $readini($char($1), descriptions, snatch) }
+    $set_chr_name($1) | query %battlechan 12 $+ %real.name  $+ %skill.description
+
+    ; Try to grab the target.
+    $do.snatch($1 , %ai.target) 
+
+    ; Time to go to the next turn
+    if (%battleis = on)  { $check_for_double_turn($1) }
+  }
+
+  if (%ai.skill = monsterconsume) {
+    $ai_getmontarget($1)
+    set %total.targets $numtok(%ai.targetlist, 46)
+    set %random.target $rand(1,%total.targets)
+    set %ai.target $gettok(%ai.targetlist,%random.target,46)
+
+    if (%ai.target = $null) { 
+      ; Try a second time.
+      set %total.targets $numtok(%ai.targetlist, 46)
+      set %random.target $rand(1,%total.targets)
+      set %ai.target $gettok(%ai.targetlist,%random.target,46)
+
+      ; If it's still null, let's just taunt someone at random.
+      if (%ai.target = $null) {
+        unset %random.target | unset %total.targets 
+        set %taunt.action true | $ai_gettarget($1) |  $taunt($1 , %ai.target) | halt 
+      } 
+    }
+    unset %random.target | unset %total.targets | unset %taunt.action
+    $skill.monster.consume($1, %ai.target)
+    halt
+  }
+
+  if (%ai.skill = snatch) { 
+    ; Get target
+    $ai_gettarget($1) 
+    $set_chr_name(%ai.target) | set %enemy %real.name
+    $set_chr_name($1) | set %user %real.name
+
+    ; Show description
+    if ($readini($char($1), descriptions, snatch) = $null) { set %skill.description grabs onto %enemy and tries to use $gender2(%ai.target) as a shield! }
+    else { set %skill.description $readini($char($1), descriptions, snatch) }
+    $set_chr_name($1) | query %battlechan 12 $+ %real.name  $+ %skill.description
+
+    ; Try to grab the target.
+    $do.snatch($1 , %ai.target) 
+
+    ; Time to go to the next turn
+    if (%battleis = on)  { $check_for_double_turn($1) }
+  }
+
+  if (%ai.skill = JustRelease) {
+    $ai_gettarget($1)
+
+    ; If it's still null, let's just taunt someone at random.
+    if (%ai.target = $null) {
+      unset %random.target | unset %total.targets 
+      set %taunt.action true | $ai_gettarget($1) |  $taunt($1 , %ai.target) | halt 
+    } 
+  }
+  unset %random.target | unset %total.targets | unset %taunt.action
+  $skill.justrelease($1, %ai.target, !justrelease)
   halt
 }
 
@@ -338,4 +516,20 @@ alias ai.changeweapon {
 
   writeini $char($1) weapons equipped %weapon.name | $set_chr_name($1) | query %battlechan $readini(translation.dat, system, EquipWeaponMonster)
   unset %weapon.name
+}
+
+alias ai.magicshift {
+  if ($is_charmed($1) = true) { return }
+  if ($readini($char($1), skills, magicshift) >= 1) { 
+    var %magicshift.chance $rand(1,100)
+    if (%magicshift.chance <= 45) { $skill.magic.shift($1) }
+  }
+}
+
+alias ai.buildportal {
+  if ($is_charmed($1) = true) { return }
+  if ($readini($char($1), skills, demonportal) >= 1) { 
+    var %portal.chance $rand(1,110)
+    if (%portal.chance <= 35) { $skill.demonportal($1) }
+  }
 }

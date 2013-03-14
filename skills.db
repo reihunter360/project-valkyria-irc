@@ -1,6 +1,6 @@
 [Skills]
-PassiveSkills=Swordmaster.Gunslinger.Wizardry.MartialArts.Polemaster.Archery.ClearMind.DesperateBlows.OrbHunter.FieldMedic.Impetus.BloodPact.Zen.Haggling.WeaponBash.Vogue.Alchemy.TreasureHunter
-ActiveSkills=Speed.ElementalSeal.MightyStrike.ManaWall.RoyalGuard.Fullbring.Sugitekai.Meditate.ConserveTP.BloodBoost.DrainSamba.Regen.Kikouheni.ShadowCopy.Utsusemi.Steal.Analysis.Cover.Aggressor.Defender.HolyAura.Provoke.Disarm.WeaponLock.Konzen-ittai
+PassiveSkills=Swordmaster.Gunslinger.Wizardry.MartialArts.Polemaster.Archery.ClearMind.DesperateBlows.OrbHunter.FieldMedic.Impetus.BloodPact.Zen.Haggling.WeaponBash.Vogue.Alchemy.TreasureHunter.BackGuard
+ActiveSkills=Speed.ElementalSeal.MightyStrike.ManaWall.RoyalGuard.Fullbring.Sugitekai.Meditate.ConserveTP.BloodBoost.DrainSamba.Regen.Kikouheni.ShadowCopy.Utsusemi.Steal.Analysis.Cover.Aggressor.Defender.HolyAura.Provoke.Disarm.WeaponLock.Konzen-ittai.SealBreak.MagicMirror.Gamble.Thirdeye.Scavenge.JustRelease
 Resists=resist-paralysis.resist-blind.resist-poison.resist-amnesia.resist-curse.resist-zombie.resist-slow.resist-stun.resist-stop.resist-charm.resist-petrify
 
 
@@ -34,7 +34,7 @@ Info=This skill increases damage done with stave and wand weapons.  Increased le
 
 [MartialArts]
 Cost=200
-Max=500
+max=500
 Type=Passive
 Info=This skill increases damage done with your hand to hand weapons.  Increased levels increases the damage.
 
@@ -55,7 +55,7 @@ Amount=20
 Cost=450
 Type=Passive
 Info=This skill will increase magical damage.  Increased levels of this skill will increase the damage.
-Max=5
+Max=3
 
 [DesperateBlows]
 Cost=1000
@@ -100,7 +100,7 @@ Info=This skill will increase the amount of style XP you get at the end of battl
 Max=5
 
 [WeaponBash]
-Cost=105000
+Cost=1500
 Type=passive
 Info=This skill will add a chance of inflicting the stun status after each melee hit. Note, if the target is immune to stun it will never take effect.  The chance is (skill level * 10)%.
 Max=2
@@ -110,12 +110,18 @@ Max=2
 Cost=400
 Type=passive
 Info=This skill will allow you to use gems to create items. Each level of this skill will raise the success rate of creating an item by 1%.  Use !view-info alchemy list  to get a list of items you can craft and !view-info alchemy (item)  to view the ingredients necessary.
-Max=40
+Max=50
 
 [TreasureHunter]
 Cost=1000
 Type=passive
-Info=This skill will increase the odds of better colored chests at the end of battle. This skill is culumulative with everyone who has it at the end of battle.  In order for this skill to take effect, you must be alive at the end of battle when a chest is created.
+Info=This skill will increase the odds of better colored chests at the end of battle and increase the odds that a player will receive an item from a normal monster battle (if the monster has an item to drop). This skill is culumulative with everyone who has it at the end of battle.  In order for this skill to take effect, you must be alive at the end of battle when a chest is created.
+Max=5
+
+[BackGuard]
+Cost=1000
+Type=passive
+Info=This skill will decreaease the odds of a surprise attack against the players. This skill is culumulative with everyone who has it at the beginning of battle.
 Max=5
 
 =============================================
@@ -140,7 +146,7 @@ Cost=450
 Type=Active
 Max=5
 Info=This skill enhances your next attack done with a weapon. Increased levels decreases the amount of time inbetween uses.
-Cooldown=30
+Cooldown=60
 
 [ManaWall]
 Cost=450
@@ -181,12 +187,12 @@ Cost=500
 Type=Active
 Max=5
 Info=This skill will reduce the cost of your next technique to 0 TP. Increased levels decreases the amount of time inbetween uses.
-Cooldown=300
+Cooldown=500
 
 [BloodBoost]
 Cost=500
 Type=Active
-Max=100
+Max=200
 Info=This skill will consume 100 HP to give you a (level * 2) boost to your STR.
 Cooldown=20
 
@@ -202,7 +208,7 @@ Cost=700
 Type=Active
 Max=200
 Info=This skill will give you the HP regeneration effect.  Every turn you will regenerate (skill level * 2) HP back.  The effect will wear off when you reach your maximum HP or if you die.
-Cooldown=60
+Cooldown=30
 
 [Kikouheni]
 Cost=650
@@ -242,7 +248,7 @@ Cost=600
 Type=Active
 Info=This skill allows you to jump in front of an attack and cover an ally of your choosing.
 Max=1
-Cooldown=30
+Cooldown=20
 
 [Aggressor]
 Cost=500
@@ -268,7 +274,7 @@ Cost=600
 Type=Active
 Info=This skill allows you to provoke an enemy into attacking you instead of another target.
 Max=1
-Cooldown=120
+Cooldown=60
 
 [Disarm]
 Cost=500
@@ -289,7 +295,47 @@ Cost=5000
 Type=Active
 Info=This skill, when active, will allow you to perform a Renkei by yourself with a non-magic technique that you use.
 Max=1
-CoolDown=600
+CoolDown=300
+
+[SealBreak]
+Cost=2000
+Type=Active
+Info=This skill will allow you to attempt to break a Melee-Only Ancient Seal placed upon a battlefield. Each level of the skill adds a 10% chance in being successful.  This skill will consume Hankai upon use.
+Max=9
+CoolDown=300
+
+[MagicMirror]
+Cost=15000
+Type=Active
+Info=This skill will consume a MirrorShard to create a magical reflective barrier around you. The barrier will bounce a magic spell back to its caster.  Increased levels decreases the amount of time inbetween uses.
+Max=5
+Cooldown=900
+
+[Gamble]
+Cost=10000
+Type=Active
+Info=This skill will consume 1,000 orbs in exchange for a random event to happen.  Random events include, but are not limited to: gaining a random item, refilling the Ignition Gauge, restoring HP, taking damage, and inflicting a status effect upon yourself. Increased levels decreases the amount of time inbetween uses.
+Max=9
+Cooldown=900
+
+[Thirdeye]
+Cost=500
+Type=Active
+Info=This skill will increase the odds of dodging attacks for 1-2 turns to 100%.  Increased levels decreases the amount of time inbetween uses.
+Max=10
+Cooldown=1100
+
+[Scavenge]
+Cost=5000
+Type=Active
+Info=This skill allows you to dig into the ground of a battlefield in an attempt to find a burried item. The items that can be found depend on the current battlefield. You may only use this skill one time per battle regardless if it's successful or not.  Increased levels of this skill increase the odds of finding an item.
+Max=20
+
+[JustRelease]
+Cost=10000
+Type=Active
+Info=This skill will unleash the stored Royal Guard meter at an enemy.  The damage done is (skill level)% of your Royal Guard meter.  The damage done with this skill cannot be completely resisted or dodged.  Royal Guard meter is built up by successfully blocking attacks using Royal Guard.
+Max=90
 
 =============================================
 RESISTS

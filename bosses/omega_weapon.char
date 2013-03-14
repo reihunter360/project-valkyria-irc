@@ -1,5 +1,5 @@
 [BaseStats]
-Hp=2000000
+Hp=1000000
 Tp=200000
 Str=666
 Def=666
@@ -9,7 +9,7 @@ Name=Omega Weapon
 
 
 [Battle]
-Hp=2000000
+Hp=1000000
 Tp=200000
 Str=666
 Def=666
@@ -33,7 +33,7 @@ BossQuote= *shines*
 RedOrbs=2000000
 BlackOrbs=10
 ShopLevel=25.0
-Drops=DiscountCard.DiscountCard.DragonMeat.BlueEyesWhiteDragonCard
+Drops=UltimateDiscountCard.BlueEyesWhiteDragonCard.BahamutZeroMateria
 
 [Monster]
 Type=
@@ -91,18 +91,19 @@ MPRegenerating=yes
 
 [Weapons]
 Equipped=FFOmegaWeapon
-FFOmegaWeapon=20
+FFOmegaWeapon=200
 
 [Skills]
-Gunslinger=50
+Gunslinger=500
 Clearmind=3
+mightystrike=10
 resist-zombie=100
 resist-charm=100
 resist-poison=100
 
 [Techniques]
-Repairs=20
-SpaceBeam=20
+Repairs=200
+SpaceBeam=20000
 
 
 [Item_Amount]
