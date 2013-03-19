@@ -109,6 +109,26 @@ SpaceBeam=2000
 
 
 
-[Element]
-Weakness=
-Strong=Fire.Ice.Wind.Light.Dark.Earth.Lightning
+[modifiers]
+Heal=none
+Earth=75
+Fire=75
+Wind=75
+Water=75
+Ice=75
+Lightning=75
+Light=75
+Dark=75
+
+HandToHand=125
+Whip=125
+Sword=150
+Gun=150
+Rifle=125
+Katana=150
+Wand=100
+Spear=150
+Scythe=150
+Glyph=100
+GreatSword=200
+Bow=150

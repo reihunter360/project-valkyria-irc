@@ -122,6 +122,26 @@ Slurp=450
 
 
 
-[Element]
-Weakness=Fire.Lightning
-Strong=Ice.Dark
+[modifiers]
+Heal=none
+Earth=75
+Fire=300
+Wind=100
+Water=75
+Ice=15
+Lightning=300
+Light=75
+Dark=25
+
+HandToHand=90
+Whip=90
+Sword=90
+Gun=90
+Rifle=90
+Katana=90
+Wand=90
+Spear=90
+Scythe=90
+Glyph=100
+GreatSword=90
+Bow=100
