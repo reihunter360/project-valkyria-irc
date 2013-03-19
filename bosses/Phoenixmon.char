@@ -114,7 +114,26 @@ BusterPhoenix=400
 
 
 
-[Element]
-Weakness=Water.Earth
-Strong=Light.Fire.Wind.Dark
-Heal=Fire.Light
+[modifiers]
+Heal=Light.Fire
+Earth=250
+Fire=150
+Wind=25
+Water=250
+Ice=100
+Lightning=100
+Light=75
+Dark=25
+
+HandToHand=70
+Whip=100
+Sword=70
+Gun=125
+Rifle=125
+Katana=70
+Wand=70
+Spear=100
+Scythe=70
+Glyph=100
+GreatSword=100
+Bow=125

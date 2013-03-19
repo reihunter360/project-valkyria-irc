@@ -132,6 +132,26 @@ UltimateWeapon=666
 
 
 
-[Element]
-Weakness=Light.Lightning.Dark.Fire.Water.Earth
-Strong=
+[modifiers]
+Heal=none
+Earth=200
+Fire=200
+Wind=200
+Water=200
+Ice=200
+Lightning=200
+Light=150
+Dark=150
+
+HandToHand=150
+Whip=150
+Sword=150
+Gun=150
+Rifle=150
+Katana=150
+Wand=150
+Spear=150
+Scythe=150
+Glyph=150
+GreatSword=150
+Bow=150

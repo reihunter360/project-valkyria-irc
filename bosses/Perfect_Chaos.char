@@ -122,7 +122,26 @@ Dark_Power_of_Chaos_Emeralds=500
 
 
 
-[Element]
-Weakness=Wind
-Strong=Fire.Dark
-Absorb=Water.Ice
+[modifiers]
+Heal=water
+Earth=125
+Fire=15
+Wind=400
+Water=200
+Ice=50
+Lightning=90
+Light=125
+Dark=15
+
+HandToHand=100
+Whip=100
+Sword=100
+Gun=100
+Rifle=100
+Katana=100
+Wand=100
+Spear=100
+Scythe=100
+Glyph=100
+GreatSword=100
+Bow=100
