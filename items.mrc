@@ -5,31 +5,42 @@ on 2:TEXT:!use*:*: {  unset %real.name | unset %enemy
   if ($is_charmed($nick) = true) { query %battlechan query %battlechan $readini(translation.dat, status, CurrentlyCharmed)  | halt }
   if ($is_confused($nick) = true) { $set_chr_name($nick) | query %battlechan $readini(translation.dat, status, CurrentlyConfused) | halt }
   if ((no-item isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan $readini(translation.dat, battle, NotAllowedBattleCondition)   | halt }
+  $uses_item($nick, $2, $3, $4)
+}
 
+ON 50:TEXT:*uses item * on *:*:{ 
+  if ($1 = uses) { halt }
+  if ($5 != on) { halt }
+  if ($is_charmed($1) = true) { query %battlechan query %battlechan $readini(translation.dat, status, CurrentlyCharmed)  | halt }
+  if ($is_confused($1) = true) { $set_chr_name($nick) | query %battlechan $readini(translation.dat, status, CurrentlyConfused) | halt }
+  if ((no-item isin %battleconditions) || (no-items isin %battleconditions)) { query %battlechan $readini(translation.dat, battle, NotAllowedBattleCondition)   | halt }
+  $uses_item($1, $4, $5, $6)
+}
+
+alias uses_item {
   var %item.type $readini(items.db, $2, type)
 
   if (((%item.type != summon) && (%item.type != key) && (%item.type != portal))) {
-    if (($3 != on) || ($3 = $null)) { .msg $nick $readini(translation.dat, errors, ItemUseCommandError) | halt }
-    if ($4 = me) { .msg $nick $readini(translation.dat, errors, MustSpecifyName) | halt }
+    if (($3 != on) || ($3 = $null)) { .msg $1 $readini(translation.dat, errors, ItemUseCommandError) | halt }
+    if ($4 = me) { .msg $1 $readini(translation.dat, errors, MustSpecifyName) | halt }
     if ($readini($char($4), battle, status) = dead) { query %battlechan $readini(translation.dat, errors, CannotUseItemOnDead) | halt }
     $checkchar($4) 
     if (%battleis = on) { $person_in_battle($4) }
   }
 
-  set %check.item $readini($char($nick), Item_Amount, $2) 
-  if ((%check.item <= 0) || (%check.item = $null)) { $set_chr_name($nick) | query %battlechan $readini(translation.dat, errors, DoesNotHaveThatItem) | halt }
+  set %check.item $readini($char($1), Item_Amount, $2) 
+  if ((%check.item <= 0) || (%check.item = $null)) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, DoesNotHaveThatItem) | halt }
 
-  var %user.flag $readini($char($nick), info, flag) | var %target.flag $readini($char($4), info, flag)
+  var %user.flag $readini($char($1), info, flag) | var %target.flag $readini($char($4), info, flag)
   if (%item.type = food) { 
-    if (%battleis = on) { $check_for_battle($nick) }
-    if (%target.flag = monster) { query %battlechan $readini(translation.dat, errors, ItemCanOnlyBeUsedOnPlayers)  | halt }
-    $item.food($nick, $4, $2) | $decrease_item($nick, $2) 
+    if (%battleis = on) { $check_for_battle($1) }
+    $item.food($1, $4, $2) | $decrease_item($1, $2) 
     if (%battleis = on)  { $check_for_double_turn($1) | halt }
     halt
   }
 
   if (%item.type = portal) {
-    if (%battleis = on) { $check_for_battle($nick)   }
+    if (%battleis = on) { $check_for_battle($1)   }
     if (%battleis = off) { query %battlechan $readini(translation.dat, errors, NoBattleCurrently) | halt }
 
     if (%portal.bonus = true) { query %battlechan $readini(translation.dat, errors, AlreadyInPortal) | halt }
@@ -44,107 +55,107 @@ on 2:TEXT:!use*:*: {  unset %real.name | unset %enemy
     set %current.turn 1
 
     ; Show the description
-    $set_chr_name($nick) | query %battlechan  $+ %real.name  $+ $readini(items.db, $2, desc)
+    $set_chr_name($1) | query %battlechan  $+ %real.name  $+ $readini(items.db, $2, desc)
 
     ; Set the allied notes value
     var %allied.notes $readini(items.db, $2, alliednotes) 
     writeini battle2.txt battle alliednotes %allied.notes
 
     ; Reduce the item
-    $decrease_item($nick, $2) 
+    $decrease_item($1, $2) 
 
 
     $battlelist
 
     ; Go to the next turn
-    if (%battleis = on)  { $check_for_double_turn($nick) | halt }
+    if (%battleis = on)  { $check_for_double_turn($1) | halt }
   }
 
-  if (%item.type = key) { $item.key($nick, $4, $2) |  $decrease_item($nick, $2)  | halt }
+  if (%item.type = key) { $item.key($1, $4, $2) |  $decrease_item($1, $2)  | halt }
   if (%item.type = consume) { query %battlechan $readini(translation.dat, errors, ItemIsUsedInSkill) | halt }
   if (%item.type = accessory) { query %battlechan $readini(translation.dat, errors, ItemIsAccessoryEquipItInstead)  | halt }
-  if (%item.type = random) { $item.random($nick, $4, $2) | $decrease_item($nick, $2) | halt }
+  if (%item.type = random) { $item.random($1, $4, $2) | $decrease_item($1, $2) | halt }
 
   if (%item.type = shopreset) {
-    if (%battleis = on) { $check_for_battle($nick)   }
+    if (%battleis = on) { $check_for_battle($1)   }
 
     if (%target.flag = monster) { query %battlechan $readini(translation.dat, errors, ItemCanOnlyBeUsedOnPlayers) | halt }
-    $item.shopreset($nick, $4, $2) | $decrease_item($nick, $2) 
+    $item.shopreset($1, $4, $2) | $decrease_item($1, $2) 
     halt  
   }
 
-  $check_for_battle($nick) 
+  $check_for_battle($1) 
   if (%battleis = off) { query %battlechan $readini(translation.dat, errors, NoBattleCurrently) | halt }
 
   if (%mode.pvp = on) { var %target.flag monster | var %user.flag monster }
 
   if (%item.type = damage) {
     if (%target.flag != monster) { query %battlechan $readini(translation.dat, errors, ItemCanOnlyBeUsedOnMonsters) | halt }
-    $item.damage($nick, $4, $2)
+    $item.damage($1, $4, $2)
   }
 
   if (%item.type = snatch) {
     if (%target.flag != monster) { query %battlechan $readini(translation.dat, errors, ItemCanOnlyBeUsedOnMonsters) | halt }
-    $item.snatch($nick, $4, $2)
+    $item.snatch($1, $4, $2)
   }
 
   if (%item.type = heal) {
     $checkchar($4)
     if ((%target.flag = monster) && ($readini($char($4), monster, type) != zombie)) { query %battlechan $readini(translation.dat, errors, ItemCanOnlyBeUsedOnPlayers) | halt }
-    $item.heal($nick, $4, $2)
+    $item.heal($1, $4, $2)
   }
   if (%item.type = CureStatus) {
     if ((%target.flag = monster) && ($readini($char($4), monster, type) != zombie)) { query %battlechan $readini(translation.dat, errors, ItemCanOnlyBeUsedOnPlayers)  | halt }
     $set_chr_name($4) | var %enemy %real.name
-    $item.curestatus($nick, $4, $2)
-    $decrease_item($nick, $2)
+    $item.curestatus($1, $4, $2)
+    $decrease_item($1, $2)
     ; Time to go to the next turn
-    if (%battleis = on)  { $check_for_double_turn($nick) | halt }
+    if (%battleis = on)  { $check_for_double_turn($1) | halt }
   }
 
   if (%item.type = tp) { 
     if (%target.flag = monster) { query %battlechan $readini(translation.dat, errors, ItemCanOnlyBeUsedOnPlayers) | halt }
     ; Show the desc
-    $set_chr_name($4) | var %enemy %real.name | $set_chr_name($nick) 
+    $set_chr_name($4) | var %enemy %real.name | $set_chr_name($1) 
     query %battlechan 3 $+ %real.name  $+ $readini(items.db, $2, desc)
-    $item.tp($nick, $4, $2)
-    $decrease_item($nick, $2) 
-    if (%battleis = on)  { $check_for_double_turn($nick) | halt }
+    $item.tp($1, $4, $2)
+    $decrease_item($1, $2) 
+    if (%battleis = on)  { $check_for_double_turn($1) | halt }
   }
 
   if (%item.type = ignitiongauge) { 
     if (%target.flag = monster) { query %battlechan $readini(translation.dat, errors, ItemCanOnlyBeUsedOnPlayers) | halt }
     ; Show the desc
-    $set_chr_name($4) | var %enemy %real.name | $set_chr_name($nick) 
+    $set_chr_name($4) | var %enemy %real.name | $set_chr_name($1) 
     query %battlechan 3 $+ %real.name  $+ $readini(items.db, $2, desc)
-    $item.ig($nick, $4, $2)
-    $decrease_item($nick, $2) 
-    if (%battleis = on)  { $check_for_double_turn($nick) | halt }
+    $item.ig($1, $4, $2)
+    $decrease_item($1, $2) 
+    if (%battleis = on)  { $check_for_double_turn($1) | halt }
   }
 
   if (%item.type = status) {
     if (%target.flag != monster) { query %battlechan $readini(translation.dat, errors, ItemCanOnlyBeUsedOnMonsters) | halt }
-    $item.status($nick, $4, $2)
+    $item.status($1, $4, $2)
   }
 
   if (%item.type = revive) {  
-    $check_for_battle($nick)
+    $check_for_battle($1)
     if (%target.flag = monster) { query %battlechan $readini(translation.dat, errors, ItemCanOnlyBeUsedOnPlayers) | halt }
     if ($readini($char($1), Battle, Status) = dead) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, CanNotAttackWhileUnconcious)  | unset %real.name | halt }
     if ($readini($char($4), Battle, Status) = dead) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, CanNotAttackSomeoneWhoIsDead) | unset %real.name | halt }
 
-    $set_chr_name($4) | var %enemy %real.name | $set_chr_name($nick) 
+    $set_chr_name($4) | var %enemy %real.name | $set_chr_name($1) 
     query %battlechan 3 $+ %real.name  $+ $readini(items.db, $2, desc)
-    $item.revive($nick, $4, $2) 
+    $item.revive($1, $4, $2) 
 
-    $decrease_item($nick, $2) 
-    if (%battleis = on)  { $check_for_double_turn($nick) | halt }
+    $decrease_item($1, $2) 
+    if (%battleis = on)  { $check_for_double_turn($1) | halt }
   }
 
-  if (%item.type = summon) { $item.summon($nick, $2) }
-  $decrease_item($nick, $2)
+  if (%item.type = summon) { $item.summon($1, $2) }
+  $decrease_item($1, $2)
   ; Time to go to the next turn
-  if (%battleis = on)  { $check_for_double_turn($nick) | halt }
+  if (%battleis = on)  { $check_for_double_turn($1) | halt }
 }
 
 
@@ -478,29 +489,8 @@ alias calculate_damage_items {
   inc %attack.damage %base.stat
 
   var %current.element $readini(items.db, $2, element)
-
-  if (%current.element != $null) {
-
-    ; If the target is weak to the item's element, double the attack power.
-    var %target.element $readini($char($3), element, Weakness)
-    if ($istok(%target.element,%current.element,46) = $true) { 
-      %attack.damage = $round($calc(%attack.damage * 2),0)
-      var %mon.temp.def $readini($char($3), battle, def)
-      var %mon.temp.def = $round($calc(%mon.temp.def - (%mon.temp.def * .10)),0)
-      if (%mon.temp.def < 0) { var %mon.temp.def 0 }
-      writeini $char($3) battle def %mon.temp.def
-    }
-
-    ; If the target is strong to the item's element, decrease the attack power by half.
-    var %target.element $readini($char($3), element, Strong)
-    if ($istok(%target.element,%current.element,46) = $true) { 
-      %attack.damage = $round($calc(%attack.damage / 2),0)
-      var %mon.temp.str $readini($char($3), battle, str)
-      var %mon.temp.str = $round($calc(%mon.temp.str + (%mon.temp.str * .10)),0)
-      if (%mon.temp.str < 0) { var %mon.temp.str 0 }
-      writeini $char($3) battle str %mon.temp.str
-    }
-
+  if ((%current.element != $null) && (%current.element != none)) {
+    $modifer_adjust($3, %current.element)
   }
 
   ; Let's increase the attack by a random amount.
@@ -662,7 +652,10 @@ alias item.food {
   if (%food.type != style) {
 
     ; Increase the base stat..
-    set %target.stat $readini($char($2), basestats, %food.type)
+
+    if (($readini($char($2), info, flag) != $null) && ($readini($char($2), status, ignition.on) = on)) {  set %target.stat $readini($char($2), battle, %food.type)  }
+    else { set %target.stat $readini($char($2), basestats, %food.type) }
+
 
     if (%food.type = hp) {
       var %player.current.hp $readini($char($2), basestats, hp)
@@ -677,6 +670,9 @@ alias item.food {
     }
 
     inc %target.stat %food.bonus
+
+    if (%target.stat < 5) { var %target.stat 5 }
+
     writeini $char($2) basestats %food.type %target.stat
 
     ; Now we do this in case it's used in battle and the target is boosted.
@@ -695,8 +691,7 @@ alias item.food {
   if (%user = %enemy ) { set %enemy $gender2($1) $+ self }
   $set_chr_name($1) | query %battlechan 3 $+ %real.name $+  $readini(items.db, $3, desc)
 
-
-  query $2 $readini(translation.dat, system,FoodStatIncrease)
+  if ($readini($char($2), info, flag) = $null) { query $2 $readini(translation.dat, system,FoodStatIncrease) }
   unset %food.bonus | unset %target.stat | unset %food.type
   return
 }

@@ -116,8 +116,25 @@ AsuranFists=25
 [Item_Amount]
 
 
-
-[Element]
-Weakness=none
-Strong=light.dark.water.wind
-heal=lightning.ice.fire
+[modifiers]
+Heal=lightning.ice.fire
+Earth=100
+Fire=100
+Wind=50
+Ice=100
+Water=50
+Lightning=100
+Light=50
+Dark=100
+HandToHand=50
+Whip=100
+Sword=100
+Gun=50
+Rifle=50
+Katana=100
+Wand=100
+Spear=100
+Scythe=100
+Glyph=100
+GreatSword=100
+Bow=50

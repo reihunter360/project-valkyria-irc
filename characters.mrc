@@ -260,8 +260,8 @@ on 2:TEXT:!alliednotes*:#: {
   if ($2 != $null) { $checkchar($2) | $check.allied.notes($2, channel) }
 }
 on 2:TEXT:!allied notes*:#: {  
-  if ($2 = $null) { $check.allied.notes($nick, channel) }
-  if ($2 != $null) { $checkchar($3) | $check.allied.notes($3, channel) }
+  if ($3 = $null) { $check.allied.notes($nick, channel) }
+  if ($3 != $null) { $checkchar($3) | $check.allied.notes($3, channel) }
 }
 on 2:TEXT:!notes*:#: {  
   if ($2 = $null) { $check.allied.notes($nick, channel) }
@@ -272,8 +272,8 @@ on 2:TEXT:!alliednotes*:?: {
   if ($2 != $null) { $checkchar($2) | $check.allied.notes($2, private) }
 }
 on 2:TEXT:!allied notes*:?: {  
-  if ($2 = $null) { $check.allied.notes($nick, private) }
-  if ($2 != $null) { $checkchar($2) | $check.allied.notes($2, private) }
+  if ($3 = $null) { $check.allied.notes($nick, private) }
+  if ($3 != $null) { $checkchar($2) | $check.allied.notes($2, private) }
 }
 on 2:TEXT:!notes*:?: {  
   if ($2 = $null) { $check.allied.notes($nick, private) }
@@ -519,12 +519,24 @@ on 2:TEXT:!readskills*:?: { $readskills($2,private) }
 alias readskills {
   $checkchar($1) | $skills.list($1) | $set_chr_name($1) 
   if (%passive.skills.list != $null) { 
-    if ($2 = channel) { query %battlechan $readini(translation.dat, system, ViewPassiveSkills) }
-    if ($2 != channel) { .msg $nick $readini(translation.dat, system, ViewPassiveSkills) }
+    if ($2 = channel) { 
+      query %battlechan $readini(translation.dat, system, ViewPassiveSkills) 
+      if (%passive.skills.list2 != $null) { query %battlechan 3 $+ %passive.skills.list2 }
+    }
+    if ($2 != channel) {
+      .msg $nick $readini(translation.dat, system, ViewPassiveSkills) 
+      if (%passive.skills.list2 != $null) { .msg $nick 3 $+ %passive.skills.list2 }
+    }
   }
   if (%active.skills.list != $null) { 
-    if ($2 = channel) { query %battlechan $readini(translation.dat, system, ViewActiveSkills)  }
-    if ($2 != channel) { .msg $nick $readini(translation.dat, system, ViewActiveSkills)  }
+    if ($2 = channel) { 
+      query %battlechan $readini(translation.dat, system, ViewActiveSkills) 
+      if (%active.skills.list2 != $null) { query %battlechan 3 $+ %active.skills.list2 }
+    }
+    if ($2 != channel) {
+      .msg $nick $readini(translation.dat, system, ViewActiveSkills)
+      if (%active.skills.list2 != $null) { .msg $nick 3 $+ %active.skills.list2 }
+    }
   }
   if (%resists.skills.list != $null) { 
     if ($2 = channel) { query %battlechan $readini(translation.dat, system, ViewResistanceSkills)  }
@@ -534,6 +546,8 @@ alias readskills {
     if ($2 = channel) { query %battlechan $readini(translation.dat, system, HasNoSkills)   }
     if ($2 != channel) { .msg $nick $readini(translation.dat, system, HasNoSkills)   }
   }
+
+  unset %passive.skills.list | unset %active.skills.list | unset %active.skills.list2 | unset %resists.skills.list
 }
 on 2:TEXT:!keys*:#:{ 
   if ($2 != $null) { $checkchar($2) | $keys.list($2) | $set_chr_name($2) | $readkeys($2, channel) }
@@ -693,7 +707,7 @@ on 2:TEXT:!equip *:*: {
   else { $set_chr_name($nick) | query %battlechan $readini(translation.dat, errors, DoNotHaveWeapon) | halt }
 }
 
-on 2:TEXT:!unequip *:?: { 
+on 2:TEXT:!unequip *:*: { 
   if ($2 = accessory) { $remove.accessory($nick, $3) }
   if ($2 = armor) { $remove.armor($nick, $3) }
 

@@ -108,7 +108,25 @@ DalekExterminate=15
 [Item_Amount]
 
 
-
-[Element]
-Weakness=lightning
-Strong=light.dark.fire.ice.water.wind
+[modifiers]
+Heal=none
+Earth=100
+Fire=50
+Wind=50
+Water=50
+Ice=50
+Lightning=200
+Light=50
+Dark=50
+HandToHand=100
+Whip=100
+Sword=100
+Gun=100
+Rifle=100
+Katana=100
+Wand=100
+Spear=100
+Scythe=100
+Glyph=100
+GreatSword=100
+Bow=100

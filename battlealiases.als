@@ -74,8 +74,8 @@ boost_summon_stats {
 
   var %m.flag $readini($char($1), info, flag)
 
-  if ((%m.flag = monster) || (%m.flag = npc)) { inc %summon.level $round($calc($get.level($1) / 3),0) }
-  if (%m.flag = $null) { inc %summon.level $round($calc($get.level($1) / 2.5),0) }
+  if ((%m.flag = monster) || (%m.flag = npc)) { inc %summon.level $round($calc($get.level($1) / 2),0) }
+  if (%m.flag = $null) { inc %summon.level $round($calc($get.level($1) / 1.5),0) }
 
   $monster_spend_points($1 $+ _summon, %summon.level, bloodpact, $3)
   $monster_boost_hp($1 $+ _summon, bloodpact, %summon.level, $3)
@@ -110,13 +110,15 @@ boost_monster_stats {
   var %level.boost $readini(battlestats.dat, battle, LevelAdjust)
   var %number.of.players.in.battle $readini(battle2.txt, battleinfo, players)
   var %difficulty $readini(battle2.txt, BattleInfo, Difficulty)
-  var %current.player.levels $readini(battle2.txt, battleinfo, playerlevels)
+  var %current.player.levels $readini(battle2.txt, battleinfo, playerlevels)  var %monster.level 0
+
+  var %boss.level $readini($char($1), info, bosslevel) 
+  if (%boss.level != $null) { var %monster.level %boss.level }
 
   if (%number.of.players.in.battle = $null) { var %number.of.players.in.battle 1 }
 
   if (%winning.streak <= 0) { var %winning.streak $calc($readini(battlestats.dat, battle, losingstreak) * -1) }
 
-  var %monster.level 0
   inc %monster.level %level.boost
   inc %monster.level %difficulty
 
@@ -138,6 +140,14 @@ boost_monster_stats {
 
     inc %boss.level $rand(0,3)
     var %monster.level %boss.level
+  }
+
+  ; $2 = monstersummon is for the monster summon special skill
+  if ($2 = monstersummon) { 
+    var %temp.level $get.level($3)
+    var %monster.level $round($calc(%temp.level / 2),0)
+
+    if (%monster.level <= 1) { var %monster.level 2 }
   }
 
   if (%mode.gauntlet.wave != $null) {  inc %monster.level %mode.gauntlet.wave | inc %winning.streak %mode.gauntlet.wave }
@@ -195,7 +205,9 @@ monster_boost_hp {
   ; $1 = monster
   ; $2 = same as in the boost mon alias
   ; $3 = monster level
-  ; $4 is used for summons
+  ; $4 = used for summons (original summon's name)
+
+  echo -a $1 :: $2 :: $3 :: $4
 
   if ($readini($char($1), info, BattleStats) = ignoreHP) { return }
 
@@ -212,8 +224,9 @@ monster_boost_hp {
     if ($2 = warmachine) {  var %increase.amount $calc($3 * 5) }
     if ($2 = demonwall) {  var %increase.amount $calc($3 * 3) }
     if ($2 = evolve) { var %increase.amount $calc($3 * 2) }
+    if ($2 = bloodpact) { var %increase.amount $calc($3 * 15) }
 
-    if ($2 = $null) { 
+    if (($2 = $null) || ($2 = monstersummon)) { 
       if ($isfile($boss($1)) = $true) {
         if ($3 <= 100) {  var %increase.amount $calc($3 * 30) }
         if (($3 > 100) && ($3 <= 300)) {  var %increase.amount $calc($3 * 35) }
@@ -231,7 +244,6 @@ monster_boost_hp {
       if ($isfile($summon($4)) = $true) {   var %increase.amount $calc($3 * 15) }
     }
 
-    if ($2 = bloodpact) { var %increase.amount $calc($3 * 15) }
 
     if (%increase.amount = 0) { inc %increase.amount $rand(1,10) }
 
@@ -267,8 +279,10 @@ monster_boost_hp {
     if ($2 = warmachine) {  var %increase.amount $calc($3 * 2) }
     if ($2 = demonwall) {  var %increase.amount $calc($3 * 2) }
     if ($2 = evolve) { var %increase.amount $calc($3 * 1.5) }
+    if ($2 = monstersummon) { var %increase.amount $calc($3 * 1.5) }
 
-    if ($2 = $null) { 
+
+    if (($2 = $null) || ($2 = monstersummon)) { 
       if ($isfile($boss($1)) = $true) {
         if ($3 <= 100) {  var %increase.amount $calc($3 * 15) }
         if (($3 > 100) && ($3 <= 300)) {  var %increase.amount $calc($3 * 18) }
@@ -319,6 +333,9 @@ monster_boost_hp {
 
     if ($2 = bloodpact) { var %increase.amount $calc($3 * 5) 
       if (%increase.amount = 0) { inc %increase.amount $rand(1,10) }
+
+      %hp = $round($calc(%hp + %increase.amount),0) 
+
       if (%hp > 8000) { %hp = 8000 }
       if (%hp <= 0) { %hp = 10 }
     }
@@ -369,9 +386,9 @@ monster_spend_points {
   if ($3 = Doppelganger) { var %unspent.monster.points 200 }
   if ($3 = DemonWall) { inc %unspent.monster.points 200 }
   if ($3 = Warmachine) { inc %unspent.monster.points 200 }
-  if ($3 = evolve) { 
-    inc %unspent.monster.points $rand(100,500) 
-  } 
+  if ($3 = evolve) { inc %unspent.monster.points $rand(100,500) } 
+  if ($3 = monstersummon) { inc %unspent.monster.points $rand(20,50) } 
+
 
   if (%unspent.monster.points <= 0) { return }
 
@@ -407,9 +424,7 @@ monster_spend_points {
   writeini $char($1) BaseStats Str %str
   writeini $char($1) BaseStats Def %def
   writeini $char($1) BaseStats Int %int
-  if ($3 != doppelganger) {
-    writeini $char($1) BaseStats Spd %spd
-  }
+  if ($3 != doppelganger) { writeini $char($1) BaseStats Spd %spd }
 }
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -796,6 +811,12 @@ display_heal {
   if ($3 = item) {
     $set_chr_name($1) | query %battlechan 3 $+ %real.name $+  $readini(items.db, $4, desc)
   }
+
+  if ($3 = weapon) { 
+    var %weapon.type $readini(weapons.db, $4, type) | var %attack.file attack_ $+ %weapon.type $+ .txt 
+    query %battlechan 3 $+ %user $+  $read %attack.file  $+ 3.
+  }
+
   ; Show the damage healed
   if (%guard.message = $null) {  $set_chr_name($2) |  $set_chr_name($2) | query %battlechan 3 $+ %real.name has been healed for $bytes(%attack.damage,b) health! }
   if (%guard.message != $null) { query %battlechan %guard.message | unset %guard.message }
@@ -957,6 +978,7 @@ random.playersgofirst {
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 random.battlefield.ally {
   if (%battle.type = manual) { return }
+  if (%battle.type = orbfountain) { return }
   var %npc.chance $rand(1,100) 
   var %losing.streak $readini(battlestats.dat, battle, LosingStreak)
   var %winning.streak $readini(battlestats.dat, battle, WinningStreak)
@@ -1300,6 +1322,7 @@ portal.clear.monsters {
 
     inc %waves.battletxt.current.line 1
   }
+
   writeini battle2.txt battle list %waves.battle.list
   unset %waves.battle.list
 
@@ -1307,7 +1330,7 @@ portal.clear.monsters {
   .remove battle.txt
   .rename battle3.txt battle.txt
 
-  ; Set the # of monsters to .
+  ; Set the # of monsters
   writeini battle2.txt battleinfo monsters %monsters.alive
 
   if (%monsters.alive < %old.monster.total) {
@@ -1324,6 +1347,13 @@ portal.clear.monsters {
         else { inc %value 1 }    
       }
     }
+  }
+
+  var %turn.lines $lines(battle.txt) | var %current.turn.line 0
+  while (%current.turn.line <= %turn.lines) { 
+    var %turn.person $read -l $+ %current.turn.line battle.txt
+    if (%turn.person = %who) { set %line %current.turn.line | inc %current.turn.line }
+    else { inc %current.turn.line }
   }
 
   unset %monsters.alive | unset %old.monster.total
@@ -1349,7 +1379,7 @@ portal.summon.monster {
   set %number.of.monsters.needed 1
   $generate_monster(monster)
 
-  if (%battleis = on)  { $check_for_double_turn($1) }
+  if (%battleis = on)  { $check_for_double_turn($1) | halt }
 }
 
 
@@ -1615,7 +1645,8 @@ trickster_dodge_check {
   if ($2 = $1) { return }
   set %current.playerstyle $readini($char($1), styles, equipped)
   set %current.playerstyle.level $readini($char($1), styles, %current.playerstyle)
-  if ((%current.playerstyle != Trickster) && ($augment.check($1, EnhanceDodge) = false)) { unset %current.playerstyle | unset %current.playerstyle.level | return }
+
+  if (((%current.playerstyle != Trickster) && ($augment.check($1, EnhanceDodge) = false) && ($readini($char($1), skills, thirdeye.on) != on))) { unset %current.playerstyle | unset %current.playerstyle.level | return }
   if (%guard.message != $null) { return }
 
   var %dodge.chance $rand(1,110)
@@ -1633,8 +1664,9 @@ trickster_dodge_check {
     var %dodge.chance 0
   }
 
-  if (%dodge.chance <= %current.playerstyle.level) {
+  if (%current.playerstyle.level = $null) { var %current.playerstyle.level 0 }
 
+  if (%dodge.chance <= %current.playerstyle.level) {
     set %attack.damage 0 | $set_chr_name($1)
     unset %double.attack | unset %triple.attack | unset %fourhit.attack | unset %critical.hit.chance | unset %absorb
 
@@ -1660,7 +1692,6 @@ trickster_dodge_check {
     inc %number.of.dodges 1
     writeini $char($1) stuff TimesDodged %number.of.dodges
     $achievement_check($1, Can'tTouchThis)
-
   }
 
   unset %current.playerstyle | unset %current.playerstyle.level | return 
@@ -1721,12 +1752,29 @@ weapon_parry_check {
 counter_melee {
   ; $1 = attacker
   ; $2 = defender
+  ; $3 = weapon name
 
+  if ($readini($char($1), status, ethereal) = yes) { return }
   if (%guard.message != $null) { return }
   if ($2 = orb_fountain) { return }
 
   if ($is_charmed($2) = true) { return }
   if ($is_confused($2) = true) { return }
+
+  ; Is the attacker immune to the defender's weapon type? If so, return.
+  var %weapon.name $readini($char($2), weapons, equipped)
+  set %weapon.type $readini(weapons.db, %weapon.name, type)
+  if (%weapon.type != $null) { 
+    set %target.weapon.null $readini($char($1), modifiers, %weapon.type)
+    if (%target.weapon.null <= 0) { unset %weapon.type | return }
+  }
+
+  ; If the counter would normally heal the defender, return.
+  set %wpn.element $readini(weapons.db, %weapon.name, element)
+  if ((%wpn.element != none) && (%wpn.element != $null)) { 
+    var %target.element.heal $readini($char($1), modifiers, heal)
+    if ($istok(%target.element.heal,%wpn.element,46) = $true) { unset %wpn.element | unset %weapon.type | return }
+  }
 
   var %counter.chance 2
 
@@ -1752,7 +1800,21 @@ counter_melee {
     set %counterattack on 
     ; Counters will be single-hits.
     unset %attack.damage1 | unset %attack.damage2 | unset %attack.damage3 | unset %attack.damage4 | unset %weapon.howmany.hits
-    unset %double.attack | unset %triple.attack | unset %fourhit.attack | unset %fivehit.attack | unset %drainsamba.on | unset %absorb
+    unset %double.attack | unset %triple.attack | unset %fourhit.attack | unset %fivehit.attack | unset %drainsamba.on | unset %absorb | unset %wpn.element 
+
+    set %weapon.element $readini(weapons.db, %weapon.name, element)
+    if ((%weapon.element != $null) && (%weapon.element != none)) {
+      $modifer_adjust($1, %weapon.element)
+    }
+
+    unset %weapon.element
+
+    ; Check for weapon type weaknesses.
+    set %weapon.type $readini(weapons.db, %weapon.name, type)
+    $modifer_adjust($1, %weapon.type)
+
+    unset %weapon.type
+
 
     if ($readini($char($2), info, flag) = $null) { 
       if (($readini($char($1), info, flag) = npc) || ($readini($char($1), info, flag) = monster)) {
@@ -1772,8 +1834,11 @@ counter_melee {
     inc %number.of.counters 1
     writeini $char($2) stuff TimesCountered %number.of.counters
 
+    unset %weapon.type
     return
   }
+
+  unset %weapon.type
 }
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1861,6 +1926,14 @@ multiple_wave_clearmonsters {
       else { inc %value 1 }    
     }
   }
+
+  var %turn.lines $lines(battle.txt) | var %current.turn.line 0
+  while (%current.turn.line <= %turn.lines) { 
+    var %turn.person $read -l $+ %current.turn.line battle.txt
+    if (%turn.person = %who) { set %line %current.turn.line | inc %current.turn.line }
+    else { inc %current.turn.line }
+  }
+
 
   return
 }
@@ -2580,4 +2653,43 @@ eighthit.attack.check {
   set %attack.damage %attack.damage.total | $set_chr_name($1) | query %battlechan $readini(translation.dat, battle, PerformsA8HitAttack)
 
   unset %original.attackdmg
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Modifier Checks for
+; elements and weapon types
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+modifer_adjust {
+  ; $1 = target
+  ; $2 = element or weapon type
+
+  if (%guard.message != $null) { return }
+
+  ; Let's get the adjust value.
+  var %modifier.adjust.value $readini($char($1), modifiers, $2)
+  if (%modifier.adjust.value = $null) { var %modifier.adjust.value 100 }
+
+  ; Turn it into a deciminal
+  var %modifier.adjust.value $calc(%modifier.adjust.value / 100) 
+
+  ; If it's over 1, then it means the target is weak to the element/weapon so we can adjust the target's def a little as an extra bonus.
+  if (%modifier.adjust.value > 1) {
+    var %mon.temp.def $readini($char($1), battle, def)
+    var %mon.temp.def = $round($calc(%mon.temp.def - (%mon.temp.def * .10)),0)
+    if (%mon.temp.def < 0) { var %mon.temp.def 0 }
+    writeini $char($1) battle def %mon.temp.def
+  }
+
+  ; If it's under 1, it means the target is resistant to the element/weapon.  Let's make the monster stronger for using something it's resistant to.
+
+  if (%modifier.adjust.value < 1) {
+    var %mon.temp.str $readini($char($1), battle, str)
+    var %mon.temp.str = $round($calc(%mon.temp.str + (%mon.temp.str * .10)),0)
+    if (%mon.temp.str < 0) { var %mon.temp.str 0 }
+    writeini $char($1) battle str %mon.temp.str
+  }
+
+  ; Adjust the attack damage.
+  set %attack.damage $round($calc(%attack.damage * %modifier.adjust.value),0)
+
 }

@@ -111,18 +111,36 @@ MartialArts=30
 TidalWave=25
 TailWhip=12
 GrandFall=15
-Flood=20
+Flood=50
 
 [Item_Amount]
 
-
-[Element]
-Weakness=Lightning
-Strong=Water
-Heal=Water
 
 
 [Styles]
 Equipped=WeaponMaster
 WeaponMaster=2
 WeaponMasterXP=1
+
+[modifiers]
+Heal=water
+Earth=100
+Fire=100
+Wind=100
+Water=200
+Ice=100
+Lightning=150
+Light=100
+Dark=100
+HandToHand=100
+Whip=100
+Sword=100
+Gun=100
+Rifle=100
+Katana=100
+Wand=100
+Spear=100
+Scythe=100
+Glyph=100
+GreatSword=100
+Bow=100

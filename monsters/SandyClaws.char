@@ -47,6 +47,7 @@ LastSeen=N/a
 LastIP=N/a
 Created=N/a
 Streak=105
+Biome=river.beach
 
 
 [Status]
@@ -97,12 +98,31 @@ BigScissors=30
 [Item_Amount]
 
 
-[Element]
-Weakness=ice.lightning
-Strong=water
-
-
 [Styles]
 Equipped=guardian
 Guardian=1
 GuardianXP=0
+
+
+[modifiers]
+Heal=water
+Earth=100
+Fire=100
+Wind=100
+Water=100
+Ice=110
+Lightning=140
+Light=100
+Dark=100
+HandToHand=100
+Whip=100
+Sword=100
+Gun=100
+Rifle=100
+Katana=100
+Wand=100
+Spear=100
+Scythe=100
+Glyph=100
+GreatSword=100
+Bow=100

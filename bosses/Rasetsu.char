@@ -116,11 +116,6 @@ Tachi:Rana=100
 Equipped=HitenMitsuryugi-Ryu
 HitenMitsuryugi-Ryu=5
 
-[Element]
-Weakness=Light
-Strong=fire.dark
-Heal=dark
-
 [Equipment]
 Body=MyochinDomaru
 Head=MyochinKabuto
@@ -130,3 +125,27 @@ Legs=MyochinHaidate
 
 [ignitions]
 Overdrive=1
+
+
+[modifiers]
+Heal=dark
+Earth=100
+Fire=50
+Wind=100
+Water=100
+Ice=100
+Lightning=100
+Light=130
+Dark=250
+HandToHand=100
+Whip=100
+Sword=100
+Gun=100
+Rifle=100
+Katana=100
+Wand=100
+Spear=100
+Scythe=100
+Glyph=100
+GreatSword=100
+Bow=100

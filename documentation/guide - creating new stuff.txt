@@ -9,16 +9,19 @@ The first step to making a monster from scratch is to make a new weapon for the 
 
 First step is to figure out what you want to name the weapon.  It has to be a weapon name that doesn't already exist.  So open weapons.db with notepad and do a quick search for the name of the weapon you've picked out.  If it doesn't exist, keep going.  If not, come up with a new name.
 
-Second step is to add the weapon to the monster's list.    In weapons.db you should see a line that reads something like this:
+Second step is to add the weapon to the monster's list. In weapons.db you should see a line that reads something like this:
 
-MonsterWpns=Yagudo_Fists.Dark_Vampiric_Power.Guardian_Shield.Orc_Pike.QuadavWand_R.Mistilteinn.Silver_Goddess_Sword.Black_Goddess_Staff.Cell'sKi.Death's_Scythe.CreeperLegs.ZombieFists.PsychoPower.BedrockBite.Shadow_Blade.MenosPower.DragonFangs.BeeStinger.GoblinSword.YagudoWand.TigerFangs.Pinchers.BoneScythe.VampireFangs.SpaceGun.CerberusClaws.ElementalPower.MarioFists.FishBite.Egyptian_Rod.SinistralPower.JesterWand.VampireArt.Puppetry
+MonsterWpns=Yagudo_Fists.Dark_Vampiric_Power.Guardian_Shield.Orc_Pike.QuadavWand_R.Mistilteinn.Silver_Goddess_Sword.Black_Goddess_Staff.
+Cell'sKi.Death's_Scythe.CreeperLegs.ZombieFists.PsychoPower.BedrockBite.Shadow_Blade.MenosPower.DragonFangs.BeeStinger.GoblinSword.
+YagudoWand.TigerFangs.Pinchers.BoneScythe.VampireFangs.SpaceGun.CerberusClaws.ElementalPower.MarioFists.FishBite.Egyptian_Rod.
+SinistralPower.JesterWand.VampireArt.Puppetry
 
 
 At the very end of the list, put a period followed by the name of the weapon.  For example, if you're making a monster weapon named MonsterTestWeapon you would add it as  .MonsterTestWeapon
 
 Now you're ready to add the actual weapon.
 
-Scroll to the very bottom of the database file.  Here's the template you can copy and paste into it.
+Scroll to the very bottom of the database file.   Here's a quick template you can copy into the weapons.db to help you get going:
 
 [Name]
 Cost=0
@@ -29,21 +32,55 @@ Element=
 Hits=
 Basepower=
 Upgrade=0
+IgnoreDefense=0
+HurtEthereal=false
 
-Okay, so the [Name] is obviously the name of your new weapon.   Since it's a monster's weapon, put the cost as 0 (the cost= is the line for the amount of black orbs it costs, 0 means you can't buy it).  Type can be one of the following: handtohand, glyph, gun, katana, scythe, spear, stave, sword, wand, or whip.
 
-Abilities will be a list of the techniques the weapon has access to.  If you know what you want to name your abilities you can go ahead and add them.  Remember to add them like this:   name.name.name.name    (i.e. something like  CureII.Sweep.Thundaja).   Keep in mind that you're just adding the names of the techniques here, you still have to make the techniques in order for them to work.
+And here's the template broken down for you so you can understand everything:
 
-Element can be one of the following:  none, earth, lightning, wind, fire, light, dark, water or ice.  
 
-Hits= can be a solid number from 1 to 4 to do that many hits per swing, or you can do something like $rand(1,4) to make it be random between 1 to 4 hits every swing.  You can change the 1,4 to whatever you want as long as it doesn't go above 4 or below 1.  (i.e. you can have $rand(2,3) to do 2 to 3 hits at random per swing, or $rand(1,2) if you want it to be 1 to 2 randomly).
 
-BasePower= is the starting power of the weapon before anything is calculated or added to it (before strength, weapon masteries, etc is calculated).
+[Name]
+Obviously the NAME is the name of the weapon you want it to have.
+
+cost=
+This is the cost of the weapon in black orbs.
+
+type=
+This is the type of weapon it is.  Valid types are: axe, bow, chainsaw*, dagger, glyph, greatsword, gun, handtohand, katana, rifle, scythe, spear, stave, sword, wand, and whip.  * Note that chainsaw is for monsters only.
+
+Info=
+This is the information about the weapon as it's seen in !view-info.
+
+Abilities=
+Abilities are the techniques players can buy for this weapon. They must be valid techniques in techniques.db. Remember to add them like this:   name.name.name.name (i.e. something like  CureII.Sweep.Thundaja).   Keep in mind that you're just adding the names of the techniques here, you still have to make the techniques in order for them to work.
+
+Element=
+Element is the elemental property of the weapon. Set to none if you don't want the weapon to have any. Valid elements: none, earth, lightning, wind, fire, light, dark, water or ice.
+
+Hits=
+Hits is the # of times the weapon hits for. You can set it to be static, 1-6, or you can make it random.
+To make it random, use $rand(1,#) where # is the max # of hits you want it to have.
+
+BasePower=
+BasePower is the starting damage value of a weapon.
+
+Upgrade=
+Upgrade is the base cost of red orbs it takes to upgrade the weapon (i.e. before shop level is calculated in).
+
+IgnoreDefense=
+IgnoreDefense is a special value that allows the weapon to ignore some of a target's defense. This can be
+0 to 100.  It's a percent value, so 100% will ignore the target's defense completely.
+
+HurtEthereal=
+HurtEthereal is a special flag that allows the weapon to hurt Ethereal monsters. Set this to true or false.
+If set false (or the value is missing), the weapon will go through an Ethereal monster doing 0 damage.
+
 
 
 For the sake of a tutorial, let's continue making our MonsterTestWeapon.
 
-[Name]
+[MonsterTestWeapon]
 Cost=0
 Type=HandToHand
 Info=A monster's weapon, players can't buy it.
@@ -52,6 +89,8 @@ Element=fire
 Hits=$rand(1,2)
 Basepower=10
 Upgrade=0
+IgnoreDefense=0
+HurtEthereal=false
 
 
 And there you go.  You've now successfully added a new weapon.  Now we need to make the techniques that go along with the weapon.

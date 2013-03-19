@@ -1,6 +1,7 @@
 [Skills]
 PassiveSkills=Swordmaster.Gunslinger.Wizardry.MartialArts.Polemaster.Archery.ClearMind.DesperateBlows.OrbHunter.FieldMedic.Impetus.BloodPact.Zen.Haggling.WeaponBash.Vogue.Alchemy.TreasureHunter.BackGuard
-ActiveSkills=Speed.ElementalSeal.MightyStrike.ManaWall.RoyalGuard.Fullbring.Sugitekai.Meditate.ConserveTP.BloodBoost.DrainSamba.Regen.Kikouheni.ShadowCopy.Utsusemi.Steal.Analysis.Cover.Aggressor.Defender.HolyAura.Provoke.Disarm.WeaponLock.Konzen-ittai.SealBreak.MagicMirror.Gamble.Thirdeye.Scavenge.JustRelease
+ActiveSkills=Speed.ElementalSeal.MightyStrike.ManaWall.RoyalGuard.Fullbring.Sugitekai.Meditate.ConserveTP.BloodBoost.DrainSamba.Regen.Kikouheni.ShadowCopy.Utsusemi.Steal.Analysis.Cover.Aggressor.Defender.HolyAura.Provoke.Disarm.WeaponLock.Konzen-ittai.SealBreak
+ActiveSkills2=MagicMirror.Gamble.Thirdeye.Scavenge.JustRelease
 Resists=resist-paralysis.resist-blind.resist-poison.resist-amnesia.resist-curse.resist-zombie.resist-slow.resist-stun.resist-stop.resist-charm.resist-petrify
 
 
@@ -10,37 +11,37 @@ PASSIVE SKILLS
 
 [Swordmaster]
 Cost=200
-Max=500
+Max=200
 Type=Passive
 Info=This skill increases damage done with sword and katana weapons.  Increased levels increases the damage.
 
 [Polemaster]
 Cost=200
-Max=500
+Max=200
 Type=Passive
 Info=This skill increases damage done with spear weapons.  Increased levels increases the damage.
 
 [Gunslinger]
 Cost=200
-Max=500
+Max=200
 Type=Passive
 Info=This skill increases damage done with a gun.  Increased levels increases the damage.
 
 [Wizardry]
 Cost=200
-Max=500
+Max=200
 Type=Passive
 Info=This skill increases damage done with stave and wand weapons.  Increased levels increases the damage.
 
 [MartialArts]
 Cost=200
-max=500
+max=200
 Type=Passive
 Info=This skill increases damage done with your hand to hand weapons.  Increased levels increases the damage.
 
 [Archery]
 Cost=200
-Max=500
+Max=200
 Type=Passive
 Info=This skill increases damage done with a bow.  Increased levels increases the damage.
 
@@ -55,7 +56,7 @@ Amount=20
 Cost=450
 Type=Passive
 Info=This skill will increase magical damage.  Increased levels of this skill will increase the damage.
-Max=3
+Max=5
 
 [DesperateBlows]
 Cost=1000
@@ -100,7 +101,7 @@ Info=This skill will increase the amount of style XP you get at the end of battl
 Max=5
 
 [WeaponBash]
-Cost=1500
+Cost=105000
 Type=passive
 Info=This skill will add a chance of inflicting the stun status after each melee hit. Note, if the target is immune to stun it will never take effect.  The chance is (skill level * 10)%.
 Max=2
@@ -110,7 +111,7 @@ Max=2
 Cost=400
 Type=passive
 Info=This skill will allow you to use gems to create items. Each level of this skill will raise the success rate of creating an item by 1%.  Use !view-info alchemy list  to get a list of items you can craft and !view-info alchemy (item)  to view the ingredients necessary.
-Max=50
+Max=40
 
 [TreasureHunter]
 Cost=1000
@@ -146,7 +147,7 @@ Cost=450
 Type=Active
 Max=5
 Info=This skill enhances your next attack done with a weapon. Increased levels decreases the amount of time inbetween uses.
-Cooldown=60
+Cooldown=30
 
 [ManaWall]
 Cost=450
@@ -192,7 +193,7 @@ Cooldown=500
 [BloodBoost]
 Cost=500
 Type=Active
-Max=200
+Max=100
 Info=This skill will consume 100 HP to give you a (level * 2) boost to your STR.
 Cooldown=20
 
@@ -201,14 +202,14 @@ Cost=750
 Type=Active
 Max=10
 Info=This skill will consume 10 TP to activate the "drain" status on the user, allowing him/her to gain HP back with every melee attack.  The amount of turns it will last is the level of your skill.  Note that the drain effect will not work on the undead (vampires, skeletons, zombies).
-Cooldown=30
+Cooldown=60
 
 [Regen]
 Cost=700
 Type=Active
 Max=200
 Info=This skill will give you the HP regeneration effect.  Every turn you will regenerate (skill level * 2) HP back.  The effect will wear off when you reach your maximum HP or if you die.
-Cooldown=30
+Cooldown=60
 
 [Kikouheni]
 Cost=650
@@ -274,7 +275,7 @@ Cost=600
 Type=Active
 Info=This skill allows you to provoke an enemy into attacking you instead of another target.
 Max=1
-Cooldown=60
+Cooldown=120
 
 [Disarm]
 Cost=500
@@ -288,14 +289,14 @@ Cost=1000
 Type=Active
 Info=This skill will consume the item "Sokubaku" and lock a target's weapon for a number of turns.
 Max=1
-CoolDown=300
+CoolDown=150
 
 [Konzen-Ittai]
 Cost=5000
 Type=Active
 Info=This skill, when active, will allow you to perform a Renkei by yourself with a non-magic technique that you use.
 Max=1
-CoolDown=300
+CoolDown=600
 
 [SealBreak]
 Cost=2000
@@ -315,7 +316,7 @@ Cooldown=900
 Cost=10000
 Type=Active
 Info=This skill will consume 1,000 orbs in exchange for a random event to happen.  Random events include, but are not limited to: gaining a random item, refilling the Ignition Gauge, restoring HP, taking damage, and inflicting a status effect upon yourself. Increased levels decreases the amount of time inbetween uses.
-Max=9
+Max=5
 Cooldown=900
 
 [Thirdeye]

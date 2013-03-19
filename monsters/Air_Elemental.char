@@ -102,7 +102,25 @@ Aeroja=7
 
 
 
-[Element]
-Weakness=ice
-Strong=earth
+[modifiers]
 Heal=wind
+Earth=40
+Fire=100
+Wind=200
+Water=100
+Ice=120
+Lightning=100
+Light=100
+Dark=100
+HandToHand=10
+Whip=10
+Sword=60
+Gun=60
+Rifle=60
+Katana=60
+Wand=60
+Spear=60
+Scythe=60
+Glyph=100
+GreatSword=60
+Bow=30

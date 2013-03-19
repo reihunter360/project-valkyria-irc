@@ -99,6 +99,25 @@ StoneII=20
 [Item_Amount]
 
 
-[Element]
-Weakness=wind
-Strong=earth
+[modifiers]
+Heal=none
+Earth=50
+Fire=100
+Wind=150
+Ice=100
+Water=100
+Lightning=100
+Light=100
+Dark=100
+HandToHand=100
+Whip=100
+Sword=100
+Gun=100
+Rifle=100
+Katana=100
+Wand=100
+Spear=100
+Scythe=100
+Glyph=100
+GreatSword=100
+Bow=100

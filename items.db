@@ -6,7 +6,7 @@ HealingItems=Potion.VitalStar.X-Potion.Senzu.DustyWing.Tonic.GoldOrb.IgnitionSta
 BattleItems=Stop_Watch.Hour_Glass.Holy_Water.Red_Fang.Thunder_Orb.Fire_Flower.Ice_Coin.Love_Potion.Grappling_Hook
 
 ; Food Items increase stats
-FoodItems=Pizza.PotRoast.Ramen.Cavier.BisonDollar.DragonMeat.SuperMushroom.FireDragonWine.Ambrosia.FoieGras.KnowledgeSource.SoulPainting.FishAndChips.Slurm.CerberusMeat.SilverApple.DefenseSource.PowerSource.Herring.TurkeyLeg.BloodyHeart
+FoodItems=Pizza.PotRoast.Ramen.Cavier.BisonDollar.DragonMeat.SuperMushroom.FireDragonWine.Ambrosia.FoieGras.KnowledgeSource.SoulPainting.FishAndChips.Slurm.CerberusMeat.SilverApple.DefenseSource.PowerSource.Herring.TurkeyLeg.BloodyHeart.RottingMeat
 
 ; Random items
 Random=Present
@@ -15,8 +15,7 @@ Random=Present
 ConsumeItems=Shihei.Sokubaku.Hankai.MirrorShard
 
 ; Portal items are used to summon a special boss..
-; PortalItems=NewsOrb
-PortalItems=AlliedTrainingPaper.WormFood.DemonBell.VirilityCan.IgnisFatuus.BanishingCharm.GemOfTheNorth.GodSeal
+PortalItems=AlliedTrainingPaper.WormFood.DemonBell.VirilityCan.IgnisFatuus.BanishingCharm.RottingOrb.GemOfTheNorth.GodSeal
 
 ; Summon Items are used with BloodPact to summon an ally
 SummonItems=DarkMagicianCard.BusterBladerCard.BlueEyesCard.FishOilBroth.ElvishMedallian.AlexanderMateria.BahamutMateria.BahamutZeroMateria.CarbuncleMateria.SolomonRing.LuckyBroth.FenrirMateria.GarudaMateria.IfritMateria.LeviathanMateria.RamuhMateria.ShivaMateria.TitanMateria
@@ -44,19 +43,19 @@ Misc=Ink.Paper.AshLog.Hatchet.IronOre.GoldOre.SilverOre.DarksteelOre.Ectoplasm.B
 Runes=EthRune.MtlRune.HiRune.GeRune.MaRune.TeRune.MeRune.SmnRune.DrnRune.ItmRune.RenRune.NinRune.IgDef
 
 ; HeadEquipment is for equipment for the head
-HeadEquipment=BucketHat.RustyHelmet.JesterHat.DarksteelHelmet.BloodCrown.MyochinKabuto.Genbu'sKabuto
+HeadEquipment=BucketHat.RustyHelmet.JesterHat.DarksteelHelmet.BloodCrown.MyochinKabuto.ChaosBurgeonet.Genbu'sKabuto
 
 ; BodyEquipment is for equipment for the body
-BodyEquipment=RustyMail.TornRobe.ClothRobe.MageRobe.BloodHauberk.MyochinDomaru.Kirin'sOsode
+BodyEquipment=RustyMail.TornRobe.ClothRobe.MageRobe.BloodHauberk.MyochinDomaru.ChaosCuirass.Kirin'sOsode
 
 ; LegsEquipment is for equipment for the legs
-LegsEquipment=RustyHose.DarksteelHose.MyochinHaidate
+LegsEquipment=RustyHose.DarksteelHose.MyochinHaidate.ChaosFlanchard
 
 ; FeetEquipment is for equipment for the feet
-FeetEquipment=RustyBoots.DarksteelBoots.BloodSocks.MyochinSune-Ate
+FeetEquipment=RustyBoots.DarksteelBoots.BloodSocks.MyochinSune-Ate.ChaosSollerets
 
 ; HandsEquipment is for equipment for the hands
-HandsEquipment=LeatherGloves.RustyKnuckles.SpikedKnuckles.DarksteelGloves.MyochinKote
+HandsEquipment=LeatherGloves.RustyKnuckles.SpikedKnuckles.DarksteelGloves.MyochinKote.ChaosGauntlets
 
 
 
@@ -444,7 +443,13 @@ Cost=5000000
 type=food
 Target=hp
 Amount=100
-Desc=pulls out a bleeding heart and looks at it. People really eat this? Well..uhh..maybe.  %enemy ends up eating it and feels sick for doing so.... but..at least $set_chr_name($2) %real.name gains some max HP for it.
+Desc=pulls out a bleeding heart and looks at it. People really eat this? Well..uhh..maybe.$set_chr_name($2) %real.name ends up eating it and feels sick for doing so.... but..at least %real.name gains some max HP for it.
+
+[RottingMeat]
+type=food
+Target=str
+Amount=-10
+Desc=pulls out a slab of brown, smelly, rotting meat. Ugh, who would ever eat this?  Well, $set_chr_name($2) %real.name is forced to eat it and feels sick to $gender($2) stomach.  This isn't helpful at all! %real.name feels weaker than before after eating it.
 
 [Slurm]
 Type=food
@@ -1242,6 +1247,16 @@ Weather=calm
 Monster=Gaki.Onki.Rasetsu
 Desc=takes out the banishing charm; a powerful charm used to banish demons. It begins to glow and creates a portal that teleports the heroes into a demonic shrine where three demons await.
 AlliedNotes=500
+
+[RottingOrb]
+type=portal
+cost=30
+currency=KindredSeal
+battlefield=Smelly Dungeon
+Weather=gloomy
+Monster=Legion
+Desc=takes out the rotting orb and shatters it.  Suddenly the heroes find themselves in a smelly dungeon where there's hundreds of rotting bodies laying everywhere. Floating in the air is Legion.
+AlliedNotes=2500
 
 [GemOfTheWest]
 type=portal

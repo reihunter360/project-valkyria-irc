@@ -92,9 +92,28 @@ shockwave=5
 
 
 
-[Element]
-Weakness=
-Strong=
+[modifiers]
+Heal=none
+Earth=50
+Fire=50
+Wind=50
+Water=50
+Ice=50
+Lightning=50
+Light=50
+Dark=50
+HandToHand=50
+Whip=50
+Sword=50
+Gun=50
+Rifle=50
+Katana=50
+Wand=50
+Spear=50
+Scythe=50
+Glyph=50
+GreatSword=50
+Bow=50
 
 
 [Styles]

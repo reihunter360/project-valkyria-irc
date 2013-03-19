@@ -46,7 +46,7 @@ SetGenderFemale=$chr(3) $+ 3 $+ Your gender has been set to $2
 ViewMyHP=$chr(3) $+ 3 $+  $+ %real.name $+ 's HP is: $readini($char($nick), Battle, HP) $chr(47) $readini($char($nick), BaseStats, HP)  $+ $chr(91) $+ %hstats $+ 3 $+ $chr(93)  
 ViewMyTP=$chr(3) $+ 3 $+  $+ %real.name $+ 's TP is: $readini($char($nick), Battle, TP) $chr(47) $readini($char($nick), BaseStats, TP) 
 ViewMyIG=$chr(3) $+ 3 $+  $+ %real.name $+ 's Ignition Gauge is: $readini($char($nick), Battle, IgnitionGauge) $chr(47) $readini($char($nick), BaseStats, IgnitionGauge) 
-ViewAlliedNotes=$chr(3) $+ 3 $+  $+ %real.name has %allied.notes allied notes.
+ViewAlliedNotes=$chr(3) $+ 3 $+  $+ %real.name has $bytes(%allied.notes,b) allied notes.
 ViewLevel=$chr(3) $+ 3 $+  $+ %real.name is roughly level %player.level
 ViewMyOrbs=$chr(3) $+ 3 $+  $+ %real.name has $bytes($readini($char($nick), stuff, RedOrbs),b)  $+ $readini(system.dat, system, currency) and $readini($char($nick), stuff, BlackOrbs) Black Orb(s) and has spent %orbs.spent  $+ $readini(system.dat, system, currency) and %blackorbs.spent Black Orb(s) total! 
 ViewOthersOrbs=$chr(3) $+ 3 $+  $+ %real.name has $bytes($readini($char($2), stuff, RedOrbs),b)  $+ $readini(system.dat, system, currency) and $readini($char($2), stuff, BlackOrbs) Black Orb(s) and has spent %orbs.spent  $+ $readini(system.dat, system, currency) and %blackorbs.spent Black Orb(s) total! 
@@ -157,6 +157,9 @@ NoAugments=$chr(3) $+ 3 $+  $+ %real.name has no augments currently activated.
 AugmentList=$chr(3) $+ 3 $+ With the current armor and weapons equipped, %real.name has the following augment strengths: %augment.list
 TotalDeathTotal=$chr(3) $+ 3 $+ %real.name has been defeated %total.deaths time(s)!
 TotalDeathNone=$chr(3) $+ 3 $+ %real.name is currently undefeated!
+DamageNowCapped=$chr(3) $+ 3Battle Damage is now capped.
+DamageNotCapped=$chr(3) $+ 3Battle Damage is no longer capped.
+
 
 =======================
 Health Titles
@@ -306,6 +309,7 @@ SkillWon'tWorkNotMeleeOnly=$chr(3) $+ 4 $+ Error: This skill will only work on
 PortalItemNotWorking=$chr(3) $+ 4 $+ This item does not seem to work at the moment!
 AlreadyInPortal=$chr(3) $+ 4 $+ The heroes have already transported through a portal and cannot do so again right now!
 BattleAlreadyStarted=$chr(3) $+ 4 $+ Error: A battle has already started. To end the current battle, use !endbat
+AlreadyHasThisBuff=$chr(3) $+ 4 $+ Error: %real.name already has this buff and cannot obtain it again at this time.
 
 =======================
 Battle Related Messages
@@ -370,6 +374,7 @@ ReleaseSnatchedTarget=$chr(3) $+ 4 $+ %real.name throws $set_chr_name(%cover.t
 NaturalArmorAbsorb=$chr(3) $+ 4 $+ %enemy $+ 's %naturalArmorName absorbs %attack.damage damage from $set_chr_name($1) $+ %real.name $+ 's attack.
 NaturalArmorBroken=$chr(3) $+ 4 $+ %user has broken %enemy $+ 's %naturalArmorName $+ !
 ImmuneToElement=$chr(3) $+ 7 $+ %real.name is immune to the %current.element element!
+ImmuneToWeaponType=$chr(3) $+ 7 $+ %real.name is immune to the %weapon.type weapon type!
 ImmuneToTechName=$chr(3) $+ 7 $+ %real.name is immune to the $2 technique!
 ObtainGreenOrb=$chr(3) $+ 3 $+ %real.name drops a small green orb that restores %orb.restored health to %user $+ !
 ObtainWhiteOrb=$chr(3) $+ 3 $+ %real.name drops a small white orb that restores %orb.restored TP to %user $+ !

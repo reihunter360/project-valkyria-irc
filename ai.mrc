@@ -31,7 +31,11 @@ alias ai_turn {
 
   if (%ai.type = portal) { 
     $portal.clear.monsters
-    if ($readini(battle2.txt, battleinfo, Monsters) >= 6) { query %battlechan 12The Demon Portal glows quietly. | $check_for_double_turn($1) | halt }
+
+    var %max.number.of.mons $readini(system.dat, system, MaxNumberOfMonsInBattle)
+    if (%max.number.of.mons = $null) { var %max.number.of.mons 6 }
+
+    if ($readini(battle2.txt, battleinfo, Monsters) >= %max.number.of.mons) { query %battlechan 12The Demon Portal glows quietly. | $check_for_double_turn($1) | halt }
     else {  $portal.summon.monster($1) |  halt }
   }
 
@@ -54,6 +58,8 @@ alias ai_turn {
 
   ;  If a monster can build a demon portal, then it can use it here at random.
   if (%curse.night != true) {  $ai.buildportal($1) }
+
+  $ai.monstersummon($1)
 
   ; First off, let's figure out how much TP the monster has.  If it's less than 15, it's going to do an attack
   var %tp.have $readini($char($1), battle, tp) 
@@ -531,5 +537,23 @@ alias ai.buildportal {
   if ($readini($char($1), skills, demonportal) >= 1) { 
     var %portal.chance $rand(1,110)
     if (%portal.chance <= 35) { $skill.demonportal($1) }
+  }
+}
+
+alias ai.monstersummon {
+  if ($is_charmed($1) = true) { return }
+  if ($readini($char($1), skills, monstersummon) >= 1) { 
+    $portal.clear.monsters
+    var %summon.chance $rand(1,100)
+    if (%summon.chance <= $readini($char($1), skills, monstersummon.chance)) {
+
+      var %max.number.of.mons $readini(system.dat, system, MaxNumberOfMonsInBattle)
+      if (%max.number.of.mons = $null) { var %max.number.of.mons 6 }
+
+      if ($readini(battle2.txt, battleinfo, Monsters) < %max.number.of.mons) { 
+        var %monster.name $readini($char($1), skills, monstersummon.monster)
+        if (%monster.name != $null) { $skill.monstersummon($1, %monster.name) }
+      }
+    }
   }
 }

@@ -99,6 +99,26 @@ SpinningSlash=5
 
 [Item_Amount]
 
-[Element]
-Weakness=fire.lightning
-Strong=water.earth.dark.ice
+
+[modifiers]
+Heal=none
+Earth=70
+Fire=120
+Wind=100
+Water=70
+Ice=10
+Lightning=110
+Light=100
+Dark=40
+HandToHand=100
+Whip=100
+Sword=100
+Gun=100
+Rifle=100
+Katana=100
+Wand=100
+Spear=100
+Scythe=100
+Glyph=100
+GreatSword=100
+Bow=100

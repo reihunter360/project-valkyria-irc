@@ -98,6 +98,25 @@ Entangle=12
 
 
 
-[Element]
-Weakness=Dark.Fire
-Strong=Water.Earth.Light
+[modifiers]
+Heal=none
+Earth=30
+Fire=130
+Wind=100
+Water=20
+Ice=100
+Lightning=100
+Light=30
+Dark=140
+HandToHand=100
+Whip=100
+Sword=100
+Gun=100
+Rifle=100
+Katana=100
+Wand=100
+Spear=100
+Scythe=100
+Glyph=100
+GreatSword=100
+Bow=100

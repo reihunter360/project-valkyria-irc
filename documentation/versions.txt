@@ -402,6 +402,8 @@ Battle Arena Bot VERSIONS
   On the portal's turn, it will generate another monster onto the battlefield provided there's less than 5 monsters on the field.
   It will only stop when the portal is dead. Monsters with DemonPortal skill can also heal the portal.
 - Added the monster-only skill: MonsterConsume. When used, a monster will eat/kill another monster and gain 40% of its stats
+- Added the monster-only skill: MonsterSummon. When set right, a monster with this skill can summon a monster into the battle.
+  Unlike BloodPact, it can be done multiple times. See Legion in the \bosses\ folder to see how to set it up right.
 - Added a new command to clear descriptions you've set: !clear desc (name)  (remove the ()).  For example: 
   !clear desc character   or  !clear desc mightystrike 
 - Added new achievements
@@ -418,10 +420,14 @@ Battle Arena Bot VERSIONS
   caster. Curing spells ignore the reflect status though if they heal.
 - Added the "protect" status. When on, it cuts melee attacks down by half.
 - Added the "shell" status. When on, it cuts magic damage down by half.
+- Added the "resist-"element statuses. When on, it removes the ability for the magic effects (such as burning, shocked, frozen)
+  from working.  If the resistances are applied via a buff technique, such as BarFire, it will also give a +30% resistance to
+  the element.
 - Added a new special boss fight: Demon Wall.  In this type the bot will generate a demon wall based on the current 
   battle streak. This boss fight is also timed; darkness will occur in 5 minutes and it's instant death if darkness triggers.
 - Added two new battle formulas. Bot Admins can use !toggle Battle Formula to switch between them.  The version 1.0-1.5 formula
   is now gone. Bot Owners can switch it manually in system.dat [system] BattleDamageFormula=1 or 2  By default, 2 is default.
+- Added a IgnoreDmgCap flag in system.dat.  If set to true then damage will no longer be capped under any formulas. 
 - Added the ability for monsters to be immune to Weapon Lock. Under [Skills] add Resist-Weaponlock=100   Unlike other resists,
   this one is either all or none.  If it's not 100, then weapon lock will always work.
 - Added the ability for monsters and NPCs (not shadow clones) to use ignitions. In order for a monster/npc to use an ignition
@@ -466,7 +472,6 @@ Battle Arena Bot VERSIONS
 - Added the ability for monsters to attempt to grab players and use them as shields if they have snatch=1 set in their [skills]
 - Added the ability for monsters to have "natural armor" -- Think of it as a shield that has to be broken before the monsters 
   can take damage. Look at the boss Cerberus to see how it's done.
-- Added the ability for targets to be completely immune to elemental damage. In [Element] put null=element.element.element
 - Added the ability for weapons and techniques to ignore some or all of a target's defense. In techniques.db and weapons.db
   under the name of the tech/weapon, put IgnoreDefense= and the value can be 0 to 100  0 means none, 100 means 100% 
   of def is ignored. 
@@ -516,6 +521,12 @@ Battle Arena Bot VERSIONS
 - Changed many of the basic character commands (such as !hp, !tp, !items, !skills, etc) to work in private message as well
   as the channel. Now if you use those commands in a private message, the message will be displayed privately to you. If you
   use them in the channel, it will be as it was before and show the message in the channel.
+- Changed the Steal skill so that it now loads the steal pools from steal.lst. It is now possible for individual monsters/bosses
+  to drop different things, rather than every monster or boss sharing from a global pool.
+- Changed how the resistances/weaknesses/immunities/heals to elements, weapons and techs work in the files.  Now there's a 
+  [modifiers] section.  Setting the element/weapon/tech to 0 means the monster is completely immune to it.  Setting it to 
+  100 means they will take normal damage from it.  Anything above 100 is a weakness, anything below 100 is a resistance. Remember 
+  that it's in percent, so 125 = 125% damage from it.
 - Fixed a bug in which selling a technique might result in 0 orbs back.
 - Fixed a bug in which cover would activate when a monster used taunt on a covered target.
 - Fixed an issue where setting a high difficulty would still result in low level monsters on lower streaks. Now it summons the

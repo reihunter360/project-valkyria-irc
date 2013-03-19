@@ -107,7 +107,25 @@ IronMaiden=20
 [Item_Amount]
 
 
-
-[Element]
-Weakness=fire
-Strong=earth.dark.water.lightning
+[modifiers]
+Heal=none
+Earth=30
+Fire=200
+Wind=100
+Water=30
+Ice=100
+Lightning=1
+Light=100
+Dark=30
+HandToHand=100
+Whip=100
+Sword=100
+Gun=100
+Rifle=100
+Katana=100
+Wand=100
+Spear=100
+Scythe=100
+Glyph=100
+GreatSword=100
+Bow=100

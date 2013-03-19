@@ -8,7 +8,7 @@ Here players join the battle when the bot announces an open battle. After a few 
 
 ThereÅfs a bunch of weapons that can be bought and each weapon has a few techniques attached to them. Unlike in Kaiou, you canÅft make your own techniques but rather have to buy them using red orbs that you earn from battle. You buy weapons using black orbs when you obtain via winning boss fights and being alive at the end of one.
 
-ThatÅfs really the gist of what IÅfve been working on thus far.
+That's really the gist of what IÅfve been working on thus far.
 
 One more thing to mention here in the "overview" is that the bot is currently unbalanced.  New players will probably find themselves dying a lot while older players will probably dominate almost everything (to a point).   Some weapons are overpowered, others aren't strong enough.  The bot is only on version 2.0 so hopefully things will improve in those areas later on down the road.
 
@@ -89,6 +89,12 @@ Some basic commands you may want to check out:
 !style change name - This command will change your style.
 
 /me gives # item to person - You can give items/accessories to other players using this command.
+
+!view battle save - If you've saved a streak levels to your file, you can see what it is here.
+
+!save battle streak - Save the current battle streak to your file so that you can reload it later.  Consider this as a way to "save your game" if you have to go and want to resume on the same streak later.  You can only save a streak once every two hours.
+
+!reload battle streak - Reloads the saved battle streak from your file to the bot.  In order for a streak to be reloaded there can't be any winning streaks (i.e. it has to be a losing streak).  Upon reloading, the old saved streak will be erased from the file.
 
 !stats - Tells you your stats.
 
@@ -250,7 +256,7 @@ Monsters are leveled based on the current winning streak.  And the amount of dam
 
 
 SKILLS
-** As of February 8, 2013.
+** As of March 18, 2013.
 
 There are three types of skills in this bot: Passive Skills that are always on, Active Skills that have commands, and Resists that help you resist against various status types found in the bot.  Each skill has a maximum level that you can obtain in it. Some active skills can only be used once every certain number of minutes.  Of course you must first purchase the skills in the shop before you can use them.
 
@@ -402,6 +408,15 @@ This skill will consume a MirrorShard to create a magical reflective barrier aro
 Gamble
 This skill will consume 1,000 orbs in exchange for a random event to happen.  Random events include, but are not limited to: gaining a random item, refilling the Ignition Gauge, restoring HP, taking damage, and inflicting a status effect upon yourself. Increased levels decreases the amount of time inbetween uses.
 
+Thirdeye
+This skill will increase the odds of dodging attacks for 1-2 turns to 100%.  Increased levels decreases the amount of time inbetween uses.
+
+Scavenge
+This skill allows you to dig into the ground of a battlefield in an attempt to find a burried item. The items that can be found depend on the current battlefield. You may only use this skill one time per battle regardless if it's successful or not.  Increased levels of this skill increase the odds of finding an item.
+
+JustRelease
+This skill will unleash the stored Royal Guard meter at an enemy.  The damage done is (skill level)% of your Royal Guard meter.  The damage done with this skill cannot be completely resisted or dodged.  Royal Guard meter is built up by successfully blocking attacks using Royal Guard.
+
 
 Resistance Skills
 Like Passive skills, these skills are always on.  All of them do the same thing except with different status effects.  Each level you purchase of a resistance skill lowers the chance that that status effect will take effect on you by 1%.  The maximum is 100, meaning you're completely immune to that status effect**.
@@ -423,7 +438,7 @@ resist-petrify
 
 
 ITEM LIST
-** As of February 12, 2013.
+** As of March 18, 2013.
 
 There's a bunch of different types of items in the bot currently:  Healing Items, Battle Items, Consumable (Skill) Items, +Stat Items, Summon Items, Shop Level Reducing Items, Gems, Keys, Accessories, Portal Items and Misc (Crafting) items.  Here's a list of each.
 
@@ -500,6 +515,9 @@ The Holy Hand Grenade item will inflict roughly 2500 damage to a single target.
 Love_Potion - Special Boss Drop
 This item will attempt to charm a target.
 
+Grapling_Hook - 1000 Red Orbs
+This item is used to grab an enemy to use that enemy as a protective shield in battle.  When successful, the "shield" will take damage if you're attacked instead of you.
+
 
 +Stat Items
 These items, when used, will increase your stats by a certain amount.  You cannot buy these items in the shop and must be found by defeating bosses and being the most stylish.  None of these items can be used with Fullbring.
@@ -527,6 +545,8 @@ DefenseSource
 PowerSource
 Herring
 TurkeyLeg
+BloodyHeart
+RottingMeat
 
 
 Consumable (Skill) Items
@@ -679,7 +699,12 @@ Glass
 Cloth
 RepairHammer
 TigerFang
-
+Sand
+ByakkoSeal
+GenbuSeal
+SeiryuSeal
+SuzakuSeal
+KirinSeal
 BeastmenSeal
 KindredSeal
 
@@ -702,8 +727,15 @@ NinRune
 Portal Items
 These items are used in battle to transport all of the players to a special battlefield to fight a tough boss monster.
 
+AlliedTrainingPaper
 WormFood
+DemonBell
+VirilityCan
+IgnisFatuus
 BanishingCharm
+RottingOrb
+GemOfTheNorth
+GodSeal
 
 
 ACCESSORIES
@@ -805,7 +837,7 @@ You'll notice that Ignitions have two special extras in addition to +stat gains:
 
 
 MONSTER LIST
-** As of February 12, 2013.
+** As of March 18, 2013.
 Here's a list of monsters that are in the bot.
 
 Acrobat
@@ -907,6 +939,7 @@ Orcish Predator
 Orcish Wyrmbrander
 Oxocutioner
 Poison Slime
+Poring
 Pride Demon
 Pugil
 Reaver
@@ -957,18 +990,22 @@ Yagudo Oracle
 Yagudo Prior
 Yagudo Prioress
 Yagudo Scribe
+Yagudo Summoner
 Yagudo Zealot
 Zarklet
 Zombie
+Zombie Chef
+Zombie Rockstar
 Zu
 
 
 BOSS LIST
-** As of January 9, 2013.
+** As of March 18, 2013.
 Here's a list of bosses that are in the bot.
 
 Absolute Virtue
 Ahtu
+Allied Scrub
 Amon
 Alpha Gnole Anders
 Android X
@@ -984,6 +1021,7 @@ Cell
 Cerberus
 Chuckie
 Count Bifrons
+Crazy Jester
 Cursed King
 Cyberman Lord
 Dalek Emperor
@@ -997,8 +1035,10 @@ Eldora Adlanna
 Erim
 Fafnir
 Gades
+Gaki
 Metal Gear Ray
 Metal Gear Rex
+Genbu
 Gilgamesh
 Giygas
 Gothmog
@@ -1010,21 +1050,29 @@ Jester
 Jumbo Cactuar
 Killer Rabbit
 King Slime
+Kirin
 The Knights Who Say Ni
 Leaping Lizzie
+Legion
+Leviathan Center Heart
+Leviathan Left Heart
+Leviathan Right Heart
 Marquis Caim
 Menos Grande
 Metal King Slime
-Mother Brain
+Morion Worm
 Mother Brain
 M.Bison
+Onki
 Pallid Percy
 Poison
 Poisonhand Gnadgad
 Puppet Master
 Quetzalcoatl
+Rasetsu
 Ryukotsuki
 Smothered Schmidt
+Scorpion
 Sea Horror
 Shadow Lord
 Stinging Sophie
@@ -1038,11 +1086,12 @@ Scorched Yanthu
 Za'Dha Adamantking
 Zark
 
-
 SEASONAL BOSSES
+Evil Cupid
 Evil Xmas Tree
-Robot Santa
 Gobbles the Mad Turkey
+Robot Santa
+
 
 
 NPCS

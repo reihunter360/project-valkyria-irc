@@ -94,7 +94,17 @@ Augment=EnhanceBloodBoost
 EquipLocation=head
 cost=50
 
-
+[ChaosBurgeonet]
+Name=Chaos Burgeonet
+hp=100
+tp=50
+Str=170
+def=20
+int=0
+spd=0
+Augment=EnhanceCriticalHits
+EquipLocation=head
+cost=50
 
 ========
 BODY
@@ -197,6 +207,19 @@ Augment=EnhanceBloodBoost
 EquipLocation=body
 cost=50
 
+
+[ChaosCuirass]
+Name=Chaos Cuirass
+hp=100
+tp=50
+Str=170
+def=50
+int=0
+spd=0
+Augment=MeleeBonus.Drain
+EquipLocation=body
+cost=50
+
 [Kirin'sOsode]
 name=Kirin's Osode
 hp=140
@@ -249,7 +272,17 @@ Augment=TechBonus
 EquipLocation=legs
 cost=50
 
-
+[ChaosFlanchard]
+Name=Chaos Flanchard
+hp=100
+tp=50
+Str=170
+def=25
+int=0
+spd=0
+Augment=EnhanceParry
+EquipLocation=legs
+cost=50
 
 
 ========
@@ -303,6 +336,20 @@ spd=0
 Augment=EnhanceBloodBoost
 EquipLocation=feet
 Cost=50
+
+
+[ChaosSollerets]
+Name=Chaos Sollerets
+hp=100
+tp=50
+Str=170
+def=25
+int=20
+spd=20
+Augment=EnhanceAggressor
+EquipLocation=feet
+cost=50
+
 
 
 ========
@@ -381,8 +428,17 @@ Augment=EnhanceParry
 EquipLocation=hands
 cost=50
 
-
-
+[ChaosGauntlets]
+Name=Chaos Gauntlets
+hp=100
+tp=50
+Str=170
+def=25
+int=0
+spd=0
+Augment=EnhanceWeaponBash
+EquipLocation=hands
+cost=50
 
 
 =============================

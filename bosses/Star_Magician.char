@@ -26,16 +26,16 @@ RageCountDown=0
 
 
 [Descriptions]
-Char=set a character desc here that appears when the monster is summoned.
+Char=is resembling a humanlike entity in a navy-blue robe and a shadowy face obscured by a pointed hood.
 Rage=screams in rage 
-BossQuote=enter a quote that the boss says when he enters the battle.
+BossQuote=comes out of a black portal and says "I am the guardian of water. If you would claim my power, you must prove your worth."
 
 
 [Stuff]
 RedOrbs=0
 BlackOrbs=1
 ShopLevel=1.0
-Drops=Potion
+Drops=GoldOrb.LeviathanMateria.GoldOre.GoldKey.SilverKey
 
 [Monster]
 Type=
@@ -51,6 +51,7 @@ LastIP=N/a
 Created=N/a
 battlestats=ignore
 orbbonus=yes
+ragemode=
 ;=======================================
 ; These are optional flags you can set:
 ;========================================
@@ -115,9 +116,13 @@ StarMageStaff=100
 [Techniques]
 ;Mystic Call
 ;Mine Ball - Earth AoE Magic
+Mine_Ball=500
 ;Spark Plasma - Lightning AoE Magic
+Spark_Plasma=500
 ;Mega Cool - Water AoE Magic - Freeze
+Megacool=500
 ;Curaga - Heal
+Curaga=1000
 
 [Skills]
 Zen=30
@@ -131,13 +136,34 @@ resist-amnesia=50
 resist-stop=70
 resist-blind=100
 resist-paralysis=60
+manawall=10
+elementalseal=10
+manawall.on=on
+clearmind=5
 
 [Item_Amount]
 
 
+[modifiers]
+Heal=none
+Earth=75
+Fire=200
+Wind=50
+Water=20
+Ice=20
+Lightning=50
+Light=50
+Dark=50
 
-[Element]
-Weakness=Fire
-Strong=Lightning.Wind
-Absorb=Water
-;
+HandToHand=100
+Whip=100
+Sword=100
+Gun=100
+Rifle=100
+Katana=100
+Wand=100
+Spear=100
+Scythe=100
+Glyph=100
+GreatSword=100
+Bow=100
