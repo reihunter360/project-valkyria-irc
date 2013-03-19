@@ -103,8 +103,7 @@ resist-poison=100
 
 [Techniques]
 Repairs=200
-SpaceBeam=20000
-
+SpaceBeam=2000
 
 [Item_Amount]
 

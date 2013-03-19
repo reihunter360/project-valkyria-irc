@@ -32,6 +32,18 @@ on 50:TEXT:!toggle bonus event*:*:{
   }
 }
 
+; Bot Admins can toggle if damage is capped or not.
+on 50:TEXT:!toggle damage cap*:*:{   
+  if ($readini(system.dat, system, IgnoreDmgCap) = false) { 
+    writeini system.dat system IgnoreDmgCap true
+    query %battlechan $readini(translation.dat, system, DamageNotCapped)
+  }
+  else {
+    writeini system.dat system IgnoreDmgCap false
+    query %battlechan $readini(translation.dat, system, DamageNowCapped)
+  }
+}
+
 ; Bot Admins can toggle the automated battle system to be on/off
 on 50:TEXT:!toggle automated battle system*:*:{   
   if ($readini(system.dat, system, automatedbattlesystem) = off) { 
@@ -192,6 +204,7 @@ on 50:TEXT:!clear battle stats*:*:{
   writeini battlestats.dat Battle LosingStreak 0
   writeini battlestats.dat Battle WinningStreak 0
   writeini battlestats.dat Battle GauntletRecord 0
+  writeini battlestats.dat Battle WinningStreakRecord 0
   query %battlechan $readini(translation.dat, System, WipedBattleStats)
 }
 
@@ -497,7 +510,10 @@ alias battlebegin {
     ; Let's see if there's any monsters already in battle (via !summon).  If so, we don't want more than 10..
     var %number.of.monsters $readini(battle2.txt, BattleInfo, Monsters) 
     if (%number.of.monsters = $null) { var %number.of.monsters 0 } 
-    if (%number.of.monsters >= 10) { set %number.of.monsters.needed 0 }
+
+    ; Check to see if we're over the max number of monsters allowed.
+    var %max.number.of.mons $readini(system.dat, system, MaxNumberOfMonsInBattle)
+    if (%number.of.monsters >= %max.number.of.mons) { set %number.of.monsters.needed 0 }
 
     ; Generate the monsters..
 
@@ -806,12 +822,12 @@ alias generate_battle_order {
     if (%surpriseattack = on) {
       var %ai.type $readini($char(%who.battle), info, ai_type)
       if (%ai.type != defender) { 
-        if ($readini($char(%who.battle), info, flag) = monster) { inc %battle.speed 9999999999999999999999999 }
+        if ($readini($char(%who.battle), info, flag) = monster) { inc %battle.speed 9999999999 }
       }
     }
 
     if (%playersgofirst = on) {
-      if ($readini($char(%who.battle), info, flag) = $null) { inc %battle.speed 9999999999999999999999999 }
+      if ($readini($char(%who.battle), info, flag) = $null) { inc %battle.speed 9999999999 }
     }
 
     if (%battle.speed <= 0) { set %battle.speed 1 }
@@ -1480,7 +1496,7 @@ alias turn.statuscheck {
   $cocoon_check($1) | $weapon_locked($1) | $petrified_check($1)  | $bored_check($1) | $reflect.check($1)
 
   $regenerating_check($1) | $TPregenerating_check($1) | $boosted_check($1)  | $ignition_check($1) | $revive_check($1)
-  $protect_check($1) | $shell_check($1)
+  $protect_check($1) | $shell_check($1) | $bar_check($1)
 
   ; Check for certain skills
   $player.skills.list($1)
@@ -1674,7 +1690,10 @@ alias intimidated_check {
 
 alias frozen_check { 
   if ($readini($char($1), Status, frozen) = yes) { $status_message_check(freezing) 
-    set %freezing $rand(1,10) | set %hp $readini($char($1), Battle, HP) | $set_chr_name($1)
+    set %hp $readini($char($1), Battle, HP) | $set_chr_name($1)
+    set %max.hp $readini($char($1), basestats, hp)
+    set %freezing $round($calc(%max.hp * .05),0)
+    unset %max.hp | set %hp $readini($char($1), battle, hp)
     if (%freezing >= %hp) { query %battlechan $readini(translation.dat, status, FrozenDeath) | writeini $char($1) Battle HP 0 | writeini $char($1) Battle Status Dead | $increase.death.tally($1)  | $add.style.effectdeath 
     $goldorb_check($1) | $spawn_after_death($1) | remini $char($1) Renkei | next | halt }
     if (%freezing < %hp) { $set_chr_name($1) | write temp_status.txt $readini(translation.dat, status, FrozenMessage) | dec %hp %freezing |  writeini $char($1) Battle HP %hp | return }
@@ -1903,6 +1922,17 @@ alias protect_check {
   return
 }
 
+alias bar_check {
+  if ($readini($char($1), status, resist-fire) = yes) { $status_message_check(resist-fire) }
+  if ($readini($char($1), status, resist-earth) = yes) { $status_message_check(resist-earth) }
+  if ($readini($char($1), status, resist-wind) = yes) { $status_message_check(resist-wind) }
+  if ($readini($char($1), status, resist-ice) = yes) { $status_message_check(resist-ice) }
+  if ($readini($char($1), status, resist-water) = yes) { $status_message_check(resist-water) }
+  if ($readini($char($1), status, resist-lightning) = yes) { $status_message_check(resist-lightning) }
+  if ($readini($char($1), status, resist-light) = yes) { $status_message_check(resist-light) }
+  if ($readini($char($1), status, resist-dark) = yes) { $status_message_check(resist-dark) }
+}
+
 alias weaponlock_check { 
   var %weaponlock.timer $readini($char($1), status, weaponlock.timer)  
   if (%weaponlock.timer = $null) { var %weaponlock.timer 0 }
@@ -2052,5 +2082,4 @@ alias ignition_check {
     $status_message_check(ignition boosted)
     unset %ignition.name | unset %ignition.cost | unset %player.current.ig
   }
-
 }

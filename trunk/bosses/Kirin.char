@@ -127,10 +127,6 @@ CureII=100
 Equipped=CounterStance
 CounterStance=2
 
-[Element]
-Weakness=wind
-Strong=fire.dark.light
-Heal=earth
 
 [Equipment]
 Body=Kirin'sOsode
@@ -146,3 +142,27 @@ SkyGodPower=IgnoreDefense.EnhanceSummons.EnhanceCriticalHits.AbsorbIG
 Name=Godly Shield
 Max=5000
 Current=5000
+
+
+[modifiers]
+Heal=earth
+Earth=700
+Fire=50
+Wind=150
+Water=100
+Ice=100
+Lightning=100
+Light=20
+Dark=50
+HandToHand=100
+Whip=100
+Sword=100
+Gun=100
+Rifle=100
+Katana=100
+Wand=100
+Spear=100
+Scythe=100
+Glyph=100
+GreatSword=100
+Bow=100

@@ -99,6 +99,25 @@ List=
 [Item_Amount]
 
 
-[Element]
-Weakness=fire.ice.light.dark.wind.earth
-Strong=
+[modifiers]
+Heal=none
+Earth=150
+Fire=150
+Wind=150
+Water=150
+Ice=150
+Lightning=150
+Light=150
+Dark=150
+HandToHand=150
+Whip=150
+Sword=150
+Gun=150
+Rifle=150
+Katana=150
+Wand=150
+Spear=150
+Scythe=150
+Glyph=150
+GreatSword=150
+Bow=150

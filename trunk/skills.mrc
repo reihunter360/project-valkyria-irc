@@ -5,8 +5,8 @@ ON 50:TEXT:*does *:*:{
   if ($3 = elementalseal) { $skill.elementalseal($1) }
   if ($3 = mightystrike) { $skill.mightystrike($1) }
   if ($3 = manawall) { $skill.manawall($1) } 
-  if ($3 = royalguard) { $skill.royalguard{$1) }
-  if ($3 = utsusemi) { $skill.utsusemi{$1) }
+  if ($3 = royalguard) { $skill.royalguard($1) }
+  if ($3 = utsusemi) { $skill.utsusemi($1) }
   if ($3 = fullbring) { $skill.fullbring($1, $4) }
   if ($3 = doubleturn) { $skill.doubleturn($1) } 
   if ($3 = sugitekai) { $skill.doubleturn($1) } 
@@ -1251,14 +1251,14 @@ alias skill.steal {
     var %current.playerstyle $readini($char($1), styles, equipped)
     if (%current.playerstyle = Trickster) { inc %steal.chance $rand(5,10) }
 
-    if (%steal.chance >= 85) {
+    if (%steal.chance >= 90) {
       var %stolen.from.counter $readini($char($2), status, stolencounter)
       if (%stolen.from.counter > 5) { $set_chr_name($2) | query %battlechan 4 $+ %real.name  has nothing left to steal! | halt }
 
       inc %stolen.from.counter 1 | writeini $char($2) status stolencounter %stolen.from.counter 
 
       set %steal.pool $readini(steal.lst, stealpool, $2)
-      var %steal.orb.amount $rand(5000,9000) 
+      var %steal.orb.amount $rand(2500,6500) 
 
       if (%steal.pool = $null) { 
         if ($readini($char($2), Info, flag) = monster) { set %steal.pool $readini(steal.lst, stealpool, monster) }
@@ -1270,7 +1270,9 @@ alias skill.steal {
       set %steal.item $gettok(%steal.pool,%random.item,46)
 
       if (%steal.item = $null) { set %steal.item orbs }  
-      if (%steal.item = orbs) { var %current.orb.amount $readini($char($1), stuff, redorbs) | inc %current.orb.amount %steal.orb.amount | writeini $char($1) stuff redorbs %current.orb.amount 
+      if (%steal.item = orbs) { 
+        if (%steal.orb.amount = $null) { var %steal.orb.amount $rand(100,300)  }
+        var %current.orb.amount $readini($char($1), stuff, redorbs) | inc %current.orb.amount %steal.orb.amount | writeini $char($1) stuff redorbs %current.orb.amount 
         $set_chr_name($1) | query %battlechan 2 $+ %real.name has stolen %steal.orb.amount $readini(system.dat, system, currency) from $set_chr_name($2) %real.name $+ ! 
       }
       else {
@@ -1320,13 +1322,61 @@ alias skill.analysis {
   ; Get the level of the skill.  The level will determine the information we get from the skill.
   var %analysis.level $readini($char($1), skills, analysis)
 
+  unset %analysis.weapon.weak | unset %analysis.weapon.strength | unset %analysis.element.weak | unset %analysis.element.strength | unset %analysis.element.absorb
+
   ; Get the target info
   var %analysis.hp $readini($char($2), battle, hp) | var %analysis.tp $readini($char($2), battle, tp)
   var %analysis.str $readini($char($2), battle, str) | var %analysis.def $readini($char($2), battle, def)
   var %analysis.int $readini($char($2), battle, int) | var %analysis.spd $readini($char($2), battle, spd)
-  var %analysis.weapon.strength $readini($char($2), weapons, strong) | var %analysis.weapon.weak $readini($char($2), weapons, weakness)
-  var %analysis.element.strength $readini($char($2), element, strong) | var %analysis.element.weak $readini($char($2), element, weakness)
-  var %analysis.element.absorb = $readini($char($2), element, heal)
+
+  ; Check for elemental weaknesses
+  if ($readini($char($2), modifiers, earth) > 100) { %analysis.element.weak = $addtok(%analysis.element.weak, earth, 46) }
+  if ($readini($char($2), modifiers, fire) > 100) { %analysis.element.weak = $addtok(%analysis.element.weak, fire, 46) }
+  if ($readini($char($2), modifiers, wind) > 100) { %analysis.element.weak = $addtok(%analysis.element.weak, wind, 46) }
+  if ($readini($char($2), modifiers, ice) > 100) { %analysis.element.weak = $addtok(%analysis.element.weak, ice, 46) }
+  if ($readini($char($2), modifiers, water) > 100) { %analysis.element.weak = $addtok(%analysis.element.weak, water, 46) }
+  if ($readini($char($2), modifiers, lightning) > 100) { %analysis.element.weak = $addtok(%analysis.element.weak, lightning, 46) }
+  if ($readini($char($2), modifiers, light) > 100) { %analysis.element.weak = $addtok(%analysis.element.weak, light, 46) }
+  if ($readini($char($2), modifiers, dark) > 100) { %analysis.element.weak = $addtok(%analysis.element.weak, dark, 46) }
+
+  ;  Check for elemental resistances
+  if ($readini($char($2), modifiers, earth) < 100) { %analysis.element.strength = $addtok(%analysis.element.strength, earth, 46) }
+  if ($readini($char($2), modifiers, fire) < 100) { %analysis.element.strength = $addtok(%analysis.element.strength, fire, 46) }
+  if ($readini($char($2), modifiers, wind) < 100) { %analysis.element.strength = $addtok(%analysis.element.strength, wind, 46) }
+  if ($readini($char($2), modifiers, ice) < 100) { %analysis.element.strength = $addtok(%analysis.element.strength, ice, 46) }
+  if ($readini($char($2), modifiers, water) < 100) { %analysis.element.strength = $addtok(%analysis.element.strength, water, 46) }
+  if ($readini($char($2), modifiers, lightning) < 100) { %analysis.element.strength = $addtok(%analysis.element.strength, lightning, 46) }
+  if ($readini($char($2), modifiers, light) < 100) { %analysis.element.strength = $addtok(%analysis.element.strength, light, 46) }
+  if ($readini($char($2), modifiers, dark) < 100) { %analysis.element.strength = $addtok(%analysis.element.strength, dark, 46) }
+
+  ; Check for weapon weaknesses
+  if ($readini($char($2), modifiers, HandToHand) > 100) { %analysis.weapon.weak = $addtok(%analysis.weapon.weak, handtohand, 46) }
+  if ($readini($char($2), modifiers, Whip) > 100) { %analysis.weapon.weak = $addtok(%analysis.weapon.weak, whip, 46) }
+  if ($readini($char($2), modifiers, Sword) > 100) { %analysis.weapon.weak = $addtok(%analysis.weapon.weak, sword, 46) }
+  if ($readini($char($2), modifiers, gun) > 100) { %analysis.weapon.weak = $addtok(%analysis.weapon.weak, gun, 46) }
+  if ($readini($char($2), modifiers, rifle) > 100) { %analysis.weapon.weak = $addtok(%analysis.weapon.weak, rifle, 46) }
+  if ($readini($char($2), modifiers, katana) > 100) { %analysis.weapon.weak = $addtok(%analysis.weapon.weak, katana, 46) }
+  if ($readini($char($2), modifiers, wand) > 100) { %analysis.weapon.weak = $addtok(%analysis.weapon.weak, wand, 46) }
+  if ($readini($char($2), modifiers, spear) > 100) { %analysis.weapon.weak = $addtok(%analysis.weapon.weak, spear, 46) }
+  if ($readini($char($2), modifiers, scythe) > 100) { %analysis.weapon.weak = $addtok(%analysis.weapon.weak, scythe, 46) }
+  if ($readini($char($2), modifiers, glyph) > 100) { %analysis.weapon.weak = $addtok(%analysis.weapon.weak, glyph, 46) }
+  if ($readini($char($2), modifiers, greatsword) > 100) { %analysis.weapon.weak = $addtok(%analysis.weapon.weak, greatsword, 46) }
+  if ($readini($char($2), modifiers, bow) > 100) { %analysis.weapon.weak = $addtok(%analysis.weapon.weak, bow, 46) }
+
+  ; Check for weapon resistances
+  if ($readini($char($2), modifiers, HandToHand) < 100) { %analysis.weapon.strength = $addtok(%analysis.weapon.weak, handtohand, 46) }
+  if ($readini($char($2), modifiers, Whip) < 100) { %analysis.weapon.strength = $addtok(%analysis.weapon.weak, whip, 46) }
+  if ($readini($char($2), modifiers, Sword) < 100) { %analysis.weapon.strength = $addtok(%analysis.weapon.weak, sword, 46) }
+  if ($readini($char($2), modifiers, gun) < 100) { %analysis.weapon.strength = $addtok(%analysis.weapon.weak, gun, 46) }
+  if ($readini($char($2), modifiers, rifle) < 100) { %analysis.weapon.strength = $addtok(%analysis.weapon.weak, rifle, 46) }
+  if ($readini($char($2), modifiers, katana) < 100) { %analysis.weapon.strength = $addtok(%analysis.weapon.weak, katana, 46) }
+  if ($readini($char($2), modifiers, wand) < 100) { %analysis.weapon.strength = $addtok(%analysis.weapon.weak, wand, 46) }
+  if ($readini($char($2), modifiers, spear) < 100) { %analysis.weapon.strength = $addtok(%analysis.weapon.weak, spear, 46) }
+  if ($readini($char($2), modifiers, scythe) < 100) { %analysis.weapon.strength = $addtok(%analysis.weapon.weak, scythe, 46) }
+  if ($readini($char($2), modifiers, glyph) < 100) { %analysis.weapon.strength = $addtok(%analysis.weapon.weak, glyph, 46) }
+  if ($readini($char($2), modifiers, greatsword) < 100) { %analysis.weapon.strength = $addtok(%analysis.weapon.weak, greatsword, 46) }
+  if ($readini($char($2), modifiers, bow) < 100) { %analysis.weapon.strength = $addtok(%analysis.weapon.weak, bow, 46) }
+
   if (%analysis.weapon.strength = $null) { var %analysis.weapon.strength none }
   if (%analysis.weapon.weak = $null) { var %analysis.weapon.weak none }
   if (%analysis.element.weak = $null) { var %analysis.element.weak none }
@@ -1340,7 +1390,6 @@ alias skill.analysis {
   %analysis.element.strength = $replace(%analysis.element.strength, $chr(046), %replacechar)
   %analysis.element.absorb = $replace(%analysis.element.absorb, $chr(046), %replacechar)
 
-
   if (%analysis.level = 1) {  $set_chr_name($2) | .msg $1 3You analyze %real.name and determine $gender3($2) has %analysis.hp HP left. | goto next_turn_check }
   if (%analysis.level = 2) {  $set_chr_name($2) | .msg $1 3You analyze %real.name and determine $gender3($2) has %analysis.hp HP and %analysis.tp TP left. | goto next_turn_check }
   if (%analysis.level = 3) {  $set_chr_name($2) | .msg $1 3You analyze %real.name and determine $gender3($2) has %analysis.hp HP and %analysis.tp TP left.
@@ -1349,17 +1398,17 @@ alias skill.analysis {
   }
   if (%analysis.level = 4) {  $set_chr_name($2) | .msg $1 3You analyze %real.name and determine $gender3($2) has %analysis.hp HP and %analysis.tp TP left.
     .msg $1 3You also determine %real.name has the following stats: [str: %analysis.str $+ ] [def: %analysis.def $+ ] [int: %analysis.int $+ ] [spd: %analysis.spd $+ ]
-    .msg $1 3 $+ %real.name is also strong against the following weapon types: %analysis.weapon.strength and is strong against the following elements: %analysis.element.strength
+    .msg $1 3 $+ %real.name is also resistant against the following weapon types: %analysis.weapon.strength and is resistant against the following elements: %analysis.element.strength
     goto next_turn_check
   }
   if (%analysis.level = 5) {  $set_chr_name($2) | .msg $1 3You analyze %real.name and determine $gender3($2) has %analysis.hp HP and %analysis.tp TP left.
     .msg $1 3You also determine %real.name has the following stats: [str: %analysis.str $+ ] [def: %analysis.def $+ ] [int: %analysis.int $+ ] [spd: %analysis.spd $+ ]
-    .msg $1 3 $+ %real.name is also strong against the following weapon types: %analysis.weapon.strength and is strong against the following elements: %analysis.element.strength  $+ $chr(124) %real.name is weak against the following weapon types: %analysis.weapon.weak and weak against the following elements: %analysis.element.weak 
+    .msg $1 3 $+ %real.name is also resistant against the following weapon types: %analysis.weapon.strength and is resistant against the following elements: %analysis.element.strength  $+ $chr(124) %real.name is weak against the following weapon types: %analysis.weapon.weak and weak against the following elements: %analysis.element.weak 
     goto next_turn_check
   }
   if (%analysis.level = 6) {  $set_chr_name($2) | .msg $1 3You analyze %real.name and determine $gender3($2) has %analysis.hp HP and %analysis.tp TP left.
     .msg $1 3You also determine %real.name has the following stats: [str: %analysis.str $+ ] [def: %analysis.def $+ ] [int: %analysis.int $+ ] [spd: %analysis.spd $+ ]
-    .msg $1 3 $+ %real.name is also strong against the following weapon types: %analysis.weapon.strength and is strong against the following elements: %analysis.element.strength  $+ $chr(124) %real.name is weak against the following weapon types: %analysis.weapon.weak and weak against the following elements: %analysis.element.weak 
+    .msg $1 3 $+ %real.name is also resistant against the following weapon types: %analysis.weapon.strength and is resistant against the following elements: %analysis.element.strength  $+ $chr(124) %real.name is weak against the following weapon types: %analysis.weapon.weak and weak against the following elements: %analysis.element.weak 
     .msg $1 3 $+ %real.name will absorb and be healed by the following elements: %analysis.element.absorb
     goto next_turn_check
   }
@@ -1367,6 +1416,9 @@ alias skill.analysis {
   unset %enemy
 
   :next_turn_check
+
+  unset %analysis.weapon.weak | unset %analysis.weapon.strength | unset %analysis.element.weak | unset %analysis.element.strength | unset %analysis.element.absorb
+
   ; Time to go to the next turn
   if (%battleis = on)  { $check_for_double_turn($1) }
 }
@@ -1859,35 +1911,45 @@ alias skill.magic.shift {
   set %magic.types light.dark.fire.ice.water.lightning.wind.earth
   set %number.of.magic.types $numtok(%magic.types,46)
 
+  writeini $char($1) modifiers light 100
+  writeini $char($1) modifiers dark 100
+  writeini $char($1) modifiers fire 100
+  writeini $char($1) modifiers ice 100
+  writeini $char($1) modifiers water 100
+  writeini $char($1) modifiers lightning 100
+  writeini $char($1) modifiers wind 100
+  writeini $char($1) modifiers earth 100
+
   var %numberof.weaknesses $rand(1,3)
+
   var %value 1
-  while (%value < %numberof.weaknesses) {
+  while (%value <= %numberof.weaknesses) {
     set %weakness.number $rand(1,%number.of.magic.types)
-    %weakness = $addtok(%weakness, $gettok(%magic.types,%weakness.number,46),46)
+    %weakness = $gettok(%magic.types,%weakness.number,46)
+    if (%weakness != $null) {  writeini $char($1) modifiers %weakness 120 }
     inc %value
   }
 
   var %numberof.strengths $rand(1,3)
 
   var %value 1
-  while (%value < %numberof.strengths) {
+  while (%value <= %numberof.strengths) {
     set %strength.number $rand(1,%number.of.magic.types)
-    %strengths = $addtok(%strengths, $gettok(%magic.types,%strength.number,46),46)
+    %strengths = $gettok(%magic.types,%strength.number,46)
+    if (%strengths != $null) {  writeini $char($1) modifiers %strengths 50 }
     inc %value
   }
 
   var %numberof.heal $rand(1,2)
 
   var %value 1
-  while (%value < %numberof.heal) {
+  while (%value <= %numberof.heal) {
     set %heal.number $rand(1,%number.of.magic.types)
     %heals = $addtok(%heals, $gettok(%magic.types,%heal.number,46),46)
     inc %value
   }
 
-  if (%weakness != $null) { writeini $char($1) element Weakness %weakness }
-  if (%strengths != $null) { writeini $char($1) element strong %strengths }
-  if (%heals != $null) { writeini $char($1) element Heal %heals }
+  if (%heals != $null) { writeini $char($1) modifiers Heal %heals }
 
   unset %heal.number | unset %heals
   unset %strengths | unset %strength.number
@@ -1978,6 +2040,55 @@ alias skill.demonportal {
     set %multiple.wave yes
     if (%battleis = on)  { $check_for_double_turn($1) }
   }
+
+  return
+}
+
+;=================
+; MONSTER SUMMON
+;=================
+alias skill.monstersummon {
+  ; $1 = user
+  ; $2 = name of summon
+  ; $3 = item used to summon
+
+  if ($readini($char($1), info, flag) = $null) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, PlayersCannotUseSkill) | halt } 
+
+  set %monster.name $2
+
+  ; Is it a valid monster? If not, return.
+  if ($isfile($mon(%monster.name)) = $false) { return }
+
+  ; Check to see if the monster already exists..  if so, just increase the # at the end of its name.
+  if ($isfile($char(%monster.name)) = $true) {
+    var %value 2
+
+    while ($isfile($char(%monster.name)) = $true) {
+      set %monster.name $2 $+ %value
+      inc %value
+    }
+  }
+
+  .copy -o $mon($2) $char(%monster.name)
+
+  ; Add to battle
+  set %curbat $readini(battle2.txt, Battle, List)
+  %curbat = $addtok(%curbat,%monster.name,46)
+  writeini battle2.txt Battle List %curbat
+  write battle.txt %monster.name
+
+  var %number.of.monsters $readini(battle2.txt, battleinfo, Monsters)
+  inc %number.of.monsters 1
+  writeini battle2.txt battleinfo Monsters %number.of.monsters
+
+  ; Display the desc. 
+  if ($readini($char($1), descriptions, monstersummon) = $null) { $set_chr_name($1) | set %skill.description %real.name opens a vortex and summons a(n) $set_chr_name(%monster.name) $+ %real.name into the battle. }
+  else { set %skill.description $readini($char($1), descriptions, monstersummon) }
+  $set_chr_name($1) | query %battlechan 4 $+ %skill.description
+
+  $set_chr_name(%monster.name) | query %battlechan 12 $+ %real.name  $+ $readini($char(%monster.name), descriptions, char)
+  $boost_monster_stats(%monster.name, monstersummon, $1)
+  $fulls(%monster.name) 
 
   return
 }
@@ -2413,10 +2524,12 @@ alias skill.gamble {
     if (%gamble.chance = 100) { query %battlechan 12The slot machine spins and %real.name wins! %real.name $+ 's Ignition Gauge has been restored!
       writeini $char($1) battle IgnitionGauge $readini($char($1), basestats, IgnitionGauge)
     }
+
+
+    ; Time to go to the next turn
+    if (%battleis = on)  { $check_for_double_turn($1) }
   }
 
-  ; Time to go to the next turn
-  if (%battleis = on)  { $check_for_double_turn($1) }
 
   else { $set_chr_name($1) | query %battlechan $readini(translation.dat, skill, UnableToUseskillAgainSoSoon) | .msg $1 3You still have $calc($readini(skills.db, gamble, cooldown) - %time.difference) seconds before you can use !gamble again | halt }
 }
@@ -2441,9 +2554,9 @@ alias skill.bloodpact {
   ; Show desc 
 
   ; Display the desc. 
-  if ($readini($char($1), descriptions, bloodpact) = $null) { $set_chr_name($1  $+ _summon) | set %skill.description 4The $2 explodes and summons %real.name $+ !   }
+  if ($readini($char($1), descriptions, bloodpact) = $null) { $set_chr_name($1  $+ _summon) | set %skill.description 4The $3 explodes and summons %real.name $+ !   }
   else { set %skill.description $readini($char($1), descriptions, bloodpact) }
-  $set_chr_name($1) | query %battlechan 4 $+ %real.name  $+ %skill.description
+  $set_chr_name($1) | query %battlechan 4 $+ %skill.description
 
   $set_chr_name($1 $+ _summon) | query %battlechan 12 $+ %real.name  $+ $readini($char($1 $+ _summon), descriptions, char)
   writeini $char($1 $+ _summon) info summon yes

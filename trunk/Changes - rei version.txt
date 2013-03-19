@@ -3,52 +3,18 @@ DiscountCard=150000
 UltimateDiscountCard=400000
 
 SKILLS.MRC
-    if (%steal.chance >= 90) {
-      var %stolen.from.counter $readini($char($2), status, stolencounter)
-      if (%stolen.from.counter > 5) { $set_chr_name($2) | query %battlechan 4 $+ %real.name  has nothing left to steal! | halt }
-
-      inc %stolen.from.counter 1 | writeini $char($2) status stolencounter %stolen.from.counter 
- }
-      if ($2 = orb_fountain) { var %steal.pool orbs.orbs.orbs.orbs  }
-      if (%bloodmoon = on) { var %steal.pool orbs.orbs.orbs.orbs | var %steal.orb.amount $rand(3000,5000) }
-
-
       set %steal.pool $readini(steal.lst, stealpool, $2)
+      var %steal.orb.amount $rand(2500,6500) 
+
       if (%steal.pool = $null) { 
-        if ($readini($char($2), Info, flag) = monster) { set %steal.pool $readini(steal.lst, stealpool, monster) |  var %steal.orb.amount $rand(4200,7500) }
-        if ($readini($char($2), Info, flag) = boss) { set %steal.pool $readini(steal.lst, stealpool, boss) | var %steal.orb.amount $rand(4000,7500) }
-
-      if (%bloodmoon = on) { var %steal.pool orbs.orbs.orbs.orbs | var %steal.orb.amount $rand(3000,5000) }
-
+        if ($readini($char($2), Info, flag) = monster) { set %steal.pool $readini(steal.lst, stealpool, monster) }
+        if ($readini($char($2), Info, flag) = boss) { set %steal.pool $readini(steal.lst, stealpool, boss) }
       }
 
       set %total.items $numtok(%steal.pool, 46)
       set %random.item $rand(1,%total.items)
       set %steal.item $gettok(%steal.pool,%random.item,46)
 
-      if (%steal.item = $null) { set %steal.item orbs }  
-      if (%steal.item = orbs) { var %current.orb.amount $readini($char($1), stuff, redorbs) | inc %current.orb.amount %steal.orb.amount | writeini $char($1) stuff redorbs %current.orb.amount 
-        $set_chr_name($1) | query %battlechan 2 $+ %real.name has stolen %steal.orb.amount $readini(system.dat, system, currency) from $set_chr_name($2) %real.name $+ ! 
-      }
-      else {
-        set %current.item.total $readini($char($1), Item_Amount, %steal.item) 
-        if (%current.item.total = $null) { var %current.item.total 0 }
-        inc %current.item.total 1 | writeini $char($1) Item_Amount %steal.item %current.item.total 
-        $set_chr_name($1) | query %battlechan $readini(translation.dat, skill, StealItem)
-      }
-    }
-    else { $set_chr_name($1) | query %battlechan $readini(translation.dat, skill, UnableTosteal) }
-
-    writeini battle2.txt style $1 $+ .lastaction steal 
-
-    unset %enemy | unset %steal.pool
-
-    ; Time to go to the next turn
-    if (%battleis = on)  { $check_for_double_turn($1) }
-  }
-
-  else { $set_chr_name($1) | query %battlechan $readini(translation.dat, skill, UnableToUseskillAgainSoSoon) | .msg $1 3You still have $calc($readini(skills.db, Steal, cooldown) - %time.difference) seconds before you can use !steal again | halt }
-}
 
 //---------- Changes
 
@@ -74,12 +40,12 @@ Meditate Cooldown= 120
 ConserveTP Cooldown=500
 Bloodboost Cooldown 20 Max=100
 
-DrainSamba Cooldown = 30
+DrainSamba Cooldown = 60
 Regen Cooldown=60; Max=200
 Steal Cooldown=15, Max=50
 
 Cover Cooldown=20 from 270
-WeaponLock CD = 300
+WeaponLock CD = 150
 
 Resist == 70%
 
@@ -98,6 +64,9 @@ DiendDriver=DiendHenshin.DiendGekijouban.DiendBlast.DiendDimensionShoot.CureII
 MegasaurusWeapon=SurvivalInstinct.Earthquake.UltimateSwallow.SpikeFlail.Slurp.Dinostomp.VolcanicRush
 OmegaMultipurposeCannon=WaveCannon.LightPillar.MeggidoFlame.Ultima.Gravija.TerraBreak.Meteor.LV5_Death
 Perfect_Chaos_Water=Chaos_Tsunami.Hyrdro_Cannon.Chaos_Rain.Chaos_Chomp.PerfectChaosR2.Chaos_Water_Beam.Dark_Power_of_Chaos_Emeralds
+Themis'Axe=Djinn:Bane.Djinn:Flower.Djinn:Steel.Stone_Justice
+StarMageStaff=Curaga.Spark_Plasma.Megacool.Mine_Ball
+
 
 [Repairs]
 Type=heal
@@ -626,6 +595,40 @@ Desc=pours all of the energy to $gender($1) fist and then punches %enemy $+ with
 magic=no
 stat=str
 
+; More Golden Sun Moves
+
+[Mine_Ball]
+Type=AoE
+TP=120
+StatusType=Stun
+Desc=charges up a ball of energy in $gender(1) hands and lobs it at the enemies, where it explodes into a large blue explosion of energy! [Mine Ball]
+basepower=105
+Element=Earth
+cost=7000
+Magic=Yes
+stat=str
+
+[Spark_Plasma]
+Type=AoE
+TP=90
+basepower=80
+Statustype=Paralyze
+Desc=pours in a lot of $gender(1) Psyenergy into the sky and immediately a large thundercloud strikes the enemy party repeatedly with a barrage of purplish-white lightning bolts! [Spark Plasma]
+Element=Lightning
+cost=10500
+Magic=Yes
+stat=int
+
+[Megacool]
+Type=AoE
+TP=120
+basepower=180
+Statustye=
+Desc=summons and raises large rows of ice spiking out from the ground at the enemies! [Megacool]
+Element=Ice
+cost=25000
+Magic=yes
+stat=int
 
 ;---------------------------------------------------
 ;---------------------------------------------------
@@ -633,7 +636,7 @@ stat=str
 
 ; Valkyria-IRC Customs -Re-Edits
 Silver_Goddess_Sword=TwinSlice.BiteOfLightning.BladeBeam.HyperTwinSlice.WiseReflection.CureV.GigaSlash.Atonement.BlizzajaII
-Mythril_Sword=FastBlade.BurningBlade.FlatBlade.Bash.MagnumBreak
+Mythril_Sword=FastBlade.BurningBlade.FlatBlade.Bash.MagnumBreak.SeraphBlade
 Soulsaber=SpiritsWithin.VorpalBlade.SeraphBlade.BowlingBash
 JewelSword=Bash.MagnumBreak.BowlingBash
 Excalibur=Atonement.Bash
@@ -815,7 +818,7 @@ Upgrade=1500
 Cost=99999999
 Type=Sword
 Info=A longsword made out of silver and has a blue gem inserted into the guard.
-Abilities=TwinSlice.BiteOfLightning.BladeBeam.HyperTwinSlice.WiseReflection.CureV.GigaSlash.Atonement.BlizzajaII
+Abilities=TwinSlice.BiteOfLightning.BladeBeam.HyperTwinSlice.WiseReflection.CureV.GigaSlash.Atonement.BlizzajaII.Curaga
 Element=Light
 Hits=$rand(1,3)
 BasePower=75
@@ -838,7 +841,7 @@ Guns=Ebony&Ivory.Quicksilver.Magnum.Hexagun.DiEndDriver
 Swords=GunbladeRevolver
 GreatSwords=Executioner
 Axes=Themis'Axe
-FFOmegaWeapon.Valkyrie_Sword.TRexWeapon.PhoenixmonWeapon.BlackRockShooter.MegasaurusWeapon.OmegaMultipurposeCannon.Perfect_Chaos_Water
+FFOmegaWeapon.Valkyrie_Sword.TRexWeapon.PhoenixmonWeapon.BlackRockShooter.MegasaurusWeapon.OmegaMultipurposeCannon.Perfect_Chaos_Water.StarMageStaff
 ^ MonsterWpns
 
 ; Omega Weapon
@@ -959,7 +962,7 @@ Upgrade=250
 cost=99999999
 Type=Stave
 Info=Star Magician's Normal Attack Source
-Abilities=MineBall.SparkPlasma.Megacool.Curaga
+Abilities=Mine_Ball.Spark_Plasma.Megacool.Curaga
 Element=Water
 Hits=$rand(1,2)
 BasePower=60
@@ -968,6 +971,12 @@ Upgrade=5000000
 cost=99999
 upgrade=500000
 Cost and Upgrade to 99999 and 500000
+
+steal.lst changes
+
+; Valkyria Customs
+omega_weapon=orbs.GoldOre.orbs.orbs.BlueEyesCard.AlexanderMateria.AlexanderMateria.orbs
+valkyrie=ElvishMedallian.orbs.orbs.GoldOre.GoldOrb.orbs.orbs.CarbuncleMateria
 
 --------------------------------------------------------------------------
 --------------------------------------------------------------------------
@@ -989,17 +998,26 @@ startingorbs=3000
 currency=Red Orbs
 TimeBetweenBattles=3
 TimeForIdle=180
-TimeToEnter=120
+TimeToEnter=90
 maxHP=999999
 maxTP=999999
+MaxIG=250
 MaxOrbReward=999999
 Maxshoplevel=25
 EnableDoppelganger=false
 EnableWarMachine=true
+AllowDemonWall=yes
 EnableChests=true
 MaxCharacters=2
-ShowOrbsCmdInChannel=false
+ShowOrbsCmdInChannel=true
+BattleDamageFormula=2
+IgnoreDmgCap=true
+GuaranteedBossBattles=10.15.20.30.60.100.150.180.220.280.320.350.401.440.460.501.560.601.670.705.780.810.890.920.999.1100.1199.1260.1305.1464.1500.1650.1720.1880.1999.2050.2250.9999
+MaxNumberOfMonsInBattle=6
 
+; This event will double red orbs at the end of battles.
+BonusEvent=true
+EnableBattlefieldEvents=true
 
 [StatPrices]
 hp=150

@@ -56,8 +56,20 @@ alias attack_cmd { $check_for_battle($1) | $person_in_battle($2) | $checkchar($2
 
   ; Calculate, deal, and display the damage..
 
-
   $calculate_damage_weapon($1, %weapon.equipped, $2)
+
+  set %wpn.element $readini(weapons.db, %weapon.equipped, element)
+  if ((%wpn.element != none) && (%wpn.element != $null)) { 
+    var %target.element.heal $readini($char($2), modifiers, heal)
+    if ($istok(%target.element.heal,%wpn.element,46) = $true) { 
+      unset %wpn.element
+      unset %counterattack
+      $heal_damage($1, $2, %weapon.equipped)
+      $display_heal($1, $2, weapon, %weapon.equipped)
+      if (%battleis = on)  { $check_for_double_turn($1) | halt } 
+    }
+  }
+  unset %wpn.element
 
   if (%counterattack != on) { 
     $drain_samba_check($1)
@@ -74,7 +86,7 @@ alias attack_cmd { $check_for_battle($1) | $person_in_battle($2) | $checkchar($2
   unset %double.attack | unset %triple.attack | unset %fourhit.attack | unset %critical.hit.chance
 
   ; Time to go to the next turn
-  if (%battleis = on)  { $check_for_double_turn($1) }
+  if (%battleis = on)  { $check_for_double_turn($1) | halt }
 }
 
 alias calculate_damage_weapon {
@@ -120,30 +132,6 @@ alias calculate_damage_weapon {
 
   set %current.accessory $readini($char($3), equipment, accessory) 
   set %current.accessory.type $readini(items.db, %current.accessory, accessorytype)
-
-  ; If the target is weak to the element, double the attack power of the weapon. 
-  ; If the target is strong to the element, cut the attack of the weapon by half.
-  var %weapon.element $readini(weapons.db, $2, element)
-  if ((%weapon.element != $null) && (%weapon.element != none)) {
-    var %target.element.weak $readini($char($3), element, weakness)
-    var %target.element.strong $readini($char($3), element, strong)
-
-    if ($istok(%target.element.weak,%weapon.element,46) = $true) { inc %weapon.base %weapon.base 
-      var %mon.temp.def $readini($char($3), battle, def)
-      var %mon.temp.def = $round($calc(%mon.temp.def - (%mon.temp.def * .10)),0)
-      if (%mon.temp.def < 0) { var %mon.temp.def 0 }
-      writeini $char($3) battle def %mon.temp.def
-    }
-    if (($istok(%target.element.strong,%weapon.element,46) = $true) || (%current.accessory.type = ElementalDefense)) { 
-      %weapon.base = $round($calc(%weapon.base / 2), 0) 
-      var %mon.temp.str $readini($char($3), battle, str)
-      var %mon.temp.str = $round($calc(%mon.temp.str + (%mon.temp.str * .10)),0)
-      if (%mon.temp.str < 0) { var %mon.temp.str 0 }
-      writeini $char($3) battle str %mon.temp.str
-    }
-  }
-
-
 
   ; Does the user have any mastery of the weapon?
   $mastery_check($1, $2)
@@ -239,13 +227,15 @@ alias calculate_damage_weapon {
   }
   unset %status.type.list
 
-  ; Check for weapon type weaknesses.
-  var %weapon.weakness $readini($char($3), weapons, weakness)
-  var %weapon.strengths $readini($char($3), weapons, strong)
-  set %weapon.type $readini(weapons.db, $2, type)
 
-  if ($istok(%weapon.weakness,%weapon.type,46) = $true) {  inc %attack.damage $round($calc(%attack.damage * 1.3),0) }
-  if ($istok(%weapon.strengths,%weapon.type,46) = $true) { %attack.damage = $round($calc(%attack.damage / 2),0)  }
+  var %weapon.element $readini(weapons.db, $2, element)
+  if ((%weapon.element != $null) && (%weapon.element != none)) {
+    $modifer_adjust($3, %weapon.element)
+  }
+
+  ; Check for weapon type weaknesses.
+  set %weapon.type $readini(weapons.db, $2, type)
+  $modifer_adjust($3, %weapon.type)
 
   ; Elementals are strong to melee
   if ($readini($char($3), monster, type) = elemental) { %attack.damage = $round($calc(%attack.damage - (%attack.damage * .30)),0) } 
@@ -342,12 +332,13 @@ alias calculate_damage_weapon {
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
   if ((%flag = $null) || (%flag = npc)) {
-
-    if (%attack.damage > 10000) {
-      set %temp.damage $calc(%attack.damage / 100) 
-      set %attack.damage $calc(10000 + %temp.damage)
-      unset %temp.damage
-      if (%attack.damage >= 50000) { set %attack.damage $rand(45000,47000) }
+    if ($readini(system.dat, system, IgnoreDmgCap) != true) { 
+      if (%attack.damage > 10000) {
+        set %temp.damage $calc(%attack.damage / 100) 
+        set %attack.damage $calc(10000 + %temp.damage)
+        unset %temp.damage
+        if (%attack.damage >= 50000) { set %attack.damage $rand(45000,47000) }
+      }
     }
 
     if (%attack.damage <= 1) {
@@ -375,7 +366,7 @@ alias calculate_damage_weapon {
   if ((%flag = monster) && ($readini($char($3), info, flag) = $null)) {
     var %min.damage $round($calc(%true.base.stat / 15),0)
 
-    if (%attack.damage = 0) { 
+    if (%attack.damage <= 0) { 
       var %base.weapon $readini(weapons.db, $2, BasePower)
       var %str.increase.amount $round($calc(%true.base.stat * .02),0)
 
@@ -399,13 +390,15 @@ alias calculate_damage_weapon {
 
   }
 
-
   unset %true.base.stat
 
+
   if ((%attack.damage > 2000) && ($readini($char($1), info, flag) = monster)) { 
-    if (%battle.rage.darkness != on) { set %attack.damage $rand(1000,2100) }
-    if (%battle.rage.darkness = on) { set %attack.damage $calc(%attack.damage * 10) }
+    if ($readini(system.dat, system, IgnoreDmgCap) != true) { 
+      if (%battle.rage.darkness != on) { set %attack.damage $rand(1000,2100) }
+    }
   }
+
 
   if (%guard.message = $null) {  inc %attack.damage $rand(1,3) }
   unset %enemy.defense | unset %level.ratio
@@ -486,18 +479,29 @@ alias calculate_damage_weapon {
   $first_round_dmg_chk($1, $3)
 
   ; check for melee counter
-  $counter_melee($1, $3)
+  $counter_melee($1, $3, $2)
 
   ; Check for the weapon bash skill
   $weapon_bash_check($1, $3)
 
   var %current.element $readini(weapons.db, $2, element)
   if ((%current.element != $null) && (%tech.element != none)) {
-    var %target.element.null $readini($char($3), element, null)
-    if ($istok(%target.element.null,%current.element,46) = $true) { $set_chr_name($3)
+    set %target.element.null $readini($char($3), modifiers, %current.element)
+    if (%target.element.null <= 0) { $set_chr_name($3)
       set %guard.message $readini(translation.dat, battle, ImmuneToElement) 
       set %attack.damage 0 
     }
+    unset %target.element.null
+  }
+
+  var %weapon.type $readini(weapons.db, $2, type)
+  if (%weapon.type != $null) {
+    set %target.weapon.null $readini($char($3), modifiers, %weapon.type)
+    if (%target.weapon.null <= 0) { $set_chr_name($3)
+      set %guard.message $readini(translation.dat, battle, ImmuneToWeaponType) 
+      set %attack.damage 0 
+    }
+    unset %target.weapon.null
   }
 
   ; If the target has Protect on, it will cut  melee damage in half.

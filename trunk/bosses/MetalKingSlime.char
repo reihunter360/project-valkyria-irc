@@ -127,11 +127,32 @@ Paralyze=10
 [Item_Amount]
 
 
-[Element]
-Weakness=None
-Strong=Light.Dark.Ice.Fire.Wind.Water.Earth.Lightning
 
 [Styles]
 Equipped=Guardian
 Guardian=10
 GuradianXP=1
+
+
+[modifiers]
+Heal=none
+Earth=20
+Fire=20
+Wind=20
+Water=20
+Ice=20
+Lightning=20
+Light=20
+Dark=20
+HandToHand=2
+Whip=100
+Sword=100
+Gun=100
+Rifle=100
+Katana=100
+Wand=100
+Spear=100
+Scythe=100
+Glyph=100
+GreatSword=100
+Bow=100

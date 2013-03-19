@@ -108,8 +108,25 @@ ChainsawSlash=45
 [Item_Amount]
 
 
-
-[Element]
-Weakness=light
-Strong=lightning.fire.water.earth
+[modifiers]
 Heal=dark
+Earth=30
+Fire=30
+Wind=100
+Water=30
+Ice=100
+Lightning=30
+Light=150
+Dark=300
+HandToHand=100
+Whip=100
+Sword=100
+Gun=100
+Rifle=100
+Katana=100
+Wand=100
+Spear=100
+Scythe=100
+Glyph=100
+GreatSword=100
+Bow=100

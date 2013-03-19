@@ -93,8 +93,6 @@ Ethereal=yes
 [Weapons]
 Equipped=GhostPower
 GhostPower=25
-weakness=handtohand
-strong=katana.gun.rifle.wand.greatsword.sword.glyph.whip
 
 
 [Skills]
@@ -117,6 +115,27 @@ FirajaII=40
 Quake=50
 FearTouch=10
 
-[Element]
-Weakness=light
-Strong=dark.water.earth.wind.ice.fire
+
+[modifiers]
+Heal=none
+Earth=50
+Fire=50
+Wind=50
+Ice=50
+Water=50
+Lightning=100
+Light=200
+Dark=100
+HandToHand=150
+Whip=50
+Sword=50
+Gun=50
+Rifle=50
+Katana=50
+Wand=50
+Spear=50
+Scythe=50
+Glyph=50
+GreatSword=50
+Bow=50
+

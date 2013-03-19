@@ -761,7 +761,7 @@ desc=the $weapon(0) glows a shadowy aura, and you hit %enemy $+ with it! [Shadow
 [Stone_Justice]
 Type=Single
 TP=45
-Status=Earth-quake
+;StatusType=Earth-quake
 Desc=the weapon howls and as you strike %enemy , earth particles materialize as you swing dealing earthly damage! [Stone Justice]
 basepower=60
 Element=Earth
@@ -772,7 +772,7 @@ stat=str
 [Djinn:Bane]
 Type=Single
 TP=60
-Status=HeavyPoison
+Statustype=HeavyPoison
 Desc=summons a small Venus Djinn "Bane" and smashes into %enemy dealing earthly damage! [Bane Unleash]
 basepower=20
 Element=Earth
@@ -783,7 +783,7 @@ stat=int
 [Djinn:Steel]
 Type=Single
 TP=80
-Status=
+StatusType=
 Desc=summons a small Venus Djinn "Steel" and it envolops your weapon. You strike %enemy with the shimmering weapon! [Steel Unleash!]
 basepower=50
 Element=Earth

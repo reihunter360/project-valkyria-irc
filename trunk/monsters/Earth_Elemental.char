@@ -101,9 +101,25 @@ StoneII=7
 Stoneja=7
 
 
-
-
-[Element]
-Weakness=wind
-Strong=lightning
-Heal=Earth
+[modifiers]
+Heal=earth
+Earth=200
+Fire=100
+Wind=120
+Water=100
+Ice=100
+Lightning=40
+Light=100
+Dark=100
+HandToHand=10
+Whip=10
+Sword=60
+Gun=60
+Rifle=60
+Katana=60
+Wand=60
+Spear=60
+Scythe=60
+Glyph=100
+GreatSword=60
+Bow=30

@@ -116,13 +116,30 @@ CamlannsTorment=15
 [Item_Amount]
 
 
-
-[Element]
-Weakness=None
-Strong=Dark
-
-
 [Styles]
 Equipped=WeaponMaster
 WeaponMaster=3
 WeaponMasterXP=1
+
+[modifiers]
+Heal=none
+Earth=100
+Fire=100
+Wind=100
+Ice=100
+Water=100
+Lightning=100
+Light=100
+Dark=10
+HandToHand=100
+Whip=100
+Sword=100
+Gun=100
+Rifle=100
+Katana=100
+Wand=100
+Spear=100
+Scythe=100
+Glyph=100
+GreatSword=100
+Bow=100

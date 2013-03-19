@@ -108,7 +108,25 @@ ClownFire=10
 
 
 
-
-[Element]
-Weakness=none
-Strong=Dark
+[modifiers]
+Heal=none
+Earth=100
+Fire=100
+Wind=100
+Water=100
+Ice=150
+Lightning=100
+Light=100
+Dark=1
+HandToHand=110
+Whip=40
+Sword=100
+Gun=110
+Rifle=110
+Katana=130
+Wand=60
+Spear=60
+Scythe=60
+Glyph=60
+GreatSword=60
+Bow=60

@@ -117,11 +117,6 @@ FloodII=1000
 Equipped=SpellMaster
 SpellMaster=1
 
-[Element]
-Weakness=lightning
-Strong=earth
-Heal=water
-
 
 [ignitions]
 Sentinel=1
@@ -133,3 +128,26 @@ SkyGodPower=IgnoreDefense.EnhanceCriticalHits
 Name=Tortoise Shell
 Max=5000
 Current=5000
+
+[modifiers]
+Heal=water
+Earth=5
+Fire=100
+Wind=100
+Water=500
+Ice=100
+Lightning=150
+Light=100
+Dark=100
+HandToHand=100
+Whip=100
+Sword=100
+Gun=100
+Rifle=100
+Katana=100
+Wand=100
+Spear=100
+Scythe=100
+Glyph=100
+GreatSword=100
+Bow=100

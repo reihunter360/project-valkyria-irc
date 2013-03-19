@@ -51,6 +51,7 @@ ON 2:ACTION:uses * * on *:#:{
 } 
 ON 50:TEXT:*uses * * on *:*:{ 
   if ($1 = uses) { halt }
+  if ($3 = item) { halt }
   if ($5 != on) { halt }
   else { $set_chr_name($1) | set %attack.target $6 | $covercheck($6, $3)
   $tech_cmd($1, $4, %attack.target) | halt }
@@ -181,16 +182,36 @@ alias tech_cmd {
   }
 
   ; Time to go to the next turn
-  if (%battleis = on)  {  $check_for_double_turn($1) }
+  if (%battleis = on)  {  $check_for_double_turn($1) | halt }
 }
 
 alias tech.buff {
   $set_chr_name($1) | set %user %real.name
   $set_chr_name($3) | set %enemy %real.name
-  query %battlechan 3 $+ %user $+  $readini(techniques.db, $2, desc)
+
   var %buff.type $readini(techniques.db, $2, status)
+  if ($readini($char($3), status, %buff.type) = yes) { $set_chr_name($3) | query %battlechan $readini(translation.dat, errors, AlreadyHasThisBuff) 
+    var %tp.required $readini(techniques.db, $2, tp)  
+    $restore_tp($1, %tp.required)
+    halt 
+  }
+
+  query %battlechan 3 $+ %user $+  $readini(techniques.db, $2, desc)
+
   writeini $char($3) status %buff.type yes
   writeini $char($3) status %buff.type $+ .timer 0
+
+  if ($readini(techniques.db, $2, modifier) != $null) {
+    ; This buff adds resistances to the target's file.
+    var %modifier.type $readini(techniques.db, $2, modifier)
+    set %target.modifier $readini($char($3), modifiers, %modifier.type)
+    if (%target.modifier = $null) { var %target.modifier 100 }
+    dec %target.modifier 30 
+    if (%target.modifier < 0) { var %target.modifier 0 }
+    writeini $char($3) modifiers %modifier.type %target.modifier
+    unset %target.modifier
+  }
+
 
   query %battlechan $readini(translation.dat, status, GainedBuff)
 
@@ -202,11 +223,12 @@ alias tech.single {
   ; $3 = target
 
   var %tech.element $readini(techniques.db, $2, element)
-  var %target.element.heal $readini($char($3), element, heal)
-
-  if ($istok(%target.element.heal,%tech.element,46) = $true) { 
-    $tech.heal($1, $2, $3, %absorb)
-    return
+  var %target.element.heal $readini($char($3), modifiers, heal)
+  if ((%tech.element != none) && (%tech.element != $null)) {
+    if ($istok(%target.element.heal,%tech.element,46) = $true) { 
+      $tech.heal($1, $2, $3, %absorb)
+      return
+    }
   }
 
   if ($readini(techniques.db, $2, absorb) = yes) { set %absorb absorb }
@@ -353,7 +375,7 @@ alias tech.heal {
   if (%bloodmoon = on) { %attack.damage = $round($calc(%attack.damage / 2),0) }
 
   var %mon.status $readini($char($3), status, zombie) | var %mon.type $readini($char($3), monster, type)
-  var %target.element.heal $readini($char($3), element, heal)
+  var %target.element.heal $readini($char($3), modifiers, heal)
   var %tech.element $readini(techniques.db, $2, element)
 
   if (($istok(%target.element.heal,%tech.element,46) = $false) || (%target.element.heal = $null)) { 
@@ -688,13 +710,15 @@ alias tech.aoe {
 
           if ($readini($char($1), battle, hp) > 0) {
             inc %number.of.hits 1
-            var %target.element.heal $readini($char(%who.battle), element, heal)
-            if ($istok(%target.element.heal,%tech.element,46) = $true) { 
-              $tech.heal($1, $2, %who.battle, %absorb)
-              inc %battletxt.current.line 1 
+            var %target.element.heal $readini($char(%who.battle), modifiers, heal)
+            if ((%tech.element != none) && (%tech.element != $null)) {
+              if ($istok(%target.element.heal,%tech.element,46) = $true) { 
+                $tech.heal($1, $2, %who.battle, %absorb)
+                inc %battletxt.current.line 1 
+              }
             }
 
-            if ($istok(%target.element.heal,%tech.element,46) = $false) { 
+            if (($istok(%target.element.heal,%tech.element,46) = $false) || (%tech.element = none)) { 
 
               if (($readini($char(%who.battle), status, reflect) = yes) && ($readini(techniques.db, $2, magic) = yes)) {
                 $calculate_damage_techs($1, $2, $1)
@@ -732,11 +756,14 @@ alias tech.aoe {
         else { 
           if ($readini($char($1), battle, hp) > 0) {
 
-            var %target.element.heal $readini($char(%who.battle), element, heal)
-            if ($istok(%target.element.heal,%tech.element,46) = $true) { 
-              $tech.heal($1, $2, %who.battle, %absorb)
+            var %target.element.heal $readini($char(%who.battle), modifiers, heal)
+            if ((%tech.element != none) && (%tech.element != $null)) {
+              if ($istok(%target.element.heal,%tech.element,46) = $true) { 
+                $tech.heal($1, $2, %who.battle, %absorb)
+              }
             }
-            if ($istok(%target.element.heal,%tech.element,46) = $false) { 
+
+            if (($istok(%target.element.heal,%tech.element,46) = $false) || (%tech.element = none)) { 
 
               if (($readini($char(%who.battle), status, reflect) = yes) && ($readini(techniques.db, $2, magic) = yes)) {
                 $calculate_damage_techs($1, $2, $1)
@@ -895,25 +922,6 @@ alias calculate_damage_techs {
   set %current.accessory $readini($char($3), equipment, accessory) 
   set %current.accessory.type $readini(items.db, %current.accessory, accessorytype)
 
-  ; If the target is weak to the element, increase the attack power of the base tech
-  ; If the target is strong to the element, cut the attack of the tech by half.
-  var %tech.element $readini(techniques.db, $2, element)
-  if ((%weapon.element != $null) || (%tech.element != none)) {
-    var %target.element.weak $readini($char($3), element, weakness)
-    var %target.element.strong $readini($char($3), element, strong)
-
-    if ($istok(%target.element.weak,%tech.element,46) = $true) { inc %tech.base $round($calc(%tech.base * 1.2),0)
-      var %def.of.monster $readini($char($3), battle, def) | dec %def.of.monster $rand(5,10)
-
-      if (%def.of.monster < 1) { inc %def.of.monster 1 }
-      writeini $char($3) battle def %def.of.monster
-    }
-    if (($istok(%target.element.strong,%tech.element,46) = $true) || (%current.accessory.type = ElementalDefense)) { 
-      %tech.base = $round($calc(%tech.base / 2), 0) 
-      var %str.of.monster $readini($char($3), battle, str) | inc %str.of.monster 1 | writeini $char($3) battle str %str.of.monster
-    }
-  }
-
   inc %tech.base %user.tech.level
   inc %base.stat %tech.base
 
@@ -931,6 +939,15 @@ alias calculate_damage_techs {
 
   ; Let's increase the attack by a random amount.
   inc %attack.damage $rand(1,10)
+
+  ; Check for the modifier adjustments.
+  var %tech.element $readini(techniques.db, $2, element)
+  if ((%tech.element != $null) && (%tech.element != none)) {
+    $modifer_adjust($3, %tech.element)
+  }
+
+  ; Check to see if the target is resistant/weak to the tech itself
+  $modifer_adjust($3, $2)
 
   ; Is the tech magic?  If so, we need to add some more stuff to it.
   if ($readini(techniques.db, $2, magic) = yes) { $calculate_damage_magic($1, $2, $3) }
@@ -1036,11 +1053,13 @@ alias calculate_damage_techs {
   var %flag $readini($char($1), info, flag)
 
   if (%flag = $null) { 
-    if (%attack.damage > 40000)  { 
-      set %temp.damage $round($calc(%attack.damage / 75),0)
-      set %attack.damage $calc(40000 + %temp.damage)
-      unset %temp.damage
-      if (%attack.damage >= 60000) { set %attack.damage $rand(57000,60000) }
+    if ($readini(system.dat, system, IgnoreDmgCap) != true) { 
+      if (%attack.damage > 40000)  { 
+        set %temp.damage $round($calc(%attack.damage / 75),0)
+        set %attack.damage $calc(40000 + %temp.damage)
+        unset %temp.damage
+        if (%attack.damage >= 60000) { set %attack.damage $rand(57000,60000) }
+      }
     }
 
     if (%attack.damage <= 1) {
@@ -1074,11 +1093,10 @@ alias calculate_damage_techs {
     if ($readini(battlestats.dat, battle, winningstreak) <= 0) { %attack.damage = $round($calc(%attack.damage / 2),0) }
   }
 
-
-
   if ((%attack.damage > 2500) && (%flag = monster)) { 
-    if (%battle.rage.darkness != on) { set %attack.damage $rand(1000,2100) }
-    if (%battle.rage.darkness = on) { set %attack.damage $calc(%attack.damage * 10) }
+    if ($readini(system.dat, system, IgnoreDmgCap) != true) { 
+      if (%battle.rage.darkness != on) { set %attack.damage $rand(1000,2100) }
+    }
   }
 
   inc %attack.damage $rand(1,5)
@@ -1139,25 +1157,32 @@ alias calculate_damage_techs {
 
   $first_round_dmg_chk($1, $3)
 
+
   var %current.element $readini(techniques.db, $2, element)
   if ((%current.element != $null) && (%tech.element != none)) {
-    var %target.element.null $readini($char($3), element, null)
-    if ($istok(%target.element.null,%current.element,46) = $true) { $set_chr_name($3)
+    set %target.element.null $readini($char($3), modifiers, %current.element)
+    if (%target.element.null <= 0) { $set_chr_name($3)
       set %guard.message $readini(translation.dat, battle, ImmuneToElement) 
       set %attack.damage 0 
     }
+    unset %target.element.null
   }
 
-
-  var %target.tech.null $readini($char($3), techniques, immune)
-  if ($istok(%target.element.null,$2,46) = $true) { $set_chr_name($3)
+  set %target.tech.null $readini($char($3), modifiers, $2)
+  if (%target.tech.null <= 0) { $set_chr_name($3)
     set %guard.message $readini(translation.dat, battle, ImmuneToTechName) 
     set %attack.damage 0 
+  }
+  unset %target.element.null
+
+  if (%guard.message = $null) {
+    if ($readini(techniques.db, $2, magic) = yes) { 
+      $magic.effect.check($1, $3, $2)
+    }
   }
 
   ; If the target has Shell on, it will cut magic damage in half.
   if (($readini($char($3), status, shell) = yes) && ($readini(techniques.db, $2, magic) = yes)) { %attack.damage = $round($calc(%attack.damage / 2),0) }
-
 
   ; Check for multiple hits now.
   if (%tech.howmany.hits = 2) {  $double.attack.check($1, $3, 100) }
@@ -1189,23 +1214,6 @@ alias calculate_damage_suicide {
 
   inc %tech.base %base.power.wpn
 
-  ; If the target is weak to the element, increase the attack power of the base tech
-  ; If the target is strong to the element, cut the attack of the tech by half.
-  var %tech.element $readini(techniques.db, $2, element)
-  if ((%weapon.element != $null) || (%tech.element != none)) {
-    var %target.element.weak $readini($char($3), element, weakness)
-    var %target.element.strong $readini($char($3), element, strong)
-
-    if ($istok(%target.element.weak,%tech.element,46) = $true) { inc %tech.base $round($calc(%tech.base * 1.5),0)
-      var %def.of.monster $readini($char($3), battle, def) | dec %def.of.monster 1 
-      if (%def.of.monster < 1) { inc %def.of.monster 1 }
-      writeini $char($3) battle def %def.of.monster
-    }
-    if ($istok(%target.element.strong,%tech.element,46) = $true) { %tech.base = $round($calc(%tech.base / 2), 0) 
-      var %str.of.monster $readini($char($3), battle, str) | inc %str.of.monster 1 | writeini $char($3) battle str %str.of.monster
-    }
-  }
-
   inc %tech.base %user.tech.level
   inc %base.stat %tech.base
 
@@ -1216,6 +1224,13 @@ alias calculate_damage_suicide {
 
   ; Let's increase the attack by a random amount.
   inc %attack.damage $rand(1,10)
+
+  ; If the target is weak to the element, double the attack power of the weapon. 
+  ; If the target is strong to the element, cut the attack of the weapon by half.
+  var %tech.element $readini(techniques.db, $2, element)
+  if ((%tech.element != $null) && (%tech.element != none)) {
+    $modifer_adjust($3, %tech.element)
+  }
 
   ; Is the tech magic?  If so, we need to add some more stuff to it.
   if ($readini(techniques.db, $2, magic) = yes) { $calculate_damage_magic($1, $2, $3) }
@@ -1271,13 +1286,18 @@ alias calculate_damage_suicide {
 
   $first_round_dmg_chk($1, $3)
 
-
   var %current.element $readini(techniques.db, $2, element)
   if ((%current.element != $null) && (%tech.element != none)) {
     var %target.element.null $readini($char($3), element, null)
     if ($istok(%target.element.null,%current.element,46) = $true) { $set_chr_name($3)
       set %guard.message $readini(translation.dat, battle, ImmuneToElement) 
       set %attack.damage 0 
+    }
+  }
+
+  if (%guard.message = $null) {
+    if ($readini(techniques.db, $2, magic) = yes) { 
+      $magic.effect.check($1, $3, $2)
     }
   }
 
@@ -1335,11 +1355,6 @@ alias calculate_damage_magic {
   ; Is the weather the right condition to enhance the spell?
   $spell.weather.check($1, $3, $2) 
 
-  ; Let's add in the magic status effect
-  if ($readini($char($3), skills, manawall.on) != on) {
-    $magic.effect.check($1, $3, $2)  
-  }
-
   unset %magic.bonus.modifier
 }
 
@@ -1370,18 +1385,25 @@ alias magic.effect.check {
   if ($readini($char($2), skills, utsusemi.on) = on) { return }
   if (%guard.message != $null) { return }
 
+  var %attacker.level $get.level($1)
+  var %defender.level $get.level($2)
+  var %level.difference $calc(%attacker.level - %defender.level)
 
-  var %current.element $readini(techniques.db, $3, element)
+  if ((%level.difference <= 20) && ($readini($char($1), info, flag) = $null)) { return }
+
+  set %current.element $readini(techniques.db, $3, element)
   if ((%current.element != $null) && (%tech.element != none)) {
-    var %target.element.null $readini($char($2), element, null)
-    if ($istok(%target.element.null,%current.element,46) = $true) { return }
+    set %target.element.null $readini($char($2), modifiers, %current.element)
+    unset %current.element
+    if (%target.element.null <= 0) { unset %target.element.null | return }
   }
 
-
-  unset %spell.element | unset %element.desc
+  unset %spell.element | unset %element.desc | unset %current.element
   set %spell.element $readini(techniques.db, $3, element) | $set_chr_name($2) 
   var %target.element.heal $readini($char($2), element, heal)
   if ($istok(%target.element.heal,%spell.element,46) = $true) { return }
+
+  var %resist-element $readini($char($2), status, resist- $+ %spell.element)
 
   if (%spell.element = $null) { return } 
   if (%spell.element  = light) {
@@ -1400,7 +1422,9 @@ alias magic.effect.check {
     $achievement_check($1, It'sAllDoomAndGloom)
     return 
   }
-  if (%spell.element  = fire) { writeini $char($2) Status burning yes | set %element.desc $readini(translation.dat, element, fire) 
+  if (%spell.element  = fire) { 
+    if ((%resist-element = no) || (%resist-element = $null)) { writeini $char($2) Status burning yes | set %element.desc $readini(translation.dat, element, fire) }
+
     var %total.spell $readini($char($1), stuff, FireSpellsCasted) 
     if (%total.spell = $null) { var %total.spell 0 }
     inc %total.spell 1 
@@ -1408,7 +1432,8 @@ alias magic.effect.check {
     $achievement_check($1, DiscoInferno)
     return 
   }
-  if (%spell.element  = wind) { writeini $char($2) Status tornado yes | set %element.desc $readini(translation.dat, element, wind)  
+  if (%spell.element  = wind) { 
+    if ((%resist-element = no) || (%resist-element = $null)) {  writeini $char($2) Status tornado yes | set %element.desc $readini(translation.dat, element, wind) }
     var %total.spell $readini($char($1), stuff, WindSpellsCasted) 
     if (%total.spell = $null) { var %total.spell 0 }
     inc %total.spell 1 
@@ -1417,7 +1442,8 @@ alias magic.effect.check {
     return 
 
   }
-  if (%spell.element  = water) { writeini $char($2) Status drowning yes | set %element.desc $readini(translation.dat, element, water)
+  if (%spell.element  = water) { 
+    if ((%resist-element = no) || (%resist-element = $null)) { writeini $char($2) Status drowning yes | set %element.desc $readini(translation.dat, element, water) }
     var %total.spell $readini($char($1), stuff, WaterSpellsCasted) 
     if (%total.spell = $null) { var %total.spell 0 }
     inc %total.spell 1 
@@ -1425,7 +1451,8 @@ alias magic.effect.check {
     $achievement_check($1, TimeToBuildAnArk)
     return 
   }
-  if (%spell.element  = ice) { writeini $char($2) Status frozen yes | set %element.desc $readini(translation.dat, element, ice) 
+  if (%spell.element  = ice) { 
+    if ((%resist-element = no) || (%resist-element = $null)) { writeini $char($2) Status frozen yes | set %element.desc $readini(translation.dat, element, ice) }
     var %total.spell $readini($char($1), stuff, IceSpellsCasted) 
     if (%total.spell = $null) { var %total.spell 0 }
     inc %total.spell 1 
@@ -1433,7 +1460,8 @@ alias magic.effect.check {
     $achievement_check($1, IceIceBaby)
     return 
   }
-  if (%spell.element  = lightning) { writeini $char($2) Status shock yes | set %element.desc $readini(translation.dat, element, lightning) 
+  if (%spell.element  = lightning) { 
+    if ((%resist-element = no) || (%resist-element = $null)) {  writeini $char($2) Status shock yes | set %element.desc $readini(translation.dat, element, lightning) }
     var %total.spell $readini($char($1), stuff, LightningSpellsCasted) 
     if (%total.spell = $null) { var %total.spell 0 }
     inc %total.spell 1 
@@ -1441,7 +1469,8 @@ alias magic.effect.check {
     $achievement_check($1, 1.21gigawatts)
     return
   }
-  if (%spell.element  = earth) { writeini $char($2) Status earth-quake yes | set %element.desc $readini(translation.dat, element, earth) 
+  if (%spell.element  = earth) { 
+    if ((%resist-element = no) || (%resist-element = $null)) { writeini $char($2) Status earth-quake yes | set %element.desc $readini(translation.dat, element, earth) }
     var %total.spell $readini($char($1), stuff, EarthSpellsCasted) 
     if (%total.spell = $null) { var %total.spell 0 }
     inc %total.spell 1 

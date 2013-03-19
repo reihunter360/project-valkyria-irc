@@ -88,13 +88,9 @@ MPRegenerating=no
 [Weapons]
 Equipped=BoneScythe
 BoneScythe=25
-Weakness=HandToHand.Whip
-Strong=Sword.Gun.Rifle.Katana.Wand.Spear.Scythe.Glyph.GreatSword
 
 
 [Skills]
-
-
 
 
 [Techniques]
@@ -105,13 +101,29 @@ FireIV=10
 WaterIV=10
 BlizzardIV=10
 
-
-
-
 [Item_Amount]
 
 
-[Element]
-Weakness=light.fire
-Strong=ice
+
+[modifiers]
 Heal=dark
+Earth=100
+Fire=200
+Wind=100
+Ice=120
+Water=100
+Lightning=100
+Light=200
+Dark=200
+HandToHand=200
+Whip=200
+Sword=50
+Gun=10
+Rifle=10
+Katana=50
+Wand=50
+Spear=50
+Scythe=100
+Glyph=50
+GreatSword=60
+Bow=100

@@ -1,4 +1,4 @@
-battle.version { return 2.0beta_031313 } 
+battle.version { return 2.0beta_0311813 } 
 quitmsg { return Battle Arena version $battle.version written by James  "Iyouboushi" }
 checkscript {
   var %command $1-
@@ -108,7 +108,7 @@ get.unspentpoints {
     if ($2 >= 10) { var %points.should.have.spent $round($calc(20 * $2),0) }
   }
   if ($isfile($npc($1)) = $true) {   var %points.should.have.spent $round($calc(17 * $2),0) }
-  if ($isfile($summon($4)) = $true) {   var %points.should.have.spent $round($calc(18 * $2),0) }
+  if ($isfile($summon($4)) = $true) {   var %points.should.have.spent $round($calc(19 * $2),0) }
 
   if ($3 = doppelganger) { var %points.should.have.spent $round($calc(20 * $2),0) }
   if ($3 = demonwall) { var %points.should.have.spent $round($calc(20 * $2),0) }
@@ -163,6 +163,14 @@ player.status { unset %all_status | unset %all_skills | $set_chr_name($1)
     if ($readini($char($1), status, ignition.on) = on) { $status_message_check(ignition boosted) }
     if ($readini($char($1), status, shell) = yes) { $status_message_check(shell) }
     if ($readini($char($1), status, protect) = yes) { $status_message_check(protect) }
+    if ($readini($char($1), status, resist-fire) = yes) { $status_message_check(resist-fire) }
+    if ($readini($char($1), status, resist-earth) = yes) { $status_message_check(resist-earth) }
+    if ($readini($char($1), status, resist-wind) = yes) { $status_message_check(resist-wind) }
+    if ($readini($char($1), status, resist-ice) = yes) { $status_message_check(resist-ice) }
+    if ($readini($char($1), status, resist-water) = yes) { $status_message_check(resist-water) }
+    if ($readini($char($1), status, resist-lightning) = yes) { $status_message_check(resist-lightning) }
+    if ($readini($char($1), status, resist-light) = yes) { $status_message_check(resist-light) }
+    if ($readini($char($1), status, resist-dark) = yes) { $status_message_check(resist-dark) }
 
     $player.skills.list($1)
 
@@ -465,6 +473,7 @@ skills.list {
   $passive.skills.list($1)
   $active.skills.list($1)
   set %resists.skills.list $resists.skills.list($1)
+  unset %total.skills | unset %skill.name | unset %skill_level | unset %replacechar
   return
 }
 
@@ -506,6 +515,23 @@ active.skills.list {
   var %active.skills $readini(skills.db, Skills, activeSkills)
   var %number.of.skills $numtok(%active.skills, 46)
 
+  var %value 1
+  while (%value <= %number.of.skills) {
+    set %skill.name $gettok(%active.skills, %value, 46)
+    set %skill_level $readini($char($1), skills, %skill.name)
+
+    if ((%skill_level != $null) && (%skill_level >= 1)) { 
+      ; add the skill level to the skill list
+      inc %total.skills 1
+      var %skill_to_add %skill.name $+ $chr(040) $+ %skill_level $+ $chr(041) 
+      if (%total.skills > 13) { %active.skills.list2 = $addtok(%active.skills.list2,%skill_to_add,46) }
+      else { %active.skills.list = $addtok(%active.skills.list,%skill_to_add,46) }
+    }
+    inc %value 1 
+  }
+
+  var %active.skills $readini(skills.db, Skills, activeSkills2)
+  var %number.of.skills $numtok(%active.skills, 46)
   var %value 1
   while (%value <= %number.of.skills) {
     set %skill.name $gettok(%active.skills, %value, 46)
@@ -1015,8 +1041,13 @@ fulls {
   if ($readini($char($1), BaseStats, IgnitionGauge) = $null) { writeini $char($1) BaseStats IgnitionGauge 0 | writeini $char($1) Battle IgnitionGauge 0 }
   if ($readini($char($1), Battle, IgnitionGauge) = $null) { writeini $char($1) Battle IgnitionGauge 0 }
 
-  $clear_status($1) 
-  if (($readini($char($1), info, flag) != monster) && ($readini($char($1), info, flag) != npc)) { $clear_skills($1) | var %stylelist $styles.get.list($1) }
+  $clear_status($1)
+
+  ; If it's not a monster or NPC, we need to clear some more stuff..
+  if ($readini($char($1), info, flag) = $null) { 
+    $clear_skills($1) | var %stylelist $styles.get.list($1) 
+    .remini $char($1) modifiers
+  }
 
   remini $char($1) Renkei
 
@@ -1079,19 +1110,33 @@ clear_status {
     unset %real.name
   }
 
-  writeini $char($1) Status poison no | writeini $char($1) Status HeavyPoison no | writeini $char($1) Status Regenerating no |  writeini $char($1) Status blind no
-  writeini $char($1) Status frozen no | writeini $char($1) status freezing no | writeini $char($1) Status shock no | writeini $char($1) Status burning no | writeini $char($1) Status drowning no | writeini $char($1) Status tornado no
-  writeini $char($1) Status earth-quake no | writeini $char($1) Status Heavy-Poison no | writeini $char($1) status poison-heavy no | writeini $char($1) Status curse no | writeini $char($1) Status intimidated no
+  ; Negative status effects
+  writeini $char($1) Status poison no | writeini $char($1) Status HeavyPoison no | writeini $char($1) Status blind no
+  writeini $char($1) Status Heavy-Poison no | writeini $char($1) status poison-heavy no | writeini $char($1) Status curse no | writeini $char($1) Status intimidated no
   writeini $char($1) Status weight no | writeini $char($1) status virus no | writeini $char($1) status poison.timer 1 | writeini $char($1) status charmer noOneThatIKnow | writeini $char($1) status charm.timer 0 | writeini $char($1) status charmed no 
   writeini $char($1) Status drunk no | writeini $char($1) Status amnesia no | writeini $char($1) status paralysis no | writeini $char($1) status amnesia.timer 1 | writeini $char($1) status paralysis.timer 1 | writeini $char($1) status drunk.timer 1
-  writeini $char($1) status zombie no | writeini $char($1) Status slow no | writeini $char($1) Status sleep no | writeini $char($1) Status stun no | writeini $char($1) Status MPRegenerating no | writeini $char($1) Status KiRegenerating no
-  writeini $char($1) status boosted no  | writeini $char($1) status curse.timer 1 | writeini $char($1) status slow.timer 1 | writeini $char($1) status zombie.timer 1 | writeini $char($1) status FinalGetsuga no
-  writeini $char($1) status zombieregenerating no | writeini $char($1) status intimidate no | writeini $char($1) status revive no | writeini $char($1) status defensedown no | writeini $char($1) status strengthdown no
-  writeini $char($1) status strengthdown.timer 0 | writeini $char($1) status intdown.timer 0 | writeini $char($1) status defensedown.timer 0
-  writeini $char($1) status stop no | writeini $char($1) status petrified no | writeini $char($1) status TPRegenerating no | writeini $char($1) status conservetp no
-  writeini $char($1) status ignition.on off | remini $char($1) status ignition.name | remini $char($1) status ignition.augment | writeini $char($1) status bored no | writeini $char($1) status bored.timer 0
-  remini $char($1) status weapon.locked | writeini $char($1) status confuse no | writeini $char($1) status confuse.timer 1  | writeini $char($1) status orbbonus no 
-  writeini $char($1) status protect no | writeini $char($1) status shell no | writeini $char($1) status protect.timer 0 | writeini $char($1) status shell.timer 0
+  writeini $char($1) status zombie no | writeini $char($1) Status slow no | writeini $char($1) Status sleep no | writeini $char($1) Status stun no | writeini $char($1) status curse.timer 1 | writeini $char($1) status slow.timer 1 | writeini $char($1) status zombie.timer 1
+  writeini $char($1) status zombieregenerating no | writeini $char($1) status intimidate no |  writeini $char($1) status defensedown no | writeini $char($1) status strengthdown no
+  writeini $char($1) status strengthdown.timer 0 | writeini $char($1) status intdown.timer 0 | writeini $char($1) status defensedown.timer 0 |  writeini $char($1) status stop no | writeini $char($1) status petrified no 
+  writeini $char($1) status bored no | writeini $char($1) status bored.timer 0 | remini $char($1) status weapon.locked | writeini $char($1) status confuse no | writeini $char($1) status confuse.timer 1
+
+  ; Positive status effects
+  writeini $char($1) Status Regenerating no | writeini $char($1) Status MPRegenerating no | writeini $char($1) Status KiRegenerating no
+  writeini $char($1) status boosted no | writeini $char($1) status FinalGetsuga no | writeini $char($1) status revive no  
+  writeini $char($1) status TPRegenerating no | writeini $char($1) status conservetp no |   writeini $char($1) status ignition.on off | remini $char($1) status ignition.name | remini $char($1) status ignition.augment
+  writeini $char($1) status orbbonus no | writeini $char($1) status protect no | writeini $char($1) status shell no | writeini $char($1) status protect.timer 0 | writeini $char($1) status shell.timer 0
+
+  ; Magic effects  
+  writeini $char($1) Status frozen no | writeini $char($1) status freezing no | writeini $char($1) Status shock no | writeini $char($1) Status burning no 
+  writeini $char($1) Status drowning no | writeini $char($1) Status tornado no |  writeini $char($1) Status earth-quake no 
+
+  ; The resists are used to resist the magic effect stuff (Freezing, Burning, etc).  Only players need this removed each time.
+  if ($readini($char($1), info, flag) = $null) { 
+    writeini $char($1) status resist-fire no | writeini $char($1) status resist-lightning no | writeini $char($1) status resist-ice no
+    writeini $char($1) status resist-earth no | writeini $char($1) status resist-wind no | writeini $char($1) status resist-water no
+    writeini $char($1) status resist-light no | writeini $char($1) status resist-dark no
+  }
+
   ; Monsters that are zombies need to be reset as zombies.
   if ($readini($char($1), monster, type) = zombie) {  writeini $char($1) status zombie yes | writeini $char($1) status zombieregenerating yes } 
 
@@ -1156,7 +1201,7 @@ get_mon_list {
     if (((%name = new_mon) || (%name = $null) || (%name = orb_fountain))) { inc %value 1 } 
     else { 
 
-      if (%mode.gauntlet != $null) { write temporary_mlist.txt %name | inc %value 1 }
+      if ((%mode.gauntlet != $null) && ($readini($mon(%name), info, streak) > -500)) { write temporary_mlist.txt %name | inc %value 1 }
       else {
 
         ; Check the winning streak #..  some monsters won't show up until a certain streak or higher.
@@ -1223,7 +1268,7 @@ get_boss_list {
     if (((%name = new_mon) || (%name = new_boss) || (%name = $null))) { inc %value 1 } 
     else { 
 
-      if (%mode.gauntlet != $null) { write temporary_mlist.txt %name | inc %value 1 }
+      if ((%mode.gauntlet != $null) && ($readini($boss(%name), info, streak) > -500)) { write temporary_mlist.txt %name | inc %value 1 }
       else {
 
         ; Check the winning streak #..  some bosses won't show up until a certain streak or higher.
@@ -1497,6 +1542,8 @@ clear_variables2 {
   unset %player.ig.current | unset player.ig.max | unset %player.ig.reward | unset %battletxt.current.line | %multiple.wave.noaction | unset %covering.someone
   unset %previous.tp | unset %multiple.wave | unset %portal.multiple.wave | unset %augment.strength | unset %current.monster.level.temp
   unset %current.monster.weapon.level.temp | unset %weapon.type | unset %original.attackdmg | unset %target
+  unset %target.tech.null | unset %naturalArmorName | unset %target.stat | unset %base.stat | unset %shop.level | unset %total.price
+
 }
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1766,6 +1813,8 @@ system_defaults_check {
   if ($readini(system.dat, system, EnableBattlefieldEvents) = $null) { writeini system.dat system EnableBattlefieldEvents true }
   if ($readini(system.dat, system, GuaranteedBossBattles) = $null) { writeini system.dat system GuaranteedBossBattles 10.15.20.30.60.100.150.180.220.280.320.350.401.440.460.501.560.601.670.705.780.810.890.920.999.1100.1199.1260. 1305.1464.1500.1650.1720.1880.1999.2050.2250.9999  }
   if ($readini(system.dat, system, BonusEvent) = $null) { writeini system.dat system BonusEvent false }
+  if ($readini(system.dat, system, IgnoreDmgCap) = $null) { writeini system.dat system IgnoreDmgCap false }
+  if ($readini(system.dat, system, MaxNumberOfMonsInBattle) = $null) { writeini system.dat system MaxNumberOfMonsInBattle 6 }
 
   if ($readini(system.dat, statprices, hp) = $null) { writeini system.dat statprices hp 150 }
   if ($readini(system.dat, statprices, tp) = $null) { writeini system.dat statprices tp 150 }

@@ -114,9 +114,6 @@ Ryunohige=200
 Ragnarok=200
 Caladbolg=200
 
-strong=gun.rifle.wand.glyph.whip.katana.sword.handtohand.greatsword
-
-
 [Skills]
 Resist-Charm=100
 Resist-Poison=100
@@ -246,7 +243,25 @@ Equipped=WeaponMaster
 WeaponMaster=5
 WeaponMasterXP=1
 
-[Element]
-Weakness=None
-Strong=None
-Heal=Dark
+[modifiers]
+Heal=heal
+Earth=100
+Fire=100
+Wind=100
+Ice=100
+Water=100
+Lightning=100
+Light=100
+Dark=100
+HandToHand=200
+Whip=50
+Sword=50
+Gun=50
+Rifle=50
+Katana=50
+Wand=50
+Spear=50
+Scythe=50
+Glyph=50
+GreatSword=50
+Bow=50

@@ -118,13 +118,30 @@ Quake=20
 [Item_Amount]
 
 
-[Element]
-Weakness=Wind
-Strong=Earth
-Heal=Earth
-
-
 [Styles]
 Equipped=WeaponMaster
 WeaponMaster=2
 WeaponMasterXP=1
+
+[modifiers]
+Heal=earth
+Earth=200
+Fire=100
+Wind=150
+Water=100
+Ice=100
+Lightning=100
+Light=100
+Dark=100
+HandToHand=100
+Whip=100
+Sword=100
+Gun=100
+Rifle=100
+Katana=100
+Wand=100
+Spear=100
+Scythe=100
+Glyph=100
+GreatSword=100
+Bow=100

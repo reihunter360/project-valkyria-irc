@@ -301,12 +301,17 @@ alias shop.techs {
       set %tech.name $gettok(%tech.list, %value, 46)
       set %tech.price $round($calc(%shop.level * $readini(techniques.db, %tech.name, cost)),0)
 
-
       if ($readini(techniques.db, %tech.name, type) = boost) {
         set %player.amount $readini($char($1), techniques, %tech.name)
         if ((%player.amount <= 500) || (%player.amount = $null)) { %shop.list = $addtok(%shop.list, $+ %tech.name $+ +1 ( $+ %tech.price $+ ),46) }
       }
-      if ($readini(techniques.db, %tech.name, type) != boost) {  %shop.list = $addtok(%shop.list, $+ %tech.name $+ +1 ( $+ %tech.price $+ ),46) }
+      if ($readini(techniques.db, %tech.name, type) != boost) {  
+        if ($readini(techniques.db, %tech.name, type) = buff) {  
+          set %player.amount $readini($char($1), techniques, %tech.name)
+          if ((%player.amount < 1) || (%player.amount = $null)) { %shop.list = $addtok(%shop.list, $+ %tech.name $+ +1 ( $+ %tech.price $+ ),46) }
+        }
+        if ($readini(techniques.db, %tech.name, type) != buff) { %shop.list = $addtok(%shop.list, $+ %tech.name $+ +1 ( $+ %tech.price $+ ),46) }
+      }
 
       inc %value 1 
     }
@@ -334,14 +339,16 @@ alias shop.techs {
 
     var %current.techlevel $readini($char($1), techniques, $3)
 
-    if (%current.techlevel > 500) {  .msg $nick 4You cannot buy any more levels of this. | halt }
+
+    if ($readini(techniques.db, $3, type) = buff) { var %max.techlevel 1 }
+    if ($readini(techniques.db, $3, type) != buff) {  var %max.techlevel 500 }
+
+    if (%current.techlevel >= %max.techlevel) {  .msg $nick 4You cannot buy any more levels of $3 $+ . | halt }
 
     ; if so, increase the amount and add it to the list
     inc %current.techlevel $4
 
-    if ($readini(techniques.db, $3, type) = boost) {
-      if (%current.techlevel > 500) {  .msg $nick 4Purchasing this amount will put you over the max limit for this boost. Please lower the amount and try again. | halt }
-    }
+    if (%current.techlevel > %max.techlevel) {  .msg $nick 4Purchasing this amount will put you over the max limit. Please lower the amount and try again. | halt }
 
     writeini $char($1) techniques $3 %current.techlevel
 
@@ -1176,8 +1183,7 @@ alias shop.weapons {
     var %weapon.level $readini($char($1), weapons, $3)
     if (%weapon.level != $null) { 
 
-
-      if (%weapon.level > 500) {  .msg $nick 4You cannot buy any more levels into this weapon. | halt }
+      if (%weapon.level >= 500) {  .msg $nick 4You cannot buy any more levels into this weapon. | halt }
 
       ; do you have enough to buy it?
       var %player.redorbs $readini($char($1), stuff, redorbs)
@@ -1187,6 +1193,9 @@ alias shop.weapons {
       dec %player.redorbs %total.price
       $inc.redorbsspent($1, %total.price)
       inc %weapon.level $4
+
+      if (%weapon.level > 500) {   .msg $nick 4Purchasing this amount will put you over the max limit. Please lower the amount and try again. | halt }
+
       writeini $char($1) stuff redorbs %player.redorbs
       writeini $char($1) weapons $3 %weapon.level
       .msg $nick 3You spend $bytes(%total.price,b)  $+ $readini(system.dat, system, currency) to upgrade your $3 $+ !
