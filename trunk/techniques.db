@@ -10,8 +10,8 @@ MegasaurusWeapon=SurvivalInstinct.Earthquake.UltimateSwallow.SpikeFlail.Slurp.Di
 OmegaMultipurposeCannon=WaveCannon.LightPillar.MeggidoFlame.Ultima.Gravija.TerraBreak.Meteor.LV5_Death
 Perfect_Chaos_Water=Chaos_Tsunami.Hyrdro_Cannon.Chaos_Rain.Chaos_Chomp.PerfectChaosR2.Chaos_Water_Beam.Dark_Power_of_Chaos_Emeralds
 
-Silver_Goddess_Sword=TwinSlice.BiteOfLightning.BladeBeam.HyperTwinSlice.WiseReflection.CureV.GigaSlash.Atonement.BlizzajaII
-Mythril_Sword=FastBlade.BurningBlade.FlatBlade.Bash.MagnumBreak
+Silver_Goddess_Sword=TwinSlice.BiteOfLightning.BladeBeam.HyperTwinSlice.WiseReflection.CureV.GigaSlash.Atonement.BlizzajaII.Curaga
+Mythril_Sword=FastBlade.BurningBlade.FlatBlade.Bash.MagnumBreak.SeraphBlade
 Soulsaber=SpiritsWithin.VorpalBlade.SeraphBlade.BowlingBash
 JewelSword=Bash.MagnumBreak.BowlingBash
 Excalibur=Atonement.Bash
@@ -806,7 +806,7 @@ stat=int
 [AsuraStrike]
 cost=1295000
 type=single
-self-status=Curse
+selfstatus=Curse
 basepower=$calc( (  ( $readini(weapons.db, $readini($char($1), Weapons, Equipped), basepower) * ($readini($char($1), weapons, $readini($char($1), Weapons, Equipped)) * .1 ) ) + ($readini($char($1), battle, str) / 5 ) ) * (8 + (%previous.tp) / 10 ) ) + 250 + (150 * $readini($char($1), Techniques, AsuraStrike) ) ) | unset %previous.tp
 TP=$readini($char($1), Battle, TP) | set %previous.tp $readini($char($1), battle, TP)
 Desc=pours all of the energy to $gender($1) fist and then punches %enemy $+ with an earth shattering punch! [Asura Strike!]

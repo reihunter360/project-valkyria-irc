@@ -33,7 +33,7 @@ BossQuote= *shines*
 RedOrbs=2000000
 BlackOrbs=10
 ShopLevel=25.0
-Drops=UltimateDiscountCard.BlueEyesWhiteDragonCard.BahamutZeroMateria
+Drops=UltimateDiscountCard.BlueEyesCard.BahamutZeroMateria.GoldOrb.GoldOre
 
 [Monster]
 Type=

@@ -680,7 +680,7 @@ ON 50:TEXT:*equips *:*:{
   else { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, DoNotHaveWeapon) | halt }
 } 
 
-on 2:TEXT:!equip *:?: { 
+on 2:TEXT:!equip *:*: { 
   if ($2 = accessory) { $wear.accessory($nick, $3) | halt }
   if ($2 = armor) { $wear.armor($nick, $3) | halt }
 
