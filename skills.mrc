@@ -1258,11 +1258,11 @@ alias skill.steal {
       inc %stolen.from.counter 1 | writeini $char($2) status stolencounter %stolen.from.counter 
 
       set %steal.pool $readini(steal.lst, stealpool, $2)
-      if (%steal.pool = $null) { 
-        if ($readini($char($2), Info, flag) = monster) { set %steal.pool $readini(steal.lst, stealpool, monster) |  var %steal.orb.amount $rand(4200,7500) }
-        if ($readini($char($2), Info, flag) = boss) { set %steal.pool $readini(steal.lst, stealpool, boss) | var %steal.orb.amount $rand(4000,7500) }
-        if (%bloodmoon = on) { var %steal.pool orbs.orbs.orbs.orbs | var %steal.orb.amount $rand(6000,9000) }
+      var %steal.orb.amount $rand(5000,9000) 
 
+      if (%steal.pool = $null) { 
+        if ($readini($char($2), Info, flag) = monster) { set %steal.pool $readini(steal.lst, stealpool, monster) }
+        if ($readini($char($2), Info, flag) = boss) { set %steal.pool $readini(steal.lst, stealpool, boss) }
       }
 
       set %total.items $numtok(%steal.pool, 46)

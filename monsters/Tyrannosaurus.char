@@ -49,6 +49,12 @@ LastIP=N/a
 Created=N/a
 RageMode=Ignore
 Battlestats=ignoreHP
+orbbonus=yes
+ai_type=
+Streak=75
+StreakMax=
+Fleeing=false
+SpawnAfterDeath=
 
 [Monster]
 Type=

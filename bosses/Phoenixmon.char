@@ -50,6 +50,11 @@ Created=N/a
 RageMode=Ignore
 OrbBonus=yes
 Battlestats=ignore
+ai_type=
+Streak=100
+StreakMax=
+Fleeing=false
+SpawnAfterDeath=
 
 [Status]
 Poison=no

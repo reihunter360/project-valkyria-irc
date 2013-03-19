@@ -760,14 +760,14 @@ Type=shopreset
 Target=Single
 Amount=10.0
 Desc=pulls out a Discount Card and gives it to %enemy who shows it to the shop clerk.  "Ah yes, indeed, part of of our..secret club."  Score!
-Cost=250000
+Cost=150000
 
 [UltraDiscountCard]
 Type=shopreset
 Target=Single
 Amount=25.0
 Desc=pulls out a shiny silver Ultra Discount Card and gives it to %enemy who shows it to the shop clerk.  "Woah! No way! You know the president of the shop? Why yes, of course, please!  Here's a hefty discount for you!" 
-Cost=500000
+Cost=400000
 
 =========================
 ACCESSORIES
