@@ -66,6 +66,7 @@ OmegaMultipurposeCannon=WaveCannon.LightPillar.MeggidoFlame.Ultima.Gravija.Terra
 Perfect_Chaos_Water=Chaos_Tsunami.Hyrdro_Cannon.Chaos_Rain.Chaos_Chomp.PerfectChaosR2.Chaos_Water_Beam.Dark_Power_of_Chaos_Emeralds
 Themis'Axe=Djinn:Bane.Djinn:Flower.Djinn:Steel.Stone_Justice
 StarMageStaff=Curaga.Spark_Plasma.Megacool.Mine_Ball
+Randgris_Sword=Thunder_Storm.LordOfVermillion.BrandishSpear.Light_PowerUp.HolyCross.SonicBlow.Earthquake.Protect.Shell
 
 
 [Repairs]
@@ -630,6 +631,46 @@ cost=25000
 Magic=yes
 stat=int
 
+[Thunder_Storm]
+Type=AOE
+TP=70
+statustype=Blind.Paralysis
+Desc=casts a small wide area spell that shoots 1 large thunderbolt! [Thunder Storm!]
+BasePower=35
+Cost=5600
+Element=lightning
+magic=yes
+stat=int
+
+[LordOfVermillion]
+Type=AOE
+TP=80
+statustype=Blind.Stun
+Desc=casts a wide area spell that is shot down by three thunderous bolts of lightning! [Lord of Vermillion]
+BasePower=60
+Cost=7800
+Element=lightning
+magic=yes
+stat=int
+
+[Light_PowerUp]
+Type=boost
+TP=100
+basepower=100
+element=light
+desc=is surrounded by a LIGHT Elemental flicker... and then suddenly surges all around $gender($1) ! [Power Up!]
+
+[HolyCross]
+Type=Single
+statustype=Blind
+TP=40
+Desc=hits %enemy $+ with a crossed shape light! [Holy Cross]
+BasePower=40
+Cost=2000
+Element=light
+magic=yes
+stat=str
+
 ;---------------------------------------------------
 ;---------------------------------------------------
 ;---------------------------------------------------
@@ -968,9 +1009,25 @@ Hits=$rand(1,2)
 BasePower=60
 Upgrade=5000000
 
+[Randgris_Sword]
+cost=999999999
+Type=Sword
+Info=A specialized Valkyrie Sword... forged from the heart of a collapsing star.
+abilities=Thunder_Storm.LordOfVermillion.BrandishSpear.Light_PowerUp.HolyCross.SonicBlow.Earthquake.Protect.Shell
+basepower=110
+Element=Light
+hits=$rand(1,2)
+ignoredefense=20
+Upgrade=500000
+HurtEthereal=true
+
 cost=99999
 upgrade=500000
 Cost and Upgrade to 99999 and 500000
+
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
 
 steal.lst changes
 

@@ -110,7 +110,8 @@ boost_monster_stats {
   var %level.boost $readini(battlestats.dat, battle, LevelAdjust)
   var %number.of.players.in.battle $readini(battle2.txt, battleinfo, players)
   var %difficulty $readini(battle2.txt, BattleInfo, Difficulty)
-  var %current.player.levels $readini(battle2.txt, battleinfo, playerlevels)  var %monster.level 0
+  var %current.player.levels $readini(battle2.txt, battleinfo, playerlevels)  
+  var %monster.level 0
 
   var %boss.level $readini($char($1), info, bosslevel) 
   if (%boss.level != $null) { var %monster.level %boss.level }

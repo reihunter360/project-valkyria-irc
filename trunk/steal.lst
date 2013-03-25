@@ -7,6 +7,7 @@ orb_fountain=orbs
 ; Valkyria Customs
 omega_weapon=orbs.GoldOre.orbs.orbs.BlueEyesCard.AlexanderMateria.AlexanderMateria.orbs
 valkyrie=ElvishMedallian.orbs.orbs.GoldOre.GoldOrb.orbs.orbs.CarbuncleMateria
+valkyrie_randgris=GoldOrb.GoldOre.AlexanderMateria.SmnRune
 
 ; Add monsters/bosses and their steal pools below this line.
 brauner=x-potion.orbs.SoulPainting

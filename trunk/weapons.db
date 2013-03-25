@@ -181,6 +181,18 @@ Hits=$rand(1,2)
 BasePower=60
 Upgrade=5000000
 
+[Randgris_Sword]
+cost=999999999
+Type=Sword
+Info=A specialized Valkyrie Sword... forged from the heart of a collapsing star.
+abilities=Thunder_Storm.LordOfVermillion.BrandishSpear.Light_PowerUp.HolyCross.SonicBlow.Earthquake.Protect.Shell
+basepower=110
+Element=Light
+hits=$rand(1,2)
+ignoredefense=20
+Upgrade=500000
+HurtEthereal=true
+
 =============================================
 HAND TO HAND
 =============================================
