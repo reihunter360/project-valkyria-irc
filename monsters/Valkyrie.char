@@ -105,7 +105,7 @@ resist-slow=100
 resist-paralysis=90
 resist-amnesia=50
 mightystrike=5
-bloodboost=30
+bloodboost=250
 swordmaster=55
 elementalseal=20
 speed=40
@@ -115,13 +115,13 @@ Zen=10
 WeaponBash=3
 
 [Techniques]
-CureV=85
+CureV=200
 ; Ragnarok Online Techs.
 SonicBlow=350
 JupitelThunder=280
 ; BreakArmor=10
 BrandishSpear=200
-WiseReflection=100
+WiseReflection=2000
 
 
 [Item_Amount]

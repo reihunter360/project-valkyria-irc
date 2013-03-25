@@ -55,6 +55,7 @@ Streak=150
 StreakMax=
 Fleeing=false
 SpawnAfterDeath=
+ignoredrain=true
 
 [Status]
 Poison=no
