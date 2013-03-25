@@ -1,0 +1,103 @@
+PORTAL BATTLES
+Portal Battles are special battles that can only be accessed by first obtaining a special item (usually obtained by trading BeastmenSeal and KindredSeals) and then using that item in battle.  When used, the battlefield will be cleared of all monsters and all players will be teleported to a special battlefield to fight one or more special bosses.
+
+This text file is meant to give more information on all the various battles that can be encountered.
+
+
+PORTAL ITEMS:
+
+BeastmenSeal Items
+[05 Seals] AlliedTrainingPaper
+[05 Seals] WormFood
+[10 Seals] DemonBell
+
+Kindred Seal Items
+[15 Seals] GemOfTheNorth
+[20 Seals] IgnisFatuus
+[25 Seals] BanishingCharm
+[30 Seals] RottingOrb
+
+
+
+ALLIEDTRAININGPAPER
+A bunch of newbie scrubs have arrived at the Allied Forces HQ and need to be trained. The Allied Forces are asking for any hero that's not busy to come teach these scrubs how to fight a bit better.  Shami has been given the Training Papers and he is willing to trade them to anyone willing for a small fee.
+
+Portal Item: AlliedTrainingPaper
+Portal Item Cost: 5 Beastmen Seals
+Potential Rewards: RustyHelmet, RustyMail, RustyHose, RustyBoots, RustyKnuckles
+Allied Notes Worth: 50
+Danger Level: Low
+Estimated Fight Level: 10~20 
+
+
+
+WORMFOOD
+Allied Intelligence has reported that a Morion Worm has been bothering mining operations in the Korroloka Tunnel.  They are asking any and all heroes to go put an end to its annoyance.  Shami knows of a way to draw the worm out, perhaps he'll be willing to sell it to you.
+
+Portal Item: WormFood
+Portal Item Cost: 5 Beastmen Seals
+Potential Rewards: IronOre, GoldOre, DarksteelOre, BeastmenSeal, MageRobe, Ruby
+Allied Notes Worth: 100
+Danger Level: Medium
+Estimated Fight Level: 55~60 
+
+
+
+DEMONBELL
+That insufferable clown, Jester, is back at it and is disrupting the operations of the Allied Forces.  They are asking any and all heroes to go put an end to that clown once and for all.  Shami knows of a way to enter his lair and has been instructed to sell the item to those brave enough to go.
+
+Portal Item: DemonBell
+Portal Item Cost: 10 Beastmen Seals
+Potential Rewards: JesterHat, Fool's-Tablet, BeastmanSeal, KindredSeal
+Allied Notes Worth: 250
+Danger Level: High
+Estimated Fight Level: 250~300 
+
+
+
+GEMOFTHENORTH
+Reports are coming in from all over the world of a mysterious...flying....city!?  What?!  It seems that ancient legends about gods living in a city above the clouds are true!  From what we can gather, there's five large chambers that make up the city; four at each point of a compass and one in the center.  The one in the center seems to be surrounded by some protective magical energy that our forces cannot even begin to penetrate.  The others are only protected with weak charms, and we're working on it one at a time.
+
+So far we've managed to survey the north chamber. It seems to be home to Genbu.  Shami has made an item that can teleport heroes up there to its chamber.  Be sure to go check it out but beware.  The ancient texts say the ancient sky gods were powerful beings.
+
+Portal Item: GemOfTheNorth
+Portal Item Cost: 15 Kindred Seals
+Potential Rewards: KindredSeal, GenbuSeal, Genbu'sKabuto
+Allied Notes Worth: 1000
+Danger Level: Extremely High
+Estimated Fight Level: 1100~1500 
+
+
+
+IGNISFATUUS
+Reports of a giant flying whale-looking demon have been coming in.  Allegedly it's already eaten an entire school bus.  God help those that were inside it at the time.  The Allied Intelligence has gathered that the beast is just simply too big and too strongly armored to take on first-hand.  In order to defeat this thing, it's going to have to be done from the inside.  Yeah, the inside. You'll need to reach the heart chamber of the beast and defeat its beating heart to take it down..  Shami might know of a way.
+
+Portal Item: IgnisFatuus
+Portal Item Cost: 20 Kindred Seals
+Potential Rewards: KindredSeal, BloodyHeart, BloodSocks, BloodCrown, BloodHauberk
+Allied Notes Worth: 600
+Danger Level: Very High
+Estimated Fight Level: 500~600 
+
+
+
+BANISHINGCHARM
+Allied Intelligence has reported that a very powerful samurai demon by the name of Rasetsu is building an army within the demonic Waughroon Shrine.  The Allied Forces have requested players to banish and stop them before they invade our world.  Alas, reaching the shrine will be difficult.  Perhaps the strange merchant Shami knows of a way inside and would be willing to trade or sell an item to help.
+
+Portal Item: BanishingCharm
+Portal Item Cost: 25 Kindred Seals
+Potential Rewards: KindredSeal, MyochinKote, MyochinSune-Ate, MyochinHaidate, MyochinDomaru, MyochinKabuto
+Allied Notes Worth: 500
+Danger Level: Very High
+Estimated Fight Level: 500~600 
+
+
+ROTTINGORB
+While we continue to investigate the city in the sky, allied intelligence has discovered that a powerful demon has made its home in a dungeon full of rotting bodies. It seems this body has created a shell made out of dead bodies for protection and is trying to summon an undead army of zombies.  This creature must be stopped at all cost!  Shami is willing to trade an item that will teleport you into the dungeon itself.  But beware!  Reports have indicated that the creature can devour the minions it is summoning to become stronger.
+
+Portal Item: RottingOrb
+Portal Item Cost: 30 Kindred Seals
+Potential Rewards: KindredSeal, RottingMeat, ChaosBurgeonet, ChaosCuirass, ChaosFlanchard, ChaosSollerets, ChaosGauntlets
+Allied Notes Worth: 2500
+Danger Level: Extremely High
+Estimated Fight Level: 1000~1500+ 

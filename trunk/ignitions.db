@@ -144,4 +144,4 @@ IgnitionConsume=20
 Cost=60
 StatusTarget=allies
 StatusType=TPRegenerating
-Desc=begins to channel an ancient power meant for another race. $gender($1) energy flares around $gender($1) body, then swirls all around $gender2($1) into a cone in the shape of his body, which then turns into $gender($1) aura. The aura is flashing very brightly and violently at the moment. %real.name $+ 's body overloads as energy flares out like wild fire and $gender($1) hair turns gold and $gender($1) eyes green.
+Desc=begins to channel an ancient power meant for another race. $gender($1) energy flares around $gender($1) body, then swirls all around $gender2($1) into a cone in the shape of $gender($1) body, which then turns into $gender($1) aura. The aura is flashing very brightly and violently at the moment. %real.name $+ 's body overloads as energy flares out like wild fire and $gender($1) hair turns gold and $gender($1) eyes green.

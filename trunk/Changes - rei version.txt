@@ -3,17 +3,21 @@ DiscountCard=150000
 UltimateDiscountCard=400000
 
 SKILLS.MRC
+    if (%steal.chance >= 95) {
+      var %stolen.from.counter $readini($char($2), status, stolencounter)
+      if (%stolen.from.counter > 5) { $set_chr_name($2) | $display.system.message(4 $+ %real.name  has nothing left to steal!, battle) | halt }
+
+      inc %stolen.from.counter 1 | writeini $char($2) status stolencounter %stolen.from.counter 
+
       set %steal.pool $readini(steal.lst, stealpool, $2)
-      var %steal.orb.amount $rand(2500,6500) 
+      var %steal.orb.amount $rand(1000,3000) 
 
       if (%steal.pool = $null) { 
         if ($readini($char($2), Info, flag) = monster) { set %steal.pool $readini(steal.lst, stealpool, monster) }
         if ($readini($char($2), Info, flag) = boss) { set %steal.pool $readini(steal.lst, stealpool, boss) }
       }
 
-      set %total.items $numtok(%steal.pool, 46)
-      set %random.item $rand(1,%total.items)
-      set %steal.item $gettok(%steal.pool,%random.item,46)
+      if (%bloodmoon = on) { var %steal.orb.amount $rand(3000,5000) }
 
 
 //---------- Changes
@@ -33,6 +37,7 @@ BloodPact Max=500
 Zen Max=10
 WeaponBashMax=2 Cost=105000
 Alchemy=40
+Treasurehunter Max=7
 
 ElementalSeal CD = 60
 Mightystrike CD = 30
@@ -44,7 +49,8 @@ DrainSamba Cooldown = 60
 Regen Cooldown=60; Max=200
 Steal Cooldown=15, Max=50
 
-Cover Cooldown=20 from 270
+Cover Cooldown=30
+HolyAura=1100
 WeaponLock CD = 150
 
 Resist == 70%
@@ -878,11 +884,11 @@ Upgrade=35000
 ignoredefense=5
 
 WEAPONS.DB
-Guns=Ebony&Ivory.Quicksilver.Magnum.Hexagun.DiEndDriver
+Guns=DiEndDriver
 Swords=GunbladeRevolver
 GreatSwords=Executioner
 Axes=Themis'Axe
-FFOmegaWeapon.Valkyrie_Sword.TRexWeapon.PhoenixmonWeapon.BlackRockShooter.MegasaurusWeapon.OmegaMultipurposeCannon.Perfect_Chaos_Water.StarMageStaff
+FFOmegaWeapon.Valkyrie_Sword.TRexWeapon.PhoenixmonWeapon.BlackRockShooter.MegasaurusWeapon.OmegaMultipurposeCannon.Perfect_Chaos_Water.StarMageStaff.Randgris_Sword
 ^ MonsterWpns
 
 ; Omega Weapon
@@ -1047,6 +1053,7 @@ botname=Valkyria
 botpass=dekaron
 
 [System]
+botType=DCC
 automatedbattlesystem=on
 aisystem=on
 basexp=3000
@@ -1073,8 +1080,7 @@ GuaranteedBossBattles=10.15.20.30.60.100.150.180.220.280.320.350.401.440.460.501
 MaxNumberOfMonsInBattle=6
 
 ; This event will double red orbs at the end of battles.
-BonusEvent=true
-EnableBattlefieldEvents=true
+BonusEvent=false
 
 [StatPrices]
 hp=150
@@ -1088,6 +1094,7 @@ ig=800
 [Style]
 BossDeath=800
 MonDeath=200
+
 
 
 

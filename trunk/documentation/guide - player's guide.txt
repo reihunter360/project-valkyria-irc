@@ -1098,6 +1098,45 @@ NPCS
 NPCs are helpful allies that show up occasionally to help the forces of good win battles.  At the moment there's a 10% chance of them showing up normally.  If the players have been losing a lot (5+ in a row) they will show up 100% of the time.  NPCs will stay in battle until they die or until all players die.  In other words, NPCs won't keep fighting the good fight after all players are dead; at least one player must stay alive for the battle to continue.
 
 
+
+ACHIEVEMENTS
+Like most modern games, this game has a list of achievements that you can unlock through various ways.  I encourage everyone to try different things to unlock them all.  The rewards for unlocking them vary, but usually unlock bonus red orbs.  Sometimes you will receive items from the achievements or possibly even a full IG bar as a reward.  Here's a plain list of achievements.  No, I won't spoil how to go about actually unlocking them all--that's up to you to figure out!
+
+Big Spender
+Don't You Have A Home
+Battle Arena Anon
+Don't Forget Your Friends And Family
+Boss Killer
+Sir Dies A Lot
+Make Money
+Scardy Cat
+Cheapskate
+Can't Keep A Good Man Down
+Monster Slayer
+Pretty Gem Collector
+Master Of Unlocking
+Santa's Little Helper
+Are You The Key Master
+Now You're Playing With Power
+Party Is Getting Crazy
+Can't Touch This
+Never Asked For This
+Allied Scrub
+Allied Soldier
+GlassCannon
+StoneWall
+Blood Gone Dry
+Ice Ice Baby
+Disco Inferno
+Blinded By The Light
+Rock You Like A Hurricane
+1.21 gigawatts
+It's All Doom And Gloom
+In Tune With Mother Earth
+Time To Build An Ark
+
+
+
 MISC INFO
 This section will talk about any misc stuff that I think players may want to know about.
 

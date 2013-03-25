@@ -18,7 +18,7 @@ generate.scoreboard {
     }
   }
 
-  if (%totalplayers <= 2) { query %battlechan $readini(translation.dat, errors, ScoreBoardNotEnoughPlayers)  | unset %totalplayers | halt }
+  if (%totalplayers <= 2) { $display.system.message($readini(translation.dat, errors, ScoreBoardNotEnoughPlayers), private)  | unset %totalplayers | halt }
 
 
   ; Generate the scoreboard.
@@ -136,11 +136,9 @@ generate.scoreboard {
     unset %lines | unset %current.line
   }
 
-
-  query %battlechan $readini(translation.dat, system, ScoreBoardTitle)
-  query %battlechan $chr(3) $+ 2 $+ %score.list
-  if (%score.list.2 != $null) { query %battlechan $chr(3) $+ 2 $+ %score.list.2 }
-
+  $display.system.message($readini(translation.dat, system, ScoreBoardTitle), private)
+  $display.system.message(query %battlechan $chr(3) $+ 2 $+ %score.list, private)
+  if (%score.list.2 != $null) { $display.system.message($chr(3) $+ 2 $+ %score.list.2, private)  }
   unset %totalplayers | unset %score.list | unset %score.list.2 | unset %who.score |  .remove ScoreBoard.txt | unset %ScoreBoard.score
 }
 
@@ -207,7 +205,7 @@ generate.monsterdeathboard {
 
   if ($readini(monsterdeaths.lst, monster, demon_portal) != $null) { write scoreboard.txt demon_portal | inc %totalmonsters 1 }
 
-  if ((%totalmonsters <= 2) || (%totalmonsters = $null)) { query %battlechan $readini(translation.dat, errors, DeathBoardNotEnoughMonsters)  | unset %totalmonsters | halt }
+  if ((%totalmonsters <= 2) || (%totalmonsters = $null)) { $display.system.message($readini(translation.dat, errors, DeathBoardNotEnoughMonsters), private) |  unset %totalmonsters | halt }
 
   ; Generate the scoreboard.
 
@@ -325,9 +323,9 @@ generate.monsterdeathboard {
     unset %lines | unset %current.line
   }
 
-  query %battlechan $readini(translation.dat, system, DeathBoardTitleMon)
-  query %battlechan $chr(3) $+ 2 $+ %score.list
-  if (%score.list.2 != $null) { query %battlechan $chr(3) $+ 2 $+ %score.list.2 }
+  $display.system.message($readini(translation.dat, system, DeathBoardTitleMon), private)
+  $display.system.message($chr(3) $+ 2 $+ %score.list, private)
+  if (%score.list.2 != $null) { $display.system.message($chr(3) $+ 2 $+ %score.list.2, private) }
 
   unset %totalmonsters | unset %score | unset %score.list | unset %score.list.2 | unset %who.score |  .remove ScoreBoard.txt | unset %ScoreBoard.score
 }
@@ -349,7 +347,7 @@ generate.bossdeathboard {
     inc %value 1
   }
 
-  if ((%totalboss <= 2) || (%totalboss = $null)) { query %battlechan $readini(translation.dat, errors, DeathBoardNotEnoughmonsters)  | unset %totalboss | halt }
+  if ((%totalboss <= 2) || (%totalboss = $null)) { $display.system.message($readini(translation.dat, errors, DeathBoardNotEnoughmonsters), private) | unset %totalboss | halt }
 
   ; Generate the scoreboard.
 
@@ -467,9 +465,9 @@ generate.bossdeathboard {
     unset %lines | unset %current.line
   }
 
-  query %battlechan $readini(translation.dat, system, DeathBoardTitleBosses)
-  query %battlechan $chr(3) $+ 2 $+ %score.list
-  if (%score.list.2 != $null) { query %battlechan $chr(3) $+ 2 $+ %score.list.2 }
+  $display.system.message($readini(translation.dat, system, DeathBoardTitleBosses), private)
+  $display.system.message($chr(3) $+ 2 $+ %score.list, private)
+  if (%score.list.2 != $null) { $display.system.message($chr(3) $+ 2 $+ %score.list.2, private) }
 
   unset %totalboss | unset %score | unset %score.list | unset %score.list.2 | unset %who.score |  .remove ScoreBoard.txt | unset %ScoreBoard.score
 }
