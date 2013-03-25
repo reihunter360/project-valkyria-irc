@@ -2,12 +2,14 @@
 ;;;; BASIC CONTROL
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+raw 421:*:echo -a 4,1Unknown Command: ( $+ $2 $+ ) | echo -a 4,1Location: %debug.location | halt
+
 on 1:QUIT: {  .auser 1 $nick | .flush 1 }
 on 1:EXIT: {  .auser 1 $nick | .flush 1 }
 on 1:PART:%battlechan:.auser 1 $nick | .flush 1
 on 1:KICK:%battlechan:.auser 1 $knick | .flush 1 
 on 1:JOIN:%battlechan:{  .auser 1 $nick | .flush 1 }
-on 2:NICK: { .auser 1 $nick | mode %battlechan -v $newnick | .flush 1 }
+on 3:NICK: { .auser 1 $nick | mode %battlechan -v $newnick | .flush 1 }
 on *:DNS: { 
   if ($isfile($char($nick)) = $true) { writeini $char($nick) info lastIP $iaddress  }
   set %ip.address. [ $+ [ $nick ] ] $iaddress
@@ -108,5 +110,18 @@ on 1:CONNECT: {
 on 50:TEXT:!debug dump*:*:{ 
   var %debug.filename debug_dump $+ $day $+ $rand(a,z) $+ $rand(1,1000) $+ $rand(a,z) $+ .txt
   .copy remote.ini %debug.filename
-  .msg $nick 4Variables File dumped as file: %debug.filename
+
+  write %debug.filename ------------------------------------------------------
+  write %debug.filename debug location: %debug.location 
+  write %debug.filename battlefield: %current.battlefield
+  write %debug.filename boss type: %boss.type 
+  write %debug.filename portal bonus: %portal.bonus 
+  write %debug.filename holy.aura: %holy.aura 
+  write %debug.filename five min warning: %darkness.fivemin.warn  
+  write %debug.filename battle.rage.darkness: %battle.rage.darkness 
+  write %debug.filename battle conditions: %battleconditions 
+  write %debug.filename ai target: %ai.target
+  write %debug.filename ai tech: %ai.tech
+
+  $display.system.message(4Variables File dumped as file: %debug.filename, private)
 }

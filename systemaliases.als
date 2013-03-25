@@ -1,4 +1,4 @@
-battle.version { return 2.0beta_0311813 } 
+battle.version { return 2.0 } 
 quitmsg { return Battle Arena version $battle.version written by James  "Iyouboushi" }
 checkscript {
   var %command $1-
@@ -17,15 +17,19 @@ checkscript {
 }
 checkchar {
   var %check $readini($char($1), Stuff, ShopLevel)
-  if (%check = $null) { query %battlechan $readini(translation.dat, errors, NotInDataBank) | halt }
+  if (%check = $null) { $display.system.message($readini(translation.dat, errors, NotInDataBank), private) | halt }
   else { return }
 }
 check.allied.notes {
   var %allied.notes $readini($char($1), stuff, alliednotes) 
   if (%allied.notes = $null) { var %allied.notes no }
   $set_chr_name($1) 
-  if ($2 = channel) {  query %battlechan $readini(translation.dat, system, ViewAlliedNotes) } 
-  else { .msg $nick $readini(translation.dat, system, ViewAlliedNotes) }
+  if ($readini(system.dat, system, botType) = IRC) {
+    if ($2 = channel) {  query %battlechan $readini(translation.dat, system, ViewAlliedNotes) } 
+    else { .msg $nick $readini(translation.dat, system, ViewAlliedNotes) }
+  }
+  if ($readini(system.dat, system, botType) = DCCchat) { $dcc.private.message($nick, $readini(translation.dat, system, ViewAlliedNotes)) }
+
   unset %real.name | unset %hstats 
 }
 lookat {
@@ -42,9 +46,13 @@ lookat {
   if (%equipped.armor.feet = $null) { var %equipped.armor.feet nothing }
   var %equipped.armor.hands $readini($char($1), equipment, hands) 
   if (%equipped.armor.hands = $null) { var %equipped.armor.hands nothing }
-
-  if ($2 = channel) {  /.timerDisplayLook $+ $nick 1 1 query %battlechan 3 $+ %real.name is wearing %equipped.armor.head on $gender($1) head, %equipped.armor.body on $gender($1) body, %equipped.armor.legs on $gender($1) legs, %equipped.armor.feet on $gender($1) feet, %equipped.armor.hands on $gender($1) hands. %real.name also has %equipped.accessory equipped as an accessory and is currently using the %weapon.equipped weapon. }
-  if ($2 != channel) {  /.timerDisplayLook $+ $nick 1 1 .msg $nick 3 $+ %real.name is wearing %equipped.armor.head on $gender($1) head, %equipped.armor.body on $gender($1) body, %equipped.armor.legs on $gender($1) legs, %equipped.armor.feet on $gender($1) feet, %equipped.armor.hands on $gender($1) hands. %real.name also has %equipped.accessory equipped as an accessory and is currently using the %weapon.equipped weapon. }
+  if ($readini(system.dat, system, botType) = IRC) { 
+    if ($2 = channel) {  /.timerDisplayLook $+ $nick 1 1 query %battlechan 3 $+ %real.name is wearing %equipped.armor.head on $gender($1) head, %equipped.armor.body on $gender($1) body, %equipped.armor.legs on $gender($1) legs, %equipped.armor.feet on $gender($1) feet, %equipped.armor.hands on $gender($1) hands. %real.name also has %equipped.accessory equipped as an accessory and is currently using the %weapon.equipped weapon. }
+    if ($2 != channel) {  /.timerDisplayLook $+ $nick 1 1 .msg $nick 3 $+ %real.name is wearing %equipped.armor.head on $gender($1) head, %equipped.armor.body on $gender($1) body, %equipped.armor.legs on $gender($1) legs, %equipped.armor.feet on $gender($1) feet, %equipped.armor.hands on $gender($1) hands. %real.name also has %equipped.accessory equipped as an accessory and is currently using the %weapon.equipped weapon. }
+  }
+  if ($readini(system.dat, system, botType) = DCCchat) {
+    var %look.message 3 $+ %real.name is wearing %equipped.armor.head on $gender($1) head, %equipped.armor.body on $gender($1) body, %equipped.armor.legs on $gender($1) legs, %equipped.armor.feet on $gender($1) feet, %equipped.armor.hands on $gender($1) hands. %real.name also has %equipped.accessory equipped as an accessory and is currently using the %weapon.equipped weapon.
+  $dcc.private.message($nick, %look.message) }
 }
 char { return $mircdir $+ %player_folder $+ $1 $+ .char }
 boss { return $mircdir $+ %boss_folder $+ $1 $+ .char } 
@@ -85,6 +93,25 @@ get.level {
   var %level $round($calc(%level / 20), 1)
 
   return %level
+}
+
+display.system.message {
+  ; $1 = the message
+  ; $2 = is a flag for the DCCchat option to determine where it sends the message
+
+  if ($readini(system.dat, system, botType) = IRC) { query %battlechan $1 }
+  if ($readini(system.dat, system, botType) = DCCchat) { 
+    if ($2 = private) { $dcc.private.message($nick, $1) }
+    if ($2 = battle) { $dcc.battle.message($1) }
+    if ($2 = $null) { $dcc.global.message($1) }
+    if ($2 = global) { $dcc.global.message($1) }
+  }
+}
+display.private.message {
+  if ($readini(system.dat, system, botType) = IRC) {
+    /.timerDisplayPM $+ $rand(1,1000) $+ $rand(a,z) $+ $rand(1,1000) 1 1 /.msg $nick $1 
+  }
+  if ($readini(system.dat, system, botType) = DCCchat) { $dcc.private.message($nick, $1) }
 }
 
 get.unspentpoints {
@@ -224,12 +251,18 @@ amnesia.check {
   if (%amnesia.check = no) { return }
   else { 
     $set_chr_name($1) 
-    query %battlechan $readini(translation.dat, status, CurrentlyAmnesia) | halt 
+    if ($readini(system.dat, system, botType) = IRC) {  query %battlechan $readini(translation.dat, status, CurrentlyAmnesia) }
+    if ($readini(system.dat, system, botType) = DCCchat { $dcc.battle.message($readini(translation.dat, status, CurrentlyAmnesia) }
+    halt 
   }
 }
 
 id_login { set %idwho $1 | unset %newbie | unset %password | unset %userlevel | unset %character.description | .dns %idwho | $clr_passhurt($1) | writeini $char($1) Info LastSeen $fulldate | .close -m* |  unset %guess  | unset %gender | halt }
-okdesc { .msg $1 $readini(translation.dat, system,OKDesc) | return }
+okdesc { 
+  if ($readini(system.dat, system, botType) = IRC) { .msg $1 $readini(translation.dat, system,OKDesc) }
+  if ($readini(system.dat, system, botType) = DCCchat { $dcc.private.message($1, $readini(translation.dat, system,OKDesc))  }
+  return 
+}
 set_chr_name {
   set %real.name $readini($char($1), BaseStats, Name)
   if (%real.name = $null) { set %real.name $1 | return }
@@ -1106,7 +1139,9 @@ clear_most_status {
 clear_status {
   if ($readini($char($1), status, finalgetsuga) = yes) {
     $reset_char($1) | $set_chr_name($1)
-    query %battlechan 4 $+ %real.name feels all of $gender($1) power leaving $gender($1) body, resetting $gender2($1) back to level 1.
+
+    if ($readini(system.dat, system, botType) = IRC) { query %battlechan 4 $+ %real.name feels all of $gender($1) power leaving $gender($1) body, resetting $gender2($1) back to level 1. }
+    if ($readini(system.dat, system, botType) = DCCchat) { $dcc.global.message(4 $+ %real.name feels all of $gender($1) power leaving $gender($1) body, resetting $gender2($1) back to level 1.) }
     unset %real.name
   }
 
@@ -1541,9 +1576,9 @@ clear_variables2 {
   unset %portals.bstmen | unset %allied.notes | unset %portals.kindred | unset %item.name | unset %item_amount | unset %treasure.hunter.percent
   unset %player.ig.current | unset player.ig.max | unset %player.ig.reward | unset %battletxt.current.line | %multiple.wave.noaction | unset %covering.someone
   unset %previous.tp | unset %multiple.wave | unset %portal.multiple.wave | unset %augment.strength | unset %current.monster.level.temp
-  unset %current.monster.weapon.level.temp | unset %weapon.type | unset %original.attackdmg | unset %target
+  unset %current.monster.weapon.level.temp | unset %weapon.type | unset %original.attackdmg | unset %target | unset %monster.level 
   unset %target.tech.null | unset %naturalArmorName | unset %target.stat | unset %base.stat | unset %shop.level | unset %total.price
-
+  unset %random.tech | unset %multiple.wave.noactio | unset %debug.location | unset %multiple.wave.noaction
 }
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1642,7 +1677,8 @@ create_treasurechest {
   if (%chest.amount = $null) { set %chest.amount 1 }
   if (%chest.contents = $null) { unset %chest.amount | unset %color.chest | unset %chest.contents | return } 
 
-  query %battlechan $readini(translation.dat, system, ChestDrops)
+  if ($readini(system.dat, system, botType) = IRC) { query %battlechan $readini(translation.dat, system, ChestDrops) }
+  if ($readini(system.dat, system, botType) = DCCchat) { $dcc.global.message($readini(translation.dat, system, ChestDrops)) }
 
   writeini treasurechest.txt ChestInfo Color %color.chest
   writeini treasurechest.txt ChestInfo Contents %chest.contents
@@ -1656,9 +1692,9 @@ create_treasurechest {
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 destroy_treasurechest {
   if ($readini(treasurechest.txt, ChestInfo, Color) != $null) {
-    query %battlechan $readini(translation.dat, system, ChestDestroyed)
-    .remove treasurechest.txt 
-  }
+  $display.system.message($readini(translation.dat, system, ChestDestroyed),global) }
+  .remove treasurechest.txt 
+}
 }
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1666,310 +1702,331 @@ destroy_treasurechest {
 ; skill.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 treasurehunter.check {
-  unset %battle.list | set %lines $lines(battle.txt) | set %l 1 | set %treasure.hunter.percent 0
-  while (%l <= %lines) { 
-    set %who.battle $read -l [ $+ [ %l ] ] battle.txt | set %status.battle $readini($char(%who.battle), Battle, Status)
-    if (%status.battle = dead) { inc %l 1 }
-    else { 
-      var %treasurehunter.skill $readini($char(%who.battle), skills, treasurehunter) 
-      if (%treasurehunter.skill > 0) { inc %treasure.hunter.percent %treasurehunter.skill }
-      if ($augment.check($1, EnhanceTreasureHunter) = true) { inc %treasure.hunter.percent %augment.strength }
-      inc %l 1 
-    } 
-  }
-  unset %lines | unset %l 
+unset %battle.list | set %lines $lines(battle.txt) | set %l 1 | set %treasure.hunter.percent 0
+while (%l <= %lines) { 
+  set %who.battle $read -l [ $+ [ %l ] ] battle.txt | set %status.battle $readini($char(%who.battle), Battle, Status)
+  if (%status.battle = dead) { inc %l 1 }
+  else { 
+    var %treasurehunter.skill $readini($char(%who.battle), skills, treasurehunter) 
+    if (%treasurehunter.skill > 0) { inc %treasure.hunter.percent %treasurehunter.skill }
+    if ($augment.check($1, EnhanceTreasureHunter) = true) { inc %treasure.hunter.percent %augment.strength }
+    inc %l 1 
+  } 
+}
+unset %lines | unset %l 
 
-  return %treasure.hunter.percent
+return %treasure.hunter.percent
 }
 
 backguard.check {
-  unset %battle.list | set %lines $lines(battle.txt) | set %l 1
-  while (%l <= %lines) { 
-    set %who.battle $read -l [ $+ [ %l ] ] battle.txt 
-    if ($readini($char($1), info, flag) != $null) { inc %l 1 }
-    else { 
-      var %backguard.skill $readini($char(%who.battle), skills,backguard) 
-      if (%backguardskill > 0) { dec %surpriseattack.chance %backguard.skill }
-      inc %l 1 
-    } 
-  }
-  unset %lines | unset %l 
+unset %battle.list | set %lines $lines(battle.txt) | set %l 1
+while (%l <= %lines) { 
+  set %who.battle $read -l [ $+ [ %l ] ] battle.txt 
+  if ($readini($char($1), info, flag) != $null) { inc %l 1 }
+  else { 
+    var %backguard.skill $readini($char(%who.battle), skills,backguard) 
+    if (%backguardskill > 0) { dec %surpriseattack.chance %backguard.skill }
+    inc %l 1 
+  } 
+}
+unset %lines | unset %l 
 }
 
 
 give_random_reward {
-  if ($readini(battle2.txt, battle, bonusitem) != $null) {
+if ($readini(battle2.txt, battle, bonusitem) != $null) {
 
-    if (%battle.type = boss) { var %reward.chance 100 }
-    if (%battle.type != boss) { 
+  if (%battle.type = boss) { var %reward.chance 100 }
+  if (%battle.type != boss) { 
 
-      var %reward.chance $rand(1,100)
-      inc %reward.chance $treasurehunter.check
-    }
-
-    if (%reward.chance < 65) { return }
-
-    set %item.winner $read -l $+ 1 battle.txt 
-    var %winner.flag $readini($char(%item.winner), info, flag)
-    if ((%winner.flag != monster) && (%winner.flag != npc)) {
-      set %boss.item.list $readini(battle2.txt, battle, bonusitem)
-
-      if (%boss.item.list != $null) {
-
-        set %boss.item.total $numtok(%boss.item.list,46)
-        set %random.boss.item $rand(1, %boss.item.total) 
-        set %boss.item $gettok(%boss.item.list,%random.boss.item,46)
-        unset %boss.item.total | unset %boss.item.list | unset %random.boss.item
-        set %item.total $readini($char(%item.winner), item_amount, %boss.item)
-        if (%item.total = $null) { writeini $char(%item.winner) item_amount %boss.item 1 }
-        else { inc %item.total 1 | writeini $char(%item.winner) item_amount %boss.item %item.total }
-        $set_chr_name(%item.winner) | query %battlechan $readini(translation.dat, battle, BonusItemWin) 
-        remini battle2.txt battle bonusitem
-      }
-    }
-    unset %boss.item | unset %item.winner
+    var %reward.chance $rand(1,100)
+    inc %reward.chance $treasurehunter.check
   }
+
+  if (%reward.chance < 65) { return }
+
+  set %item.winner $read -l $+ 1 battle.txt 
+  var %winner.flag $readini($char(%item.winner), info, flag)
+  if ((%winner.flag != monster) && (%winner.flag != npc)) {
+    set %boss.item.list $readini(battle2.txt, battle, bonusitem)
+
+    if (%boss.item.list != $null) {
+
+      set %boss.item.total $numtok(%boss.item.list,46)
+      set %random.boss.item $rand(1, %boss.item.total) 
+      set %boss.item $gettok(%boss.item.list,%random.boss.item,46)
+      unset %boss.item.total | unset %boss.item.list | unset %random.boss.item
+      set %item.total $readini($char(%item.winner), item_amount, %boss.item)
+      if (%item.total = $null) { writeini $char(%item.winner) item_amount %boss.item 1 }
+      else { inc %item.total 1 | writeini $char(%item.winner) item_amount %boss.item %item.total }
+      $set_chr_name(%item.winner) 
+
+      if ($readini(system.dat, system, botType) = IRC) { query %battlechan $readini(translation.dat, battle, BonusItemWin) }
+      if ($readini(system.dat, system, botType) = DCCchat) { $dcc.battle.message($readini(translation.dat, battle, BonusItemWin)) }
+      remini battle2.txt battle bonusitem
+    }
+  }
+  unset %boss.item | unset %item.winner
+}
 }
 
 give_random_key_reward {
-  var %random.key.chance $rand(1,100)
+var %random.key.chance $rand(1,100)
 
-  if (%portal.bonus = true) { %random.key.chance = 100 }
+if (%portal.bonus = true) { %random.key.chance = 100 }
 
-  if (%random.key.chance <= 75) { return }
+if (%random.key.chance <= 75) { return }
 
-  unset %battle.list | set %lines $lines(battle.txt) | set %l 1
-  while (%l <= %lines) { 
-    set %who.battle $read -l [ $+ [ %l ] ] battle.txt | set %status.battle $readini($char(%who.battle), Battle, Status)
-    if (%status.battle = dead) { inc %l 1 }
-    else { 
-      if ($readini($char(%who.battle), info, flag) = $null) { %players.list = $addtok(%players.list, %who.battle, 46) }
-      inc %l 1 
-    } 
-  }
-  unset %lines | unset %l 
+unset %battle.list | set %lines $lines(battle.txt) | set %l 1
+while (%l <= %lines) { 
+  set %who.battle $read -l [ $+ [ %l ] ] battle.txt | set %status.battle $readini($char(%who.battle), Battle, Status)
+  if (%status.battle = dead) { inc %l 1 }
+  else { 
+    if ($readini($char(%who.battle), info, flag) = $null) { %players.list = $addtok(%players.list, %who.battle, 46) }
+    inc %l 1 
+  } 
+}
+unset %lines | unset %l 
 
-  if (%players.list = $null) { return }
+if (%players.list = $null) { return }
 
-  set %random $rand(1, $numtok(%players.list,46))
-  if (%random = $null) { var %random 1 }
-  set %key.winner $gettok(%players.list,%random,46)
+set %random $rand(1, $numtok(%players.list,46))
+if (%random = $null) { var %random 1 }
+set %key.winner $gettok(%players.list,%random,46)
 
-  set %key.list $readini(items.db, items, keys)
-  set %random $rand(1, $numtok(%key.list,46))
-  if (%random = $null) { var %random 1 }
-  set %key.item $gettok(%key.list,%random,46)
+set %key.list $readini(items.db, items, keys)
+set %random $rand(1, $numtok(%key.list,46))
+if (%random = $null) { var %random 1 }
+set %key.item $gettok(%key.list,%random,46)
 
-  set %key.color $readini(items.db, %key.item, unlocks)
+set %key.color $readini(items.db, %key.item, unlocks)
 
-  $set_chr_name(%key.winner)
-  query %battlechan $readini(translation.dat, Battle, KeyWin)
+$set_chr_name(%key.winner)
+if ($readini(system.dat, system, botType) = IRC) {  query %battlechan $readini(translation.dat, Battle, KeyWin) }
+if ($readini(system.dat, system, botType) = DCCchat) { $dcc.battle.message($readini(translation.dat, Battle, KeyWin) }
 
-  set %current.amount $readini($char(%key.winner), item_amount, %key.item) 
-  if (%current.amount = $null) { set %current.amount 0 }
-  inc %current.amount 1 | writeini $char(%key.winner) item_amount %key.item %current.amount
+set %current.amount $readini($char(%key.winner), item_amount, %key.item) 
+if (%current.amount = $null) { set %current.amount 0 }
+inc %current.amount 1 | writeini $char(%key.winner) item_amount %key.item %current.amount
 
-  var %total.number.of.keys $readini($char(%key.winner), stuff, TotalNumberOfKeys) 
-  if (%total.number.of.keys = $null) { var %total.number.of.keys 0 }
-  inc %total.number.of.keys 1
-  writeini $char(%key.winner) stuff TotalNumberOfKeys %total.number.of.keys
-  $achievement_check(%key.winner, AreYouTheKeyMaster)
+var %total.number.of.keys $readini($char(%key.winner), stuff, TotalNumberOfKeys) 
+if (%total.number.of.keys = $null) { var %total.number.of.keys 0 }
+inc %total.number.of.keys 1
+writeini $char(%key.winner) stuff TotalNumberOfKeys %total.number.of.keys
+$achievement_check(%key.winner, AreYouTheKeyMaster)
 
 
-  unset %key.list | unset %key.item | unset %players.list | unset %random | unset %key.item | unset %current.amount | unset %key.winner | unset %key.color
+unset %key.list | unset %key.item | unset %players.list | unset %random | unset %key.item | unset %current.amount | unset %key.winner | unset %key.color
 }
 
 system_defaults_check {
-  if (%player_folder = $null) { set %player_folder characters\ }
-  if (%boss_folder = $null) { set %boss_folder bosses\ }
-  if (%monster_folder = $null) { set %monster_folder monsters\ }
-  if (%zapped_folder = $null) { set %zapped_folder zapped\ }
-  if (%npc_folder = $null) { set %npc_folder npcs\ }
-  if (%summon_folder = $null) { set %summon_folder summons\ }
-  if (%help_folder = $null) { set %help_folder help-files\ }
-  if (%battleis = $null) { set %battleis off }
-  if (%battleisopen = $null) { set %battleisopen off }
+if (%player_folder = $null) { set %player_folder characters\ }
+if (%boss_folder = $null) { set %boss_folder bosses\ }
+if (%monster_folder = $null) { set %monster_folder monsters\ }
+if (%zapped_folder = $null) { set %zapped_folder zapped\ }
+if (%npc_folder = $null) { set %npc_folder npcs\ }
+if (%summon_folder = $null) { set %summon_folder summons\ }
+if (%help_folder = $null) { set %help_folder help-files\ }
+if (%battleis = $null) { set %battleis off }
+if (%battleisopen = $null) { set %battleisopen off }
 
-  if ($readini(system.dat, system, automatedbattlesystem) = $null) { writeini system.dat system automatedbattlesystem on } 
-  if ($readini(system.dat, system, aisystem) = $null) { writeini system.dat system aisystem on } 
-  if ($readini(system.dat, system, basexp) = $null) { writeini system.dat system basexp 100 } 
-  if ($readini(system.dat, system, basebossxp) = $null) { writeini system.dat system basebossxp 500 } 
-  if ($readini(system.dat, system, startingorbs) = $null) { writeini system.dat system startingorbs 1000 } 
-  if ($readini(system.dat, system, maxHP) = $null) { writeini system.dat system maxHP 2500 } 
-  if ($readini(system.dat, system, maxTP) = $null) { writeini system.dat system maxTP 500 } 
-  if ($readini(system.dat, system, maxIG) = $null) { writeini system.dat system maxIG 100 } 
-  if ($readini(system.dat, system, maxOrbReward) = $null) { writeini system.dat system maxOrbReward 20000 } 
-  if ($readini(system.dat, system, maxshoplevel) = $null) { writeini system.dat system maxshoplevel 25 } 
-  if ($readini(battlestats.dat, battle, LevelAdjust) = $null) { writeini battlestats.dat battle LevelAdjust 0 }
-  if ($readini(system.dat, system, EnableDoppelganger) = $null) { writeini system.dat system EnableDoppelganger true }
-  if ($readini(system.dat, system, EnableWarmachine) = $null) { writeini system.dat system EnableWarmachine true }
-  if ($readini(system.dat, system, AllowDemonwall) = $null) { writeini system.dat system AllowDemonwall yes }
-  if ($readini(system.dat, system, EnableChests) = $null) { writeini system.dat system EnableChests true }
-  if ($readini(system.dat, system, MaxCharacters) = $null) { writeini system.dat system MaxCharacters 2 }
-  if ($readini(system.dat, system, TimeForIdle) = $null) { writeini system.dat system TimeForIdle 180 }
-  if ($readini(system.dat, system, TimeToEnter) = $null) { writeini system.dat system TimeToEnter 120 }
-  if ($readini(system.dat, system, ShowOrbsCmdInChannel) = $null) { writeini system.dat system ShowOrbsCmdInChannel true }
-  if ($readini(system.dat, system, BattleDamageFormula) = $null) { writeini system.dat system BattleDamageFormula 2 }
-  if ($readini(system.dat, system, EnableBattlefieldEvents) = $null) { writeini system.dat system EnableBattlefieldEvents true }
-  if ($readini(system.dat, system, GuaranteedBossBattles) = $null) { writeini system.dat system GuaranteedBossBattles 10.15.20.30.60.100.150.180.220.280.320.350.401.440.460.501.560.601.670.705.780.810.890.920.999.1100.1199.1260. 1305.1464.1500.1650.1720.1880.1999.2050.2250.9999  }
-  if ($readini(system.dat, system, BonusEvent) = $null) { writeini system.dat system BonusEvent false }
-  if ($readini(system.dat, system, IgnoreDmgCap) = $null) { writeini system.dat system IgnoreDmgCap false }
-  if ($readini(system.dat, system, MaxNumberOfMonsInBattle) = $null) { writeini system.dat system MaxNumberOfMonsInBattle 6 }
+if ($readini(system.dat, system, botType) = $null) { writeini system.dat system botType IRC }
+if ($readini(system.dat, system, automatedbattlesystem) = $null) { writeini system.dat system automatedbattlesystem on } 
+if ($readini(system.dat, system, aisystem) = $null) { writeini system.dat system aisystem on } 
+if ($readini(system.dat, system, basexp) = $null) { writeini system.dat system basexp 100 } 
+if ($readini(system.dat, system, basebossxp) = $null) { writeini system.dat system basebossxp 500 } 
+if ($readini(system.dat, system, startingorbs) = $null) { writeini system.dat system startingorbs 1000 } 
+if ($readini(system.dat, system, maxHP) = $null) { writeini system.dat system maxHP 2500 } 
+if ($readini(system.dat, system, maxTP) = $null) { writeini system.dat system maxTP 500 } 
+if ($readini(system.dat, system, maxIG) = $null) { writeini system.dat system maxIG 100 } 
+if ($readini(system.dat, system, maxOrbReward) = $null) { writeini system.dat system maxOrbReward 20000 } 
+if ($readini(system.dat, system, maxshoplevel) = $null) { writeini system.dat system maxshoplevel 25 } 
+if ($readini(battlestats.dat, battle, LevelAdjust) = $null) { writeini battlestats.dat battle LevelAdjust 0 }
+if ($readini(system.dat, system, EnableDoppelganger) = $null) { writeini system.dat system EnableDoppelganger true }
+if ($readini(system.dat, system, EnableWarmachine) = $null) { writeini system.dat system EnableWarmachine true }
+if ($readini(system.dat, system, AllowDemonwall) = $null) { writeini system.dat system AllowDemonwall yes }
+if ($readini(system.dat, system, EnableChests) = $null) { writeini system.dat system EnableChests true }
+if ($readini(system.dat, system, MaxCharacters) = $null) { writeini system.dat system MaxCharacters 2 }
+if ($readini(system.dat, system, TimeForIdle) = $null) { writeini system.dat system TimeForIdle 180 }
+if ($readini(system.dat, system, TimeToEnter) = $null) { writeini system.dat system TimeToEnter 120 }
+if ($readini(system.dat, system, ShowOrbsCmdInChannel) = $null) { writeini system.dat system ShowOrbsCmdInChannel true }
+if ($readini(system.dat, system, BattleDamageFormula) = $null) { writeini system.dat system BattleDamageFormula 2 }
+if ($readini(system.dat, system, EnableBattlefieldEvents) = $null) { writeini system.dat system EnableBattlefieldEvents true }
+if ($readini(system.dat, system, GuaranteedBossBattles) = $null) { writeini system.dat system GuaranteedBossBattles 10.15.20.30.60.100.150.180.220.280.320.350.401.440.460.501.560.601.670.705.780.810.890.920.999.1100.1199.1260. 1305.1464.1500.1650.1720.1880.1999.2050.2250.9999  }
+if ($readini(system.dat, system, BonusEvent) = $null) { writeini system.dat system BonusEvent false }
+if ($readini(system.dat, system, IgnoreDmgCap) = $null) { writeini system.dat system IgnoreDmgCap false }
+if ($readini(system.dat, system, MaxNumberOfMonsInBattle) = $null) { writeini system.dat system MaxNumberOfMonsInBattle 6 }
 
-  if ($readini(system.dat, statprices, hp) = $null) { writeini system.dat statprices hp 150 }
-  if ($readini(system.dat, statprices, tp) = $null) { writeini system.dat statprices tp 150 }
-  if ($readini(system.dat, statprices, str) = $null) { writeini system.dat statprices str 250 }
-  if ($readini(system.dat, statprices, def) = $null) { writeini system.dat statprices def 250 }
-  if ($readini(system.dat, statprices, int) = $null) { writeini system.dat statprices int 250 }
-  if ($readini(system.dat, statprices, spd) = $null) { writeini system.dat statprices spd 175 }
-  if ($readini(system.dat, statprices, ig) = $null) { writeini system.dat statprices ig 800 }
+if ($readini(system.dat, statprices, hp) = $null) { writeini system.dat statprices hp 150 }
+if ($readini(system.dat, statprices, tp) = $null) { writeini system.dat statprices tp 150 }
+if ($readini(system.dat, statprices, str) = $null) { writeini system.dat statprices str 250 }
+if ($readini(system.dat, statprices, def) = $null) { writeini system.dat statprices def 250 }
+if ($readini(system.dat, statprices, int) = $null) { writeini system.dat statprices int 250 }
+if ($readini(system.dat, statprices, spd) = $null) { writeini system.dat statprices spd 250 }
+if ($readini(system.dat, statprices, ig) = $null) { writeini system.dat statprices ig 800 }
 }
 
 get_boss_type {
 
-  var %enable.doppelganger $readini(system.dat, system, EnableDoppelganger)
-  var %enable.warmachine $readini(system.dat, system, EnableWarMachine)
+var %enable.doppelganger $readini(system.dat, system, EnableDoppelganger)
+var %enable.warmachine $readini(system.dat, system, EnableWarMachine)
 
-  var %winning.streak.check $readini(battlestats.dat, battle, winningstreak)
-  if (%mode.gauntlet.wave != $null) { inc %winning.streak.check %mode.gauntlet.wave }
+var %winning.streak.check $readini(battlestats.dat, battle, winningstreak)
+if (%mode.gauntlet.wave != $null) { inc %winning.streak.check %mode.gauntlet.wave }
 
-  if (%winning.streak.check > 75) { var %enable.doppelganger false }
-  if (%winning.streak.check >= 300) { var %enable.warmachine false } 
-  if ((%winning.streak.check > 300) && (%winning.streak.check <= 600)) { 
-    if ($readini(system.dat, system, AllowDemonwall) = yes) { var %enable.demonwall true }
-  }
+if (%winning.streak.check > 75) { var %enable.doppelganger false }
+if (%winning.streak.check >= 300) { var %enable.warmachine false } 
+if ((%winning.streak.check > 300) && (%winning.streak.check <= 600)) { 
+  if ($readini(system.dat, system, AllowDemonwall) = yes) { var %enable.demonwall true }
+}
+if ((%winning.streak.check > 600) && (%winning.streak.check <= 5000)) { var %enable.elderdragon true }
 
-  if (%mode.gauntlet = on) { var %enable.demonwall false }
 
-  if (((%enable.doppelganger != true) && (%enable.demonwall != true) && (%enable.warmachine != true))) { set %boss.type normal | return }
-  if ((%enable.doppelganger = true) && (%enable.warmachine = false)) {
-    var %boss.chance $rand(1,100)
-    if (%boss.chance <= 7) { set %boss.type doppelganger | return }
-    else { set %boss.type normal | return }
-  }
-  if ((%enable.doppelganger = false) && (%enable.warmachine = true)) {
-    var %boss.chance $rand(1,100)
-    if (%boss.chance <= 20) { set %boss.type warmachine | return }
-    else { set %boss.type normal | return }
-  }
-  if ((%enable.doppelganger = true) && (%enable.warmachine = true)) {
-    var %boss.chance $rand(1,100)
-    if (%boss.chance <= 7) { set %boss.type doppelganger | return }
-    if ((%boss.chance > 7) && (%boss.chance <= 25)) { set %boss.type warmachine | return }
-    if (%boss.chance >  25) {  set %boss.type normal | return }
-  }
-  if (%enable.demonwall = true) { 
-    var %boss.chance $rand(1,100)
-    if (%boss.chance <= 15) { set %boss.type demonwall | set %demonwall.fight on | return }
-    else { set %boss.type normal | return }
-  }
+if (%mode.gauntlet = on) { var %enable.demonwall false }
+
+if ((((%enable.doppelganger != true) && (%enable.demonwall != true) && (%enable.warmachine != true) && (%enable.elderdragon != true)))) { set %boss.type normal | return }
+if ((%enable.doppelganger = true) && (%enable.warmachine = false)) {
+  var %boss.chance $rand(1,100)
+  if (%boss.chance <= 7) { set %boss.type doppelganger | return }
+  else { set %boss.type normal | return }
+}
+if ((%enable.doppelganger = false) && (%enable.warmachine = true)) {
+  var %boss.chance $rand(1,100)
+  if (%boss.chance <= 20) { set %boss.type warmachine | return }
+  else { set %boss.type normal | return }
+}
+if ((%enable.doppelganger = true) && (%enable.warmachine = true)) {
+  var %boss.chance $rand(1,100)
+  if (%boss.chance <= 7) { set %boss.type doppelganger | return }
+  if ((%boss.chance > 7) && (%boss.chance <= 25)) { set %boss.type warmachine | return }
+  if (%boss.chance >  25) {  set %boss.type normal | return }
+}
+if (%enable.demonwall = true) { 
+  var %boss.chance $rand(1,100)
+  if (%boss.chance <= 15) { set %boss.type demonwall | set %demonwall.fight on | return }
+  else { set %boss.type normal | return }
+}
+
+if (%enable.elderdragon = true) { 
+  var %boss.chance $rand(1,100)
+  if (%boss.chance <= 15) { set %boss.type elderdragon | return }
+  else { set %boss.type normal | return }
+}
 
 }
 
 augment.check {
-  ; 1 = user
-  ; 2 = augment name
+; 1 = user
+; 2 = augment name
 
-  set %weapon.name.temp $readini($char($1), weapons, equipped)
-  set %ignition.augment $readini($char($1), status, ignition.augment) 
-  set %weapon.augment $readini($char($1), augments, %weapon.name.temp)
+set %weapon.name.temp $readini($char($1), weapons, equipped)
+set %ignition.augment $readini($char($1), status, ignition.augment) 
+set %weapon.augment $readini($char($1), augments, %weapon.name.temp)
 
-  set %equipment.head.augment $readini(equipment.db, $readini($char($1), equipment, head), augment)
-  set %equipment.body.augment $readini(equipment.db, $readini($char($1), equipment, body), augment)
-  set %equipment.legs.augment $readini(equipment.db, $readini($char($1), equipment, legs), augment)
-  set %equipment.feet.augment $readini(equipment.db, $readini($char($1), equipment, feet), augment)
-  set %equipment.hands.augment $readini(equipment.db, $readini($char($1), equipment, hands), augment)
+set %equipment.head.augment $readini(equipment.db, $readini($char($1), equipment, head), augment)
+set %equipment.body.augment $readini(equipment.db, $readini($char($1), equipment, body), augment)
+set %equipment.legs.augment $readini(equipment.db, $readini($char($1), equipment, legs), augment)
+set %equipment.feet.augment $readini(equipment.db, $readini($char($1), equipment, feet), augment)
+set %equipment.hands.augment $readini(equipment.db, $readini($char($1), equipment, hands), augment)
 
-  unset %weapon.name.temp
-  set %augment.strength 0
+unset %weapon.name.temp
+set %augment.strength 0
 
-  if ($istok(%ignition.augment,$2,46) = $true) { inc %augment.strength 1 | set %augment.found true }
-  if ($istok(%weapon.augment,$2,46) = $true) { inc %augment.strength 1 | set %augment.found true }
-  if ($istok(%equipment.head.augment,$2,46) = $true) { inc %augment.strength 1 | set %augment.found true }
-  if ($istok(%equipment.body.augment,$2,46) = $true) { inc %augment.strength 1 | set %augment.found true }
-  if ($istok(%equipment.legs.augment,$2,46) = $true) { inc %augment.strength 1 | set %augment.found true }
-  if ($istok(%equipment.feet.augment,$2,46) = $true) { inc %augment.strength 1 | set %augment.found true }
-  if ($istok(%equipment.hands.augment,$2,46) = $true) { inc %augment.strength 1 | set %augment.found true }
+if ($istok(%ignition.augment,$2,46) = $true) { inc %augment.strength 1 | set %augment.found true }
+if ($istok(%weapon.augment,$2,46) = $true) { inc %augment.strength 1 | set %augment.found true }
+if ($istok(%equipment.head.augment,$2,46) = $true) { inc %augment.strength 1 | set %augment.found true }
+if ($istok(%equipment.body.augment,$2,46) = $true) { inc %augment.strength 1 | set %augment.found true }
+if ($istok(%equipment.legs.augment,$2,46) = $true) { inc %augment.strength 1 | set %augment.found true }
+if ($istok(%equipment.feet.augment,$2,46) = $true) { inc %augment.strength 1 | set %augment.found true }
+if ($istok(%equipment.hands.augment,$2,46) = $true) { inc %augment.strength 1 | set %augment.found true }
 
-  if (($readini($char($1), status, FinalGetsuga) = yes) && ($readini($char($1), info, flag) = $null)) { inc %augment.strength 5 | set %augment.found true }
+if (($readini($char($1), status, FinalGetsuga) = yes) && ($readini($char($1), info, flag) = $null)) { inc %augment.strength 5 | set %augment.found true }
 
-  unset %weapon.augment  | unset %ignition.augment | unset %equipment.head.augment | unset %equipment.body.augment
-  unset %equipment.legs.augment | unset %equipment.feet.augment | unset %equipment.hands.augment
+unset %weapon.augment  | unset %ignition.augment | unset %equipment.head.augment | unset %equipment.body.augment
+unset %equipment.legs.augment | unset %equipment.feet.augment | unset %equipment.hands.augment
 
-  if (%augment.found != true) { return false }
-  if (%augment.found = true) { unset %augment.found | return true }
+if (%augment.found != true) { return false }
+if (%augment.found = true) { unset %augment.found | return true }
 }
 
 orb.adjust {
-  var %winning.streak $readini(battlestats.dat, battle, WinningStreak)
-  if (%base.redorbs <= 1000) { return }
+var %winning.streak $readini(battlestats.dat, battle, WinningStreak)
+if (%base.redorbs <= 1000) { return }
 
-  if (%mode.gauntlet.wave != $null) { inc %winning.streak %mode.gauntlet.wave }      
+if (%mode.gauntlet.wave != $null) { inc %winning.streak %mode.gauntlet.wave }      
 
-  var %difficulty $readini(battle2.txt, BattleInfo, Difficulty)
-  if (%difficulty != 0) {  inc %winning.streak %difficulty }
+var %difficulty $readini(battle2.txt, BattleInfo, Difficulty)
+if (%difficulty != 0) {  inc %winning.streak %difficulty }
 
-  if (%portal.bonus = true) {  var %winning.streak 500 }
+if (%portal.bonus = true) {  var %winning.streak 500 }
 
-  if (%winning.streak < 50) { set %base.redorbs $round($calc(1000 + (%base.redorbs * .35)),0) }
-  if ((%winning.streak >= 50) && (%winning.streak < 100)) { set %base.redorbs $round($calc(1000 + (%base.redorbs * .40)),0) }
-  if ((%winning.streak >= 100) && (%winning.streak < 200)) { return }
-  if ((%winning.streak >= 200) && (%winning.streak < 300)) { set %base.redorbs $round($calc(%base.redorbs * 1.45),0) }
-  if ((%winning.streak >= 300) && (%winning.streak < 500)) { set %base.redorbs $round($calc(%base.redorbs * 1.555),0) }
-  if ((%winning.streak >= 500) && (%winning.streak < 800)) { set %base.redorbs $round($calc(%base.redorbs * 1.692),0) }
-  if ((%winning.streak >= 800) && (%winning.streak < 1000)) { set %base.redorbs $round($calc(%base.redorbs * 1.798),0) }
-  if ((%winning.streak >= 1000) && (%winning.streak < 1200)) { set %base.redorbs $round($calc(%base.redorbs * 2.190),0) }
-  if ((%winning.streak >= 1200) && (%winning.streak < 1500)) { set %base.redorbs $round($calc(%base.redorbs * 2.5),0) }
-  if ((%winning.streak >= 1500) && (%winning.streak < 2000)) { set %base.redorbs $round($calc(%base.redorbs * 2.95),0) }
-  if (%winning.streak >= 2000) { set %base.redorbs $round($calc(%base.redorbs * 3.15),0) }
+if (%winning.streak < 50) { set %base.redorbs $round($calc(1000 + (%base.redorbs * .35)),0) }
+if ((%winning.streak >= 50) && (%winning.streak < 100)) { set %base.redorbs $round($calc(1000 + (%base.redorbs * .40)),0) }
+if ((%winning.streak >= 100) && (%winning.streak < 200)) { return }
+if ((%winning.streak >= 200) && (%winning.streak < 300)) { set %base.redorbs $round($calc(%base.redorbs * 1.45),0) }
+if ((%winning.streak >= 300) && (%winning.streak < 500)) { set %base.redorbs $round($calc(%base.redorbs * 1.555),0) }
+if ((%winning.streak >= 500) && (%winning.streak < 800)) { set %base.redorbs $round($calc(%base.redorbs * 1.692),0) }
+if ((%winning.streak >= 800) && (%winning.streak < 1000)) { set %base.redorbs $round($calc(%base.redorbs * 1.798),0) }
+if ((%winning.streak >= 1000) && (%winning.streak < 1200)) { set %base.redorbs $round($calc(%base.redorbs * 2.190),0) }
+if ((%winning.streak >= 1200) && (%winning.streak < 1500)) { set %base.redorbs $round($calc(%base.redorbs * 2.5),0) }
+if ((%winning.streak >= 1500) && (%winning.streak < 2000)) { set %base.redorbs $round($calc(%base.redorbs * 2.95),0) }
+if (%winning.streak >= 2000) { set %base.redorbs $round($calc(%base.redorbs * 3.15),0) }
 }
 
 give_alliednotes {
-  set %allied.notes $readini($char($1), stuff, alliednotes)
-  if (%allied.notes = $null) { set %allied.notes 0 }
-  inc %allied.notes $readini(battle2.txt, battle, alliednotes)
-  writeini $char($1) stuff alliednotes %allied.notes
+set %allied.notes $readini($char($1), stuff, alliednotes)
+if (%allied.notes = $null) { set %allied.notes 0 }
+inc %allied.notes $readini(battle2.txt, battle, alliednotes)
+writeini $char($1) stuff alliednotes %allied.notes
 }
 
 increase.death.tally {
-  if ($readini($char($1), info, flag) = monster) {
+if ($readini($char($1), info, flag) = monster) {
 
-    if ($isfile($boss($1)) = $true) { 
-      var %boss.deaths $readini(monsterdeaths.lst, boss, $1) 
-      if (%boss.deaths = $null) { var %boss.deaths 0 }
-      inc %boss.deaths 1
-      writeini monsterdeaths.lst boss $1 %boss.deaths
-    }
-    if ($isfile($mon($1)) = $true) { 
-      var %monster.deaths $readini(monsterdeaths.lst, monster, $1) 
-      if (%monster.deaths = $null) { var %monster.deaths 0 }
-      inc %monster.deaths 1
-      writeini monsterdeaths.lst monster $1 %monster.deaths
-    }
+  if ($isfile($boss($1)) = $true) { 
+    var %boss.deaths $readini(monsterdeaths.lst, boss, $1) 
+    if (%boss.deaths = $null) { var %boss.deaths 0 }
+    inc %boss.deaths 1
+    writeini monsterdeaths.lst boss $1 %boss.deaths
   }
+  if ($isfile($mon($1)) = $true) { 
+    var %monster.deaths $readini(monsterdeaths.lst, monster, $1) 
+    if (%monster.deaths = $null) { var %monster.deaths 0 }
+    inc %monster.deaths 1
+    writeini monsterdeaths.lst monster $1 %monster.deaths
+  }
+}
 }
 
 inc_monster_kills {
-  var %monster.kills $readini($char($1), stuff, MonsterKills)
-  if (%monster.kills = $null) { var %monster.kills 0 }
-  inc %monster.kills 1 
-  writeini $char($1) stuff MonsterKills %monster.kills
-  $achievement_check($1, MonsterSlayer)
+var %monster.kills $readini($char($1), stuff, MonsterKills)
+if (%monster.kills = $null) { var %monster.kills 0 }
+inc %monster.kills 1 
+writeini $char($1) stuff MonsterKills %monster.kills
+$achievement_check($1, MonsterSlayer)
 }
 
 increase_death_tally {
-  if ($readini($char($1), info, flag) = npc) { return }
-  var %deaths $readini($char($1), stuff, TotalDeaths)
-  if (%deaths = $null) { var %deaths 0 } 
-  inc %deaths 1
-  writeini $char($1) stuff TotalDeaths %deaths
+if ($readini($char($1), info, flag) = npc) { return }
+var %deaths $readini($char($1), stuff, TotalDeaths)
+if (%deaths = $null) { var %deaths 0 } 
+inc %deaths 1
+writeini $char($1) stuff TotalDeaths %deaths
 }
 
 check.clone.death {
-  if ($isfile($char($1 $+ _clone)) = $true) { 
-    if ($readini($char($1 $+ _clone), battle, status) != dead) { writeini $char($1 $+ _clone) battle status dead | writeini $char($1 $+ _clone) battle hp 0 | $set_chr_name($1 $+ _clone) | /.timerCloneDeath $+ $1 1 1 /query %battlechan 4 $+ %real.name disappears back into $set_chr_name($1) %real.name $+ 's shadow. }
+if ($isfile($char($1 $+ _clone)) = $true) { 
+  if ($readini($char($1 $+ _clone), battle, status) != dead) { writeini $char($1 $+ _clone) battle status dead | writeini $char($1 $+ _clone) battle hp 0 | $set_chr_name($1 $+ _clone) 
+
+    if ($readini(system.dat, system, botType) = IRC) {  /.timerCloneDeath $+ $1 1 1 /query %battlechan 4 $+ %real.name disappears back into $set_chr_name($1) %real.name $+ 's shadow.  }
+    if ($readini(system.dat, system, botType) = DCCchat) { $dcc.battle.message(4 $+ %real.name disappears back into $set_chr_name($1) %real.name $+ 's shadow.) }
   }
-  if ($isfile($char($1 $+ _summon)) = $true) { 
-    if ($readini($char($1 $+ _summon), battle, status) != dead) { writeini $char($1 $+ _summon) battle status dead | writeini $char($1 $+ _summon) battle hp 0 | $set_chr_name($1 $+ _summon) | /.timerSummonDeath $+ $1 1 1 /query %battlechan 4 $+ %real.name fades away. }
+}
+if ($isfile($char($1 $+ _summon)) = $true) { 
+  if ($readini($char($1 $+ _summon), battle, status) != dead) { writeini $char($1 $+ _summon) battle status dead | writeini $char($1 $+ _summon) battle hp 0 | $set_chr_name($1 $+ _summon) 
+
+    if ($readini(system.dat, system, botType) = IRC) {  /.timerSummonDeath $+ $1 1 1 /query %battlechan 4 $+ %real.name fades away. }
+    if ($readini(system.dat, system, botType) = DCCchat) { $dcc.battle.message(4 $+ %real.name fades away.) }
   }
+}
 }

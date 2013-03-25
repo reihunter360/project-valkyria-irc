@@ -2,7 +2,9 @@
 ;;;;  SHOP COMMANDS
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-on 2:TEXT:!shop*:*: { 
+on 3:TEXT:!shop*:*: { $shop.start($1, $2, $3, $4, $5) }
+
+alias shop.start {
 
   ; For now let's check to make sure the shop level isn't over 25.
   var %max.shop.level $readini(system.dat, system, maxshoplevel)
@@ -14,14 +16,14 @@ on 2:TEXT:!shop*:*: {
   $set_chr_name($nick) 
   unset %shop.list
   if ($2 = $null) { $gamehelp(Shop, $nick)  | halt  }
-  if ($2 = level) { .msg $nick $readini(translation.dat, system, CurrentShopLevel) | halt }
+  if ($2 = level) { $display.private.message($readini(translation.dat, system, CurrentShopLevel)) | halt }
 
-  if ($5 = 0) { .msg $nick $readini(translation.dat, errors, Can'tBuy0ofThat) | halt }
+  if ($5 = 0) {  $display.private.message($readini(translation.dat, errors, Can'tBuy0ofThat)) | halt }
 
 
   if ($2 = sell) {
     var %sellable.stuff items.accessories.accessory.gems.techs
-    if ($3 !isin %sellable.stuff) { .msg $nick $readini(translation.dat, errors, Can'tSellThat) | halt }
+    if ($3 !isin %sellable.stuff) { $display.private.message($readini(translation.dat, errors, Can'tSellThat)) | halt }
     var %amount.to.sell $abs($5)
     if (%amount.to.sell = $null) { var %amount.to.sell 1 }
     if (($3 = item) || ($3 = items)) { $shop.items($nick, sell, $4, %amount.to.sell) | halt }
@@ -33,10 +35,10 @@ on 2:TEXT:!shop*:*: {
 
   if (($2 = buy) || ($2 = purchase)) { 
     if (%battleis = on) { 
-      if ($nick isin $readini(battle2.txt, Battle, List)) { .msg $nick $readini(translation.dat, errors, Can'tUseShopInBattle) | halt }
+      if ($nick isin $readini(battle2.txt, Battle, List)) {  $display.private.message($readini(translation.dat, errors, Can'tUseShopInBattle)) | halt }
     }
 
-    if ($3 = $null) { .msg $nick 4Error: Use !shop buy <items/techs/skills/stats/weapons/styles/ignitions/orbs/portal> <what to buy>  }
+    if ($3 = $null) {  $display.private.message(4Error: Use !shop buy <items/techs/skills/stats/weapons/styles/ignitions/orbs/portal/misc> <what to buy>)  }
     var %amount.to.purchase $abs($5)
     if (%amount.to.purchase = $null) { var %amount.to.purchase 1 }
 
@@ -56,7 +58,7 @@ on 2:TEXT:!shop*:*: {
     if (($3 = style) || ($3 = styles))  { $shop.styles($nick, buy, $4) | halt }
     if (($3 = ignition) || ($3 = ignitions))  { $shop.ignitions($nick, buy, $4) | halt }
 
-    else { .msg $nick 4Error: Use !shop list <items/techs/skills/stats/weapons/orbs/ignitions/styles/portal>  or !shop buy <items/techs/skills/stats/weapons/orbs/style/ignitions/portal> <what to buy>  | halt }
+    else {  $display.private.message(4Error: Use !shop list <items/techs/skills/stats/weapons/orbs/ignitions/styles/portal/misc>  or !shop buy <items/techs/skills/stats/weapons/orbs/style/ignitions/portal/misc> <what to buy>)  | halt }
   }
 
   if ($2 = list) { 
@@ -78,23 +80,23 @@ on 2:TEXT:!shop*:*: {
     if (($3 = alchemy) || ($3 = misc)) { $shop.alchemy($nick, list) }
     if (($3 = alliednotes) || ($3 = gems)) { $shop.alchemy($nick, list) }
   }
-  else { .msg $nick 4Error: Use !shop list <items/techs/skills/stats/weapons/styles/ignitions/orbs/portal>  !shop buy <items/techs/skills/stats/weapons/styles/ignitions/orbs/portal> <what to buy>  or !shop sell <items/accessories/gems/techs> <what to sell> | halt }
+  else {  $display.private.message(4Error: Use !shop list <items/techs/skills/stats/weapons/orbs/ignitions/styles/portal/misc>  or !shop buy <items/techs/skills/stats/weapons/orbs/style/ignitions/portal/misc> <what to buy>)  | halt }
 
 }
 
 alias shop.accessories {
   if ($2 = sell) {
     ; is it a valid item?
-    if ($readini(items.db, $3, type) = $null) { .msg $nick 4Error: Invalid accessory. | halt }
+    if ($readini(items.db, $3, type) = $null) { $display.private.message(4Error: Invalid accessory.) | halt }
 
     ; Does the player have it?
     var %player.items $readini($char($1), Item_Amount, $3)
-    if (%player.items = $null) { .msg $nick $readini(translation.dat, errors, DoNotHaveAccessoryToSell) | halt }
-    if (%player.items < $4) { .msg $nick $readini(translation.dat, errors, DoNotHaveEnoughItemToSell) | halt }
+    if (%player.items = $null) { $display.private.message($readini(translation.dat, errors, DoNotHaveAccessoryToSell)) | halt }
+    if (%player.items < $4) { $display.private.message($readini(translation.dat, errors, DoNotHaveEnoughItemToSell)) | halt }
 
     var %equipped.accessory $readini($char($1), equipment, accessory)
     if (%equipped.accessory = $3) {
-      if (%player.items = 1) { .msg $nick $readini(translation.dat, errors, StillWearingAccessory) | halt }
+      if (%player.items = 1) { $display.private.message($readini(translation.dat, errors, StillWearingAccessory)) | halt }
     }
     ; If so, decrease the amount
     dec %player.items $4
@@ -119,7 +121,7 @@ alias shop.accessories {
     inc %player.redorbs %total.price
     writeini $char($1) stuff redorbs %player.redorbs
 
-    .msg $nick $readini(translation.dat, system, SellMessage)
+    $display.private.message($readini(translation.dat, system, SellMessage))
   }
 }
 
@@ -141,7 +143,7 @@ alias shop.items {
     }
 
     if (%shop.list != $null) {  $shop.cleanlist 
-      /.timerHealingItems $+ $nick 1 1 /.msg $nick 3Healing Items:2 %shop.list
+      $display.private.message(3Healing Items:2 %shop.list)
     }
 
     ; CHECKING BATTLE ITEMS
@@ -158,7 +160,7 @@ alias shop.items {
     }
 
     if (%shop.list != $null) {  $shop.cleanlist 
-      /.timerBattleItems $+ $nick 1 1 /.msg $nick 4Battle Items:2 %shop.list
+      $display.private.message(4Battle Items:2 %shop.list)
     }
 
     ; CHECKING CONSUMABLE ITEMS
@@ -175,7 +177,7 @@ alias shop.items {
     }
 
     if (%shop.list != $null) {  $shop.cleanlist 
-      /.timerConsumeItems $+ $nick 1 1 /.msg $nick 14Items Used For Skills:2 %shop.list
+      $display.private.message(14Items Used For Skills:2 %shop.list)
     }
 
     ; CHECKING SUMMON ITEMS
@@ -192,7 +194,7 @@ alias shop.items {
     }
 
     if (%shop.list != $null) {  $shop.cleanlist 
-      /.timerSummonItems $+ $nick 1 1 /.msg $nick 10Items Used For Summons:2 %shop.list
+      $display.private.message(10Items Used For Summons:2 %shop.list)
     }
 
     ; CHECKING SHOP RESET ITEMS
@@ -209,26 +211,25 @@ alias shop.items {
     }
 
     if (%shop.list != $null) {  $shop.cleanlist 
-      /.timerShopResetItems $+ $nick 1 1 /.msg $nick 12Items Used To Lower Shop Levels:2 %shop.list
+      $display.private.message(12Items Used To Lower Shop Levels:2 %shop.list)
     }
-
 
     unset %item.price | unset %item.name
   }
 
   if (($2 = buy) || ($2 = purchase)) {
     ; is it a valid item?
-    if ($readini(items.db, $3, type) = $null) { .msg $nick 4Error: Invalid item. Use! !shop list items to get a valid list | halt }
+    if ($readini(items.db, $3, type) = $null) { $display.private.message(4Error: Invalid item. Use! !shop list items to get a valid list) | halt }
 
-    if ($readini(items.db, $3, currency) != $null) { .msg $nick 4Error: You cannot buy this item via this command! | halt }
+    if ($readini(items.db, $3, currency) != $null) { $display.private.message(4Error: You cannot buy this item via this command!) | halt }
 
     ; do you have enough to buy it?
     var %player.redorbs $readini($char($1), stuff, redorbs)
     var %total.price $readini(items.db, $3, cost)
     %total.price = $calc($4 * %total.price)
-    if (%total.price = 0) { .msg $nick 4You cannot buy this item! | halt }
+    if (%total.price = 0) {  $display.private.message(4You cannot buy this item!) | halt }
 
-    if (%player.redorbs < %total.price) { .msg $nick 4You do not have enough red orbs to purchase this item! | halt }
+    if (%player.redorbs < %total.price) { $display.private.message(4You do not have enough red orbs to purchase this item!) | halt }
 
     ; if so, increase the amount and add the item
     var %player.items $readini($char($1), Item_Amount, $3)
@@ -239,18 +240,18 @@ alias shop.items {
     dec %player.redorbs %total.price
     writeini $char($1) stuff redorbs %player.redorbs
 
-    .msg $nick 3You spend %total.price  $+ $readini(system.dat, system, currency) for $4 $3 $+ (s)!
+    $display.private.message(3You spend %total.price  $+ $readini(system.dat, system, currency) for $4 $3 $+ (s)!)
     $inc.redorbsspent($1, %total.price)
   }
 
   if ($2 = sell) {
     ; is it a valid item?
-    if ($readini(items.db, $3, type) = $null) { .msg $nick 4Error: Invalid item. Use! !shop list items to get a valid list | halt }
+    if ($readini(items.db, $3, type) = $null) { $display.private.message(4Error: Invalid item. Use! !shop list items to get a valid list) | halt }
 
     ; Does the player have it?
     var %player.items $readini($char($1), Item_Amount, $3)
-    if (%player.items = $null) { .msg $nick 4Error: You do not have this item to sell! | halt }
-    if (%player.items < $4) { .msg $nick 4Error: You do not have $4 of this item to sell! | halt }
+    if (%player.items = $null) { $display.private.message(4Error: You do not have this item to sell!) | halt }
+    if (%player.items < $4) { $display.private.message(4Error: You do not have $4 of this item to sell!) | halt }
 
     var %total.price $readini(items.db, $3, cost)
     %total.price = $round($calc(%total.price / 2.5),0)
@@ -279,7 +280,7 @@ alias shop.items {
     inc %number.of.items.sold $4
     writeini $char($1) stuff ItemsSold %number.of.items.sold
     $achievement_check($1, MakeMoney)
-    .msg $nick 3A shop keeper wearing a green and white bucket hat takes $4 $3 $+ (s) from you and gives you %total.price $readini(system.dat, system, currency) $+ !
+    $display.private.message(3A shop keeper wearing a green and white bucket hat takes $4 $3 $+ (s) from you and gives you %total.price $readini(system.dat, system, currency) $+ !)
     unset %total.price
   }
 }
@@ -318,7 +319,7 @@ alias shop.techs {
 
     ; display the list with the prices.
     $shop.cleanlist
-    .msg $nick 2Tech Prices in $readini(system.dat, system, currency) $+ : %shop.list  
+    $display.private.message(2Tech Prices in $readini(system.dat, system, currency) $+ : %shop.list ) 
     unset %player.amount
   }
 
@@ -326,7 +327,7 @@ alias shop.techs {
     ; is it a valid tech?
     $weapon_equipped($1)
     set %weapon.abilities $readini(weapons.db, %weapon.equipped, abilities)
-    if ($istok(%weapon.abilities,$3,46) = $false) { .msg $nick 4Error: Invalid item. Use! !shop list techs to get a valid list | halt }
+    if ($istok(%weapon.abilities,$3,46) = $false) { $display.private.message(4Error: Invalid item. Use! !shop list techs to get a valid list ) | halt }
     unset %weapon.abilities
 
     ; do you have enough to buy it?
@@ -335,24 +336,23 @@ alias shop.techs {
 
     set %total.price $shop.calculate.totalcost($1, $4, %base.cost)
 
-    if (%player.redorbs < %total.price) { .msg $nick 4You do not have enough $readini(system.dat, system, currency) to purchase this item! | halt }
+    if (%player.redorbs < %total.price) { $display.private.message(4You do not have enough $readini(system.dat, system, currency) to purchase this item!) | halt }
 
     var %current.techlevel $readini($char($1), techniques, $3)
-
 
     if ($readini(techniques.db, $3, type) = buff) { var %max.techlevel 1 }
     if ($readini(techniques.db, $3, type) != buff) {  var %max.techlevel 500 }
 
-    if (%current.techlevel >= %max.techlevel) {  .msg $nick 4You cannot buy any more levels of $3 $+ . | halt }
+    if (%current.techlevel >= %max.techlevel) {  $display.private.message(4You cannot buy any more levels of $3 $+ .) | halt }
 
     ; if so, increase the amount and add it to the list
     inc %current.techlevel $4
 
-    if (%current.techlevel > %max.techlevel) {  .msg $nick 4Purchasing this amount will put you over the max limit. Please lower the amount and try again. | halt }
+    if (%current.techlevel > %max.techlevel) {  $display.private.message(4Purchasing this amount will put you over the max limit. Please lower the amount and try again.) | halt }
 
     writeini $char($1) techniques $3 %current.techlevel
 
-    .msg $nick 3You spend $bytes(%total.price,b)  $+  $readini(system.dat, system, currency) for + $+ $4 to your $3 technique $+ !
+    $display.private.message(3You spend $bytes(%total.price,b)  $+  $readini(system.dat, system, currency) for + $+ $4 to your $3 technique $+ !)
 
     ; decrease amount of orbs you have.
     dec %player.redorbs %total.price
@@ -365,12 +365,12 @@ alias shop.techs {
 
   if ($2 = sell) {
     ; is it a valid item?
-    if ($readini(techniques.db, $3, type) = $null) { .msg $nick 4Error: Invalid tech. Use! !techs to get a valid list of techs you own. | halt }
+    if ($readini(techniques.db, $3, type) = $null) {  $display.private.message(4Error: Invalid tech. Use! !techs to get a valid list of techs you own.) | halt }
 
     ; Does the player have it?
     var %player.items $readini($char($1), techniques, $3)
-    if (%player.items = $null) { .msg $nick 4Error: You do not have this tech to sell! | halt }
-    if (%player.items < $4) { .msg $nick 4Error: You do not have $4 levels of this tech to sell! | halt }
+    if (%player.items = $null) {  $display.private.message(4Error: You do not have this tech to sell!) | halt }
+    if (%player.items < $4) {  $display.private.message(4Error: You do not have $4 levels of this tech to sell!) | halt }
 
     set %total.price $readini(techniques.db, $3, cost)
 
@@ -395,7 +395,7 @@ alias shop.techs {
     inc %player.redorbs %total.price
     writeini $char($1) stuff redorbs %player.redorbs
 
-    .msg $nick 3A shop keeper wearing a green and white bucket hat uses a special incantation to take $4 level(s) of $3 $+  from you and gives you %total.price $readini(system.dat, system, currency) $+ !
+    $display.private.message(3A shop keeper wearing a green and white bucket hat uses a special incantation to take $4 level(s) of $3 $+  from you and gives you %total.price $readini(system.dat, system, currency) $+ !)
     unset %total.price
   }
 }
@@ -420,11 +420,31 @@ alias shop.skills {
       if (%skill.have >= %skill.max) { inc %value 1 }
       else { 
         set %skill.price $round($calc(%shop.level * $readini(skills.db, %skill.name, cost)),0)
-        if ((%total.passive.skills <= 11) || (%total.passive.skills = $null)) {  %shop.list.passiveskills = $addtok(%shop.list.passiveskills, $+ %skill.name $+ +1 ( $+ %skill.price $+ ),46) }
-        if (%total.passive.skills > 11) {  %shop.list.passiveskills2 = $addtok(%shop.list.passiveskills2, $+ %skill.name $+ +1 ( $+ %skill.price $+ ),46) }
+        if ((%total.passive.skills <= 15) || (%total.passive.skills = $null)) {  %shop.list.passiveskills = $addtok(%shop.list.passiveskills, $+ %skill.name $+ +1 ( $+ %skill.price $+ ),46) }
+        if (%total.passive.skills > 15) {  %shop.list.passiveskills2 = $addtok(%shop.list.passiveskills2, $+ %skill.name $+ +1 ( $+ %skill.price $+ ),46) }
         inc %value 1 | inc %total.passive.skills 1
       }
     }
+
+    unset %skill.list 
+    set %skill.list $readini(skills.db, Skills, PassiveSkills2)
+    var %number.of.items $numtok(%skill.list, 46)
+    var %value 1
+    while (%value <= %number.of.items) {
+      set %skill.name $gettok(%skill.list, %value, 46)
+      set %skill.max $readini(skills.db, %skill.name, max)
+      set %skill.have $readini($char($1), skills, %skill.name)
+
+      if (%skill.have >= %skill.max) { inc %value 1 }
+      else { 
+        set %skill.price $round($calc(%shop.level * $readini(skills.db, %skill.name, cost)),0)
+        if ((%total.passive.skills <= 15) || (%total.passive.skills = $null)) {  %shop.list.passiveskills = $addtok(%shop.list.passiveskills, $+ %skill.name $+ +1 ( $+ %skill.price $+ ),46) }
+        if (%total.passive.skills > 15) {  %shop.list.passiveskills2 = $addtok(%shop.list.passiveskills2, $+ %skill.name $+ +1 ( $+ %skill.price $+ ),46) }
+        inc %value 1 | inc %total.passive.skills 1
+      }
+    }
+
+
     set %replacechar $chr(044) $chr(032) |  %shop.list.passiveskills = $replace(%shop.list.passiveskills, $chr(046), %replacechar) | %shop.list.passiveskills2 = $replace(%shop.list.passiveskills2, $chr(046), %replacechar)
 
     ; CHECKING ACTIVE SKILLS
@@ -441,8 +461,27 @@ alias shop.skills {
       if (%skill.have >= %skill.max) { inc %value 1 }
       else { 
         set %skill.price $round($calc(%shop.level * $readini(skills.db, %skill.name, cost)),0)
-        if ((%total.active.skills <= 13) || (%total.active.skills = $null)) {   %shop.list.activeskills = $addtok(%shop.list.activeskills, $+ %skill.name $+ +1 ( $+ %skill.price $+ ),46) }
-        if (%total.active.skills > 13) {   %shop.list.activeskills2 = $addtok(%shop.list.activeskills2, $+ %skill.name $+ +1 ( $+ %skill.price $+ ),46) }
+        if ((%total.active.skills <= 15) || (%total.active.skills = $null)) {   %shop.list.activeskills = $addtok(%shop.list.activeskills, $+ %skill.name $+ +1 ( $+ %skill.price $+ ),46) }
+        if (%total.active.skills > 15) {   %shop.list.activeskills2 = $addtok(%shop.list.activeskills2, $+ %skill.name $+ +1 ( $+ %skill.price $+ ),46) }
+
+        inc %value 1 |  inc %total.active.skills 1
+      }
+    }
+
+    unset %skill.list 
+    set %skill.list $readini(skills.db, Skills, ActiveSkills2)
+    var %number.of.items $numtok(%skill.list, 46)
+    var %value 1
+    while (%value <= %number.of.items) {
+      set %skill.name $gettok(%skill.list, %value, 46)
+      set %skill.max $readini(skills.db, %skill.name, max)
+      set %skill.have $readini($char($1), skills, %skill.name)
+
+      if (%skill.have >= %skill.max) { inc %value 1 }
+      else { 
+        set %skill.price $round($calc(%shop.level * $readini(skills.db, %skill.name, cost)),0)
+        if ((%total.active.skills <= 15) || (%total.active.skills = $null)) {   %shop.list.activeskills = $addtok(%shop.list.activeskills, $+ %skill.name $+ +1 ( $+ %skill.price $+ ),46) }
+        if (%total.active.skills > 15) {   %shop.list.activeskills2 = $addtok(%shop.list.activeskills2, $+ %skill.name $+ +1 ( $+ %skill.price $+ ),46) }
 
         inc %value 1 |  inc %total.active.skills 1
       }
@@ -472,13 +511,13 @@ alias shop.skills {
     set %replacechar $chr(044) $chr(032) |  %shop.list.resistanceskills = $replace(%shop.list.resistanceskills, $chr(046), %replacechar)
 
     ; display the list with the prices.
-    if (%shop.list.activeskills != $null) {  .msg $nick 2Active Skill Prices in $readini(system.dat, system, currency) $+ : %shop.list.activeskills }
-    if (%shop.list.activeskills2 != $null) {  .msg $nick 2 $+ %shop.list.activeskills2 }
+    if (%shop.list.activeskills != $null) {  $display.private.message(2Active Skill Prices in $readini(system.dat, system, currency) $+ : %shop.list.activeskills) }
+    if (%shop.list.activeskills2 != $null) {  $display.private.message(2 $+ %shop.list.activeskills2) }
 
-    if (%shop.list.passiveskills != $null) {  .msg $nick 2Passive Skill Prices in $readini(system.dat, system, currency) $+ : %shop.list.passiveskills }
-    if (%shop.list.passiveskills2 != $null) {  .msg $nick 2 $+ %shop.list.passiveskills2 }
+    if (%shop.list.passiveskills != $null) {  $display.private.message(2Passive Skill Prices in $readini(system.dat, system, currency) $+ : %shop.list.passiveskills) }
+    if (%shop.list.passiveskills2 != $null) {  $display.private.message(2 $+ %shop.list.passiveskills2) }
 
-    if (%shop.list.resistanceskills != $null) {  .msg $nick 2Resistance Skill Prices in $readini(system.dat, system, currency) $+ : %shop.list.resistanceskills }
+    if (%shop.list.resistanceskills != $null) {  $display.private.message(2Resistance Skill Prices in $readini(system.dat, system, currency) $+ : %shop.list.resistanceskills) }
 
     unset %shop.list.activeskills | unset %shop.list.passiveskills | unset %shop.list.resistanceskills | unset %shop.list.activeskills2 | unset %shop.list.passiveskills2 | unset %total.active.skills | unset %total.passives.skills
   }
@@ -486,13 +525,13 @@ alias shop.skills {
 
   if (($2 = buy) || ($2 = purchase)) {
     ; is it a valid skill?
-    if ($readini(skills.db, $3, type) = $null) { .msg $nick 4Error: Invalid . Use! !shop list skills to get a valid list | halt }
+    if ($readini(skills.db, $3, type) = $null) { $display.private.message(4Error: Invalid . Use! !shop list skills to get a valid list) | halt }
 
     var %current.skilllevel $readini($char($1), skills, $3))
     inc %current.skilllevel $4
     var %max.skilllevel $readini(skills.db, $3, max)
     if (%max.skilllevel = $null) { var %max.skilllevel 100000 }
-    if (%current.skilllevel > %max.skilllevel) { .msg $nick 4You cannot buy any more levels into this skill as you have already hit or will go over the max amount with this purchase amount. | halt }
+    if (%current.skilllevel > %max.skilllevel) { $display.private.message(4You cannot buy any more levels into this skill as you have already hit or will go over the max amount with this purchase amount.) | halt }
 
     ; do you have enough to buy it?
     var %player.redorbs $readini($char($1), stuff, redorbs)
@@ -500,11 +539,11 @@ alias shop.skills {
 
     set %total.price $shop.calculate.totalcost($1, $4, %base.cost)
 
-    if (%player.redorbs < %total.price) { .msg $nick 4You do not have enough $readini(system.dat, system, currency) to purchase this item! | halt }
+    if (%player.redorbs < %total.price) { $display.private.message(4You do not have enough $readini(system.dat, system, currency) to purchase this item!) | halt }
 
     writeini $char($1) skills $3 %current.skilllevel
 
-    .msg $nick 3You spend $bytes(%total.price,b)  $+ $readini(system.dat, system, currency) for + $+ $4 to your $3 skill $+ !
+    $display.private.message(3You spend $bytes(%total.price,b)  $+ $readini(system.dat, system, currency) for + $+ $4 to your $3 skill $+ !)
 
     ; decrease amount of orbs you have.
     dec %player.redorbs %total.price
@@ -540,11 +579,28 @@ alias shop.skills.passive {
       inc %value 1 | inc %total.passive.skills 1
     }
   }
+  unset %skill.list 
+  set %skill.list $readini(skills.db, Skills, PassiveSkills2)
+  var %number.of.items $numtok(%skill.list, 46)
+  var %value 1
+  while (%value <= %number.of.items) {
+    set %skill.name $gettok(%skill.list, %value, 46)
+    set %skill.max $readini(skills.db, %skill.name, max)
+    set %skill.have $readini($char($1), skills, %skill.name)
+
+    if (%skill.have >= %skill.max) { inc %value 1 }
+    else { 
+      set %skill.price $round($calc(%shop.level * $readini(skills.db, %skill.name, cost)),0)
+      if ((%total.passive.skills <= 15) || (%total.passive.skills = $null)) {  %shop.list.passiveskills = $addtok(%shop.list.passiveskills, $+ %skill.name $+ +1 ( $+ %skill.price $+ ),46) }
+      if (%total.passive.skills > 15) {  %shop.list.passiveskills2 = $addtok(%shop.list.passiveskills2, $+ %skill.name $+ +1 ( $+ %skill.price $+ ),46) }
+      inc %value 1 | inc %total.passive.skills 1
+    }
+  }
   set %replacechar $chr(044) $chr(032) |  %shop.list.passiveskills = $replace(%shop.list.passiveskills, $chr(046), %replacechar) | %shop.list.passiveskills2 = $replace(%shop.list.passiveskills2, $chr(046), %replacechar)
 
   ; display the list with the prices.
-  if (%shop.list.passiveskills != $null) {  .msg $nick 2Passive Skill Prices in $readini(system.dat, system, currency) $+ : %shop.list.passiveskills }
-  if (%shop.list.passiveskills2 != $null) {  .msg $nick 2 $+ %shop.list.passiveskills2 }
+  if (%shop.list.passiveskills != $null) {  $display.private.message(2Passive Skill Prices in $readini(system.dat, system, currency) $+ : %shop.list.passiveskills) }
+  if (%shop.list.passiveskills2 != $null) { $display.private.message(2 $+ %shop.list.passiveskills2) }
 
   unset %shop.list.passiveskills |   unset %shop.list.passiveskills2 | unset %total.passive.skills
 }
@@ -575,11 +631,30 @@ alias shop.skills.active {
     }
   }
 
+  unset %skill.list 
+  set %skill.list $readini(skills.db, Skills, ActiveSkills2)
+  var %number.of.items $numtok(%skill.list, 46)
+  var %value 1
+  while (%value <= %number.of.items) {
+    set %skill.name $gettok(%skill.list, %value, 46)
+    set %skill.max $readini(skills.db, %skill.name, max)
+    set %skill.have $readini($char($1), skills, %skill.name)
+
+    if (%skill.have >= %skill.max) { inc %value 1 }
+    else { 
+      set %skill.price $round($calc(%shop.level * $readini(skills.db, %skill.name, cost)),0)
+      if ((%total.active.skills <= 15) || (%total.active.skills = $null)) {   %shop.list.activeskills = $addtok(%shop.list.activeskills, $+ %skill.name $+ +1 ( $+ %skill.price $+ ),46) }
+      if (%total.active.skills > 15) {   %shop.list.activeskills2 = $addtok(%shop.list.activeskills2, $+ %skill.name $+ +1 ( $+ %skill.price $+ ),46) }
+
+      inc %value 1 |  inc %total.active.skills 1
+    }
+  }
+
   set %replacechar $chr(044) $chr(032) |  %shop.list.activeskills = $replace(%shop.list.activeskills, $chr(046), %replacechar) | %shop.list.activeskills2 = $replace(%shop.list.activeskills2, $chr(046), %replacechar)
 
   ; display the list with the prices.
-  if (%shop.list.activeskills != $null) {  .msg $nick 2Active Skill Prices in $readini(system.dat, system, currency) $+ : %shop.list.activeskills }
-  if (%shop.list.activeskills2 != $null) {  .msg $nick 2 $+ %shop.list.activeskills2 }
+  if (%shop.list.activeskills != $null) {  $display.private.message(2Active Skill Prices in $readini(system.dat, system, currency) $+ : %shop.list.activeskills) }
+  if (%shop.list.activeskills2 != $null) {  $display.private.message(2 $+ %shop.list.activeskills2) }
 
   unset %shop.list.activeskills |   unset %shop.list.activeskills2 | unset %total.active.skills
 }
@@ -611,7 +686,7 @@ alias shop.skills.resists {
   set %replacechar $chr(044) $chr(032) |  %shop.list.resistanceskills = $replace(%shop.list.resistanceskills, $chr(046), %replacechar)
 
   ; display the list with the prices.
-  if (%shop.list.resistanceskills != $null) {  .msg $nick 2Resistance Skill Prices in $readini(system.dat, system, currency) $+ : %shop.list.resistanceskills }
+  if (%shop.list.resistanceskills != $null) { $display.private.message(2Resistance Skill Prices in $readini(system.dat, system, currency) $+ : %shop.list.resistanceskills) }
 
   unset %shop.list.resistanceskills
 }
@@ -654,12 +729,12 @@ alias shop.stats {
 
     ; display the list with the prices.
     $shop.cleanlist
-    .msg $nick 2Stat Prices in $readini(system.dat, system, currency) $+ : %shop.list
+    $display.private.message(2Stat Prices in $readini(system.dat, system, currency) $+ : %shop.list)
   }
 
   if (($2 = buy) || ($2 = purchase)) {
     ; is it a valid item?
-    if ($readini(system.dat, statprices, $3) = $null) { .msg $nick 4Error: Invalid stat! Use! !shop list stats to get a valid list | halt }
+    if ($readini(system.dat, statprices, $3) = $null) { $display.private.message(4Error: Invalid stat! Use! !shop list stats to get a valid list) | halt }
 
     ; do you have enough to buy it?
 
@@ -670,20 +745,20 @@ alias shop.stats {
 
     if ($3 = hp) {
       var %player.current.hp $readini($char($1), basestats, hp)
-      if (%player.current.hp >= $readini(system.dat, system, maxHP)) { .msg $nick 4Error: You have the maximum amount of HP allowed! | halt }
+      if (%player.current.hp >= $readini(system.dat, system, maxHP)) { $display.private.message(4Error: You have the maximum amount of HP allowed!) | halt }
     }
 
     if ($3 = tp) {
       var %player.current.tp $readini($char($1), basestats, tp)
-      if (%player.current.tp >= $readini(system.dat, system, maxTP)) {  .msg $nick 4Error: You have the maximum amount of TP allowed! | halt }
+      if (%player.current.tp >= $readini(system.dat, system, maxTP)) {  $display.private.message(4Error: You have the maximum amount of TP allowed!) | halt }
     }
 
     if (($3 = ig) || ($3 = IgnitionGauge)) {
       var %player.current.ig $readini($char($1), basestats, IgitionGauge)
-      if (%player.current.ig >= $readini(system.dat, system, maxig)) {  .msg $nick 4Error: You have the maximum amount of Ignition Gauge allowed! | halt }
+      if (%player.current.ig >= $readini(system.dat, system, maxig)) {  $display.private.message(4Error: You have the maximum amount of Ignition Gauge allowed!) | halt }
     }
 
-    if (%player.redorbs < %total.price) { .msg $nick 4You do not have enough $readini(system.dat, system, currency) to purchase this upgrade! | halt }
+    if (%player.redorbs < %total.price) { $display.private.message(4You do not have enough $readini(system.dat, system, currency) to purchase this upgrade!) | halt }
 
     ; if so, increase the amount and add the stat bonus
     if (($3 != IG) && ($3 != IgnitionGauge)) {  var %basestat.to.increase $readini($char($1), basestats, $3) }
@@ -701,15 +776,15 @@ alias shop.stats {
     inc %basestat.to.increase %shop.statbonus
 
     if ($3 = hp) {
-      if (%basestat.to.increase > $readini(system.dat, system, maxHP)) { .msg $nick 4Error: This amount will push you over the limit allowed for HP. Please lower the amount and try again. | halt }
+      if (%basestat.to.increase > $readini(system.dat, system, maxHP)) { $display.private.message(4Error: This amount will push you over the limit allowed for HP. Please lower the amount and try again.) | halt }
     }
 
     if ($3 = tp) {
-      if (%basestat.to.increase > $readini(system.dat, system, maxTP)) { .msg $nick 4Error: This amount will push you over the limit allowed for TP. Please lower the amount and try again. | halt }
+      if (%basestat.to.increase > $readini(system.dat, system, maxTP)) {  $display.private.message(4Error: This amount will push you over the limit allowed for TP. Please lower the amount and try again.) | halt }
     }
 
     if (($3 = ig) || ($3 = IgnitionGauge)) {
-      if (%basestat.to.increase > $readini(system.dat, system, maxIG)) { .msg $nick 4Error: This amount will push you over the limit allowed for the Ignition Gauge. Please lower the amount and try again. | halt }
+      if (%basestat.to.increase > $readini(system.dat, system, maxIG)) { $display.private.message(4Error: This amount will push you over the limit allowed for the Ignition Gauge. Please lower the amount and try again.) | halt }
     }
 
     if (($3 != IG) && ($3 != IgnitionGauge)) {  writeini $char($1) basestats $3 %basestat.to.increase }
@@ -717,7 +792,7 @@ alias shop.stats {
 
     $fulls($1)
 
-    .msg $nick 3You spend $bytes(%total.price,b)  $+ $readini(system.dat, system, currency) for + $+ $bytes(%shop.statbonus,b) to your $3 $+ !
+    $display.private.message(3You spend $bytes(%total.price,b)  $+ $readini(system.dat, system, currency) for + $+ $bytes(%shop.statbonus,b) to your $3 $+ !)
 
     ; decrease amount of orbs you have.
     dec %player.redorbs %total.price
@@ -731,7 +806,7 @@ alias shop.stats {
 
 alias shop.weapons {
   if ($2 = list) {
-    .msg $nick 2New weapon prices are in Black Orbs.  Upgrades are listed in $readini(system.dat, system, currency)
+    $display.private.message(2New weapon prices are in Black Orbs.  Upgrades are listed in $readini(system.dat, system, currency))
     unset %shop.list | unset %upgrade.list | unset %upgrade.list2 | unset %upgrade.list3
     ; get the list of the weapons.
     $shop.get.shop.level($1)
@@ -761,7 +836,7 @@ alias shop.weapons {
     }
 
     if (%shop.list != $null) {  $shop.cleanlist 
-      /.timerH2H $+ $nick 1 1 /.msg $nick 2New Hand to Hand Weapons: %shop.list
+      $display.private.message(2New Hand to Hand Weapons: %shop.list)
     }
 
     unset %shop.list
@@ -791,7 +866,7 @@ alias shop.weapons {
     }
 
     if (%shop.list != $null) {  $shop.cleanlist 
-      /.timerSwords $+ $nick 1 1 /.msg $nick 2New Sword Weapons: %shop.list
+      $display.private.message(2New Sword Weapons: %shop.list)
     }
 
     unset %shop.list
@@ -821,7 +896,7 @@ alias shop.weapons {
     }
 
     if (%shop.list != $null) {  $shop.cleanlist 
-      /.timerWhips $+ $nick 1 1 /.msg $nick 2New Whip Weapons: %shop.list
+      $display.private.message(2New Whip Weapons: %shop.list)
     }
 
     unset %shop.list
@@ -851,7 +926,7 @@ alias shop.weapons {
     }
 
     if (%shop.list != $null) {  $shop.cleanlist 
-      /.timerGuns $+ $nick 1 1 /.msg $nick 2New Gun Weapons:  %shop.list
+      $display.private.message(2New Gun Weapons:  %shop.list)
     }
 
     unset %shop.list
@@ -881,7 +956,7 @@ alias shop.weapons {
     }
 
     if (%shop.list != $null) {  $shop.cleanlist 
-      /.timerRifles $+ $nick 1 1 /.msg $nick 2New Rifle Weapons:  %shop.list
+      $display.private.message(2New Rifle Weapons:  %shop.list)
     }
 
     unset %shop.list
@@ -911,7 +986,7 @@ alias shop.weapons {
     }
 
     if (%shop.list != $null) {  $shop.cleanlist 
-      /.timerBows $+ $nick 1 1 /.msg $nick 2New Bow Weapons:  %shop.list
+      $display.private.message(2New Bow Weapons:  %shop.list)
     }
 
     unset %shop.list
@@ -942,7 +1017,7 @@ alias shop.weapons {
     }
 
     if (%shop.list != $null) {  $shop.cleanlist 
-      /.timerKatanas $+ $nick 1 1 /.msg $nick 2New Katana Weapons:  %shop.list
+      $display.private.message(2New Katana Weapons:  %shop.list)
     }
 
     unset %shop.list
@@ -972,7 +1047,7 @@ alias shop.weapons {
     }
 
     if (%shop.list != $null) {  $shop.cleanlist 
-      /.timerWands $+ $nick 1 1 /.msg $nick 2New Wand/Staff/Glyph Weapons:  %shop.list
+      $display.private.message(2New Wand/Staff/Glyph Weapons:  %shop.list)
     }
 
     unset %shop.list
@@ -1002,7 +1077,7 @@ alias shop.weapons {
     }
 
     if (%shop.list != $null) {  $shop.cleanlist 
-      /.timerSpears $+ $nick 1 1 /.msg $nick 2New Spear Weapons: %shop.list
+      $display.private.message(2New Spear Weapons: %shop.list)
     }
 
     unset %shop.list
@@ -1032,7 +1107,7 @@ alias shop.weapons {
     }
 
     if (%shop.list != $null) {  $shop.cleanlist 
-      /.timerScythes $+ $nick 1 2 /.msg $nick 2New Scythe Weapons: %shop.list
+      $display.private.message(2New Scythe Weapons: %shop.list)
     }
 
     unset %shop.list
@@ -1062,7 +1137,7 @@ alias shop.weapons {
     }
 
     if (%shop.list != $null) {  $shop.cleanlist 
-      /.timerGreatSwords $+ $nick 1 2 /.msg $nick 2New Great Sword Weapons: %shop.list
+      $display.private.message(2New Great Sword Weapons: %shop.list)
     }
 
     unset %shop.list
@@ -1092,7 +1167,7 @@ alias shop.weapons {
     }
 
     if (%shop.list != $null) {  $shop.cleanlist 
-      /.timerAxes $+ $nick 1 2 /.msg $nick 2New Axe Weapons: %shop.list
+      $display.private.message(2New Axe Weapons: %shop.list)
     }
 
     unset %shop.list
@@ -1122,7 +1197,7 @@ alias shop.weapons {
     }
 
     if (%shop.list != $null) {  $shop.cleanlist 
-      /.timerDaggers $+ $nick 1 2 /.msg $nick 2New Dagger Weapons: %shop.list
+      $display.private.message(2New Dagger Weapons: %shop.list)
     }
 
     unset %shop.list
@@ -1152,25 +1227,25 @@ alias shop.weapons {
     }
 
     if (%shop.list != $null) {  $shop.cleanlist 
-      /.timerGlyphs $+ $nick 1 1 /.msg $nick 2New Glyph Weapons: %shop.list
+      $display.private.message(2New Glyph Weapons: %shop.list)
     }
 
     unset %shop.list |  unset %weapon.level
 
     if (((%upgrade.list != $null) || (%upgrade.list2 != $null) || (%upgrade.list3 != $null))) {  
-      /.timerUpgradeList $+ $nick 1 2 /.msg $nick 2Weapons you can upgrade:
+      $display.private.message(2Weapons you can upgrade:)
       set %replacechar $chr(044) $chr(032) 
       if (%upgrade.list != $null) {
         %upgrade.list = $replace(%upgrade.list, $chr(046), %replacechar)
-        /.timerUpgradeList1 $+ $nick 1 2 /.msg $nick 2 $+ %upgrade.list
+        $display.private.message(2 $+ %upgrade.list)
       }
       if (%upgrade.list2 != $null) {
         %upgrade.list2 = $replace(%upgrade.list2, $chr(046), %replacechar)
-        /.timerUpgradeList2 $+ $nick 1 2 /.msg $nick 2 $+ %upgrade.list2
+        $display.private.message(2 $+ %upgrade.list2)
       }
       if (%upgrade.list3 != $null) {
         %upgrade.list3 = $replace(%upgrade.list3, $chr(046), %replacechar)
-        /.timerUpgradeList3 $+ $nick 1 2 /.msg $nick 2 $+ %upgrade.list3
+        $display.private.message(2 $+ %upgrade.list3)
       }
 
       unset %upgrade.list | unset %upgrade.list2 | unset %upgrade.list3
@@ -1178,27 +1253,27 @@ alias shop.weapons {
     }
   }
   if (($2 = buy) || ($2 = purchase)) {
-    if ($readini(weapons.db, $3, type) = $null) { .msg $nick 4Error: Invalid weapon! Use! !shop list weapons to get a valid list | halt }
-    if ($readini(weapons.db, $3, cost) = 0) { .msg $nick 4Error: You cannot purchase this weapon! | halt }
+    if ($readini(weapons.db, $3, type) = $null) { $display.private.message(4Error: Invalid weapon! Use! !shop list weapons to get a valid list ) | halt }
+    if ($readini(weapons.db, $3, cost) = 0) { $display.private.message(4Error: You cannot purchase this weapon!) | halt }
     var %weapon.level $readini($char($1), weapons, $3)
     if (%weapon.level != $null) { 
 
-      if (%weapon.level >= 500) {  .msg $nick 4You cannot buy any more levels into this weapon. | halt }
+      if (%weapon.level >= 500) {  $display.private.message(4You cannot buy any more levels into this weapon.) | halt }
 
       ; do you have enough to buy it?
       var %player.redorbs $readini($char($1), stuff, redorbs)
       var %base.cost $readini(weapons.db, $3, upgrade)
       set %total.price $shop.calculate.totalcost($1, $4, %base.cost)
-      if (%player.redorbs < %total.price) { .msg $nick 4You do not have enough $readini(system.dat, system, currency) to purchase this weapon upgrade! | halt }
+      if (%player.redorbs < %total.price) { $display.private.message(4You do not have enough $readini(system.dat, system, currency) to purchase this weapon upgrade!) | halt }
       dec %player.redorbs %total.price
       $inc.redorbsspent($1, %total.price)
       inc %weapon.level $4
 
-      if (%weapon.level > 500) {   .msg $nick 4Purchasing this amount will put you over the max limit. Please lower the amount and try again. | halt }
+      if (%weapon.level > 500) {   $display.private.message(4Purchasing this amount will put you over the max limit. Please lower the amount and try again.) | halt }
 
       writeini $char($1) stuff redorbs %player.redorbs
       writeini $char($1) weapons $3 %weapon.level
-      .msg $nick 3You spend $bytes(%total.price,b)  $+ $readini(system.dat, system, currency) to upgrade your $3 $+ !
+      $display.private.message(3You spend $bytes(%total.price,b)  $+ $readini(system.dat, system, currency) to upgrade your $3 $+ !)
       $inc.shoplevel($1, $4)
       halt
     }
@@ -1206,12 +1281,12 @@ alias shop.weapons {
       ; do you have enough to buy it?
       var %player.blackorbs $readini($char($1), stuff, blackorbs) 
       var %total.price $readini(weapons.db, $3, cost)
-      if (%player.blackorbs < %total.price) { .msg $nick 4You do not have enough black orbs to purchase this item! | halt }
+      if (%player.blackorbs < %total.price) { $display.private.message(4You do not have enough black orbs to purchase this item!) | halt }
       dec %player.blackorbs %total.price
       writeini $char($1) stuff blackorbs %player.blackorbs
       $inc.blackorbsspent($1, %total.price)
       writeini $char($1) weapons $3 1
-      .msg $nick 3You spend %total.price black orb(s) to purchase $3 $+ !
+      $display.private.message(3You spend %total.price black orb(s) to purchase $3 $+ !)
       halt
     }
   }
@@ -1219,7 +1294,7 @@ alias shop.weapons {
 
 alias shop.styles {
   if ($2 = list) {
-    .msg $nick 2New style prices are in Black Orbs.
+    $display.private.message(2New style prices are in Black Orbs.)
     unset %shop.list | unset %upgrade.list
     ; get the list of the styles
     unset %shop.list | unset %styles.list
@@ -1242,27 +1317,27 @@ alias shop.styles {
     }
 
     if (%shop.list != $null) {  $shop.cleanlist 
-      /.timerStyles $+ $nick 1 1 /.msg $nick 2New Styles: %shop.list
+      $display.private.message(2New Styles: %shop.list)
     }
 
-    if (%shop.list = $null) { .msg $nick 4There are no more styles for you to purchase. | halt }
+    if (%shop.list = $null) { $display.private.message(4There are no more styles for you to purchase at this time.) | halt }
 
     unset %shop.list
   }
   if (($2 = buy) || ($2 = purchase)) {
-    if ($readini(playerstyles.lst, costs, $3) = $null) { .msg $nick 4Error: Invalid style! Use !shop list styles to get a valid list | halt }
-    if ($readini(playerstyles.lst, costs, $3) = 0) { .msg $nick 4Error: You cannot purchase this style! Use !shop list styles to get a valid list | halt }
+    if ($readini(playerstyles.lst, costs, $3) = $null) { $display.private.message(4Error: Invalid style! Use !shop list styles to get a valid list) | halt }
+    if ($readini(playerstyles.lst, costs, $3) = 0) { $display.private.message(4Error: You cannot purchase this style! Use !shop list styles to get a valid list) | halt }
     var %style.level $readini($char($1), styles, $3)
     ; do you have enough to buy it?
     var %player.blackorbs $readini($char($1), stuff, blackorbs) 
     var %total.price $readini(playerstyles.lst, costs, $3)
-    if (%player.blackorbs < %total.price) { .msg $nick 4You do not have enough black orbs to purchase this item! | halt }
+    if (%player.blackorbs < %total.price) { $display.private.message(4You do not have enough black orbs to purchase this item!) | halt }
     dec %player.blackorbs %total.price
     writeini $char($1) stuff blackorbs %player.blackorbs
     $inc.blackorbsspent($1, %total.price)
     writeini $char($1) styles $3 1
     writeini $char($1) styles $3 $+ XP 0
-    .msg $nick 3You spend %total.price black orb(s) to purchase $3 $+ !
+    $display.private.message(3You spend %total.price black orb(s) to purchase $3 $+ !)
     unset %styles.list | unset %style.name | unset %style.level | unset %style.price | unset %styles
     halt
   }
@@ -1270,7 +1345,7 @@ alias shop.styles {
 
 alias shop.ignitions {
   if ($2 = list) {
-    .msg $nick 2New ignition prices are in Black Orbs.
+    $display.private.message(2New ignition prices are in Black Orbs.)
     unset %shop.list | unset %upgrade.list
     ; get the list of the ignitions
     unset %shop.list | unset %ignitions.list
@@ -1293,26 +1368,26 @@ alias shop.ignitions {
     }
 
     if (%shop.list != $null) {  $shop.cleanlist 
-      /.timerignitions $+ $nick 1 1 /.msg $nick 2New ignitions: %shop.list
+      $display.private.message(2New ignitions: %shop.list)
     }
 
-    if (%shop.list = $null) { .msg $nick 4There are no more ignitions for you to purchase. | halt }
+    if (%shop.list = $null) { $display.private.message(4There are no more ignitions for you to purchase.) | halt }
 
     unset %shop.list
   }
   if (($2 = buy) || ($2 = purchase)) {
-    if ($readini(ignitions.db, $3, cost) = $null) { .msg $nick 4Error: Invalid ignition! Use !shop list ignitions to get a valid list | halt }
-    if ($readini(ignitions.db, $3, cost) = 0) { .msg $nick 4Error: You cannot purchase this ignition! Use !shop list ignitions to get a valid list | halt }
+    if ($readini(ignitions.db, $3, cost) = $null) { $display.private.message(4Error: Invalid ignition! Use !shop list ignitions to get a valid list) | halt }
+    if ($readini(ignitions.db, $3, cost) = 0) { $display.private.message(4Error: You cannot purchase this ignition! Use !shop list ignitions to get a valid list) | halt }
     var %ignition.level $readini($char($1), ignitions, $3)
     ; do you have enough to buy it?
     var %player.blackorbs $readini($char($1), stuff, blackorbs) 
     var %total.price $readini(ignitions.db, $3, cost)
-    if (%player.blackorbs < %total.price) { .msg $nick 4You do not have enough black orbs to purchase this item! | halt }
+    if (%player.blackorbs < %total.price) { $display.private.message(4You do not have enough black orbs to purchase this item!) | halt }
     dec %player.blackorbs %total.price
     writeini $char($1) stuff blackorbs %player.blackorbs
     $inc.blackorbsspent($1, %total.price)
     writeini $char($1) ignitions $3 1
-    .msg $nick 3You spend %total.price black orb(s) to purchase $3 $+ !
+    $display.private.message(3You spend %total.price black orb(s) to purchase $3 $+ !)
     unset %ignitions.list | unset %ignition.name | unset %ignition.level | unset %ignition.price | unset %ignitions
     halt
   }
@@ -1344,7 +1419,7 @@ alias shop.portal {
 
     if (%shop.list != $null) {  $shop.cleanlist | set %portals.bstmen %shop.list  }
 
-    if (%portals.bstmen != $null) {  .msg $nick 2These portal items are paid for with BeastmenSeals: %portals.bstmen  }
+    if (%portals.bstmen != $null) {  $display.private.message(2These portal items are paid for with BeastmenSeals: %portals.bstmen)  }
 
     unset %shop.list | unset %item.name | unset %item_amount
 
@@ -1369,15 +1444,15 @@ alias shop.portal {
 
     if (%shop.list != $null) {  $shop.cleanlist | set %portals.kindred %shop.list  }
 
-    if (%portals.kindred != $null) {  .msg $nick 2These portal items are paid for with KindredSeals: %portals.kindred  }
+    if (%portals.kindred != $null) {  $display.private.message(2These portal items are paid for with KindredSeals: %portals.kindred)  }
 
-    if (%portals.kindred = $null) && (%portals.bstmen = $null) { .msg $nick 4There are no portal items available for purchase right now  }
+    if (%portals.kindred = $null) && (%portals.bstmen = $null) { $display.private.message(4There are no portal items available for purchase right now)  }
 
     unset %shop.list
   }
   if (($2 = buy) || ($2 = purchase)) {
-    if ($readini(items.db, $3, cost) = $null) { .msg $nick 4Error: Invalid portal item! Use !shop list portal to get a valid list | halt }
-    if ($readini(items.db, $3, cost) = 0) { .msg $nick 4Error: You cannot purchase this portal item! Use !shop list portal to get a valid list | halt }
+    if ($readini(items.db, $3, cost) = $null) {  $display.private.message(4Error: Invalid portal item! Use !shop list portal to get a valid list) | halt }
+    if ($readini(items.db, $3, cost) = 0) { $display.private.message(4Error: You cannot purchase this portal item! Use !shop list portal to get a valid list) | halt }
 
     set %currency $readini(items.db, $3, currency)  
 
@@ -1387,20 +1462,18 @@ alias shop.portal {
 
     if (%player.currency = $null) { set %player.currency 0 }
 
-    if (%player.currency < %total.price) { .msg $nick 4You do not have enough %currency $+ s to purchase $4 of this item! | unset %currency | unset %player.currency | unset %total.price |  halt }
+    if (%player.currency < %total.price) {  $display.private.message(4You do not have enough %currency $+ s to purchase $4 of this item!) | unset %currency | unset %player.currency | unset %total.price |  halt }
     dec %player.currency %total.price
     writeini $char($1) item_amount %currency %player.currency
     var %item.amount $readini($char($1), item_amount, $3)
     if (%item.amount = $null) { var %item.amount 0 }
     inc %item.amount $4
     writeini $char($1) item_amount $3 %item.amount
-    .msg $nick 3A strange merchant by the name of Shami takes %total.price %currency $+ s and trades it for $4 $3 $+ (s)!  "Thank you for your patronage. (heh heh heh, sucker)"
+    $display.private.message(3A strange merchant by the name of Shami takes %total.price %currency $+ s and trades it for $4 $3 $+ (s)!  "Thank you for your patronage. (heh heh heh, sucker)")
     unset %shop.list | unset %currency | unset %player.currency | unset %total.price
     halt
   }
 }
-
-
 
 alias shop.alchemy {
   if ($2 = list) {
@@ -1451,33 +1524,31 @@ alias shop.alchemy {
 
     if (%shop.list != $null) { $shop.cleanlist | set %gems %shop.list  }
 
-
     if ((%misc != $null) || (%gems != $null)) { 
-      .msg $nick 2These items are paid for with Allied Notes:
-      if (%misc != $null) { .msg $nick %misc }
-      if (%gems != $null) { .msg $nick %gems }
-
+      $display.private.message(2These items are paid for with Allied Notes:)
+      if (%misc != $null) { $display.private.message(%misc) }
+      if (%gems != $null) { $display.private.message(%gems) }
     }
 
-    if (%misc = $null) && (%gems = $null) { .msg $nick 4There are no items available for purchase right now  }
+    if (%misc = $null) && (%gems = $null) {  $display.private.message(4There are no items available for purchase right now)  }
 
     unset %shop.list | unset %misc | unset %gems
   }
 
   if (($2 = buy) || ($2 = purchase)) {
-    if ($readini(items.db, $3, cost) = $null) { .msg $nick 4Error: Invalid item! Use !shop list alchemy to get a valid list | halt }
-    if ($readini(items.db, $3, cost) = 0) { .msg $nick 4Error: You cannot purchase this item! Use !shop list alchemy to get a valid list | halt }
+    if ($readini(items.db, $3, cost) = $null) { $display.private.message(4Error: Invalid item! Use !shop list alchemy to get a valid list) | halt }
+    if ($readini(items.db, $3, cost) = 0) { $display.private.message(4Error: You cannot purchase this item! Use !shop list alchemy to get a valid list) | halt }
 
     ; do you have enough to buy it?
 
-    if ($readini(items.db, $3, currency) != AlliedNotes) {  .msg $nick 4You cannot buy this item in this shop. | halt }
+    if ($readini(items.db, $3, currency) != AlliedNotes) {  $display.private.message(4You cannot buy this item in this shop.) | halt }
 
     set %player.currency $readini($char($1), stuff, alliednotes)
     set %total.price $calc($readini(items.db, $3, cost) * $4)
 
     if (%player.currency = $null) { set %player.currency 0 }
 
-    if (%player.currency < %total.price) { .msg $nick 4You do not have enough Allied Notes to purchase $4 of this item! | unset %currency | unset %player.currency | unset %total.price |  halt }
+    if (%player.currency < %total.price) {  $display.private.message(4You do not have enough Allied Notes to purchase $4 of this item!) | unset %currency | unset %player.currency | unset %total.price |  halt }
     dec %player.currency %total.price
     writeini $char($1) stuff AlliedNotes %player.currency
 
@@ -1485,7 +1556,7 @@ alias shop.alchemy {
     if (%item.amount = $null) { var %item.amount 0 }
     inc %item.amount $4
     writeini $char($1) item_amount $3 %item.amount
-    .msg $nick 3A merchant of the Allied Forces takes your %total.price Allied Notes and gives you $4 $3 $+ (s)!  
+    $display.private.message(3A merchant of the Allied Forces takes your %total.price Allied Notes and gives you $4 $3 $+ (s)!)
     unset %shop.list | unset %currency | unset %player.currency | unset %total.price
     halt
   }
@@ -1494,14 +1565,14 @@ alias shop.alchemy {
 
 
 alias shop.orbs {
-  if ($2 = list) { .msg $nick 2You can exchange 1 black orb for 500 $readini(system.dat, system, currency) $+ .  To do so, use the command: !shop buy orbs  }
+  if ($2 = list) { $display.private.message(2You can exchange 1 black orb for 500 $readini(system.dat, system, currency) $+ .  To do so, use the command: !shop buy orbs)  }
 
   if (($2 = buy) || ($2 = purchase)) {
     ; do you have enough to buy it?
     %total.price = $calc($3 * 1)
 
     var %player.blackorbs $readini($char($1), stuff, blackorbs)
-    if (%player.blackorbs < %total.price) { .msg $nick 4You do not have enough black orbs to do the exchange! | halt }
+    if (%player.blackorbs < %total.price) {  $display.private.message(4You do not have enough black orbs to do the exchange!) | halt }
 
     ; if so, increase the amount
     var %player.redorbs $readini($char($1), stuff, redorbs)
@@ -1512,7 +1583,7 @@ alias shop.orbs {
     writeini $char($1) stuff redorbs %player.redorbs
     writeini $char($1) stuff blackorbs %player.blackorbs
 
-    .msg $nick 3You spend %total.price black orb(s) for  $+ %orb.increase.amount $readini(system.dat, system, currency) $+ !
+    $display.private.message(3You spend %total.price black orb(s) for  $+ %orb.increase.amount $readini(system.dat, system, currency) $+ !)
     halt
   }
 }
@@ -1524,12 +1595,10 @@ alias inc.shoplevel {
   var %max.shop.level $readini(system.dat, system, maxshoplevel)
   if (%max.shop.level = $null) { var %max.shop.level 25 }
 
-
-
-  if (%shop.level >= %max.shop.level) { writeini $char($1) stuff shoplevel %max.shop.level | .msg $1 2Your Shop Level has been capped at %max.shop.level  }
+  if (%shop.level >= %max.shop.level) { writeini $char($1) stuff shoplevel %max.shop.level |  $display.private.message(2Your Shop Level has been capped at %max.shop.level)  }
   else { 
     writeini $char($1) stuff shoplevel %shop.level  
-    .msg $1 2Your Shop Level has been increased to %shop.level 
+    $display.private.message(2Your Shop Level has been increased to %shop.level)
   }
   $achievement_check($1, Don'tYouHaveaHome)
   unset %shop.level
@@ -1560,21 +1629,37 @@ alias inc.blackorbsspent {
   $achievement_check($1, BossKiller)
   return
 }
+
 alias shop.calculate.totalcost {
   var %value 1
   var %total.price.calculate 0
-  $shop.get.shop.level($1)
+  set %shop.level $readini($char($1), stuff, shoplevel)
   var %max.shoplevel $readini(system.dat, system, Maxshoplevel)
 
-  while (%value <= $2) { 
-    inc %total.price.calculate $round($calc(%shop.level * $3),0)
+  set %current.accessory $readini($char($3), equipment, accessory)
+  set %current.accessory.type $readini(items.db, %current.accessory, accessorytype)
+
+  while (%value <= $2) {
+    set %true.shop.level %shop.level
+
+    ; Check for the  VIP-MemberCard accessory
+    if (%current.accessory.type = ReduceShopLevel) {
+      var %accessory.amount $readini(items.db, %current.accessory, amount)
+      dec %true.shop.level %accessory.amount
+    }
+
+    if (%true.shop.level < 1) { set %true.shop.level 1.0 }
+
+    inc %total.price.calculate $round($calc(%true.shop.level * $3),0)
 
     if (%max.shoplevel = $null) { var %max.shoplevel 25 }
     if (%shop.level < %max.shoplevel) {  inc %shop.level .1 }
     inc %value 1
   }
+  unset %true.shop.level
   return %total.price.calculate
 }
+
 
 alias shop.get.shop.level {
   set %shop.level $readini($char($1), stuff, shoplevel)

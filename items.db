@@ -46,7 +46,7 @@ Runes=EthRune.MtlRune.HiRune.GeRune.MaRune.TeRune.MeRune.SmnRune.DrnRune.ItmRune
 HeadEquipment=BucketHat.RustyHelmet.JesterHat.DarksteelHelmet.BloodCrown.MyochinKabuto.ChaosBurgeonet.Genbu'sKabuto
 
 ; BodyEquipment is for equipment for the body
-BodyEquipment=RustyMail.TornRobe.ClothRobe.MageRobe.BloodHauberk.MyochinDomaru.ChaosCuirass.Kirin'sOsode
+BodyEquipment=RustyMail.TornRobe.ClothRobe.MageRobe.BloodHauberk.Haubergeon.MyochinDomaru.ChaosCuirass.Kirin'sOsode
 
 ; LegsEquipment is for equipment for the legs
 LegsEquipment=RustyHose.DarksteelHose.MyochinHaidate.ChaosFlanchard
@@ -499,7 +499,7 @@ Target=spd
 
 Amount=2
 
-Desc=takes out a herring and hands it to %enemy $+ , who then stares at it. %enemy then cooks and eats it, though $gender3 then feels an urge to chop down the mightiest tree in the forest...
+Desc=takes out a herring and hands it to %enemy $+ , who then stares at it. $set_chr_name($2) $+ %real.name then cooks and eats it, though $gender3($2) then feels an urge to chop down the mightiest tree in the forest...
 
 Cost=10000000
 
@@ -1254,7 +1254,7 @@ cost=30
 currency=KindredSeal
 battlefield=Smelly Dungeon
 Weather=gloomy
-Monster=Legion
+Monster=Legion.Zombie
 Desc=takes out the rotting orb and shatters it.  Suddenly the heroes find themselves in a smelly dungeon where there's hundreds of rotting bodies laying everywhere. Floating in the air is Legion.
 AlliedNotes=2500
 

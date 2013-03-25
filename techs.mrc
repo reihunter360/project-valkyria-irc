@@ -2,10 +2,10 @@
 ;;;; TECHS COMMAND
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-ON 2:ACTION:goes *:#:{ 
+ON 3:ACTION:goes *:#:{ 
   if ($3 != $null) { halt }
-  if ($is_charmed($nick) = true) { $set_chr_name($nick) | query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
-  if ($is_confused($nick) = true) { $set_chr_name($nick) | query %battlechan $readini(translation.dat, status, CurrentlyConfused) | halt }
+  if ($is_charmed($nick) = true) { $set_chr_name($nick) | $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
+  if ($is_confused($nick) = true) { $set_chr_name($nick) | $display.system.message($readini(translation.dat, status, CurrentlyConfused), private) | halt }
   $set_chr_name($nick) 
 
   set %ignition.list $readini(ignitions.db, ignitions, list)
@@ -13,11 +13,11 @@ ON 2:ACTION:goes *:#:{
   else { $tech_cmd($nick , $2, $nick) | halt }
 } 
 
-ON 2:ACTION:reverts*:#: {
+ON 3:ACTION:reverts*:#: {
   $check_for_battle($nick) 
   if ($3 = $null) { halt }
-  if ($is_charmed($nick) = true) { $set_chr_name($nick) | query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
-  if ($is_confused($nick) = true) { $set_chr_name($nick) | query %battlechan $readini(translation.dat, status, CurrentlyConfused) | halt }
+  if ($is_charmed($nick) = true) { $set_chr_name($nick) | $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
+  if ($is_confused($nick) = true) { $set_chr_name($nick) | $display.system.message($readini(translation.dat, status, CurrentlyConfused), private) | halt }
   $set_chr_name($nick) 
 
   var %ignition.name $readini($char($nick), status, ignition.name)
@@ -31,8 +31,8 @@ ON 2:ACTION:reverts*:#: {
 ON 50:TEXT:*reverts from *:*:{ 
   $check_for_battle($1) 
   if ($4 = $null) { halt }
-  if ($is_charmed($1) = true) { $set_chr_name($1) | query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
-  if ($is_confused($1) = true) { $set_chr_name($1) | query %battlechan $readini(translation.dat, status, CurrentlyConfused) | halt }
+  if ($is_charmed($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
+  if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused), private) | halt }
   $set_chr_name($1) 
   var %ignition.name $readini($char($1), status, ignition.name)
   if (%ignition.name = $4) {   
@@ -43,17 +43,17 @@ ON 50:TEXT:*reverts from *:*:{
   else { query %battlechan $readini(translation.dat, errors, NotUsingThatIgnition) | halt }
 }
 
-ON 2:ACTION:uses * * on *:#:{ 
-  if ($is_charmed($nick) = true) { $set_chr_name($nick) | query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
-  if ($is_confused($nick) = true) { $set_chr_name($nick) | query %battlechan $readini(translation.dat, status, CurrentlyConfused) | halt }
-  $set_chr_name($nick) | set %attack.target $5 | $covercheck($5, $3)
+ON 3:ACTION:uses * * on *:#:{ 
+  if ($is_charmed($nick) = true) { $set_chr_name($nick) | $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
+  if ($is_confused($nick) = true) { $set_chr_name($nick) | $display.system.message($readini(translation.dat, status, CurrentlyConfused), private) | halt }
+  $set_chr_name($nick) | set %attack.target $5 
   $tech_cmd($nick , $3 , %attack.target, $7) | halt 
 } 
 ON 50:TEXT:*uses * * on *:*:{ 
   if ($1 = uses) { halt }
   if ($3 = item) { halt }
   if ($5 != on) { halt }
-  else { $set_chr_name($1) | set %attack.target $6 | $covercheck($6, $3)
+  else { $set_chr_name($1) | set %attack.target $6
   $tech_cmd($1, $4, %attack.target) | halt }
 }
 
@@ -64,7 +64,7 @@ alias tech_cmd {
 
   ; Make sure some old attack variables are cleared.
   unset %attack.damage | unset %attack.damage1 | unset %attack.damage2 | unset %attack.damage3 | unset %attack.damage4 | unset %attack.damage5 | unset %attack.damage6 | unset %attack.damage7 | unset %attack.damage8 | unset %drainsamba.on | unset %absorb
-  unset %element.desc | unset %spell.element | unset %real.name  |  unset %user.flag | unset %target.flag | unset %trickster.dodged
+  unset %element.desc | unset %spell.element | unset %real.name  |  unset %user.flag | unset %target.flag | unset %trickster.dodged | unset %covering.someone
 
   $check_for_battle($1) 
 
@@ -72,13 +72,13 @@ alias tech_cmd {
   if ($istok(%ignition.list, $2, 46) = $true) { unset %ignition.list | $ignition_cmd($1, $2, $1) | halt }
 
   set %tech.type $readini(techniques.db, $2, Type) | $amnesia.check($1, tech) 
-  if ($readini($char($1), techniques, $2) = $null) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, DoesNotKnowTech) | halt }
+  if ($readini($char($1), techniques, $2) = $null) { $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, DoesNotKnowTech),private) | halt }
 
-  if ((no-tech isin %battleconditions) || (no-techs isin %battleconditions)) { $set_chr_name($1) | query %battlechan $readini(translation.dat, battle, NotAllowedBattleCondition) | halt }
+  if ((no-tech isin %battleconditions) || (no-techs isin %battleconditions)) { $set_chr_name($1) | $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition),private) | halt }
 
-  if ($readini($char($1), Battle, Status) = dead) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, CanNotAttackWhileUnconcious)  | unset %real.name | halt }
-  if ($readini($char($3), Battle, Status) = dead) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, CanNotAttackSomeoneWhoIsDead) | unset %real.name | halt }
-  if ($readini($char($3), Battle, Status) = RunAway) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, CanNotAttackSomeoneWhoFledTech) | unset %real.name | halt } 
+  if ($readini($char($1), Battle, Status) = dead) { $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, CanNotAttackWhileUnconcious),private)  | unset %real.name | halt }
+  if ($readini($char($3), Battle, Status) = dead) { $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, CanNotAttackSomeoneWhoIsDead),private) | unset %real.name | halt }
+  if ($readini($char($3), Battle, Status) = RunAway) { $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, CanNotAttackSomeoneWhoFledTech),private) | unset %real.name | halt } 
 
   $person_in_battle($3) | $checkchar($3) 
 
@@ -86,7 +86,7 @@ alias tech_cmd {
   $weapon_equipped($1)
 
   set %weapon.abilities $readini(techniques.db, Techs, %weapon.equipped)
-  if ($istok(%weapon.abilities,$2,46) = $false) {  $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, Can'tPerformTechWithWeapon) | halt }
+  if ($istok(%weapon.abilities,$2,46) = $false) {  $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, Can'tPerformTechWithWeapon),private) | halt }
   unset %weapon.abilities 
 
   ; Make sure the user has enough TP to use this in battle..
@@ -95,14 +95,14 @@ alias tech_cmd {
   ; Check for ConserveTP
   if ($readini($char($1), status, conservetp) = yes) { set %tp.needed 0 | writeini $char($1) status conserveTP no }
 
-  if (%tp.needed = $null) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, DoesNotKnowTech) | halt }
-  if (%tp.needed > %tp.have) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, NotEnoughTPforTech) | halt }
+  if (%tp.needed = $null) { $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, DoesNotKnowTech), private) | halt }
+  if (%tp.needed > %tp.have) { $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, NotEnoughTPforTech),private) | halt }
 
   if (%covering.someone != on) {
     if (%mode.pvp != on) {
       if ($3 = $1) {
         if (($is_confused($1) = false) && ($is_charmed($1) = false))  { 
-          if (%tech.type !isin boost.finalgetsuga.heal.heal-AOE.buff) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, Can'tAttackYourself) | unset %real.name | halt  }
+          if (%tech.type !isin boost.finalgetsuga.heal.heal-AOE.buff) { $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, Can'tAttackYourself),private) | unset %real.name | halt  }
         }
       }
     }
@@ -111,10 +111,10 @@ alias tech_cmd {
   dec %tp.have %tp.needed | writeini $char($1) battle tp %tp.have | unset %tp.have | unset %tp.needed
 
   if (%tech.type = boost) { 
-    if ($readini($char($1), status, virus) = yes) { query %battlechan $readini(translation.dat, errors, Can'tBoostHasVirus) | halt }
+    if ($readini($char($1), status, virus) = yes) { $display.system.message($readini(translation.dat, errors, Can'tBoostHasVirus),private) | halt }
     if (($readini($char($1), status, boosted) = yes) || ($readini($char($1), status, ignition.on) = on)) { 
       if ($readini($char($1), info, flag) = $null) {
-        $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, AlreadyBoosted) | halt 
+        $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, AlreadyBoosted), private) | halt 
       }
     }
 
@@ -137,12 +137,12 @@ alias tech_cmd {
 
   if (%covering.someone = on) { var %user.flag monster }
 
-  if ((%user.flag != monster) && (%target.flag != monster)) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, CanOnlyAttackMonsters)  | halt }
+  if ((%user.flag != monster) && (%target.flag != monster)) { $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, CanOnlyAttackMonsters),private)  | halt }
 
   if (%tech.type = heal) { $tech.heal($1, $2, $3) }
   if (%tech.type = heal-aoe) { $tech.aoeheal($1, $2, $3) }
-  if (%tech.type = single) {  $tech.single($1, $2, $3)  }
-  if (%tech.type = suicide) { $tech.suicide($1, $2, $3)  }
+  if (%tech.type = single) {  $covercheck($3, $2) | $tech.single($1, $2, $3)  }
+  if (%tech.type = suicide) { $covercheck($3, $2) | $tech.suicide($1, $2, $3)  }
 
   if (%tech.type = suicide-AOE) { 
     if ($is_charmed($1) = true) { 
@@ -158,7 +158,6 @@ alias tech_cmd {
   }
 
   if (%tech.type = status) { $tech.single($1, $2, $3) } 
-
   if (%tech.type = stealPower) { $tech.stealPower($1, $2, $3) }
 
   if (%tech.type = AOE) { 
@@ -190,13 +189,19 @@ alias tech.buff {
   $set_chr_name($3) | set %enemy %real.name
 
   var %buff.type $readini(techniques.db, $2, status)
-  if ($readini($char($3), status, %buff.type) = yes) { $set_chr_name($3) | query %battlechan $readini(translation.dat, errors, AlreadyHasThisBuff) 
-    var %tp.required $readini(techniques.db, $2, tp)  
-    $restore_tp($1, %tp.required)
-    halt 
+
+  ; If the user is a player and isn't confused or charmed, we should check to see if the target already has the buff on.  If so, why apply it again?
+  if ($readini($char($1), info, flag) = $null) {
+    if (($is_charmed($1) != true) && ($is_confused($1) != true))  { 
+      if ($readini($char($3), status, %buff.type) = yes) { $set_chr_name($3) | $display.system.message($readini(translation.dat, errors, AlreadyHasThisBuff), private)
+        var %tp.required $readini(techniques.db, $2, tp)  
+        $restore_tp($1, %tp.required)
+        halt 
+      }
+    }
   }
 
-  query %battlechan 3 $+ %user $+  $readini(techniques.db, $2, desc)
+  $display.system.message(3 $+ %user $+  $readini(techniques.db, $2, desc), battle)
 
   writeini $char($3) status %buff.type yes
   writeini $char($3) status %buff.type $+ .timer 0
@@ -212,8 +217,7 @@ alias tech.buff {
     unset %target.modifier
   }
 
-
-  query %battlechan $readini(translation.dat, status, GainedBuff)
+  $display.system.message($readini(translation.dat, status, GainedBuff), battle)
 
   ; Time to go to the next turn
   if (%battleis = on)  {  $check_for_double_turn($1) | halt }
@@ -341,8 +345,8 @@ alias tech.stealPower {
   $set_chr_name($1) | set %user %real.name
   $set_chr_name($3) | set %enemy %real.name
 
-  query %battlechan 3 $+ %user $+  $readini(techniques.db, $2, desc)
-  $set_chr_name($1) | query %battlechan $readini(translation.dat, tech, StolenPower)
+  $display.system.message(3 $+ %user $+  $readini(techniques.db, $2, desc), battle)
+  $set_chr_name($1) | $display.system.message($readini(translation.dat, tech, StolenPower), battle)
 
   unset %current.accessory.type
   return
@@ -350,7 +354,7 @@ alias tech.stealPower {
 
 alias tech.suicide {
   $set_chr_name($1)
-  query %battlechan $readini(translation.dat, tech, SuicideUseAllHP)
+  $display.system.message($readini(translation.dat, tech, SuicideUseAllHP), battle)
 
   $calculate_damage_suicide($1, $2, $3)
   writeini $char($1) battle hp 0 | writeini $char($1) battle status dead | $increase.death.tally($1) | $set_chr_name($1) 
@@ -429,7 +433,7 @@ alias tech.aoeheal {
   ; Display the tech description
   $set_chr_name($1) | set %user %real.name
   $set_chr_name($3) | set %enemy %real.name
-  query %battlechan 3 $+ %user $+  $readini(techniques.db, $2, desc)
+  $display.system.message(3 $+ %user $+  $readini(techniques.db, $2, desc), battle)
 
   var %caster.flag $readini($char($1), info, flag)
   if ($readini($char($1), status, confuse) = yes) { var %caster.flag monster }
@@ -454,7 +458,7 @@ alias tech.aoeheal {
   unset %statusmessage.display
   if ($readini($char($1), battle, hp) > 0) {
     $self.inflict_status($1, $4 , $3)
-    if (%statusmessage.display != $null) { query %battlechan %statusmessage.display | unset %statusmessage.display }
+    if (%statusmessage.display != $null) { $display.system.message(%statusmessage.display, battle) | unset %statusmessage.display }
   }
 
   /.timerCheckForDoubleSleep $+ $rand(a,z) $+ $rand(1,1000) 1 5 /check_for_double_turn $1
@@ -492,12 +496,12 @@ alias tech.suicideaoe {
   unset %who.battle | set %number.of.hits 0
 
   $set_chr_name($1)
-  query %battlechan $readini(translation.dat, tech, SuicideUseAllHP)
+  $display.system.message($readini(translation.dat, tech, SuicideUseAllHP), battle)
 
   ; Display the tech description
   $set_chr_name($1) | set %user %real.name
-  $set_chr_name($2) | set %enemy %real.name
-  query %battlechan 3 $+ %user  $+ $readini(techniques.db, $2, desc)
+  $set_chr_name($3) | set %enemy %real.name
+  $display.system.message(3 $+ %user  $+ $readini(techniques.db, $2, desc), battle)
 
   ; If it's player, search out remaining players that are alive and deal damage and display damage
   if ($4 = player) {
@@ -513,6 +517,8 @@ alias tech.suicideaoe {
           if ((%current.status = dead) || (%current.status = runaway)) { inc %battletxt.current.line 1 }
           else { 
             inc %number.of.hits 1
+            $covercheck(%who.battle, $2, AOE)
+
             $calculate_damage_suicide($1, $2, %who.battle)
             $deal_damage($1, %who.battle, $2)
             $display_aoedamage($1, %who.battle, $2)
@@ -534,6 +540,8 @@ alias tech.suicideaoe {
         var %current.status $readini($char(%who.battle), battle, status)
         if ((%current.status = dead) || (%current.status = runaway)) { inc %battletxt.current.line 1 }
         else { 
+          $covercheck(%who.battle, $2, AOE)
+
           $calculate_damage_suicide($1, $2, %who.battle)
           $deal_damage($1, %who.battle, $2)
           $display_aoedamage($1, %who.battle, $2)
@@ -576,7 +584,7 @@ alias tech.boost {
   ; $3 = target
 
   if ($readini($char($1), status, boosted) != no) { 
-    $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, AlreadyBoosted)
+    $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, AlreadyBoosted), battle)
     if ($readini($char($1), info, flag) = monster) { $check_for_double_turn($1) | halt }
     else { halt }
   }
@@ -613,7 +621,7 @@ alias tech.boost {
   writeini $char($1) Battle Spd %spd
 
   $set_chr_name($1) | set %user %real.name
-  $set_chr_name($1) | query %battlechan 10 $+ %real.name  $+ $readini(techniques.db, $2, desc)
+  $set_chr_name($1) | $display.system.message(10 $+ %real.name  $+ $readini(techniques.db, $2, desc), battle)
   writeini $char($1) status boosted yes
 
   ; Time to go to the next turn
@@ -626,7 +634,7 @@ alias tech.finalgetsuga {
   ; $3 = target
 
   if ($readini($char($1), status, FinalGetsuga) != no) { 
-    $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, AlreadyUsedFinalGetsuga)
+    $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, AlreadyUsedFinalGetsuga), battle)
     if ($readini($char($1), info, flag) = monster) { $check_for_double_turn($1) | halt }
     else { halt }
   }
@@ -662,7 +670,7 @@ alias tech.finalgetsuga {
   writeini $char($1) Battle Int %int
   writeini $char($1) Battle Spd %spd
 
-  $set_chr_name($1) | query %battlechan 10 $+ %real.name  $+ $readini(techniques.db, $2, desc)
+  $set_chr_name($1) | $display.system.message(10 $+ %real.name  $+ $readini(techniques.db, $2, desc), battle)
   writeini $char($1) status FinalGetsuga yes
 
   ; Time to go to the next turn
@@ -687,7 +695,7 @@ alias tech.aoe {
 
   var %enemy all targets
 
-  query %battlechan 3 $+ %user  $+ $readini(techniques.db, $2, desc)
+  $display.system.message(3 $+ %user  $+ $readini(techniques.db, $2, desc), battle)
   set %showed.tech.desc true
 
   if ($readini(techniques.db, $2, absorb) = yes) { set %absorb absorb }
@@ -719,6 +727,8 @@ alias tech.aoe {
             }
 
             if (($istok(%target.element.heal,%tech.element,46) = $false) || (%tech.element = none)) { 
+
+              $covercheck(%who.battle, $2, AOE)
 
               if (($readini($char(%who.battle), status, reflect) = yes) && ($readini(techniques.db, $2, magic) = yes)) {
                 $calculate_damage_techs($1, $2, $1)
@@ -764,7 +774,7 @@ alias tech.aoe {
             }
 
             if (($istok(%target.element.heal,%tech.element,46) = $false) || (%tech.element = none)) { 
-
+              $covercheck(%who.battle, $2, AOE)
               if (($readini($char(%who.battle), status, reflect) = yes) && ($readini(techniques.db, $2, magic) = yes)) {
                 $calculate_damage_techs($1, $2, $1)
                 if (%attack.damage >= 4000) { set %attack.damage $rand(2800,3500) }
@@ -799,8 +809,10 @@ alias tech.aoe {
   unset %statusmessage.display
   if ($readini($char($1), battle, hp) > 0) {
     $self.inflict_status($1, $4 , $3)
-    if (%statusmessage.display != $null) { query %battlechan %statusmessage.display | unset %statusmessage.display }
+    if (%statusmessage.display != $null) { $display.system.message(%statusmessage.display, battle) | unset %statusmessage.display }
   }
+
+  if (%timer.time > 20) { %timer.time = 20 }
 
   /.timerCheckForDoubleSleep $+ $rand(a,z) $+ $rand(1,1000) 1 %timer.time /check_for_double_turn $1
   halt
@@ -814,21 +826,21 @@ alias display_aoedamage {
 
   ; Show the damage
 
-  if (($readini($char($2), status, reflect) = yes) && ($readini(techniques.db, $3, magic) = yes)) { query %battlechan $readini(translation.dat, skill, MagicReflected) | $set_chr_name($1) | set %enemy %real.name | set %target $1 | writeini $char($2) status reflect no | writeini $char($2) status reflect.timer 1  }
+  if (($readini($char($2), status, reflect) = yes) && ($readini(techniques.db, $3, magic) = yes)) { $display.system.message($readini(translation.dat, skill, MagicReflected), battle) | $set_chr_name($1) | set %enemy %real.name | set %target $1 | writeini $char($2) status reflect no | writeini $char($2) status reflect.timer 1  }
 
   if ($3 != battlefield) {
     if (($readini($char($1), info, flag) != monster) && (%target != $1)) { $calculate.stylepoints($1) }
   }
 
-  if (%guard.message = $null) { query %battlechan $readini(translation.dat, tech, DisplayAOEDamage)  }
-  if (%guard.message != $null) { query %battlechan %guard.message | unset %guard.message }
+  if (%guard.message = $null) { $display.system.message($readini(translation.dat, tech, DisplayAOEDamage), battle)  }
+  if (%guard.message != $null) { $display.system.message(%guard.message, battle) | unset %guard.message }
 
   if (%target = $null) { set %target $2 }
 
   if ($4 = absorb) { 
     ; Show how much the person absorbed back.
     var %absorb.amount $round($calc(%attack.damage / 2),0)
-    query %battlechan $readini(translation.dat, tech, AbsorbHPBack)
+    $display.system.message($readini(translation.dat, tech, AbsorbHPBack), battle)
   }
 
   set %target.hp $readini($char(%target), battle, hp)
@@ -843,7 +855,7 @@ alias display_aoedamage {
     var %stagger.amount.needed $readini($char(%target), info, StaggerAmount)
     dec %stagger.amount.needed %attack.damage | writeini $char(%target) info staggeramount %stagger.amount.needed
     if (%stagger.amount.needed <= 0) { writeini $char(%target) status staggered yes |  writeini $char(%target) info CanStagger no
-      query %battlechan $readini(translation.dat, status, StaggerHappens)
+      $display.system.message($readini(translation.dat, status, StaggerHappens), battle)
     }
   }
 
@@ -856,7 +868,7 @@ alias display_aoedamage {
     $achievement_check(%target, SirDiesALot)
     $increase.death.tally(%target) 
     if (%attack.damage > $readini($char(%target), basestats, hp)) { set %overkill 7<<OVERKILL>> }
-    query %battlechan $readini(translation.dat, battle, EnemyDefeated)
+    $display.system.message($readini(translation.dat, battle, EnemyDefeated), battle)
     $goldorb_check(%target) 
     $spawn_after_death(%target)
   }
@@ -940,15 +952,6 @@ alias calculate_damage_techs {
   ; Let's increase the attack by a random amount.
   inc %attack.damage $rand(1,10)
 
-  ; Check for the modifier adjustments.
-  var %tech.element $readini(techniques.db, $2, element)
-  if ((%tech.element != $null) && (%tech.element != none)) {
-    $modifer_adjust($3, %tech.element)
-  }
-
-  ; Check to see if the target is resistant/weak to the tech itself
-  $modifer_adjust($3, $2)
-
   ; Is the tech magic?  If so, we need to add some more stuff to it.
   if ($readini(techniques.db, $2, magic) = yes) { $calculate_damage_magic($1, $2, $3) }
 
@@ -989,6 +992,17 @@ alias calculate_damage_techs {
     var %def.ignored $round($calc(%enemy.defense * (%ignore.defense.percent * .010)),0)
     dec %enemy.defense %def.ignored
   }
+
+  ; Check for the modifier adjustments.
+  echo -a check for modifier adjustments.  2: $2
+  var %tech.element $readini(techniques.db, $2, element)
+  if ((%tech.element != $null) && (%tech.element != none)) {
+    $modifer_adjust($3, %tech.element)
+  }
+
+  ; Check to see if the target is resistant/weak to the tech itself
+  $modifer_adjust($3, $2)
+
 
   if (%enemy.defense <= 0) { set %enemy.defense 1 }
 
@@ -1499,24 +1513,24 @@ alias ignition_cmd {
   ; $1 = user
   ; $2 = boost name
 
-  if (%battleis = off) { query %battlechan $readini(translation.dat, errors, NoBattleCurrently) | halt }
+  if (%battleis = off) { $display.system.message($readini(translation.dat, errors, NoBattleCurrently), battle) | halt }
   $check_for_battle($1) 
   $amnesia.check($1, ignition) 
 
-  if ((no-ignition isin %battleconditions) || (no-ignitions isin %battleconditions)) { $set_chr_name($1) | query %battlechan $readini(translation.dat, battle, NotAllowedBattleCondition) | halt }
-  if ($readini($char($1), status, virus) = yes) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, Can'tBoostHasVirus) | halt }
-  if (($readini($char($1), status, boosted) = yes) || ($readini($char($1), status, ignition.on) = on)) {  $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, AlreadyBoosted) | halt }
+  if ((no-ignition isin %battleconditions) || (no-ignitions isin %battleconditions)) { $set_chr_name($1) | $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition), battle) | halt }
+  if ($readini($char($1), status, virus) = yes) { $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, Can'tBoostHasVirus), battle) | halt }
+  if (($readini($char($1), status, boosted) = yes) || ($readini($char($1), status, ignition.on) = on)) {  $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, AlreadyBoosted), battle) | halt }
 
   ; Does the user know that ignition?
   var %ignition.level $readini($char($1), ignitions, $2)
-  if (($2 = $null) || ($2 <= 0)) {  $set_chr_name($1) | query %battlechan $readini(translation.dat, Errors, DoNotKnowThatIgnition) |  halt }
+  if (($2 = $null) || ($2 <= 0)) {  $set_chr_name($1) | $display.system.message(readini(translation.dat, Errors, DoNotKnowThatIgnition), battle) |  halt }
 
 
   ; Check to see if the user has enough Ignition Gauge to boost
   set %ignition.cost $readini(ignitions.db, $2, IgnitionTrigger)
   set %player.current.ig $readini($char($1), battle, ignitionGauge)
 
-  if (%player.current.ig < %ignition.cost) { query %battlechan $readini(translation.dat, Errors, NotEnoughIgnitionGaugeToBoost) | unset %ignition.cost | unset %player.current.ig | halt }
+  if (%player.current.ig < %ignition.cost) { $display.system.message($readini(translation.dat, Errors, NotEnoughIgnitionGaugeToBoost), battle) | unset %ignition.cost | unset %player.current.ig | halt }
 
   ; Decrease the ignition gauge the initial cost. 
   dec %player.current.ig %ignition.cost
@@ -1527,7 +1541,7 @@ alias ignition_cmd {
 
   if ($readini($char($1), descriptions, $2) = $null) { set %ignition.description $readini(ignitions.db, $2, desc) }
   else { set %ignition.description $readini($char($1), descriptions, $2) }
-  $set_chr_name($1) | query %battlechan 10 $+ %real.name  $+ %ignition.description
+  $set_chr_name($1) | $display.system.message(10 $+ %real.name  $+ %ignition.description, battle)
 
   ; Increase the stats
   var %hp $round($calc($readini($char($1), Battle, Hp) * $readini(ignitions.db, $2, hp)),0)

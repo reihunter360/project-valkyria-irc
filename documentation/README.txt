@@ -85,6 +85,19 @@ As usual be sure to read the versions.txt in the documentation folder
 for a full list of everything this version does.  Listed below are some 
 of the highlights.
 
+* New DCC Chat Version
+If you're interested in having epic battles with tons of monsters and the ability to have people
+connect to the game from different servers this mode is for you!  By setting DCC Chat mode on
+in system.dat (in [system] BotType=DCCchat) the bot will now connect to everyone using DCC Chat.
+Unfortunately it means that Mibbit and several other clients will no longer be able to play, so keep
+that in mind before you go switching it.  On the plus side, the game can handle many more monsters
+and players without fear of being disconnected for flood control.
+
+There's also two DCC Chat exclusive commands: !toggle battle chat  and !who's online
+!toggle battle chat  will turn on/off the battle chat. When on, you'll see the battle chat stuff even
+if you're not in the battle itself. When off, you shouldn't see most of it.  !who's online will tell
+you who's online in-game currently and if they're in battle or not. 
+
 * New Damage Formulas
 This version of the bot dumps the version 1.0-1.5 battle formulas for melee and techs and introduces 
 two new formulas.  Bot Admins can use !toggle Battle Formula to switch between them.  Formula 2 is 
@@ -126,6 +139,11 @@ activate a renkei that will deal additional damage to a target. Monsters can use
 From streak 301 to streak 600 a new boss battle type may randomly generate: Demon Walls. Like in
 the Final Fantasy games players are only given a small time to defeat the wall before the battle
 is ended in a loss.
+
+* Elder Dragons
+From streak 601 to streak 5000 powerful Elder Dragons will be summoned randomly in place of boss battles.
+Nearly everything about these dragons are randomly generated, from their resistances/weaknesses to 
+their names.
 
 * Portal Boss Battles
 There are now "portal items" in the shop. These items, when used, will teleport all heroes in a battle to

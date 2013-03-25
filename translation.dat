@@ -192,6 +192,7 @@ WarmachineFight=$chr(3) $+ 14 $+ The ground begins to shake violently as the F
 DemonWallFight=$chr(3) $+ 14 $+ The heroes are teleported into a long dead-end hallway. Suddenly one end of the hall comes to life. The Demon Wall readies its weapons and begins to slowly move in, ready to crush all the heroes on the other end of the hall. This battle will have to be won fast or else!
 DemonWallFightOver=$chr(3) $+ 14 $+ The Demon Wall gives off an eerie laugh as the heroes are backed against the wall. With nowhere else to go, the wall continues to press against them until the heroes are squished and the battle ends.
 DemonWallFightWarning=$chr(3) $+ 4 $+ The heroes estimate they have 5 minutes before the wall will crush them at the end of the hall.
+ElderDragonFight=$chr(3) $+ 14 $+ The Elder Dragon %elderdragon.name has awoken from its long slumber. With an earth-shaking roar, the dragon claws out of the ground and flies high into the air.  It gives another roar as it then sees the heroes and swoops in for an attack.
 
 =======================
 Error Messages
@@ -361,7 +362,7 @@ PerformsA7HitAttack=$chr(3) $+ 4 $+ %real.name performs a seven hit attack aga
 PerformsA8HitAttack=$chr(3) $+ 4 $+ %real.name performs an eight hit attack against $set_chr_name($2) %real.name $+ ! 
 EnemyDefeated=$chr(3) $+ 4 $+ %enemy has been defeated by %user $+ !  %overkill
 AttackDidDamage=The attack did4 $bytes(%attack.damage,b) damage %style.rating
-TargetCovered=$chr(3) $+ 7 $+ $set_chr_name(%attack.target) $+ %real.name jumps in front of the attack to shield $set_chr_name($1) %real.name $+ !
+TargetCovered=$chr(3) $+ 7 $+ $set_chr_name(%cover.target) $+ %real.name jumps in front of the attack to shield $set_chr_name($1) %real.name $+ !
 NotAllowedBattleCondition=$chr(3) $+ 4 $+ $+ %real.name is not allowed to do that action due to the current battle conditions!
 GoldOrbUsed=$chr(3) $+ 7 $+ %real.name $+ 's body is lifted off the ground by a bright golden light.  It flashes for a moment and %real.name is brought back to life!
 WeaponParry=$chr(3) $+ 7 $+ %real.name parries $set_chr_name($2) %real.name $+ 's attack using $gender($1) %parry.weapon $+ ! %style.rating

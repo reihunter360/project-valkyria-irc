@@ -30,7 +30,7 @@ Char=is a large shell made out of human bodies with small tentacles sticking out
 BossQuote=My name is Legion: for we are many. 
 Rage=screams in rage 
 MonsterConsume='s tentacles lash out and grab $set_chr_name($2) $+ %real.name $+ , dragging $gender2($2) into Legion, consuming $gender2($2) completely.  Legion gains some of %real.name $+ 's power and grows stronger!
-MonsterSummon=Legion slams its tentacles into a lifeless body and brings it back to life as a mindless zombie, ready to attack the heroes.
+MonsterSummon=Legion slams its tentacles into %number.of.spawns.needed lifeless bodies and brings them back to life as a mindless zombies, ready to attack the heroes.
 
 [Stuff]
 RedOrbs=0
@@ -106,10 +106,12 @@ Resist-confuse=100
 Zen=5
 ClearMind=3
 MonsterSummon=1
-MonsterSummon.Monster=zombie
+MonsterSummon.Monster=Zombie
 MonsterSummon.Chance=100
+monstersummon.numberspawn=2
 MonsterConsume=1
-
+RoyalGuard.on=on
+manawall.on=on
 
 [Techniques]
 LegionLaser=500
@@ -132,21 +134,21 @@ Ice=100
 Lightning=100
 Light=130
 Dark=250
-HandToHand=120
+HandToHand=105
 Whip=100
-Sword=100
+Sword=90
 Gun=50
 Rifle=70
-Katana=110
+Katana=100
 Wand=40
 Spear=80
-Scythe=110
+Scythe=100
 Glyph=110
-GreatSword=120
+GreatSword=105
 Bow=50
 HydroStorm=500
 
 [NaturalArmor]
 Name=Demonic Human Body Shell
-Max=10000
-Current=10000
+Max=10500
+Current=10500

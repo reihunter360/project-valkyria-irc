@@ -425,6 +425,8 @@ Battle Arena Bot VERSIONS
   the element.
 - Added a new special boss fight: Demon Wall.  In this type the bot will generate a demon wall based on the current 
   battle streak. This boss fight is also timed; darkness will occur in 5 minutes and it's instant death if darkness triggers.
+- Added a new special boss fight: Elder Dragons.  In this type, the bot will randomly generate a powerful Elder Dragon for
+  the heroes to fight. The name of the dragon is completely random, as is its elemental weaknesses/resists.
 - Added two new battle formulas. Bot Admins can use !toggle Battle Formula to switch between them.  The version 1.0-1.5 formula
   is now gone. Bot Owners can switch it manually in system.dat [system] BattleDamageFormula=1 or 2  By default, 2 is default.
 - Added a IgnoreDmgCap flag in system.dat.  If set to true then damage will no longer be capped under any formulas. 
@@ -527,6 +529,7 @@ Battle Arena Bot VERSIONS
   [modifiers] section.  Setting the element/weapon/tech to 0 means the monster is completely immune to it.  Setting it to 
   100 means they will take normal damage from it.  Anything above 100 is a weakness, anything below 100 is a resistance. Remember 
   that it's in percent, so 125 = 125% damage from it.
+- Changed items so that they will now hurt targets that are under the ethereal status.
 - Fixed a bug in which selling a technique might result in 0 orbs back.
 - Fixed a bug in which cover would activate when a monster used taunt on a covered target.
 - Fixed an issue where setting a high difficulty would still result in low level monsters on lower streaks. Now it summons the

@@ -11,37 +11,37 @@ PASSIVE SKILLS
 
 [Swordmaster]
 Cost=200
-Max=200
+Max=500
 Type=Passive
 Info=This skill increases damage done with sword and katana weapons.  Increased levels increases the damage.
 
 [Polemaster]
 Cost=200
-Max=200
+Max=500
 Type=Passive
 Info=This skill increases damage done with spear weapons.  Increased levels increases the damage.
 
 [Gunslinger]
 Cost=200
-Max=200
+Max=500
 Type=Passive
 Info=This skill increases damage done with a gun.  Increased levels increases the damage.
 
 [Wizardry]
 Cost=200
-Max=200
+Max=500
 Type=Passive
 Info=This skill increases damage done with stave and wand weapons.  Increased levels increases the damage.
 
 [MartialArts]
 Cost=200
-max=200
+Max=500
 Type=Passive
 Info=This skill increases damage done with your hand to hand weapons.  Increased levels increases the damage.
 
 [Archery]
 Cost=200
-Max=200
+Max=500
 Type=Passive
 Info=This skill increases damage done with a bow.  Increased levels increases the damage.
 
@@ -117,7 +117,7 @@ Max=40
 Cost=1000
 Type=passive
 Info=This skill will increase the odds of better colored chests at the end of battle and increase the odds that a player will receive an item from a normal monster battle (if the monster has an item to drop). This skill is culumulative with everyone who has it at the end of battle.  In order for this skill to take effect, you must be alive at the end of battle when a chest is created.
-Max=5
+Max=7
 
 [BackGuard]
 Cost=1000
@@ -193,7 +193,7 @@ Cooldown=500
 [BloodBoost]
 Cost=500
 Type=Active
-Max=100
+Max=200
 Info=This skill will consume 100 HP to give you a (level * 2) boost to your STR.
 Cooldown=20
 
@@ -249,7 +249,7 @@ Cost=600
 Type=Active
 Info=This skill allows you to jump in front of an attack and cover an ally of your choosing.
 Max=1
-Cooldown=20
+Cooldown=30
 
 [Aggressor]
 Cost=500
@@ -268,7 +268,7 @@ Cost=1000
 Type=Active
 Info=This skill will extend the amount of time you have to fight before Darkness sets onto the battlefield by (skill level) minute(s).
 Max=5
-Cooldown=1260
+Cooldown=1100
 
 [Provoke]
 Cost=600

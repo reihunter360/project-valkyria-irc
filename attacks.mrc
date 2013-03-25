@@ -2,23 +2,23 @@
 ;;;; ATTACKS COMMAND
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-ON 2:ACTION:attacks *:#:{ 
-  if ($is_charmed($nick) = true) { $set_chr_name($nick) | query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
-  if ($is_confused($nick) = true) { $set_chr_name($nick) | query %battlechan $readini(translation.dat, status, CurrentlyConfused) | halt }
+ON 3:ACTION:attacks *:#:{ 
+  if ($is_charmed($nick) = true) { $set_chr_name($nick) | $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
+  if ($is_confused($nick) = true) { $set_chr_name($nick) | $display.system.message($readini(translation.dat, status, CurrentlyConfused), private) | halt }
   $set_chr_name($nick) | set %attack.target $2 | $covercheck($2)
   $attack_cmd($nick , %attack.target) 
 } 
-ON 2:TEXT:!attack *:#:{ 
-  if ($is_charmed($nick) = true) { $set_chr_name($nick) | query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
-  if ($is_confused($nick) = true) { $set_chr_name($nick) | query %battlechan $readini(translation.dat, status, CurrentlyConfused) | halt }
+on 3:TEXT:!attack *:#:{ 
+  if ($is_charmed($nick) = true) { $set_chr_name($nick) | $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
+  if ($is_confused($nick) = true) { $set_chr_name($nick) | $display.system.message($readini(translation.dat, status, CurrentlyConfused), private) | halt }
   $set_chr_name($nick) | set %attack.target $2
   $attack_cmd($nick , %attack.target) 
 } 
 ON 50:TEXT:*attacks *:*:{ 
   if ($2 != attacks) { halt } 
   else { 
-    if ($is_charmed($1) = true) { $set_chr_name($1) | query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
-    if ($is_confused($1) = true) { $set_chr_name($1) | query %battlechan $readini(translation.dat, status, CurrentlyConfused) | halt }
+    if ($is_charmed($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
+    if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused), private) | halt }
     $charm.check($1, $nick) | unset %real.name 
     if $readini($char($1), Battle, HP) = $null) { halt }
     $set_chr_name($1) | set %attack.target $3 | $covercheck($3)
@@ -26,7 +26,9 @@ ON 50:TEXT:*attacks *:*:{
   }
 }
 
-alias attack_cmd { $check_for_battle($1) | $person_in_battle($2) | $checkchar($2) | var %user.flag $readini($char($1), info, flag) | var %target.flag $readini($char($2), info, flag)
+alias attack_cmd { 
+  set %debug.location alias attack_cmd
+  $check_for_battle($1) | $person_in_battle($2) | $checkchar($2) | var %user.flag $readini($char($1), info, flag) | var %target.flag $readini($char($2), info, flag)
   if ($is_charmed($1) = true) { var %user.flag monster }
   if ($is_confused($1) = true) { var %user.flag monster } 
   if (%mode.pvp = on) { var %user.flag monster }
@@ -34,17 +36,17 @@ alias attack_cmd { $check_for_battle($1) | $person_in_battle($2) | $checkchar($2
   if ((%ai.type != berserker) && (%covering.someone != on)) {
     if (%mode.pvp != on) {
       if ($2 = $1) {
-        if (($is_confused($1) = false) && ($is_charmed($1) = false))  { query %battlechan $readini(translation.dat, errors, Can'tAttackYourself) | unset %real.name | halt  }
+        if (($is_confused($1) = false) && ($is_charmed($1) = false))  { $display.system.message($readini(translation.dat, errors, Can'tAttackYourself), private) | unset %real.name | halt  }
       }
     }
   }
 
   if (%covering.someone = on) { var %user.flag monster }
 
-  if ((%user.flag = $null) && (%target.flag != monster)) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, CanOnlyAttackMonsters) | halt }
-  if ($readini($char($1), Battle, Status) = dead) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, CanNotAttackWhileUnconcious)  | unset %real.name | halt }
-  if ($readini($char($2), Battle, Status) = dead) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, CanNotAttackSomeoneWhoIsDead) | unset %real.name | halt }
-  if ($readini($char($2), Battle, Status) = RunAway) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, CanNotAttackSomeoneWhoFled) | unset %real.name | halt } 
+  if ((%user.flag = $null) && (%target.flag != monster)) { $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, CanOnlyAttackMonsters),private) | halt }
+  if ($readini($char($1), Battle, Status) = dead) { $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, CanNotAttackWhileUnconcious),private)  | unset %real.name | halt }
+  if ($readini($char($2), Battle, Status) = dead) { $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, CanNotAttackSomeoneWhoIsDead),private) | unset %real.name | halt }
+  if ($readini($char($2), Battle, Status) = RunAway) { $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, CanNotAttackSomeoneWhoFled),private) | unset %real.name | halt } 
 
   ; Make sure the old attack damages have been cleared, and clear a few variables.
   unset %attack.damage | unset %attack.damage1 | unset %attack.damage2 | unset %attack.damage3 | unset %attack.damage4
@@ -90,6 +92,7 @@ alias attack_cmd { $check_for_battle($1) | $person_in_battle($2) | $checkchar($2
 }
 
 alias calculate_damage_weapon {
+  set %debug.location alias calculate_damage_weapon
   ; $1 = %user
   ; $2 = weapon equipped
   ; $3 = target / %enemy 
@@ -450,7 +453,7 @@ alias calculate_damage_weapon {
   if ($augment.check($1, EnhanceCriticalHits) = true) { inc %critical.hit.chance %augment.strength }
 
   if (%critical.hit.chance >= 97) {
-    $set_chr_name($1) |  query %battlechan $readini(translation.dat, battle, LandsACriticalHit)
+    $set_chr_name($1) |  $display.system.message($readini(translation.dat, battle, LandsACriticalHit), battle)
     set %attack.damage $round($calc(%attack.damage * 1.5),0)
   }
 
@@ -599,7 +602,7 @@ alias drain_samba_check {
     if (%drainsamba.turns = $null) { set %drainsamba.turns 0 }
     set %drainsamba.turn.max $readini($char($1), skills, drainsamba)
     inc %drainsamba.turns 1 
-    if (%drainsamba.turns > %drainsamba.turn.max) { $set_chr_name($1) | query %battlechan $readini(translation.dat, skill, DrainSambaWornOff) | writeini $char($1) skills drainsamba.turn 0 | writeini $char($1) skills drainsamba.on off | return }
+    if (%drainsamba.turns > %drainsamba.turn.max) { $set_chr_name($1) | $display.system.message($readini(translation.dat, skill, DrainSambaWornOff), battle) | writeini $char($1) skills drainsamba.turn 0 | writeini $char($1) skills drainsamba.on off | return }
     writeini $char($1) skills drainsamba.turn %drainsamba.turns   
     set %drainsamba.on on
   }

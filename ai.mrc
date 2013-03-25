@@ -2,6 +2,7 @@
 ;;;; AI COMMANDS
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 alias aicheck { 
+  set %debug.location aicheck
   unset %statusmessage.display
   remini $char($1) renkei
 
@@ -18,6 +19,7 @@ alias aicheck {
 }
 
 alias ai_turn {
+  set %debug.location ai_turn
   ; Is it the AI's turn?  This is to prevent some bugs showing up..
   if (%who != $1) { return }
 
@@ -32,21 +34,29 @@ alias ai_turn {
   if (%ai.type = portal) { 
     $portal.clear.monsters
 
-    var %max.number.of.mons $readini(system.dat, system, MaxNumberOfMonsInBattle)
-    if (%max.number.of.mons = $null) { var %max.number.of.mons 6 }
+    if ($readini(system.dat, system, botType) = IRC) { 
+      var %max.number.of.mons $readini(system.dat, system, MaxNumberOfMonsInBattle)
+      if (%max.number.of.mons = $null) { var %max.number.of.mons 6 }
+    }
+    if ($readini(system.dat, system, botType) = DCCchat) { var %max.number.of.mons 30 }
 
-    if ($readini(battle2.txt, battleinfo, Monsters) >= %max.number.of.mons) { query %battlechan 12The Demon Portal glows quietly. | $check_for_double_turn($1) | halt }
+    if ($readini(battle2.txt, battleinfo, Monsters) >= %max.number.of.mons) { 
+      $display.battle.message(12The Demon Portal glows quietly.)
+      $check_for_double_turn($1) | halt 
+
+    }
     else {  $portal.summon.monster($1) |  halt }
   }
 
-
   if (($readini($char($1), info, flag) = NPC) || ($readini($char($1), info, flag) = monster)) { 
-
     ; Release snatched targets, if any
     var %cover.target $readini($char($1), skills, CoverTarget)
     if ((%cover.target != none) && (%cover.target != $null)) {
-      remini $char($1) skills covertarget
-      $set_chr_name($1) | query %battlechan $readini(translation.dat, battle, ReleaseSnatchedTarget)
+      if ($readini($char($1), info, flag) = monster) { 
+        remini $char($1) skills covertarget
+        $set_chr_name($1) 
+        $display.battle.message($readini(translation.dat, battle, ReleaseSnatchedTarget), battle)
+      }
     }
 
     ; Possibly change weapons.
@@ -107,7 +117,6 @@ alias ai_turn {
     if (%ai.skilllist != $null) {
       if ($readini($char($1), info, CanFlee) = true) { var %random.action $rand(1,110) }
       if ($readini($char($1), info, CanFlee) != true) { var %random.action $rand(1,99) }
-
       if (%random.action <= 45) { $ai_gettech($1) | $ai_gettarget($1) | $tech_cmd($1, %ai.tech, %ai.target) | halt }
       if ((%random.action > 45) && (%random.action <= 50)) { set %taunt.action true | $ai_gettarget($1) |  $taunt($1 , %ai.target) | halt } 
       if ((%random.action > 50) && (%random.action <= 65)) { $ai_chooseskill($1) | halt }
@@ -118,28 +127,26 @@ alias ai_turn {
   }
 }
 alias ai.flee {
+  set %debug.location alias ai.flee
   var %flee.chance $rand(1,100)
   if (%flee.chance <= 60) { $flee($1) | halt }
   if (%flee.chance > 60) {  
     $set_chr_name($1)
-    query %battlechan $readini(translation.dat, battle, CannotFleeBattle)
+
+    $display.battle.message($readini(translation.dat, battle, CannotFleeBattle))
+
     /.timerCheckForDoubleTurnWait 1 1 /check_for_double_turn $1 | halt 
   }
 }
 
 alias ai_gettarget {
+  set %debug.location alias ai.gettarget
   unset %ai.targetlist
   var %provoke.target $readini($char($1), skills, provoke.target)
-
-  if (%provoke.target != $null) { 
-    set %ai.target %provoke.target
-    remini $char($1) skills provoke.target
-    return
-  }
-
   set %tech.type $readini(techniques.db, %ai.tech, type)
 
-  if ((%tech.type = heal) || (%tech.type = buff)) {
+  if (((%tech.type = heal) || (%tech.type = aoeheal) || (%tech.type = buff))) {
+    unset %provoke.target
     if (%opponent.flag = player) { set %opponent.flag monster | goto gettarget }
     if (%opponent.flag = monster) { set %opponent.flag player | goto gettarget }
   }
@@ -148,6 +155,13 @@ alias ai_gettarget {
   ; As much as I hate using the goto command, it's the only way I can think of to make the above flag change work right so that healing techs work right.
 
   :gettarget
+
+  if (%provoke.target != $null) { 
+    set %ai.target %provoke.target
+    remini $char($1) skills provoke.target
+    return
+  }
+
   set %battletxt.lines $lines(battle.txt) | set %battletxt.current.line 1 | unset %tech.type
 
   while (%battletxt.current.line <= %battletxt.lines) { 
@@ -190,6 +204,7 @@ alias ai_gettarget {
 }
 
 alias ai_getmontarget {
+  set %debug.location alias ai_getmontarget
   ; $1 = AI user
 
   unset %ai.targetlist
@@ -333,7 +348,9 @@ alias ai_skillcheck {
     }
   }
   if ($readini($char($1), skills, bloodboost) != $null) { writeini $char($1) skills bloodboost.time 0 | %ai.skilllist  = $addtok(%ai.skilllist, bloodboost, 46) }
-  if ($readini($char($1), skills, sugitekai) != $null) { writeini $char($1) skills doubleturn.time 0 | %ai.skilllist  = $addtok(%ai.skilllist, sugitekai, 46) }
+  if ($readini($char($1), skills, sugitekai) != $null) { 
+    if ($readini($char($1), skills, doubleturn.on) != on) { writeini $char($1) skills doubleturn.time 0 | %ai.skilllist  = $addtok(%ai.skilllist, sugitekai, 46) }
+  }
   if ($readini($char($1), skills, mightystrike) != $null) { 
     if ($readini($char($1), skills, mightystrike.on) != on) {
       writeini $char($1) skills mightystrike.time 0 | %ai.skilllist  = $addtok(%ai.skilllist, mightystrike, 46) 
@@ -391,8 +408,7 @@ alias ai_skillcheck {
   if ($readini($char($1), skills, JustRelease) >= 1) {
     if ($readini($char($1), skills, royalguard.dmgblocked) >= 100) { %ai.skilllist  = $addtok(%ai.skilllist, justrelease, 46)  }
   }
-
-
+  if ($readini($char($1), skills, Cover) >= 1) { %ai.skilllist  = $addtok(%ai.skilllist, cover, 46)  }
 }
 
 alias ai_chooseskill {
@@ -427,7 +443,9 @@ alias ai_chooseskill {
     ; Show description
     if ($readini($char($1), descriptions, snatch) = $null) { set %skill.description grabs onto %enemy and tries to use $gender2(%ai.target) as a shield! }
     else { set %skill.description $readini($char($1), descriptions, snatch) }
-    $set_chr_name($1) | query %battlechan 12 $+ %real.name  $+ %skill.description
+    $set_chr_name($1) 
+
+    $display.battle.message(12 $+ %real.name  $+ %skill.description)
 
     ; Try to grab the target.
     $do.snatch($1 , %ai.target) 
@@ -459,24 +477,6 @@ alias ai_chooseskill {
     halt
   }
 
-  if (%ai.skill = snatch) { 
-    ; Get target
-    $ai_gettarget($1) 
-    $set_chr_name(%ai.target) | set %enemy %real.name
-    $set_chr_name($1) | set %user %real.name
-
-    ; Show description
-    if ($readini($char($1), descriptions, snatch) = $null) { set %skill.description grabs onto %enemy and tries to use $gender2(%ai.target) as a shield! }
-    else { set %skill.description $readini($char($1), descriptions, snatch) }
-    $set_chr_name($1) | query %battlechan 12 $+ %real.name  $+ %skill.description
-
-    ; Try to grab the target.
-    $do.snatch($1 , %ai.target) 
-
-    ; Time to go to the next turn
-    if (%battleis = on)  { $check_for_double_turn($1) }
-  }
-
   if (%ai.skill = JustRelease) {
     $ai_gettarget($1)
 
@@ -486,6 +486,36 @@ alias ai_chooseskill {
       set %taunt.action true | $ai_gettarget($1) |  $taunt($1 , %ai.target) | halt 
     } 
   }
+
+  if (%ai.skill = cover) {
+    remini $char($1) skills cover
+    var %monster.master $readini($char($1), info, master) 
+    set %ai.target %monster.master
+
+    if (((%monster.master = $null) || ($readini($char(%master), battle, status) = dead) || ($readini($char(%master), battle, status) = runaway))) {
+      $ai_getmontarget($1)
+      set %total.targets $numtok(%ai.targetlist, 46)
+      set %random.target $rand(1,%total.targets)
+      set %ai.target $gettok(%ai.targetlist,%random.target,46)
+
+      if (%ai.target = $null) { 
+        ; Try a second time.
+        set %total.targets $numtok(%ai.targetlist, 46)
+        set %random.target $rand(1,%total.targets)
+        set %ai.target $gettok(%ai.targetlist,%random.target,46)
+      }
+
+      ; If it's still null, let's just taunt someone at random.
+      if (%ai.target = $null) {
+        unset %random.target | unset %total.targets 
+        set %taunt.action true | $ai_gettarget($1) |  $taunt($1 , %ai.target) | halt 
+      } 
+    }
+    unset %random.target | unset %total.targets | unset %taunt.action
+    $skill.cover($1, %ai.target)
+    halt
+  }
+
   unset %random.target | unset %total.targets | unset %taunt.action
   $skill.justrelease($1, %ai.target, !justrelease)
   halt
@@ -493,7 +523,6 @@ alias ai_chooseskill {
 
 alias ai.changeweapon {
   if ($readini($char($1), status, weapon.locked) != $null) { return }
-
 
   if ($readini($char($1), info, clone) = yes) {
     set %changeweapon.chance $rand(1,100)
@@ -520,7 +549,10 @@ alias ai.changeweapon {
 
   if (%weapon.name = %current.weapon) { unset %weapon.name | return }
 
-  writeini $char($1) weapons equipped %weapon.name | $set_chr_name($1) | query %battlechan $readini(translation.dat, system, EquipWeaponMonster)
+  writeini $char($1) weapons equipped %weapon.name | $set_chr_name($1) 
+
+  $display.battle.message($readini(translation.dat, system, EquipWeaponMonster))
+
   unset %weapon.name
 }
 
@@ -547,8 +579,12 @@ alias ai.monstersummon {
     var %summon.chance $rand(1,100)
     if (%summon.chance <= $readini($char($1), skills, monstersummon.chance)) {
 
-      var %max.number.of.mons $readini(system.dat, system, MaxNumberOfMonsInBattle)
-      if (%max.number.of.mons = $null) { var %max.number.of.mons 6 }
+      if ($readini(system.dat, system, botType) = IRC) { 
+        var %max.number.of.mons $readini(system.dat, system, MaxNumberOfMonsInBattle)
+        if (%max.number.of.mons = $null) { var %max.number.of.mons 6 }
+      }
+
+      if ($readini(system.dat, system, botType) = DCCchat) { var %max.number.of.mons 50 }
 
       if ($readini(battle2.txt, battleinfo, Monsters) < %max.number.of.mons) { 
         var %monster.name $readini($char($1), skills, monstersummon.monster)

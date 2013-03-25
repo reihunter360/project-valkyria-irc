@@ -1,5 +1,6 @@
 [Techs]
-; Valkyria Customs
+
+; Valkyria-IRC Customs
 FFOmegaWeapon=Repairs.SpaceBeam
 Valkyrie_Sword=CureV.SonicBlow.JupitelThunder.BrandishSpear.WiseReflection
 TRexWeapon=Roar.Swallow.SpikeFlail.VolcanicRush.SurvivalInstinct
@@ -13,21 +14,22 @@ Themis'Axe=Djinn:Bane.Djinn:Flower.Djinn:Steel.Stone_Justice
 StarMageStaff=Curaga.Spark_Plasma.Megacool.Mine_Ball
 Randgris_Sword=Thunder_Storm.LordOfVermillion.BrandishSpear.Light_PowerUp.HolyCross.SonicBlow.Earthquake.Protect.Shell
 
-Silver_Goddess_Sword=TwinSlice.BiteOfLightning.BladeBeam.HyperTwinSlice.WiseReflection.CureV.GigaSlash.Atonement.BlizzajaII.Curaga
+; Valkyria-IRC Customs -Re-Edits
+Silver_Goddess_Sword=TwinSlice.BiteOfLightning.BladeBeam.HyperTwinSlice.WiseReflection.CureV.GigaSlash.Atonement.BlizzajaII
 Mythril_Sword=FastBlade.BurningBlade.FlatBlade.Bash.MagnumBreak.SeraphBlade
 Soulsaber=SpiritsWithin.VorpalBlade.SeraphBlade.BowlingBash
 JewelSword=Bash.MagnumBreak.BowlingBash
-Excalibur=Atonement.Bash.CircleBlade.SpiritsWithin.VorpalBlade.ChantDuCygne
+Excalibur=Atonement.Bash
 Keitonotachi=Tachi:Kagero.Tachi:Goten.Tachi:Yukikaze.Bash
 Masamune=Tachi:Fudo.Tachi:Shoha.Tachi:Rana.MeikyoShisui.Bash.Bowlingbash
 
 ; H2h
-Fists=DoublePunch.ShoulderTackle.SpinningAttack.AsuranFists.AsuraStrike
+Fists=DoublePunch.ShoulderTackle.SpinningAttack.AsuranFists
 Cerberus=Revolver.Windmill.Crystal
 Ifrit=RollingBlaze.MagmaDrive.Inferno
 Spharai=FinalHeaven.ShoulderTackle.AsuranFists.SpinningAttack.OneInchPunch
 Verethragna=VictorySmite.ShoulderTackle.ShinjinSpiral.SpinningAttack.TornadoKick
-KaiserKnuckles=ShoulderTackle.TornadoKick.OneInchPunch.SpinningAttack.AsuraStrike
+KaiserKnuckles=ShoulderTackle.TornadoKick.OneInchPunch.SpinningAttack
 
 
 ; Swords
@@ -51,7 +53,7 @@ Valmanway=Tachi:Shoha.Tachi:Rana.MeikyoShisui
 Zangetsu=GetsugaTenshou.TensaZangetsu.FinalGetsuga
 Senbonzakura=Chire.Kageyoshi
 Hyourinmaru=SotenNiZase.DaigurenHyourinmaru
-;Keitonotachi=Tachi:Kagero.Tachi:Goten.Tachi:Yukikaze
+Keitonotachi=Tachi:Kagero.Tachi:Goten.Tachi:Yukikaze
 Hagun=Tachi:Kaiten.Tachi:Ageha.Tachi:Kasha
 ;Masamune=Tachi:Fudo.Tachi:Shoha.Tachi:Rana.MeikyoShisui
 
@@ -72,13 +74,14 @@ Caladbolg=Torcleaver.Resolution
 
 
 ; Wands/Staves
-YewWand=Fire.Stone.Ice.Aero.Water.Thunder.Cure.Dark.Banish.Poison.Blind.Paralyze.Slow.Protect.Shell
-OakWand=FireII.StoneII.IceII.AeroII.WaterII.ThunderII.CureII.DarkII.BanishII.Protect.Shell
-PineWand=FireIII.StoneIII.IceIII.AeroIII.WaterIII.ThunderIII.CureIII.DarkIII.BanishIII.Protect.Shell
-ElderWand=Firaja.Stoneja.Waterja.Aeroja.Blizzaja.Thundaja.Cura.Darkra.Holy.Protect.Shell.Merlin'sFinalSpell
-IridialStaff=Flare.Quake.Flood.Tornado.Freeze.Burst.CureIV.Darkness.Light.Petrify.Protect.Shell
-Laevatein=FlareII.QuakeII.FloodII.TornadoII.FreezeII.BurstII.CureV.DarknessII.LightII.Protect.Shell.Merlin'sFinalSpell
-EbonyWand=FirajaII.StonejaII.WaterjaII.AerojaII.BlizzajaII.ThundajaII.Curaga.DarkraII.HolyII.Protect.Shell.Merlin'sFinalSpell
+YewWand=Fire.Stone.Ice.Aero.Water.Thunder.Cure.Dark.Banish.Poison.Blind.Paralyze.Slow
+PixiWand=Protect.Shell.BarEarth.BarFire.BarWind.BarWater.BarIce.BarLightning.BarLight.BarDark
+OakWand=FireII.StoneII.IceII.AeroII.WaterII.ThunderII.CureII.DarkII.BanishII
+PineWand=FireIII.StoneIII.IceIII.AeroIII.WaterIII.ThunderIII.CureIII.DarkIII.BanishIII
+ElderWand=Firaja.Stoneja.Waterja.Aeroja.Blizzaja.Thundaja.Cura.Darkra.Holy.Merlin'sFinalSpell
+IridialStaff=Flare.Quake.Flood.Tornado.Freeze.Burst.CureIV.Darkness.Light.Petrify
+Laevatein=FlareII.QuakeII.FloodII.TornadoII.FreezeII.BurstII.CureV.DarknessII.LightII.Merlin'sFinalSpell
+EbonyWand=FirajaII.StonejaII.WaterjaII.AerojaII.BlizzajaII.ThundajaII.Curaga.DarkraII.HolyII.Merlin'sFinalSpell
 BahamutsStaff=Ultima.Kaustra.Merlin'sFinalSpell
 Glyphs=Ignis.Grando.Fulgur.Nitesco.Globus.Acerbatus.Luminatio.Dominus
 
@@ -154,7 +157,7 @@ QuadavWand_R=FireIV.WaterIV.BlizzardIV.Poison.Blind.Headbutt.Paralyze
 Black_Goddess_Staff=AeroV.BlizzardV.AerogaV.FireV.Composure.Blind.Poison.Paralyze.Darkra.DarkV.BanishV
 Shadow_Blade=GigaSlash.KickBack.DarkNova
 MenosPower=Cero
-DragonFangs=FangRush.RadiantBreath.HurricaneBreath.SpikeFlail.AbsoluteTerror
+DragonFangs=FangRush.RadiantBreath.HurricaneBreath.SpikeFlail.AbsoluteTerror.DragonFire
 BeeStinger=FinalSting.SharpSting.FrenzySting
 GoblinSword=GoblinRush.BombToss.BombDrop.FastBlade
 GoblinWand=GoblinRush.BombToss.BombDrop.Firaja.Stoneja.Waterja.Aeroja.Blizzaja.Thundaja.Cura.Flare.Quake.Flood
@@ -287,8 +290,10 @@ CupidBow=LoveAtFirstSight.LoveIsConfusing
 LevithanHeart=LevithanLaser
 BallPower=BallRoll.BallBounce.BallExplode
 SkyGodPower=FlareII.QuakeII.FloodII.TornadoII.FreezeII.BurstII.SpikeFlail.CureII
+Legion=LegionLaser
 
-; ValkyriaIRC Customs
+; VALKYRIA TECHs
+
 [Repairs]
 Type=heal
 TP=5
@@ -764,7 +769,7 @@ desc=the $weapon(0) glows a shadowy aura, and you hit %enemy $+ with it! [Shadow
 [Stone_Justice]
 Type=Single
 TP=45
-;StatusType=Earth-quake
+Status=Earth-quake
 Desc=the weapon howls and as you strike %enemy , earth particles materialize as you swing dealing earthly damage! [Stone Justice]
 basepower=60
 Element=Earth
@@ -775,7 +780,7 @@ stat=str
 [Djinn:Bane]
 Type=Single
 TP=60
-Statustype=HeavyPoison
+Status=HeavyPoison
 Desc=summons a small Venus Djinn "Bane" and smashes into %enemy dealing earthly damage! [Bane Unleash]
 basepower=20
 Element=Earth
@@ -786,7 +791,7 @@ stat=int
 [Djinn:Steel]
 Type=Single
 TP=80
-StatusType=
+Status=
 Desc=summons a small Venus Djinn "Steel" and it envolops your weapon. You strike %enemy with the shimmering weapon! [Steel Unleash!]
 basepower=50
 Element=Earth
@@ -809,12 +814,14 @@ stat=int
 [AsuraStrike]
 cost=1295000
 type=single
-selfstatus=Curse
+self-status=Curse
 basepower=$calc( (  ( $readini(weapons.db, $readini($char($1), Weapons, Equipped), basepower) * ($readini($char($1), weapons, $readini($char($1), Weapons, Equipped)) * .1 ) ) + ($readini($char($1), battle, str) / 5 ) ) * (8 + (%previous.tp) / 10 ) ) + 250 + (150 * $readini($char($1), Techniques, AsuraStrike) ) ) | unset %previous.tp
 TP=$readini($char($1), Battle, TP) | set %previous.tp $readini($char($1), battle, TP)
 Desc=pours all of the energy to $gender($1) fist and then punches %enemy $+ with an earth shattering punch! [Asura Strike!]
 magic=no
 stat=str
+
+; More Golden Sun Moves
 
 [Mine_Ball]
 Type=AoE
@@ -889,9 +896,11 @@ Element=light
 magic=yes
 stat=str
 
+
 =======================
 HAND TO HAND
 ========================
+
 [DoublePunch]
 Type=Single
 TP=5
@@ -1930,6 +1939,7 @@ stat=str
 Renkei=1
 hits=2
 
+
 [Tachi:Hobaku]
 Type=Single
 StatusType=Stun
@@ -2477,28 +2487,6 @@ Element=light
 magic=yes
 stat=int
 
-
-[Protect]
-Type=Buff
-TP=20
-Desc=casts the spell of Protect upon %enemy $+ ! A bright white crystal-like outline appears over %enemy $+ 's body then fades. %enemy feels stronger against melee attacks now.
-Status=Protect
-Cost=2500
-Element=light
-Magic=yes
-Stat=int
-
-[Shell]
-Type=Buff
-TP=20
-Desc=casts the spell of Shell upon %enemy $+ ! A bright green crystal-like outline appears over %enemy $+ 's body then fades. %enemy feels stronger against magic attacks now.
-Status=Shell
-Cost=2500
-Element=light
-Magic=yes
-Stat=int
-
-
 [Flare]
 Type=Single
 TP=30
@@ -2939,6 +2927,95 @@ Element=Dark
 Cost=3000
 magic=yes
 stat=int
+
+
+===================
+BUFFS
+===================
+[Protect]
+Type=Buff
+TP=20
+Desc=casts the spell of Protect upon %enemy $+ ! A bright white crystal-like outline appears over %enemy $+ 's body then fades. %enemy feels stronger against melee attacks now.
+Status=Protect
+Cost=2500
+Element=light
+Magic=yes
+Stat=int
+
+[Shell]
+Type=Buff
+TP=20
+Desc=casts the spell of Shell upon %enemy $+ ! A bright green crystal-like outline appears over %enemy $+ 's body then fades. %enemy feels stronger against magic attacks now.
+Status=Shell
+Cost=2500
+Element=light
+Magic=yes
+Stat=int
+
+[BarEarth]
+Type=Buff
+TP=50
+Desc=casts a protective spell to lessen the damage from earth-based attacks. A bright flash of brown covers %enemy $+ 's body before fading.
+Status=Resist-Earth
+Modifier=earth
+Cost=2000
+
+[BarFire]
+Type=Buff
+TP=50
+Desc=casts a protective spell to lessen the damage from fire-based attacks. A bright flash of red covers %enemy $+ 's body before fading.
+Status=Resist-Fire
+Modifier=fire
+Cost=2000
+
+[BarWind]
+Type=Buff
+TP=50
+Desc=casts a protective spell to lessen the damage from wind-based attacks. A bright flash of green covers %enemy $+ 's body before fading.
+Status=Resist-Wind
+Modifier=wind
+Cost=2000
+
+[BarWater]
+Type=Buff
+TP=50
+Desc=casts a protective spell to lessen the damage from water-based attacks. A bright flash of blue covers %enemy $+ 's body before fading.
+Status=Resist-Water
+Modifier=water
+Cost=2000
+
+[BarIce]
+Type=Buff
+TP=50
+Desc=casts a protective spell to lessen the damage from ice-based attacks. A bright flash of blue covers %enemy $+ 's body before fading.
+Status=Resist-Water
+Modifier=water
+Cost=2000
+
+[BarLightning]
+Type=Buff
+TP=50
+Desc=casts a protective spell to lessen the damage from lightning-based attacks. A bright flash of purple covers %enemy $+ 's body before fading.
+Status=Resist-Lightning
+Modifier=lightning
+Cost=2000
+
+[BarLight]
+Type=Buff
+TP=50
+Desc=casts a protective spell to lessen the damage from light-based attacks. A bright flash of white covers %enemy $+ 's body before fading.
+Status=Resist-Light
+Modifier=light
+Cost=2000
+
+[BarDark]
+Type=Buff
+TP=50
+Desc=casts a protective spell to lessen the damage from dark-based attacks. A bright flash of black covers %enemy $+ 's body before fading.
+Status=Resist-Dark
+Modifier=dark
+Cost=2000
+
 
 ===================
 AXES
@@ -3847,6 +3924,17 @@ BasePower=10
 Element=light
 cost=99999999
 Magic=no
+stat=int
+
+[DragonFire]
+Type=AOE
+IgnoreDefense=40
+TP=10
+Desc=sucks a deep breath in before releasing a huge plume of dragon fire upon the entire battlefield.
+BasePower=50
+Element=fire
+cost=99999999
+Magic=yes
 stat=int
 
 [HurricaneBreath]
@@ -4948,7 +5036,7 @@ stat=int
 [GroundIce]
 Type=AOE
 TP=10
-Desc=thrusts $gender($1) hands to the ground, which causes the floor of the battlefield to be covered in ice dealing damage to all $gender($1) enemies.battlefield.
+Desc=thrusts $gender($1) hands to the ground, which causes the floor of the battlefield to be covered in ice dealing damage to all $gender($1) enemies.
 BasePower=15
 Element=ice
 magic=yes
@@ -5657,7 +5745,7 @@ stat=int
 
 [RunawayTrain]
 Type=Single
-StatusType=Poison.Curse.Zombie.Blind.Petrify.Paralyze.Confuse.IntDwon.DefenseDown.StrengthDown
+StatusType=Poison.Curse.Zombie.Blind.Petrify.Paralyze.Confuse
 TP=10
 Desc=summons a trail of lights that resembles train tracks. Doomtrain speeds through the trail and slams into every target on the battlefield!
 BasePower=20
@@ -7941,6 +8029,16 @@ cost=99999999
 Magic=Yes
 stat=int
 
+[HammerOfEvil]
+Type=AOE
+TP=10
+Desc=shouts "The Hammer of Evil!" and summons a large hammer. Orphen then slams the hammer onto the battlefield to cause an explosion of dark energy to hit all targets!
+BasePower=40
+Element=Dark
+cost=99999999
+Magic=Yes
+stat=int
+
 [ColdnessOfDestruction]
 Type=Single
 TP=10
@@ -8294,6 +8392,16 @@ cost=99999999
 Magic=No
 stat=int
 
+[LegionLaser]
+Type=AOE
+TP=10
+Desc=opens one of its tentacles and shoots a large green laser out in a circle, hitting everyone on the battlefield.
+BasePower=50
+Element=None
+cost=99999999
+Magic=No
+stat=int
+
 
 [BallRoll]
 Type=AOE
@@ -8327,7 +8435,7 @@ stat=str
 
 
 [AsuraStrike]
-cost=9999999
+cost=999999999
 type=single
 basepower=$calc( ( $readini(weapons.db, $readini($char($1), Weapons, Equipped), basepower) + ($readini($char($1), battle, str) / 5 ) ) * (8 + (%previous.tp) / 10 ) ) + 250 + (150 * $readini($char($1), Techniques, AsuraStrike) ) ) | unset %previous.tp
 TP=$readini($char($1), Battle, TP) | set %previous.tp $readini($char($1), battle, TP)

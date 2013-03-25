@@ -70,12 +70,14 @@ on 1:TEXT:!new char*:*: {  $checkscript($2-)
   query $nick $readini(translation.dat, system, StartingCharOrbs)
   query $nick $readini(translation.dat, system, StartingCharPassword)
 
-  var %bot.owners $readini(system.dat, botinfo, bot.owner)
-  if ($istok(%bot.owners,$nick,46) = $true) {  .auser 50 $nick }
-  else { .auser 2 $nick }
-
   ; Give voice
   mode %battlechan +v $nick
+
+  if ($readini(system.dat, system, botType) = DCCchat) {  .auser 2 $nick | dcc chat $nick }
+  if ($readini(system.dat, system, botType) = IRC) { .auser 3 $nick }
+
+  var %bot.owners $readini(system.dat, botinfo, bot.owner)
+  if ($istok(%bot.owners,$nick,46) = $true) {  .auser 50 $nick }
 
   unset %current.shoplevel |  unset %totalplayers | unset %password | unset %ip.address. [ $+ [ $nick ] ] 
 }
@@ -103,25 +105,22 @@ ON 2:TEXT:!newpass *:?:{ $checkscript($2-) | $password($nick)
   if ($encode($2) != %password) { .msg $nick $readini(translation.dat, errors, wrongpassword) | unset %password | halt }
 }
 
-ON 1:TEXT:!id*:?:{ $idcheck($nick , $2) | mode %battlechan +v $nick | $set_chr_name($nick) | $set_chr_name($nick) | query %battlechan 10 $+ %real.name  $+  $readini($char($nick), Descriptions, Char) 
-  /.dns $nick
+ON 1:TEXT:!id*:?:{ $idcheck($nick , $2) | mode %battlechan +v $nick |  /.dns $nick |  /close -m* }
+ON 1:TEXT:!quick id*:?:{ $idcheck($nick , $3) | mode %battlechan +v $nick |   /.dns $nick
+  if ($readini(system.dat, system, botType) = IRC) { $set_chr_name($nick) }
   /close -m* 
 }
-ON 1:TEXT:!quick id*:?:{ $idcheck($nick , $3) | mode %battlechan +v $nick | $set_chr_name($nick) |  $id_login($nick) 
-  /.dns $nick
-  /close -m* 
-}
-ON 2:TEXT:!logout*:*:{
-  .auser 1 $nick | mode %battlechan -v $newnick | .flush 1
-}
+on 3:TEXT:!logout*:*:{ .auser 1 $nick | mode %battlechan -v $nick | .flush 1 }
+on 3:TEXT:!log out*:*:{ .auser 1 $nick | mode %battlechan -v $nick | .flush 1 }
 
 alias idcheck { 
   if ($readini($char($1), info, flag) != $null) { .msg $nick $readini(translation.dat, errors, Can'tLogIntoThisChar) | halt }
+  if ($readini($char($1), info, banned) = yes) { .msg $nick 4This character has been banned and cannot be used to log in. | halt }
   $passhurt($1) | $password($1)
   if (%password = $null) { unset %passhurt | unset %password | halt }
   if ($2 = $null) { halt }
   else { 
-    if ($encode($2) == %password) {  $id_login($1) | unset %password | return | halt }
+    if ($encode($2) == %password) { $id_login($1) | unset %password | return }
     if ($encode($2) != %password)  { 
       if ((%passhurt = $null) || (%passhurt < 3)) {  .msg $1 $readini(translation.dat, errors, WrongPassword2) | inc %passhurt 1 | writeini $char($1) info passhurt %passhurt | unset %password | unset %passhurt | halt }
       else { kick %battlechan $1 $readini(translation.dat, errors, TooManyWrongPass)  | unset %passhurt | unset %password | writeini $char($1) Info passhurt 0 | halt } 
@@ -131,52 +130,57 @@ alias idcheck {
 
 alias id_login {
   var %bot.owners $readini(system.dat, botinfo, bot.owner)
-  if ($istok(%bot.owners,$1, 46) = $true) {  .auser 50 $1 }
-  else { .auser 2 $1 }
+  if ($istok(%bot.owners,$1, 46) = $true) {  .auser 50 $1
+    if ($readini(system.dat, system, botType) = DCCchat) { dcc chat $nick }
+  }
+  else { 
+    if ($readini(system.dat, system, botType) = IRC) { .auser 3 $1 | $set_chr_name($nick) | query %battlechan 10 $+ %real.name  $+  $readini($char($nick), Descriptions, Char) }
+    if ($readini(system.dat, system, botType) = DCCchat) { .auser 2 $1 | dcc chat $nick }
+  }
   writeini $char($1) Info LastSeen $fulldate
   return
 }
 
-on 2:TEXT:!weather*:#: {  query %battlechan $readini(translation.dat, battle, CurrentWeather) }
-on 2:TEXT:!weather*:?: {  .msg $nick $readini(translation.dat, battle, CurrentWeather) }
+on 3:TEXT:!weather*:#: {  query %battlechan $readini(translation.dat, battle, CurrentWeather) }
+on 3:TEXT:!weather*:?: {  .msg $nick $readini(translation.dat, battle, CurrentWeather) }
 
-on 2:TEXT:!desc*:#: {  
+on 3:TEXT:!desc*:#: {  
   if ($2 != $null) { $checkchar($2) | $set_chr_name($2) | query %battlechan 3 $+ %real.name  $+ $readini($char($2), n, Descriptions, Char)   | unset %character.description | halt }
   else { $set_chr_name($nick) | query %battlechan 10 $+ %real.name  $+ $readini($char($nick), n, Descriptions, Char)  }
 }
-on 2:TEXT:!desc*:?: {  
+on 3:TEXT:!desc*:?: {  
   if ($2 != $null) { $checkchar($2) | $set_chr_name($2) | .msg $nick 3 $+ %real.name  $+ $readini($char($2), n, Descriptions, Char)   | unset %character.description | halt }
   else { $set_chr_name($nick) | .msg $nick 10 $+ %real.name  $+ $readini($char($nick), n, Descriptions, Char)  }
 }
-on 2:TEXT:!rdesc *:*:{ $checkchar($2) | $set_chr_name($2) | var %character.description $readini($char($2), Descriptions, Char) | query %battlechan 3 $+ %real.name $+ 's desc: %character.description | unset %character.description | halt }
-on 2:TEXT:!cdesc *:*:{ $checkscript($2-)  | writeini $char($nick) Descriptions Char $2- | $okdesc($nick , Character) }
-on 2:TEXT:!sdesc *:*:{ $checkscript($2-)  
+on 3:TEXT:!rdesc *:*:{ $checkchar($2) | $set_chr_name($2) | var %character.description $readini($char($2), Descriptions, Char) | query %battlechan 3 $+ %real.name $+ 's desc: %character.description | unset %character.description | halt }
+on 3:TEXT:!cdesc *:*:{ $checkscript($2-)  | writeini $char($nick) Descriptions Char $2- | $okdesc($nick , Character) }
+on 3:TEXT:!sdesc *:*:{ $checkscript($2-)  
   if ($readini($char($nick), skills, $2) != $null) { 
     writeini $char($nick) Descriptions $2 $3- | $okdesc($nick , Skill) 
   }
   if ($readini($char($nick), skills, $2) = $null) { .msg $nick $readini(translation.dat, errors, YouDoNotHaveSkill) | halt }
 }
-on 2:TEXT:!skill desc *:*:{ $checkscript($3-)  | $set_chr_name($nick) 
+on 3:TEXT:!skill desc *:*:{ $checkscript($3-)  | $set_chr_name($nick) 
   if ($readini($char($nick), skills, $3) != $null) { 
     writeini $char($nick) Descriptions $3 $4- | $okdesc($nick , Skill) 
   }
   if ($readini($char($nick), skills, $3) = $null) { .msg $nick $readini(translation.dat, errors, YouDoNotHaveSkill) | halt }
 }
 
-on 2:TEXT:!ignition desc *:*:{ $checkscript($3-)  | $set_chr_name($nick) 
+on 3:TEXT:!ignition desc *:*:{ $checkscript($3-)  | $set_chr_name($nick) 
   if ($readini($char($nick), ignitions, $3) != $null) { 
     writeini $char($nick) Descriptions $3 $4- | $okdesc($nick , Ignition) 
   }
   if ($readini($char($nick), ignitions, $3) = $null) { .msg $nick $readini(translation.dat, errors, DoNotKnowThatIgnition) | halt }
 }
 
-on 2:TEXT:!clear desc *:*:{ $checkscript($3-)  | $set_chr_name($nick) 
+on 3:TEXT:!clear desc *:*:{ $checkscript($3-)  | $set_chr_name($nick) 
   if (($3 = character) || ($3 = char)) { var %description.to.clear char | writeini $char($nick) descriptions char needs to set a character description! | .msg $nick $readini(translation.dat, system, ClearDesc) }
   else { remini $char($nick) descriptions $3 | .msg $nick $readini(translation.dat, system, ClearDesc) }
 }
 
-on 2:TEXT:!set desc *:*:{ $checkscript($2-)  | writeini $char($nick) Descriptions Char $3- | $okdesc($nick , Character) }
-on 2:TEXT:!setgender*:*: { $checkscript($2-)
+on 3:TEXT:!set desc *:*:{ $checkscript($2-)  | writeini $char($nick) Descriptions Char $3- | $okdesc($nick , Character) }
+on 3:TEXT:!setgender*:*: { $checkscript($2-)
   if ($2 = neither) { writeini $char($nick) Info Gender its | writeini $char($nick) Info Gender2 its | .msg $nick $readini(translation.dat, system, SetGenderNeither) | unset %check | halt }
   if ($2 = none) { writeini $char($nick) Info Gender its | writeini $char($nick) Info Gender2 its | .msg $nick $readini(translation.dat, system, SetGenderNeither)  | unset %check | halt }
   if ($2 = male) { writeini $char($nick) Info Gender his | writeini $char($nick) Info Gender2 him | .msg $nick $readini(translation.dat, system, SetGenderMale)  | unset %check | halt }
@@ -184,43 +188,43 @@ on 2:TEXT:!setgender*:*: { $checkscript($2-)
   else { .msg $nick $readini(translation.dat, errors, NeedValidGender) | unset %check | halt }
 }
 
-on 2:TEXT:!level*:#: { 
+on 3:TEXT:!level*:#: { 
   if ($1 = !leveladjust) { halt }
   if ($2 = $null) { $set_chr_name($nick) | var %player.level $bytes($round($get.level($nick),0),b) | query %battlechan $readini(translation.dat, system, ViewLevel) | unset %real.name }
   if ($2 != $null) { $checkscript($2-) | $checkchar($2) | $set_chr_name($2) | var %player.level $bytes($round($get.level($2),0),b) | query %battlechan $readini(translation.dat, system, ViewLevel) | unset %real.name }
 }
-on 2:TEXT:!level*:?: { 
+on 3:TEXT:!level*:?: { 
   if ($1 = !leveladjust) { halt }
   if ($2 = $null) { $set_chr_name($nick) | var %player.level $bytes($round($get.level($nick),0),b) | .msg $nick $readini(translation.dat, system, ViewLevel) | unset %real.name }
   if ($2 != $null) { $checkscript($2-) | $checkchar($2) | $set_chr_name($2) | var %player.level $bytes($round($get.level($2),0),b) | .msg $nick $readini(translation.dat, system, ViewLevel) | unset %real.name }
 }
 
-on 2:TEXT:!hp:#: { 
+on 3:TEXT:!hp:#: { 
   $set_chr_name($nick) | $hp_status_hpcommand($nick) 
   query %battlechan $readini(translation.dat, system, ViewMyHP) | unset %real.name | unset %hstats 
 }
-on 2:TEXT:!hp:?: { 
+on 3:TEXT:!hp:?: { 
   $set_chr_name($nick) | $hp_status_hpcommand($nick) 
   .msg $nick $readini(translation.dat, system, ViewMyHP) | unset %real.name | unset %hstats 
 }
-on 2:TEXT:!battle hp:#: { 
+on 3:TEXT:!battle hp:#: { 
   if (%battleis != on) { query %battlechan $readini(translation.dat, errors, NoBattleCurrently) }
   $build_battlehp_list
   query %battlechan %battle.hp.list  | unset %real.name | unset %hstats | unset %battle.hp.list
 }
-on 2:TEXT:!battle hp:?: { 
+on 3:TEXT:!battle hp:?: { 
   if (%battleis != on) { query %battlechan $readini(translation.dat, errors, NoBattleCurrently) }
   $build_battlehp_list
   .msg $nick %battle.hp.list  | unset %real.name | unset %hstats | unset %battle.hp.list
 }
 
-on 2:TEXT:!tp:#:$set_chr_name($nick) | query %battlechan $readini(translation.dat, system, ViewMyTP) | unset %real.name
-on 2:TEXT:!tp:?:$set_chr_name($nick) | .msg $nick $readini(translation.dat, system, ViewMyTP) | unset %real.name
-on 2:TEXT:!ig:#:$set_chr_name($nick) | query %battlechan $readini(translation.dat, system, ViewMyIG) | unset %real.name
-on 2:TEXT:!ignition gauge:#:$set_chr_name($nick) | query %battlechan $readini(translation.dat, system, ViewMyIG) | unset %real.name
-on 2:TEXT:!ig:?:$set_chr_name($nick) | .msg $nick $readini(translation.dat, system, ViewMyIG) | unset %real.name
-on 2:TEXT:!ignition gauge:?:$set_chr_name($nick) | .msg $nick $readini(translation.dat, system, ViewMyIG) | unset %real.name
-on 2:TEXT:!orbs*:#: { 
+on 3:TEXT:!tp:#:$set_chr_name($nick) | query %battlechan $readini(translation.dat, system, ViewMyTP) | unset %real.name
+on 3:TEXT:!tp:?:$set_chr_name($nick) | .msg $nick $readini(translation.dat, system, ViewMyTP) | unset %real.name
+on 3:TEXT:!ig:#:$set_chr_name($nick) | query %battlechan $readini(translation.dat, system, ViewMyIG) | unset %real.name
+on 3:TEXT:!ignition gauge:#:$set_chr_name($nick) | query %battlechan $readini(translation.dat, system, ViewMyIG) | unset %real.name
+on 3:TEXT:!ig:?:$set_chr_name($nick) | .msg $nick $readini(translation.dat, system, ViewMyIG) | unset %real.name
+on 3:TEXT:!ignition gauge:?:$set_chr_name($nick) | .msg $nick $readini(translation.dat, system, ViewMyIG) | unset %real.name
+on 3:TEXT:!orbs*:#: { 
   if ($2 != $null) { $checkchar($2) | var %orbs.spent $bytes($readini($char($2), stuff, RedOrbsSpent),b) | var %blackorbs.spent $bytes($readini($char($2), stuff, BlackOrbsSpent),b) | $set_chr_name($2) 
 
     var %showorbsinchannel $readini(system.dat, system,ShowOrbsCmdInChannel)
@@ -236,7 +240,7 @@ on 2:TEXT:!orbs*:#: {
     else {  .msg $nick $readini(translation.dat, system, ViewMyOrbs) }
   }
 }
-on 2:TEXT:!orbs*:?: { 
+on 3:TEXT:!orbs*:?: { 
   if ($2 != $null) { $checkchar($2) | var %orbs.spent $bytes($readini($char($2), stuff, RedOrbsSpent),b) | var %blackorbs.spent $bytes($readini($char($2), stuff, BlackOrbsSpent),b) | $set_chr_name($2) 
     .msg $nick $readini(translation.dat, system, ViewOthersOrbs) 
   }
@@ -245,42 +249,42 @@ on 2:TEXT:!orbs*:?: {
   }
 }
 
-on 2:TEXT:!rorbs*:#: { var %orbs.spent $bytes($readini($char($2), stuff, RedOrbsSpent),b) | var %blackorbs.spent $bytes($readini($char($2), stuff, BlackOrbsSpent),b) | $checkchar($2) | $set_chr_name($2) 
+on 3:TEXT:!rorbs*:#: { var %orbs.spent $bytes($readini($char($2), stuff, RedOrbsSpent),b) | var %blackorbs.spent $bytes($readini($char($2), stuff, BlackOrbsSpent),b) | $checkchar($2) | $set_chr_name($2) 
   var %showorbsinchannel $readini(system.dat, system,ShowOrbsCmdInChannel)
   if (%showorbsinchannel = $null) { var %showorbsinchannel true }
   if (%showorbsinchannel = true) { query %battlechan $readini(translation.dat, system, ViewOthersOrbs)  }
   else {  .msg $nick $readini(translation.dat, system, ViewOthersOrbs) }
 }
-on 2:TEXT:!rorbs*:?: { var %orbs.spent $bytes($readini($char($2), stuff, RedOrbsSpent),b) | var %blackorbs.spent $bytes($readini($char($2), stuff, BlackOrbsSpent),b) | $checkchar($2) | $set_chr_name($2) 
+on 3:TEXT:!rorbs*:?: { var %orbs.spent $bytes($readini($char($2), stuff, RedOrbsSpent),b) | var %blackorbs.spent $bytes($readini($char($2), stuff, BlackOrbsSpent),b) | $checkchar($2) | $set_chr_name($2) 
   .msg $nick $readini(translation.dat, system, ViewOthersOrbs)
 }
 
-on 2:TEXT:!alliednotes*:#: {  
+on 3:TEXT:!alliednotes*:#: {  
   if ($2 = $null) { $check.allied.notes($nick, channel) }
   if ($2 != $null) { $checkchar($2) | $check.allied.notes($2, channel) }
 }
-on 2:TEXT:!allied notes*:#: {  
+on 3:TEXT:!allied notes*:#: {  
   if ($3 = $null) { $check.allied.notes($nick, channel) }
   if ($3 != $null) { $checkchar($3) | $check.allied.notes($3, channel) }
 }
-on 2:TEXT:!notes*:#: {  
+on 3:TEXT:!notes*:#: {  
   if ($2 = $null) { $check.allied.notes($nick, channel) }
   if ($2 != $null) { $checkchar($2) | $check.allied.notes($2, channel) }
 }
-on 2:TEXT:!alliednotes*:?: {  
+on 3:TEXT:!alliednotes*:?: {  
   if ($2 = $null) { $check.allied.notes($nick, private) }
   if ($2 != $null) { $checkchar($2) | $check.allied.notes($2, private) }
 }
-on 2:TEXT:!allied notes*:?: {  
+on 3:TEXT:!allied notes*:?: {  
   if ($3 = $null) { $check.allied.notes($nick, private) }
   if ($3 != $null) { $checkchar($2) | $check.allied.notes($2, private) }
 }
-on 2:TEXT:!notes*:?: {  
+on 3:TEXT:!notes*:?: {  
   if ($2 = $null) { $check.allied.notes($nick, private) }
   if ($2 != $null) { $checkchar($2) | $check.allied.notes($2, private) }
 }
 
-on 2:TEXT:!stats*:*: { unset %all_status 
+on 3:TEXT:!stats*:*: { unset %all_status 
   if ($2 = $null) { 
     $battle_stats($nick) | $player.status($nick) | $weapon_equipped($nick) | .msg $nick $readini(translation.dat, system, HereIsYourCurrentStats) 
     var %equipped.accessory $readini($char($nick), equipment, accessory) 
@@ -332,38 +336,39 @@ on 2:TEXT:!stats*:*: { unset %all_status
   }
 }
 
-on 2:TEXT:!look*:#: { unset %all_status 
+on 3:TEXT:!look*:#: { unset %all_status 
   if ($2 = $null) { $lookat($nick, channel) }
   if ($2 != $null) { $checkchar($2) | $lookat($2, channel) }
 }
-on 2:TEXT:!look*:?: { unset %all_status 
+on 3:TEXT:!look*:?: { unset %all_status 
   if ($2 = $null) { $lookat($nick, private) }
   if ($2 != $null) { $checkchar($2) | $lookat($2, private) }
 }
 
-on 2:TEXT:!weapons*:#: {  unset %*.wpn.list | unset %weapon.list
+on 3:TEXT:!weapons*:#: {  unset %*.wpn.list | unset %weapon.list
   if ($2 = $null) { $weapon.list($nick) | set %wpn.lst.target $nick }
   else { $checkchar($2) | $weapon.list($2) | set %wpn.lst.target $2 }
   /.timerDisplayWeaponList $+ $nick 1 3 /display_weapon_lists %wpn.lst.target channel
 }
-on 2:TEXT:!rweapons*:#: { $checkchar($2) | $weapon.list($2)  | $set_chr_name($2) 
+on 3:TEXT:!rweapons*:#: { $checkchar($2) | $weapon.list($2)  | $set_chr_name($2) 
   /.timerDisplayWeaponList $+ $2 1 3 /display_weapon_lists $2 channel
 }
-on 2:TEXT:!weapons*:?: {  unset %*.wpn.list | unset %weapon.list
-  if ($2 = $null) { $weapon.list($nick) |set %wpn.lst.target $nick }
+on 3:TEXT:!weapons*:?: {  unset %*.wpn.list | unset %weapon.list
+  if ($2 = $null) { $weapon.list($nick) | set %wpn.lst.target $nick }
   else { $checkchar($2) | $weapon.list($2) | set %wpn.lst.target $2 }
   /.timerDisplayWeaponList $+ $nick 1 3 /display_weapon_lists %wpn.lst.target private $nick
 }
-on 2:TEXT:!rweapons*:?: { $checkchar($2) | $weapon.list($2)  | $set_chr_name($2) 
+on 3:TEXT:!rweapons*:?: { $checkchar($2) | $weapon.list($2)  | $set_chr_name($2) 
   /.timerDisplayWeaponList $+ $nick 1 3 /display_weapon_lists $2 private $nick
 }
 alias display_weapon_lists {  $set_chr_name($1) 
   if ($2 = channel) { query %battlechan $readini(translation.dat, system, ViewWeaponList) }
-  if ($2 != channel) { .msg $3 $readini(translation.dat, system, ViewWeaponList) }
+  if ($2 = private) { .msg $3 $readini(translation.dat, system, ViewWeaponList) }
+  if ($2 = dcc) { $dcc.private.message($3, $readini(translation.dat, system, ViewWeaponList)) }
   unset %wpn.lst.target | unset %base.weapon.list | unset %weapons | unset %weapon.list 
 }
 
-on 2:TEXT:!style*:*: {  unset %*.style.list | unset %style.list
+on 3:TEXT:!style*:*: {  unset %*.style.list | unset %style.list
   if ($2 = $null) { 
     ; Get and show the list
     $styles.list($nick)
@@ -390,24 +395,33 @@ alias style.change {
     var %valid.styles.list $readini(playerstyles.lst, styles, list)
     if ($istok(%valid.styles.list, $3, 46) = $false) { query %battlechan $readini(translation.dat, errors, InvalidStyle) | halt }
     var %current.playerstylelevel $readini($char($1), styles, $3)
-    if ((%current.playerstylelevel = $null) || (%current.playerstylelevel = 0)) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, DoNotKnowThatStyle) | halt }
+    if ((%current.playerstylelevel = $null) || (%current.playerstylelevel = 0)) { $set_chr_name($1) 
+      if ($readini(system.dat, system, botType) = IRC) { query %battlechan $readini(translation.dat, errors, DoNotKnowThatStyle) }
+      if ($readini(system.dat, system, botType) = DCCchat) {  $dcc.private.message($nick, $readini(translation.dat, errors, DoNotKnowThatStyle)) }
+      halt
+    }
 
     $check_for_battle($1)
 
     ; finally, switch to it.
-    $set_chr_name($1) | writeini $char($1) styles equipped $3 | query %battlechan $readini(translation.dat, system, SwitchStyles)
+    $set_chr_name($1) | writeini $char($1) styles equipped $3 
+    if ($readini(system.dat, system, botType) = IRC) { query %battlechan $readini(translation.dat, system, SwitchStyles) }
+    if ($readini(system.dat, system, botType) = DCCchat) {  
+      if (%battleis = off) { $dcc.private.message($nick, $readini(translation.dat, system, SwitchStyles)) }
+      if (%battleis = on) { $dcc.battle.message($readini(translation.dat, system, SwitchStyles)) }
+    }
+
     unset %styles.list | unset %current.playerstyle.* | unset %styles | unset %style.name | unset %style_level | unset %current.playerstyle
 
     ; if the battle is on..
     if (%battleis = on) {  $check_for_double_turn($1)   }
-
   }
 }
-on 2:TEXT:!xp*:#: {  unset %*.style.list | unset %style.list
+on 3:TEXT:!xp*:#: {  unset %*.style.list | unset %style.list
   if ($2 != $null) { $checkchar($2) | $show.stylexp($2, channel) }
   if ($2 = $null) { $show.stylexp($nick, channel) }
 }
-on 2:TEXT:!xp*:?: {  unset %*.style.list | unset %style.list
+on 3:TEXT:!xp*:?: {  unset %*.style.list | unset %style.list
   if ($2 != $null) { $checkchar($2) | $show.stylexp($2, private) }
   if ($2 = $null) { $show.stylexp($nick, private) }
 }
@@ -421,16 +435,18 @@ alias show.stylexp {
   $set_chr_name($1) 
   if (%current.playerstyle.level >= 10) {   
     if ($2 = channel) { query %battlechan $readini(translation.dat, system, ViewCurrentStyleMaxed) }
-    if ($2 != channel) { .msg $nick $readini(translation.dat, system, ViewCurrentStyleMaxed) }
+    if ($2 = private) { .msg $nick $readini(translation.dat, system, ViewCurrentStyleMaxed) }
+    if ($2 = dcc) {  $dcc.private.message($nick, $readini(translation.dat, system, ViewCurrentStyleMaxed)) }
   }
   if (%current.playerstyle.level < 10) {   
     if ($2 = channel) { query %battlechan $readini(translation.dat, system, ViewCurrentStyle) }
-    if ($2 != channel) { .msg $nick $readini(translation.dat, system, ViewCurrentStyle) }
+    if ($2 = private) { .msg $nick $readini(translation.dat, system, ViewCurrentStyle) }
+    if ($2 = dcc) {  $dcc.private.message($nick, $readini(translation.dat, system, ViewCurrentStyle)) }
   }
   unset %styles.list | unset %current.playerstyle.* | unset %styles | unset %style.name | unset %style_level | unset %current.playerstyle
 }
 
-on 2:TEXT:!techs*:#: { 
+on 3:TEXT:!techs*:#: { 
   if ($2 = $null) { $weapon_equipped($nick) | $tech.list($nick, %weapon.equipped) | $set_chr_name($nick) 
     if (%techs.list != $null) { query %battlechan $readini(translation.dat, system, ViewMyTechs) }
     else { query %battlechan $readini(translation.dat, system, NoTechsForMe)  }
@@ -440,7 +456,7 @@ on 2:TEXT:!techs*:#: {
     else { query %battlechan $readini(translation.dat, system, NoTechsForOthers) }
   }
 }
-on 2:TEXT:!techs*:?: { 
+on 3:TEXT:!techs*:?: { 
   if ($2 = $null) { $weapon_equipped($nick) | $tech.list($nick, %weapon.equipped) | $set_chr_name($nick) 
     if (%techs.list != $null) { .msg $nick $readini(translation.dat, system, ViewMyTechs) }
     else { .msg $nick $readini(translation.dat, system, NoTechsForMe)  }
@@ -451,28 +467,28 @@ on 2:TEXT:!techs*:?: {
   }
 }
 
-on 2:TEXT:!readtechs*:#: { $checkchar($2)
+on 3:TEXT:!readtechs*:#: { $checkchar($2)
   $weapon_equipped($2) | $tech.list($2, %weapon.equipped)  | $set_chr_name($2) |
   if (%techs.list != $null) { query %battlechan $readini(translation.dat, system, ViewOthersTechs) }
   else { query %battlechan $readini(translation.dat, system, NoTechsForOthers) }
 }
-on 2:TEXT:!rtechs*:#: { $checkchar($2)
+on 3:TEXT:!rtechs*:#: { $checkchar($2)
   $weapon_equipped($2) | $tech.list($2, %weapon.equipped)  | $set_chr_name($2) |
   if (%techs.list != $null) { query %battlechan $readini(translation.dat, system, ViewOthersTechs) }
   else { query %battlechan $readini(translation.dat, system, NoTechsForOthers) }
 }
-on 2:TEXT:!readtechs*:?: { $checkchar($2)
+on 3:TEXT:!readtechs*:?: { $checkchar($2)
   $weapon_equipped($2) | $tech.list($2, %weapon.equipped)  | $set_chr_name($2) |
   if (%techs.list != $null) { .msg $nick $readini(translation.dat, system, ViewOthersTechs) }
   else { .msg $nick $readini(translation.dat, system, NoTechsForOthers) }
 }
-on 2:TEXT:!rtechs*:?: { $checkchar($2)
+on 3:TEXT:!rtechs*:?: { $checkchar($2)
   $weapon_equipped($2) | $tech.list($2, %weapon.equipped)  | $set_chr_name($2) |
   if (%techs.list != $null) { .msg $nick $readini(translation.dat, system, ViewOthersTechs) }
   else { .msg $nick $readini(translation.dat, system, NoTechsForOthers) }
 }
 
-on 2:TEXT:!ignitions*:#:{ 
+on 3:TEXT:!ignitions*:#:{ 
   if ($2 = $null) { $ignition.list($nick) | $set_chr_name($nick) 
     if (%ignitions.list != $null) { query %battlechan $readini(translation.dat, system, ViewIgnitions) | unset %ignitions.list }
     else { query %battlechan $readini(translation.dat, system, NoIgnitions)  }
@@ -482,12 +498,12 @@ on 2:TEXT:!ignitions*:#:{
     else { query %battlechan $readini(translation.dat, system, NoIgnitions)  }
   }
 }
-on 2:TEXT:!readignitions*:#: {
+on 3:TEXT:!readignitions*:#: {
   $checkchar($2) | $ignition.list($2)  | $set_chr_name($2) 
   if (%ignitions.list != $null) { query %battlechan $readini(translation.dat, system, ViewIgnitions) }
   else { query %battlechan $readini(translation.dat, system, NoIgnitions)  }
 }
-on 2:TEXT:!ignitions*:?:{ 
+on 3:TEXT:!ignitions*:?:{ 
   if ($2 = $null) { $ignition.list($nick) | $set_chr_name($nick) 
     if (%ignitions.list != $null) { .msg $nick $readini(translation.dat, system, ViewIgnitions) | unset %ignitions.list }
     else { .msg $nick $readini(translation.dat, system, NoIgnitions)  }
@@ -497,24 +513,24 @@ on 2:TEXT:!ignitions*:?:{
     else { .msg $nick $readini(translation.dat, system, NoIgnitions)  }
   }
 }
-on 2:TEXT:!readignitions*:?: {
+on 3:TEXT:!readignitions*:?: {
   $checkchar($2) | $ignition.list($2)  | $set_chr_name($2) 
   if (%ignitions.list != $null) { .msg $nick $readini(translation.dat, system, ViewIgnitions) }
   else { .msg $nick $readini(translation.dat, system, NoIgnitions)  }
 }
 
-on 2:TEXT:!skills*:#: { 
+on 3:TEXT:!skills*:#: { 
   if ($2 != $null) { $checkchar($2) | $skills.list($2) | $set_chr_name($2) | $readskills($2, channel)  }
   else { $skills.list($nick) | $set_chr_name($nick) | $readskills($nick, channel) }
 }
-on 2:TEXT:!skills*:?: { 
+on 3:TEXT:!skills*:?: { 
   if ($2 != $null) { $checkchar($2) | $skills.list($2) | $set_chr_name($2) | $readskills($2, private)  }
   else { $skills.list($nick) | $set_chr_name($nick) | $readskills($nick, private) }
 }
-on 2:TEXT:!rskills*:#: { $readskills($2, channel) }
-on 2:TEXT:!readskills*:#: { $readskills($2,private) }
-on 2:TEXT:!rskills*:?: { $readskills($2, channel) }
-on 2:TEXT:!readskills*:?: { $readskills($2,private) }
+on 3:TEXT:!rskills*:#: { $readskills($2, channel) }
+on 3:TEXT:!readskills*:#: { $readskills($2,private) }
+on 3:TEXT:!rskills*:?: { $readskills($2, channel) }
+on 3:TEXT:!readskills*:?: { $readskills($2,private) }
 
 alias readskills {
   $checkchar($1) | $skills.list($1) | $set_chr_name($1) 
@@ -523,37 +539,48 @@ alias readskills {
       query %battlechan $readini(translation.dat, system, ViewPassiveSkills) 
       if (%passive.skills.list2 != $null) { query %battlechan 3 $+ %passive.skills.list2 }
     }
-    if ($2 != channel) {
+    if ($2 = private) {
       .msg $nick $readini(translation.dat, system, ViewPassiveSkills) 
       if (%passive.skills.list2 != $null) { .msg $nick 3 $+ %passive.skills.list2 }
     }
+    if ($2 = dcc) {
+      $dcc.private.message($nick, $readini(translation.dat, system, ViewPassiveSkills))
+      if (%passive.skills.list2 != $null) { $dcc.private.message($nick, 3 $+ %passive.skills.list2) }
+    }
+
   }
   if (%active.skills.list != $null) { 
     if ($2 = channel) { 
       query %battlechan $readini(translation.dat, system, ViewActiveSkills) 
       if (%active.skills.list2 != $null) { query %battlechan 3 $+ %active.skills.list2 }
     }
-    if ($2 != channel) {
+    if ($2 = private) {
       .msg $nick $readini(translation.dat, system, ViewActiveSkills)
       if (%active.skills.list2 != $null) { .msg $nick 3 $+ %active.skills.list2 }
     }
-  }
-  if (%resists.skills.list != $null) { 
-    if ($2 = channel) { query %battlechan $readini(translation.dat, system, ViewResistanceSkills)  }
-    if ($2 != channel) { .msg $nick $readini(translation.dat, system, ViewResistanceSkills)  }
-  }
-  if (((%passive.skills.list = $null) && (%active.skills.list = $null) && (%resists.skills.list = $null))) { 
-    if ($2 = channel) { query %battlechan $readini(translation.dat, system, HasNoSkills)   }
-    if ($2 != channel) { .msg $nick $readini(translation.dat, system, HasNoSkills)   }
-  }
+    if ($2 = dcc) {
+      $dcc.private.message($nick, $readini(translation.dat, system, ViewActiveSkills))
+      if (%active.skills.list2 != $null) { $dcc.private.message($nick, 3 $+ %active.skills.list2) }
 
+    }
+    if (%resists.skills.list != $null) { 
+      if ($2 = channel) { query %battlechan $readini(translation.dat, system, ViewResistanceSkills)  }
+      if ($2 = private) { .msg $nick $readini(translation.dat, system, ViewResistanceSkills)  }
+      if ($2 = dcc) { $dcc.private.message($nick, $readini(translation.dat, system, ViewResistanceSkills))  }
+    }
+    if (((%passive.skills.list = $null) && (%active.skills.list = $null) && (%resists.skills.list = $null))) { 
+      if ($2 = channel) { query %battlechan $readini(translation.dat, system, HasNoSkills)   }
+      if ($2 = private) { .msg $nick $readini(translation.dat, system, HasNoSkills)   }
+      if ($2 = dcc) { $dcc.private.message($nick, $readini(translation.dat, system, HasNoSkills)) }
+    }
+  }
   unset %passive.skills.list | unset %active.skills.list | unset %active.skills.list2 | unset %resists.skills.list
 }
-on 2:TEXT:!keys*:#:{ 
+on 3:TEXT:!keys*:#:{ 
   if ($2 != $null) { $checkchar($2) | $keys.list($2) | $set_chr_name($2) | $readkeys($2, channel) }
   else {  $keys.list($nick) | $set_chr_name($nick) | $readkeys($nick, channel) }
 }
-on 2:TEXT:!keys*:?:{ 
+on 3:TEXT:!keys*:?:{ 
   if ($2 != $null) { $checkchar($2) | $keys.list($2) | $set_chr_name($2) | $readkeys($2, private) }
   else {  $keys.list($nick) | $set_chr_name($nick) | $readkeys($nick, private) }
 }
@@ -561,66 +588,76 @@ on 2:TEXT:!keys*:?:{
 alias readkeys {
   if (%keys.items.list != $null) { 
     if ($2 = channel) { query %battlechan $readini(translation.dat, system, ViewKeysItems) }
-    if ($2 != channel) { .msg $nick $readini(translation.dat, system, ViewKeysItems) }
+    if ($2 = private) { .msg $nick $readini(translation.dat, system, ViewKeysItems) }
+    if ($2 = dcc) {  $dcc.private.message($nick, $readini(translation.dat, system, ViewKeysItems)) }
   } 
   else { 
     if ($2 = channel) { query %battlechan $readini(translation.dat, system, HasNoKeys) }
-    if ($2 != channel) { .msg $nick $readini(translation.dat, system, HasNoKeys) }
+    if ($2 = private) { .msg $nick $readini(translation.dat, system, HasNoKeys) }
+    if ($2 = dcc) {  $dcc.private.message($nick, $readini(translation.dat, system, HasNoKeys)) }
   }    
 }
-on 2:TEXT:!items*:#:{ 
+on 3:TEXT:!items*:#:{ 
   if ($2 != $null) { $checkchar($2) | $items.list($2) | $set_chr_name($2) | $readitems($2, channel) }
   else {  $items.list($nick) | $set_chr_name($nick) | $readitems($nick, channel) }
 }
-on 2:TEXT:!ritems*:#:{ $checkchar($2) | $items.list($2) | $set_chr_name($2) | $readitems($2, channel) }
-on 2:TEXT:!items*:?:{ 
+on 3:TEXT:!ritems*:#:{ $checkchar($2) | $items.list($2) | $set_chr_name($2) | $readitems($2, channel) }
+on 3:TEXT:!items*:?:{ 
   if ($2 != $null) { $checkchar($2) | $items.list($2) | $set_chr_name($2) | $readitems($2, private) }
   else {  $items.list($nick) | $set_chr_name($nick) | $readitems($nick, private) }
 }
-on 2:TEXT:!ritems*:?:{ $checkchar($2) | $items.list($2) | $set_chr_name($2) | $readitems($2, private) }
+on 3:TEXT:!ritems*:?:{ $checkchar($2) | $items.list($2) | $set_chr_name($2) | $readitems($2, private) }
 
 alias readitems {
   if (%items.list != $null) { 
     if ($2 = channel) { query %battlechan $readini(translation.dat, system, ViewItems) }
-    if ($2 != channel) { .msg $nick $readini(translation.dat, system, ViewItems) }
+    if ($2 = private) { .msg $nick $readini(translation.dat, system, ViewItems) }
+    if ($2 = dcc) { $dcc.private.message($nick, $readini(translation.dat, system, ViewItems)) }
   }
   if (%statplus.items.list != $null) { 
     if ($2 = channel) { query %battlechan $readini(translation.dat, system, ViewStatPlusItems) }
-    if ($2 != channel) { .msg $nick $readini(translation.dat, system, ViewStatPlusItems) }
+    if ($2 = private) { .msg $nick $readini(translation.dat, system, ViewStatPlusItems) }
+    if ($2 = dcc) { $dcc.private.message($nick, $readini(translation.dat, system, ViewStatPlusItems)) }
   }
   if (%summons.items.list != $null) { 
     if ($2 = channel) { query %battlechan $readini(translation.dat, system, ViewSummonItems) }
-    if ($2 != channel) { .msg $nick $readini(translation.dat, system, ViewSummonItems) }
+    if ($2 = private) { .msg $nick $readini(translation.dat, system, ViewSummonItems) }
+    if ($2 = dcc) { $dcc.private.message($nick, $readini(translation.dat, system, ViewSummonItems)) }
   }
   if (%reset.items.list != $null) { 
     if ($2 = channel) { query %battlechan $readini(translation.dat, system, ViewShopResetItems) }
-    if ($2 != channel) { .msg $nick $readini(translation.dat, system, ViewShopResetItems) }
+    if ($2 = private) { .msg $nick $readini(translation.dat, system, ViewShopResetItems) }
+    if ($2 = dcc) { $dcc.private.message($nick, $readini(translation.dat, system, ViewShopResetItems)) }
   }
   if (%gems.items.list != $null) { 
     if ($2 = channel) { query %battlechan $readini(translation.dat, system, ViewGemItems) }
-    if ($2 != channel) { .msg $nick $readini(translation.dat, system, ViewGemItems) }
+    if ($2 = private) { .msg $nick $readini(translation.dat, system, ViewGemItems) }
+    if ($2 = dcc) { $dcc.private.message($nick, $readini(translation.dat, system, ViewGemItems)) }
   }
   if (%portals.items.list != $null) { 
     if ($2 = channel) { query %battlechan $readini(translation.dat, system, ViewPortalItems) } 
-    if ($2 != channel) { .msg $nick $readini(translation.dat, system, ViewPortalItems) } 
+    if ($2 = private) { .msg $nick $readini(translation.dat, system, ViewPortalItems) } 
+    if ($2 = dcc) { $dcc.private.message($nick, $readini(translation.dat, system, ViewPortalItems)) }
   }
   if (%misc.items.list != $null) { 
     if ($2 = channel) { query %battlechan $readini(translation.dat, system, ViewMiscItems) } 
-    if ($2 != channel) { .msg $nick $readini(translation.dat, system, ViewMiscItems) } 
+    if ($2 = private) { .msg $nick $readini(translation.dat, system, ViewMiscItems) } 
+    if ($2 = dcc) { $dcc.private.message($nick, $readini(translation.dat, system, ViewMiscItems)) }
   }
 
   if (((((((%items.list = $null) && (%statplus.items.list = $null) && (%summons.items.list = $null) && (%reset.items.list = $null) && (%gems.items.list = $null) && (%portals.items.list = $null) && (%misc.items.list = $null))))))) { 
     if ($2 = channel) { query %battlechan $readini(translation.dat, system, HasNoItems) }
-    if ($2 != channel) { .msg $nick $readini(translation.dat, system, HasNoItems) }
+    if ($2 = private) { .msg $nick $readini(translation.dat, system, HasNoItems) }
+    if ($2 = dcc) { $dcc.private.message($nick, $readini(translation.dat, system, HasNoItems)) }
   }    
   unset %items.list | unset %gems.items.list | unset %summons.items.list | unset %keys.items.list | unset %misc.items.list | unset %statplus.items.list | unset %portals.items.list
 }
 
-on 2:TEXT:!accessories*:#:{ 
+on 3:TEXT:!accessories*:#:{ 
   if ($2 != $null) { $checkchar($2) | $accessories.list($2) | $set_chr_name($2) | $readaccessories($2, channel) }
   else { $accessories.list($nick) | $set_chr_name($nick) | $readaccessories($nick, channel) }
 }
-on 2:TEXT:!accessories*:?:{ 
+on 3:TEXT:!accessories*:?:{ 
   if ($2 != $null) { $checkchar($2) | $accessories.list($2) | $set_chr_name($2) | $readaccessories($2, private) }
   else { $accessories.list($nick) | $set_chr_name($nick) | $readaccessories($nick, private) }
 }
@@ -628,30 +665,34 @@ on 2:TEXT:!accessories*:?:{
 alias readaccessories {
   if (%accessories.list != $null) { 
     if ($2 = channel) { query %battlechan $readini(translation.dat, system, ViewAccessories) }
-    if ($2 != channel) { .msg $nick $readini(translation.dat, system, ViewAccessories) }
+    if ($2 = private) { .msg $nick $readini(translation.dat, system, ViewAccessories) }
+    if ($2 = dcc) { $dcc.private.message($nick, $readini(translation.dat, system, ViewAccessories)) }
 
     var %equipped.accessory $readini($char($1), equipment, accessory)
     if ((%equipped.accessory = $null) || (%equipped.accessory = none)) { 
       if ($2 = channel) { query %battlechan $readini(translation.dat, system, HasNoEquippedAccessory) }
-      if ($2 != channel) { .msg $nick $readini(translation.dat, system, HasNoEquippedAccessory) }
+      if ($2 = private) { .msg $nick $readini(translation.dat, system, HasNoEquippedAccessory) }
+      if ($2 = dcc) { $dcc.private.message($nick, $readini(translation.dat, system, HasNoEquippedAccessory)) }
     }
     if ((%equipped.accessory != $null) && (%equipped.accessory != none)) {
       if ($2 = channel) { query %battlechan $readini(translation.dat, system, ViewEquippedAccessory) }
-      if ($2 != channel) { .msg $nick $readini(translation.dat, system, ViewEquippedAccessory) }
+      if ($2 = private) { .msg $nick $readini(translation.dat, system, ViewEquippedAccessory) }
+      if ($2 = dcc) { $dcc.private.message($nick, $readini(translation.dat, system, ViewEquippedAccessory)) }
     }
     unset %accessories.list 
   }
   else { 
     if ($2 = channel) { query %battlechan $readini(translation.dat, system, HasNoAccessories) }
-    if ($2 != channel) { .msg $nick $readini(translation.dat, system, HasNoAccessories) }
+    if ($2 = private) { .msg $nick $readini(translation.dat, system, HasNoAccessories) }
+    if ($2 = dcc) { $dcc.private.message($nick, $readini(translation.dat, system, HasNoAccessories)) } 
   }
 }
 
-on 2:TEXT:!armor*:#:{ 
+on 3:TEXT:!armor*:#:{ 
   if ($2 != $null) { $checkchar($2) | $armor.list($2) | $set_chr_name($2) | $readarmor($2, channel) }
   else {  $armor.list($nick) | $set_chr_name($nick) | $set_chr_name($nick) | $readarmor($nick, channel) } 
 }
-on 2:TEXT:!armor*:?:{ 
+on 3:TEXT:!armor*:?:{ 
   if ($2 != $null) { $checkchar($2) | $armor.list($2) | $set_chr_name($2) | $readarmor($2, private) }
   else {  $armor.list($nick) | $set_chr_name($nick) | $set_chr_name($nick) | $readarmor($nick, private) } 
 }
@@ -659,28 +700,34 @@ on 2:TEXT:!armor*:?:{
 alias readarmor {
   if (%armor.head != $null) { 
     if ($2 = channel) { query %battlechan $readini(translation.dat, system, ViewArmorHead) }
-    if ($2 != channel) { .msg $nick $readini(translation.dat, system, ViewArmorHead) }
+    if ($2 = private) { .msg $nick $readini(translation.dat, system, ViewArmorHead) }
+    if ($2 = dcc) { $dcc.private.message($nick, $readini(translation.dat, system, ViewArmorHead)) }
   }
   if (%armor.body != $null) { 
     if ($2 = channel) { query %battlechan $readini(translation.dat, system, ViewArmorBody) }
-    if ($2 != channel) { .msg $nick $readini(translation.dat, system, ViewArmorBody) }
+    if ($2 = private) { .msg $nick $readini(translation.dat, system, ViewArmorBody) }
+    if ($2 = dcc) { $dcc.private.message($nick, $readini(translation.dat, system, ViewArmorBody)) }
   }
   if (%armor.legs != $null) { 
     if ($2 = channel) { query %battlechan $readini(translation.dat, system, ViewArmorLegs) }
-    if ($2 != channel) { .msg $nick $readini(translation.dat, system, ViewArmorLegs) }
+    if ($2 = private) { .msg $nick $readini(translation.dat, system, ViewArmorLegs) }
+    if ($2 = dcc) { $dcc.private.message($nick, $readini(translation.dat, system, ViewArmorLegs)) }
   }
   if (%armor.feet != $null) { 
     if ($2 = channel) { query %battlechan $readini(translation.dat, system, ViewArmorFeet) }
-    if ($2 != channel) { .msg $nick $readini(translation.dat, system, ViewArmorFeet) }
+    if ($2 = private) { .msg $nick $readini(translation.dat, system, ViewArmorFeet) }
+    if ($2 = dcc) { $dcc.private.message($nick, $readini(translation.dat, system, ViewArmorFeet)) }
   }
   if (%armor.hands != $null) {
     if ($2 = channel) { query %battlechan $readini(translation.dat, system, ViewArmorHands) }
-    if ($2 != channel) { .msg $nick $readini(translation.dat, system, ViewArmorHands) }
+    if ($2 = private) { .msg $nick $readini(translation.dat, system, ViewArmorHands) }
+    if ($2 = dcc) { $dcc.private.message($nick, $readini(translation.dat, system, ViewArmorHands)) }
   }
 
   if (((((%armor.head = $null) && (%armor.body = $null) && (%armor.legs = $null) && (%armor.feet = $null) && (%armor.hands = $null))))) { 
     if ($2 = channel) { query %battlechan $readini(translation.dat, system, HasNoArmor) }
-    if ($2 != channel) { .msg $nick $readini(translation.dat, system, HasNoArmor) }
+    if ($2 = private) { .msg $nick $readini(translation.dat, system, HasNoArmor) }
+    if ($2 = dcc) { $dcc.private.message($nick, $readini(translation.dat, system, HasNoArmor)) }
   }    
 
   unset %armor.head | unset %armor.body | unset %armor.legs | unset %armor.feet | unset %armor.hands
@@ -694,7 +741,7 @@ ON 50:TEXT:*equips *:*:{
   else { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, DoNotHaveWeapon) | halt }
 } 
 
-on 2:TEXT:!equip *:*: { 
+on 3:TEXT:!equip *:*: { 
   if ($2 = accessory) { $wear.accessory($nick, $3) | halt }
   if ($2 = armor) { $wear.armor($nick, $3) | halt }
 
@@ -707,7 +754,7 @@ on 2:TEXT:!equip *:*: {
   else { $set_chr_name($nick) | query %battlechan $readini(translation.dat, errors, DoNotHaveWeapon) | halt }
 }
 
-on 2:TEXT:!unequip *:*: { 
+on 3:TEXT:!unequip *:*: { 
   if ($2 = accessory) { $remove.accessory($nick, $3) }
   if ($2 = armor) { $remove.armor($nick, $3) }
 
@@ -723,10 +770,10 @@ on 2:TEXT:!unequip *:*: {
   }
 }
 
-on 2:TEXT:!status:#: { $player.status($nick) | query %battlechan $readini(translation.dat, system, ViewStatus) | unset %all_status } 
-on 2:TEXT:!status:?: { $player.status($nick) | .msg $nick $readini(translation.dat, system, ViewStatus) | unset %all_status }
+on 3:TEXT:!status:#: { $player.status($nick) | query %battlechan $readini(translation.dat, system, ViewStatus) | unset %all_status } 
+on 3:TEXT:!status:?: { $player.status($nick) | .msg $nick $readini(translation.dat, system, ViewStatus) | unset %all_status }
 
-on 2:TEXT:!total deaths *:#: { 
+on 3:TEXT:!total deaths *:#: { 
   if ($3 = $null) { .msg $nick 4!total deaths target | halt }
   if ($isfile($boss($3)) = $true) { set %total.deaths $readini(monsterdeaths.lst, boss, $3) | set %real.name $readini($boss($3), basestats, name) }
   else  if ($isfile($mon($3)) = $true) { set  %total.deaths $readini(monsterdeaths.lst, monster, $3) |  set %real.name $readini($mon($3), basestats, name) }
@@ -738,7 +785,7 @@ on 2:TEXT:!total deaths *:#: {
   if (%total.deaths > 0) { query %battlechan $readini(translation.dat, system, TotalDeathTotal)  }
   unset %total.deaths
 }
-on 2:TEXT:!total deaths *:?: { 
+on 3:TEXT:!total deaths *:?: { 
   if ($3 = $null) { .msg $nick 4!total deaths target | halt }
   if ($isfile($boss($3)) = $true) { set %total.deaths $readini(monsterdeaths.lst, boss, $3) | set %real.name $readini($boss($3), basestats, name) }
   else  if ($isfile($mon($3)) = $true) { set  %total.deaths $readini(monsterdeaths.lst, monster, $3) |  set %real.name $readini($mon($3), basestats, name) }
@@ -751,7 +798,7 @@ on 2:TEXT:!total deaths *:?: {
   unset %total.deaths
 }
 
-on 2:TEXT:!achievements*:#: { 
+on 3:TEXT:!achievements*:#: { 
   if ($2 != $null) { $checkchar($2) | $achievement.list($2) 
     if (%achievement.list != $null) { $set_chr_name($2) | query %battlechan $readini(translation.dat, system, AchievementList) 
       if (%achievement.list.2 != $null) { query %battlechan 3 $+ %achievement.list.2 }
@@ -770,7 +817,7 @@ on 2:TEXT:!achievements*:#: {
     unset %achievement.list | unset %achievement.list.2 | unset %achievement.list.3
   }
 }
-on 2:TEXT:!achievements*:?: { 
+on 3:TEXT:!achievements*:?: { 
   if ($2 != $null) { $checkchar($2) | $achievement.list($2) 
     if (%achievement.list != $null) { $set_chr_name($2) | .msg $nick $readini(translation.dat, system, AchievementList) 
       if (%achievement.list.2 != $null) { .msg $nick 3 $+ %achievement.list.2 }
@@ -865,7 +912,7 @@ on 50:TEXT:!take *:*:{
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; TAUNT COMMAND
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-on 2:TEXT:!taunt *:*: { $set_chr_name($nick)
+on 3:TEXT:!taunt *:*: { $set_chr_name($nick)
   if ($is_charmed($nick) = true) { query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
   if ($is_confused($nick) = true) { $set_chr_name($nick) | query %battlechan $readini(translation.dat, status, CurrentlyConfused) | halt }
   $taunt($nick, $2) | halt 
@@ -886,9 +933,8 @@ alias taunt {
   ; $1 = taunter
   ; $2 = target
 
-  if (%battleis = off) { query %battlechan $readini(translation.dat, errors, NoCurrentBattle) | halt }
+  if (%battleis = off) { $display.system.message($readini(translation.dat, errors, NoCurrentBattle), private) | halt  }
   $check_for_battle($1) 
-
   $person_in_battle($2) 
 
   var %user.flag $readini($char($1), info, flag) | var %target.flag $readini($char($2), info, flag)
@@ -896,10 +942,10 @@ alias taunt {
   if ($is_confused($1) = true) { var %user.flag monster }
   if (%mode.pvp = on) { var %user.flag monster }
 
-  if ((%user.flag != monster) && (%target.flag != monster)) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, OnlyTauntMonsters) | halt }
-  if ($readini($char($1), Battle, Status) = dead) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, Can'tTauntWhiledead) | unset %real.name | halt }
-  if ($readini($char($2), Battle, Status) = dead) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, Can'tTauntSomeoneWhoIsDead) | unset %real.name | halt }
-  if ($readini($char($2), Battle, Status) = RunAway) { query %battlechan $readini(translation.dat, errors, Can'tTauntSomeoneWhoFled) | unset %real.name | halt } 
+  if ((%user.flag != monster) && (%target.flag != monster)) { $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, OnlyTauntMonsters), private) | halt }
+  if ($readini($char($1), Battle, Status) = dead) { $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, Can'tTauntWhiledead), private) | unset %real.name | halt }
+  if ($readini($char($2), Battle, Status) = dead) { $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, Can'tTauntSomeoneWhoIsDead), private) | unset %real.name | halt }
+  if ($readini($char($2), Battle, Status) = RunAway) { $display.system.message($readini(translation.dat, errors, Can'tTauntSomeoneWhoFled), private) | unset %real.name | halt } 
 
   ; Add some style to the taunter.
   set %stylepoints.to.add $rand(60,80)
@@ -915,19 +961,20 @@ alias taunt {
   ; Pick a random taunt and show it.
   $calculate.stylepoints($1)
   $set_chr_name($2) | set %enemy %real.name
-  $set_chr_name($1) | query %battlechan 2 $+ %real.name looks at $set_chr_name($2) %real.name and says " $+ $read taunts.txt $+ "  %style.rating
+  $set_chr_name($1) 
+
+  $display.system.message(2 $+ %real.name looks at $set_chr_name($2) %real.name and says " $+ $read taunts.txt $+ "  %style.rating, battle) 
 
   ; Now do a random effect to the monster.
   var %taunt.effect $rand(1,7)
 
-  if (%taunt.effect = 1) { var %taunt.str $readini($char($2), battle, str) | inc %taunt.str $rand(1,2) | writeini $char($2) battle str %taunt.str | $set_chr_name($2) | query %battlechan $readini(translation.dat, battle, TauntRage) }
-  if (%taunt.effect = 2) { var %taunt.def $readini($char($2), battle, def) | inc %taunt.def $rand(1,2) | writeini $char($2) battle def %taunt.def | $set_chr_name($2) | query %battlechan $readini(translation.dat, battle, TauntDefensive)  }
-  if (%taunt.effect = 3) { var %taunt.int $readini($char($2), battle, int) | dec %taunt.int 1 | writeini $char($2) battle int %taunt.int | $set_chr_name($2) | query %battlechan $readini(translation.dat, battle, TauntClueless)  }
-  if (%taunt.effect = 4) { var %taunt.str $readini($char($2), battle, str) | dec %taunt.str 1 | writeini $char($2) battle str %taunt.str | $set_chr_name($2) | query %battlechan $readini(translation.dat, battle, TauntTakenAback) }
-  if (%taunt.effect = 5) { $set_chr_name($2) | query %battlechan $readini(translation.dat, battle, TauntBored) }
-  if (%taunt.effect = 6) { $restore_hp($2, $rand(1,10)) | $set_chr_name($2) | query %battlechan $readini(translation.dat, battle, TauntLaugh) | unset %taunt.hp  }
-  if (%taunt.effect = 7) { $restore_tp($2, 5) | $set_chr_name($2) | query %battlechan $readini(translation.dat, battle, TauntSmile)
-  }
+  if (%taunt.effect = 1) { var %taunt.str $readini($char($2), battle, str) | inc %taunt.str $rand(1,2) | writeini $char($2) battle str %taunt.str | $set_chr_name($2) | $display.system.message($readini(translation.dat, battle, TauntRage), battle) }
+  if (%taunt.effect = 2) { var %taunt.def $readini($char($2), battle, def) | inc %taunt.def $rand(1,2) | writeini $char($2) battle def %taunt.def | $set_chr_name($2) | $display.system.message($readini(translation.dat, battle, TauntDefensive), battle) }
+  if (%taunt.effect = 3) { var %taunt.int $readini($char($2), battle, int) | dec %taunt.int 1 | writeini $char($2) battle int %taunt.int | $set_chr_name($2) | $display.system.message($readini(translation.dat, battle, TauntClueless), battle) }
+  if (%taunt.effect = 4) { var %taunt.str $readini($char($2), battle, str) | dec %taunt.str 1 | writeini $char($2) battle str %taunt.str | $set_chr_name($2) | $display.system.message($readini(translation.dat, battle, TauntTakenAback), battle) }
+  if (%taunt.effect = 5) { $set_chr_name($2) | $display.system.message($readini(translation.dat, battle, TauntBored), battle) }
+  if (%taunt.effect = 6) { $restore_hp($2, $rand(1,10)) | $set_chr_name($2) |  $display.system.message($readini(translation.dat, battle, TauntLaugh), battle) | unset %taunt.hp }
+  if (%taunt.effect = 7) { $restore_tp($2, 5) | $set_chr_name($2) | $display.system.message($readini(translation.dat, battle, TauntSmile), battle) }
 
   ; Time to go to the next turn
   if (%battleis = on)  { $check_for_double_turn($1) }
@@ -950,19 +997,20 @@ alias gives.command {
 
   $checkchar($2)
 
-  if ($2 = $1) { query %battlechan $readini(translation.dat, errors, CannotGiveToYourself) | halt }
+  if ($2 = $1) { $display.system.message($readini(translation.dat, errors, CannotGiveToYourself), private) | halt }
 
   var %flag $readini($char($2), Info, Flag)
-  if (%flag != $null) { query %battlechan $readini(translation.dat, errors, Can'tGiveToNonChar) | halt }
+  if (%flag != $null) { $display.system.message($readini(translation.dat, errors, Can'tGiveToNonChar), private) | halt }
 
   var %check.item.give $readini($char($1), Item_Amount, $4) 
-  if ((%check.item.give <= 0) || (%check.item.give = $null)) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, DoesNotHaveThatItem) | halt }
-  if (. isin $3) || ($3 <= 0) { query %battlechan $readini(translation.dat, errors, CannotGiveNegativeItem) | halt }
-  if ($3 > %check.item) { query %battlechan $readini(translation.dat, errors, CannotGiveThatMuchofItem) | halt }
+
+  if ((%check.item.give <= 0) || (%check.item.give = $null)) { $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, DoesNotHaveThatItem), private) | halt }
+  if ((. isin $3) || ($3 <= 0)) { $display.system.message($readini(translation.dat, errors, Can'tGiveNegativeItem), private) | halt }
+  if ($3 > %check.item.give) { $display.system.message($readini(translation.dat, errors, CannotGiveThatMuchofItem), private) | halt }
 
   var %equipped.accessory $readini($char($1), equipment, accessory)
   if (%equipped.accessory = $4) {
-    if (%check.item = 1) { .msg $nick $readini(translation.dat, errors, StillWearingAccessory) | halt }
+    if (%check.item = 1) { $display.system.message($readini(translation.dat, errors, StillWearingAccessory), private) | halt }
   }
 
   ; If so, decrease the amount
@@ -973,7 +1021,7 @@ alias gives.command {
   inc %target.items $3 
   writeini $char($2) item_amount $4 %target.items
 
-  query %battlechan $readini(translation.dat, system, GiveItemToTarget)
+  $display.system.message($readini(translation.dat, system, GiveItemToTarget), global)
 
   var %number.of.items.given $readini($char($1), stuff, ItemsGiven)
   if (%number.of.items.given = $null) { var %number.of.items.given 0 }
@@ -985,70 +1033,70 @@ alias gives.command {
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; SCOREBOARD COMMANDS
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-on 2:TEXT:!scoreboard:*: {
+on 3:TEXT:!scoreboard:*: {
   if (%battleis != on) { $generate.scoreboard }
-  else { query %battlechan $readini(translation.dat, errors, ScoreBoardNotDuringBattle) | halt }
+  else { $display.system.message($readini(translation.dat, errors, ScoreBoardNotDuringBattle), private) | halt }
 }
 
-on 2:TEXT:!score*:*: {
+on 3:TEXT:!score*:*: {
   if ($2 = $null) { 
     var %score $get.score($nick)
-    $set_chr_name($nick) | query %battlechan $readini(translation.dat, system, CurrentScore)
+    $set_chr_name($nick) | $display.system.message($readini(translation.dat, system, CurrentScore), private)
   }
   else {
     $checkchar($2) 
     var %flag $readini($char($2), info, flag)
-    if ((%flag = monster) || (%flag = npc)) { query %battlechan $readini(translation.dat, errors, SkillCommandOnlyOnPlayers) | halt }
+    if ((%flag = monster) || (%flag = npc)) { display.system.message($readini(translation.dat, errors, SkillCommandOnlyOnPlayers), private) | halt }
     var %score $get.score($2)
-    $set_chr_name($2) | query %battlechan $readini(translation.dat, system, CurrentScore)
+    $set_chr_name($2) | $display.system.message($readini(translation.dat, system, CurrentScore), private)
   }
 }
 
-on 2:TEXT:!deathboard*:*: {
+on 3:TEXT:!deathboard*:*: {
   if (%battleis != on) { 
     if ((($2 = monster) || ($2 = mon) || ($2 = monsters))) { $generate.monsterdeathboard }
     if (($2 = boss) || ($2 = bosses)) { $generate.bossdeathboard } 
-    if ($2 = $null) { .msg $nick 4!deathboard <monster/boss> | halt }
+    if ($2 = $null) { $display.system.message(4!deathboard <monster/boss>, private) | halt }
   }
-  else { query %battlechan $readini(translation.dat, errors, DeathBoardNotDuringBattle) | halt }
+  else { $display.system.message($readini(translation.dat, errors, DeathBoardNotDuringBattle), private) | halt }
 }
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; DIFFICULTY CMNDS
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-on 2:TEXT:!view difficulty*:*:{   $set_chr_name($nick) | $checkchar($nick) 
+on 3:TEXT:!view difficulty*:*:{   $set_chr_name($nick) | $checkchar($nick) 
   var %saved.difficulty $readini($char($nick), info, difficulty)
   if (%saved.difficulty = $null) { var %saved.difficulty 0 }
-  query %battlechan $readini(translation.dat, system, ViewDifficulty)
+  $display.system.message($readini(translation.dat, system, ViewDifficulty), private)
 }
 
-on 2:TEXT:!save difficulty*:*:{   $set_chr_name($nick) | $checkchar($nick) 
-  if ($3 !isnum) { query %battlechan $readini(translation.dat, errors, DifficultyMustBeNumber) | halt }
-  if (. isin $3) { query %battlechan $readini(translation.dat, errors, DifficultyMustBeNumber) | halt }
-  if ($3 < 0) { query %battlechan $readini(translation.dat, errors, DifficultyCan'tBeNegative) | halt }
-  if ($3 > 200) { query %battlechan $readini(translation.dat, errors, DifficultyCan'tBeOver200) | halt }
+on 3:TEXT:!save difficulty*:*:{   $set_chr_name($nick) | $checkchar($nick) 
+  if ($3 !isnum) { $display.system.message($readini(translation.dat, errors, DifficultyMustBeNumber),private) | halt }
+  if (. isin $3) { $display.system.message($readini(translation.dat, errors, DifficultyMustBeNumber),private) | halt }
+  if ($3 < 0) { $display.system.message($readini(translation.dat, errors, DifficultyCan'tBeNegative),private) | halt }
+  if ($3 > 200) { $display.system.message($readini(translation.dat, errors, DifficultyCan'tBeOver200),private) | halt }
 
   writeini $char($nick) info difficulty $3
-  query %battlechan $readini(translation.dat, system, SaveDifficulty)
+  $display.system.message($readini(translation.dat, system, SaveDifficulty), global)
 }
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; AUGMENT CMNDS
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-on 2:TEXT:!runes*:#:{ 
+on 3:TEXT:!runes*:#:{ 
   if ($2 != $null) { $checkchar($2)
     $runes.list($2) | $set_chr_name($2) 
-    if (%runes.list != $null) { query %battlechan $readini(translation.dat, system, ViewRunes) |  unset %runes.list }
-    else { query %battlechan $readini(translation.dat, system, HasNoRunes) }
+    if (%runes.list != $null) { $display.system.message($readini(translation.dat, system, ViewRunes), private) |  unset %runes.list }
+    else { $display.system.message($readini(translation.dat, system, HasNoRunes), private) }
   }
   else { 
     $runes.list($nick) | $set_chr_name($nick) 
-    if (%runes.list != $null) { query %battlechan $readini(translation.dat, system, ViewRunes) | unset %runes.list }
-    else { query %battlechan $readini(translation.dat, system, HasNoRunes) }
+    if (%runes.list != $null) { $display.system.message($readini(translation.dat, system, ViewRunes), private) | unset %runes.list }
+    else { $display.system.message($readini(translation.dat, system, HasNoRunes), private) }
   }
 }
-on 2:TEXT:!runes*:?:{ 
+on 3:TEXT:!runes*:?:{ 
   if ($2 != $null) { $checkchar($2)
     $runes.list($2) | $set_chr_name($2) 
     if (%runes.list != $null) { .msg $nick $readini(translation.dat, system, ViewRunes) |  unset %runes.list }
@@ -1060,7 +1108,7 @@ on 2:TEXT:!runes*:?:{
     else { .msg $nick $readini(translation.dat, system, HasNoRunes) }
   }
 }
-on 2:TEXT:!augment*:*:{ 
+on 3:TEXT:!augment*:*:{ 
   if ($2 = $null) { $augments.list($nick) }
 
   if ($2 = list) { 
@@ -1074,30 +1122,30 @@ on 2:TEXT:!augment*:*:{
   }
 
   if ($2 = add) { 
-    if ($3 = $null) { query %battlechan $readini(translation.dat, errors, AugmentAddCmd) | halt }
-    if ($4 = $null) {  query %battlechan $readini(translation.dat, errors, AugmentAddCmd) | halt }
+    if ($3 = $null) { $display.system.message($readini(translation.dat, errors, AugmentAddCmd), private) | halt }
+    if ($4 = $null) {  $display.system.message($readini(translation.dat, errors, AugmentAddCmd), private) | halt }
 
     ; does the player own that weapon?
     var %player.weapon.check $readini($char($nick), weapons, $3)
 
-    if ((%player.weapon.check < 1) || (%player.weapon.check = $null)) {  $set_chr_name($nick) | query %battlechan $readini(translation.dat, errors, DoNotHaveWeapon) | halt }
+    if ((%player.weapon.check < 1) || (%player.weapon.check = $null)) {  $set_chr_name($nick) | $display.system.message($readini(translation.dat, errors, DoNotHaveWeapon), private) | halt }
 
     ; Check to see if weapon is already augmented.  
     var %current.augment $readini($char($nick), augments, $3)
 
-    if (%current.augment != $null) { $set_chr_name($nick) | query %battlechan $readini(translation.dat, errors, AugmentWpnAlreadyAugmented) | halt }
+    if (%current.augment != $null) { $set_chr_name($nick) | $display.system.message($readini(translation.dat, errors, AugmentWpnAlreadyAugmented), private) | halt }
 
     ; Check to see if person has rune
     var %rune.amount $readini($char($nick), item_amount, $4) 
 
-    if ((%rune.amount < 1) || (%rune.amount = $null)) { $set_chr_name($nick) |  query %battlechan $readini(translation.dat, errors, DoNotHaveRune) | halt }
+    if ((%rune.amount < 1) || (%rune.amount = $null)) { $set_chr_name($nick) |  $display.system.message($readini(translation.dat, errors, DoNotHaveRune), private) | halt }
 
     ; Augment the weapon
     set %augment.name $readini(items.db, $4, augment)
     writeini $char($nick) augments $3 %augment.name
     dec %rune.amount 1 | writeini $char($nick) item_amount $4 %rune.amount
 
-    $set_chr_name($nick) | query %battlechan $readini(translation.dat, system, WeaponAugmented)
+    $set_chr_name($nick) | $display.system.message($readini(translation.dat, system, WeaponAugmented), global)
 
     var %number.of.augments $readini($char($nick), stuff, WeaponsAugmented)
     if (%number.of.augments = $null) { var %number.of.augments 0 }
@@ -1109,18 +1157,18 @@ on 2:TEXT:!augment*:*:{
   }
 
   if ($2 = remove) { 
-    if ($3 = $null) { query %battlechan $readini(translation.dat, errors, AugmentRemoveCmd) | halt }
+    if ($3 = $null) { $display.system.message($readini(translation.dat, errors, AugmentRemoveCmd), private) | halt }
 
     var %player.weapon.check $readini($char($nick), weapons, $3)
-    if ((%player.weapon.check < 1) || (%player.weapon.check = $null)) {  $set_chr_name($nick) | query %battlechan $readini(translation.dat, errors, DoNotHaveWeapon) | halt }
+    if ((%player.weapon.check < 1) || (%player.weapon.check = $null)) {  $set_chr_name($nick) | $display.system.message($readini(translation.dat, errors, DoNotHaveWeapon), private) | halt }
 
     ; Check to see if weapon is augmented or not.  
     var %current.augment $readini($char($nick), augments, $3)
-    if (%current.augment = $null) {  $set_chr_name($nick) | query %battlechan $readini(translation.dat, errors, AugmentWpnNotAugmented) | halt }
+    if (%current.augment = $null) {  $set_chr_name($nick) | $display.system.message($readini(translation.dat, errors, AugmentWpnNotAugmented), private) | halt }
 
     ; Remove augment.
     remini $char($nick) augments $3 
-    $set_chr_name($nick) | query %battlechan $readini(translation.dat, system, WeaponDeAugmented)
+    $set_chr_name($nick) | $display.system.message($readini(translation.dat, system, WeaponDeAugmented), global)
   }
 }
 
@@ -1142,12 +1190,12 @@ alias augments.list {
   }
   unset %value | unset %weapon.name | unset %weapon_level | unset %number.of.weapons
 
-  if (%weapon.list = $null) { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, NoAugments) | halt }
+  if (%weapon.list = $null) { $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, NoAugments), private) | halt }
 
   if ($chr(046) isin %weapon.list) { set %replacechar $chr(044) $chr(032)
     %weapon.list = $replace(%weapon.list, $chr(046), %replacechar)
   }
-  $set_chr_name($1) | query %battlechan $readini(translation.dat, system, ListOfAugments)
+  $set_chr_name($1) | $display.system.message($readini(translation.dat, system, ListOfAugments), private)
 }
 
 alias augments.strength {
@@ -1186,10 +1234,10 @@ alias augments.strength {
     %augment.list.3 = $replace(%augment.list.3, $chr(046), %replacechar)
   }
 
-  if (%augment.list != $null) { $set_chr_name($1) | query %battlechan $readini(translation.dat, system, augmentList) 
-    if (%augment.list.2 != $null) { query %battlechan 3 $+ %augment.list.2 }
-    if (%augment.list.3 != $null) { query %battlechan 3 $+ %augment.list.3 }
+  if (%augment.list != $null) { $set_chr_name($1) | $display.system.message($readini(translation.dat, system, augmentList), private)
+    if (%augment.list.2 != $null) { $display.system.message(3 $+ %augment.list.2, private) }
+    if (%augment.list.3 != $null) { $display.system.message(3 $+ %augment.list.3, private) }
   }
-  if (%augment.list = $null) { $set_chr_name($1) | query %battlechan $readini(translation.dat, system, Noaugments) }
+  if (%augment.list = $null) { $set_chr_name($1) | $display.system.message($readini(translation.dat, system, Noaugments), private) }
   unset %augment.list | unset %augment.list.2 | unset %augment.list.3
 }

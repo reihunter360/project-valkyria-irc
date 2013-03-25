@@ -7,7 +7,8 @@ on 50:TEXT:!clear achievement*:*:{
   if ($4 = $null) { .msg $nick 4!clear achievement <person> <achievement name> | halt }
 
   .remini $char($3) achievements $4 
-  query %battlechan 4Achievement ( $+ $4  $+ ) has been cleared for $3 $+ .
+  if ($readini(system.dat, system, botType) = IRC) {  query %battlechan 4Achievement ( $+ $4  $+ ) has been cleared for $3 $+ . }
+  if ($readini(system.dat, system, botType) = DCCchat) { $dcc.global.message(4Achievement ( $+ $4  $+ ) has been cleared for $3 $+ .) }
 }
 
 alias achievement.list {
@@ -23,6 +24,8 @@ alias achievement.list {
     $achievement_already_unlocked($1, %achievement.name) 
 
     if (%achievement.unlocked = true) {   
+      if (%achievement.name = 1.21Gigawatts) { %achievement.name = 1point21Gigawatts }
+
       if ($numtok(%achievement.list,46) <= 12) { %achievement.list = $addtok(%achievement.list, %achievement.name, 46) }
       else { 
         if ($numtok(%achievement.list.2,46) >= 12) { %achievement.list.3 = $addtok(%achievement.list.3, %achievement.name, 46) }
@@ -345,13 +348,13 @@ alias achievement_check {
       writeini $char($1) item_amount Ether %ethers
     }
   }
-
-
-
 }
 
 alias achievement_already_unlocked {
   if ($readini($char($1), achievements, $2) = true) { set %achievement.unlocked true }
 }
 
-alias announce_achievement { $set_chr_name($1) | query %battlechan $readini(translation.dat, achievements, $2) }
+alias announce_achievement { $set_chr_name($1) 
+  if ($readini(system.dat, system, botType) = IRC) { query %battlechan $readini(translation.dat, achievements, $2) }
+  if ($readini(system.dat, system, DCCchat) = IRC) { $dcc.global.message($readini(translation.dat, achievements, $2)) }
+}
