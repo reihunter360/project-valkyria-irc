@@ -1049,7 +1049,7 @@ random.battlefield.curse {
   var %curse.chance $rand(1,105)
   if (%battle.type = boss) { var %curse.chance $rand(1,100) }
   if (%curse.chance <= 6) { 
-    if ($readini(system.dat, system, botType) = IRC) {  /.timerCurseMessage 1 1 /query %battlechan $readini(translation.dat, Events, CurseNight) }
+    if ($readini(system.dat, system, botType) = IRC) {  $display.system.message($readini(translation.dat, Events, CurseNight), battle) }
     if ($readini(system.dat, system, botType) = DCCchat) { $dcc.battle.message($readini(translation.dat, Events, CurseNight)) }
     set %curse.night true
     ; curse everyone
@@ -1062,13 +1062,13 @@ random.battlefield.curse {
     }
   }
   if ((%curse.chance >= 95) && (%curse.chance <= 100)) {  
-    if ($readini(system.dat, system, botType) = IRC) { /.timerCurseMessage 1 1 /query %battlechan $readini(translation.dat, Events, BloodMoon) }
+    if ($readini(system.dat, system, botType) = IRC) {  $display.system.message($readini(translation.dat, Events, BloodMoon), battle) }
     if ($readini(system.dat, system, botType) = DCCchat) { $dcc.battle.message($readini(translation.dat, Events, BloodMoon)) }
     set %bloodmoon on 
   }
   if (%curse.chance > 100) { 
     set %battleconditions no-tech
-    if ($readini(system.dat, system, botType) = IRC) {  /.timerCurseMessage 1 1 /query %battlechan $readini(translation.dat, Events, AncientMeleeOnlySeal) }
+    if ($readini(system.dat, system, botType) = IRC) {  $display.system.message($readini(translation.dat, Events, AncientMeleeOnlySeal), battle) }
     if ($readini(system.dat, system, botType) = DCCchat) { $dcc.battle.message($readini(translation.dat, Events, AncientMeleeOnlySeal)) }
   }
 
@@ -1084,7 +1084,7 @@ random.surpriseattack {
   $backguard.check
   if (%surpriseattack.chance >= 88) { set %surpriseattack on }
   if (%surpriseattack = on) { 
-    if ($readini(system.dat, system, botType) = IRC) { /.timerSurpriseAttackMessage 1 .5 /query %battlechan $readini(translation.dat, Events, SurpriseAttack) }
+    if ($readini(system.dat, system, botType) = IRC) {  $display.system.message($readini(translation.dat, Events, SurpriseAttack), battle) }
     if ($readini(system.dat, system, botType) = DCCchat) { $dcc.battle.message($readini(translation.dat, Events, SurpriseAttack)) }
   }
   unset %surpriseattack.chance
@@ -1101,7 +1101,7 @@ random.playersgofirst {
 
   if (%playersfirst.chance <= 8) { set %playersgofirst on }
   if (%playersgofirst = on) { 
-    if ($readini(system.dat, system, botType) = IRC) { /.timerSurpriseAttackMessage 1 .5 /query %battlechan $readini(translation.dat, Events, PlayersGoFirst) }
+    if ($readini(system.dat, system, botType) = IRC) {  $display.system.message($readini(translation.dat, Events, PlayersGoFirst), battle) }
     if ($readini(system.dat, system, botType) = DCCchat) { $dcc.battle.message($readini(translation.dat, Events, PlayersGoFirst)) }
   }
   unset %playersfirst.chance
@@ -2444,7 +2444,7 @@ battlefield.event {
 
     unset %random.member | unset %alive.members | unset %number.of.members
 
-    if ($readini($char(%member), battle, hp) = $null) { halt }
+    if ($readini($char(%member), battle, hp) = $null) { return }
 
     $set_chr_name(%member) 
     $display.system.message(4 $+ $readini(battlefields.lst, %current.battlefield, event $+ %battlefield.event.number $+ desc), battle)

@@ -1,7 +1,7 @@
 [BaseStats]
 Hp=5000000
 Tp=5000000
-Str=400
+Str=500
 Def=2000
 Int=1500
 Spd=2000
@@ -11,7 +11,7 @@ Name=Perfect Chaos
 [Battle]
 Hp=5000000
 Tp=5000000
-Str=400
+Str=500
 Def=2000
 Int=1500
 Spd=500
@@ -27,13 +27,13 @@ RageCountDown=0
 Char=is a large giant snake-like head that appears from the center of the giant water source baring its large water jaw and its eyes towards the heroes. 
 Rage=screams in rage 
 BossQuote=lets out a giant roar, and water spouts and lightning spread through out the field!
-
+MonsterSummons=Perfect Chaos forces its dark powers to manifest %number.of.spawns.needed water tentacle(s) in the area!
 
 [Stuff]
 RedOrbs=0
 BlackOrbs=1
 ShopLevel=1.0
-Drops=UltimateDiscountCard
+Drops=UltraDiscountCard
 
 [Monster]
 Type=
@@ -48,14 +48,15 @@ LastSeen=N/a
 LastIP=N/a
 Created=N/a
 OrbBonus=yes
-battlestats=ignore
+battlestats=ignoreHP
 RageMode=ignore
 ai_type=
 Streak=200
 StreakMax=
 Fleeing=false
 SpawnAfterDeath=
-
+biome=Flooded Square City
+canstagger=no
 [Status]
 MightyStrike=yes
 ElementalSeal=yes
@@ -103,9 +104,13 @@ RoyalGuard=1
 ManaWall=1
 Zen=40
 ClearMind=3
-
+MonsterSummon=1
+MonsterSummon.Monster=Water_Tentacle
+MonsterSummon.Chance=70
+MonsterSummon.numberspawn=6
 resist-curse=100
 resist-stun=100
+resist-blind=100
 
 
 [Techniques]
@@ -145,3 +150,5 @@ Scythe=100
 Glyph=100
 GreatSword=100
 Bow=100
+
+AsuraStrike=5

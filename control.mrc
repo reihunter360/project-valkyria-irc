@@ -114,6 +114,7 @@ on 50:TEXT:!debug dump*:*:{
   write %debug.filename ------------------------------------------------------
   write %debug.filename debug location: %debug.location 
   write %debug.filename battlefield: %current.battlefield
+  write %debug.filename battlefield event number: %battlefield.event.number
   write %debug.filename boss type: %boss.type 
   write %debug.filename portal bonus: %portal.bonus 
   write %debug.filename holy.aura: %holy.aura 

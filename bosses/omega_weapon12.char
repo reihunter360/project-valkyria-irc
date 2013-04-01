@@ -1,20 +1,20 @@
 [BaseStats]
-Hp=5000000
+Hp=12000000
 Tp=2000000
-Str=450
-Def=350
-Int=620
-Spd=300
+Str=999
+Def=600
+Int=1035
+Spd=600
 Name=Omega Weapon Mark-12
 
 
 [Battle]
 Hp=5000000
 Tp=2000000
-Str=450
-Def=350
-Int=620
-Spd=300
+Str=999
+Def=600
+Int=1035
+Spd=600
 Status=alive
 
 
@@ -33,7 +33,7 @@ BossQuote=looks at all the enemies and slowly marches towards them.
 RedOrbs=9999999
 BlackOrbs=999
 ShopLevel=0.0
-Drops=UltimateDiscountCard
+Drops=UltraDiscountCard
 
 [Monster]
 Type=
@@ -118,16 +118,15 @@ resist-blind=100
 
 
 [Techniques]
-WaveCannon=2000
-LightPillar=2000
-MeggidoFlame=1000
-FFUltima=1000
-Gravija=600
-TerraBreak=500
-Meteor=500
-LV5_Death=100
-UltimateWeapon=666
-
+WaveCannon=4000
+LightPillar=4000
+MeggidoFlame=2000
+FFUltima=2000
+Gravija=2000
+TerraBreak=25000
+Meteor=1000
+LV5_Death=1000
+;UltimateWeapon=999
 
 [Item_Amount]
 
@@ -156,3 +155,5 @@ Scythe=150
 Glyph=150
 GreatSword=150
 Bow=150
+
+AsuraStrike=10

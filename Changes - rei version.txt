@@ -3,6 +3,7 @@ DiscountCard=150000
 UltimateDiscountCard=400000
 
 SKILLS.MRC
+line 1256
     if (%steal.chance >= 95) {
       var %stolen.from.counter $readini($char($2), status, stolencounter)
       if (%stolen.from.counter > 5) { $set_chr_name($2) | $display.system.message(4 $+ %real.name  has nothing left to steal!, battle) | halt }
@@ -40,7 +41,7 @@ Alchemy=40
 Treasurehunter Max=7
 
 ElementalSeal CD = 60
-Mightystrike CD = 30
+Mightystrike CD = 60
 Meditate Cooldown= 120
 ConserveTP Cooldown=500
 Bloodboost Cooldown 20 Max=100
@@ -71,6 +72,7 @@ MegasaurusWeapon=SurvivalInstinct.Earthquake.UltimateSwallow.SpikeFlail.Slurp.Di
 OmegaMultipurposeCannon=WaveCannon.LightPillar.MeggidoFlame.Ultima.Gravija.TerraBreak.Meteor.LV5_Death
 Perfect_Chaos_Water=Chaos_Tsunami.Hyrdro_Cannon.Chaos_Rain.Chaos_Chomp.PerfectChaosR2.Chaos_Water_Beam.Dark_Power_of_Chaos_Emeralds
 Themis'Axe=Djinn:Bane.Djinn:Flower.Djinn:Steel.Stone_Justice
+Executioner=Bash.BowlingBash.MagnumBreak.ShadowSmash
 StarMageStaff=Curaga.Spark_Plasma.Megacool.Mine_Ball
 Randgris_Sword=Thunder_Storm.LordOfVermillion.BrandishSpear.Light_PowerUp.HolyCross.SonicBlow.Earthquake.Protect.Shell
 
@@ -92,7 +94,7 @@ StatusType=Stun
 TP=20
 Desc=approaches %enemy $+ then starts stabbing them at sonic speeds! Then, $name jumps back and whips $gender($1) sword to the side. [Sonic Blow]
 BasePower=25
-hit=$rand(2,5)
+hit=$rand(2,6)
 cost=500
 Element=none
 magic=no
@@ -107,6 +109,7 @@ Desc=uses $gender($1) weapon and slams it hard into the ground creating a shockw
 BasePower=30
 cost=6000
 Element=none
+hits=2
 magic=no
 stat=str
 
@@ -119,6 +122,7 @@ Desc=casts spell forming a ball of lightning and propells it at %enemy $+ !  [Ju
 cost=9000
 basepower=20
 Element=Lightning
+hits=$rand(1,12)
 magic=yes
 stat=int
 
@@ -199,6 +203,7 @@ Desc= flaps $gender($1) four wings and produces two giant tornadoes which ravage
 element=Wind
 magic=no
 basepower=30
+hits=2
 cost=9000
 stat=int
 
@@ -220,6 +225,7 @@ Desc=aims and fires a barrage of blue spheres at %enemy $+ ! [Rock Cannon!]
 basepower=30
 cost=9000
 magic=no
+hits=$rand(1,5)
 stat=str
 
 [RockDeltaVulcan]
@@ -228,6 +234,7 @@ tp=30
 Desc=changes the "Rock Cannon" on $gender($1) hands and becomes a "Delta Vulcan Gatling" and steadily unleashes a blast of bullets onto %enemy $+ ! [Rock Delta Vulcan!]
 basepower=45
 cost=9000
+hits=$rand(3,7)
 magic=no
 stat=str
 
@@ -238,6 +245,7 @@ Desc=summons a black and white katana and lets it burn in a blue blaze... slashi
 basepower=60
 cost=9000
 element=Light
+hits=$rand(2,3)
 magic=yes
 stat=str
 
@@ -365,18 +373,29 @@ stat=str
 type=AOE
 element=Lightning
 tp=30
-basepower=40
+basepower=80
 cost=2000
 desc=fires up a wide range laser attack on all enemies. [Wave Cannon!]
 magic=no
+stat=int
 
 [LightPillar]
 type=single
 statustype=Amnesia
-tp=15
-basepower=25
-cost=2000
+tp=150
+basepower=150
+cost=20000
 desc= takes aim on %enemy $+ and fires a very bright laser on them. [Light Pillar!]
+magic=yes
+stat=int
+
+[Meteor]
+Type=AOE
+TP=90
+Desc=chants loudly as the sun is blacked out by a massive object.  As everyone looks up they see a large meteor heading straight for them. It slams into the battlefield, hitting all enemies. [Meteor]
+BasePower=160
+cost=99999999
+Element=none
 magic=yes
 stat=int
 
@@ -384,19 +403,20 @@ stat=int
 type=AOE
 element=none
 magic=yes
-tp=60
-basepower=150
+tp=1500
+basepower=700
 desc=holds up $gender($1) $+  's weapon to collect magical energy, then finally releases them in a black and white flame towards all enemies. [Ultima!]
-cost=9000
+cost=29000
 stat=int
 
 [Gravija]
 type=AOE
-statustype=weight
+statustype=strengthdown.Slow
 magic=yes
 element=dark
 tp=90
-basepower=120
+; basepower=120
+basepower=$calc(1.1 * ( $readini($char($3), battle, HP) / 2 ) )
 desc=flies up into the sky and intesifies the gravity on the battlefield! [Gravija!]
 cost=12000
 absorb=yes
@@ -406,9 +426,9 @@ stat=int
 type=single
 statustype=Earth-quake
 tp=30
-basepower=60
+basepower=90
 magic=no
-desc=uses $gender($1) $+'s weapon and smashes %enemy $+ into the ground, creating a massive hole in the ground! [Terra Break]
+desc=uses $gender($1) $+ 's weapon and smashes %enemy $+  into the ground, creating a massive hole in the ground! [Terra Break]
 cost=9000
 element=earth
 stat=str
@@ -417,10 +437,10 @@ stat=str
 type=aoe
 statustype=blind
 tp=60
-basepower=90
+basepower=150
 magic=yes
 element=light
-cost=2000
+cost=20000
 desc=casts a very large spell into the heavens and finally a holy fire burns everything within range! [Meggido Flame]
 stat=int
 
@@ -430,7 +450,8 @@ statustype=curse
 magic=yes
 tp=333
 ;basepower=if ($calc($readini($char($3), Stuff, shoplevel) % 5) == 0) { $calc($readini($char($3), basestats, HP) * 1.1) } else { $calc(0 * 1.1) }
-basepower=666
+;basepower=666
+basepower=$calc( ($readini($char($3), basestats, hp) / 5) * 1.1)
 element=dark
 desc=casts a large scale spell that surrounds all enemies with the Grim Reaper's Influence! [LV5 Death]
 stat=int
@@ -440,12 +461,12 @@ stat=int
 [Chaos_Tsunami]
 cost=9999999
 type=aoe
-statustype=Drowning
+statustype=strength-down.slow
 tp=60
 element=Water
 magic=yes
 basepower=150
-desc=sends a powerful tsunami, destroying the landscape with furious waters! [Chaos Tsunami
+desc=sends a powerful tsunami, destroying the landscape with furious waters! [Chaos Tsunami]
 stat=int
 
 [Hydro_Cannon]
@@ -533,17 +554,21 @@ tp=230
 statustype=stun
 magic=no
 stat=str
+hits=2
 desc=takes $gender(0) $+'s weapon and quickly smashes everything around her in a quick spin !! [Bowling Bash]
 
 [ShadowSmash]
-; Executioner's Signature Move
+; Executioner's Signature Move'
+type=single
+statustype=strengthdown
 cost=2500
-basepower=90
+basepower=120
 tp=350
 absorb=yes
 element=Dark
 stat=str
-desc=the $weapon(0) glows a shadowy aura, and you hit %enemy $+ with it! [Shadow Smash]
+desc=the weapon glows a shadowy aura, and you hit %enemy $+  with it! [Shadow Smash]
+magic=yes
 
 ; Golden Sun Techs
 
@@ -658,6 +683,7 @@ Cost=7800
 Element=lightning
 magic=yes
 stat=int
+hits=$rand(2,3)
 
 [Light_PowerUp]
 Type=boost
@@ -676,19 +702,35 @@ Cost=2000
 Element=light
 magic=yes
 stat=str
+hits=2
+
+[Mother'sRosario]
+Type=Single
+statustype=stun.strengthdown.poison
+TP=70
+Desc=hits %enemy $+ with a 9 hit combo in hyperspeed! [Mother's Rosario]
+basepower=60
+cost=7500
+Element=
+magic=yes
+stat=str
+hits=$rand(5,9)
 
 ;---------------------------------------------------
 ;---------------------------------------------------
 ;---------------------------------------------------
 
 ; Valkyria-IRC Customs -Re-Edits
-Silver_Goddess_Sword=TwinSlice.BiteOfLightning.BladeBeam.HyperTwinSlice.WiseReflection.CureV.GigaSlash.Atonement.BlizzajaII
+Silver_Goddess_Sword=TwinSlice.BiteOfLightning.BladeBeam.HyperTwinSlice.WiseReflection.CureV.GigaSlash.Atonement.BlizzajaII.Curaga
 Mythril_Sword=FastBlade.BurningBlade.FlatBlade.Bash.MagnumBreak.SeraphBlade
 Soulsaber=SpiritsWithin.VorpalBlade.SeraphBlade.BowlingBash
 JewelSword=Bash.MagnumBreak.BowlingBash
 Excalibur=Atonement.Bash
 Keitonotachi=Tachi:Kagero.Tachi:Goten.Tachi:Yukikaze.Bash
 Masamune=Tachi:Fudo.Tachi:Shoha.Tachi:Rana.MeikyoShisui.Bash.Bowlingbash
+Fists=DoublePunch.ShoulderTackle.SpinningAttack.AsuranFists.AsuraStrike
+KaiserKnuckles=ShoulderTackle.TornadoKick.OneInchPunch.SpinningAttack.AsuraStrike
+Murgleis=DeathBlossom.SwiftBlade.SavageBlade.Requiescat.SanguineBlade.Mother'sRosario
 
 ; wisereflection edit
 [WiseReflection]
@@ -820,15 +862,25 @@ Hits=1
 BasePower=30
 Upgrade=800
 
+[Murgleis]
+Cost=15
+Type=Sword
+Info=A legendary rapier with a thorn-like barb in the middle of the blade.
+Abilities=DeathBlossom.SwiftBlade.SavageBlade.Requiescat.SanguineBlade.Mother'sRosario
+Element=None
+Hits=1
+BasePower=55
+Upgrade=1500
+
 [Soulsaber]
-Cost=3
+Cost=6
 Type=Sword
 Info=A sword infused with the power of Moogles.
 Abilities=SpiritsWithin.VorpalBlade.SeraphBlade.BowlingBash
 Element=None
 Hits=1
-BasePower=15
-Upgrade=300
+BasePower=30
+Upgrade=800
 
 [JewelSword]
 Cost=50
@@ -1040,6 +1092,7 @@ steal.lst changes
 ; Valkyria Customs
 omega_weapon=orbs.GoldOre.orbs.orbs.BlueEyesCard.AlexanderMateria.AlexanderMateria.orbs
 valkyrie=ElvishMedallian.orbs.orbs.GoldOre.GoldOrb.orbs.orbs.CarbuncleMateria
+valkyrie_randgris=ValkyrianGauntlet.orbs.orbs.orbs.goldorb.BahamutZeroMateria.BahamutZeroMateria
 
 --------------------------------------------------------------------------
 --------------------------------------------------------------------------
@@ -1053,7 +1106,8 @@ botname=Valkyria
 botpass=dekaron
 
 [System]
-botType=DCC
+;botType=DCCChat
+botType=IRC
 automatedbattlesystem=on
 aisystem=on
 basexp=3000
@@ -1062,11 +1116,11 @@ startingorbs=3000
 currency=Red Orbs
 TimeBetweenBattles=3
 TimeForIdle=180
-TimeToEnter=90
+TimeToEnter=60
 maxHP=999999
 maxTP=999999
 MaxIG=250
-MaxOrbReward=999999
+MaxOrbReward=100000
 Maxshoplevel=25
 EnableDoppelganger=false
 EnableWarMachine=true
@@ -1074,13 +1128,14 @@ AllowDemonWall=yes
 EnableChests=true
 MaxCharacters=2
 ShowOrbsCmdInChannel=true
-BattleDamageFormula=2
+BattleDamageFormula=1
 IgnoreDmgCap=true
 GuaranteedBossBattles=10.15.20.30.60.100.150.180.220.280.320.350.401.440.460.501.560.601.670.705.780.810.890.920.999.1100.1199.1260.1305.1464.1500.1650.1720.1880.1999.2050.2250.9999
 MaxNumberOfMonsInBattle=6
 
 ; This event will double red orbs at the end of battles.
 BonusEvent=false
+EnableBattlefieldEvents=true
 
 [StatPrices]
 hp=150
@@ -1096,7 +1151,96 @@ BossDeath=800
 MonDeath=200
 
 
+BATTLEFIELD.LST
 
+[Flooded Square City]
+weather=rainy.stormy.gloomy
+NumberOfEvents=5
+scavenge=IronOre.IronOre.SilverOre.Holy_Water.Ice_Coin.WaterJewel
+
+event1=Damage
+Event1Chance=30
+Event1Desc=A building collapses and debris falls on %real.name
+Event1Target=Random
+Event1Amount=$rand(400,1200)
+
+Event2=heal
+Event2Chance=40
+Event2Desc=A sudden rise in water brings a depth of cold and dark water to Perfect Chaos!
+Event2Target=monsters
+Event2Amount=$rand(400,1200)
+
+event3=damage
+Event3StatusType=Drowning
+Event3Chance=30
+Event3Desc=Perfect Chaos sends a large volume of water at the heroes!
+Event3Target=Players
+Event3Amount=$rand(1200,4000)
+
+event4=damage
+Event4StatusType=Paralyze
+Event4Chance=5
+Event4Desc=A random lightning bolt hits %real.name
+Event4Target=Random
+Event4Amount=$rand(2000,3000)
+
+event5=damage
+Event5Chance=1
+Event5Desc=The heroes find Perfect Chaos' weakspot and sends a bunch of small attacks to hit it!
+Event5Target=Monsters
+Event5Amount=$rand(10000,40000)
+
+-----------------------------------------------
+-----------------------------------------------
+equipment.db
+
+[ValkyrianArmor]
+	Name=Valkyrian Armor
+	HP=100
+	TP=100
+	STR=20
+	DEF=80
+	INT=20
+	SPD=20
+	Augment=MeleeBonus.RenkeiBonus.EnhanceItems.EnhanceCriticalHits
+	EquipLocation=Body
+	cost=9999999
+[ValkyrianShoes]
+	Name=Valkyrian Shoes
+	HP=if ( ($readini($char($1), stats, str) < ($readini($char($1), stats, int) ) { $round($calc(5 * ($get.level($1)),0) } else { 0 }
+	TP=if ( ($readini($char($1), stats, str) > ($readini($char($1), stats, int) ) { $round($calc(2 * ($get.level($1)),0) } else { 0 }
+	str=0
+	def=40
+	int=0
+	spd=0
+	Augment=EnhanceDoubleTurnChance
+	EquipLocation=feet
+	cost=9999999
+[ValkyrianGloves]
+	Name=Valkyrian Gloves
+	HP=0	
+	TP=0
+	STR=0
+	DEF=30
+	int=0
+	SPD=0
+	Augment=if( ($readini($char($1), stats, str) > ($readini($char($1), stats, int) ) { EnhanceDodge } else { EnhanceParry }
+	EquipLocation=Hands
+	cost=9999999
+[ValkyrieHelm]
+	Name=Valkyrie Helm
+	HP=0
+	TP=0
+	STR=if ($readini($char($1), equipment, feet) == ValkyrianShoes && $readini($char($1), equipment, hands) == ValkyrianGloves && $readini($char($1), equipment, body) == ValkyrianArmor && $readini($char($1), equipment, head) == ValkyrieHelm ) { 60 } else { 0 }
+	DEF=if ($readini($char($1), equipment, feet) == ValkyrianShoes && $readini($char($1), equipment, hands) == ValkyrianGloves && $readini($char($1), equipment, body) == ValkyrianArmor && $readini($char($1), equipment, head) == ValkyrieHelm ) { 60 } else { 0 }
+	INT=if ($readini($char($1), equipment, feet) == ValkyrianShoes && $readini($char($1), equipment, hands) == ValkyrianGloves && $readini($char($1), equipment, body) == ValkyrianArmor && $readini($char($1), equipment, head) == ValkyrieHelm ) { 60 } else { 0 }
+	SPD=if ($readini($char($1), equipment, feet) == ValkyrianShoes && $readini($char($1), equipment, hands) == ValkyrianGloves && $readini($char($1), equipment, body) == ValkyrianArmor && $readini($char($1), equipment, head) == ValkyrieHelm ) { 60 } else { 0 }
+	Augment=EnhanceZen.AdditionalHit
+	equiplocation=head
+	cost=9999999
+
+-----------------------------------------------
+-----------------------------------------------
 
 ---------------
 

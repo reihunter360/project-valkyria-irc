@@ -1,6 +1,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; DCC CHAT CMDS
-;;;; not finished yet!
+;;;; About 99.9% finished
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -20,6 +20,17 @@ on 2:open:=: {
   $dcc.who'sonline($nick)
 }
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; DCC chat, check for log in
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+alias dcc.check.for.double.login {
+  var %double.check 1
+  while ($chat(%double.check) != $null) {
+    if ($chat(%double.check) = $1) { .msg $nick 4You are already logged into the game elsewhere! | set %dcc.alreadyloggedin true }
+    inc %double.check
+  }
+
+}
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Display who's online
@@ -148,8 +159,8 @@ on 2:Chat:!orbs*: {
   }
 }
 ON 2:Chat:!desc*: { 
-  if ($2 != $null) { $checkchar($2) | $set_chr_name($2) | $dcc.private.message($nick,3 $+ %real.name  $+ $readini($char($2), n, Descriptions, Char))   | unset %character.description | halt }
-  else { $set_chr_name($nick) | $dcc.private.message($nick,10 $+ %real.name  $+ $readini($char($nick), n, Descriptions, Char))  }
+  if ($2 != $null) { $checkchar($2) | $set_chr_name($2) | $dcc.private.message($nick,3 $+ %real.name  $+ $readini($char($2), Descriptions, Char))   | unset %character.description | halt }
+  else { $set_chr_name($nick) | $dcc.private.message($nick,10 $+ %real.name  $+ $readini($char($nick), Descriptions, Char))  }
 }
 ON 2:Chat:!cdesc *: { $checkscript($2-)  | writeini $char($nick) Descriptions Char $2- | $okdesc($nick , Character) }
 ON 2:Chat:!skill desc *: { $checkscript($3-)  | $set_chr_name($nick) 
@@ -770,11 +781,16 @@ ON 50:Chat:!toggle battle formula*: {
 ; do the command emote 
 ; instead.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-on 2:Chat:emote *: { var %p 1
-  set %emotion $2-
+on 2:Chat:emote *: {  $dcc.emote($2-) }
 
-  while ($chat(%p) != $null) { var %emotion 12 $2- | var %nick $chat(%p)
-    if (%nick == $nick) {   inc %p 1 } 
+
+alias dcc.emote {
+  var %p 1
+  var %emotion 12 $+ $1-
+
+  while ($chat(%p) != $null) { 
+    var %nick $chat(%p)
+    if (%nick == $nick) {  inc %p 1 } 
     else { 
       var %where $readini($char($nick), DCCchat, Room)
       if (%where = $null) { writeini $char($nick) DCCchat Room Lobby | var %where Lobby }
@@ -792,8 +808,8 @@ on 2:Chat:emote *: { var %p 1
 ; of the file to work right. 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 on 2:CHAT:*:{ unset %^p
-  if (ACTION isin $1-)  { msg =$nick 4Use emote <action> instead of /me | halt }
 
+  if ($1 = ACTION) { $dcc.emote($2-) }
   var %where $readini($char($nick), DCCchat, Room)
   if (%where = $null) { writeini $char($nick) DCCchat Room Lobby | var %where Lobby }
   if ((%where = BattleRoom) && (%battleis = off)) { writeini $char($nick) DCCchat Room Lobby | var %where Lobby }

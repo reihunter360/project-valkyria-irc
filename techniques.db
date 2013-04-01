@@ -1,5 +1,3 @@
-[Techs]
-
 ; Valkyria-IRC Customs
 FFOmegaWeapon=Repairs.SpaceBeam
 Valkyrie_Sword=CureV.SonicBlow.JupitelThunder.BrandishSpear.WiseReflection
@@ -11,25 +9,30 @@ MegasaurusWeapon=SurvivalInstinct.Earthquake.UltimateSwallow.SpikeFlail.Slurp.Di
 OmegaMultipurposeCannon=WaveCannon.LightPillar.MeggidoFlame.Ultima.Gravija.TerraBreak.Meteor.LV5_Death
 Perfect_Chaos_Water=Chaos_Tsunami.Hyrdro_Cannon.Chaos_Rain.Chaos_Chomp.PerfectChaosR2.Chaos_Water_Beam.Dark_Power_of_Chaos_Emeralds
 Themis'Axe=Djinn:Bane.Djinn:Flower.Djinn:Steel.Stone_Justice
+Executioner=Bash.BowlingBash.MagnumBreak.ShadowSmash
 StarMageStaff=Curaga.Spark_Plasma.Megacool.Mine_Ball
 Randgris_Sword=Thunder_Storm.LordOfVermillion.BrandishSpear.Light_PowerUp.HolyCross.SonicBlow.Earthquake.Protect.Shell
 
 ; Valkyria-IRC Customs -Re-Edits
-Silver_Goddess_Sword=TwinSlice.BiteOfLightning.BladeBeam.HyperTwinSlice.WiseReflection.CureV.GigaSlash.Atonement.BlizzajaII
+Silver_Goddess_Sword=TwinSlice.BiteOfLightning.BladeBeam.HyperTwinSlice.WiseReflection.CureV.GigaSlash.Atonement.BlizzajaII.Curaga
 Mythril_Sword=FastBlade.BurningBlade.FlatBlade.Bash.MagnumBreak.SeraphBlade
 Soulsaber=SpiritsWithin.VorpalBlade.SeraphBlade.BowlingBash
 JewelSword=Bash.MagnumBreak.BowlingBash
 Excalibur=Atonement.Bash
 Keitonotachi=Tachi:Kagero.Tachi:Goten.Tachi:Yukikaze.Bash
 Masamune=Tachi:Fudo.Tachi:Shoha.Tachi:Rana.MeikyoShisui.Bash.Bowlingbash
+Fists=DoublePunch.ShoulderTackle.SpinningAttack.AsuranFists.AsuraStrike
+KaiserKnuckles=ShoulderTackle.TornadoKick.OneInchPunch.SpinningAttack.AsuraStrike
+Murgleis=DeathBlossom.SwiftBlade.SavageBlade.Requiescat.SanguineBlade.Mother'sRosario
 
+[Techs]
 ; H2h
-Fists=DoublePunch.ShoulderTackle.SpinningAttack.AsuranFists
+;Fists=DoublePunch.ShoulderTackle.SpinningAttack.AsuranFists.AsuraStrike
 Cerberus=Revolver.Windmill.Crystal
 Ifrit=RollingBlaze.MagmaDrive.Inferno
 Spharai=FinalHeaven.ShoulderTackle.AsuranFists.SpinningAttack.OneInchPunch
 Verethragna=VictorySmite.ShoulderTackle.ShinjinSpiral.SpinningAttack.TornadoKick
-KaiserKnuckles=ShoulderTackle.TornadoKick.OneInchPunch.SpinningAttack
+;KaiserKnuckles=ShoulderTackle.TornadoKick.OneInchPunch.SpinningAttack.AsuraStrike
 
 
 ; Swords
@@ -37,7 +40,7 @@ KaiserKnuckles=ShoulderTackle.TornadoKick.OneInchPunch.SpinningAttack
 Rebellion=Stinger.MillionStab.Drive.DevilTrigger
 Joyeuse=FastBlade.CircleBlade.FlatBlade.UrielBlade.GlorySlash
 ;Excalibur=Atonement.CircleBlade.SpiritsWithin.VorpalBlade.ChantDuCygne
-Murgleis=DeathBlossom.SwiftBlade.SavageBlade.Requiescat.SanguineBlade
+;Murgleis=DeathBlossom.SwiftBlade.SavageBlade.Requiescat.SanguineBlade.Mother'sRosario
 LexTalionis=GlorySlash.UrielBlade
 ;Soulsaber=SpiritsWithin.VorpalBlade.SeraphBlade
 Almace=ChantduCygne.Requiescat.SanguineBlade
@@ -53,7 +56,7 @@ Valmanway=Tachi:Shoha.Tachi:Rana.MeikyoShisui
 Zangetsu=GetsugaTenshou.TensaZangetsu.FinalGetsuga
 Senbonzakura=Chire.Kageyoshi
 Hyourinmaru=SotenNiZase.DaigurenHyourinmaru
-Keitonotachi=Tachi:Kagero.Tachi:Goten.Tachi:Yukikaze
+;Keitonotachi=Tachi:Kagero.Tachi:Goten.Tachi:Yukikaze
 Hagun=Tachi:Kaiten.Tachi:Ageha.Tachi:Kasha
 ;Masamune=Tachi:Fudo.Tachi:Shoha.Tachi:Rana.MeikyoShisui
 
@@ -292,8 +295,6 @@ BallPower=BallRoll.BallBounce.BallExplode
 SkyGodPower=FlareII.QuakeII.FloodII.TornadoII.FreezeII.BurstII.SpikeFlail.CureII
 Legion=LegionLaser
 
-; VALKYRIA TECHs
-
 [Repairs]
 Type=heal
 TP=5
@@ -311,7 +312,7 @@ StatusType=Stun
 TP=20
 Desc=approaches %enemy $+ then starts stabbing them at sonic speeds! Then, $name jumps back and whips $gender($1) sword to the side. [Sonic Blow]
 BasePower=25
-hit=$rand(2,5)
+hit=$rand(2,6)
 cost=500
 Element=none
 magic=no
@@ -326,6 +327,7 @@ Desc=uses $gender($1) weapon and slams it hard into the ground creating a shockw
 BasePower=30
 cost=6000
 Element=none
+hits=2
 magic=no
 stat=str
 
@@ -338,6 +340,7 @@ Desc=casts spell forming a ball of lightning and propells it at %enemy $+ !  [Ju
 cost=9000
 basepower=20
 Element=Lightning
+hits=$rand(1,12)
 magic=yes
 stat=int
 
@@ -418,6 +421,7 @@ Desc= flaps $gender($1) four wings and produces two giant tornadoes which ravage
 element=Wind
 magic=no
 basepower=30
+hits=2
 cost=9000
 stat=int
 
@@ -439,6 +443,7 @@ Desc=aims and fires a barrage of blue spheres at %enemy $+ ! [Rock Cannon!]
 basepower=30
 cost=9000
 magic=no
+hits=$rand(1,5)
 stat=str
 
 [RockDeltaVulcan]
@@ -447,6 +452,7 @@ tp=30
 Desc=changes the "Rock Cannon" on $gender($1) hands and becomes a "Delta Vulcan Gatling" and steadily unleashes a blast of bullets onto %enemy $+ ! [Rock Delta Vulcan!]
 basepower=45
 cost=9000
+hits=$rand(3,7)
 magic=no
 stat=str
 
@@ -457,6 +463,7 @@ Desc=summons a black and white katana and lets it burn in a blue blaze... slashi
 basepower=60
 cost=9000
 element=Light
+hits=$rand(2,3)
 magic=yes
 stat=str
 
@@ -584,18 +591,29 @@ stat=str
 type=AOE
 element=Lightning
 tp=30
-basepower=40
+basepower=80
 cost=2000
 desc=fires up a wide range laser attack on all enemies. [Wave Cannon!]
 magic=no
+stat=int
 
 [LightPillar]
 type=single
 statustype=Amnesia
-tp=15
-basepower=25
-cost=2000
+tp=150
+basepower=150
+cost=20000
 desc= takes aim on %enemy $+ and fires a very bright laser on them. [Light Pillar!]
+magic=yes
+stat=int
+
+[Meteor]
+Type=AOE
+TP=90
+Desc=chants loudly as the sun is blacked out by a massive object.  As everyone looks up they see a large meteor heading straight for them. It slams into the battlefield, hitting all enemies. [Meteor]
+BasePower=160
+cost=99999999
+Element=none
 magic=yes
 stat=int
 
@@ -603,19 +621,20 @@ stat=int
 type=AOE
 element=none
 magic=yes
-tp=60
-basepower=150
+tp=1500
+basepower=700
 desc=holds up $gender($1) $+  's weapon to collect magical energy, then finally releases them in a black and white flame towards all enemies. [Ultima!]
-cost=9000
+cost=29000
 stat=int
 
 [Gravija]
 type=AOE
-statustype=weight
+statustype=strengthdown.Slow
 magic=yes
 element=dark
 tp=90
-basepower=120
+; basepower=120
+basepower=$calc(1.1 * ( $readini($char($3), battle, HP) / 2 ) )
 desc=flies up into the sky and intesifies the gravity on the battlefield! [Gravija!]
 cost=12000
 absorb=yes
@@ -625,9 +644,9 @@ stat=int
 type=single
 statustype=Earth-quake
 tp=30
-basepower=60
+basepower=90
 magic=no
-desc=uses $gender($1) $+'s weapon and smashes %enemy $+ into the ground, creating a massive hole in the ground! [Terra Break]
+desc=uses $gender($1) $+ 's weapon and smashes %enemy $+  into the ground, creating a massive hole in the ground! [Terra Break]
 cost=9000
 element=earth
 stat=str
@@ -636,10 +655,10 @@ stat=str
 type=aoe
 statustype=blind
 tp=60
-basepower=90
+basepower=150
 magic=yes
 element=light
-cost=2000
+cost=20000
 desc=casts a very large spell into the heavens and finally a holy fire burns everything within range! [Meggido Flame]
 stat=int
 
@@ -649,7 +668,8 @@ statustype=curse
 magic=yes
 tp=333
 ;basepower=if ($calc($readini($char($3), Stuff, shoplevel) % 5) == 0) { $calc($readini($char($3), basestats, HP) * 1.1) } else { $calc(0 * 1.1) }
-basepower=666
+;basepower=666
+basepower=$calc( ($readini($char($3), basestats, hp) / 5) * 1.1)
 element=dark
 desc=casts a large scale spell that surrounds all enemies with the Grim Reaper's Influence! [LV5 Death]
 stat=int
@@ -659,12 +679,12 @@ stat=int
 [Chaos_Tsunami]
 cost=9999999
 type=aoe
-statustype=Drowning
+statustype=strength-down.slow
 tp=60
 element=Water
 magic=yes
 basepower=150
-desc=sends a powerful tsunami, destroying the landscape with furious waters! [Chaos Tsunami
+desc=sends a powerful tsunami, destroying the landscape with furious waters! [Chaos Tsunami]
 stat=int
 
 [Hydro_Cannon]
@@ -752,17 +772,21 @@ tp=230
 statustype=stun
 magic=no
 stat=str
+hits=2
 desc=takes $gender(0) $+'s weapon and quickly smashes everything around her in a quick spin !! [Bowling Bash]
 
 [ShadowSmash]
-; Executioner's Signature Move
+; Executioner's Signature Move'
+type=single
+statustype=strengthdown
 cost=2500
-basepower=90
+basepower=120
 tp=350
 absorb=yes
 element=Dark
 stat=str
-desc=the $weapon(0) glows a shadowy aura, and you hit %enemy $+ with it! [Shadow Smash]
+desc=the weapon glows a shadowy aura, and you hit %enemy $+  with it! [Shadow Smash]
+magic=yes
 
 ; Golden Sun Techs
 
@@ -877,6 +901,7 @@ Cost=7800
 Element=lightning
 magic=yes
 stat=int
+hits=$rand(2,3)
 
 [Light_PowerUp]
 Type=boost
@@ -895,12 +920,23 @@ Cost=2000
 Element=light
 magic=yes
 stat=str
+hits=2
 
+[Mother'sRosario]
+Type=Single
+statustype=stun.strengthdown.poison
+TP=70
+Desc=hits %enemy $+ with a 9 hit combo in hyperspeed! [Mother's Rosario]
+basepower=60
+cost=7500
+Element=
+magic=yes
+stat=str
+hits=$rand(5,9)
 
 =======================
 HAND TO HAND
 ========================
-
 [DoublePunch]
 Type=Single
 TP=5
@@ -5669,7 +5705,7 @@ Desc=flies higher into the air and gathers power. A moment later, Bahamut fires 
 BasePower=20
 Element=None
 cost=99999999
-Magic=No
+Magic=yes
 stat=int
 
 [Impulse]
@@ -8397,7 +8433,7 @@ Type=AOE
 TP=10
 Desc=opens one of its tentacles and shoots a large green laser out in a circle, hitting everyone on the battlefield.
 BasePower=50
-Element=None
+Element=Dark
 cost=99999999
 Magic=No
 stat=int
@@ -8434,7 +8470,7 @@ Magic=no
 stat=str
 
 
-[AsuraStrike]
+[AsuraStrike55]
 cost=999999999
 type=single
 basepower=$calc( ( $readini(weapons.db, $readini($char($1), Weapons, Equipped), basepower) + ($readini($char($1), battle, str) / 5 ) ) * (8 + (%previous.tp) / 10 ) ) + 250 + (150 * $readini($char($1), Techniques, AsuraStrike) ) ) | unset %previous.tp

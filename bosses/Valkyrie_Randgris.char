@@ -1,20 +1,20 @@
 [BaseStats]
-Hp=500000
+Hp=3567200
 Tp=20000
-Str=250
+Str=1000
 Def=250
-Int=300
+Int=1200
 Spd=220
 IgnitionGauge=50
 Name=Valkyrie Randgris
 
 
 [Battle]
-Hp=500000
+Hp=3567200
 Tp=20000
-Str=250
+Str=1000
 Def=250
-Int=300
+Int=1200
 Spd=220
 IgnitionGauge=50
 Name=Valkyrie Randgris
@@ -30,13 +30,13 @@ RageCountDown=0
 Char=is a winged blonde hair female, clad in blue armor and a feathered helm framed in sparkling gold. She holds a sword with great powers surrounding her entire body.
 Rage=screams "Aahhhhhh! My Valkyries! Destroy them all!"
 BossQuote= "So you're the people that are harming my Valkyries. En Grande!" as she points her sword at the heroes!
-MonsterSummons=whistles into the air, and a Valkyrie descends from the heavens.
+MonsterSummon=Randgris whistles into the air, and %number.of.spawns.needed Valkyrie(s) descends from the heavens.
 
 [Stuff]
 RedOrbs=0
 BlackOrbs=1
 ShopLevel=1.0
-Drops=UltraDiscountCard.BahamutZeroMateria.SmnRune.HiRune
+Drops=UltraDiscountCard.BahamutZeroMateria.SmnRune.HiRune.ValkyrieHelm.ValkyrianArmor
 
 [Monster]
 Type=
@@ -57,8 +57,10 @@ Created=N/a
 ; CanStagger=yes/no  
 ; StaggerAmount=$rand(#,#)   
 ; 
+canstagger=no
 ; IGNORE RAGEMODE
 ; RageMode=ignore   
+ragemode=ignore
 ;
 ; AI TYPE: berserkers will attack their own allies, defenders won't get a turn. Leave blank for normal.
 ; ai_type=
@@ -140,13 +142,14 @@ resist-paralysis=100
 resist-amnesia=100
 resist-petrify=100
 resist-poison=100
-bloodboost=1470
+bloodboost=1970
 mightystrike=10
 weaponbash=5
 Zen=200
-MonsterSummon=2
+MonsterSummon=1
 MonsterSummon.Monster=Valkyrie
 MonsterSummon.Chance=100
+monstersummon.Numberspawn=4
 DesperateBlows=1
 
 [Techniques]
@@ -171,14 +174,14 @@ Curaga=2000
 ; This section controls how much resistance/weakness this monster has the elements and weapon types.
 ; 100 = it does 100% normal damage. Over 100 = weakness, under 100 = resistance. 0 = immune.
 [modifiers]
-Heal=Light
+Heal=Light.light
 Earth=0
 Fire=0
 Wind=0
 Water=0
 Ice=0
 Lightning=0
-Light=200
+Light=300
 Dark=250
 
 HandToHand=115
@@ -193,6 +196,8 @@ Scythe=100
 Glyph=100
 GreatSword=125
 Bow=100
+
+AsuraStrike=2
 
 [augments]
 Randgris_Sword=Drain.AbsorbIG.AbsorbTP.AddiotnalHit.CuringBonus.MagicBonus.TechBonus.EnhanceSummons.EnhanceDodge.EnhanceParry.EnhanceBloodboost.EnhanceCriticalHits

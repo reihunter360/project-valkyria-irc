@@ -96,6 +96,7 @@ alias calculate_damage_weapon {
   ; $1 = %user
   ; $2 = weapon equipped
   ; $3 = target / %enemy 
+  ; $4 = a special flag for mugger's belt.
 
   unset %absorb
   set %attack.damage 0
@@ -510,6 +511,10 @@ alias calculate_damage_weapon {
   ; If the target has Protect on, it will cut  melee damage in half.
   if ($readini($char($3), status, protect) = yes) { %attack.damage = $round($calc(%attack.damage / 2),0) }
 
+
+  ; If we came here via mugger's belt, we need to cut the damage in half.
+  if ($4 = mugger's-belt) {   %attack.damage = $round($calc(%attack.damage / 2),0) }
+
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
   ;;; CHECK FOR MULTI-HITS
   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -570,7 +575,7 @@ alias weapon_bash_check {
 
     set %resist.skill $readini($char($2), skills, resist-stun)
     $ribbon.accessory.check($2)
-    if (%resist.skill = 100) { return }
+    if (%resist.skill >= 100) { return }
     unset %resist.skill
 
     if (%guard.message != $null) { return }

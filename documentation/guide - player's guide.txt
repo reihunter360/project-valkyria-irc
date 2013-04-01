@@ -113,6 +113,15 @@ Intelligence: How much damage your techniques will do, plus how well you can blo
 Speed: How fast you are.  This affects when you get your turn in battle.
 
 
+** DCC Chat exclusive commands
+
+These commands will only work if the bot is running in DCC Chat mode. 
+
+!toggle battle chat - This will allow you to toggle the battle chat on or off.  When set to on you will see the battle stuff even if you're not in the battles.  When off, you must join battles to see how the battles are going.
+
+!who's online - Will tell you who's logged into the game.
+
+
 THE SHOP
 The next thing you should do is go familiarize yourself with the shop.  You'll be using this shop a lot as it's the way to gain new weapons, new techniques, new items, and to upgrade your stats.
 

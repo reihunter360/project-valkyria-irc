@@ -117,6 +117,7 @@ alias ai_turn {
     if (%ai.skilllist != $null) {
       if ($readini($char($1), info, CanFlee) = true) { var %random.action $rand(1,110) }
       if ($readini($char($1), info, CanFlee) != true) { var %random.action $rand(1,99) }
+
       if (%random.action <= 45) { $ai_gettech($1) | $ai_gettarget($1) | $tech_cmd($1, %ai.tech, %ai.target) | halt }
       if ((%random.action > 45) && (%random.action <= 50)) { set %taunt.action true | $ai_gettarget($1) |  $taunt($1 , %ai.target) | halt } 
       if ((%random.action > 50) && (%random.action <= 65)) { $ai_chooseskill($1) | halt }
@@ -408,7 +409,12 @@ alias ai_skillcheck {
   if ($readini($char($1), skills, JustRelease) >= 1) {
     if ($readini($char($1), skills, royalguard.dmgblocked) >= 100) { %ai.skilllist  = $addtok(%ai.skilllist, justrelease, 46)  }
   }
-  if ($readini($char($1), skills, Cover) >= 1) { %ai.skilllist  = $addtok(%ai.skilllist, cover, 46)  }
+  if ($readini($char($1), skills, Cover) >= 1) { 
+    if ($readini($char($1), info, flag) != monster) { return }
+
+
+    %ai.skilllist  = $addtok(%ai.skilllist, cover, 46) 
+  }
 }
 
 alias ai_chooseskill {
@@ -492,7 +498,7 @@ alias ai_chooseskill {
     var %monster.master $readini($char($1), info, master) 
     set %ai.target %monster.master
 
-    if (((%monster.master = $null) || ($readini($char(%master), battle, status) = dead) || ($readini($char(%master), battle, status) = runaway))) {
+    if (((%monster.master = $null) || ($readini($char(%monster.master), battle, status) = dead) || ($readini($char(%monsters.master), battle, status) = runaway))) {
       $ai_getmontarget($1)
       set %total.targets $numtok(%ai.targetlist, 46)
       set %random.target $rand(1,%total.targets)
@@ -586,7 +592,11 @@ alias ai.monstersummon {
 
       if ($readini(system.dat, system, botType) = DCCchat) { var %max.number.of.mons 50 }
 
-      if ($readini(battle2.txt, battleinfo, Monsters) < %max.number.of.mons) { 
+      var %current.number.of.mons $readini(battle2.txt, battleinfo, Monsters)
+      var %number.of.monsters.to.spawn $readini($char($1), skills, monstersummon.numberspawn)
+      inc %current.number.of.mons %number.of.monsters.to.spawn
+
+      if (%current.number.of.mons) < %max.number.of.mons) { 
         var %monster.name $readini($char($1), skills, monstersummon.monster)
         if (%monster.name != $null) { $skill.monstersummon($1, %monster.name) }
       }

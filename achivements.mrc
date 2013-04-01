@@ -4,7 +4,7 @@
 
 on 50:TEXT:!clear achievement*:*:{
   $checkchar($3)
-  if ($4 = $null) { .msg $nick 4!clear achievement <person> <achievement name> | halt }
+  if ($4 = $null) { $display.system.message(4!clear achievement <person> <achievement name>, private) | halt }
 
   .remini $char($3) achievements $4 
   if ($readini(system.dat, system, botType) = IRC) {  query %battlechan 4Achievement ( $+ $4  $+ ) has been cleared for $3 $+ . }

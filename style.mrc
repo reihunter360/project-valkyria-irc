@@ -156,7 +156,7 @@ alias add.playerstyle.xp {
   if (%current.playerstyle.xp >= %current.playerstyle.xptolevel) {
     inc %current.playerstyle.level 1 | writeini $char($1) styles %current.playerstyle %current.playerstyle.level
     writeini $char($1) styles %current.playerstyle $+ XP 0
-    $set_chr_name($1) | query %battlechan $readini(translation.dat, system, PlayerStyleLevelUp)
+    $set_chr_name($1) | $display.system.message($readini(translation.dat, system, PlayerStyleLevelUp), global)
   }
   unset %current.playerstyle |  unset %current.playerstyle.*
   return

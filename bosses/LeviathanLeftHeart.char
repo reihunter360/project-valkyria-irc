@@ -115,7 +115,7 @@ WeaponMasterXP=1
 body=LevithanLeftHeart
 
 [Augment]
-LevithanHeart=AbsorbTP
+LevithanHeart=AbsorbIG
 
 
 [modifiers]

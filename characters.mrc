@@ -105,8 +105,11 @@ ON 2:TEXT:!newpass *:?:{ $checkscript($2-) | $password($nick)
   if ($encode($2) != %password) { .msg $nick $readini(translation.dat, errors, wrongpassword) | unset %password | halt }
 }
 
-ON 1:TEXT:!id*:?:{ $idcheck($nick , $2) | mode %battlechan +v $nick |  /.dns $nick |  /close -m* }
-ON 1:TEXT:!quick id*:?:{ $idcheck($nick , $3) | mode %battlechan +v $nick |   /.dns $nick
+ON 1:TEXT:!id*:?:{ 
+  $idcheck($nick , $2) | mode %battlechan +v $nick |  /.dns $nick |  /close -m* 
+  if ($readini(system.dat, system, botType) = IRC) { $set_chr_name($nick) | query %battlechan 10 $+ %real.name  $+  $readini($char($nick), Descriptions, Char) }
+}
+ON 1:TEXT:!quick id*:?:{ $idcheck($nick , $3, quickid) | mode %battlechan +v $nick |   /.dns $nick
   if ($readini(system.dat, system, botType) = IRC) { $set_chr_name($nick) }
   /close -m* 
 }
@@ -131,11 +134,21 @@ alias idcheck {
 alias id_login {
   var %bot.owners $readini(system.dat, botinfo, bot.owner)
   if ($istok(%bot.owners,$1, 46) = $true) {  .auser 50 $1
-    if ($readini(system.dat, system, botType) = DCCchat) { dcc chat $nick }
+    if ($readini(system.dat, system, botType) = DCCchat) { 
+      unset %dcc.alreadyloggedin
+      $dcc.check.for.double.login($1)
+      if (%dcc.alreadyloggedin != true) { dcc chat $nick }
+      unset %dcc.alreadyloggedin
+    }
   }
   else { 
-    if ($readini(system.dat, system, botType) = IRC) { .auser 3 $1 | $set_chr_name($nick) | query %battlechan 10 $+ %real.name  $+  $readini($char($nick), Descriptions, Char) }
-    if ($readini(system.dat, system, botType) = DCCchat) { .auser 2 $1 | dcc chat $nick }
+    if ($readini(system.dat, system, botType) = IRC) { .auser 3 $1 }
+    if ($readini(system.dat, system, botType) = DCCchat) { .auser 2 $1 
+      unset %dcc.alreadyloggedin
+      $dcc.check.for.double.login($1)
+      if (%dcc.alreadyloggedin != true) { dcc chat $nick }
+      unset %dcc.alreadyloggedin
+    }
   }
   writeini $char($1) Info LastSeen $fulldate
   return
@@ -145,12 +158,12 @@ on 3:TEXT:!weather*:#: {  query %battlechan $readini(translation.dat, battle, Cu
 on 3:TEXT:!weather*:?: {  .msg $nick $readini(translation.dat, battle, CurrentWeather) }
 
 on 3:TEXT:!desc*:#: {  
-  if ($2 != $null) { $checkchar($2) | $set_chr_name($2) | query %battlechan 3 $+ %real.name  $+ $readini($char($2), n, Descriptions, Char)   | unset %character.description | halt }
-  else { $set_chr_name($nick) | query %battlechan 10 $+ %real.name  $+ $readini($char($nick), n, Descriptions, Char)  }
+  if ($2 != $null) { $checkchar($2) | $set_chr_name($2) | query %battlechan 3 $+ %real.name  $+ $readini($char($2), Descriptions, Char)   | unset %character.description | halt }
+  else { $set_chr_name($nick) | query %battlechan 10 $+ %real.name  $+ $readini($char($nick), Descriptions, Char)  }
 }
 on 3:TEXT:!desc*:?: {  
   if ($2 != $null) { $checkchar($2) | $set_chr_name($2) | .msg $nick 3 $+ %real.name  $+ $readini($char($2), n, Descriptions, Char)   | unset %character.description | halt }
-  else { $set_chr_name($nick) | .msg $nick 10 $+ %real.name  $+ $readini($char($nick), n, Descriptions, Char)  }
+  else { $set_chr_name($nick) | .msg $nick 10 $+ %real.name  $+ $readini($char($nick), Descriptions, Char)  }
 }
 on 3:TEXT:!rdesc *:*:{ $checkchar($2) | $set_chr_name($2) | var %character.description $readini($char($2), Descriptions, Char) | query %battlechan 3 $+ %real.name $+ 's desc: %character.description | unset %character.description | halt }
 on 3:TEXT:!cdesc *:*:{ $checkscript($2-)  | writeini $char($nick) Descriptions Char $2- | $okdesc($nick , Character) }

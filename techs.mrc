@@ -390,7 +390,9 @@ alias tech.heal {
     } 
   }
 
-  if (%attack.damage > 2000) { set %attack.damage $calc(2000 + (%attack.damage / 100)),0) }
+  if ($readini(system.dat, system, IgnoreDmgCap) != true) { 
+    if (%attack.damage > 2000) { set %attack.damage $calc(2000 + (%attack.damage / 100)),0) }
+  }
 
   %attack.damage = $round(%attack.damage,0)
 
@@ -994,7 +996,6 @@ alias calculate_damage_techs {
   }
 
   ; Check for the modifier adjustments.
-  echo -a check for modifier adjustments.  2: $2
   var %tech.element $readini(techniques.db, $2, element)
   if ((%tech.element != $null) && (%tech.element != none)) {
     $modifer_adjust($3, %tech.element)

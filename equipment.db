@@ -440,6 +440,53 @@ Augment=EnhanceWeaponBash
 EquipLocation=hands
 cost=50
 
+; Valkyrian Armor Set
+
+[ValkyrianArmor]
+	Name=Valkyrian Armor
+	HP=100
+	TP=100
+	STR=20
+	DEF=80
+	INT=20
+	SPD=20
+	Augment=MeleeBonus.RenkeiBonus.EnhanceItems.EnhanceCriticalHits
+	EquipLocation=Body
+	cost=9999999
+[ValkyrianShoes]
+	Name=Valkyrian Shoes
+	HP=if ( ($readini($char($1), stats, str) < ($readini($char($1), stats, int) ) { $round($calc(5 * ($get.level($1)),0) } else { 0 }
+	TP=if ( ($readini($char($1), stats, str) > ($readini($char($1), stats, int) ) { $round($calc(2 * ($get.level($1)),0) } else { 0 }
+	str=0
+	def=40
+	int=0
+	spd=0
+	Augment=EnhanceDoubleTurnChance
+	EquipLocation=feet
+	cost=9999999
+[ValkyrianGloves]
+	Name=Valkyrian Gloves
+	HP=0	
+	TP=0
+	STR=0
+	DEF=30
+	int=0
+	SPD=0
+	Augment=if( ($readini($char($1), stats, str) > ($readini($char($1), stats, int) ) { EnhanceDodge } else { EnhanceParry }
+	EquipLocation=Hands
+	cost=9999999
+[ValkyrieHelm]
+	Name=Valkyrie Helm
+	HP=0
+	TP=0
+	STR=if ($readini($char($1), equipment, feet) == ValkyrianShoes && $readini($char($1), equipment, hands) == ValkyrianGloves && $readini($char($1), equipment, body) == ValkyrianArmor && $readini($char($1), equipment, head) == ValkyrieHelm ) { 60 } else { 0 }
+	DEF=if ($readini($char($1), equipment, feet) == ValkyrianShoes && $readini($char($1), equipment, hands) == ValkyrianGloves && $readini($char($1), equipment, body) == ValkyrianArmor && $readini($char($1), equipment, head) == ValkyrieHelm ) { 60 } else { 0 }
+	INT=if ($readini($char($1), equipment, feet) == ValkyrianShoes && $readini($char($1), equipment, hands) == ValkyrianGloves && $readini($char($1), equipment, body) == ValkyrianArmor && $readini($char($1), equipment, head) == ValkyrieHelm ) { 60 } else { 0 }
+	SPD=if ($readini($char($1), equipment, feet) == ValkyrianShoes && $readini($char($1), equipment, hands) == ValkyrianGloves && $readini($char($1), equipment, body) == ValkyrianArmor && $readini($char($1), equipment, head) == ValkyrieHelm ) { 60 } else { 0 }
+	Augment=EnhanceZen.AdditionalHit
+	equiplocation=head
+	cost=9999999
+
 
 =============================
 Monster only armor!
