@@ -393,3 +393,40 @@ scavenge=Topaz.EarthSphere.Diamond.IronOre.GoldOre.SilverOre
 [Dungeon]
 weather=gloomy.hot.dry
 NumberOfEvents=0
+
+[Flooded Square City]
+weather=rainy.stormy.gloomy
+NumberOfEvents=5
+scavenge=IronOre.IronOre.SilverOre.Holy_Water.Ice_Coin.WaterJewel
+
+event1=Damage
+Event1Chance=30
+Event1Desc=A building collapses and debris falls on %real.name
+Event1Target=Random
+Event1Amount=$rand(400,1200)
+
+Event2=heal
+Event2Chance=40
+Event2Desc=A sudden rise in water brings a depth of cold and dark water to Perfect Chaos!
+Event2Target=monsters
+Event2Amount=$rand(400,1200)
+
+event3=damage
+Event3StatusType=Drowning
+Event3Chance=30
+Event3Desc=Perfect Chaos sends a large volume of water at the heroes!
+Event3Target=Players
+Event3Amount=$rand(1200,4000)
+
+event4=damage
+Event4StatusType=Paralyze
+Event4Chance=5
+Event4Desc=A random lightning bolt hits %real.name
+Event4Target=Random
+Event4Amount=$rand(2000,3000)
+
+event5=damage
+Event5Chance=1
+Event5Desc=The heroes find Perfect Chaos' weakspot and sends a bunch of small attacks to hit it!
+Event5Target=Monsters
+Event5Amount=$rand(10000,40000)

@@ -260,7 +260,7 @@ alias skill.royalguard {
     if (%battleis = on)  { $check_for_double_turn($1) }
   }
 
-  else { $display.system.message($readini(translation.dat, skill, UnableToUseskillAgainSoSoon),private) | $display.private.message(3You still have $calc($readini(skills.db, RoyalGuard, cooldown) - %time.difference) seconds before you can use !royal guard again) | halt }
+  else { $set_chr_name($1) | $display.system.message($readini(translation.dat, skill, UnableToUseskillAgainSoSoon),private) | $display.private.message(3You still have $calc($readini(skills.db, RoyalGuard, cooldown) - %time.difference) seconds before you can use !royal guard again) | halt }
 }
 
 ;=================
@@ -756,7 +756,7 @@ alias skill.meditate {
     if (%battleis = on)  { $check_for_double_turn($1) }
   }
 
-  else { $display.system.message($readini(translation.dat, skill, UnableToUseskillAgainSoSoon),private)  | $display.private.message(3You still have $calc($readini(skills.db, Meditate, cooldown) - %time.difference) seconds before you can use !meditate again) | halt }
+  else { $set_chr_name($1) | $display.system.message($readini(translation.dat, skill, UnableToUseskillAgainSoSoon),private)  | $display.private.message(3You still have $calc($readini(skills.db, Meditate, cooldown) - %time.difference) seconds before you can use !meditate again) | halt }
 }
 
 ;=================
@@ -876,7 +876,7 @@ alias skill.bloodboost {
     if (%battleis = on)  { $check_for_double_turn($1) }
   }
 
-  else { $display.system.message($readini(translation.dat, skill, UnableToUseskillAgainSoSoon),private) | $display.private.message(3You still have $calc($readini(skills.db, BloodBoost, cooldown) - %time.difference) seconds before you can use !bloodboost again) | halt }
+  else { $set_chr_name($1) | $display.system.message($readini(translation.dat, skill, UnableToUseskillAgainSoSoon),private) | $display.private.message(3You still have $calc($readini(skills.db, BloodBoost, cooldown) - %time.difference) seconds before you can use !bloodboost again) | halt }
 }
 
 ;=================
@@ -932,7 +932,7 @@ alias skill.drainsamba {
     if (%battleis = on)  { $check_for_double_turn($1) }
   }
 
-  else { $display.system.message($readini(translation.dat, skill, UnableToUseskillAgainSoSoon),private) | $display.private.message(3You still have $calc($readini(skills.db, DrainSamba, cooldown) - %time.difference) seconds before you can use !drainsamba again) | halt }
+  else { $set_chr_name($1) | $display.system.message($readini(translation.dat, skill, UnableToUseskillAgainSoSoon),private) | $display.private.message(3You still have $calc($readini(skills.db, DrainSamba, cooldown) - %time.difference) seconds before you can use !drainsamba again) | halt }
 }
 
 
@@ -985,7 +985,7 @@ alias skill.regen {
     if (%battleis = on)  { $check_for_double_turn($1) | halt }
     else { halt }
   }
-  else { $display.system.message($readini(translation.dat, skill, UnableToUseskillAgainSoSoon),private) | $display.private.message(3You still have $calc($readini(skills.db, Regen, cooldown) - %time.difference) seconds before you can use !regen again) | halt }
+  else { $set_chr_name($1) | $display.system.message($readini(translation.dat, skill, UnableToUseskillAgainSoSoon),private) | $display.private.message(3You still have $calc($readini(skills.db, Regen, cooldown) - %time.difference) seconds before you can use !regen again) | halt }
 
 }
 
@@ -1226,8 +1226,7 @@ alias skill.steal {
       $weapon_equipped($1)
 
       ; Calculate, deal, and display the damage..
-      $calculate_damage_weapon($1, %weapon.equipped, $2)
-      %attack.damage = $round($calc(%attack.damage / 2),0)
+      $calculate_damage_weapon($1, %weapon.equipped, $2, mugger's-belt)
       $drain_samba_check($1)
       $deal_damage($1, $2, %weapon.equipped)
       $display_damage($1, $2, weapon, %weapon.equipped)
@@ -1553,7 +1552,7 @@ alias skill.cover {
     if (%battleis = on)  { $check_for_double_turn($1) }
   }
 
-  else { $display.system.message($readini(translation.dat, skill, UnableToUseskillAgainSoSoon),private) | $display.private.message(3You still have $calc($readini(skills.db, Cover, cooldown) - %time.difference) seconds before you can use !cover again) | halt }
+  else { $set_chr_name($1) | $display.system.message($readini(translation.dat, skill, UnableToUseskillAgainSoSoon),private) | $display.private.message(3You still have $calc($readini(skills.db, Cover, cooldown) - %time.difference) seconds before you can use !cover again) | halt }
 }
 
 ;=================
@@ -1609,7 +1608,7 @@ alias skill.snatch {
     if (%battleis = on)  { $check_for_double_turn($1) }
   }
 
-  else { $display.system.message($readini(translation.dat, skill, UnableToUseskillAgainSoSoon),private) | $display.private.message(3You still have $calc(120 - %time.difference) seconds before you can use !snatch again) | halt }
+  else { $set_chr_name($1) | $display.system.message($readini(translation.dat, skill, UnableToUseskillAgainSoSoon),private) | $display.private.message(3You still have $calc(120 - %time.difference) seconds before you can use !snatch again) | halt }
 }
 
 alias do.snatch {
@@ -1890,7 +1889,7 @@ alias skill.holyaura {
     if (%battleis = on)  { $check_for_double_turn($1) }
   }
 
-  else { $display.system.message($readini(translation.dat, skill, UnableToUseskillAgainSoSoon),private) | $display.private.message(3You still have $calc($readini(skills.db, HolyAura, cooldown) - %time.difference) seconds before you can use !holy aura again) | halt }
+  else { $set_chr_name($1) | $display.system.message($readini(translation.dat, skill, UnableToUseskillAgainSoSoon),private) | $display.private.message(3You still have $calc($readini(skills.db, HolyAura, cooldown) - %time.difference) seconds before you can use !holy aura again) | halt }
 }
 
 alias holy_aura_end {
@@ -2195,7 +2194,7 @@ alias skill.provoke {
     if (%battleis = on)  { $check_for_double_turn($1) }
   }
 
-  else { $display.system.message($readini(translation.dat, skill, UnableToUseskillAgainSoSoon),private) | $display.private.message(3You still have $calc($readini(skills.db, provoke, cooldown) - %time.difference) seconds before you can use !provoke again) | halt }
+  else { $set_chr_name($1) | $display.system.message($readini(translation.dat, skill, UnableToUseskillAgainSoSoon),private) | $display.private.message(3You still have $calc($readini(skills.db, provoke, cooldown) - %time.difference) seconds before you can use !provoke again) | halt }
 }
 
 ;=================
@@ -2274,7 +2273,7 @@ alias skill.weaponlock {
     if (%battleis = on)  { $check_for_double_turn($1) }
   }
 
-  else { $display.system.message($readini(translation.dat, skill, UnableToUseskillAgainSoSoon),private) | $display.private.message(3You still have $calc($readini(skills.db, weaponlock, cooldown) - %time.difference) seconds before you can use !weapon lock again) | halt }
+  else { $set_chr_name($1) | $display.system.message($readini(translation.dat, skill, UnableToUseskillAgainSoSoon),private) | $display.private.message(3You still have $calc($readini(skills.db, weaponlock, cooldown) - %time.difference) seconds before you can use !weapon lock again) | halt }
 }
 
 
@@ -2339,7 +2338,7 @@ alias skill.disarm {
     if (%battleis = on)  { $check_for_double_turn($1) }
   }
 
-  else { $display.system.message($readini(translation.dat, skill, UnableToUseskillAgainSoSoon),private) | $display.private.message(3You still have $calc($readini(skills.db, disarm, cooldown) - %time.difference) seconds before you can use !disarm again) | halt }
+  else { $set_chr_name($1) | $display.system.message($readini(translation.dat, skill, UnableToUseskillAgainSoSoon),private) | $display.private.message(3You still have $calc($readini(skills.db, disarm, cooldown) - %time.difference) seconds before you can use !disarm again) | halt }
 }
 
 
@@ -2431,7 +2430,7 @@ alias skill.sealbreak {
     if (%battleis = on)  { $check_for_double_turn($1) }
   }
 
-  else { $display.system.message($readini(translation.dat, skill, UnableToUseskillAgainSoSoon),private) | $display.private.message(3You still have $calc($readini(skills.db, sealbreak, cooldown) - %time.difference) seconds before you can use !seal break again) | halt }
+  else { $set_chr_name($1) | $display.system.message($readini(translation.dat, skill, UnableToUseskillAgainSoSoon),private) | $display.private.message(3You still have $calc($readini(skills.db, sealbreak, cooldown) - %time.difference) seconds before you can use !seal break again) | halt }
 }
 
 ;=================

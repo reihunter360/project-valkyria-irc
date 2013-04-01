@@ -1636,7 +1636,7 @@ alias shop.calculate.totalcost {
   set %shop.level $readini($char($1), stuff, shoplevel)
   var %max.shoplevel $readini(system.dat, system, Maxshoplevel)
 
-  set %current.accessory $readini($char($3), equipment, accessory)
+  set %current.accessory $readini($char($1), equipment, accessory)
   set %current.accessory.type $readini(items.db, %current.accessory, accessorytype)
 
   while (%value <= $2) {
@@ -1644,8 +1644,9 @@ alias shop.calculate.totalcost {
 
     ; Check for the  VIP-MemberCard accessory
     if (%current.accessory.type = ReduceShopLevel) {
-      var %accessory.amount $readini(items.db, %current.accessory, amount)
+      set %accessory.amount $readini(items.db, %current.accessory, amount)
       dec %true.shop.level %accessory.amount
+      unset %accessory.amount
     }
 
     if (%true.shop.level < 1) { set %true.shop.level 1.0 }
@@ -1664,11 +1665,19 @@ alias shop.calculate.totalcost {
 alias shop.get.shop.level {
   set %shop.level $readini($char($1), stuff, shoplevel)
 
+
+  set %current.accessory $readini($char($1), equipment, accessory)
+  set %current.accessory.type $readini(items.db, %current.accessory, accessorytype)
+
   ; Check for the  VIP-MemberCard accessory
-  if ($readini($char($1), equipment, accessory) = VIP-MemberCard) {
-    var %accessory.amount $readini(items.db, VIP-MemberCard, amount)
+  if (%current.accessory.type = ReduceShopLevel) {
+    set %accessory.amount $readini(items.db, %current.accessory, amount)
     dec %shop.level %accessory.amount
+    unset %accessory.amount
   }
 
   if (%shop.level < 1) { set %shop.level 1.0 }
+
+
+  unset %current.accessory | unset %current.accessory.type
 }

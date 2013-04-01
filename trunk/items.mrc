@@ -21,8 +21,8 @@ alias uses_item {
   var %item.type $readini(items.db, $2, type)
 
   if (((%item.type != summon) && (%item.type != key) && (%item.type != portal))) {
-    if (($3 != on) || ($3 = $null)) { .msg $1 $readini(translation.dat, errors, ItemUseCommandError) | halt }
-    if ($4 = me) { .msg $1 $readini(translation.dat, errors, MustSpecifyName) | halt }
+    if (($3 != on) || ($3 = $null)) {   $display.system.message($readini(translation.dat, errors, ItemUseCommandError), private) | halt }
+    if ($4 = me) {  $display.system.message($1 $readini(translation.dat, errors, MustSpecifyName), private) | halt }
     if ($readini($char($4), battle, status) = dead) { $display.system.message($readini(translation.dat, errors, CannotUseItemOnDead), private) | halt }
     $checkchar($4) 
     if (%battleis = on) { $person_in_battle($4) }
@@ -64,7 +64,7 @@ alias uses_item {
     ; Reduce the item
     $decrease_item($1, $2) 
 
-    $battlelist
+    $battlelist(public)
 
     ; Go to the next turn
     if (%battleis = on)  { $check_for_double_turn($1) | halt }
@@ -264,8 +264,7 @@ alias item.random {
 
   ; Display the desc of the item
   $set_chr_name($2) | var %enemy %real.name | $set_chr_name($1) 
-  if (%battleis = on) { $display.system.message(3 $+ %real.name  $+ $readini(items.db, $3, desc), battle) }
-  if (%battleis = off) { $display.system.message(3 $+ %real.name  $+ $readini(items.db, $3, desc), global) }
+  $display.system.message(3 $+ %real.name  $+ $readini(items.db, $3, desc), global) 
 
   unset %random.item.name 
   return
@@ -425,7 +424,9 @@ alias item.heal {
   ; $1 = user
   ; $2 = target
   ; $3 = item
-  if ($readini($char($2), battle, hp) >= $readini($char($2), battlestats, hp)) { $set_chr_name($2) | $display.system.message($readini(translation.dat, errors, DoesNotNeedHealing), battle) | halt }
+
+  var %item.current.hp $readini($char($2), battle, HP) |   var %item.max.hp $readini($char($2), basestats, HP)
+  if (%item.current.hp >= %item.max.hp) { $set_chr_name($2) | $display.system.message($readini(translation.dat, errors, DoesNotNeedHealing), private) | halt }
 
   $calculate_heal_items($1, $3, $2)
 
@@ -624,7 +625,7 @@ alias item.shopreset {
 
   if (%user = %enemy ) { set %enemy $gender2($1) $+ self }
   $set_chr_name($1) | $display.system.message(3 $+ %real.name $+  $readini(items.db, $3, desc), battle)
-  query $2 $readini(translation.dat, system,ShopLevelLowered)
+  $display.private.message($readini(translation.dat, system,ShopLevelLowered)
 
   var %discounts.used $readini($char($2), stuff, DiscountsUsed)
   inc %discounts.used 1 
@@ -701,12 +702,12 @@ alias item.food {
 ; Equip an accessory via the !wear command.
 ;=========================================
 on 3:TEXT:!wear*:*: {  
-  if ($3 = $null) { $display.system.message(4Error: !wear <accessory/armor> <what to wear>, private) | halt }
+  if ($3 = $null) { $display.private.message(4Error: !wear <accessory/armor> <what to wear>, private) | halt }
   if ($2 = accessory) { $wear.accessory($nick, $3) }
   if ($2 = armor) { $wear.armor($nick, $3) }
 }
 on 3:TEXT:!remove*:*: {  
-  if ($3 = $null) { $display.system.message(4Error: !remove <accessory/armor> <what to remove>, private) | halt }
+  if ($3 = $null) { $display.private.message(4Error: !remove <accessory/armor> <what to remove>, private) | halt }
   if ($2 = accessory) { $remove.accessory($nick, $3) }
   if ($2 = armor) { $remove.armor($nick, $3) }
 }

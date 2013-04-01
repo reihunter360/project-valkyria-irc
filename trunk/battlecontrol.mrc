@@ -584,6 +584,7 @@ alias battlebegin {
   ; Check for a random battle field curse.
   $random.battlefield.curse
 
+  ; Generate the battle turn order and display who's going first.
   $generate_battle_order
   set %who $read -l1 battle.txt | set %line 1
   set %current.turn 1

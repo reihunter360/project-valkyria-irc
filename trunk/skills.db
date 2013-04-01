@@ -101,7 +101,7 @@ Info=This skill will increase the amount of style XP you get at the end of battl
 Max=5
 
 [WeaponBash]
-Cost=105000
+Cost=1500
 Type=passive
 Info=This skill will add a chance of inflicting the stun status after each melee hit. Note, if the target is immune to stun it will never take effect.  The chance is (skill level * 10)%.
 Max=2
@@ -147,14 +147,14 @@ Cost=450
 Type=Active
 Max=5
 Info=This skill enhances your next attack done with a weapon. Increased levels decreases the amount of time inbetween uses.
-Cooldown=30
+Cooldown=60
 
 [ManaWall]
 Cost=450
 Type=Active
 Max=6
 Info=This skill reduces the next magic attack used against you to 0.  Increased levels decreases the amount of time inbetween uses.
-Cooldown=660
+Cooldown=120
 
 [RoyalGuard]
 Cost=450
@@ -181,7 +181,7 @@ Cost=400
 Type=Active
 Max=10
 Info=This skill will give you (level * 5) TP back to you instantly.
-Cooldown=120
+Cooldown=300
 
 [ConserveTP]
 Cost=500
@@ -193,7 +193,7 @@ Cooldown=500
 [BloodBoost]
 Cost=500
 Type=Active
-Max=200
+Max=100
 Info=This skill will consume 100 HP to give you a (level * 2) boost to your STR.
 Cooldown=20
 

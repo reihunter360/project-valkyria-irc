@@ -530,6 +530,8 @@ Battle Arena Bot VERSIONS
   100 means they will take normal damage from it.  Anything above 100 is a weakness, anything below 100 is a resistance. Remember 
   that it's in percent, so 125 = 125% damage from it.
 - Changed items so that they will now hurt targets that are under the ethereal status.
+- Changed the code slightly for the shop so that other VIP membership card-like accessories could be created and used 
+  (instead of mine only).
 - Fixed a bug in which selling a technique might result in 0 orbs back.
 - Fixed a bug in which cover would activate when a monster used taunt on a covered target.
 - Fixed an issue where setting a high difficulty would still result in low level monsters on lower streaks. Now it summons the
@@ -540,5 +542,8 @@ Battle Arena Bot VERSIONS
 - Fixed a bug with the GIVE command in which a misspelled name would cause an error that would stop the bot in its tracks.
 - Fixed a bug with the GIVE command in which giving more than one item would cause the receiver to only receive 1 of the item
   and the rest would be lost.
+- Fixed a bug with the GIVE Command in which it wouldn't display an error message correctly if fractions of an item was used.
 - Fixed a bug in which players could exploit the bot using descriptions.
-
+- Fixed a bug in which the healing items weren't checking for max hp correctly, thus allowing you to heal someone who didn't
+  need it.
+- Fixed a bug with the mugger's belt accessory in which it wasn't calculating damage correctly.
