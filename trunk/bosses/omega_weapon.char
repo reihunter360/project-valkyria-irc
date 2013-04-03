@@ -102,7 +102,7 @@ resist-charm=100
 resist-poison=100
 
 [Techniques]
-Repairs=200
+Repairs=200000
 SpaceBeam=2000
 
 [Item_Amount]
@@ -132,4 +132,4 @@ Scythe=150
 Glyph=100
 GreatSword=200
 Bow=150
-AsuraStrike=5
+AsuraStrike=2

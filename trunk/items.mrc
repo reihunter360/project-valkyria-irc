@@ -45,6 +45,10 @@ alias uses_item {
 
     if (%portal.bonus = true) { $display.system.message($readini(translation.dat, errors, AlreadyInPortal), private) | halt }
 
+
+    ; Show the description
+    $set_chr_name($1) | $display.system.message( $+ %real.name  $+ $readini(items.db, $2, desc), battle)
+
     set %monster.to.spawn $readini(items.db, $2, Monster)
 
     if ($numtok(%monster.to.spawn,46) = 1) {  $portal.item.onemonster }
@@ -54,8 +58,7 @@ alias uses_item {
     writeini weather.lst weather current $readini(items.db, $2, weather)
     set %current.turn 1
 
-    ; Show the description
-    $set_chr_name($1) | $display.system.message( $+ %real.name  $+ $readini(items.db, $2, desc), battle)
+
 
     ; Set the allied notes value
     var %allied.notes $readini(items.db, $2, alliednotes) 
@@ -625,7 +628,9 @@ alias item.shopreset {
 
   if (%user = %enemy ) { set %enemy $gender2($1) $+ self }
   $set_chr_name($1) | $display.system.message(3 $+ %real.name $+  $readini(items.db, $3, desc), battle)
-  $display.private.message($readini(translation.dat, system,ShopLevelLowered)
+
+  if ($readini(system.dat, system, botType) = IRC) { .msg $2 $readini(translation.dat, system,ShopLevelLowered) }
+  if ($readini(system.dat, system, botType) = DCCchat) { $dcc.private.message($2, $readini(translation.dat, system,ShopLevelLowered) }
 
   var %discounts.used $readini($char($2), stuff, DiscountsUsed)
   inc %discounts.used 1 

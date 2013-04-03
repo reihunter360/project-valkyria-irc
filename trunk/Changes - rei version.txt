@@ -69,7 +69,7 @@ PhoenixmonWeapon=StarlightExplosion.CureV.CrimsonFlame.MeteorPhoenix.DoubleHurri
 BlackRockShooter=RockCannon.RockDeltaVulcan.BlackStarSlash.BlackStarGrenade.BlackStarPower.RockCannonSpear.CureV
 DiendDriver=DiendHenshin.DiendGekijouban.DiendBlast.DiendDimensionShoot.CureII
 MegasaurusWeapon=SurvivalInstinct.Earthquake.UltimateSwallow.SpikeFlail.Slurp.Dinostomp.VolcanicRush
-OmegaMultipurposeCannon=WaveCannon.LightPillar.MeggidoFlame.Ultima.Gravija.TerraBreak.Meteor.LV5_Death
+OmegaMultipurposeCannon=WaveCannon.LightPillar.MeggidoFlame.FFUltima.Gravija.TerraBreak.Meteor.LV5_Death
 Perfect_Chaos_Water=Chaos_Tsunami.Hyrdro_Cannon.Chaos_Rain.Chaos_Chomp.PerfectChaosR2.Chaos_Water_Beam.Dark_Power_of_Chaos_Emeralds
 Themis'Axe=Djinn:Bane.Djinn:Flower.Djinn:Steel.Stone_Justice
 Executioner=Bash.BowlingBash.MagnumBreak.ShadowSmash
@@ -399,7 +399,7 @@ Element=none
 magic=yes
 stat=int
 
-[Ultima]
+[FFUltima]
 type=AOE
 element=none
 magic=yes
@@ -725,7 +725,7 @@ Silver_Goddess_Sword=TwinSlice.BiteOfLightning.BladeBeam.HyperTwinSlice.WiseRefl
 Mythril_Sword=FastBlade.BurningBlade.FlatBlade.Bash.MagnumBreak.SeraphBlade
 Soulsaber=SpiritsWithin.VorpalBlade.SeraphBlade.BowlingBash
 JewelSword=Bash.MagnumBreak.BowlingBash
-Excalibur=Atonement.Bash
+Atonement.CircleBlade.SpiritsWithin.VorpalBlade.ChantDuCygne
 Keitonotachi=Tachi:Kagero.Tachi:Goten.Tachi:Yukikaze.Bash
 Masamune=Tachi:Fudo.Tachi:Shoha.Tachi:Rana.MeikyoShisui.Bash.Bowlingbash
 Fists=DoublePunch.ShoulderTackle.SpinningAttack.AsuranFists.AsuraStrike

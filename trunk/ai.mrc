@@ -461,7 +461,8 @@ alias ai_chooseskill {
   }
 
   if (%ai.skill = monsterconsume) {
-    $ai_getmontarget($1)
+    set %debug.location ai.skill.monsterconsume
+    $ai_getmontarget$1)
     set %total.targets $numtok(%ai.targetlist, 46)
     set %random.target $rand(1,%total.targets)
     set %ai.target $gettok(%ai.targetlist,%random.target,46)
@@ -563,6 +564,7 @@ alias ai.changeweapon {
 }
 
 alias ai.magicshift {
+  set %debug.location ai.magicshift 
   if ($is_charmed($1) = true) { return }
   if ($readini($char($1), skills, magicshift) >= 1) { 
     var %magicshift.chance $rand(1,100)
@@ -571,6 +573,7 @@ alias ai.magicshift {
 }
 
 alias ai.buildportal {
+  set %debug.location ai.buildportal
   if ($is_charmed($1) = true) { return }
   if ($readini($char($1), skills, demonportal) >= 1) { 
     var %portal.chance $rand(1,110)
@@ -579,6 +582,7 @@ alias ai.buildportal {
 }
 
 alias ai.monstersummon {
+  set %debug.location ai.monstersummon
   if ($is_charmed($1) = true) { return }
   if ($readini($char($1), skills, monstersummon) >= 1) { 
     $portal.clear.monsters
@@ -596,7 +600,7 @@ alias ai.monstersummon {
       var %number.of.monsters.to.spawn $readini($char($1), skills, monstersummon.numberspawn)
       inc %current.number.of.mons %number.of.monsters.to.spawn
 
-      if (%current.number.of.mons) < %max.number.of.mons) { 
+      if (%current.number.of.mons < %max.number.of.mons) { 
         var %monster.name $readini($char($1), skills, monstersummon.monster)
         if (%monster.name != $null) { $skill.monstersummon($1, %monster.name) }
       }
