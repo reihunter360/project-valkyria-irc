@@ -1998,6 +1998,7 @@ alias skill.magic.shift {
 ; MONSTER CONSUME
 ;=================
 alias skill.monster.consume {
+  set %debug.location skill.monster.consume
   $set_chr_name($1)
   if ($is_charmed($1) = true) { return }
 
@@ -2602,8 +2603,9 @@ alias skill.bloodpact {
   ; Show desc 
 
   ; Display the desc. 
+  $set_chr_name($1) 
   if ($readini($char($1), descriptions, bloodpact) = $null) { $set_chr_name($1  $+ _summon) | set %skill.description The $3 explodes and summons %real.name $+ !   }
-  else { set %skill.description $readini($char($1), descriptions, bloodpact) }
+  else { set %skill.description  $+ %real.name  $+ $readini($char($1), descriptions, bloodpact) }
   $display.system.message(4 $+ %skill.description, battle)
 
   $set_chr_name($1 $+ _summon) | $display.system.message(12 $+ %real.name  $+ $readini($char($1 $+ _summon), descriptions, char), battle)

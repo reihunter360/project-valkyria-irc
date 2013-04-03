@@ -161,7 +161,7 @@ Light_PowerUp=2000
 HolyCross=250
 Earthquake=350
 Protect=1
-Curaga=2000
+Curaga=150000
 ;Shell=1
 
 
@@ -197,7 +197,7 @@ Glyph=100
 GreatSword=125
 Bow=100
 
-AsuraStrike=2
+AsuraStrike=1
 
 [augments]
 Randgris_Sword=Drain.AbsorbIG.AbsorbTP.AddiotnalHit.CuringBonus.MagicBonus.TechBonus.EnhanceSummons.EnhanceDodge.EnhanceParry.EnhanceBloodboost.EnhanceCriticalHits

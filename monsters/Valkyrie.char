@@ -1,5 +1,5 @@
 [BaseStats]
-Hp=100000
+Hp=1567200
 Tp=5000
 Str=150
 Def=250
@@ -50,7 +50,7 @@ battlestats=ignoreHP
 Ragemode=ignore
 OrbBonus=yes
 ai_type=
-Streak=50
+Streak=150
 StreakMax=
 Fleeing=false
 SpawnAfterDeath=
@@ -115,7 +115,7 @@ Zen=10
 WeaponBash=3
 
 [Techniques]
-CureV=200
+CureV=500000
 ; Ragnarok Online Techs.
 SonicBlow=350
 JupitelThunder=280

@@ -29,7 +29,6 @@ alias dcc.check.for.double.login {
     if ($chat(%double.check) = $1) { .msg $nick 4You are already logged into the game elsewhere! | set %dcc.alreadyloggedin true }
     inc %double.check
   }
-
 }
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
