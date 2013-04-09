@@ -391,7 +391,15 @@ alias tech.heal {
   }
 
   if ($readini(system.dat, system, IgnoreDmgCap) != true) { 
-    if (%attack.damage > 2000) { set %attack.damage $calc(2000 + (%attack.damage / 100)),0) }
+    var %max.heal.amount $readini(techniques.db, $2, cappedamount)
+    if (%max.heal.amount = $null) { var %max.heal.amount 2000 }
+
+    if (%max.heal.amount < 2000) { 
+      if (%attack.damage > %max.heal.amount) { set %attack.damage %max.heal.amount  }
+    }
+    if (%max.heal.amount >= 2000) {
+      if (%attack.damage > %max.heal.amount) {  set %attack.damage $calc(2000 + (%attack.damage / 100)),0) }
+    }
   }
 
   %attack.damage = $round(%attack.damage,0)
@@ -459,7 +467,8 @@ alias tech.aoeheal {
 
   unset %statusmessage.display
   if ($readini($char($1), battle, hp) > 0) {
-    $self.inflict_status($1, $4 , $3)
+    set %inflict.user $1 | set %inflict.techwpn $2 
+    $self.inflict_status(%inflict.user, %inflict.techwpn , tech)
     if (%statusmessage.display != $null) { $display.system.message(%statusmessage.display, battle) | unset %statusmessage.display }
   }
 
@@ -799,7 +808,7 @@ alias tech.aoe {
   }
 
   unset %element.desc | unset %showed.tech.desc | unset %aoe.turn
-  set %timer.time $calc(%number.of.hits * 1.5) 
+  set %timer.time $calc(%number.of.hits * 1.1) 
 
   if ($readini(techniques.db, $2, magic) = yes) {
     ; Clear elemental seal
@@ -810,7 +819,8 @@ alias tech.aoe {
 
   unset %statusmessage.display
   if ($readini($char($1), battle, hp) > 0) {
-    $self.inflict_status($1, $4 , $3)
+    set %inflict.user $1 | set %inflict.techwpn $2 
+    $self.inflict_status(%inflict.user, %inflict.techwpn, tech)
     if (%statusmessage.display != $null) { $display.system.message(%statusmessage.display, battle) | unset %statusmessage.display }
   }
 
@@ -1496,20 +1506,8 @@ alias magic.effect.check {
 }
 
 ; ======================
-; Ribbon type accessory check
-; ======================
-alias ribbon.accessory.check { 
-  set %current.accessory $readini($char($1), equipment, accessory) 
-  if ($readini(items.db, %current.accessory, accessorytype) = BlockAllStatus) {
-    set %resist.skill 100
-  }
-  unset %current.accessory
-}
-
-; ======================
 ; Ignition Aliases
 ; ======================
-
 alias ignition_cmd { 
   ; $1 = user
   ; $2 = boost name

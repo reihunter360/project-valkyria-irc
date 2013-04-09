@@ -69,7 +69,7 @@ PhoenixmonWeapon=StarlightExplosion.CureV.CrimsonFlame.MeteorPhoenix.DoubleHurri
 BlackRockShooter=RockCannon.RockDeltaVulcan.BlackStarSlash.BlackStarGrenade.BlackStarPower.RockCannonSpear.CureV
 DiendDriver=DiendHenshin.DiendGekijouban.DiendBlast.DiendDimensionShoot.CureII
 MegasaurusWeapon=SurvivalInstinct.Earthquake.UltimateSwallow.SpikeFlail.Slurp.Dinostomp.VolcanicRush
-OmegaMultipurposeCannon=WaveCannon.LightPillar.MeggidoFlame.FFUltima.Gravija.TerraBreak.Meteor.LV5_Death
+OmegaMultipurposeCannon=WaveCannon.LightPillar.MeggidoFlame.FFUltima.Gravija.TerraBreak.FFMeteor.LV5_Death
 Perfect_Chaos_Water=Chaos_Tsunami.Hyrdro_Cannon.Chaos_Rain.Chaos_Chomp.PerfectChaosR2.Chaos_Water_Beam.Dark_Power_of_Chaos_Emeralds
 Themis'Axe=Djinn:Bane.Djinn:Flower.Djinn:Steel.Stone_Justice
 Executioner=Bash.BowlingBash.MagnumBreak.ShadowSmash
@@ -389,17 +389,17 @@ desc= takes aim on %enemy $+ and fires a very bright laser on them. [Light Pilla
 magic=yes
 stat=int
 
-[Meteor]
+[FFMeteor]
 Type=AOE
 TP=90
 Desc=chants loudly as the sun is blacked out by a massive object.  As everyone looks up they see a large meteor heading straight for them. It slams into the battlefield, hitting all enemies. [Meteor]
 BasePower=160
-cost=99999999
+cost=999999
 Element=none
 magic=yes
 stat=int
 
-[FFUltima]
+[Ultima]
 type=AOE
 element=none
 magic=yes
@@ -421,6 +421,7 @@ desc=flies up into the sky and intesifies the gravity on the battlefield! [Gravi
 cost=12000
 absorb=yes
 stat=int
+ignoredefense=75
 
 [TerraBreak]
 type=single
@@ -455,6 +456,7 @@ basepower=$calc( ($readini($char($3), basestats, hp) / 5) * 1.1)
 element=dark
 desc=casts a large scale spell that surrounds all enemies with the Grim Reaper's Influence! [LV5 Death]
 stat=int
+ignoredefense=25
 
 ; Perfect Chaos' Techniques
 
@@ -620,8 +622,8 @@ stat=int
 [AsuraStrike]
 cost=1295000
 type=single
-self-status=Curse
-basepower=$calc( (  ( $readini(weapons.db, $readini($char($1), Weapons, Equipped), basepower) * ($readini($char($1), weapons, $readini($char($1), Weapons, Equipped)) * .1 ) ) + ($readini($char($1), battle, str) / 5 ) ) * (8 + (%previous.tp) / 10 ) ) + 250 + (150 * $readini($char($1), Techniques, AsuraStrike) ) ) | unset %previous.tp
+selfstatus=Curse.strengthdown.poison.slow.stun
+basepower=$round($calc(  (  ( $readini(weapons.db, $readini($char($1), Weapons, Equipped), basepower) * ($readini($char($1), weapons, $readini($char($1), Weapons, Equipped)) * .1 ) ) + ($readini($char($1), battle, str) / 20 ) ) * (8 + (%previous.tp) / 10 ) ) + 250 + (75 * $readini($char($1), Techniques, AsuraStrike) ) ) , 0) | unset %previous.tp
 TP=$readini($char($1), Battle, TP) | set %previous.tp $readini($char($1), battle, TP)
 Desc=pours all of the energy to $gender($1) fist and then punches %enemy $+ with an earth shattering punch! [Asura Strike!]
 magic=no
@@ -644,7 +646,7 @@ stat=str
 Type=AoE
 TP=90
 basepower=80
-Statustype=Paralyze
+Statustype=Paralysis
 Desc=pours in a lot of $gender(1) Psyenergy into the sky and immediately a large thundercloud strikes the enemy party repeatedly with a barrage of purplish-white lightning bolts! [Spark Plasma]
 Element=Lightning
 cost=10500
@@ -682,6 +684,7 @@ BasePower=60
 Cost=7800
 Element=lightning
 magic=yes
+ignoredefense=30
 stat=int
 hits=$rand(2,3)
 
@@ -837,6 +840,15 @@ Magic=Yes
 stat=int
 
 --------------------------------------------------------------------------
+
+TECHS.MRC
+alias ribbon.accessory.check { 
+  set %current.accessory $readini($char($1), equipment, accessory) 
+  if ($readini(items.db, %current.accessory, accessorytype) = BlockAllStatus) {
+    set %resist.skill 70
+  }
+  unset %current.accessory
+}
 --------------------------------------------------------------------------
 --------------------------------------------------------------------------
 
@@ -964,6 +976,7 @@ hits=$rand(1,3)
 basepower=50
 upgrade=500000
 HurtEthereal=true
+ignoredefense=50
 
 [TRexWeapon]
 cost=999999

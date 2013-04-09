@@ -115,7 +115,7 @@ Zen=10
 WeaponBash=3
 
 [Techniques]
-CureV=500000
+CureV=50000
 ; Ragnarok Online Techs.
 SonicBlow=350
 JupitelThunder=280

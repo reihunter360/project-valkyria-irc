@@ -488,9 +488,57 @@ alias battlebegin {
     }
   }
 
+  ; Get a random battlefield
   $random.battlefield.pick
+
+  ; Get a random weather from the battlefield
   $random.weather.pick
 
+  ; Generate the monsters
+  $battle.getmonsters
+
+  ; Check for an NPC Ally to join the battle.
+  $random.battlefield.ally
+
+  ; Check for a random back attack.
+  $random.surpriseattack
+
+  ; Check for a random battle field curse.
+  $random.battlefield.curse
+
+  ; Check to see if players go first
+  $random.playersgofirst
+
+  ; Turn on the rage timer.
+  if ((%number.of.monsters.needed <= 3) && (%battle.type != boss)) {  /.timerBattleRage 1 900 /battle_rage_warning }
+  if (%battle.type = boss) {  /.timerBattleRage 1 1200 /battle_rage_warning }
+  else { /.timerBattleRage 1 1800 /battle_rage_warning }
+
+  if (%mode.gauntlet = on) { /.timerBattleRage off }
+
+  unset %winning.streak
+
+  ; Generate the battle turn order and display who's going first.
+  $generate_battle_order
+  set %who $read -l1 battle.txt | set %line 1
+  set %current.turn 1
+  $battlelist(public)
+
+  $display.system.message($readini(translation.dat, battle, StepsUpFirst), battle)
+
+  ; To keep someone from sitting and doing nothing for hours at a time, there's a timer that will auto-force the next turn.
+  var %nextTimer $readini(system.dat, system, TimeForIdle)
+  if (%nextTimer = $null) { var %nextTimer 180 }
+  /.timerBattleNext 1 %nextTimer /next
+
+  unset %number.of.players
+
+  if (%demonwall.fight = on) { /.timerBattleRage 1 1 /battle_rage_warning } 
+
+  $aicheck(%who)
+}
+
+alias battle.getmonsters {
   if (%mode.pvp != on) {
     set %winning.streak $readini(battlestats.dat, battle, winningstreak)
 
@@ -562,46 +610,9 @@ alias battlebegin {
       }
     }
 
-    ; Check for a random back attack.
-    $random.surpriseattack
+    return
 
-    ; Check to see if players go first
-    $random.playersgofirst
-
-    ; Check for an NPC Ally to join the battle.
-    $random.battlefield.ally
-
-    ; Turn on the rage timer.
-    if ((%number.of.monsters.needed <= 3) && (%battle.type != boss)) {  /.timerBattleRage 1 900 /battle_rage_warning }
-    if (%battle.type = boss) {  /.timerBattleRage 1 1200 /battle_rage_warning }
-    else { /.timerBattleRage 1 1800 /battle_rage_warning }
-
-    if (%mode.gauntlet = on) { /.timerBattleRage off }
-
-    unset %winning.streak
   }
-
-  ; Check for a random battle field curse.
-  $random.battlefield.curse
-
-  ; Generate the battle turn order and display who's going first.
-  $generate_battle_order
-  set %who $read -l1 battle.txt | set %line 1
-  set %current.turn 1
-  $battlelist(public)
-
-  $display.system.message($readini(translation.dat, battle, StepsUpFirst), battle)
-
-  ; To keep someone from sitting and doing nothing for hours at a time, there's a timer that will auto-force the next turn.
-  var %nextTimer $readini(system.dat, system, TimeForIdle)
-  if (%nextTimer = $null) { var %nextTimer 180 }
-  /.timerBattleNext 1 %nextTimer /next
-
-  unset %number.of.players
-
-  if (%demonwall.fight = on) { /.timerBattleRage 1 1 /battle_rage_warning } 
-
-  $aicheck(%who)
 }
 
 alias generate_monster {
@@ -1759,7 +1770,7 @@ alias frozen_check {
     set %max.hp $readini($char($1), basestats, hp)
     set %freezing $round($calc(%max.hp * .05),0)
     unset %max.hp | set %hp $readini($char($1), battle, hp)
-    if (%freezing >= %hp) { $display.system.message($readini(translation.dat, status, FrozenDeath, battle) | writeini $char($1) Battle HP 0 | writeini $char($1) Battle Status Dead | $increase.death.tally($1)  | $add.style.effectdeath 
+    if (%freezing >= %hp) { $display.system.message($readini(translation.dat, status, FrozenDeath), battle) | writeini $char($1) Battle HP 0 | writeini $char($1) Battle Status Dead | $increase.death.tally($1)  | $add.style.effectdeath 
     $goldorb_check($1) | $spawn_after_death($1) | remini $char($1) Renkei | next | halt }
     if (%freezing < %hp) { $set_chr_name($1) | write temp_status.txt $readini(translation.dat, status, FrozenMessage) | dec %hp %freezing |  writeini $char($1) Battle HP %hp | return }
   }
