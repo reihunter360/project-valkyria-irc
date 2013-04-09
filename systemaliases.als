@@ -1,4 +1,4 @@
-battle.version { return 2.0beta_040213 } 
+battle.version { return 2.0beta_040913 } 
 quitmsg { return Battle Arena version $battle.version written by James  "Iyouboushi" }
 checkscript {
   var %command $1-

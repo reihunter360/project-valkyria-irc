@@ -161,7 +161,7 @@ Light_PowerUp=2000
 HolyCross=250
 Earthquake=350
 Protect=1
-Curaga=150000
+Curaga=25000
 ;Shell=1
 
 

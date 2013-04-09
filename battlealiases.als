@@ -1042,7 +1042,7 @@ random.weather.pick {
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Check to see if there's a
-; battlefield curse.
+; battlefield curse/seal.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 random.battlefield.curse {
   if ($readini(battlestats.dat, battle, WinningStreak) <= 50) { return }
@@ -1745,6 +1745,7 @@ inflict_status {
   if ($3 = bored) { set %status.type bored | var %status.grammar bored of the battle  }
   if ($3 = confuse) { set %status.type confuse  | var %status.grammar confused }
 
+  if (%status.grammar = $null) { return }
 
   var %chance $rand(1,140) | $set_chr_name($1) 
   if ($readini($char($2), skills, utsusemi.on) = on) { set %chance 0 } 
@@ -1835,12 +1836,15 @@ self.inflict_status {
   ; $2 = weapon/technique name
   ; $3 = type (weapon / technique)
 
-  if ($3 = weapon) {  var %self.status.type $readini(weapons.db, $2, selfstatus) }
-  if ($3 = tech) {  var %self.status.type $readini(techniques.db, $2, selfstatus) }
+  if (%inflict.user = $null) { set %inflict.user $1 }
+  if (%inflict.techwpn = $null) { set %inflict.techwpn $2 }
 
-  if (%self.status.type = $null) { return }
-  if (%self.status.type = none) { return }
-  if (%self.status.type = charm) { return }
+  if ($3 = weapon) {  set %self.status.type $readini(weapons.db , %inflict.techwpn , selfstatus) }
+  if ($3 = tech) {  set %self.status.type $readini(techniques.db , %inflict.techwpn , selfstatus) }
+
+  if (%self.status.type = $null) { unset %self.status.type | unset %inflict.user | unset %inflict.techwpn | return }
+  if (%self.status.type = none) { unset %self.status.type | unset %inflict.user | unset %inflict.techwpn | return }
+  if (%self.status.type = charm) { unset %self.status.type | unset %inflict.user | unset %inflict.techwpn | return }
 
   if (%self.status.type = stop) { set %status.type stop | var %status.grammar frozen in time }
   if (%self.status.type = poison) { set %status.type poison | var %status.grammar poisoned }
@@ -1861,19 +1865,35 @@ self.inflict_status {
   if (%self.status.type = bored) { set %status.type bored | var %status.grammar bored of the battle  }
   if (%self.status.type = confuse) { set %status.type confuse  | var %status.grammar confused }
 
-  if (%statusmessage.display != $null) {  set %statusmessage.display %statusmessage.display :: $set_chr_name($1) %real.name is now %status.grammar $+ ! } 
-  if (%statusmessage.display = $null) {   $set_chr_name($1) | set %statusmessage.display 4 $+ %real.name is now %status.grammar $+ ! }
+  if (%statusmessage.display != $null) {  set %statusmessage.display %statusmessage.display :: $set_chr_name(%inflict.user) %real.name is now %status.grammar $+ ! } 
+  if (%statusmessage.display = $null) {   $set_chr_name(%inflict.user) | set %statusmessage.display 4 $+ %real.name is now %status.grammar $+ ! }
 
+  if (%status.grammar = $null) { unset %self.status.type | unset %inflict.user | unset %inflict.techwpn | return }
 
   if (%status.type != paralysis) {  var %enfeeble.timer $rand(0,1) }
   if (%status.type = paralysis) {  var %enfeeble.timer $rand(1,2) }
 
-  if (%status.type = poison) && ($readini($char($1), status, poison) = yes) { writeini $char($1) status poison no | writeini $char($1) status poison-heavy yes | writeini $char($1) status poison.timer %enfeeble.timer }
-  if (%status.type = poison) && ($readini($char($1), status, poison-heavy) != yes) { writeini $char($1) status poison yes | writeini $char($1) status poison.timer %enfeeble.timer }
-  if (%status.type = curse) { writeini $char($1) Status %status.type yes | writeini $char($1) battle tp 0 }
-  if (%status.type = petrify) { writeini $char($1) status petrified yes }
+  if (%status.type = poison) && ($readini($char(%inflict.user), status, poison) = yes) { writeini $char(%inflict.user) status poison no | writeini $char(%inflict.user) status poison-heavy yes | writeini $char(%inflict.user) status poison.timer %enfeeble.timer }
+  if (%status.type = poison) && ($readini($char(%inflict.user), status, poison-heavy) != yes) { writeini $char(%inflict.user) status poison yes | writeini $char(%inflict.user) status poison.timer %enfeeble.timer }
+  if (%status.type = curse) { writeini $char(%inflict.user) Status %status.type yes | writeini $char(%inflict.user) battle tp 0 }
+  if (%status.type = petrify) { writeini $char(%inflict.user) status petrified yes }
 
-  if (((%status.type != poison) && (%status.type != charm) && (%status.type != petrify))) { writeini $char($1) Status %status.type yes | writeini $char($1) status %status.type $+ .timer %enfeeble.timer   }
+  if (((%status.type != poison) && (%status.type != charm) && (%status.type != petrify))) { writeini $char(%inflict.user) Status %status.type yes | writeini $char(%inflict.user) status %status.type $+ .timer %enfeeble.timer   }
+
+  unset %self.status.type | unset %inflict.user | unset %inflict.techwpn
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Check for ribbon or other
+; accessories that make
+; people immune to statuses.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+ribbon.accessory.check { 
+  set %current.accessory $readini($char($1), equipment, accessory) 
+  if ($readini(items.db, %current.accessory, accessorytype) = BlockAllStatus) {
+    set %resist.skill 70
+  }
+  unset %current.accessory
 }
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
