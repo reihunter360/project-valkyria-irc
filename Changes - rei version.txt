@@ -841,7 +841,7 @@ Magic=Yes
 
 --------------------------------------------------------------------------
 
-TECHS.MRC
+Battlealias.als
 alias ribbon.accessory.check { 
   set %current.accessory $readini($char($1), equipment, accessory) 
   if ($readini(items.db, %current.accessory, accessorytype) = BlockAllStatus) {

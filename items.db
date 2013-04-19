@@ -43,19 +43,19 @@ Misc=Ink.Paper.AshLog.Hatchet.IronOre.GoldOre.SilverOre.DarksteelOre.Ectoplasm.B
 Runes=EthRune.MtlRune.HiRune.GeRune.MaRune.TeRune.MeRune.SmnRune.DrnRune.ItmRune.RenRune.NinRune.IgDef
 
 ; HeadEquipment is for equipment for the head
-HeadEquipment=BucketHat.RustyHelmet.JesterHat.DarksteelHelmet.BloodCrown.MyochinKabuto.ChaosBurgeonet.Genbu'sKabuto
+HeadEquipment=BucketHat.RustyHelmet.JesterHat.DarksteelHelmet.BloodCrown.MyochinKabuto.ChaosBurgeonet.Genbu'sKabuto.ValkyrieHelm
 
 ; BodyEquipment is for equipment for the body
-BodyEquipment=RustyMail.TornRobe.ClothRobe.MageRobe.BloodHauberk.Haubergeon.MyochinDomaru.ChaosCuirass.Kirin'sOsode
+BodyEquipment=RustyMail.TornRobe.ClothRobe.MageRobe.BloodHauberk.Haubergeon.MyochinDomaru.ChaosCuirass.Kirin'sOsode.ValkyrianArmor
 
 ; LegsEquipment is for equipment for the legs
 LegsEquipment=RustyHose.DarksteelHose.MyochinHaidate.ChaosFlanchard
 
 ; FeetEquipment is for equipment for the feet
-FeetEquipment=RustyBoots.DarksteelBoots.BloodSocks.MyochinSune-Ate.ChaosSollerets
+FeetEquipment=RustyBoots.DarksteelBoots.BloodSocks.MyochinSune-Ate.ChaosSollerets.ValkyrianShoes
 
 ; HandsEquipment is for equipment for the hands
-HandsEquipment=LeatherGloves.RustyKnuckles.SpikedKnuckles.DarksteelGloves.MyochinKote.ChaosGauntlets
+HandsEquipment=LeatherGloves.RustyKnuckles.SpikedKnuckles.DarksteelGloves.MyochinKote.ChaosGauntlets.ValkyrianGloves
 
 
 
