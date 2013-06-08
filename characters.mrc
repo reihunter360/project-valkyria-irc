@@ -151,6 +151,7 @@ alias id_login {
     }
   }
   writeini $char($1) Info LastSeen $fulldate
+  writeini $char($1) info passhurt 0 
   return
 }
 
@@ -349,6 +350,97 @@ on 3:TEXT:!stats*:*: { unset %all_status
   }
 }
 
+on 3:TEXT:!misc info*:*: { 
+  if ($3 = $null) { 
+    var %misc.totalbattles $readini($char($nick), stuff, TotalBattles) |  var %misc.totaldeaths $readini($char($nick), stuff, TotalDeaths)
+    var %misc.totalmonkills $readini($char($nick), stuff, MonsterKills) | var %misc.timesfled $readini($char($nick), stuff, timesFled)
+    var %misc.discountsUsed $readini($char($nick), stuff, DiscountsUsed)  | var %misc.itemsgiven $readini($char($nick), stuff, ItemsGiven)
+    var %misc.chestsopened $readini($char($nick), stuff, ChestsOpened) | var %misc.totalkeys $readini($char($nick), stuff, TotalNumberOfKeys)
+    var %misc.revivedtimes $readini($char($nick), stuff, RevivedTimes) | var %misc.monstersToGems $readini($char($nick), stuff, MonstersToGems)
+    var %misc.lostSoulsKilled $readini($char($nick), stuff, lostSoulsKilled) | var %misc.itemssold $readini($char($nick), stuff, ItemsSold)
+    var %misc.resets $readini($char($nick), stuff, NumberOfResets) | var %misc.augments $readini($char($nick), stuff, WeaponsAugmented)
+    var %misc.portalswon $readini($char($nick), stuff, PortalBattlesWon) |  var %misc.timeshitbybattlefield $readini($char($nick), stuff, TimesHitByBattlefieldEvent)
+    var %misc.ignitionsused $readini($char($nick), stuff, IgnitionsUsed) |  var %misc.timesdodged $readini($char($nick), stuff, TimesDodged)
+    var %misc.timescountered $readini($char($nick), stuff, TimesCountered) |  var %misc.timesparried $readini($char($nick), stuff, TimesParried)
+    var %misc.lightspells $readini($char($nick), stuff, LightSpellsCasted) |   var %misc.darkspells $readini($char($nick), stuff, DarkSpellsCasted)
+    var %misc.earthspells $readini($char($nick), stuff, EarthSpellsCasted) |   var %misc.firespells $readini($char($nick), stuff, FireSpellsCasted)
+    var %misc.windspells $readini($char($nick), stuff, WindSpellsCasted) |  var %misc.waterspells $readini($char($nick), stuff, WaterSpellsCasted)
+    var %misc.icespells $readini($char($nick), stuff, IceSpellsCasted)  |  var %misc.lightningspells $readini($char($nick), stuff, LightningSpellsCasted)
+    var %misc.bloodspirit $readini($char($nick), stuff, BloodSpiritTimes) | var %misc.bloodboost $readini($char($nick), stuff, BloodBoostTimes) 
+    var %misc.defenderwon $readini($char($nick), stuff, BattlesWonWithDefender) | var %misc.aggressorwon $readini($char($nick), stuff, BattlesWonWithAggressor)
+    var %misc.reforges $readini($char($nick), stuff, WeaponsReforged)
+
+    var %misc.target your
+    .msg $nick $readini(translation.dat, system, HereIsMiscInfo) 
+  }
+
+  if ($3 != $null) {
+    $checkchar($3) 
+    var %misc.totalbattles $readini($char($3), stuff, TotalBattles) |  var %misc.totaldeaths $readini($char($3), stuff, TotalDeaths)
+    var %misc.totalmonkills $readini($char($3), stuff, MonsterKills) | var %misc.timesfled $readini($char($3), stuff, timesFled)
+    var %misc.discountsUsed $readini($char($3), stuff, DiscountsUsed)  | var %misc.itemsgiven $readini($char($3), stuff, ItemsGiven)
+    var %misc.chestsopened $readini($char($3), stuff, ChestsOpened) | var %misc.totalkeys $readini($char($3), stuff, TotalNumberOfKeys)
+    var %misc.revivedtimes $readini($char($3), stuff, RevivedTimes) | var %misc.monstersToGems $readini($char($3), stuff, MonstersToGems)
+    var %misc.lostSoulsKilled $readini($char($3), stuff, lostSoulsKilled) | var %misc.itemssold $readini($char($3), stuff, ItemsSold)
+    var %misc.resets $readini($char($3), stuff, NumberOfResets) | var %misc.augments $readini($char($3), stuff, WeaponsAugmented)
+    var %misc.portalswon $readini($char($3), stuff, PortalBattlesWon) |  var %misc.timeshitbybattlefield $readini($char($3), stuff, TimesHitByBattlefieldEvent)
+    var %misc.ignitionsused $readini($char($3), stuff, IgnitionsUsed) |  var %misc.timesdodged $readini($char($3), stuff, TimesDodged)
+    var %misc.timescountered $readini($char($3), stuff, TimesCountered) |  var %misc.timesparried $readini($char($3), stuff, TimesParried)
+    var %misc.lightspells $readini($char($3), stuff, LightSpellsCasted) |   var %misc.darkspells $readini($char($3), stuff, DarkSpellsCasted)
+    var %misc.earthspells $readini($char($3), stuff, EarthSpellsCasted) |   var %misc.firespells $readini($char($3), stuff, FireSpellsCasted)
+    var %misc.windspells $readini($char($3), stuff, WindSpellsCasted) |  var %misc.waterspells $readini($char($3), stuff, WaterSpellsCasted)
+    var %misc.icespells $readini($char($3), stuff, IceSpellsCasted)  |  var %misc.lightningspells $readini($char($3), stuff, LightningSpellsCasted)
+    var %misc.bloodspirit $readini($char($3), stuff, BloodSpiritTimes) | var %misc.bloodboost $readini($char($3), stuff, BloodBoostTimes) 
+    var %misc.defenderwon $readini($char($3), stuff, BattlesWonWithDefender) | var %misc.aggressorwon $readini($char($3), stuff, BattlesWonWithAggressor)
+    var %misc.reforges $readini($char($3), stuff, WeaponsReforged)
+
+
+    var %misc.target $3 $+ 's
+    .msg $nick $readini(translation.dat, system, HereIsMiscInfo) 
+  }
+
+  if (%misc.totalbattles = $null) { var %misc.totalbattles 0 }
+  if (%misc.totaldeaths = $null) { var %misc.totaldeaths 0 }
+  if (%misc.totalmonkills = $null) { var %misc.totalmonkills 0 }
+  if (%misc.timesfled = $null) { var %misc.timesfled 0 }
+  if (%misc.lostSoulsKilled = $null) { var %misc.lostSoulsKilled 0 }
+  if (%misc.discountsUsed = $null) { var %misc.discountsUsed 0 }
+  if (%misc.itemsgiven = $null) { var %misc.itemsgiven 0 }
+  if (%misc.chestsopened = $null) { var %misc.chestsopened 0 }
+  if (%misc.totalkeys = $null) { var %misc.totalkeys 0 }
+  if (%misc.revivedtimes = $null) { var %misc.revivedtimes 0 }
+  if (%misc.monstersToGems = $null) { var %misc.monstersToGems 0 }
+  if (%misc.itemssold = $null) { var %misc.itemssold 0 }
+  if (%misc.resets = $null) { var %misc.resets 0 }
+  if (%misc.augments = $null) { var %misc.augments 0 }
+  if (%misc.reforges = $null) { var %misc.reforges 0 }
+  if (%misc.portalswon = $null) { var %misc.portalswon 0 }
+  if (%misc.timeshitbybattlefield = $null) { var %misc.timeshitbybattlefield 0 }
+  if (%misc.ignitionsused = $null) { var %misc.ignitionsused 0 } 
+  if (%misc.timesdodged = $null) { var %misc.timesdodged 0 }
+  if (%misc.timescountered = $null) { var %misc.timescountered 0 }
+  if (%misc.timesparried = $null) { var %misc.timesparried 0 }
+  if (%misc.lightspells = $null) { var %misc.lightspells 0 }
+  if (%misc.darkspells = $null) { var %misc.darkspells 0 }
+  if (%misc.earthspells = $null) { var %misc.earthspells 0 }
+  if (%misc.firespells = $null) { var %misc.firespells 0 }
+  if (%misc.windspells = $null) { var %misc.windspells 0 }
+  if (%misc.waterspells = $null) { var %misc.waterspells 0 }
+  if (%misc.icespells = $null) { var %misc.icespells 0 }
+  if (%misc.lightningspells = $null) { var %misc.lightningspells 0 }
+  if (%misc.bloodspirit = $null) { var %misc.bloodspirit 0 }
+  if (%misc.bloodboost = $null) { var %misc.bloodboost 0 }
+  if (%misc.defenderwon = $null) { var %misc.defenderwon 0 }
+  if (%misc.aggressorwon = $null) { var %misc.aggressorwon 0 }
+
+  /.timerDisplayStats1 $+ $nick 1 1  .msg $nick [4Total Battles Partcipated12 %misc.totalbattles $+ 1] [4Total Portal Battles Won12 %misc.portalswon $+ 1] [4Total Deaths12 %misc.totaldeaths $+ 1] [4Total Monster Kills12 %misc.totalmonkills $+ 1] [4Total Times Fled12 %misc.timesfled $+ 1][4Total Lost Souls Killed12 %misc.lostSoulsKilled $+ 1] [4Total Times Revived12 %misc.revivedtimes $+ 1] [4Total Times Character Has Been Reset12 %misc.resets $+ 1]
+  /.timerDisplayStats2 $+ $nick 1 1  .msg $nick [4Total Items Sold12 %misc.itemssold $+ 1] [4Total Discounts Used12 %misc.discountsUsed $+ 1] [4Total Items Given12 %misc.itemsgiven $+ 1] [4Total Keys Obtained12 %misc.totalkeys $+ 1] [4Total Chests Opened12 %misc.chestsopened $+ 1][4Total Monster->Gem Conversions12 %misc.monstersToGems $+ 1]
+  /.timerDisplayStats3 $+ $nick 1 1  .msg $nick [4Total Battlefield Events Experienced12 %misc.timeshitbybattlefield $+ 1]  [4Total Weapons Augmented12 %misc.augments $+ 1] [4Total Weapons Reforged12 %misc.reforges $+ 1] [4Total Ignitions Performed12 %misc.ignitionsused $+ 1] [4Total Dodges Performed12 %misc.timesdodged $+ 1] [4Total Parries Performed12 %misc.timesparried $+ 1] [4Total Counters Performed12 %misc.timescountered $+ 1] 
+  /.timerDisplayStats4 $+ $nick 1 1  .msg $nick [4Total Light Spells Casted12 %misc.lightspells $+ 1] [4Total Dar Spells Casted12 %misc.darkspells $+ 1] [4Total Earth Spells Casted12 %misc.earthspells $+ 1] [4Total Fire Spells Casted12 %misc.firespells $+ 1] [4Total Wind Spells Casted12 %misc.windspells $+ 1] [4Total Water Spells Casted12 %misc.waterspells $+ 1] [4Total Ice Spells Casted12 %misc.icespells $+ 1] [4Total Lightning Spells Casted12 %misc.lightningspells $+ 1]
+  /.timerDisplayStats4 $+ $nick 1 1  .msg $nick [4Total Times Won Under Defender12 %misc.defenderwon $+ 1] [4Total Times Won Under Aggressor12 %misc.aggressorwon $+ 1] [4Total Blood Boosts Performed12 %misc.bloodboost $+ 1] [4Total Blood Spirits Performed12 %misc.bloodspirit $+ 1]
+}
+
+
 on 3:TEXT:!look*:#: { unset %all_status 
   if ($2 = $null) { $lookat($nick, channel) }
   if ($2 != $null) { $checkchar($2) | $lookat($2, channel) }
@@ -375,10 +467,22 @@ on 3:TEXT:!rweapons*:?: { $checkchar($2) | $weapon.list($2)  | $set_chr_name($2)
   /.timerDisplayWeaponList $+ $nick 1 3 /display_weapon_lists $2 private $nick
 }
 alias display_weapon_lists {  $set_chr_name($1) 
-  if ($2 = channel) { query %battlechan $readini(translation.dat, system, ViewWeaponList) }
-  if ($2 = private) { .msg $3 $readini(translation.dat, system, ViewWeaponList) }
-  if ($2 = dcc) { $dcc.private.message($3, $readini(translation.dat, system, ViewWeaponList)) }
-  unset %wpn.lst.target | unset %base.weapon.list | unset %weapons | unset %weapon.list 
+  if ($2 = channel) { 
+    query %battlechan $readini(translation.dat, system, ViewWeaponList)
+    if (%weapon.list2 != $null) { query %battlechan 3 $+ %weapon.list2 }
+    if (%weapon.list3 != $null) { query %battlechan 3 $+ %weapon.list3 }
+  }
+  if ($2 = private) {
+    .msg $3 $readini(translation.dat, system, ViewWeaponList)
+    if (%weapon.list2 != $null) { .msg $3 3 $+ %weapon.list2 }
+    if (%weapon.list3 != $null) { .msg $3 3 $+ %weapon.list3 }
+  }
+  if ($2 = dcc) { 
+    $dcc.private.message($3, $readini(translation.dat, system, ViewWeaponList))
+    if (%weapon.list2 != $null) { $dcc.private.message($3, 3 $+ %weapon.list2) }
+    if (%weapon.list3 != $null) { $dcc.private.message($3, 3 $+ %weapon.list3) }
+  }
+  unset %wpn.lst.target | unset %base.weapon.list | unset %weapons | unset %weapon.list  | unset %weapon.list2 | unset %weapon.list3
 }
 
 on 3:TEXT:!style*:*: {  unset %*.style.list | unset %style.list
@@ -547,6 +651,7 @@ on 3:TEXT:!readskills*:?: { $readskills($2,private) }
 
 alias readskills {
   $checkchar($1) | $skills.list($1) | $set_chr_name($1) 
+
   if (%passive.skills.list != $null) { 
     if ($2 = channel) { 
       query %battlechan $readini(translation.dat, system, ViewPassiveSkills) 
@@ -574,20 +679,27 @@ alias readskills {
     if ($2 = dcc) {
       $dcc.private.message($nick, $readini(translation.dat, system, ViewActiveSkills))
       if (%active.skills.list2 != $null) { $dcc.private.message($nick, 3 $+ %active.skills.list2) }
-
-    }
-    if (%resists.skills.list != $null) { 
-      if ($2 = channel) { query %battlechan $readini(translation.dat, system, ViewResistanceSkills)  }
-      if ($2 = private) { .msg $nick $readini(translation.dat, system, ViewResistanceSkills)  }
-      if ($2 = dcc) { $dcc.private.message($nick, $readini(translation.dat, system, ViewResistanceSkills))  }
-    }
-    if (((%passive.skills.list = $null) && (%active.skills.list = $null) && (%resists.skills.list = $null))) { 
-      if ($2 = channel) { query %battlechan $readini(translation.dat, system, HasNoSkills)   }
-      if ($2 = private) { .msg $nick $readini(translation.dat, system, HasNoSkills)   }
-      if ($2 = dcc) { $dcc.private.message($nick, $readini(translation.dat, system, HasNoSkills)) }
     }
   }
-  unset %passive.skills.list | unset %active.skills.list | unset %active.skills.list2 | unset %resists.skills.list
+
+  if (%resists.skills.list != $null) { 
+    if ($2 = channel) { query %battlechan $readini(translation.dat, system, ViewResistanceSkills)  }
+    if ($2 = private) { .msg $nick $readini(translation.dat, system, ViewResistanceSkills)  }
+    if ($2 = dcc) { $dcc.private.message($nick, $readini(translation.dat, system, ViewResistanceSkills))  }
+  }
+
+  if (%killer.skills.list != $null) { 
+    if ($2 = channel) { query %battlechan $readini(translation.dat, system, ViewKillerTraitSkills)  }
+    if ($2 = private) { .msg $nick $readini(translation.dat, system, ViewKillerTraitSkills)  }
+    if ($2 = dcc) { $dcc.private.message($nick, $readini(translation.dat, system, ViewKillerTraitSkills))  }
+  }
+
+  if ((((%passive.skills.list = $null) && (%active.skills.list = $null) && (%killer.skills.list = $null) && (%resists.skills.list = $null)))) { 
+    if ($2 = channel) { query %battlechan $readini(translation.dat, system, HasNoSkills)   }
+    if ($2 = private) { .msg $nick $readini(translation.dat, system, HasNoSkills)   }
+    if ($2 = dcc) { $dcc.private.message($nick, $readini(translation.dat, system, HasNoSkills)) }
+  }
+  unset %passive.skills.list | unset %active.skills.list | unset %active.skills.list2 | unset %resists.skills.list | unset %killer.skills.list
 }
 on 3:TEXT:!keys*:#:{ 
   if ($2 != $null) { $checkchar($2) | $keys.list($2) | $set_chr_name($2) | $readkeys($2, channel) }
@@ -653,9 +765,9 @@ alias readitems {
     if ($2 = dcc) { $dcc.private.message($nick, $readini(translation.dat, system, ViewPortalItems)) }
   }
   if (%misc.items.list != $null) { 
-    if ($2 = channel) { query %battlechan $readini(translation.dat, system, ViewMiscItems) } 
-    if ($2 = private) { .msg $nick $readini(translation.dat, system, ViewMiscItems) } 
-    if ($2 = dcc) { $dcc.private.message($nick, $readini(translation.dat, system, ViewMiscItems)) }
+    if ($2 = channel) { query %battlechan $readini(translation.dat, system, ViewMiscItems) | if (%misc.items.list2 != $null) { query %battlechan  $+ %misc.items.list2 } } 
+    if ($2 = private) { .msg $nick $readini(translation.dat, system, ViewMiscItems) | if (%misc.items.list2 != $null) { .msg $nick  $+ %misc.items.list2 } } 
+    if ($2 = dcc) { $dcc.private.message($nick, $readini(translation.dat, system, ViewMiscItems)) | if (%misc.items.list2 != $null) {  $dcc.private.message($nick,  $+ %misc.items.list2) } }
   }
 
   if (((((((%items.list = $null) && (%statplus.items.list = $null) && (%summons.items.list = $null) && (%reset.items.list = $null) && (%gems.items.list = $null) && (%portals.items.list = $null) && (%misc.items.list = $null))))))) { 
@@ -663,7 +775,7 @@ alias readitems {
     if ($2 = private) { .msg $nick $readini(translation.dat, system, HasNoItems) }
     if ($2 = dcc) { $dcc.private.message($nick, $readini(translation.dat, system, HasNoItems)) }
   }    
-  unset %items.list | unset %gems.items.list | unset %summons.items.list | unset %keys.items.list | unset %misc.items.list | unset %statplus.items.list | unset %portals.items.list
+  unset %items.list | unset %gems.items.list | unset %summons.items.list | unset %keys.items.list | unset %misc.items.list | unset %statplus.items.list | unset %portals.items.list | unset %misc.items.list2
 }
 
 on 3:TEXT:!accessories*:#:{ 
@@ -750,8 +862,9 @@ ON 50:TEXT:*equips *:*:{
   if ($is_charmed($1) = true) { $set_chr_name($1) | query %battlechan $readini(translation.dat, status, CurrentlyCharmed) | halt }
   if ($is_confused($1) = true) { $set_chr_name($1) | query %battlechan $readini(translation.dat, status, CurrentlyConfused) | halt }
   var %player.weapon.check $readini($char($1), weapons, $3)
-  if (%player.weapon.check >= 1) {   writeini $char($1) weapons equipped $3 | $set_chr_name($1) | query %battlechan $readini(translation.dat, system, EquipWeaponGM)  }
-  else { $set_chr_name($1) | query %battlechan $readini(translation.dat, errors, DoNotHaveWeapon) | halt }
+
+  if (%player.weapon.check >= 1) {   writeini $char($1) weapons equipped $3 | $set_chr_name($1) | $display.system.message($readini(translation.dat, system, EquipWeaponGM), battle)  }
+  else { $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, DoNotHaveWeapon) , private) | halt }
 } 
 
 on 3:TEXT:!equip *:*: { 
@@ -764,8 +877,32 @@ on 3:TEXT:!equip *:*: {
 
   var %player.weapon.check $readini($char($nick), weapons, $2)
   if (%player.weapon.check >= 1) {   writeini $char($nick) weapons equipped $2 | $set_chr_name($nick) | query %battlechan $readini(translation.dat, system, EquipWeaponPlayer) }
-  else { $set_chr_name($nick) | query %battlechan $readini(translation.dat, errors, DoNotHaveWeapon) | halt }
+  else { $set_chr_name($nick) | $display.system.message($readini(translation.dat, errors, DoNotHaveWeapon) , private) }
+
+  $shadowclone.changeweapon($nick, $2)
 }
+
+alias shadowclone.changeweapon {
+  var %cloneowner $readini($char($1 $+ _clone), info, cloneowner)
+
+  if (%cloneowner = $null) { return }
+
+  if ($readini($char($1 $+ _clone), battle, hp) = 0) { return }
+
+  var %current.weapon $readini($char($1 $+ _clone), weapons, equipped)
+  var %new.weapon $readini($char(%cloneowner), weapons, equipped)
+
+
+  if (%new.weapon = %current.weapon) { return }
+
+  $set_chr_name($1 $+ _clone)
+  if ($is_charmed($1 $+ _clone) = true) {  $display.system.message($readini(translation.dat, status, CurrentlyCharmed), battle) | halt }
+  if ($is_confused($ $+ _clone) = true) { $display.system.message($readini(translation.dat, status, CurrentlyConfused), battle) | halt }
+  if ($readini($char($1 $+ _clone), status, weapon.lock) != $null) { $display.system.message($readini(translation.dat, status, CurrentlyWeaponLocked), battle) | halt }
+  writeini $char($1 $+ _clone) weapons equipped %new.weapon | $display.system.message($readini(translation.dat, system, EquipWeaponPlayer), battle) | halt 
+}
+
+
 
 on 3:TEXT:!unequip *:*: { 
   if ($2 = accessory) { $remove.accessory($nick, $3) }
@@ -922,6 +1059,8 @@ on 50:TEXT:!take *:*:{
   }
 }
 
+on 1:TEXT:!dragonballs*:*: { $db.display($nick) }
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; TAUNT COMMAND
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1046,6 +1185,17 @@ alias gives.command {
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; SCOREBOARD COMMANDS
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+on 50:TEXT:!toggle scoreboard type*:*:{   
+  if ($readini(system.dat, system, ScoreBoardType) = 1) { 
+    writeini system.dat system ScoreBoardType 2 | var %scoreboard.type 2
+    $display.system.message($readini(translation.dat, system, ScoreBoardTypeToggle), global)
+  }
+  else {
+    writeini system.dat system ScoreBoardType 1 | var %scoreboard.type 1
+    $display.system.message($readini(translation.dat, system, ScoreBoardTypeToggle), global)
+  }
+}
+
 on 3:TEXT:!scoreboard:*: {
   if (%battleis != on) { $generate.scoreboard }
   else { $display.system.message($readini(translation.dat, errors, ScoreBoardNotDuringBattle), private) | halt }
@@ -1067,8 +1217,8 @@ on 3:TEXT:!score*:*: {
 
 on 3:TEXT:!deathboard*:*: {
   if (%battleis != on) { 
-    if ((($2 = monster) || ($2 = mon) || ($2 = monsters))) { $generate.monsterdeathboard }
-    if (($2 = boss) || ($2 = bosses)) { $generate.bossdeathboard } 
+    if ((($2 = monster) || ($2 = mon) || ($2 = monsters))) { $generate.monsterdeathboard($3) }
+    if (($2 = boss) || ($2 = bosses)) { $generate.bossdeathboard($3) } 
     if ($2 = $null) { $display.system.message(4!deathboard <monster/boss>, private) | halt }
   }
   else { $display.system.message($readini(translation.dat, errors, DeathBoardNotDuringBattle), private) | halt }
@@ -1096,6 +1246,54 @@ on 3:TEXT:!save difficulty*:*:{   $set_chr_name($nick) | $checkchar($nick)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; AUGMENT CMNDS
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+on 3:TEXT:!reforge*:#:{ $reforge.weapon($nick, $2) }
+
+alias reforge.weapon {
+  ; $1 = user
+  ; $2 = weapon
+
+  ; does the player own that weapon?
+  var %player.weapon.check $readini($char($1), weapons, $2)
+
+  if ((%player.weapon.check < 1) || (%player.weapon.check = $null)) {  $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, DoNotHaveWeapon), private) | halt }
+
+  ; does the player have enough black orbs to reforge it?
+  var %reforge.cost $round($calc(2 * ($readini(weapons.db, $2, cost))),0)
+  var %player.blackorbs $readini($char($1), stuff, BlackOrbs)
+  if (%player.blackorbs < %reforge.cost) { $display.system.message($readini(translation.dat, errors, NotEnoughBlackOrbs), private) | halt }
+
+  ; Can we actually reforge this weapon?
+  if ((%reforge.cost <= 0) || ($2 = fists)) { $display.system.message($readini(translation.dat, errors, Can'tReforgeThatWeapon), private) | halt }
+
+  ; Does the player have enough RepairHammers?
+  set %check.item $readini($char($1), Item_Amount, RepairHammer) 
+  if ((%check.item <= 0) || (%check.item = $null)) { $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, DoesNotHaveEnoughHammers), private) | halt }
+
+  ; Augment the weapon
+  set %total.augments $lines(augments.lst)
+  set %random.augment $rand(1, %total.augments)
+  set %augment.name $read -l $+ %random.augment augments.lst
+  writeini $char($1) augments $2 %augment.name
+
+  $set_chr_name($1) | $display.system.message($readini(translation.dat, system, WeaponReforged), global)
+
+  var %number.of.augments $readini($char($1), stuff, WeaponsReforged)
+  if (%number.of.augments = $null) { var %number.of.augments 0 }
+  inc %number.of.augments 1
+  writeini $char($1) stuff WeaponsReforged %number.of.augments
+  $achievement_check($1, HiHoHiHo)
+
+  unset %augment.name | unset %total.augments | unset %random.augment
+
+  ; Decrease the number of black orbs
+  dec %player.blackorbs %reforge.cost
+  writeini $char($1) stuff blackorbs %player.blackorbs
+  $inc.blackorbsspent($1, %reforge.cost)
+
+  ; Decrease the number of RepairHammers.
+  $decrease_item($1, RepairHammer) 
+}
 
 on 3:TEXT:!runes*:#:{ 
   if ($2 != $null) { $checkchar($2)

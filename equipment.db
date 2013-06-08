@@ -106,6 +106,127 @@ Augment=EnhanceCriticalHits
 EquipLocation=head
 cost=50
 
+[WarlockChapeau]
+Name=Warlock's Chapeau
+hp=40
+tp=50
+Str=20
+def=20
+int=40
+spd=20
+Augment=MagicBonus
+EquipLocation=Head
+cost=50
+
+[WarlockChapeau+1]
+Name=Warlock's Chapeau +1
+hp=50
+tp=60
+Str=30
+def=30
+int=50
+spd=30
+Augment=MagicBonus
+EquipLocation=Head
+cost=50
+
+[WarlockChapeau+2]
+Name=Warlock's Chapeau +2
+hp=60
+tp=70
+Str=40
+def=40
+int=60
+spd=40
+Augment=MagicBonus.EnhanceZen
+EquipLocation=Head
+cost=50
+
+[TwilightHelm]
+Name=Twilight Helmet
+hp=100
+tp=20
+Str=100
+def=100
+int=100
+spd=100
+Augment=AutoReraise
+EquipLocation=Head
+cost=50
+
+[UnkaiKabuto]
+Name=Unkai Kabuto
+hp=100
+tp=50
+Str=200
+def=160
+int=100
+spd=100
+Augment=EnhanceCounter
+EquipLocation=Head
+cost=50
+
+[UnkaiKabuto+1]
+Name=Unkai Kabuto +1
+hp=120
+tp=60
+Str=250
+def=200
+int=120
+spd=150
+Augment=EnhanceCounter
+EquipLocation=Head
+cost=50
+
+[UnkaiKabuto+2]
+Name=Unkai Kabuto +2
+hp=140
+tp=70
+Str=300
+def=240
+int=140
+spd=180
+Augment=EnhanceCounter.AdditionalHit.EnhanceCriticalHits
+EquipLocation=Head
+cost=50
+
+[EstoqueurChappel]
+Name=Estoqueur's Chappel
+hp=72
+tp=72
+Str=100
+def=100
+int=200
+spd=100
+Augment=MagicBonus
+EquipLocation=Head
+cost=50
+
+[EstoqueurChappel+1]
+Name=Estoqueur's Chappel +1
+hp=92
+tp=82
+Str=120
+def=120
+int=250
+spd=120
+Augment=MagicBonus
+EquipLocation=Head
+cost=50
+
+[EstoqueurChappel+2]
+Name=Estoqueur's Chappel +2
+hp=112
+tp=92
+Str=140
+def=140
+int=300
+spd=140
+Augment=MagicBonus.EnhanceMeditate.EnhanceZen
+EquipLocation=Head
+cost=50
+
+
 ========
 BODY
 ========
@@ -232,6 +353,138 @@ Augment=IgnoreDefense.EnhanceCriticalHits
 EquipLocation=body
 cost=50
 
+[TengokuMail]
+name=Tengoku Mail
+hp=200
+tp=200
+Str=200
+def=200
+int=200
+spd=200
+Augment=IgnoreDefense.EnhanceCriticalHits.EnhanceDefender.MagicBonus.EnhanceRanged.EnhanceDodge
+EquipLocation=body
+cost=50
+
+[WarlockTabard]
+Name=Warlock's Tabard
+hp=40
+tp=50
+Str=20
+def=20
+int=40
+spd=20
+Augment=EnhanceCriticalHits
+EquipLocation=Body
+cost=50
+
+[WarlockTabard+1]
+Name=Warlock's Tabard +1
+hp=50
+tp=60
+Str=30
+def=30
+int=50
+spd=30
+Augment=EnhanceCriticalHits
+EquipLocation=Body
+cost=50
+
+[WarlockTabard+2]
+Name=Warlock's Tabard +2
+hp=60
+tp=70
+Str=40
+def=40
+int=60
+spd=40
+Augment=EnhanceCriticalHits.EnhanceGlyph
+EquipLocation=Body
+cost=50
+
+[TwilightMail]
+Name=Twilight Mail
+hp=100
+tp=20
+Str=100
+def=100
+int=100
+spd=100
+Augment=AutoReraise
+EquipLocation=Body
+cost=50
+
+[UnkaiDomaru]
+Name=Unkai Domaru
+hp=250
+tp=20
+Str=200
+def=160
+int=100
+spd=100
+Augment=EnhanceDoubleTurnChance
+EquipLocation=Body
+cost=50
+
+[UnkaiDomaru+1]
+Name=Unkai Domaru +1
+hp=270
+tp=30
+Str=250
+def=200
+int=130
+spd=150
+Augment=EnhanceDoubleTurnChance
+EquipLocation=Body
+cost=50
+
+[UnkaiDomaru+2]
+Name=Unkai Domaru +2
+hp=290
+tp=40
+Str=300
+def=240
+int=140
+spd=180
+Augment=EnhanceDoubleTurnChance.EnhanceKatana.Drain
+EquipLocation=Body
+cost=50
+
+[EstoqueurSayon]
+Name=Estoqueur's Sayon
+hp=72
+tp=72
+Str=100
+def=100
+int=200
+spd=100
+Augment=EnhanceDoubleTurnChance
+EquipLocation=Body
+cost=50
+
+[EstoqueurSayon+1]
+Name=Estoqueur's Sayon +1
+hp=92
+tp=82
+Str=120
+def=120
+int=250
+spd=120
+Augment=EnhanceDoubleTurnChance
+EquipLocation=Body
+cost=50
+
+[EstoqueurSayon+2]
+Name=Estoqueur's Sayon +2
+hp=112
+tp=92
+Str=140
+def=140
+int=300
+spd=140
+Augment=EnhanceDoubleTurnChance.Drain.EnhanceGlyph
+EquipLocation=Body
+cost=50
+
 ========
 LEGS
 ========
@@ -285,6 +538,139 @@ EquipLocation=legs
 cost=50
 
 
+[Byakko'sHaidate]
+name=Byakko's Haidate
+hp=100
+tp=20
+Str=0
+def=10
+int=0
+spd=150
+Augment=EnhanceDodge
+EquipLocation=head
+cost=50
+
+[WarlockTights]
+Name=Warlock's Tights
+hp=40
+tp=50
+Str=20
+def=20
+int=40
+spd=20
+Augment=CuringBonus
+EquipLocation=Legs
+cost=50
+
+[WarlockTights+1]
+Name=Warlock's Tights +1
+hp=50
+tp=60
+Str=30
+def=30
+int=50
+spd=30
+Augment=CuringBonus
+EquipLocation=Legs
+cost=50
+
+[WarlockTights+2]
+Name=Warlock's Tights +2
+hp=60
+tp=70
+Str=40
+def=40
+int=60
+spd=40
+Augment=CuringBonus.EnhanceDagger
+EquipLocation=Legs
+cost=50
+
+[TwilightCuisses]
+Name=Twilight Cuisses
+hp=100
+tp=20
+Str=100
+def=100
+int=100
+spd=100
+Augment=AutoReraise
+EquipLocation=Legs
+cost=50
+
+[UnkaiHaidate]
+Name=Unkai Haidate
+hp=80
+tp=30
+Str=200
+def=160
+int=100
+spd=150
+Augment=EnhanceThirdEye
+EquipLocation=Legs
+cost=50
+
+[UnkaiHaidate+1]
+Name=Unkai Haidate +1
+hp=100
+tp=40
+Str=250
+def=200
+int=120
+spd=150
+Augment=EnhanceThirdEye
+EquipLocation=Legs
+cost=50
+
+[UnkaiHaidate+2]
+Name=Unkai Haidate +2
+hp=120
+tp=50
+Str=200
+def=240
+int=140
+spd=180
+Augment=EnhanceThirdEye.UtsusemiBonus.EnhanceHandToHand
+EquipLocation=Legs
+cost=50
+
+[EstoqueurFuseau]
+Name=Estoqueur's Fuseau
+hp=72
+tp=72
+Str=100
+def=100
+int=200
+spd=100
+Augment=CuringBonus
+EquipLocation=Legs
+cost=50
+
+[EstoqueurFuseau+1]
+Name=Estoqueur's Fuseau +1
+hp=92
+tp=82
+Str=120
+def=120
+int=250
+spd=120
+Augment=CuringBonus
+EquipLocation=Legs
+cost=50
+
+[EstoqueurFuseau+2]
+Name=Estoqueur's Fuseau +2
+hp=112
+tp=92
+Str=140
+def=140
+int=300
+spd=140
+Augment=CuringBonus.EnhanceDagger.EnhanceZen
+EquipLocation=Legs
+cost=50
+
+
 ========
 FEET
 ========
@@ -325,6 +711,7 @@ Augment=EnhanceDodge
 EquipLocation=feet
 cost=50
 
+
 [BloodSocks]
 name=Blood Socks
 hp=100
@@ -351,6 +738,137 @@ EquipLocation=feet
 cost=50
 
 
+[Suzaku'sSune-Ate]
+Name=Suzaku'sSune-Ate
+hp=100
+tp=20
+Str=50
+def=10
+int=100
+spd=0
+Augment=MagicBonus
+EquipLocation=feet
+cost=50
+
+[WarlockBoots]
+Name=Warlock's Boots
+hp=40
+tp=50
+Str=20
+def=20
+int=40
+spd=20
+Augment=EnhanceEnfeeble
+EquipLocation=Feet
+cost=50
+
+[WarlockBoots+1]
+Name=Warlock's Boots +1
+hp=50
+tp=60
+Str=30
+def=30
+int=50
+spd=30
+Augment=EnhanceEnfeeble
+EquipLocation=Feet
+cost=50
+
+[WarlockBoots+2]
+Name=Warlock's Boots
+hp=60
+tp=70
+Str=40
+def=40
+int=60
+spd=40
+Augment=EnhanceEnfeeble.EnhanceZen
+EquipLocation=Feet
+cost=50
+
+[TwilightSabatons]
+Name=Twilight Sabatons
+hp=100
+tp=20
+Str=100
+def=100
+int=100
+spd=100
+Augment=AutoReraise
+EquipLocation=Feet
+cost=50
+
+[UnkaiSune-Ate]
+Name=Unkai Sune-Ate
+hp=50
+tp=20
+Str=200
+def=160
+int=100
+spd=150
+Augment=RenkeiBonus
+EquipLocation=Feet
+cost=50
+
+[UnkaiSune-Ate+1]
+Name=Unkai Sune-Ate +1
+hp=70
+tp=30
+Str=250
+def=200
+int=120
+spd=150
+Augment=RenkeiBonus
+EquipLocation=Feet
+cost=50
+
+[UnkaiSune-Ate+2]
+Name=Unkai Sune-Ate +2
+hp=90
+tp=40
+Str=300
+def=240
+int=140
+spd=180
+Augment=RenkeiBonus.EnhanceDodge.TechBonus
+EquipLocation=Feet
+cost=50
+
+[EstoqueurHouseaux]
+Name=Estoqueur's Houseaux
+hp=72
+tp=72
+Str=100
+def=100
+int=200
+spd=100
+Augment=EnhanceEnfeeble
+EquipLocation=Feet
+cost=50
+
+[EstoqueurHouseaux+1]
+Name=Estoqueur's Houseaux +1
+hp=92
+tp=82
+Str=120
+def=120
+int=250
+spd=120
+Augment=EnhanceEnfeeble
+EquipLocation=Feet
+cost=50
+
+[EstoqueurHouseaux+2]
+Name=Estoqueur's Houseaux +2
+hp=112
+tp=92
+Str=140
+def=140
+int=300
+spd=140
+Augment=EnhanceEnfeeble.AbsorbIG.EnhanceZen
+EquipLocation=Feet
+cost=50
 
 ========
 HANDS
@@ -440,7 +958,139 @@ Augment=EnhanceWeaponBash
 EquipLocation=hands
 cost=50
 
-; Valkyrian Armor Set
+[Seiryu'sKote]
+name=Seiryu's Kote
+hp=100
+tp=20
+Str=100
+def=50
+int=0
+spd=0
+Augment=EnhanceRanged
+EquipLocation=hands
+cost=50
+
+[WarlockGloves]
+Name=Warlock's Gloves
+hp=40
+tp=50
+Str=20
+def=20
+int=40
+spd=20
+Augment=EnhanceParry
+EquipLocation=Hands
+cost=50
+
+[WarlockGloves+1]
+Name=Warlock's Gloves +1
+hp=50
+tp=60
+Str=30
+def=30
+int=50
+spd=30
+Augment=EnhanceParry
+EquipLocation=Hands
+cost=50
+
+[WarlockGloves+2]
+Name=Warlock's Gloves +2
+hp=60
+tp=70
+Str=40
+def=40
+int=60
+spd=40
+Augment=EnhanceParry.EnhanceSword
+EquipLocation=Hands
+cost=50
+
+[TwilightGauntlets]
+Name=Twilight Gauntlets
+hp=100
+tp=20
+Str=100
+def=100
+int=100
+spd=100
+Augment=AutoReraise
+EquipLocation=Hands
+cost=50
+
+[UnkaiKote]
+Name=Unkai Kote
+hp=20
+tp=10
+Str=200
+def=160
+int=100
+spd=100
+Augment=TechBonus
+EquipLocation=Hands
+cost=50
+
+[UnkaiKote+1]
+Name=Unkai Kote +1
+hp=40
+tp=20
+Str=250
+def=200
+int=120
+spd=150
+Augment=TechBonus
+EquipLocation=Hands
+cost=50
+
+[UnkaiKote+2]
+Name=Unkai Kote +2
+hp=60
+tp=30
+Str=300
+def=240
+int=140
+spd=180
+Augment=TechBonus.MeleeBonus.EnhanceParry
+EquipLocation=Hands
+cost=50
+
+
+[EstoqueurGantherots]
+Name=Estoqueur's Gantherots
+hp=72
+tp=72
+Str=100
+def=100
+int=200
+spd=100
+Augment=EnhanceParry
+EquipLocation=Hands
+cost=50
+
+
+[EstoqueurGanthrots+1]
+Name=Estoqueur's Gantherots +1
+hp=92
+tp=82
+Str=120
+def=120
+int=250
+spd=120
+Augment=EnhanceParry
+EquipLocation=Hands
+cost=50
+
+[EstoqueurGanthrots+2]
+Name=Estoqueur's Gantherots +2
+hp=112
+tp=92
+Str=140
+def=140
+int=300
+spd=140
+Augment=EnhanceParry.AbsorbTP.EnhanceSword
+EquipLocation=Hands
+cost=50
 
 [ValkyrianArmor]
 	Name=Valkyrian Armor
@@ -452,7 +1102,7 @@ cost=50
 	SPD=20
 	Augment=MeleeBonus.RenkeiBonus.EnhanceItems.EnhanceCriticalHits
 	EquipLocation=Body
-	cost=9999999
+	cost=999999
 [ValkyrianShoes]
 	Name=Valkyrian Shoes
 	HP=if ( ($readini($char($1), stats, str) < ($readini($char($1), stats, int) ) { $round($calc(5 * ($get.level($1)),0) } else { 0 }
@@ -463,7 +1113,7 @@ cost=50
 	spd=0
 	Augment=EnhanceDoubleTurnChance
 	EquipLocation=feet
-	cost=9999999
+	cost=999999
 [ValkyrianGloves]
 	Name=Valkyrian Gloves
 	HP=0	
@@ -474,7 +1124,7 @@ cost=50
 	SPD=0
 	Augment=if( ($readini($char($1), stats, str) > ($readini($char($1), stats, int) ) { EnhanceDodge } else { EnhanceParry }
 	EquipLocation=Hands
-	cost=9999999
+	cost=999999
 [ValkyrieHelm]
 	Name=Valkyrie Helm
 	HP=0
@@ -485,8 +1135,7 @@ cost=50
 	SPD=if ($readini($char($1), equipment, feet) == ValkyrianShoes && $readini($char($1), equipment, hands) == ValkyrianGloves && $readini($char($1), equipment, body) == ValkyrianArmor && $readini($char($1), equipment, head) == ValkyrieHelm ) { 60 } else { 0 }
 	Augment=EnhanceZen.AdditionalHit
 	equiplocation=head
-	cost=9999999
-
+	cost=999999
 
 =============================
 Monster only armor!

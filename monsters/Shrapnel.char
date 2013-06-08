@@ -51,7 +51,7 @@ BattleStats=ignoreHP
 Streak=30
 
 [Monster]
-Type=
+Type=bomb
 
 [Status]
 Poison=no

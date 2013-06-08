@@ -51,7 +51,7 @@ Streak=150
 StreakMax=301
 
 [Monster]
-Type=Undead
+Type=demon
 
 [Status]
 Poison=no

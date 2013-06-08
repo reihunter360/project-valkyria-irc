@@ -45,7 +45,7 @@ ai_type=berserker
 Streak=401
 
 [Monster]
-Type=
+Type=unicorn
 
 [Status]
 Poison=no

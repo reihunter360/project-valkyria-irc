@@ -50,6 +50,9 @@ LastIP=N/a
 Created=N/a
 StreakMax=30
 
+[monster]
+type=bee
+
 [Status]
 Poison=no
 HeavyPoison=no

@@ -38,7 +38,7 @@ Drops=MyochinHaidate.MyochinDomaru.KindredSeal
 bosslevel=450
 
 [Monster]
-Type=
+Type=Demon
 
 [Info]
 Flag=monster

@@ -67,7 +67,7 @@ StreakMax=4
 ; SpawnAfterDeath=nameofmonster
 
 [Monster]
-Type=
+Type=rabbit
 
 [Status]
 Poison=no

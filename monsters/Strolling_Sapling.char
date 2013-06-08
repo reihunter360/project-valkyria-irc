@@ -45,7 +45,7 @@ Streak=13
 StreakMax=41
 
 [Monster]
-Type=
+Type=sapling
 
 [Status]
 Poison=no

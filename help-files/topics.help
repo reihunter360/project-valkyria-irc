@@ -1,5 +1,5 @@
 [HELP]
-list=<Intro> <Registering> <Goal> <!ID> <!newpass> <Descriptions> <!setgender> <Health> <TP> <Orbs> <Shop> <!view-info>
+list=<Intro> <Registering> <Goal> <Conquest> <!ID> <!newpass> <Descriptions> <!setgender> <Health> <TP> <Orbs> <Shop> <!view-info>
 list2=<Skills> <Attacking> <Techs> <Boosts> <Ignitions> <StatusEffects> <FinalGetsuga> <Styles> <Accessories> <Chests> <Give>
 list3=
 

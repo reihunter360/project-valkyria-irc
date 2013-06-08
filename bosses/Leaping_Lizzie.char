@@ -26,7 +26,7 @@ RageCountDown=0
 [Descriptions]
 Char=is a large, bipedal lizard that stands at about four feet in height. It has thick, black skin and a large skull, which it uses to stun its foes.
 Rage=screams in rage 
-Quote=...
+BossQuote=...
 
 [Stuff]
 RedOrbs=0
@@ -46,7 +46,7 @@ Created=N/a
 Streak=130
 
 [Monster]
-Type=
+Type=Lizzard
 
 [Status]
 Poison=no

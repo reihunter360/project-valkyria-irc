@@ -38,6 +38,9 @@ RedOrbs=0
 BlackOrbs=1
 ShopLevel=1.0
 
+[monster]
+type=pugil
+
 [Info]
 Flag=monster
 Gender=its

@@ -45,7 +45,7 @@ CanFlee=true
 Streak=212
 
 [Monster]
-Type=
+Type=slime
 
 [Status]
 Poison=no

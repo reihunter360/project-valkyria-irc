@@ -1,7 +1,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; SKILLS 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-ON 50:TEXT:*does *:*:{ 
+ON 50:TEXT:*does *:*:{ $use.skill($1, $2, $3, $4) }
+
+alias use.skill { 
+  ; $1 = user
+  ; $2 = does
+  ; $3 = skill name
+  ; $4 = target, if necessary
+
   if ($3 = elementalseal) { $skill.elementalseal($1) }
   if ($3 = mightystrike) { $skill.mightystrike($1) }
   if ($3 = manawall) { $skill.manawall($1) } 
@@ -13,6 +20,7 @@ ON 50:TEXT:*does *:*:{
   if ($3 = meditate) { $skill.meditate($1) }
   if ($3 = conserveTP) { $skill.conserveTP($1) } 
   if ($3 = bloodboost) { $skill.bloodboost($1) } 
+  if ($3 = bloodspirit) { $skill.bloodspirit($1) } 
   if ($3 = drainsamba) { $skill.drainsamba($1) } 
   if (($3 = regen) && ($4 = $null)) { $skill.regen($1) } 
   if (($3 = regen) && ($4 = stop)) { $skill.regen.stop($1) } 
@@ -53,7 +61,7 @@ ON 50:TEXT:*does *:*:{
 ;=================
 on 3:TEXT:!speed*:*: { $skill.speedup($nick) }
 
-alias skill.speedup {
+alias skill.speedup { $set_chr_name($1)
   if ($is_charmed($1) = true) { $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
   if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused),private) | halt }
   if (no-skill isin %battleconditions) { $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition),private) | halt }
@@ -92,7 +100,7 @@ alias skill.speedup {
 on 3:TEXT:!elemental seal*:*: { $skill.elementalseal($nick) }
 on 3:TEXT:!elementalseal*:*: { $skill.elementalseal($nick) }
 
-alias skill.elementalseal {
+alias skill.elementalseal { $set_chr_name($1)
   if ($is_charmed($1) = true) { $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
   if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused),private) | halt }
   if (no-skill isin %battleconditions) { $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition),private) | halt }
@@ -136,7 +144,7 @@ alias skill.elementalseal {
 on 3:TEXT:!mighty strike*:*: { $skill.mightystrike($nick) }
 on 3:TEXT:!mightystrike*:*: { $skill.mightystrike($nick) }
 
-alias skill.mightystrike {
+alias skill.mightystrike { $set_chr_name($1)
   if ($is_charmed($1) = true) { $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
   if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused),private) | halt }
   if (no-skill isin %battleconditions) { $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition),private) | halt }
@@ -181,7 +189,7 @@ alias skill.mightystrike {
 on 3:TEXT:!mana wall*:*: { $skill.manawall($nick) }
 on 3:TEXT:!manawall*:*: { $skill.manawall($nick) }
 
-alias skill.manawall {
+alias skill.manawall { $set_chr_name($1)
   if ($is_charmed($1) = true) { $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
   if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused),private) | halt }
   if (no-skill isin %battleconditions) { $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition),private) | halt }
@@ -225,7 +233,7 @@ alias skill.manawall {
 on 3:TEXT:!royal guard*:*: { $skill.royalguard($nick) }
 on 3:TEXT:!royalguard*:*: { $skill.royalguard($nick) }
 
-alias skill.royalguard {
+alias skill.royalguard { $set_chr_name($1)
   if ($is_charmed($1) = true) { $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
   if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused),private) | halt }
   if (no-skill isin %battleconditions) { $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition),private) | halt }
@@ -268,7 +276,7 @@ alias skill.royalguard {
 ;=================
 on 3:TEXT:!utsusemi*:*: { $skill.utsusemi($nick) }
 
-alias skill.utsusemi {
+alias skill.utsusemi { $set_chr_name($1)
   if ($is_charmed($1) = true) { $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
   if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused),private) | halt }
   if (no-skill isin %battleconditions) { $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition),private) | halt }
@@ -323,7 +331,7 @@ alias skill.utsusemi {
 ;=================
 on 3:TEXT:!fullbring*:*: { $skill.fullbring($nick, $2) }
 
-alias skill.fullbring {
+alias skill.fullbring { $set_chr_name($1)
   if ($is_charmed($1) = true) { $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
   if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused),private) | halt }
   if ((no-skill isin %battleconditions) || (no-items isin %battleconditions)) { $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition),private) | halt }
@@ -664,7 +672,7 @@ on 3:TEXT:!double turn*:*: { $skill.doubleturn($nick) }
 on 3:TEXT:!doubleturn*:*: { $skill.doubleturn($nick) }
 on 3:TEXT:!sugitekai*:*: { $skill.doubleturn($nick) }
 
-alias skill.doubleturn {
+alias skill.doubleturn { $set_chr_name($1)
   if ($is_charmed($1) = true) { $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
   if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused),private) | halt }
   if (no-skill isin %battleconditions) { $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition),private) | halt }
@@ -707,7 +715,7 @@ alias skill.doubleturn {
 ;=================
 on 3:TEXT:!meditate*:*: { $skill.meditate($nick) }
 
-alias skill.meditate {
+alias skill.meditate { $set_chr_name($1)
   if ($is_charmed($1) = true) { $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
   if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused),private) | halt }
   if (no-skill isin %battleconditions) { $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition),private) | halt }
@@ -765,7 +773,7 @@ alias skill.meditate {
 on 3:TEXT:!conserve TP*:*: { $skill.conserveTP($nick) }
 on 3:TEXT:!conserveTP*:*: { $skill.conserveTP($nick) }
 
-alias skill.conserveTP {
+alias skill.conserveTP { $set_chr_name($1)
   if ($is_charmed($1) = true) { $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
   if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused),private) | halt }
   if (no-skill isin %battleconditions) { $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition),private) | halt }
@@ -810,7 +818,7 @@ alias skill.conserveTP {
 on 3:TEXT:!bloodboost*:*: { $skill.bloodboost($nick) }
 on 3:TEXT:!blood boost*:*: { $skill.bloodboost($nick) }
 
-alias skill.bloodboost {
+alias skill.bloodboost { $set_chr_name($1)
   if ($is_charmed($1) = true) { $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
   if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused),private) | halt }
   if (no-skill isin %battleconditions) { $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition),private) | halt }
@@ -880,12 +888,87 @@ alias skill.bloodboost {
 }
 
 ;=================
+; BLOOD SPIRIT
+;=================
+on 3:TEXT:!bloodspirit*:*: { $skill.bloodspirit($nick) }
+on 3:TEXT:!blood spirit*:*: { $skill.bloodspirit($nick) }
+
+alias skill.bloodspirit { $set_chr_name($1)
+  if ($is_charmed($1) = true) { $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
+  if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused),private) | halt }
+  if (no-skill isin %battleconditions) { $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition),private) | halt }
+  $amnesia.check($1, skill) 
+
+  $checkchar($1)
+  if ($skillhave.check($1, bloodspirit) = false) { $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, DoNotHaveSkill), private)  | halt }
+  if (%battleis = off) { $display.system.message(There is no battle currently!, private) | halt }
+  $check_for_battle($1)
+
+  if ($readini($char($1), info, flag) = $null) { 
+    var %hp.needed 100 | var %hp.current $readini($char($1), battle, hp)
+    if (%hp.needed > %hp.current) { $display.system.message(4Error: %real.name does not have enough HP to use this skill!, private) | halt }
+  }
+
+  ; Check to see if enough time has elapsed
+  var %last.used $readini($char($1), skills, bloodspirit.time)
+  var %current.time $ctime
+  var %time.difference $calc(%current.time - %last.used)
+
+  if ((%time.difference = $null) || (%time.difference > $readini(skills.db, BloodSpirit, cooldown))) {
+
+    ; Display the desc. 
+    if ($readini($char($1), descriptions, bloodspirit) = $null) { set %skill.description sacrifices some of $gender($1) blood for raw intelligence.  }
+    else { set %skill.description $readini($char($1), descriptions, bloodspirit) }
+    $set_chr_name($1) | $display.system.message(12 $+ %real.name  $+ %skill.description, battle) 
+
+    ; write the last used time.
+    writeini $char($1) skills bloodspirit.time $ctime
+
+    if ($readini($char($1), info, flag) = $null) { 
+      ; Dec the HP
+      dec %hp.current %hp.needed
+      writeini $char($1) battle hp %hp.current
+    }
+
+    ; get INT
+    var %int.current $readini($char($1), battle, int)
+
+    ; Find out the increase amount. Bloodmoon increases the amount by a random amount.
+    var %int.increase $calc(2 * $readini($char($1), skills, bloodspirit))
+    if (%bloodmoon = on) { inc %int.increase $rand(2,5) }
+
+    if ($augment.check($1, EnhanceBloodSpirit) = true) {
+      inc %int.increase $calc(10 + %augment.strength)
+    }
+
+    ; increase the int
+    inc %int.current %int.increase
+
+    $display.system.message(3 $+ %real.name has gained %int.increase INT!, battle)  |   writeini $char($1) battle int %int.current
+
+    writeini battle2.txt style $1 $+ .lastaction bloodspirit
+
+    var %total.BloodSpirit $readini($char($1), stuff, BloodSpiritTimes) 
+    if (%total.BloodSpirit = $null) { var %total.BloodSpirit 0 }
+    inc %total.BloodSpirit 1 
+    writeini $char($1) stuff BloodSpiritTimes %total.BloodSpirit
+    $achievement_check($1, BloodGoneToHead)
+
+    ; Time to go to the next turn
+    if (%battleis = on)  { $check_for_double_turn($1) }
+  }
+
+  else { $set_chr_name($1) | $display.system.message($readini(translation.dat, skill, UnableToUseskillAgainSoSoon),private) | $display.private.message(3You still have $calc($readini(skills.db, BloodBoost, cooldown) - %time.difference) seconds before you can use !bloodboost again) | halt }
+}
+
+
+;=================
 ; DRAIN SAMBA
 ;=================
 on 3:TEXT:!drainsamba*:*: { $skill.drainsamba($nick) }
 on 3:TEXT:!drain samba*:*: { $skill.drainsamba($nick) }
 
-alias skill.drainsamba {
+alias skill.drainsamba { $set_chr_name($1)
   if ($is_charmed($1) = true) { $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
   if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused),private) | halt }
   if (no-skill isin %battleconditions) { $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition),private) | halt }
@@ -943,7 +1026,7 @@ on 3:TEXT:!regen*:* { $skill.regen($nick) }
 on 3:TEXT:!regeneration*:* { $skill.regen($nick) }
 on 3:TEXT:!stop regen*:*:{ $skill.regen.stop($nick) } 
 
-alias skill.regen {
+alias skill.regen { $set_chr_name($1)
   if ($is_charmed($1) = true) { $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
   if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused),private) | halt }
 
@@ -1053,7 +1136,7 @@ alias skill.regen.stop {
 ;=================
 on 3:TEXT:!kikouheni*:*: { $skill.kikouheni($nick, $2) }
 
-alias skill.kikouheni {
+alias skill.kikouheni { $set_chr_name($1)
   if ($is_charmed($1) = true) { $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
   if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused),private) | halt }
   if (no-skill isin %battleconditions) { $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition),private) | halt }
@@ -1102,7 +1185,7 @@ on 3:TEXT:!clone*:*: { $skill.clone($nick) }
 on 3:TEXT:!shadowcopy*:*: { $skill.clone($nick) }
 on 3:TEXT:!shadow copy*:*: { $skill.clone($nick) }
 
-alias skill.clone {
+alias skill.clone { $set_chr_name($1)
   if ($is_charmed($1) = true) { $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
   if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused),private) | halt }
   if (no-skill isin %battleconditions) { $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition),private) | halt }
@@ -1113,7 +1196,7 @@ alias skill.clone {
   if (%battleis = off) { $display.system.message(There is no battle currently!, private) | halt }
   $check_for_battle($1)
 
-  if ($isfile($char($nick $+ _clone)) = $true) { $set_chr_name($1) | $display.system.message(4Error: %real.name has already used this skill for this battle and cannot use it again!, private) | halt }
+  if ($isfile($char($1 $+ _clone)) = $true) { $set_chr_name($1) | $display.system.message(4Error: %real.name has already used this skill for this battle and cannot use it again!, private) | halt }
 
   ; Display the desc. 
   if ($readini($char($1), descriptions, shadowcopy) = $null) { set %skill.description releases $gender($1) shadow, which comes to life as a clone, ready to fight. }
@@ -1123,6 +1206,7 @@ alias skill.clone {
   .copy $char($1) $char($1 $+ _clone)
   if ($readini($char($1), info, flag) = $null) { writeini $char($1 $+ _clone) info flag npc }
   writeini $char($1 $+ _clone) info clone yes 
+  writeini $char($1 $+ _clone) info cloneowner $1
 
 
   if ($2 = $null) {  writeini $char($1 $+ _clone) basestats name Clone of %real.name }
@@ -1161,6 +1245,13 @@ alias skill.clone {
   if (%hp <= 1) { set %hp 1 }
 
   if ($readini($char($1 $+ _clone), status, ignition.on) = on) { $revert($1 $+ _clone, $readini($char($1 $+ _clone), status, ignition.name)) }
+  if ($readini($char($1 $+ _clone), styles, equipped) = doppelganger) { 
+    var %style.chance $rand(1,3)
+    if (%style.chance = 1) { writeini $char($1 $+ _clone) styles equipped trickster }
+    if (%style.chance = 2) { writeini $char($1 $+ _clone) styles equipped guardian }
+    if (%style.chance = 3) { writeini $char($1 $+ _clone) styles equipped weaponmaster }
+  }
+
 
   unset %current.playerstyle | unset %current.playerstyle.level
 
@@ -1176,13 +1267,41 @@ alias skill.clone {
   ; Time to go to the next turn
   if (%battleis = on)  { $check_for_double_turn($1) }
 }
+;=================
+; SHADOW CONTROL
+;=================
+on 3:TEXT:!shadow *:*: { $skill.clonecontrol($nick, $2, $3, $4) }
+
+alias skill.clonecontrol {
+  ; $1 = the user of the command
+  ; $2 = the command issued
+  ; $3 = either the target or the tech/skill to use.
+  ; $4 = the target if $3 = tech or skill
+
+  if ($isfile($char($1 $+ _clone)) != $true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, NoCloneToControl), private) | halt }
+
+  $check_for_battle($1 $+ _clone)
+
+  var %cloneowner $readini($char($1 $+ _clone), info, cloneowner)
+  var %style.equipped $readini($char(%cloneowner), styles, equipped)
+
+  if (%style.equipped != doppelganger) { $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, MustUseDoppelgangerStyleToControl), private) | halt }
+
+  var %shadow.command $2 | $set_chr_name($1 $+ _clone)
+
+  if (%shadow.command = taunt) {  $taunt($1 $+ _clone, $3) }
+  if (%shadow.command = attack) { set %attack.target $3 | $covercheck($3) |  $attack_cmd($1 $+ _clone , %attack.target) }
+  if (%shadow.command = tech) { set %attack.target $4 | $covercheck($4) |  $tech_cmd($1 $+ _clone, $3, %attack.target) }
+  if (%shadow.command = skill) { $use.skill($1 $+ _clone, $2, $3, $4) } 
+
+}
 
 ;=================
 ; STEAL
 ;=================
 on 3:TEXT:!steal*:*: { $skill.steal($nick, $2, !steal) }
 
-alias skill.steal {
+alias skill.steal { $set_chr_name($1)
   if ($is_charmed($1) = true) { $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
   if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused),private) | halt }
   if (no-skill isin %battleconditions) { $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition),private) | halt }
@@ -1305,7 +1424,7 @@ alias skill.steal {
 on 3:TEXT:!analyze*:*: { $skill.analysis($nick, $2) }
 on 3:TEXT:!analysis*:*: { $skill.analysis($nick, $2) }
 
-alias skill.analysis {
+alias skill.analysis { $set_chr_name($1)
   if ($is_charmed($1) = true) { $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
   if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused),private) | halt }
   if (no-skill isin %battleconditions) { $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition),private) | halt }
@@ -1457,7 +1576,7 @@ alias skill.analysis {
 ;=================
 on 3:TEXT:!quicksilver*:*: { $skill.quicksilver($nick) }
 
-alias skill.quicksilver {
+alias skill.quicksilver { $set_chr_name($1)
   if ($is_charmed($1) = true) { $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
   if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused),private) | halt }
   if (no-skill isin %battleconditions) { $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition),private) | halt }
@@ -1500,7 +1619,7 @@ alias skill.quicksilver {
 ;=================
 on 3:TEXT:!cover*:*: { $skill.cover($nick, $2) }
 
-alias skill.cover {
+alias skill.cover { $set_chr_name($1)
   if ($is_charmed($1) = true) { $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
   if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused),private) | halt }
   if (no-skill isin %battleconditions) { $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition),private) | halt }
@@ -1560,7 +1679,7 @@ alias skill.cover {
 ;=================
 on 3:TEXT:!snatch*:*: { $skill.snatch($nick, $2) }
 
-alias skill.snatch {
+alias skill.snatch { $set_chr_name($1)
   if ($is_charmed($1) = true) { $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
   if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused),private) | halt }
   if (no-skill isin %battleconditions) { $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition),private) | halt }
@@ -1647,7 +1766,7 @@ alias do.snatch {
 ;=================
 on 3:TEXT:!aggressor*:*: { $skill.aggressor($nick) }
 
-alias skill.aggressor {
+alias skill.aggressor { $set_chr_name($1)
   if ($is_charmed($1) = true) { $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
   if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused),private) | halt }
   if (no-skill isin %battleconditions) { $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition),private) | halt }
@@ -1691,7 +1810,7 @@ alias skill.aggressor {
 ;=================
 on 3:TEXT:!defender*:*: { $skill.defender($nick) }
 
-alias skill.defender {
+alias skill.defender { $set_chr_name($1)
   if ($is_charmed($1) = true) { $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
   if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused),private) | halt }
   if (no-skill isin %battleconditions) { $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition),private) | halt }
@@ -1739,7 +1858,7 @@ alias skill.defender {
 on 3:TEXT:!alchemy*:*: { $skill.alchemy($nick, $2) }
 on 3:TEXT:!craft*:*: { $skill.alchemy($nick, $2) }
 
-alias skill.alchemy {
+alias skill.alchemy { 
   ; $1 = person crafting
   ; $2 = the item you're trying to craft.
   $set_chr_name($1)
@@ -1763,6 +1882,9 @@ alias skill.alchemy {
     set %item.name $gettok(%ingredients, %value, 46)
     set %item_amount $readini($char($1), item_amount, %item.name)
     set %item_type $readini(items.db, %item.name, type)
+    set %amount.needed $readini(crafting.db, $2, %item.name)
+    if (%amount.needed = $null) { set %amount.needed 1 }
+
 
     if (%item_type = accessory) { 
       var %equipped.accessory $readini($char($1), equipment, accessory) 
@@ -1792,7 +1914,7 @@ alias skill.alchemy {
       }
     }
 
-    if ((%item_amount != $null) && (%item_amount >= 1)) { 
+    if ((%item_amount != $null) && (%item_amount >= %amount.needed)) { 
       inc %player.ingredients 1
     }
     inc %value 1 
@@ -1826,13 +1948,16 @@ alias skill.alchemy {
   while (%value <= %total.ingredients) {
     set %item.name $gettok(%ingredients, %value, 46)
     set %item_amount $readini($char($1), item_amount, %item.name)
-    dec %item_amount 1 | writeini $char($1) item_amount %item.name %item_amount
+    set %amount.needed $readini(crafting.db, $2, %item.name)
+
+    if (%amount.needed = $null) { set %amount.needed 1 }
+    dec %item_amount %amount.needed | writeini $char($1) item_amount %item.name %item_amount
     inc %value 1 
   }
 
   dec %player.gem.amount 1 | writeini $char($1) item_amount %gem.required %player.gem.amount
 
-  unset %gem.required | unset %player.gem.amount | unset %item.name | unset %item_amount | unset %base.success | unset %item_type
+  unset %gem.required | unset %player.gem.amount | unset %item.name | unset %item_amount | unset %base.success | unset %item_type | unset %amount.needed
 }
 
 ;=================
@@ -1841,7 +1966,7 @@ alias skill.alchemy {
 on 3:TEXT:!holy aura*:*: { $skill.holyaura($nick) }
 on 3:TEXT:!holyaura*:*: { $skill.holyaura($nick) }
 
-alias skill.holyaura {
+alias skill.holyaura { $set_chr_name($1)
   if ($is_charmed($1) = true) { $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
   if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused),private) | halt }
   if (no-skill isin %battleconditions) { $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition),private) | halt }
@@ -2150,7 +2275,7 @@ alias skill.monstersummon {
 ;=================
 on 3:TEXT:!provoke*:*: { $skill.provoke($nick, $2) }
 
-alias skill.provoke {
+alias skill.provoke { $set_chr_name($1)
   if ($is_charmed($1) = true) { $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
   if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused),private) | halt }
   if (no-skill isin %battleconditions) { $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition),private) | halt }
@@ -2204,10 +2329,11 @@ alias skill.provoke {
 on 3:TEXT:!weaponlock*:*: { $skill.weaponlock($nick, $2) }
 on 3:TEXT:!weapon lock*:*: { $skill.weaponlock($nick, $3) }
 
-alias skill.weaponlock {
+alias skill.weaponlock { $set_chr_name($1)
   if ($is_charmed($1) = true) { $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
   if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused),private) | halt }
   if (no-skill isin %battleconditions) { $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition),private) | halt }
+  if ($readini($char($1), info, clone) = yes) { $display.system.message($readini(translation.dat, errors, ShadowClonesCan'tUseSkill,private) | halt }
   $amnesia.check($1, skill) 
   $checkchar($2)
   if ($skillhave.check($1, weaponlock) = false) { $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, DoNotHaveSkill),private) | halt }
@@ -2283,7 +2409,7 @@ alias skill.weaponlock {
 ;=================
 on 3:TEXT:!disarm*:*: { $skill.disarm($nick, $2) }
 
-alias skill.disarm {
+alias skill.disarm { $set_chr_name($1)
   if ($is_charmed($1) = true) { $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
   if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused),private) | halt }
   if (no-skill isin %battleconditions) { $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition),private) | halt }
@@ -2348,7 +2474,7 @@ alias skill.disarm {
 ;=================
 on 3:TEXT:!konzen-ittai*:*: { $skill.konzen-ittai($nick) }
 
-alias skill.konzen-ittai {
+alias skill.konzen-ittai { $set_chr_name($1)
   if ($is_charmed($1) = true) { $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
   if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused),private) | halt }
   if (no-skill isin %battleconditions) { $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition),private) | halt }
@@ -2391,9 +2517,11 @@ alias skill.konzen-ittai {
 on 3:TEXT:!sealbreak*:*: { $skill.sealbreak($nick) }
 on 3:TEXT:!seal break*:*: { $skill.sealbreak($nick) }
 
-alias skill.sealbreak {
+alias skill.sealbreak { $set_chr_name($1)
   if ($is_charmed($1) = true) { $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
   if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused),private) | halt }
+  if ($readini($char($1), info, clone) = yes) { $display.system.message($readini(translation.dat, errors, ShadowClonesCan'tUseSkill,private) | halt }
+
   if (no-skill isin %battleconditions) { $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition),private) | halt }
   $amnesia.check($1, skill) 
   $checkchar($1)
@@ -2439,7 +2567,7 @@ alias skill.sealbreak {
 ;=================
 on 3:TEXT:!magicmirror*:*: { $skill.magicmirror($nick) }
 
-alias skill.magicmirror {
+alias skill.magicmirror { $set_chr_name($1)
   if ($is_charmed($1) = true) { $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
   if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused),private) | halt }
   if (no-skill isin %battleconditions) { $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition),private) | halt }
@@ -2488,7 +2616,7 @@ alias skill.magicmirror {
 ;=================
 on 3:TEXT:!gamble*:*: { $skill.gamble($nick) }
 
-alias skill.gamble {
+alias skill.gamble { $set_chr_name($1)
   if ($is_charmed($1) = true) { $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
   if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused),private) | halt }
   if (no-skill isin %battleconditions) { $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition),private) | halt }
@@ -2641,7 +2769,7 @@ alias skill.bloodpact {
 on 3:TEXT:!third eye*:*: { $skill.thirdeye($nick) }
 on 3:TEXT:!thirdeye*:*: { $skill.thirdeye($nick) }
 
-alias skill.thirdeye {
+alias skill.thirdeye { $set_chr_name($1)
   if ($is_charmed($1) = true) { $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
   if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused),private) | halt }
   if (no-skill isin %battleconditions) { $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition),private) | halt }
@@ -2692,7 +2820,7 @@ alias skill.thirdeye {
 ;=================
 on 3:TEXT:!scavenge*:*: { $skill.scavenge($nick, $2, !scavenge) }
 
-alias skill.scavenge {
+alias skill.scavenge { $set_chr_name($1)
   if ($is_charmed($1) = true) { $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
   if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused),private) | halt }
   if (no-skill isin %battleconditions) { $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition),private) | halt }
@@ -2756,7 +2884,7 @@ alias skill.scavenge {
 on 3:TEXT:!perfectcounter*:*: { $skill.perfectcounter($nick) }
 on 3:TEXT:!perfect counter*:*: { $skill.perfectcounter($nick) }
 
-alias skill.perfectcounter {
+alias skill.perfectcounter { $set_chr_name($1)
   if ($is_charmed($1) = true) { $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
   if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused),private) | halt }
   if (no-skill isin %battleconditions) { $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition),private) | halt }
@@ -2782,10 +2910,11 @@ alias skill.perfectcounter {
 on 3:TEXT:!justrelease*:*: { $skill.justrelease($nick, $2, !justrelease) }
 on 3:TEXT:!just release*:*: { $skill.justrelease($nick, $3, !justrelease) }
 
-alias skill.justrelease {
+alias skill.justrelease { $set_chr_name($1)
   if ($is_charmed($1) = true) { $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
   if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused),private) | halt }
   if (no-skill isin %battleconditions) { $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition),private) | halt }
+  if ($readini($char($1), info, clone) = yes) { $display.system.message($readini(translation.dat, errors, ShadowClonesCan'tUseSkill,private) | halt }
   $amnesia.check($1, skill) 
 
   $checkchar($1)

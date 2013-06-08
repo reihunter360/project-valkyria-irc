@@ -12,3 +12,4 @@ green=Stop_Watch.Hour_Glass.Holy_Water.Red_Fang.Thunder_Orb.Fire_Flower.Ice_Coin
 blue=$readini(items.db, items, gems) $+ .Potion.VitalStar.X-Potion.Senzu.DustyWing.Tonic.GoldOrb.IgnitionStar
 brown=Ink.Paper.AshLog.Hatchet.IronOre.GoldOre.SilverOre.Ectoplasm.BrokenLance.SilverChain.FireGem.IceStone.WindRock.WaterJewel.EarthSphere.Glass.Cloth.RepairHammer.BeastmenSeal.KindredSeal
 purple=BucketHat.RustyHelmet.LeatherGloves.RustyKnuckles.RustyGloves.RustyMail.RustyHose.RustyBoots.TornRobe
+black=BeastmenSeal.KindredSeal.KindredCrest.HighKindredCrest.AlliedTrainingPaper.WormFood.DemonBell.VirilityCan.IgnisFatuus

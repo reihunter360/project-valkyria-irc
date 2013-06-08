@@ -53,6 +53,9 @@ Streak=20
 StreakMax=300
 Biome=River.Ocean
 
+[monster]
+type=seamonk
+
 [Status]
 Poison=no
 HeavyPoison=no

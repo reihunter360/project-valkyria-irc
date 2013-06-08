@@ -41,6 +41,9 @@ BlackOrbs=1
 ShopLevel=1.0
 Drops=PotRoast
 
+[monster]
+type=demon
+
 [Info]
 Flag=monster
 Gender=his

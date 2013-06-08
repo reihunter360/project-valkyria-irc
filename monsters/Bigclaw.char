@@ -50,6 +50,9 @@ Streak=51
 StreakMax=105
 biome=river.beach
 
+[Monster]
+Type=crab
+
 [Status]
 Poison=no
 HeavyPoison=no

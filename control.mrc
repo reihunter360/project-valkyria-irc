@@ -3,13 +3,16 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 raw 421:*:echo -a 4,1Unknown Command: ( $+ $2 $+ ) | echo -a 4,1Location: %debug.location | halt
+CTCP *:PING*:?:if ($nick == $me) haltdef
 
-on 1:QUIT: {  .auser 1 $nick | .flush 1 }
+
+on 1:QUIT: { if ($nick = %bot.name) { /nick %bot.name } | .auser 1 $nick | .flush 1 } 
 on 1:EXIT: {  .auser 1 $nick | .flush 1 }
 on 1:PART:%battlechan:.auser 1 $nick | .flush 1
 on 1:KICK:%battlechan:.auser 1 $knick | .flush 1 
 on 1:JOIN:%battlechan:{  .auser 1 $nick | .flush 1 }
 on 3:NICK: { .auser 1 $nick | mode %battlechan -v $newnick | .flush 1 }
+on *:CTCPREPLY:PING*:if ($nick == $me) haltdef
 on *:DNS: { 
   if ($isfile($char($nick)) = $true) { writeini $char($nick) info lastIP $iaddress  }
   set %ip.address. [ $+ [ $nick ] ] $iaddress
@@ -90,39 +93,42 @@ on 1:START: {
 
 on 1:CONNECT: {
   ; Start a keep alive timer.
-  /.timerKeepAlive 0 300 /ctcp $me PING
+  /.timerKeepAlive 0 300 /.ctcp $me PING 
 
   ; Join the channel
   /join %battlechan
 
-  ; Send password
+  ; Get rid of a ghost, if necessary, and send password
   var %bot.pass $readini(system.dat, botinfo, botpass)
-  if (%bot.pass != $null) { /.msg nickserv identify %bot.pass }
 
-  if (%battleis = on) { 
-    if ($readini(battle2.txt, BattleInfo, Monsters) = $null) { $clear_battle }
-    else { $next }
+  if ($me != %bot.name) { /.msg NickServ GHOST %bot.name %bot.pass | /nick %bot.name } 
+  if (%bot.pass != $null) { /.msg nickserv identify %bot.pass 
+
+    ; If a battle was on when the bot turned off, let's check it and do something with it.
+    if (%battleis = on) { 
+      if ($readini(battle2.txt, BattleInfo, Monsters) = $null) { $clear_battle }
+      else { $next }
+    }
+    if (%battleis = off) { $clear_battle } 
   }
-  if (%battleis = off) { $clear_battle } 
-}
 
 
-on 50:TEXT:!debug dump*:*:{ 
-  var %debug.filename debug_dump $+ $day $+ $rand(a,z) $+ $rand(1,1000) $+ $rand(a,z) $+ .txt
-  .copy remote.ini %debug.filename
+  on 50:TEXT:!debug dump*:*:{ 
+    var %debug.filename debug_dump $+ $day $+ $rand(a,z) $+ $rand(1,1000) $+ $rand(a,z) $+ .txt
+    .copy remote.ini %debug.filename
 
-  write %debug.filename ------------------------------------------------------
-  write %debug.filename debug location: %debug.location 
-  write %debug.filename battlefield: %current.battlefield
-  write %debug.filename battlefield event number: %battlefield.event.number
-  write %debug.filename boss type: %boss.type 
-  write %debug.filename portal bonus: %portal.bonus 
-  write %debug.filename holy.aura: %holy.aura 
-  write %debug.filename five min warning: %darkness.fivemin.warn  
-  write %debug.filename battle.rage.darkness: %battle.rage.darkness 
-  write %debug.filename battle conditions: %battleconditions 
-  write %debug.filename ai target: %ai.target
-  write %debug.filename ai tech: %ai.tech
+    write %debug.filename ------------------------------------------------------
+    write %debug.filename debug location: %debug.location 
+    write %debug.filename battlefield: %current.battlefield
+    write %debug.filename battlefield event number: %battlefield.event.number
+    write %debug.filename boss type: %boss.type 
+    write %debug.filename portal bonus: %portal.bonus 
+    write %debug.filename holy.aura: %holy.aura 
+    write %debug.filename five min warning: %darkness.fivemin.warn  
+    write %debug.filename battle.rage.darkness: %battle.rage.darkness 
+    write %debug.filename battle conditions: %battleconditions 
+    write %debug.filename ai target: %ai.target
+    write %debug.filename ai tech: %ai.tech
 
-  $display.system.message(4Variables File dumped as file: %debug.filename, private)
-}
+    $display.system.message(4Variables File dumped as file: %debug.filename, private)
+  }

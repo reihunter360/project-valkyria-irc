@@ -54,6 +54,8 @@ LastIP=N/a
 Created=N/a
 Streak=10
 
+[monster]
+type=cerberus
 
 [Status]
 Poison=no

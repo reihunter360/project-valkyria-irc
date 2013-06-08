@@ -130,15 +130,20 @@ boost_monster_stats {
   var %current.player.levels $readini(battle2.txt, battleinfo, playerlevels)  
   var %monster.level 0
 
-  var %boss.level $readini($char($1), info, bosslevel) 
-  if (%boss.level != $null) { var %monster.level %boss.level }
-
   if (%number.of.players.in.battle = $null) { var %number.of.players.in.battle 1 }
 
   if (%winning.streak <= 0) { var %winning.streak $calc($readini(battlestats.dat, battle, losingstreak) * -1) }
 
   inc %monster.level %level.boost
   inc %monster.level %difficulty
+  inc %monster.level %winning.streak
+
+
+  var %boss.level $readini($char($1), info, bosslevel) 
+  if (%boss.level != $null) { 
+    if (%boss.level > %winning.streak) { var %monster.level %boss.level }
+  }
+
 
   if (%monster.level <= 0) { var %monster.level 1 }
 
@@ -154,15 +159,13 @@ boost_monster_stats {
     if (%winning.streak < %boss.level) { var %winning.streak %boss.level }
   }
 
-  inc %monster.level %winning.streak
-
   ; $2 = portal is for the portal item boss fights.
   if ($2 = portal) { 
     var %boss.level $readini($char($1), info, bosslevel) 
 
     if (%boss.level = $null) { var %boss.level 500 }
 
-    inc %boss.level $rand(0,3)
+    inc %boss.level $rand(1,3)
     var %monster.level %boss.level
   }
 
@@ -179,6 +182,7 @@ boost_monster_stats {
   if ($readini($char($1), info, BattleStats) = hp) {  $monster_boost_hp($1, $2, %monster.level) |  return }
   if ($1 = demon_portal) { $monster_boost_hp($1, $2, %monster.level) |  return }
   if ($1 = orb_fountain) { $monster_boost_hp($1, $2, %winning.streak) |  return }
+  if ($1 = lost_soul) { $monster_boost_hp($1, $2, %winning.streak) |  return }
 
   if ($2 = evolve) { 
     if ($isfile($boss($1)) = $false) { inc %monster.level $rand(5,10) }
@@ -409,33 +413,36 @@ monster_spend_points {
   if ($3 = Doppelganger) { var %unspent.monster.points 200 }
   if ($3 = DemonWall) { inc %unspent.monster.points 200 }
   if ($3 = Warmachine) { inc %unspent.monster.points 200 }
-  if ($3 = ElderDragon) { inc %unspent.monster.points 350 }
+  if ($3 = ElderDragon) { inc %unspent.monster.points 400 }
   if ($3 = evolve) { inc %unspent.monster.points $rand(100,500) } 
   if ($3 = monstersummon) { inc %unspent.monster.points $rand(20,50) } 
-
 
   if (%unspent.monster.points <= 0) { return }
 
   var %total.percent 100
 
-  var %str.percent $rand(25,35)
+  var %str.percent $rand(30,35)
   dec %total.percent %str.percent
 
-  var %def.percent $rand(25,30)
+  var %def.percent $rand(30,35)
   dec %total.percent %def.percent
 
   var %int.percent $rand(25,35)
   dec %total.percent %int.percent
 
   var %spd.percent %total.percent
+  if (%spd.percent < 0) { var %spd.percent 1 }
+
+
   var %str.points $round($calc((%str.percent * .01) * %unspent.monster.points),0)
   dec %unspent.monster.points %str.points
+
+  var %def.points $round($calc((%def.percent * .01) * %unspent.monster.points),0)
+  dec %unspent.monster.points %def.points
 
   var %int.points $round($calc((%int.percent * .01) * %unspent.monster.points),0)
   dec %unspent.monster.points %int.points
 
-  var %def.points $round($calc((%def.percent * .01) * %unspent.monster.points),0)
-  dec %unspent.monster.points %def.points
 
   var %spd.points %unspent.monster.points
   dec %unspent.monster.points %spd.points
@@ -561,7 +568,9 @@ deal_damage {
   } 
 
   if (($augment.check($1, AbsorbIG) = true) && (%guard.message = $null)) {
-    var %ig.absorb.amount $calc(%augment.strength * 10) 
+    var %ig.absorb.amount $calc(%augment.strength * 5)
+    if ($readini($char($1), info, flag) = monster) { var %ig.absorb.amount $calc(%augment.strength * 10) }
+
     set %ig.target $readini($char($2), battle, IgnitionGauge)
 
     if (%ig.target > 0) { 
@@ -589,6 +598,13 @@ deal_damage {
     $increase.death.tally($2) 
     if (($readini($char($1), info, flag) != monster) && ($readini($char($1), battle, hp) > 0)) {
       $inc_monster_kills($1)
+      if ($2 = Lost_Soul) { 
+
+        var %total.souls $readini($char($1), stuff, LostSoulsKilled)
+        if (%total.souls = $null) { var %total.souls 0 }
+        inc %total.souls 1
+        writeini $char($1) stuff LostSoulsKilled %total.souls
+      }
       if (%battle.type = monster) {  $add.stylepoints($1, $2, mon_death, $3) | $add.style.orbbonus($1, monster, $2) }
       if (%battle.type = manual) {  $add.stylepoints($1, $2, mon_death, $3) | $add.style.orbbonus($1, monster, $2) }
       if (%battle.type = orbfountain) {  $add.stylepoints($1, $2, mon_death, $3) | $add.style.orbbonus($1, monster, $2) }
@@ -856,6 +872,7 @@ display_damage {
     $goldorb_check(%target) 
     $spawn_after_death(%target)
     remini $char(%target) Renkei
+    $achievement_check($1, FillYourDarkSoulWithLight)
   }
 
   if ($readini($char(%target), battle, HP) > 0) {
@@ -878,14 +895,16 @@ display_damage {
 
   unset %target | unset %user | unset %enemy | unset %counterattack |  unset %statusmessage.display
 
-  if ($readini($char($1), battle, hp) > 0) {
-    $self.inflict_status($1, $4 , $3)
-    if (%statusmessage.display != $null) { 
-      if ($readini(system.dat, system, botType) = IRC) { query %battlechan %statusmessage.display }
-      if ($readini(system.dat, system, botType) = DCCchat) { $dcc.battle.message(%statusmessage.display) }
-      unset %statusmessage.display
+  if ($3 = weapon) {
+    if ($readini($char($1), battle, hp) > 0) {
+      set %inflict.user $1 | set %inflict.techwpn $4
+      $self.inflict_status(%inflict.user, %inflict.techwpn ,weapon)
+      if (%statusmessage.display != $null) { $display.system.message(%statusmessage.display, battle) | unset %statusmessage.display }
     }
   }
+
+
+  $ai.learncheck($2, $4)
 
   return 
 }
@@ -938,6 +957,7 @@ display_heal {
     $set_chr_name($2) 
     if ($readini(system.dat, system, botType) = IRC) { query %battlechan 4 $+ %enemy has been defeated by %user $+ !  %overkill }
     if ($readini(system.dat, system, botType) = DCCchat) { $dcc.battle.message(4 $+ %enemy has been defeated by %user $+ !  %overkill) }
+    $achievement_check($1, FillYourDarkSoulWithLight)
   }
 
   return 
@@ -1042,15 +1062,17 @@ random.weather.pick {
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Check to see if there's a
-; battlefield curse/seal.
+; battlefield curse/bloodmoon.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 random.battlefield.curse {
   if ($readini(battlestats.dat, battle, WinningStreak) <= 50) { return }
-  var %curse.chance $rand(1,105)
-  if (%battle.type = boss) { var %curse.chance $rand(1,100) }
-  if (%curse.chance <= 6) { 
-    if ($readini(system.dat, system, botType) = IRC) {  $display.system.message($readini(translation.dat, Events, CurseNight), battle) }
-    if ($readini(system.dat, system, botType) = DCCchat) { $dcc.battle.message($readini(translation.dat, Events, CurseNight)) }
+  set %curse.chance $rand(1,100)
+  if (%battle.type = boss) { set %curse.chance $rand(1,110) }
+
+  $divineblessing.check
+
+  if ((%curse.chance >= 75) && (%curse.chance < 90)) { 
+    $display.system.message($readini(translation.dat, Events, CurseNight), battle)
     set %curse.night true
     ; curse everyone
     var %battletxt.lines $lines(battle.txt) | var %battletxt.current.line 1 
@@ -1061,18 +1083,26 @@ random.battlefield.curse {
       inc %battletxt.current.line 1  
     }
   }
-  if ((%curse.chance >= 95) && (%curse.chance <= 100)) {  
+  if ((%curse.chance >= 90) && (%curse.chance <= 100)) {  
     if ($readini(system.dat, system, botType) = IRC) {  $display.system.message($readini(translation.dat, Events, BloodMoon), battle) }
     if ($readini(system.dat, system, botType) = DCCchat) { $dcc.battle.message($readini(translation.dat, Events, BloodMoon)) }
     set %bloodmoon on 
   }
-  if (%curse.chance > 100) { 
-    set %battleconditions no-tech
-    if ($readini(system.dat, system, botType) = IRC) {  $display.system.message($readini(translation.dat, Events, AncientMeleeOnlySeal), battle) }
-    if ($readini(system.dat, system, botType) = DCCchat) { $dcc.battle.message($readini(translation.dat, Events, AncientMeleeOnlySeal)) }
-  }
 
+  unset %curse.chance
   return
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Check to see if there's a
+; battlefield limitation.
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+battlefield.limitations {
+  set %battleconditions $readini(battlefields.lst, %current.battlefield, limitations)
+  if ((no-tech isin %battleconditions) || (no-techs isin %battleconditions)) { $display.system.message($readini(translation.dat, Events, AncientMeleeOnlySeal), battle)  }
+  if ((no-skill isin %battleconditions) || (no-skills isin %battleconditions)) { $display.system.message($readini(translation.dat, Events, AncientNoSkillsSeal), battle)  }
+  if ((no-item isin %battleconditions) || (no-items isin %battleconditions)) { $display.system.message($readini(translation.dat, Events, AncientNoItemsSeal), battle)  }
+  if ((no-ignition isin %battleconditions) || (no-ignitions isin %battleconditions)) { $display.system.message($readini(translation.dat, Events, AncientNoIgnitionsSeal), battle)  }
 }
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1177,6 +1207,7 @@ goldorb_check {
     writeini $char($1) battle hp %revive.current.hp
     writeini $char($1) battle status normal
     writeini $char($1) status revive no
+    $set_chr_name($1)
     if ($readini(system.dat, system, botType) = IRC) {  /.timerThrottleGoldOrb $+ $rand(1,100000) $+ $rand(a,z) 1 1 /query %battlechan $readini(translation.dat, battle, GoldOrbUsed) }
     if ($readini(system.dat, system, botType) = DCCchat) { $dcc.battle.message($readini(translation.dat, battle, GoldOrbUsed)) }
 
@@ -1239,10 +1270,22 @@ generate_evil_clones {
       writeini $char(evil_ $+ %who.battle) info password .8V%N)W1T;W5C:'1H:7,`1__.154
       $boost_monster_stats(evil_ $+ %who.battle, doppelganger)
       $fulls(evil_ $+ %who.battle) 
+      $clear_status(evil_ $+ %who.battle)
+      $clear_skills(evil_ $+ %who.battle) 
       writeini $char(evil_ $+ %who.battle) status FinalGetsuga yes
       writeini $char(evil_ $+ %who.battle) info OrbBonus yes
       set %curbat $readini(battle2.txt, Battle, List) |  %curbat = $addtok(%curbat,evil_ $+ %who.battle,46) |  writeini battle2.txt Battle List %curbat | write battle.txt evil_ $+ %who.battle
       $set_chr_name(evil_ $+ %who.battle) 
+
+      var %style.chance $rand(1,3)
+      if (%style.chance = 1) { writeini $char(evil_ $+ %who.battle) styles equipped trickster }
+      if (%style.chance = 2) { writeini $char(evil_ $+ %who.battle) styles equipped guardian }
+      if (%style.chance = 3) { writeini $char(evil_ $+ %who.battle) styles equipped weaponmaster }
+
+      writeini $char(evil_ $+ %who.battle) status resist-fire no | writeini $char(evil_ $+ %who.battle) status resist-lightning no | writeini $char(evil_ $+ %who.battle) status resist-ice no
+      writeini $char(evil_ $+ %who.battle) status resist-earth no | writeini $char(evil_ $+ %who.battle) status resist-wind no | writeini $char(evil_ $+ %who.battle) status resist-water no
+      writeini $char(evil_ $+ %who.battle) status resist-light no | writeini $char(evil_ $+ %who.battle) status resist-dark no
+      writeini $char(evil $+ %who.battle) status revive no
 
       if ($readini(system.dat, system, botType) = IRC) {  query %battlechan $readini(translation.dat, battle, EnteredTheBattle) }
       if ($readini(system.dat, system, botType) = DCCchat) { $dcc.battle.message($readini(translation.dat, battle, EnteredTheBattle)) }
@@ -1355,6 +1398,7 @@ generate_elderdragon {
   writeini $char(%monster.name) info bosslevel %current.battlestreak
   writeini $char(%monster.name) info OrbBonus yes 
   writeini $char(%monster.name) descriptions char is a large and powerful Elder Dragon, recently awoken from its long slumber in the earth.
+  writeini $char(%monster.name) monster type dragon
 
   var %base.hp.tp $calc(7 * %current.battlestreak)
   writeini $char(%monster.name) basestats hp %base.hp.tp
@@ -1745,7 +1789,7 @@ inflict_status {
   if ($3 = bored) { set %status.type bored | var %status.grammar bored of the battle  }
   if ($3 = confuse) { set %status.type confuse  | var %status.grammar confused }
 
-  if (%status.grammar = $null) { return }
+  if (%status.grammar = $null) { echo -a 4Invalid status type: $3 | return }
 
   var %chance $rand(1,140) | $set_chr_name($1) 
   if ($readini($char($2), skills, utsusemi.on) = on) { set %chance 0 } 
@@ -1800,7 +1844,7 @@ inflict_status {
       if (%statusmessage.display = $null) { set %statusmessage.display 4 $+ %real.name has resisted $set_chr_name($1) %real.name $+ 's $lower(%status.type) status effect! }
     }
     if ((%chance > 0) && (%chance <= 45)) { $set_chr_name($1)
-      if (%statusmessage.display != $null) { set %statusmessage.display %statusmessage.display :: %real.name $set_chr_name($1) %real.name $+ 's $lower(%status.type) status effect has failed }
+      if (%statusmessage.display != $null) { set %statusmessage.display %statusmessage.display :: $set_chr_name($1) %real.name $+ 's $lower(%status.type) status effect has failed }
       if (%statusmessage.display = $null) {  set %statusmessage.display 4 $+ %real.name $+ 's $lower(%status.type) status effect has failed against $set_chr_name($2) %real.name $+ ! }
     }
     if (%chance > 45) { $set_chr_name($2) 
@@ -1842,10 +1886,54 @@ self.inflict_status {
   if ($3 = weapon) {  set %self.status.type $readini(weapons.db , %inflict.techwpn , selfstatus) }
   if ($3 = tech) {  set %self.status.type $readini(techniques.db , %inflict.techwpn , selfstatus) }
 
+
+  if (%self.status.type = random) { 
+    var %random.status.type $rand(1,16)
+    if (%random.status.type = 1) { set %self.status.type poison }
+    if (%random.status.type = 2) { set %self.status.type stop  }
+    if (%random.status.type = 3) { set %self.status.type blind }
+    if (%random.status.type = 4) { set %self.status.type virus  }
+    if (%random.status.type = 5) { set %self.status.type amnesia  }
+    if (%random.status.type = 6) { set %self.status.type paralysis }
+    if (%random.status.type = 7) { set %self.status.type zombie  }
+    if (%random.status.type = 8) { set %self.status.type slow }
+    if (%random.status.type = 9) { set %self.status.type stun  }
+    if (%random.status.type = 10) { set %self.status.type intimidate }
+    if (%random.status.type = 11) { set %self.status.type defensedown  }
+    if (%random.status.type = 12) { set %self.status.type strengthdown  }
+    if (%random.status.type = 13) { set %self.status.type intdown  }
+    if (%random.status.type = 14) { set %self.status.type petrify  }
+    if (%random.status.type = 15) { set %self.status.type bored  }
+    if (%random.status.type = 16) { set %self.status.type confuse   }
+  }
+
+
   if (%self.status.type = $null) { unset %self.status.type | unset %inflict.user | unset %inflict.techwpn | return }
   if (%self.status.type = none) { unset %self.status.type | unset %inflict.user | unset %inflict.techwpn | return }
-  if (%self.status.type = charm) { unset %self.status.type | unset %inflict.user | unset %inflict.techwpn | return }
 
+  unset %statusmessage.display
+
+  if (%self.status.type != $null) { 
+    set %number.of.statuseffects $numtok(%self.status.type, 46) 
+    set %status.types.list %self.status.type
+    if (%number.of.statuseffects = 1) { $do.self.inflict.status | unset %number.of.statuseffects | unset %status.type.list }
+    if (%number.of.statuseffects > 1) {
+      var %status.value 1
+      while (%status.value <= %number.of.statuseffects) { 
+        set %self.status.type $gettok(%status.types.list, %status.value, 46)
+        $do.self.inflict.status
+        inc %status.value 1
+      }  
+      unset %number.of.statuseffects | unset %current.status.effect
+    }
+  }
+  unset %status.types.list |  unset %self.status.type | unset %inflict.user | unset %inflict.techwpn
+}
+
+do.self.inflict.status {
+  if (%self.status.type = $null) { echo -a 4Null status type! Invalid. | return }
+
+  if (%self.status.type = charm) { unset %self.status.type | unset %inflict.user | unset %inflict.techwpn | return }
   if (%self.status.type = stop) { set %status.type stop | var %status.grammar frozen in time }
   if (%self.status.type = poison) { set %status.type poison | var %status.grammar poisoned }
   if (%self.status.type = silence) { set %status.type silence | var %status.grammar silenced }
@@ -1865,10 +1953,10 @@ self.inflict_status {
   if (%self.status.type = bored) { set %status.type bored | var %status.grammar bored of the battle  }
   if (%self.status.type = confuse) { set %status.type confuse  | var %status.grammar confused }
 
-  if (%statusmessage.display != $null) {  set %statusmessage.display %statusmessage.display :: $set_chr_name(%inflict.user) %real.name is now %status.grammar $+ ! } 
-  if (%statusmessage.display = $null) {   $set_chr_name(%inflict.user) | set %statusmessage.display 4 $+ %real.name is now %status.grammar $+ ! }
+  if (%status.grammar = $null) { echo -a 4Invalid status type: %self.status.type | return }
 
-  if (%status.grammar = $null) { unset %self.status.type | unset %inflict.user | unset %inflict.techwpn | return }
+  if (%statusmessage.display != $null) {  set %statusmessage.display %statusmessage.display and %status.grammar $+ ! } 
+  if (%statusmessage.display = $null) {   $set_chr_name(%inflict.user) | set %statusmessage.display 4 $+ %real.name is now %status.grammar $+ ! }
 
   if (%status.type != paralysis) {  var %enfeeble.timer $rand(0,1) }
   if (%status.type = paralysis) {  var %enfeeble.timer $rand(1,2) }
@@ -1879,8 +1967,6 @@ self.inflict_status {
   if (%status.type = petrify) { writeini $char(%inflict.user) status petrified yes }
 
   if (((%status.type != poison) && (%status.type != charm) && (%status.type != petrify))) { writeini $char(%inflict.user) Status %status.type yes | writeini $char(%inflict.user) status %status.type $+ .timer %enfeeble.timer   }
-
-  unset %self.status.type | unset %inflict.user | unset %inflict.techwpn
 }
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1891,7 +1977,11 @@ self.inflict_status {
 ribbon.accessory.check { 
   set %current.accessory $readini($char($1), equipment, accessory) 
   if ($readini(items.db, %current.accessory, accessorytype) = BlockAllStatus) {
+	if($readini($2, skills, resist-paralysis) == 70 && $readini($2, skills, resist-charm) == 70 && $readini($2, skills, resist-blind) == 70 && $readini($2, skills, resist-poison) == 70 && $readini($2, skills, resist-amnesia) == 70 && $readini($2, skills, resist-curse) == 70 && $readini($2, skills, resist-zombie) == 70 && $readini($2, skills, resist-slow) == 70 && $readini($2, skills, resist-stun) == 70 && $readini($2, skills, resist-stop) == 70 && $readini($2, skills, resist-petrify) == 20) {
+ set %resist.skill 85
+} else {
     set %resist.skill 70
+	}
   }
   unset %current.accessory
 }
@@ -1984,13 +2074,14 @@ trickster_dodge_check {
     if (%current.playerstyle.level > 65) { set %current.playerstyle.level 65 }
   }
 
-  if ($readini($char($1), skills, thirdeye.on) = on) {
+  if (($readini($char($1), skills, thirdeye.on) = on) && ($3 = physical)) {
     var %thirdeye.turns $readini($char($1), status, thirdeye.turn)
     if (%thirdeye.turns = $null) { var %thirdeye.turns 1 }
     dec %thirdeye.turns 1
     writeini $char($1) status thirdeye.turn %thirdeye.turns
     if (%thirdeye.turns <= 0) { writeini $char($1) skills thirdeye.on off | writeini $char($1) status thirdeye.turn 0 }
     var %dodge.chance 0
+    var %third.eye.dodge yes
   }
 
   if (%current.playerstyle.level = $null) { var %current.playerstyle.level 0 }
@@ -2010,6 +2101,8 @@ trickster_dodge_check {
 
     if (%current.playerstyle = Trickster) {  set %guard.message $readini(translation.dat, battle, TricksterDodged) }
     if (%current.playerstyle != Trickster) { set %guard.message $readini(translation.dat, battle, NormalDodge) }
+
+    if (%third.eye.dodge = yes) { set %guard.message $readini(translation.dat, battle, ThirdEyeDodge) }
 
     unset %current.playerstyle | unset %current.playerstyle.level
     set %trickster.dodged on
@@ -2086,6 +2179,8 @@ counter_melee {
   if ($readini($char($1), status, ethereal) = yes) { return }
   if (%guard.message != $null) { return }
   if ($2 = orb_fountain) { return }
+  if ($2 = lost_soul) { return }
+  if ($readini($char($2), info, ai_type) = defender) { return }
 
   if ($is_charmed($2) = true) { return }
   if ($is_confused($2) = true) { return }
@@ -2627,6 +2722,21 @@ magic.ethereal.check {
   }
 }
 
+tech.ethereal.check {
+  ; $1 = attacker
+  ; $2 = technique
+  ; $3 = target
+
+  var %weapon.hurt.ethreal $readini(weapons.db, $readini($char($1), weapons, equipped), HurtEthreal)
+
+  if ($readini($char($3), status, ethereal) = yes) {
+    if ((($augment.check($1, HurtEthereal) = false) && (%weapon.hurt.ethreal != true) && ($readini(techniques.db, $2, magic) != yes))) {
+      $set_chr_name($1) | set %guard.message $readini(translation.dat, status, EtherealBlocked) | set %attack.damage 0 | return
+    }
+  }
+
+}
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Check to see if Utsusemi 
 ; is on
@@ -3060,5 +3170,18 @@ modifer_adjust {
 
   ; Adjust the attack damage.
   set %attack.damage $round($calc(%attack.damage * %modifier.adjust.value),0)
+}
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Check for Killer Traits
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+killer.trait.check {
+  var %monster.type $readini($char($2), monster, type)
+  if (%monster.type = $null) { return }
+  set %killer.trait.name %monster.type $+ -killer
+  set %killer.trait.amount $readini($char($1), skills, %killer.trait.name)
+  if ((%killer.trait.amount = $null) || (%killer.trait.amount <= 0)) { unset %killer.trait.name | unset %killer.trait.amount | return }
+
+  inc %attack.damage $round($calc(%attack.damage * (%killer.trait.amount / 100)),0)
+  unset %killer.trait.name | unset %killer.trait.amount 
 }

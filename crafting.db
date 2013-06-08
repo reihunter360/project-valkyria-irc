@@ -7,6 +7,7 @@ Gem=Sapphire
 Ingredients=Potion.X-Potion
 SuccessRate=60
 Amount=1
+potion=2
 
 [Ether]
 Gem=Sapphire
@@ -42,6 +43,7 @@ Gem=Ruby
 Ingredients=sand
 SuccessRate=80
 Amount=1
+sand=5
 
 
 ============
@@ -212,4 +214,11 @@ Amount=1
 Gem=Ruby
 Ingredients=IronOre.TigerFang.RepairHammer.RustyKnuckles
 Successrate=40
+Amount=1
+
+
+[TengokuMail]
+Gem=Ruby
+Ingredients=Genbu'sKabuto.Kirin'sOsode.Byakko'sHaidate.Suzaku'sSune-Ate.Seiryu'sKote.KirinSeal
+SuccessRate=100
 Amount=1

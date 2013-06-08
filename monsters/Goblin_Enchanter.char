@@ -49,6 +49,9 @@ LastIP=N/a
 Created=N/a
 Streak=21
 
+[Monster]
+Type=goblin
+
 [Status]
 Poison=no
 HeavyPoison=no

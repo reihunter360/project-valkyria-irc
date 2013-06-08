@@ -39,7 +39,7 @@ ShopLevel=1.0
 Drops=GenbuSeal.KindredSeal.Genbu'sKabuto
 
 [Monster]
-Type=
+Type=Adamantoise
 
 [Info]
 Flag=monster

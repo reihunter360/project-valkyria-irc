@@ -49,6 +49,9 @@ LastIP=N/a
 Created=N/a
 Streak=101
 
+[monster]
+type=bee
+
 
 [Status]
 Poison=no

@@ -52,6 +52,9 @@ Created=N/a
 Streak=-1000
 bosslevel=10
 
+[monster]
+type=human
+
 [Status]
 Poison=no
 HeavyPoison=no

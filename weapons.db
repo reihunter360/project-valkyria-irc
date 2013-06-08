@@ -2,7 +2,7 @@
 HandToHand=Fists.Cerberus.Ifrit.Verethragna.Spharai
 Swords=Mythril_Sword.Joyeuse.Rebellion..Excalibur.Murgleis.JewelSword.GunbladeRevolver
 Whips=LeatherWhip.DemonWhip.Vampire_Killer
-Guns=Ebony&Ivory.Magnum.Hexagun.SubMachineGun.Boomstick.AK47.Armageddon.DiEndDriver
+Guns=Ebony&Ivory.Magnum.Hexagun.SubMachineGun.Boomstick.AK47.Armageddon.DiendDriver
 Bows=RobinsBow.ShigetoBow.LamianKamen.Yoichinoyumi.Gandiva
 Katanas=PowerChordSword.Soboro.Kogarasumaru.Yamato.Crissaegrim.Valmanway.Zangetsu.Senbonzakura.Hyourinmaru
 Wands=YewWand.PixiWand.OakWand.PineWand.IridialStaff.ElderWand.Laevatein.EbonyWand.BahamutsStaff.Glyphs
@@ -12,12 +12,17 @@ GreatSwords=Braveheart.Balmung.Nightfall.Ragnarok.Executioner
 Axes=Ukonvasara.Bravura.Farsha.Guttler.Themis'Axe
 Daggers=MainGauche.Mandau.Terpsichore
 
+; This is a list of weapons we're trying to phase out of the bot. They can no longer be bought.
+Defunct=KaiserKnuckles.LexTalionis.Soulsaber.Almace.Caladbolg.ChainWhip.SpikedSteelWhip.DragontailWhip.Quicksilver.SniperRifle.Annihilator.DeathPenalty.Keitonotachi.Hagun.Masamune.Rhongomiant
+
 ; The lists after this are for monster weapons only.  Players do not have access to these.
 MonsterWpns=Yagudo_Fists.Dark_Vampiric_Power.Guardian_Shield.Orc_Pike.QuadavWand_R.Mistilteinn.Silver_Goddess_Sword.Black_Goddess_Staff.Cell'sKi.Death's_Scythe.CreeperLegs.ZombieFists.PsychoPower.BedrockBite.Shadow_Blade.MenosPower.DragonFangs.BeeStinger.GoblinSword.YagudoWand.TigerFangs.Pinchers.BoneScythe.AndroidKi.Orcish_Gun.SubZeroFists.Ninjutsu.SlimePower.BallPower.SkyGodPower
 MonsterWpns2=VampireFangs.SpaceGun.CerberusClaws.ElementalPower.MarioFists.FishBite.Egyptian_Rod.SinistralPower.JesterWand.VampireArt.Puppetry.Benihime.PeoplesFist.SuccubusPower.DragonShouts.BlueEyesPower.BlackMagic.DragonSword.OctoArms.Casull&Jackal.AlucardSword.Auto9.Railgun.WoolyTusks.OrochiPower.BogardGloves.GiygasPower.AtlantisPower.RedEyedDragoon.DarknessDragoon.ShihouinFists.ImpHorn.GhostPower.ChozoSuit.ZeroSaber.SantaRifle.ScorpionFists.Legion
 MonsterWpns3=GoblinWand.Quetzalcoatl.CuteRabbitTeeth.RyukotsukiPower.DecapiclopsPower.OxocutionerPower.ChimyriadPower.GekkoWeapon.GekkoArms.GearRayWeapons.CactuarNeedles.JumboCactuarNeedles.KainsLance.PrishePowers.AbsolutePolearm.DullahanSword.ChunLiBracelets.RyuGloves.KenGloves.AlexanderPower.BahamutPower.CarbunclePower.DoomtrainPower.FalcorrPower.FenrirPower.GarudaPower.IfritPower.LeviathanPower.OlduumStaff.ShivaPower.TitanPower.DreddGun.PowerOfWords.BombPower.Orc_Fists.WarMachine.DemonWall.GoylePower..SwordOfTheFallenDevil
 MonsterWpns4=Agartha.ArteasBow.ScarboroughFair.BusterSword.DekarBlade.RuneOakStaff.AdamantAxe.VampireKiller.KosmosRevolver.HoleyGloves.ValkyrieSword.BlazefireSaber.MariaPower.DualBlade.RyudoSword.SelanSwordStaff.GunbladeRevolver.VorlikBlade.BelnadesWand.AirWhip.AmonTrident.GadesBlade.ErimBlade.ErimPower.EvilChainsaw.TurkeyPower.PoisonFists.MedusaPower.HybridElementalPower.BatFangs.BalrogPower.DemonicWeapon.DhalmelSaliva.LizardPower.TreantPower.StarmanGun.GnoleClaws.HippiePeace.UnicornHorn.BirdBeak.YovraPower.PinkChainsaw.MegaBuster.BrainWeapon.CupidBow.LevithanHeart
-MonsterWpns5=FFOmegaWeapon.Valkyrie_Sword.TRexWeapon.PhoenixmonWeapon.BlackRockShooter.MegasaurusWeapon.OmegaMultipurposeCannon.Perfect_Chaos_Water.StarMageStaff.Randgris_Sword
+MonsterWpns5=FencingDegen.ShinryuClaws.GarlandSword.MummyPower
+MonsterWpns6=FFOmegaWeapon.Valkyrie_Sword.TRexWeapon.PhoenixmonWeapon.BlackRockShooter.MegasaurusWeapon.OmegaMultipurposeCannon.Perfect_Chaos_Water.StarMageStaff.Randgris_Sword
+
 
 ============================================
 WEAPON TEMPLATE
@@ -56,142 +61,6 @@ IgnoreDefense=
 ; If set false (or the value is missing), the weapon will go through an Ethereal monster doing 0 damage.
 HurtEthereal=
 
-; Omega Weapon
-[FFOmegaWeapon]
-Cost=99999
-Type=Rifle
-Info=The Ultimate Fantasy Weapon
-Abilities=Repairs.SpaceBeam
-element=none
-hits=$rand(1,4)
-basepower=15
-upgrade=500000
-
-[Valkyrie_Sword]
-Cost=99999
-Type=Sword
-Info=A Valkyrie's standard issue sword, forged from the roots of Yggdrasil.
-Abilities=CureV.SonicBlow.JupitelThunder.BrandishSpear.WiseReflection
-element=Light
-hits=$rand(1,3)
-basepower=50
-upgrade=500000
-HurtEthereal=true
-ignoredefense=50
-
-[TRexWeapon]
-cost=999999
-Type=HandtoHand
-Info=A Tyrannosaurus' Weapon for fighting and hunting!
-Abilities=Roar.Swallow.SpikeFlail.VolcanicRush.SurvivalInstinct
-element=dark
-hits=$rand(2,5)
-basepower=35
-upgrade=500000
-
-[PhoenixmonWeapon]
-Cost=999999
-Type=Stave
-Info=A Phoenixmon's Weapon for defending itself.
-Abilities=StarlightExplosion.CureV.CrimsonFlame.MeteorPhoenix.DoubleHurricane.BusterPhoenix
-element=none
-hits=$rand(1,3)
-basepower=30
-upgrade=500000
-HurtEthereal=true
-
-[BlackRockShooter]
-cost=999999
-Type=Rifle
-Info=A steady rate firing Arm Cannon. It can change forms depending on the battle.
-Abilities=RockCannon.RockDeltaVulcan.BlackStarSlash.BlackStarGrenade.BlackStarPower.RockCannonSpear.CureV
-element=none
-hits=$rand(2,3)
-basepower=25
-upgrade=500000
-HurtEthereal=true
-
-[DiEndDriver]
-Cost=40
-Type=Gun
-Info=A large looking gun with a card slot on the side.
-Abilities=Diendhenshin.DiendGekijouban.DiendBlast.DiendDimensionShoot.CureII
-Element=none
-Hits=$rand(1,2)
-BasePower=25
-Upgrade=350
-HurtEthereal=true
-
-[MegasaurusWeapon]
-Cost=9999999
-Type=HandtoHand
-Info=A Megasaurus' Weapon
-abilities=SurvivalInstinct.Earthquake.UltimateSwallow.SpikeFlail.Slurp.Dinostomp.VolcanicRush
-basepower=70
-hits=$rand(1,2)
-upgrade=500000
-
-[OmegaMultipurposeCannon]
-cost=9999999
-Type=Rifle
-Info=A Omega Weapon MK12 Weapon
-abilities=WaveCannon.LightPillar.MeggidoFlame.Ultima.Gravija.TerraBreak.Meteor.LV5_Death
-basepower=999
-hits=$rand(2,4)
-upgrade=500000
-HurtEthereal=true
-
-[Perfect_Chaos_Water]
-cost=9999999
-Type=HandToHand
-Info=Perfect Chaos' ultimate form!
-basepower=500
-anbilities=Chaos_Tsunami.Hyrdro_Cannon.Chaos_Rain.Chaos_Chomp.PerfectChaosR2.Chaos_Water_Beam.Dark_Power_of_Chaos_Emeralds
-hits=$rand(1,3)
-upgrade=5000000
-HurtEthereal=true
-
-[Executioner]
-Cost=200
-Type=GreatSword
-Info=A gruesome sword used to behead criminals judged with the death penalty.
-Abilities=Bash.BowlingBash.MagnumBreak.ShadowSmash
-Element=Dark
-Hits=$rand(1,2)
-BasePower=60
-Upgrade=300
-
-[Themis'Axe]
-Cost=55
-Type=Axe
-Info=An axe blessed by the power of Themis, daughter of Uranus and Gaea. Said to cause minor earthquakes with each swing.
-Abilities=Djinn:Bane.Djinn:Flower.Djinn:Steel.Stone_Justice
-Element=Earth
-Hits=1
-BasePower=45
-Upgrade=250
-
-[StarMageStaff]
-cost=99999999
-Type=Stave
-Info=Star Magician's Normal Attack Source
-Abilities=Mine_Ball.Spark_Plasma.Megacool.Curaga
-Element=Water
-Hits=$rand(1,2)
-BasePower=60
-Upgrade=5000000
-
-[Randgris_Sword]
-cost=999999999
-Type=Sword
-Info=A specialized Valkyrie Sword... forged from the heart of a collapsing star.
-abilities=Thunder_Storm.LordOfVermillion.BrandishSpear.Light_PowerUp.HolyCross.SonicBlow.Earthquake.Protect.Shell
-basepower=110
-Element=Light
-hits=$rand(1,2)
-ignoredefense=20
-Upgrade=500000
-HurtEthereal=true
 
 =============================================
 HAND TO HAND
@@ -269,7 +138,7 @@ Abilities=FastBlade.BurningBlade.FlatBlade.SeraphBlade.Bash.MagnumBreak
 Element=none
 Hits=1
 BasePower=15
-Upgrade=100
+Upgrade=300
 
 [Rebellion]
 Cost=3
@@ -301,7 +170,6 @@ Hits=1
 BasePower=30
 Upgrade=800
 
-
 [Murgleis]
 Cost=15
 Type=Sword
@@ -316,7 +184,7 @@ Upgrade=1500
 Cost=50
 Type=Sword
 Info=A magical sword that has the ability to turn enemies into gems upon their deaths if the final blow is done with this blade.
-Abilities=Bash.BowlingBash.MagnumBreak
+Abilities=Bash.MagnumBreak.BowlingBash
 Element=None
 Hits=1
 BasePower=20
@@ -338,12 +206,11 @@ Upgrade=500
 Cost=6
 Type=Sword
 Info=A sword infused with the power of Moogles.
-Abilities=SpiritsWithin.VorpalBlade.SeraphBlade.BowlingBash
+Abilities=SpiritsWithin.VorpalBlade.SeraphBlade
 Element=None
 Hits=1
 BasePower=30
 Upgrade=800
-
 
 [Almace]
 Cost=15
@@ -352,7 +219,7 @@ Info=A legendary longsword with a very wide blade that contains great power.
 Abilities=ChantduCygne.Requiescat.SanguineBlade
 Element=None
 Hits=1
-BasePower=55
+BasePower=50
 Upgrade=1500
 
 
@@ -793,8 +660,8 @@ Element=none
 [Zangetsu]
 Cost=7
 Type=Katana
-Info=Ichigo's powerful zanpakutou from Bleach
-Abilities=GetsugaTenshou.TensaZangetsu
+Info=Ichigo's powerful zanpakutou from Bleach. From Ichigo's Fake Dad. OOPS SPOILERS
+Abilities=GetsugaTenshou.TensaZangetsu.Mugenshou
 Element=none
 Hits=1
 BasePower=35
@@ -813,8 +680,8 @@ Upgrade=1000
 [Hyourinmaru]
 Cost=7
 Type=Katana
-Info=Hitsugaya's powerful ice zanpakutou from Bleach
-Abilities=SotenNiZase.DaigurenHyourinmaru
+Info=Hitsugaya's powerful ice zanpakutou from Bleach, has become a bit more powerful!
+Abilities=SotenNiZase.DaigurenHyourinmaru.Ryuusenka
 Element=ice
 Hits=1
 BasePower=35
@@ -1146,7 +1013,6 @@ Hits=$rand(1,3)
 BasePower=75
 Upgrade=50000
 ignoredefense=25
-
 [Black_Goddess_Staff]
 Cost=9999999
 Type=Stave
@@ -1328,6 +1194,7 @@ Element=Dark
 Hits=2
 BasePower=10
 Upgrade=50000
+
 [SuccubusPower]
 Cost=9999999
 Type=HandtoHand
@@ -1908,7 +1775,7 @@ Upgrade=50000
 Cost=9999999
 Type=HandtoHand
 Info=The power of Doomtrain.
-Abilities=RunawayTrain
+Abilities=RunawayTrain.Runaway_Train
 Element=Dark
 Hits=1
 BasePower=30
@@ -2617,8 +2484,180 @@ Upgrade=50000
 Cost=9999999
 Type=handtohand
 Info=Power of a mummy
-Abilities=
+Abilities=MummyCurse.MummyBandage
 Element=dark
 Hits=$rand(1,2)
 BasePower=30
 Upgrade=50000
+
+
+
+
+[FencingDegen]
+Cost=9999999
+Type=Sword
+Info=A rapier used by Red Mages.
+Abilities=SavageBlade.SwiftBlade.DeathBlossom.CureIV.FireIII.IceIII.AeroIII.WaterIII.ThunderIII.StoneIII.Paralyze.Slow.Blind.Stun
+Element=None
+Hits=1
+BasePower=50
+Upgrade=50000
+
+[ShinryuClaws]
+Cost=9999999
+Type=HandToHand
+Info=The claws of the mighty Dragon God, Shinryu.
+Abilities=AtomicRay.IceStorm.TidalWave.CosmicBreath.Protostar.Meteor.Supernova.DarkMatter.BurstII.ThundajaII.TornadoII.AerojaII
+Element=None
+Hits=2
+BasePower=100
+Upgrade=50000
+IgnoreDefense=10
+
+[GarlandSword]
+Cost=9999999
+Type=GreatSword
+Info=The large sword of Garland, which can change into other weapon types.
+Abilities=Earthquake_Axe.Blaze_Swords.Tsunami_Whip.Cyclone_Lance.RoundEdge.Deathblow
+Element=None
+Hits=1
+BasePower=50
+Upgrade=50000
+IgnoreDefense=5
+
+; Omega Weapon
+[FFOmegaWeapon]
+Cost=99999
+Type=Rifle
+Info=The Ultimate Fantasy Weapon
+Abilities=Repairs.SpaceBeam
+element=none
+hits=$rand(1,4)
+basepower=15
+upgrade=500000
+
+[Valkyrie_Sword]
+Cost=99999
+Type=Sword
+Info=A Valkyrie's standard issue sword, forged from the roots of Yggdrasil.
+Abilities=CureV.SonicBlow.JupitelThunder.BrandishSpear.WiseReflection
+element=Light
+hits=$rand(1,3)
+basepower=50
+upgrade=500000
+HurtEthereal=true
+ignoredefense=50
+
+[TRexWeapon]
+cost=999999
+Type=HandtoHand
+Info=A Tyrannosaurus' Weapon for fighting and hunting!
+Abilities=Roar.Swallow.SpikeFlail.VolcanicRush.SurvivalInstinct
+element=dark
+hits=$rand(2,5)
+basepower=35
+upgrade=500000
+
+[PhoenixmonWeapon]
+Cost=999999
+Type=Stave
+Info=A Phoenixmon's Weapon for defending itself.
+Abilities=StarlightExplosion.CureV.CrimsonFlame.MeteorPhoenix.DoubleHurricane.BusterPhoenix
+element=none
+hits=$rand(1,3)
+basepower=30
+upgrade=500000
+HurtEthereal=true
+
+[BlackRockShooter]
+cost=999999
+Type=Rifle
+Info=A steady rate firing Arm Cannon. It can change forms depending on the battle.
+Abilities=RockCannon.RockDeltaVulcan.BlackStarSlash.BlackStarGrenade.BlackStarPower.RockCannonSpear.CureV
+element=none
+hits=$rand(2,3)
+basepower=25
+upgrade=500000
+HurtEthereal=true
+
+[DiEndDriver]
+Cost=40
+Type=Gun
+Info=A large looking gun with a card slot on the side.
+Abilities=Diendhenshin.DiendGekijouban.DiendBlast.DiendDimensionShoot.CureII
+Element=none
+Hits=$rand(1,2)
+BasePower=25
+Upgrade=350
+HurtEthereal=true
+
+[MegasaurusWeapon]
+Cost=9999999
+Type=HandtoHand
+Info=A Megasaurus' Weapon
+abilities=SurvivalInstinct.Earthquake.UltimateSwallow.SpikeFlail.Slurp.Dinostomp.VolcanicRush
+basepower=70
+hits=$rand(1,2)
+upgrade=500000
+
+[OmegaMultipurposeCannon]
+cost=9999999
+Type=Rifle
+Info=A Omega Weapon MK12 Weapon
+abilities=WaveCannon.LightPillar.MeggidoFlame.Ultima.Gravija.TerraBreak.Meteor.LV5_Death
+basepower=999
+hits=$rand(2,4)
+upgrade=500000
+HurtEthereal=true
+
+[Perfect_Chaos_Water]
+cost=9999999
+Type=HandToHand
+Info=Perfect Chaos' ultimate form!
+basepower=500
+anbilities=Chaos_Tsunami.Hyrdro_Cannon.Chaos_Rain.Chaos_Chomp.PerfectChaosR2.Chaos_Water_Beam.Dark_Power_of_Chaos_Emeralds
+hits=$rand(1,3)
+upgrade=5000000
+HurtEthereal=true
+
+[Executioner]
+Cost=200
+Type=GreatSword
+Info=A gruesome sword used to behead criminals judged with the death penalty.
+Abilities=Bash.BowlingBash.MagnumBreak.ShadowSmash
+Element=Dark
+Hits=$rand(1,2)
+BasePower=60
+Upgrade=300
+
+[Themis'Axe]
+Cost=55
+Type=Axe
+Info=An axe blessed by the power of Themis, daughter of Uranus and Gaea. Said to cause minor earthquakes with each swing.
+Abilities=Djinn:Bane.Djinn:Flower.Djinn:Steel.Stone_Justice
+Element=Earth
+Hits=1
+BasePower=45
+Upgrade=250
+
+[StarMageStaff]
+cost=99999999
+Type=Stave
+Info=Star Magician's Normal Attack Source
+Abilities=Mine_Ball.Spark_Plasma.Megacool.Curaga
+Element=Water
+Hits=$rand(1,2)
+BasePower=60
+Upgrade=5000000
+
+[Randgris_Sword]
+cost=999999999
+Type=Sword
+Info=A specialized Valkyrie Sword... forged from the heart of a collapsing star.
+abilities=Thunder_Storm.LordOfVermillion.BrandishSpear.Light_PowerUp.HolyCross.SonicBlow.Earthquake.Protect.Shell
+basepower=110
+Element=Light
+hits=$rand(1,2)
+ignoredefense=20
+Upgrade=500000
+HurtEthereal=true

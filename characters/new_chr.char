@@ -1,20 +1,22 @@
 [BaseStats]
-Hp=100
+Hp=150
 Tp=20
 Str=5
 Def=5
 Int=5
 Spd=5
+IgnitionGauge=0
 Name=
 
 
 [Battle]
-Hp=100
+Hp=150
 Tp=20
 Str=5
 Def=5
 Int=5
 Spd=5
+IgnitionGauge=0
 Status=alive
 
 
@@ -35,6 +37,14 @@ ShopLevel=1.0
 RedOrbsSpent=0
 BlackOrbsSpent=0
 TotalDeaths=0
+MonsterKills=0
+DiscountsUsed=0
+TimesFled=0
+ItemsGiven=0
+ChestsOpened=0
+TotalNumberOfKeys=0
+RevivedTimes=0
+MonstersToGems=0
 
 [Info]
 Gender=his
@@ -78,13 +88,16 @@ sleep=no
 stun=no
 MPRegenerating=no
 boosted=no
+reflect=no
+reflect.timer=1
+confuse=no
+confuse.timer=1
 
 [Weapons]
 Equipped=Fists
 Fists=1
 
 [Skills]
-
 
 [Styles]
 Equipped=Trickster
@@ -95,12 +108,25 @@ WeaponMasterXP=0
 Guardian=1
 GuardianXP=0
 
-
 [Techniques]
 DoublePunch=1
+
+[Ignitions]
 
 
 [Item_Amount]
 potion=1
 
+[scoreboard]
+score=0
 
+[equipment]
+accessory=none
+Head=nothing
+Body=nothing
+Legs=nothing
+Feet=nothing
+Hands=nothing
+
+[DCCchat]
+Room=Lobby

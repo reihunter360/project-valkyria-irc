@@ -36,7 +36,7 @@ ShopLevel=1.0
 Drops=KnowledgeSource.DefenseSource.PowerSource.Tonic.SuperPotion.X-Potion.Ether
 
 [Monster]
-Type=
+Type=demon
 
 [Info]
 Flag=monster

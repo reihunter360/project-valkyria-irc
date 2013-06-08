@@ -39,6 +39,9 @@ BlackOrbs=1
 ShopLevel=1.0
 drops=BeastmenSeal
 
+[monster]
+type=yagudo
+
 [Info]
 Flag=monster
 Gender=her

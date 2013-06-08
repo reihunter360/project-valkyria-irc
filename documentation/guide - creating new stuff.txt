@@ -235,12 +235,13 @@ Scroll down to [weapons] and now you need to add the weapon you made above befor
 Equipped=MonsterTestWeapon
 MonsterTestWeapon=10
 
+
 Now we add the techs we made.  Again, here the # is the base skill that the monster has in that tech (affects damage).
 
 [Techniques]
 MonsterTech1=5
-
 MonsterTech2=10
+
 
 And that's basically it.  There are a few other things you can do with monsters that I'll explain below, but for all intents and purposes, after you do the above steps, the monster is ready for use.  You can move the .char file into the main \monsters\ folder and it'll eventually be summoned by the bot (at random).
 
@@ -248,38 +249,28 @@ Here's a few other things you can change:
 
 Elemental Weaknesses/Strengths:
 
-If you want your monster to be weak to certain elements, or you want them to be resistant to them, you can scroll down to the [Element] section and add the elements there.  You can list more than one by putting a period inbetween them.  Here's an example:
+If you want your monster to be weak to certain elements, or you want them to be resistant to them, you can scroll down to the [Modifiers] section and adjust the values there  Remember that the values are in percents with 100 being normal, 100% damage from it.  Setting something over 100 means they take more damage from it and setting it under 100 means they take less damage from it (with 0 being immune/no damage at all from it).  For the heal= line you can set multiple elements by putting a period inbetween them, such as  heal=fire.earth
 
-[Element]
-Weakness=Fire.Earth
-Strong=Dark.Light.Water.Wind
-
-Weaknesses do 50% more damage and Strong/resistances reduce the damage by 50%.
 
 Skills:
-
-Monsters don't have the ability to use skills in battle, but you can add the passive skills to them and they'll be able to use those.  Also, you can turn on certain skills to have them work once (such as royal guard or mana wall).
-
 Scroll to [Skills] and list them as Skill=#   Here's just a few examples:
 
 [Skills]
-
 DesperateBlows=1
 
 Clearmind=1
 
-
 ManaWall=1
-
 manawall.on=on
 
-Wizardy=10
+Wizardry=10
 
 Swordmaster=5
 
 royalguard=1
-
 royalguard.on=on
+
+
 
 And that's how you make your monsters!
 

@@ -42,7 +42,7 @@ ShopLevel=1.0
 Drops=Potion.DustyWing.X-Potion.Thief-Ring.Pizza
 
 [Monster]
-Type=
+Type=demon
 
 [Info]
 Flag=monster

@@ -67,8 +67,12 @@ Created=N/a
 ; BIOME is for if you want the monster to only appear under certain battlefields. You can list multiple with periods inbetween.
 ; Biome=
 
-[Monster]
-Type=
+[monster]
+; Type is the type of monster it is. 
+type=
+; TechLearn is a special flag where if it's hit by a tech, it will become immune to that tech for the rest of the battle.
+; Change it to "true" to turn it on.
+TechLearn=false
 
 [Status]
 Poison=no

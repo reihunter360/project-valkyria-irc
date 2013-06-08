@@ -1,6 +1,5 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; DCC CHAT CMDS
-;;;; About 99.9% finished
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -131,7 +130,7 @@ on 2:Chat:!toggle battle chat*: {
   if ((%listen.to.battle.flag = false) || (%listen.to.battle.flag = $null)) { writeini $char($nick) DCCchat ListenToBattleFlag true | $dcc.private.message($nick, 3Battle Chat has been enabled. You can now see the battle chat even if you are not in the battles.) | halt }
   if (%listen.to.battle.flag = true) { writeini $char($nick) DCCchat ListenToBattleFlag false | $dcc.private.message($nick, 3Battle Chat has been disabled. You will no longer see most battle chat messages unless you join the battles.) | halt }
 }
-
+on 2:Chat:!conquest*: { $conquest.display }
 on 2:Chat:!battle stats*: { $battle.stats }
 on 2:Chat:!battlestats*: { $battle.stats }
 on 2:Chat:!hp*: { 
@@ -144,7 +143,7 @@ on 2:Chat:!tp*: {
   $dcc.global.message($readini(translation.dat, system, ViewMyTP))
   unset %real.name
 }
-on 2:Chat:!ig*: { 
+on 2:Chat:!ig: { 
   $set_chr_name($nick)
   $dcc.global.message($readini(translation.dat, system, ViewMyIG))
   unset %real.name 
@@ -255,6 +254,95 @@ on 2:Chat:!stats*: { unset %all_status
     unset %spd | unset %str | unset %def | unset %int | unset %status | unset %comma_replace | unset %comma_new | unset %all_status | unset %weapon.equipped
   }
 }
+on 2:CHAT:!misc info*: { 
+  if ($3 = $null) { 
+    var %misc.totalbattles $readini($char($nick), stuff, TotalBattles) |  var %misc.totaldeaths $readini($char($nick), stuff, TotalDeaths)
+    var %misc.totalmonkills $readini($char($nick), stuff, MonsterKills) | var %misc.timesfled $readini($char($nick), stuff, timesFled)
+    var %misc.discountsUsed $readini($char($nick), stuff, DiscountsUsed)  | var %misc.itemsgiven $readini($char($nick), stuff, ItemsGiven)
+    var %misc.chestsopened $readini($char($nick), stuff, ChestsOpened) | var %misc.totalkeys $readini($char($nick), stuff, TotalNumberOfKeys)
+    var %misc.revivedtimes $readini($char($nick), stuff, RevivedTimes) | var %misc.monstersToGems $readini($char($nick), stuff, MonstersToGems)
+    var %misc.lostSoulsKilled $readini($char($nick), stuff, lostSoulsKilled) | var %misc.itemssold $readini($char($nick), stuff, ItemsSold)
+    var %misc.resets $readini($char($nick), stuff, NumberOfResets) | var %misc.augments $readini($char($nick), stuff, WeaponsAugmented)
+    var %misc.portalswon $readini($char($nick), stuff, PortalBattlesWon) |  var %misc.timeshitbybattlefield $readini($char($nick), stuff, TimesHitByBattlefieldEvent)
+    var %misc.ignitionsused $readini($char($nick), stuff, IgnitionsUsed) |  var %misc.timesdodged $readini($char($nick), stuff, TimesDodged)
+    var %misc.timescountered $readini($char($nick), stuff, TimesCountered) |  var %misc.timesparried $readini($char($nick), stuff, TimesParried)
+    var %misc.lightspells $readini($char($nick), stuff, LightSpellsCasted) |   var %misc.darkspells $readini($char($nick), stuff, DarkSpellsCasted)
+    var %misc.earthspells $readini($char($nick), stuff, EarthSpellsCasted) |   var %misc.firespells $readini($char($nick), stuff, FireSpellsCasted)
+    var %misc.windspells $readini($char($nick), stuff, WindSpellsCasted) |  var %misc.waterspells $readini($char($nick), stuff, WaterSpellsCasted)
+    var %misc.icespells $readini($char($nick), stuff, IceSpellsCasted)  |  var %misc.lightningspells $readini($char($nick), stuff, LightningSpellsCasted)
+    var %misc.bloodspirit $readini($char($nick), stuff, BloodSpiritTimes) | var %misc.bloodboost $readini($char($nick), stuff, BloodBoostTimes) 
+    var %misc.defenderwon $readini($char($nick), stuff, BattlesWonWithDefender) | var %misc.aggressorwon $readini($char($nick), stuff, BattlesWonWithAggressor)
+
+    var %misc.target your
+    $dcc.private.message($nick, $readini(translation.dat, system, HereIsMiscInfo))
+  }
+
+  if ($3 != $null) {
+    $checkchar($3) 
+    var %misc.totalbattles $readini($char($3), stuff, TotalBattles) |  var %misc.totaldeaths $readini($char($3), stuff, TotalDeaths)
+    var %misc.totalmonkills $readini($char($3), stuff, MonsterKills) | var %misc.timesfled $readini($char($3), stuff, timesFled)
+    var %misc.discountsUsed $readini($char($3), stuff, DiscountsUsed)  | var %misc.itemsgiven $readini($char($3), stuff, ItemsGiven)
+    var %misc.chestsopened $readini($char($3), stuff, ChestsOpened) | var %misc.totalkeys $readini($char($3), stuff, TotalNumberOfKeys)
+    var %misc.revivedtimes $readini($char($3), stuff, RevivedTimes) | var %misc.monstersToGems $readini($char($3), stuff, MonstersToGems)
+    var %misc.lostSoulsKilled $readini($char($3), stuff, lostSoulsKilled) | var %misc.itemssold $readini($char($3), stuff, ItemsSold)
+    var %misc.resets $readini($char($3), stuff, NumberOfResets) | var %misc.augments $readini($char($3), stuff, WeaponsAugmented)
+    var %misc.portalswon $readini($char($3), stuff, PortalBattlesWon) |  var %misc.timeshitbybattlefield $readini($char($3), stuff, TimesHitByBattlefieldEvent)
+    var %misc.ignitionsused $readini($char($3), stuff, IgnitionsUsed) |  var %misc.timesdodged $readini($char($3), stuff, TimesDodged)
+    var %misc.timescountered $readini($char($3), stuff, TimesCountered) |  var %misc.timesparried $readini($char($3), stuff, TimesParried)
+    var %misc.lightspells $readini($char($3), stuff, LightSpellsCasted) |   var %misc.darkspells $readini($char($3), stuff, DarkSpellsCasted)
+    var %misc.earthspells $readini($char($3), stuff, EarthSpellsCasted) |   var %misc.firespells $readini($char($3), stuff, FireSpellsCasted)
+    var %misc.windspells $readini($char($3), stuff, WindSpellsCasted) |  var %misc.waterspells $readini($char($3), stuff, WaterSpellsCasted)
+    var %misc.icespells $readini($char($3), stuff, IceSpellsCasted)  |  var %misc.lightningspells $readini($char($3), stuff, LightningSpellsCasted)
+    var %misc.bloodspirit $readini($char($3), stuff, BloodSpiritTimes) | var %misc.bloodboost $readini($char($3), stuff, BloodBoostTimes) 
+    var %misc.defenderwon $readini($char($3), stuff, BattlesWonWithDefender) | var %misc.aggressorwon $readini($char($3), stuff, BattlesWonWithAggressor)
+
+    var %misc.target $3 $+ 's
+    $dcc.private.message($nick, $readini(translation.dat, system, HereIsMiscInfo))
+  }
+
+  if (%misc.totalbattles = $null) { var %misc.totalbattles 0 }
+  if (%misc.totaldeaths = $null) { var %misc.totaldeaths 0 }
+  if (%misc.totalmonkills = $null) { var %misc.totalmonkills 0 }
+  if (%misc.timesfled = $null) { var %misc.timesfled 0 }
+  if (%misc.lostSoulsKilled = $null) { var %misc.lostSoulsKilled 0 }
+  if (%misc.discountsUsed = $null) { var %misc.discountsUsed 0 }
+  if (%misc.itemsgiven = $null) { var %misc.itemsgiven 0 }
+  if (%misc.chestsopened = $null) { var %misc.chestsopened 0 }
+  if (%misc.totalkeys = $null) { var %misc.totalkeys 0 }
+  if (%misc.revivedtimes = $null) { var %misc.revivedtimes 0 }
+  if (%misc.monstersToGems = $null) { var %misc.monstersToGems 0 }
+  if (%misc.itemssold = $null) { var %misc.itemssold 0 }
+  if (%misc.resets = $null) { var %misc.resets 0 }
+  if (%misc.augments = $null) { var %misc.augments 0 }
+  if (%misc.reforges = $null) { var %misc.reforges 0 }
+  if (%misc.portalswon = $null) { var %misc.portalswon 0 }
+  if (%misc.timeshitbybattlefield = $null) { var %misc.timeshitbybattlefield 0 }
+  if (%misc.ignitionsused = $null) { var %misc.ignitionsused 0 } 
+  if (%misc.timesdodged = $null) { var %misc.timesdodged 0 }
+  if (%misc.timescountered = $null) { var %misc.timescountered 0 }
+  if (%misc.timesparried = $null) { var %misc.timesparried 0 }
+  if (%misc.lightspells = $null) { var %misc.lightspells 0 }
+  if (%misc.darkspells = $null) { var %misc.darkspells 0 }
+  if (%misc.earthspells = $null) { var %misc.earthspells 0 }
+  if (%misc.firespells = $null) { var %misc.firespells 0 }
+  if (%misc.windspells = $null) { var %misc.windspells 0 }
+  if (%misc.waterspells = $null) { var %misc.waterspells 0 }
+  if (%misc.icespells = $null) { var %misc.icespells 0 }
+  if (%misc.lightningspells = $null) { var %misc.lightningspells 0 }
+  if (%misc.bloodspirit = $null) { var %misc.bloodspirit 0 }
+  if (%misc.bloodboost = $null) { var %misc.bloodboost 0 }
+  if (%misc.defenderwon = $null) { var %misc.defenderwon 0 }
+  if (%misc.aggressorwon = $null) { var %misc.aggressorwon 0 }
+
+  $dcc.private.message($nick, [4Total Battles Partcipated12 %misc.totalbattles $+ 1] [4Total Portal Battles Won12 %misc.portalswon $+ 1] [4Total Deaths12 %misc.totaldeaths $+ 1] [4Total Monster Kills12 %misc.totalmonkills $+ 1] [4Total Times Fled12 %misc.timesfled $+ 1][4Total Lost Souls Killed12 %misc.lostSoulsKilled $+ 1] [4Total Times Revived12 %misc.revivedtimes $+ 1] [4Total Times Character Has Been Reset12 %misc.resets $+ 1])
+  $dcc.private.message($nick, [4Total Items Sold12 %misc.itemssold $+ 1] [4Total Discounts Used12 %misc.discountsUsed $+ 1] [4Total Items Given12 %misc.itemsgiven $+ 1] [4Total Keys Obtained12 %misc.totalkeys $+ 1] [4Total Chests Opened12 %misc.chestsopened $+ 1][4Total Monster->Gem Conversions12 %misc.monstersToGems $+ 1])
+  $dcc.private.message($nick, [4Total Battlefield Events Experienced12 %misc.timeshitbybattlefield $+ 1]  [4Total Weapons Augmented12 %misc.augments $+ 1] [4Total Weapons Reforged12 %misc.reforges $+ 1] [4Total Ignitions Performed12 %misc.ignitionsused $+ 1] [4Total Dodges Performed12 %misc.timesdodged $+ 1] [4Total Parries Performed12 %misc.timesparried $+ 1] [4Total Counters Performed12 %misc.timescountered $+ 1])
+  $dcc.private.message($nick, [4Total Light Spells Casted12 %misc.lightspells $+ 1] [4Total Dar Spells Casted12 %misc.darkspells $+ 1] [4Total Earth Spells Casted12 %misc.earthspells $+ 1] [4Total Fire Spells Casted12 %misc.firespells $+ 1] [4Total Wind Spells Casted12 %misc.windspells $+ 1] [4Total Water Spells Casted12 %misc.waterspells $+ 1] [4Total Ice Spells Casted12 %misc.icespells $+ 1] [4Total Lightning Spells Casted12 %misc.lightningspells $+ 1])
+  $dcc.private.message($nick, [4Total Times Won Under Defender12 %misc.defenderwon $+ 1] [4Total Times Won Under Aggressor12 %misc.aggressorwon $+ 1] [4Total Blood Boosts Performed12 %misc.bloodboost $+ 1] [4Total Blood Spirits Performed12 %misc.bloodspirit $+ 1])
+}
+
+
+
 on 2:Chat:!weapons*: { unset %*.wpn.list | unset %weapon.list
   if ($2 = $null) { $weapon.list($nick) | set %wpn.lst.target $nick }
   else { $checkchar($2) | $weapon.list($2) | set %wpn.lst.target $2 }
@@ -272,7 +360,7 @@ on 2:Chat:!techs*: {
   }
 }
 
-on 2:Chat:!ignitions*: {
+on 2:Chat:!ignitions: {
   if ($2 = $null) { $ignition.list($nick) | $set_chr_name($nick) 
     if (%ignitions.list != $null) { $dcc.private.message($nick, $readini(translation.dat, system, ViewIgnitions)) | unset %ignitions.list }
     else { $dcc.private.message($nick, $readini(translation.dat, system, NoIgnitions))  }
@@ -320,7 +408,9 @@ on 2:Chat:!equip*: {
     if (%battleis = off) { $dcc.private.message($nick, $readini(translation.dat, system, EquipWeaponPlayer)) }
     if (%battleis = on) { $dcc.battle.message($readini(translation.dat, system, EquipWeaponPlayer)) }
   }
-  else { $set_chr_name($nick) | $dcc.private.messages($nick, $readini(translation.dat, errors, DoNotHaveWeapon)) | halt }
+  else { $set_chr_name($nick) | $dcc.private.messages($nick, $readini(translation.dat, errors, DoNotHaveWeapon)) }
+  $shadowclone.changeweapon($2)
+
 }
 
 on 2:Chat:!unequip*: {
@@ -410,9 +500,16 @@ on 2:Chat:!achievements*: {
     unset %achievement.list | unset %achievement.list.2 | unset %achievement.list.3
   }
 }
+
+on 2:Chat:!dragonballs*: { $db.display($nick) }
+
 on 2:Chat:ACTION gives *: {
   if ($3 !isnum) {  $gives.command($nick, $5, 1, $3)  }
   else { $gives.command($nick, $6, $3, $4) }
+}
+on 2:Chat:gives *: {
+  if ($2 !isnum) {  $gives.command($nick, $4, 1, $3)  }
+  else { $gives.command($nick, $5, $2, $3) }
 }
 
 on 2:Chat:!view difficulty*: { $set_chr_name($nick) | $checkchar($nick) 
@@ -441,6 +538,7 @@ on 2:Chat:!runes*: {
     else { $display.system.message($readini(translation.dat, system, HasNoRunes), private) }
   }
 }
+on 2:Chat:!reforge*: { $reforge.weapon($nick, $2) }
 on 2:Chat:!augment*: {
   if ($2 = $null) { $augments.list($nick) }
 
@@ -560,6 +658,12 @@ on 2:Chat:ACTION attacks *: {
   $set_chr_name($nick) | set %attack.target $3 | $covercheck($3)
   $attack_cmd($nick , %attack.target) 
 }
+on 2:Chat:attacks *: { 
+  if ($is_charmed($nick) = true) { $set_chr_name($nick) | $dcc.private.message($nick, $readini(translation.dat, status, CurrentlyCharmed)) | halt }
+  if ($is_confused($nick) = true) { $set_chr_name($nick) | $dcc.private.message($nick, $readini(translation.dat, status, CurrentlyConfused)) | halt }
+  $set_chr_name($nick) | set %attack.target $2 | $covercheck($2)
+  $attack_cmd($nick , %attack.target) 
+}
 on 2:Chat:ACTION goes *: { 
   if ($4 != $null) { halt }
   if ($is_charmed($nick) = true) { $set_chr_name($nick) | $dcc.private.message($nick, $readini(translation.dat, status, CurrentlyCharmed)) | halt }
@@ -569,6 +673,16 @@ on 2:Chat:ACTION goes *: {
   set %ignition.list $readini(ignitions.db, ignitions, list)
   if ($istok(%ignition.list, $3, 46) = $true) { unset %ignition.list | $ignition_cmd($nick, $3, $nick) | halt }
   else { $tech_cmd($nick , $3, $nick) | halt }
+}
+on 2:Chat:goes *: { 
+  if ($3 != $null) { halt }
+  if ($is_charmed($nick) = true) { $set_chr_name($nick) | $dcc.private.message($nick, $readini(translation.dat, status, CurrentlyCharmed)) | halt }
+  if ($is_confused($nick) = true) { $set_chr_name($nick) | $dcc.private.message($nick, $readini(translation.dat, status, CurrentlyConfused)) | halt }
+  $set_chr_name($nick) 
+
+  set %ignition.list $readini(ignitions.db, ignitions, list)
+  if ($istok(%ignition.list, $2, 46) = $true) { unset %ignition.list | $ignition_cmd($nick, $2, $nick) | halt }
+  else { $tech_cmd($nick , $2, $nick) | halt }
 }
 on 2:Chat:ACTION reverts *: {
   $check_for_battle($nick) 
@@ -580,16 +694,38 @@ on 2:Chat:ACTION reverts *: {
   var %ignition.name $readini($char($nick), status, ignition.name)
   if (%ignition.name = $3) {   
     $revert($nick, $3) 
-    $dcc.battle.message($readini(translation.dat, system, IgnitionReverted))
+    $revertignition.msg($nick)
     halt
   }
   else { $dcc.private.message($nick, $readini(translation.dat, errors, NotUsingThatIgnition)) | halt }
 } 
+on 2:Chat:reverts *: {
+  $check_for_battle($nick) 
+  if ($2 = $null) { halt }
+  if ($is_charmed($nick) = true) { $set_chr_name($nick) | $dcc.private.message($nick, $readini(translation.dat, status, CurrentlyCharmed)) | halt }
+  if ($is_confused($nick) = true) { $set_chr_name($nick) | $dcc.private.message($nick, $readini(translation.dat, status, CurrentlyConfused)) | halt }
+  $set_chr_name($nick) 
+
+  var %ignition.name $readini($char($nick), status, ignition.name)
+  if (%ignition.name = $2) {   
+    $revert($nick, $2) 
+    $revertignition.msg($nick)
+    halt
+  }
+  else { $dcc.private.message($nick, $readini(translation.dat, errors, NotUsingThatIgnition)) | halt }
+}
+alias revertignition.msg { $dcc.battle.message($readini(translation.dat, system, IgnitionReverted)) } 
 on 2:Chat:ACTION uses * * on *: {
   if ($is_charmed($nick) = true) { $set_chr_name($nick) | $dcc.private.message($nick, $readini(translation.dat, status, CurrentlyCharmed)) | halt }
   if ($is_confused($nick) = true) { $set_chr_name($nick) | $dcc.private.message($nick, $readini(translation.dat, status, CurrentlyConfused)) | halt }
   $set_chr_name($nick) | set %attack.target $6 | $covercheck($6, $4)
   $tech_cmd($nick , $4 , %attack.target, $7) | halt 
+} 
+on 2:Chat:uses * * on *: {
+  if ($is_charmed($nick) = true) { $set_chr_name($nick) | $dcc.private.message($nick, $readini(translation.dat, status, CurrentlyCharmed)) | halt }
+  if ($is_confused($nick) = true) { $set_chr_name($nick) | $dcc.private.message($nick, $readini(translation.dat, status, CurrentlyConfused)) | halt }
+  $set_chr_name($nick) | set %attack.target $5 | $covercheck($5, $3)
+  $tech_cmd($nick , $3 , %attack.target, $6) | halt 
 } 
 
 ON 2:Chat:!use*: {  unset %real.name | unset %enemy
@@ -608,7 +744,11 @@ on 2:Chat:ACTION taunts *: {
   if ($is_confused($nick) = true) { $set_chr_name($nick) | $dcc.private.message($nick, $readini(translation.dat, status, CurrentlyConfused)) | halt }
   $taunt($nick , $3) | halt 
 }
-
+on 2:Chat:taunts *: {
+  if ($is_charmed($nick) = true) { $set_chr_name($nick) | $dcc.private.message($nick, $readini(translation.dat, status, CurrentlyCharmed)) | halt }
+  if ($is_confused($nick) = true) { $set_chr_name($nick) | $dcc.private.message($nick, $readini(translation.dat, status, CurrentlyConfused)) | halt }
+  $taunt($nick , $2) | halt 
+}
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Skills
@@ -632,6 +772,8 @@ ON 2:Chat:!conserve TP*: { $skill.conserveTP($nick) }
 ON 2:Chat:!conserveTP*: { $skill.conserveTP($nick) }
 ON 2:Chat:!bloodboost*: { $skill.bloodboost($nick) }
 ON 2:Chat:!blood boost*: { $skill.bloodboost($nick) }
+ON 2:Chat:!bloodspirit*: { $skill.bloodspirit($nick) }
+ON 2:Chat:!blood spirit*: { $skill.bloodspirit($nick) }
 ON 2:Chat:!drainsamba*: { $skill.drainsamba($nick) }
 ON 2:Chat:!drain samba*: { $skill.drainsamba($nick) }
 ON 2:Chat:!regen*:* { $skill.regen($nick) }
@@ -641,6 +783,7 @@ ON 2:Chat:!kikouheni*: { $skill.kikouheni($nick, $2) }
 ON 2:Chat:!clone*: { $skill.clone($nick) }
 ON 2:Chat:!shadowcopy*: { $skill.clone($nick) }
 ON 2:Chat:!shadow copy*: { $skill.clone($nick) }
+ON 2:Chat:!shadow *: { $skill.clonecontrol($nick, $2, $3, $4) }
 ON 2:Chat:!steal*: { $skill.steal($nick, $2, !steal) }
 ON 2:Chat:!analyze*: { $skill.analysis($nick, $2) }
 ON 2:Chat:!analysis*: { $skill.analysis($nick, $2) }
@@ -732,8 +875,12 @@ ON 50:Chat:!endbat*: { $endbattle($2) }
 ON 50:Chat:!clear battle*: { $clear_battle }
 ON 50:Chat:* enters the battle*: { $enter($1) }
 ON 50:Chat:* flees the battle*: { $flee($1) }
-
-
+ON 50:Chat:* taunts*: { 
+  if ($is_charmed($1) = true) { $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
+  if ($is_confused($1) = true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, status, CurrentlyConfused), private) | halt }
+  if $readini($char($1), Battle, HP) = $null) { halt }
+  $set_chr_name($1) | $taunt($1, $3)
+}
 ON 50:Chat:!set streak*: { 
   if ($3 = $null) { .msg $nick 4!set streak # | halt }
   if ($3 <= 0) { .msg $nick the streak cannot be negative or 0. | halt }
@@ -781,7 +928,6 @@ ON 50:Chat:!toggle battle formula*: {
 ; instead.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 on 2:Chat:emote *: {  $dcc.emote($2-) }
-
 
 alias dcc.emote {
   var %p 1

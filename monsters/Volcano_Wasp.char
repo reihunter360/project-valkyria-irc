@@ -38,6 +38,9 @@ BlackOrbs=1
 ShopLevel=1.0
 Drops=VitalStar
 
+[monster]
+type=bee
+
 [Info]
 Flag=monster
 Gender=her

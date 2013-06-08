@@ -14,7 +14,7 @@ alias shop.start {
   if (%shop.level > %max.shop.level) { writeini $char($nick) stuff shoplevel %max.shop.level }
 
   $set_chr_name($nick) 
-  unset %shop.list
+  unset %shop.list |  unset %shop.list2
   if ($2 = $null) { $gamehelp(Shop, $nick)  | halt  }
   if ($2 = level) { $display.private.message($readini(translation.dat, system, CurrentShopLevel)) | halt }
 
@@ -40,7 +40,7 @@ alias shop.start {
 
     if ($3 = $null) {  $display.private.message(4Error: Use !shop buy <items/techs/skills/stats/weapons/styles/ignitions/orbs/portal/misc> <what to buy>)  }
     var %amount.to.purchase $abs($5)
-    if (%amount.to.purchase = $null) { var %amount.to.purchase 1 }
+    if ((%amount.to.purchase = $null) || (%amount.to.purchase !isnum 1-9999)) { var %amount.to.purchase 1 }
 
     if (($3 = items) || ($3 = item))  { $shop.items($nick, buy, $4, %amount.to.purchase) | halt }
     if (($3 = techs) || ($3 = techniques)) { $shop.techs($nick, buy, $4, %amount.to.purchase) | halt  }
@@ -69,6 +69,7 @@ alias shop.start {
       if ($4 = passive) { $shop.skills.passive($nick) }
       if ($4 = active) { $shop.skills.active($nick) }
       if (($4 = resists) || ($4 = resistances)) { $shop.skills.resists($nick) }
+      if (($4 = killer) || ($4 = killertraits)) { $shop.skills.killertraits($nick) }
       if ($4 = $null) { $shop.skills($nick, list) }
     }
 
@@ -401,7 +402,7 @@ alias shop.techs {
 }
 
 alias shop.skills {
-  unset %shop.list.activeskills | unset %shop.list.passiveskills | unset %shop.list.resistanceskills | unset %total.passive.skills | unset %total.active.skills
+  unset %shop.list.activeskills | unset %shop.list.passiveskills | unset %shop.list.resistanceskills | unset %total.passive.skills | unset %total.active.skills | unset %shop.list.killertraits
   if ($2 = list) {
     ; get the list of the skills
     $shop.get.shop.level($1)
@@ -510,16 +511,44 @@ alias shop.skills {
 
     set %replacechar $chr(044) $chr(032) |  %shop.list.resistanceskills = $replace(%shop.list.resistanceskills, $chr(046), %replacechar)
 
+    ; CHECKING KILLER TRAITS
+    unset %skill.list | unset %value
+    set %skill.list $readini(skills.db, Skills, KillerTraits)
+    var %number.of.items $numtok(%skill.list, 46)
+
+    var %value 1 | var %total.killertraits 0
+    while (%value <= %number.of.items) {
+      set %skill.name $gettok(%skill.list, %value, 46)
+      set %skill.max $readini(skills.db, %skill.name, max)
+      set %skill.have $readini($char($1), skills, %skill.name)
+
+      if (%skill.have >= %skill.max) { inc %value 1 }
+      else { 
+        set %skill.price $round($calc(%shop.level * $readini(skills.db, %skill.name, cost)),0)
+
+        if ((%total.killertraits <= 15) || (%total.killertraits = $null)) {  %shop.list.killertraits = $addtok(%shop.list.killertraits, $+ %skill.name $+ +1 ( $+ %skill.price $+ ),46) }
+        if (%total.killertraits > 15) { %shop.list.killertraits2 = $addtok(%shop.list.killertraits2, $+ %skill.name $+ +1 ( $+ %skill.price $+ ),46) }
+
+        inc %value 1 | inc %total.killertraits 1
+      }
+    }
+
+    set %replacechar $chr(044) $chr(032) |  %shop.list.killertraits = $replace(%shop.list.killertraits, $chr(046), %replacechar) | %shop.list.killertraits2 = $replace(%shop.list.killertraits2, $chr(046), %replacechar)
+
     ; display the list with the prices.
-    if (%shop.list.activeskills != $null) {  $display.private.message(2Active Skill Prices in $readini(system.dat, system, currency) $+ : %shop.list.activeskills) }
+    if (%shop.list.activeskills != $null) {  $display.private.message(4Active Skill Prices2 in $readini(system.dat, system, currency) $+ : %shop.list.activeskills) }
     if (%shop.list.activeskills2 != $null) {  $display.private.message(2 $+ %shop.list.activeskills2) }
 
-    if (%shop.list.passiveskills != $null) {  $display.private.message(2Passive Skill Prices in $readini(system.dat, system, currency) $+ : %shop.list.passiveskills) }
+    if (%shop.list.passiveskills != $null) {  $display.private.message(4Passive Skill Prices2 in $readini(system.dat, system, currency) $+ : %shop.list.passiveskills) }
     if (%shop.list.passiveskills2 != $null) {  $display.private.message(2 $+ %shop.list.passiveskills2) }
 
-    if (%shop.list.resistanceskills != $null) {  $display.private.message(2Resistance Skill Prices in $readini(system.dat, system, currency) $+ : %shop.list.resistanceskills) }
+    if (%shop.list.resistanceskills != $null) {  $display.private.message(4Resistance Skill Prices2 in $readini(system.dat, system, currency) $+ : %shop.list.resistanceskills) }
 
-    unset %shop.list.activeskills | unset %shop.list.passiveskills | unset %shop.list.resistanceskills | unset %shop.list.activeskills2 | unset %shop.list.passiveskills2 | unset %total.active.skills | unset %total.passives.skills
+    if (%shop.list.killertraits != $null) {  $display.private.message(4Killer Trait Skill Prices2 in $readini(system.dat, system, currency) $+ : %shop.list.killertraits) }
+    if (%shop.list.killertraits2 != $null) {  $display.private.message(2 $+ %shop.list.killertraits2) }
+
+    unset %shop.list.activeskills | unset %shop.list.passiveskills | unset %shop.list.resistanceskills | unset %shop.list.activeskills2 | unset %shop.list.passiveskills2 | unset %total.active.skills | unset %total.passives.skills | unset %shop.list.killertraits
+    unset %shop.list.killertraits2
   }
 
 
@@ -599,7 +628,7 @@ alias shop.skills.passive {
   set %replacechar $chr(044) $chr(032) |  %shop.list.passiveskills = $replace(%shop.list.passiveskills, $chr(046), %replacechar) | %shop.list.passiveskills2 = $replace(%shop.list.passiveskills2, $chr(046), %replacechar)
 
   ; display the list with the prices.
-  if (%shop.list.passiveskills != $null) {  $display.private.message(2Passive Skill Prices in $readini(system.dat, system, currency) $+ : %shop.list.passiveskills) }
+  if (%shop.list.passiveskills != $null) {  $display.private.message(4Passive Skill Prices2 in $readini(system.dat, system, currency) $+ : %shop.list.passiveskills) }
   if (%shop.list.passiveskills2 != $null) { $display.private.message(2 $+ %shop.list.passiveskills2) }
 
   unset %shop.list.passiveskills |   unset %shop.list.passiveskills2 | unset %total.passive.skills
@@ -653,7 +682,7 @@ alias shop.skills.active {
   set %replacechar $chr(044) $chr(032) |  %shop.list.activeskills = $replace(%shop.list.activeskills, $chr(046), %replacechar) | %shop.list.activeskills2 = $replace(%shop.list.activeskills2, $chr(046), %replacechar)
 
   ; display the list with the prices.
-  if (%shop.list.activeskills != $null) {  $display.private.message(2Active Skill Prices in $readini(system.dat, system, currency) $+ : %shop.list.activeskills) }
+  if (%shop.list.activeskills != $null) {  $display.private.message(4Active Skill Prices2 in $readini(system.dat, system, currency) $+ : %shop.list.activeskills) }
   if (%shop.list.activeskills2 != $null) {  $display.private.message(2 $+ %shop.list.activeskills2) }
 
   unset %shop.list.activeskills |   unset %shop.list.activeskills2 | unset %total.active.skills
@@ -686,10 +715,43 @@ alias shop.skills.resists {
   set %replacechar $chr(044) $chr(032) |  %shop.list.resistanceskills = $replace(%shop.list.resistanceskills, $chr(046), %replacechar)
 
   ; display the list with the prices.
-  if (%shop.list.resistanceskills != $null) { $display.private.message(2Resistance Skill Prices in $readini(system.dat, system, currency) $+ : %shop.list.resistanceskills) }
+  if (%shop.list.resistanceskills != $null) { $display.private.message(4Resistance Skill Prices2 in $readini(system.dat, system, currency) $+ : %shop.list.resistanceskills) }
 
   unset %shop.list.resistanceskills
 }
+
+alias shop.skills.killertraits {
+  unset %shop.list.killertraits
+  ; get the list of the skills
+  $shop.get.shop.level($1)
+
+  ; CHECKING KILLER TRAITS
+  unset %skill.list | unset %value
+  set %skill.list $readini(skills.db, Skills, KillerTraits)
+  var %number.of.items $numtok(%skill.list, 46)
+
+  var %value 1
+  while (%value <= %number.of.items) {
+    set %skill.name $gettok(%skill.list, %value, 46)
+    set %skill.max $readini(skills.db, %skill.name, max)
+    set %skill.have $readini($char($1), skills, %skill.name)
+
+    if (%skill.have >= %skill.max) { inc %value 1 }
+    else { 
+      set %skill.price $round($calc(%shop.level * $readini(skills.db, %skill.name, cost)),0)
+      %shop.list.killertraits = $addtok(%shop.list.killertraits, $+ %skill.name $+ +1 ( $+ %skill.price $+ ),46)
+      inc %value 1 
+    }
+  }
+
+  set %replacechar $chr(044) $chr(032) |  %shop.list.killertraits = $replace(%shop.list.killertraits, $chr(046), %replacechar)
+
+  ; display the list with the prices.
+  if (%shop.list.killertraits != $null) { $display.private.message(4Killer Trait Skill Prices2 in $readini(system.dat, system, currency) $+ : %shop.list.killertraits) }
+
+  unset %shop.list.killertraits
+}
+
 
 alias shop.stats {
   if ($2 = list) {
@@ -1446,7 +1508,55 @@ alias shop.portal {
 
     if (%portals.kindred != $null) {  $display.private.message(2These portal items are paid for with KindredSeals: %portals.kindred)  }
 
-    if (%portals.kindred = $null) && (%portals.bstmen = $null) { $display.private.message(4There are no portal items available for purchase right now)  }
+
+    unset %item.name | unset %item_amount | unset %number.of.items | unset %value | unset %shop.list
+    var %portal.items $readini(items.db, items, PortalItems)
+    var %number.of.items $numtok(%portal.items, 46)
+
+    var %value 1
+    while (%value <= %number.of.items) {
+      set %item.name $gettok(%portal.items, %value, 46)
+      set %item_amount $readini(items.db, %item.name, cost)
+      if ((%item_amount != $null) && (%item_amount >= 1)) { 
+        ; add the item and the amount to the item list
+
+        if ($readini(items.db, %item.name, currency) = KindredCrest) { 
+          var %item_to_add 14 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041) 
+          %shop.list = $addtok(%shop.list,%item_to_add,46)
+        }
+      }
+      inc %value 1 
+    }
+
+    if (%shop.list != $null) {  $shop.cleanlist | set %portals.kindredcrest %shop.list  }
+
+    if (%portals.kindredcrest != $null) {  $display.private.message(2These portal items are paid for with KindredCrests: %portals.kindredcrest)  }
+
+
+    unset %item.name | unset %item_amount | unset %number.of.items | unset %value | unset %shop.list
+    var %portal.items $readini(items.db, items, PortalItems)
+    var %number.of.items $numtok(%portal.items, 46)
+
+    var %value 1
+    while (%value <= %number.of.items) {
+      set %item.name $gettok(%portal.items, %value, 46)
+      set %item_amount $readini(items.db, %item.name, cost)
+      if ((%item_amount != $null) && (%item_amount >= 1)) { 
+        ; add the item and the amount to the item list
+
+        if ($readini(items.db, %item.name, currency) = HighKindredCrest) { 
+          var %item_to_add 14 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041) 
+          %shop.list = $addtok(%shop.list,%item_to_add,46)
+        }
+      }
+      inc %value 1 
+    }
+
+    if (%shop.list != $null) {  $shop.cleanlist | set %portals.highkindredcrest %shop.list  }
+
+    if (%portals.highkindredcrest != $null) {  $display.private.message(2These portal items are paid for with HighKindredCrests: %portals.highkindredcrest)  }
+
+    if ((((%portals.kindred = $null) && (%portals.bstmen = $null) && (%portals.kindredcrest = $null) && (%portals.highkindredcrest = $null)))) { $display.private.message(4There are no portal items available for purchase right now)  }
 
     unset %shop.list
   }
@@ -1483,7 +1593,7 @@ alias shop.alchemy {
     var %misc.items $readini(items.db, items, Misc)
     var %number.of.items $numtok(%misc.items, 46)
 
-    var %value 1
+    var %value 1 | var %misc.item.count 0
     while (%value <= %number.of.items) {
       set %item.name $gettok(%misc.items, %value, 46)
       set %item_amount $readini(items.db, %item.name, cost)
@@ -1492,14 +1602,16 @@ alias shop.alchemy {
 
         if ($readini(items.db, %item.name, currency) = AlliedNotes) { 
           var %item_to_add %item.name $+ $chr(040) $+ %item_amount $+ $chr(041) 
-          %shop.list = $addtok(%shop.list,%item_to_add,46)
+          if (%misc.item.count <= 20) {  %shop.list = $addtok(%shop.list,%item_to_add,46) }
+          if (%misc.item.count > 20) {  %shop.list2 = $addtok(%shop.list2,%item_to_add,46) }
+
+          inc %misc.item.count 1
         }
       }
       inc %value 1 
     }
 
-
-    if (%shop.list != $null) {  $shop.cleanlist | set %misc %shop.list  }
+    if (%shop.list != $null) {  $shop.cleanlist | set %misc %shop.list  | set %misc2 %shop.list2 }
 
     unset %shop.list | unset %item.name | unset %item_amount
 
@@ -1527,12 +1639,13 @@ alias shop.alchemy {
     if ((%misc != $null) || (%gems != $null)) { 
       $display.private.message(2These items are paid for with Allied Notes:)
       if (%misc != $null) { $display.private.message(%misc) }
+      if (%misc2 != $null) { $display.private.message(%misc2) }
       if (%gems != $null) { $display.private.message(%gems) }
     }
 
     if (%misc = $null) && (%gems = $null) {  $display.private.message(4There are no items available for purchase right now)  }
 
-    unset %shop.list | unset %misc | unset %gems
+    unset %shop.list | unset %misc | unset %gems | unset %misc2
   }
 
   if (($2 = buy) || ($2 = purchase)) {
@@ -1565,7 +1678,7 @@ alias shop.alchemy {
 
 
 alias shop.orbs {
-  if ($2 = list) { $display.private.message(2You can exchange 1 black orb for 500 $readini(system.dat, system, currency) $+ .  To do so, use the command: !shop buy orbs)  }
+  if ($2 = list) { $display.private.message(2You can exchange 1 black orb for 500 $readini(system.dat, system, currency) $+ .  To do so use the command: !shop buy orbs)  }
 
   if (($2 = buy) || ($2 = purchase)) {
     ; do you have enough to buy it?
@@ -1607,9 +1720,10 @@ alias inc.shoplevel {
 
 alias shop.cleanlist {
   ; CLEAN UP THE LIST
-  if ($chr(046) isin %shop.list) { set %replacechar $chr(044) $chr(032)
-    %shop.list = $replace(%shop.list, $chr(046), %replacechar)
-  }
+  set %replacechar $chr(044) $chr(032)
+  %shop.list = $replace(%shop.list, $chr(046), %replacechar)
+  %shop.list2 = $replace(%shop.list2, $chr(046), %replacechar)
+  unset %replacechar
 }
 
 alias inc.redorbsspent {  

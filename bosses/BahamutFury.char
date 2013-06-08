@@ -36,7 +36,7 @@ ShopLevel=1.0
 Drops=Potion.BahamutMateria.BahamutZeroMateria
 
 [Monster]
-Type=
+Type=Dragon
 
 [Info]
 Flag=monster

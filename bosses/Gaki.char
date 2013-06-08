@@ -37,7 +37,7 @@ ShopLevel=1.0
 Drops=MyochinKote.MyochinSune-Ate.KindredSeal
 
 [Monster]
-Type=
+Type=demon
 
 [Info]
 Flag=monster

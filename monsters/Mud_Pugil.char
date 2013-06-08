@@ -51,6 +51,9 @@ Streak=101
 StreakMax=200
 Biome=River.Underwater Cavern.Ocean
 
+[monster]
+type=pugil
+
 [Status]
 Poison=no
 HeavyPoison=no

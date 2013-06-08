@@ -36,7 +36,7 @@ ShopLevel=1.0
 Drops=Potion
 
 [Monster]
-Type=
+Type=android
 
 [Info]
 Flag=monster

@@ -50,6 +50,9 @@ Created=N/a
 Streak=-1000
 Bosslevel=47
 
+[Monster]
+Type=worm
+
 [Status]
 Poison=no
 HeavyPoison=no

@@ -13,10 +13,23 @@ BeastmenSeal Items
 
 Kindred Seal Items
 [15 Seals] GemOfTheNorth
+[15 Seals] GemOfTheEast
+[15 Seals] GemOfTheSouth
+[15 Seals] GemOfTheWest
 [20 Seals] IgnisFatuus
 [25 Seals] BanishingCharm
+[25 Seals] LachesisOrb
 [30 Seals] RottingOrb
 
+Kindred Crest Portal Items
+[30 Seals] CrimsonTraverserStone
+
+High Kindred Crest Portal Items
+[50 Seals] GoddessOrb
+
+
+Crafted Seal Items
+GodSeal
 
 
 ALLIEDTRAININGPAPER
@@ -69,6 +82,42 @@ Estimated Fight Level: 1100~1500
 
 
 
+GEMOFTHEEAST
+Allied Forces have managed to crack the second seal of the flying city.  Intel report that the east chamber is home to a large wyvern named Seiryu.  Shami has made an item that can teleport heroes up there to its chamber.  Be sure to go check it out but beware of the wyvern's wrath if you disturb it.
+
+Portal Item: GemOfTheEast
+Portal Item Cost: 15 Kindred Seals
+Potential Rewards: KindredSeal, SeiryuSeal, Seiryu'sKote
+Allied Notes Worth: 1000
+Danger Level: Extremely High
+Estimated Fight Level: 1100~1500 
+
+
+
+GEMOFTHESOUTH
+Exploration of the flying city continues as the Allied Forces break the seal of the south chamber. of the flying city.  Intelligence reports that the south chamber is home to a large bird named Suzaku. Shami has made an item that can teleport heroes up there to its chamber.
+
+Portal Item: GemOfTheSouth
+Portal Item Cost: 15 Kindred Seals
+Potential Rewards: KindredSeal, SuzakuSeal, Suzaku'sSune-Ate
+Allied Notes Worth: 1000
+Danger Level: Extremely High
+Estimated Fight Level: 1100~1500 
+
+
+
+GEMOFTHEWEST
+The seal of the final outer-chamber of the flying city has been broken.  Intelligence reports that the west chamber is home to an unusually large tiger by the name of Byakko.  Shami has made an item that can teleport heroes up there to its chamber.
+
+Portal Item: GemOfTheWest
+Portal Item Cost: 15 Kindred Seals
+Potential Rewards: KindredSeal, ByakkoSeal, Byakko'sHaidate
+Allied Notes Worth: 1000
+Danger Level: Extremely High
+Estimated Fight Level: 1100~1500 
+
+
+
 IGNISFATUUS
 Reports of a giant flying whale-looking demon have been coming in.  Allegedly it's already eaten an entire school bus.  God help those that were inside it at the time.  The Allied Intelligence has gathered that the beast is just simply too big and too strongly armored to take on first-hand.  In order to defeat this thing, it's going to have to be done from the inside.  Yeah, the inside. You'll need to reach the heart chamber of the beast and defeat its beating heart to take it down..  Shami might know of a way.
 
@@ -92,6 +141,21 @@ Danger Level: Very High
 Estimated Fight Level: 500~600 
 
 
+
+LACHESISORB
+So, you're walking through town and you see this guy standing around. You think to yourself, "Hey, that guy has a pretty sweet hat!" You walk up to him and ask how you can get one. He simply replies with, "You must earn it from me in combat. Speak to a man called Shami for details." He walks off after that.
+
+Shami can help you make the item required to access the battlefield that Rainemard will be waiting in.
+
+Portal Item: LachesisOrb
+Portal Item Cost: 25 Kindred Seals
+Potential Rewards: Warlock's Chapeau, Warlock's Tabard, Warlock's Gloves, Warlock's Tights, Warlock's Boots
+Allied Notes Worth: 500
+Danger Level: High
+Estimated Fight Level: 500 - 600
+
+
+
 ROTTINGORB
 While we continue to investigate the city in the sky, allied intelligence has discovered that a powerful demon has made its home in a dungeon full of rotting bodies. It seems this body has created a shell made out of dead bodies for protection and is trying to summon an undead army of zombies.  This creature must be stopped at all cost!  Shami is willing to trade an item that will teleport you into the dungeon itself.  But beware!  Reports have indicated that the creature can devour the minions it is summoning to become stronger.
 
@@ -101,3 +165,45 @@ Potential Rewards: KindredSeal, RottingMeat, ChaosBurgeonet, ChaosCuirass, Chaos
 Allied Notes Worth: 2500
 Danger Level: Extremely High
 Estimated Fight Level: 1000~1500+ 
+
+
+
+GODSEAL
+Intelligence has gathered that the center chamber on the island is home to Kirin, the king of the Sky Gods.  It is said that his chamber can only be entered by forging a powerful GodSeal using the four Sky God seals.  Sorry, Shami can't help you enter this one!
+
+Portal Item: GodSeal
+Portal Item Cost: Crafted Only
+Potential Rewards: KirinSeal, Kirin'sOsode
+Allied Notes Worth: 2000
+Danger Level: Extremely High
+Estimated Fight Level: 1100~1500
+
+
+
+CRIMSONTRAVERSERSTONE
+Few have seen this battlefield and those few who have died from their wounds moments after giving limited intel. It seems that a powerful Wyrm God lies in wait in the Empyreal Paradox. Other than that, not much else is known, except that a Crimson Traverser Stone is required to enter..
+
+Shami is reluctant to make the item, but will do so to those wanting a brutal death.
+
+Portal Item: CrimsonTraverserStone
+Portal Item Cost: 30 Kindred Crests
+Potential Rewards: One of the reports claims that Shinryu carries Twilight armor as treasure, but that is all the info gathered.
+Allied Notes Worth: 3000
+Danger Level: God-like
+Estimated Fight Level: 5000 - 6000
+
+
+
+GODDESSORB
+Eldora has been waiting in the shadows, watching as the heroes rise up in the battle ranks, soon to be at level 1900.  Eldora issues a final challenge, to face her true might and possibly gain powerful armor. Additionally, Nauthima Tiranadel, who was once a boss but then joined the heroes as a NPC ally, has Joined Eldora for this battle. She will wield her true magical might in this battle as well.
+
+Shami has been deemed worthy enough to make the portal item for this challenge. However, you most likely should make sure your coffin is prepared, for this could be your final battle. It was nice knowing you!
+
+Portal Item: Goddess Orb
+Portal Item Cost: 50 High Kindred Crests
+Potential Rewards: Eldora simply replied with this: "Unkai armor set and Estoqueur armor set."
+Allied Notes Worth: 4000
+Danger Level: Impossible to gauge
+Estimated Fight Level: 7000 - 8000
+
+Eldora also made the vague comment of upgrading all of the new the armor, but refused to say how. Only when she feels it's time for that information to be disclosed.

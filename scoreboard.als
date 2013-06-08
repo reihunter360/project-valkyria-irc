@@ -137,51 +137,122 @@ generate.scoreboard {
   }
 
   $display.system.message($readini(translation.dat, system, ScoreBoardTitle), private)
-  $display.system.message(query %battlechan $chr(3) $+ 2 $+ %score.list, private)
+  $display.system.message($chr(3) $+ 2 $+ %score.list, private)
   if (%score.list.2 != $null) { $display.system.message($chr(3) $+ 2 $+ %score.list.2, private)  }
   unset %totalplayers | unset %score.list | unset %score.list.2 | unset %who.score |  .remove ScoreBoard.txt | unset %ScoreBoard.score
 }
 
 get.score {
   var %score 0
-  inc %score $readini($char($1), basestats, hp)
-  inc %score $readini($char($1), basestats, tp)
-  inc %score $readini($char($1), basestats, str)
-  inc %score $readini($char($1), basestats, def)
-  inc %score $readini($char($1), basestats, int)
-  inc %score $readini($char($1), basestats, spd)
-  inc %score $readini($char($1), basestats, str)
-  inc %score $readini($char($1), stuff, RedOrbs)
-  inc %score $readini($char($1), stuff, BlackOrbs)
-  inc %score $readini($char($1), stuff, RedOrbsSpent)
-  inc %score $readini($char($1), stuff, BlackOrbsSpent)
-  dec %score $readini($char($1), stuff, TotalDeaths)
-  inc %score $readini($char($1), stuff, MonsterKills)
-  dec %score $readini($char($1), stuff, TimesFled)
-  inc %score $readini($char($1), stuff, ChestsOpened)
-  dec %score $readini($char($1), stuff, DiscountsUsed)
-  inc %score $readini($char($1), stuff, NumberOfResets)
-  inc %score $readini($char($1), stuff, WeaponsAugmented)
-  inc %score $readini($char($1), stuff, MonstersToGems)
-  inc %score $readini($char($1), stuff, LightSpellsCasted)
-  inc %score $readini($char($1), stuff, DarkSpellsCasted)
-  inc %score $readini($char($1), stuff, EarthSpellsCasted)
-  inc %score $readini($char($1), stuff, FireSpellsCasted)
-  inc %score $readini($char($1), stuff, WindSpellsCasted)
-  inc %score $readini($char($1), stuff, WaterSpellsCasted)
-  inc %score $readini($char($1), stuff, IceSpellsCasted)
-  inc %score $readini($char($1), stuff, LightningSpellsCasted)
-  inc %score $readini($char($1), stuff, PortalBattlesWon)
-  inc %score $readini($char($1), stuff, TimesHitByBattlefieldEvent)
-  inc %score $readini($char($1), stuff, IgnitionsUsed)
-  inc %score $readini($char($1), stuff, TimesDodged)
-  inc %score $readini($char($1), stuff, TimesCountered)
-  inc %score $readini($char($1), stuff, TimesParried)
-  inc %score $readini($char($1), stuff, ItemsSold)
+  var %scoreboard.type $readini(system.dat, system, ScoreBoardType)
+  if (%scoreboard.type = $null) { var %scoreboard.type 2 }
 
-  inc %score $readini($char($1), Styles, Trickster)
-  inc %score $readini($char($1), Styles, Guardian)
-  inc %score $readini($char($1), Styles, WeaponMaster)
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;; CALCULATE TOTAL SCORE.
+  ;;; TYPE 1
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  if (%scoreboard.type = 1) { 
+    inc %score $readini($char($1), basestats, hp)
+    inc %score $readini($char($1), basestats, tp)
+    inc %score $readini($char($1), basestats, str)
+    inc %score $readini($char($1), basestats, def)
+    inc %score $readini($char($1), basestats, int)
+    inc %score $readini($char($1), basestats, spd)
+    inc %score $readini($char($1), basestats, str)
+    inc %score $readini($char($1), stuff, RedOrbs)
+    inc %score $readini($char($1), stuff, BlackOrbs)
+    inc %score $readini($char($1), stuff, RedOrbsSpent)
+    inc %score $readini($char($1), stuff, BlackOrbsSpent)
+    inc %score $readini($char($1), stuff, MonsterKills)
+    inc %score $readini($char($1), stuff, ChestsOpened)
+    inc %score $readini($char($1), stuff, NumberOfResets)
+    inc %score $readini($char($1), stuff, WeaponsAugmented)
+    inc %score $readini($char($1), stuff, MonstersToGems)
+    inc %score $readini($char($1), stuff, LightSpellsCasted)
+    inc %score $readini($char($1), stuff, DarkSpellsCasted)
+    inc %score $readini($char($1), stuff, EarthSpellsCasted)
+    inc %score $readini($char($1), stuff, FireSpellsCasted)
+    inc %score $readini($char($1), stuff, WindSpellsCasted)
+    inc %score $readini($char($1), stuff, WaterSpellsCasted)
+    inc %score $readini($char($1), stuff, IceSpellsCasted)
+    inc %score $readini($char($1), stuff, LightningSpellsCasted)
+    inc %score $readini($char($1), stuff, PortalBattlesWon)
+    inc %score $readini($char($1), stuff, TimesHitByBattlefieldEvent)
+    inc %score $readini($char($1), stuff, IgnitionsUsed)
+    inc %score $readini($char($1), stuff, TimesDodged)
+    inc %score $readini($char($1), stuff, TimesCountered)
+    inc %score $readini($char($1), stuff, TimesParried)
+    inc %score $readini($char($1), stuff, ItemsSold)
+    inc %score $readini($char($1), stuff, LostSoulsKilled)
+
+    inc %score $readini($char($1), Styles, Trickster)
+    inc %score $readini($char($1), Styles, Guardian)
+    inc %score $readini($char($1), Styles, WeaponMaster)
+    if ($readini($char($1), styles, Spellmaster) != $null) { inc %score $readini($char($1), Styles, Spellmaster) }
+    if ($readini($char($1), styles, QuickSilver) != $null) { inc %score $readini($char($1), Styles, QuickSilver) }
+    if ($readini($char($1), styles, CounterStance) != $null) { inc %score $readini($char($1), Styles, CounterStance) }
+    if ($readini($char($1), styles, Doppelganger) != $null) { inc %score $readini($char($1), Styles, Doppelganger) }
+    if ($readini($char($1), styles, HitenMitsurugi-ryu) != $null) { inc %score $readini($char($1), Styles, HitenMitsurugi-ryu) }
+
+    dec %score $readini($char($1), stuff, TotalDeaths)
+    dec %score $readini($char($1), stuff, TimesFled)
+    dec %score $readini($char($1), stuff, DiscountsUsed)
+  }
+
+
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  ;;; CALCULATE TOTAL SCORE.
+  ;;; TYPE 2
+  ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+  if (%scoreboard.type = 2) { 
+
+    inc %score $calc($readini($char($1), basestats, hp) / 1000)
+    inc %score $calc($readini($char($1), basestats, tp) / 100)
+    inc %score $get.level($1)
+    inc %score $calc($readini($char($1), stuff, BlackOrbsSpent) / 10)
+    inc %score $calc($readini($char($1), stuff, RedOrbsSpent) / 50000)
+    inc %score $readini($char($1), stuff, MonsterKills)
+    inc %score $readini($char($1), stuff, ChestsOpened)
+    inc %score $readini($char($1), stuff, NumberOfResets)
+    inc %score $readini($char($1), stuff, WeaponsAugmented)
+    inc %score $readini($char($1), stuff, MonstersToGems)
+    inc %score $readini($char($1), stuff, LightSpellsCasted)
+    inc %score $readini($char($1), stuff, DarkSpellsCasted)
+    inc %score $readini($char($1), stuff, EarthSpellsCasted)
+    inc %score $readini($char($1), stuff, FireSpellsCasted)
+    inc %score $readini($char($1), stuff, WindSpellsCasted)
+    inc %score $readini($char($1), stuff, WaterSpellsCasted)
+    inc %score $readini($char($1), stuff, IceSpellsCasted)
+    inc %score $readini($char($1), stuff, LightningSpellsCasted)
+    inc %score $readini($char($1), stuff, PortalBattlesWon)
+    inc %score $readini($char($1), stuff, TimesHitByBattlefieldEvent)
+    inc %score $readini($char($1), stuff, IgnitionsUsed)
+    inc %score $readini($char($1), stuff, TimesDodged)
+    inc %score $readini($char($1), stuff, TimesCountered)
+    inc %score $readini($char($1), stuff, TimesParried)
+    inc %score $readini($char($1), stuff, ItemsSold)
+
+    inc %score $readini($char($1), Styles, Trickster)
+    inc %score $readini($char($1), Styles, Guardian)
+    inc %score $readini($char($1), Styles, WeaponMaster)
+    if ($readini($char($1), styles, Spellmaster) != $null) { inc %score $readini($char($1), Styles, Spellmaster) }
+    if ($readini($char($1), styles, QuickSilver) != $null) { inc %score $readini($char($1), Styles, QuickSilver) }
+    if ($readini($char($1), styles, CounterStance) != $null) { inc %score $readini($char($1), Styles, CounterStance) }
+    if ($readini($char($1), styles, Doppelganger) != $null) { inc %score $readini($char($1), Styles, Doppelganger) }
+    if ($readini($char($1), styles, HitenMitsurugi-ryu) != $null) { inc %score $readini($char($1), Styles, HitenMitsurugi-ryu) }
+
+    dec %score $readini($char($1), stuff, TotalDeaths)
+    dec %score $readini($char($1), stuff, RevivedTimes)
+    dec %score $calc($readini($char($1), stuff, TimesFled) * 5)
+    dec %score $round($readini($char($1), stuff, DiscountsUsed) * 5,0)
+
+    if (%score <= 0) { var %score 1 }
+
+  }
+
+
+
+
   writeini $char($1) scoreboard score %score
   return %score
 }  
@@ -189,7 +260,7 @@ get.score {
 
 generate.monsterdeathboard {
 
-  set %totalmonsters 0
+  set %totalmonsters 0 | set %total.deaths 0
 
   var %value 1
   while ($findfile( $mon_path , *.char, %value , 0) != $null) {
@@ -198,6 +269,7 @@ generate.monsterdeathboard {
 
     if ((%name = new_mon) || (%name = $null)) { inc %value 1 } 
     set %score $readini(monsterdeaths.lst, monster, %name)
+    if (%score != $null) {  inc %total.deaths %score }
 
     if (%score != $null) {   write scoreboard.txt %name | inc %totalmonsters 1 }
     inc %value 1
@@ -287,53 +359,59 @@ generate.monsterdeathboard {
   unset %ScoreBoard.speed
 
 
-  if (%totalmonsters < 5) { 
+  if ($1 = total) {  $display.system.message($readini(translation.dat, system, DeathBoardTotalMon), private) }
 
-    ; Get the top 3 and display it.
-    unset %score.list | set %current.line 1
+  if ($1 = $null) { 
+    if (%totalmonsters < 5) { 
 
-    while (%current.line <= 3) { 
-      set %who.score $read -l [ $+ [ %current.line ] ] scoreboard.txt | set %score $bytes( $readini(monsterdeaths.lst, monster, %who.score),b)
-      %score.list = %score.list $chr(91) $+  $+ $chr(35) $+ %current.line $+  %who.score $chr(40) $+ %score $+ $chr(41) $+ $chr(93) $chr(32)
-      inc %current.line 1 
+      ; Get the top 3 and display it.
+      unset %score.list | set %current.line 1
+
+      while (%current.line <= 3) { 
+        set %who.score $read -l [ $+ [ %current.line ] ] scoreboard.txt | set %score $bytes( $readini(monsterdeaths.lst, monster, %who.score),b)
+        %score.list = %score.list $chr(91) $+  $+ $chr(35) $+ %current.line $+  %who.score $chr(40) $+ %score $+ $chr(41) $+ $chr(93) $chr(32)
+        inc %current.line 1 
+      }
+      unset %lines | unset %current.line
     }
-    unset %lines | unset %current.line
-  }
 
-  if ((%totalmonsters >= 5) && (%totalmonsters < 10)) { 
-    unset %score.list | set %current.line 1
+    if ((%totalmonsters >= 5) && (%totalmonsters < 10)) { 
+      unset %score.list | set %current.line 1
 
-    while (%current.line <= 5) { 
-      set %who.score $read -l [ $+ [ %current.line ] ] scoreboard.txt | set %score $bytes($readini(monsterdeaths.lst, monster, %who.score),b)
-      %score.list = %score.list $chr(91) $+  $+ $chr(35) $+ %current.line $+  %who.score $chr(40) $+ %score $+ $chr(41) $+ $chr(93) $chr(32)
-      inc %current.line 1 
+      while (%current.line <= 5) { 
+        set %who.score $read -l [ $+ [ %current.line ] ] scoreboard.txt | set %score $bytes($readini(monsterdeaths.lst, monster, %who.score),b)
+        %score.list = %score.list $chr(91) $+  $+ $chr(35) $+ %current.line $+  %who.score $chr(40) $+ %score $+ $chr(41) $+ $chr(93) $chr(32)
+        inc %current.line 1 
+      }
+      unset %lines | unset %current.line
     }
-    unset %lines | unset %current.line
-  }
 
 
-  if (%totalmonsters >= 10) { 
-    unset %score.list | unset %score.list.2 | set %current.line 1
-    while (%current.line <= 10) { 
-      set %who.score $read -l [ $+ [ %current.line ] ] scoreboard.txt | set %score $bytes($readini(monsterdeaths.lst, monster, %who.score),b)
-      if (%current.line <= 5) {  %score.list = %score.list $chr(91) $+  $+ $chr(35) $+ %current.line $+  %who.score $chr(40) $+ %score $+ $chr(41) $+ $chr(93) $chr(32)  }
-      if ((%current.line > 5) && (%current.line <= 10)) {  %score.list.2 = %score.list.2 $chr(91) $+  $+ $chr(35) $+ %current.line $+  %who.score $chr(40) $+ %score $+ $chr(41) $+ $chr(93) $chr(32) }
-      inc %current.line 1 
+    if (%totalmonsters >= 10) { 
+      unset %score.list | unset %score.list.2 | set %current.line 1
+      while (%current.line <= 10) { 
+        set %who.score $read -l [ $+ [ %current.line ] ] scoreboard.txt | set %score $bytes($readini(monsterdeaths.lst, monster, %who.score),b)
+        if (%current.line <= 5) {  %score.list = %score.list $chr(91) $+  $+ $chr(35) $+ %current.line $+  %who.score $chr(40) $+ %score $+ $chr(41) $+ $chr(93) $chr(32)  }
+        if ((%current.line > 5) && (%current.line <= 10)) {  %score.list.2 = %score.list.2 $chr(91) $+  $+ $chr(35) $+ %current.line $+  %who.score $chr(40) $+ %score $+ $chr(41) $+ $chr(93) $chr(32) }
+        inc %current.line 1 
+      }
+      unset %lines | unset %current.line
     }
-    unset %lines | unset %current.line
-  }
 
-  $display.system.message($readini(translation.dat, system, DeathBoardTitleMon), private)
-  $display.system.message($chr(3) $+ 2 $+ %score.list, private)
-  if (%score.list.2 != $null) { $display.system.message($chr(3) $+ 2 $+ %score.list.2, private) }
+    $display.system.message($readini(translation.dat, system, DeathBoardTitleMon), private)
+    $display.system.message($chr(3) $+ 2 $+ %score.list, private)
+    if (%score.list.2 != $null) { $display.system.message($chr(3) $+ 2 $+ %score.list.2, private) }
+
+  }
 
   unset %totalmonsters | unset %score | unset %score.list | unset %score.list.2 | unset %who.score |  .remove ScoreBoard.txt | unset %ScoreBoard.score
+  unset %total.deaths
 }
 
 
 generate.bossdeathboard {
 
-  set %totalbosss 0
+  set %totalbosss 0 | set %total.deaths 0
 
   var %value 1
   while ($findfile( $boss_path , *.char, %value , 0) != $null) {
@@ -342,6 +420,7 @@ generate.bossdeathboard {
 
     if ((%name = new_boss) || (%name = $null)) { inc %value 1 } 
     set %score $readini(monsterdeaths.lst, boss, %name)
+    if (%score != $null) {  inc %total.deaths %score }
 
     if (%score != $null) { write scoreboard.txt %name | inc %totalboss 1 }
     inc %value 1
@@ -429,45 +508,49 @@ generate.bossdeathboard {
   unset %ScoreBoard.speed
 
 
-  if (%totalboss < 5) { 
+  if ($1 = total) {  $display.system.message($readini(translation.dat, system, DeathBoardTotalBoss), private) }
+  if ($1 = $null) {
 
-    ; Get the top 3 and display it.
-    unset %score.list | set %current.line 1
+    if (%totalboss < 5) { 
 
-    while (%current.line <= 3) { 
-      set %who.score $read -l [ $+ [ %current.line ] ] scoreboard.txt | set %score $bytes( $readini(monsterdeaths.lst, boss, %who.score),b)
-      %score.list = %score.list $chr(91) $+  $+ $chr(35) $+ %current.line $+  %who.score $chr(40) $+ %score $+ $chr(41) $+ $chr(93) $chr(32)
-      inc %current.line 1 
+      ; Get the top 3 and display it.
+      unset %score.list | set %current.line 1
+
+      while (%current.line <= 3) { 
+        set %who.score $read -l [ $+ [ %current.line ] ] scoreboard.txt | set %score $bytes( $readini(monsterdeaths.lst, boss, %who.score),b)
+        %score.list = %score.list $chr(91) $+  $+ $chr(35) $+ %current.line $+  %who.score $chr(40) $+ %score $+ $chr(41) $+ $chr(93) $chr(32)
+        inc %current.line 1 
+      }
+      unset %lines | unset %current.line
     }
-    unset %lines | unset %current.line
+
+    if ((%totalboss >= 5) && (%totalboss < 10)) { 
+      unset %score.list | set %current.line 1
+
+      while (%current.line <= 5) { 
+        set %who.score $read -l [ $+ [ %current.line ] ] scoreboard.txt | set %score $bytes($readini(monsterdeaths.lst, boss, %who.score),b)
+        %score.list = %score.list $chr(91) $+  $+ $chr(35) $+ %current.line $+  %who.score $chr(40) $+ %score $+ $chr(41) $+ $chr(93) $chr(32)
+        inc %current.line 1 
+      }
+      unset %lines | unset %current.line
+    }
+
+
+    if (%totalboss >= 10) { 
+      unset %score.list | unset %score.list.2 | set %current.line 1
+      while (%current.line <= 10) { 
+        set %who.score $read -l [ $+ [ %current.line ] ] scoreboard.txt | set %score $bytes($readini(monsterdeaths.lst, boss, %who.score),b)
+        if (%current.line <= 5) {  %score.list = %score.list $chr(91) $+  $+ $chr(35) $+ %current.line $+  %who.score $chr(40) $+ %score $+ $chr(41) $+ $chr(93) $chr(32)  }
+        if ((%current.line > 5) && (%current.line <= 10)) {  %score.list.2 = %score.list.2 $chr(91) $+  $+ $chr(35) $+ %current.line $+  %who.score $chr(40) $+ %score $+ $chr(41) $+ $chr(93) $chr(32) }
+        inc %current.line 1 
+      }
+      unset %lines | unset %current.line
+    }
+
+    $display.system.message($readini(translation.dat, system, DeathBoardTitleBosses), private)
+    $display.system.message($chr(3) $+ 2 $+ %score.list, private)
+    if (%score.list.2 != $null) { $display.system.message($chr(3) $+ 2 $+ %score.list.2, private) }
   }
 
-  if ((%totalboss >= 5) && (%totalboss < 10)) { 
-    unset %score.list | set %current.line 1
-
-    while (%current.line <= 5) { 
-      set %who.score $read -l [ $+ [ %current.line ] ] scoreboard.txt | set %score $bytes($readini(monsterdeaths.lst, boss, %who.score),b)
-      %score.list = %score.list $chr(91) $+  $+ $chr(35) $+ %current.line $+  %who.score $chr(40) $+ %score $+ $chr(41) $+ $chr(93) $chr(32)
-      inc %current.line 1 
-    }
-    unset %lines | unset %current.line
-  }
-
-
-  if (%totalboss >= 10) { 
-    unset %score.list | unset %score.list.2 | set %current.line 1
-    while (%current.line <= 10) { 
-      set %who.score $read -l [ $+ [ %current.line ] ] scoreboard.txt | set %score $bytes($readini(monsterdeaths.lst, boss, %who.score),b)
-      if (%current.line <= 5) {  %score.list = %score.list $chr(91) $+  $+ $chr(35) $+ %current.line $+  %who.score $chr(40) $+ %score $+ $chr(41) $+ $chr(93) $chr(32)  }
-      if ((%current.line > 5) && (%current.line <= 10)) {  %score.list.2 = %score.list.2 $chr(91) $+  $+ $chr(35) $+ %current.line $+  %who.score $chr(40) $+ %score $+ $chr(41) $+ $chr(93) $chr(32) }
-      inc %current.line 1 
-    }
-    unset %lines | unset %current.line
-  }
-
-  $display.system.message($readini(translation.dat, system, DeathBoardTitleBosses), private)
-  $display.system.message($chr(3) $+ 2 $+ %score.list, private)
-  if (%score.list.2 != $null) { $display.system.message($chr(3) $+ 2 $+ %score.list.2, private) }
-
-  unset %totalboss | unset %score | unset %score.list | unset %score.list.2 | unset %who.score |  .remove ScoreBoard.txt | unset %ScoreBoard.score
+  unset %totalboss | unset %score | unset %score.list | unset %score.list.2 | unset %who.score |  .remove ScoreBoard.txt | unset %ScoreBoard.score | unset %total.deaths
 }

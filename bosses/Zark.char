@@ -41,6 +41,9 @@ BlackOrbs=1
 ShopLevel=1.0
 drops=Slurm
 
+[monster]
+type=alien
+
 [Info]
 Flag=monster
 Gender=his

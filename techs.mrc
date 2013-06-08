@@ -93,7 +93,7 @@ alias tech_cmd {
   set %tp.needed $readini(techniques.db, p, $2, TP) | set %tp.have $readini($char($1), battle, tp)
 
   ; Check for ConserveTP
-  if ($readini($char($1), status, conservetp) = yes) { set %tp.needed 0 | writeini $char($1) status conserveTP no }
+  if (($readini($char($1), status, conservetp) = yes) || ($readini($char($1), status, conservetp.on) = on)) { set %tp.needed 0 | writeini $char($1) status conserveTP no }
 
   if (%tp.needed = $null) { $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, DoesNotKnowTech), private) | halt }
   if (%tp.needed > %tp.have) { $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, NotEnoughTPforTech),private) | halt }
@@ -878,11 +878,11 @@ alias display_aoedamage {
     $check.clone.death(%target)
     $increase_death_tally(%target)
     $achievement_check(%target, SirDiesALot)
-    $increase.death.tally(%target) 
     if (%attack.damage > $readini($char(%target), basestats, hp)) { set %overkill 7<<OVERKILL>> }
     $display.system.message($readini(translation.dat, battle, EnemyDefeated), battle)
     $goldorb_check(%target) 
     $spawn_after_death(%target)
+    $achievement_check($1, FillYourDarkSoulWithLight)
   }
 
   unset %attack.damage | unset %target
@@ -1150,33 +1150,16 @@ alias calculate_damage_techs {
 
   unset %base.stat | unset %current.accessory.type | unset %base.stat.needed
 
-  $trickster_dodge_check($3, $1)
+  $trickster_dodge_check($3, $1, tech)
   $manawall.check($1, $2, $3)
   $utsusemi.check($1, $2, $3)
-  $magic.ethereal.check($1, $2, $3)
+  $tech.ethereal.check($1, $2, $3)
 
   unset %statusmessage.display
   set %status.type.list $readini(techniques.db, $2, StatusType)
 
-  if (%status.type.list != $null) { 
-    set %number.of.statuseffects $numtok(%status.type.list, 46) 
-
-    if (%number.of.statuseffects = 1) { $inflict_status($1, $3, %status.type.list, $2) | unset %number.of.statuseffects | unset %status.type.list }
-    if (%number.of.statuseffects > 1) {
-      var %status.value 1
-      while (%status.value <= %number.of.statuseffects) { 
-        set %current.status.effect $gettok(%status.type.list, %status.value, 46)
-        $inflict_status($1, $3, %current.status.effect, $2)
-        inc %status.value 1
-      }  
-      unset %number.of.statuseffects | unset %current.status.effect
-    }
-  }
-  unset %status.type.list
-
   ; Is the tech a multi-hit weapon?  
   set %tech.howmany.hits $readini(techniques.db, $2, hits)
-
 
   if ($1 = demon_wall) {  $demon.wall.boost($1) }
 
@@ -1199,6 +1182,25 @@ alias calculate_damage_techs {
     set %attack.damage 0 
   }
   unset %target.element.null
+
+
+  if ((%guard.message = $null) && (%attack.damage > 0)) {
+    if (%status.type.list != $null) { 
+      set %number.of.statuseffects $numtok(%status.type.list, 46) 
+
+      if (%number.of.statuseffects = 1) { $inflict_status($1, $3, %status.type.list, $2) | unset %number.of.statuseffects | unset %status.type.list }
+      if (%number.of.statuseffects > 1) {
+        var %status.value 1
+        while (%status.value <= %number.of.statuseffects) { 
+          set %current.status.effect $gettok(%status.type.list, %status.value, 46)
+          $inflict_status($1, $3, %current.status.effect, $2)
+          inc %status.value 1
+        }  
+        unset %number.of.statuseffects | unset %current.status.effect
+      }
+    }
+  }
+  unset %status.type.list
 
   if (%guard.message = $null) {
     if ($readini(techniques.db, $2, magic) = yes) { 
@@ -1304,10 +1306,10 @@ alias calculate_damage_suicide {
   ; In this bot we don't want the attack to ever be lower than 1.  
   if (%attack.damage <= 0) { set %attack.damage 1 }
 
-  $trickster_dodge_check($3, $1)
+  $trickster_dodge_check($3, $1, tech)
   $manawall.check($1, $2, $3)
   $utsusemi.check($1, $2, $3)
-  $magic.ethereal.check($1, $2, $3)
+  $tech.ethereal.check($1, $2, $3)
 
   $first_round_dmg_chk($1, $3)
 
@@ -1508,7 +1510,7 @@ alias magic.effect.check {
 ; ======================
 ; Ignition Aliases
 ; ======================
-alias ignition_cmd { 
+alias ignition_cmd {  $set_chr_name($1)
   ; $1 = user
   ; $2 = boost name
 
@@ -1645,7 +1647,7 @@ alias revert {
   if (%int <= 5) { var %int 5 }
   if (%spd <= 5) { var %spd 5 }
 
-  writeini $char($1) Battle Hp %hp
+  writeini $char($1) Battle Hp $round(%hp,0)
   writeini $char($1) Battle Str %str
   writeini $char($1) Battle Def %def
   writeini $char($1) Battle Int %int
