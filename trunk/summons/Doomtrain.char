@@ -107,10 +107,7 @@ Zen=5
 
 [Techniques]
 RunawayTrain=30
-
-
-[Item_Amount]
-
+Runaway_Train=30
 
 
 

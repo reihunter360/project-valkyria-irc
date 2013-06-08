@@ -42,7 +42,7 @@ ShopLevel=1.0
 Drops=FoieGras.Tonic.Potion.Blessed-Ankh.X-Potion
 
 [Monster]
-Type=
+Type=human
 
 [Info]
 Flag=monster

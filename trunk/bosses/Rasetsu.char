@@ -38,7 +38,7 @@ ShopLevel=1.0
 Drops=MyochinKabuto
 
 [Monster]
-Type=
+Type=demon
 
 [Info]
 Flag=monster

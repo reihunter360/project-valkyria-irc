@@ -53,6 +53,9 @@ Created=N/a
 Streak=350
 StreakMax=600
 
+[monster]
+type=demon
+
 [Status]
 Poison=no
 HeavyPoison=no

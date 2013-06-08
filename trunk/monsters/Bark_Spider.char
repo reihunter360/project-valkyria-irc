@@ -50,6 +50,9 @@ Created=N/a
 Streak=11
 StreakMax=111
 
+[monster]
+type=spider
+
 [Status]
 Poison=no
 HeavyPoison=no

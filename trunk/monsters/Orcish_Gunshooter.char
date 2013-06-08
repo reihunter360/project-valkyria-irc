@@ -50,6 +50,9 @@ LastIP=N/a
 Created=N/a
 Streak=51
 
+[monster]
+type=orc
+
 [Status]
 Poison=no
 HeavyPoison=no

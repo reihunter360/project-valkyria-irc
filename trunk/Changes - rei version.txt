@@ -43,18 +43,19 @@ Treasurehunter Max=7
 ElementalSeal CD = 60
 Mightystrike CD = 60
 Meditate Cooldown= 120
-ConserveTP Cooldown=500
+ConserveTP Cost=1500 / Cooldown=9000
 Bloodboost Cooldown 20 Max=100
+Bloodspirit Cooldown 40 / max=75
 
 DrainSamba Cooldown = 60
 Regen Cooldown=60; Max=200
 Steal Cooldown=15, Max=50
 
-Cover Cooldown=30
+Cover Cooldown=60
 HolyAura=1100
-WeaponLock CD = 150
 
 Resist == 70%
+cost == 150000 (200000 for Petrify)
 
 --------------------------------------------------------------------------
 --------------------------------------------------------------------------
@@ -399,7 +400,7 @@ Element=none
 magic=yes
 stat=int
 
-[Ultima]
+[FFUltima]
 type=AOE
 element=none
 magic=yes
@@ -719,6 +720,40 @@ magic=yes
 stat=str
 hits=$rand(5,9)
 
+[7DeadlySins]
+Type=single
+statustype=strengthdown.curse
+TP=500
+Desc=Hits %enemy $+ with a dark natured combo at blinding speeds! [Seven Deadly Sins!]
+basepower=75
+cost=10500
+Element=Dark
+magic=yes
+stat=str
+hits=$rand(3,7)
+
+[Ryuusenka]
+type=single
+statustype=frozen.stop
+tp=900
+basepower=120
+Desc=charges into %enemy $+ at blinding speed and freezes them in a flowerly like fashion. [Ryuusenka!]
+magic=no
+stat=str
+hits=2
+
+[Mugenshou]
+type=single
+statustype=strengthdown
+selfstatus=curse
+tp=500000
+basepower=2000
+magic=yes
+desc= charges a giant black cloud of pure reitatsu into Tensa Zangetsu then flings it towards %enemy $+ cutting all in its way, even the very battlefield! [Mugenshou!]
+stat=str
+hits=$rand(2,12)
+cost=250000
+
 ;---------------------------------------------------
 ;---------------------------------------------------
 ;---------------------------------------------------
@@ -728,12 +763,15 @@ Silver_Goddess_Sword=TwinSlice.BiteOfLightning.BladeBeam.HyperTwinSlice.WiseRefl
 Mythril_Sword=FastBlade.BurningBlade.FlatBlade.Bash.MagnumBreak.SeraphBlade
 Soulsaber=SpiritsWithin.VorpalBlade.SeraphBlade.BowlingBash
 JewelSword=Bash.MagnumBreak.BowlingBash
-Atonement.CircleBlade.SpiritsWithin.VorpalBlade.ChantDuCygne
+Excalibur=Atonement.CircleBlade.SpiritsWithin.VorpalBlade.ChantDuCygne.Bash
 Keitonotachi=Tachi:Kagero.Tachi:Goten.Tachi:Yukikaze.Bash
 Masamune=Tachi:Fudo.Tachi:Shoha.Tachi:Rana.MeikyoShisui.Bash.Bowlingbash
 Fists=DoublePunch.ShoulderTackle.SpinningAttack.AsuranFists.AsuraStrike
 KaiserKnuckles=ShoulderTackle.TornadoKick.OneInchPunch.SpinningAttack.AsuraStrike
 Murgleis=DeathBlossom.SwiftBlade.SavageBlade.Requiescat.SanguineBlade.Mother'sRosario
+Braveheart=HardSlash.PowerSlash.7DeadlySins
+Hyourinmaru=SotenNiZase.DaigurenHyourinmaru.Ryuusenka
+Zangetsu=GetsugaTenshou.TensaZangetsu.FinalGetsuga.Mugenshou
 
 ; wisereflection edit
 [WiseReflection]
@@ -842,10 +880,14 @@ Magic=Yes
 --------------------------------------------------------------------------
 
 Battlealias.als
-alias ribbon.accessory.check { 
+ribbon.accessory.check { 
   set %current.accessory $readini($char($1), equipment, accessory) 
   if ($readini(items.db, %current.accessory, accessorytype) = BlockAllStatus) {
+	if($readini($2, skills, resist-paralysis) == 70 && $readini($2, skills, resist-charm) == 70 && $readini($2, skills, resist-blind) == 70 && $readini($2, skills, resist-poison) == 70 && $readini($2, skills, resist-amnesia) == 70 && $readini($2, skills, resist-curse) == 70 && $readini($2, skills, resist-zombie) == 70 && $readini($2, skills, resist-slow) == 70 && $readini($2, skills, resist-stun) == 70 && $readini($2, skills, resist-stop) == 70 && $readini($2, skills, resist-petrify) == 20) {
+ set %resist.skill 85
+} else {
     set %resist.skill 70
+	}
   }
   unset %current.accessory
 }
@@ -853,6 +895,26 @@ alias ribbon.accessory.check {
 --------------------------------------------------------------------------
 
 WEAPONS.DB
+
+[Fists]
+Cost=1
+Type=HandToHand
+Info=It's your fists.  They are not detachable.
+Abilities=DoublePunch.ShoulderTackle.SpinningAttack.AsuranFists.AsuraStrike
+Element=none
+Hits=2
+BasePower=10
+Upgrade=300
+
+[KaiserKnuckles]
+Cost=5
+Type=HandToHand
+Info=A hand-to-hand weapon that is silver in color with a yellow trim.
+Abilities=ShoulderTackle.TornadoKick.OneInchPunch.SpinningAttack.AsuraStrike
+Element=None
+Hits=2
+BasePower=30
+Upgrade=600
 
 [Mythril_Sword]
 Cost=1
@@ -904,6 +966,37 @@ Hits=1
 BasePower=20
 Upgrade=700
 Special=gemconvert
+
+[Braveheart]
+Cost=4
+Type=GreatSword
+Info=A basic looking greatsword.
+Abilities=HardSlash.PowerSlash.7DeadlySins
+Element=None
+Hits=1
+BasePower=20
+Upgrade=200
+
+[Zangetsu]
+Cost=7
+Type=Katana
+Info=Ichigo's powerful zanpakutou from Bleach. From Ichigo's Fake Dad. OOPS SPOILERS
+Abilities=GetsugaTenshou.TensaZangetsu.Mugenshou
+Element=none
+Hits=1
+BasePower=35
+Upgrade=1000
+
+
+[Hyourinmaru]
+Cost=7
+Type=Katana
+Info=Hitsugaya's powerful ice zanpakutou from Bleach
+Abilities=SotenNiZase.DaigurenHyourinmaru.Ryuusenka
+Element=ice
+Hits=1
+BasePower=35
+Upgrade=1000
 
 [Keitonotachi]
 Cost=2
@@ -1134,7 +1227,7 @@ maxHP=999999
 maxTP=999999
 MaxIG=250
 MaxOrbReward=100000
-Maxshoplevel=25
+Maxshoplevel=50
 EnableDoppelganger=false
 EnableWarMachine=true
 AllowDemonWall=yes
@@ -1217,7 +1310,7 @@ equipment.db
 	SPD=20
 	Augment=MeleeBonus.RenkeiBonus.EnhanceItems.EnhanceCriticalHits
 	EquipLocation=Body
-	cost=9999999
+	cost=999999
 [ValkyrianShoes]
 	Name=Valkyrian Shoes
 	HP=if ( ($readini($char($1), stats, str) < ($readini($char($1), stats, int) ) { $round($calc(5 * ($get.level($1)),0) } else { 0 }
@@ -1228,7 +1321,7 @@ equipment.db
 	spd=0
 	Augment=EnhanceDoubleTurnChance
 	EquipLocation=feet
-	cost=9999999
+	cost=999999
 [ValkyrianGloves]
 	Name=Valkyrian Gloves
 	HP=0	
@@ -1239,7 +1332,7 @@ equipment.db
 	SPD=0
 	Augment=if( ($readini($char($1), stats, str) > ($readini($char($1), stats, int) ) { EnhanceDodge } else { EnhanceParry }
 	EquipLocation=Hands
-	cost=9999999
+	cost=999999
 [ValkyrieHelm]
 	Name=Valkyrie Helm
 	HP=0
@@ -1250,7 +1343,7 @@ equipment.db
 	SPD=if ($readini($char($1), equipment, feet) == ValkyrianShoes && $readini($char($1), equipment, hands) == ValkyrianGloves && $readini($char($1), equipment, body) == ValkyrianArmor && $readini($char($1), equipment, head) == ValkyrieHelm ) { 60 } else { 0 }
 	Augment=EnhanceZen.AdditionalHit
 	equiplocation=head
-	cost=9999999
+	cost=999999
 
 -----------------------------------------------
 -----------------------------------------------

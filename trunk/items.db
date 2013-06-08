@@ -15,7 +15,7 @@ Random=Present
 ConsumeItems=Shihei.Sokubaku.Hankai.MirrorShard
 
 ; Portal items are used to summon a special boss..
-PortalItems=AlliedTrainingPaper.WormFood.DemonBell.VirilityCan.IgnisFatuus.BanishingCharm.RottingOrb.GemOfTheNorth.GodSeal
+PortalItems=AlliedTrainingPaper.WormFood.DemonBell.VirilityCan.IgnisFatuus.BanishingCharm.RottingOrb.GemOfTheNorth.GemOfTheEast.GemOfTheSouth.GemOfTheWest.GodSeal.LachesisOrb.CrimsonTraverserStone.GoddessOrb
 
 ; Summon Items are used with BloodPact to summon an ally
 SummonItems=DarkMagicianCard.BusterBladerCard.BlueEyesCard.FishOilBroth.ElvishMedallian.AlexanderMateria.BahamutMateria.BahamutZeroMateria.CarbuncleMateria.SolomonRing.LuckyBroth.FenrirMateria.GarudaMateria.IfritMateria.LeviathanMateria.RamuhMateria.ShivaMateria.TitanMateria
@@ -30,32 +30,32 @@ Accessories=Wizard's-Amulet.Blessed-Ankh.Blood-Ring.Blood-Pendant.Purple-Belt.Br
 Gems=Zircon.Topaz.Emerald.Ruby.Zircon.Diamond.Sapphire.Opal.Zircon.Onyx
 
 ; Keys are used to open chests. They cannot be bought in stores.
-Keys=BlueKey.BrownKey.RedKey.OrangeKey.GreenKey.GoldKey.BrownKey.BlueKey.RedKey.SilverKey.PurpleKey
+Keys=BlueKey.BrownKey.RedKey.OrangeKey.GreenKey.GoldKey.BrownKey.BlueKey.RedKey.SilverKey.PurpleKey.BlackKey
 
 ; These are special items that are only available when crafting (or potentially drops from bosses)
-CraftedItems=SuperPotion.MegaPotion.Ether.Dynamite.HolyHandGrenade.Angon.SauceAmpulla.DunceCap.Shihei.MirrorShard.Mugger's-Belt.Blood-Pendant.VIP-MemberCard.Prism-Specs.Paper.SilverChain.PurpleKey.GoldKey.SilverKey
-CraftedArmor=SpikedKnuckles.ClothRobe.MageRobe.Haubergeon.DarksteelGloves.DarksteelBoots.DarksteelHose.DarksteelHelmet.DarksteelMail
+CraftedItems=SuperPotion.MegaPotion.Ether.Dynamite.HolyHandGrenade.Angon.SauceAmpulla.DunceCap.Shihei.MirrorShard.Mugger's-Belt.Blood-Pendant.VIP-MemberCard.Prism-Specs.Paper.SilverChain.PurpleKey.GoldKey.SilverKey.GodSeal
+CraftedArmor=SpikedKnuckles.ClothRobe.MageRobe.Haubergeon.DarksteelGloves.DarksteelBoots.DarksteelHose.DarksteelHelmet.DarksteelMail.TengokuMail
 
 ; Misc items aren't used for anything except crafting or trading for portal items.
-Misc=Ink.Paper.AshLog.Hatchet.IronOre.GoldOre.SilverOre.DarksteelOre.Ectoplasm.BrokenLance.SilverChain.FireGem.IceStone.WindRock.WaterJewel.EarthSphere.Glass.Cloth.RepairHammer.BeastmenSeal.KindredSeal.TigerFang.Sand.ByakkoSeal.GenbuSeal.SeiryuSeal.SuzakuSeal.KirinSeal
+Misc=Ink.Paper.AshLog.Hatchet.IronOre.GoldOre.SilverOre.DarksteelOre.Ectoplasm.BrokenLance.SilverChain.FireGem.IceStone.WindRock.WaterJewel.EarthSphere.Glass.Cloth.RepairHammer.BeastmenSeal.KindredSeal.TigerFang.Sand.ByakkoSeal.GenbuSeal.SeiryuSeal.SuzakuSeal.KirinSeal.KindredCrest.HighKindredCrest.AncientBeastcoin.CardinalCloth.Kurogane.DiabolicSilk.DarkOrichalcumIngot.JewelOfArdor.StoneOfWieldance
 
 ; Runes are for augments.
-Runes=EthRune.MtlRune.HiRune.GeRune.MaRune.TeRune.MeRune.SmnRune.DrnRune.ItmRune.RenRune.NinRune.IgDef
+Runes=EthRune.MtlRune.HiRune.GeRune.MaRune.TeRune.MeRune.SmnRune.DrnRune.ItmRune.RenRune.NinRune.IgDefRune
 
 ; HeadEquipment is for equipment for the head
-HeadEquipment=BucketHat.RustyHelmet.JesterHat.DarksteelHelmet.BloodCrown.MyochinKabuto.ChaosBurgeonet.Genbu'sKabuto.ValkyrieHelm
+HeadEquipment=BucketHat.RustyHelmet.JesterHat.DarksteelHelmet.BloodCrown.MyochinKabuto.ChaosBurgeonet.Genbu'sKabuto.WarlockChapeau.WarlockChapeau+1.WarlockChapeau+2.TwilightHelm.UnkaiKabuto.UnkaiKabuto+1.UnkaiKabuto+2.EstoqueurChappel.EstoqueurChappel+1.EstoqueurChappel+2.ValkyrieHelm
 
 ; BodyEquipment is for equipment for the body
-BodyEquipment=RustyMail.TornRobe.ClothRobe.MageRobe.BloodHauberk.Haubergeon.MyochinDomaru.ChaosCuirass.Kirin'sOsode.ValkyrianArmor
+BodyEquipment=RustyMail.TornRobe.ClothRobe.MageRobe.BloodHauberk.Haubergeon.MyochinDomaru.ChaosCuirass.Kirin'sOsode.TengokuMail.WarlockTabard.WarlockTabard+1.WarlockTabard+2.TwilightMail.UnkaiDomaru.UnkaiDomaru+1.UnkaiDomaru+2.EstoqueurSayon.EstoqueurSayon+1.EstoqueurSayon+2.ValkyrianArmor
 
 ; LegsEquipment is for equipment for the legs
-LegsEquipment=RustyHose.DarksteelHose.MyochinHaidate.ChaosFlanchard
+LegsEquipment=RustyHose.DarksteelHose.MyochinHaidate.ChaosFlanchard.Byakko'sHaidate.WarlockTights.WarlockTights+1.WarlockTights+2.TwilightCuisses.UnkaiHaidate.UnkaiHaidate+1.UnkaiHaidate+2.EstoqueurFuseau.EstoqueurFuseau+1.EstoqueurFuseau+2
 
 ; FeetEquipment is for equipment for the feet
-FeetEquipment=RustyBoots.DarksteelBoots.BloodSocks.MyochinSune-Ate.ChaosSollerets.ValkyrianShoes
+FeetEquipment=RustyBoots.DarksteelBoots.BloodSocks.MyochinSune-Ate.ChaosSollerets.Suzaku'sSune-Ate.WarlockBoots.WarlockBoots+1.WarlockBoots+2.TwilightSabatons.UnkaiSune-Ate.UnkaiSune-Ate+1.UnkaiSune-Ate+2.EstoqueurHouseaux.EstoqueurHouseaux+1.EstoqueurHouseaux+2.ValkyrianShoes
 
 ; HandsEquipment is for equipment for the hands
-HandsEquipment=LeatherGloves.RustyKnuckles.SpikedKnuckles.DarksteelGloves.MyochinKote.ChaosGauntlets.ValkyrianGloves
+HandsEquipment=LeatherGloves.RustyKnuckles.SpikedKnuckles.DarksteelGloves.MyochinKote.ChaosGauntlets.Seiryu'sKote.WarlockGloves.WarlockGloves+1.WarlockGloves+2.TwilightGauntlets.UnkaiKote.UnkaiKote+1.UnkaiKote+2.EstoqueurGantherots.EstoqueurGantherots+1.EstoqueurGantherots+2.ValkyrianGloves
 
 
 
@@ -161,7 +161,7 @@ Type=IgnitionGauge
 Target=single
 Amount=10
 Cost=0
-Desc=pulls out a strange purple star and tosses it at %enemy $+ .  The star is absorbed and a sense of power overcomes $gender2($2) $+ .
+Desc=pulls out a strange purple star and tosses it at %enemy $+ .  The star is absorbed and a sense of power overcomes $gender2($4) $+ .
 
 [GoldOrb]
 Type=Revive
@@ -408,7 +408,7 @@ Cost=5000000
 Type=food
 Target=style
 Amount=30
-Desc=takes out a potion bottle with a golden liquid inside and hands it to %enemy who drinks it. After a moment of warmth feeling, $4 feels more stylish!
+Desc=takes out a potion bottle with a golden liquid inside and hands it to %enemy who drinks it. After a moment of warmth feeling, $2 feels more stylish!
 Cost=10000000
 
 [FoieGras]
@@ -443,7 +443,7 @@ Cost=5000000
 type=food
 Target=hp
 Amount=100
-Desc=pulls out a bleeding heart and looks at it. People really eat this? Well..uhh..maybe.$set_chr_name($2) %real.name ends up eating it and feels sick for doing so.... but..at least %real.name gains some max HP for it.
+Desc=pulls out a bleeding heart and looks at it. People really eat this? Well..uhh..maybe. $set_chr_name($2) %real.name ends up eating it and feels sick for doing so.... but..at least %real.name gains some max HP for it.
 
 [RottingMeat]
 type=food
@@ -755,6 +755,12 @@ Type=key
 Unlocks=purple
 Cost=60
 Desc=A small purple key. It will unlock purple-colored chests.
+
+[BlackKey]
+Type=key
+Unlocks=black
+Cost=60
+Desc=A small black key. It will unlock black-colored chests.
 
 =========================
 SHOP RESET ITEMS
@@ -1085,6 +1091,60 @@ cost=0
 Desc=A glowing seal that proves that Suzaku has been defeated.
 Currency=none
 
+[KindredCrest]
+type=trade
+cost=150
+Desc=An elaborate crest belonging to the uppermost nobility of the Kindred. Rumor has it that there's a strange man willing to trade these for portal items.
+Currency=AlliedNotes
+
+[HighKindredCrest]
+type=trade
+cost=200
+Desc=Surreal, nightmarish patterns adorn this crest, symbolizing a Kindred house of the purest lineage. Rumor has it that there's a strange man willing to trade these for portal items.
+Currency=AlliedNotes
+
+[AncientBeastcoin]
+type=misc
+cost=250
+Desc=A gold coin Minted by the Quadav long ago. Far more ornate than modern currency, it consists of nearly pure gold, and a diamond fitted into its center.
+Currency=AlliedNotes
+
+[CardinalCloth]
+type=misc
+cost=250
+Desc=This red cloth was woven in ancient times.
+Currency=AlliedNotes
+
+[Kurogane]
+type=misc
+cost=250
+Desc=A sheet of darksteel forged in the Far East.
+Currency=AlliedNotes
+
+[DiabolicSilk]
+type=misc
+cost=250
+Desc=Origins shrouded in mystery, this silk cloth has been dubbed as vile due to the fact that those who gaze upon one wearing a garment woven from it are charmed.
+Currency=AlliedNotes
+
+[DarkOrichalcumIngot]
+type=misc
+cost=250
+Desc=This orichalcum ingot from the Near East is deep brown in color.
+Currency=AlliedNotes
+
+[JewelOfArdor]
+type=misc
+cost=2000
+Desc=The red hues of this jewel blaze and surge like the flames of passion.
+Currency=AlliedNotes
+
+[StoneOfWieldance]
+type=misc
+cost=2000
+Desc=Taking this stone into hand, you can feel your arm move more freely.
+Currency=AlliedNotes
+
 
 =========================
 RUNES
@@ -1163,6 +1223,12 @@ Augment=UtsusemiBonus
 Desc=This rune will infuse a weapon with the ability to enhance the Utsusemi skill when the augmented weapon is equipped while using the skill.
 
 [IgDef]
+type=rune
+Cost=500
+Augment=IgnoreDefense
+Desc=This rune will infuse a weapon with the ability to ignore some of a target's defense. 
+
+[IgDefRune]
 type=rune
 Cost=500
 Augment=IgnoreDefense
@@ -1284,7 +1350,7 @@ Cost=15
 Currency=KindredSeal
 Battlefield=Seiryu's Chamber
 Weather=hot
-Monster=Genbu
+Monster=Seiryu
 Desc=takes out the Gem of the East, a pulsing red gem. It glows brightly before shattering.  A red light shoots out of the sky and down onto the heroes, who are teleported up into Seiryu's Chamber.
 AlliedNotes=1000
 
@@ -1294,7 +1360,7 @@ Cost=15
 Currency=KindredSeal
 Battlefield=Suzaku's Chamber
 Weather=snowy
-Monster=Genbu
+Monster=Suzaku
 Desc=takes out the Gem of the South, a pulsing white gem. It glows brightly before shattering.  A white light shoots out of the sky and down onto the heroes, who are teleported up into Suzaku's Chamber.
 AlliedNotes=1000
 
@@ -1308,3 +1374,40 @@ Monster=Kirin
 Desc=takes out the small glowing orb, which shatters and creates a large portal that leads up into the sky.  After entering, the heroes find themselves inside an ancient shrine of the sky gods, The Shrine of Ru'Avitau.  
 AlliedNotes=2000
 
+[LachesisOrb]
+type=portal
+Cost=25
+Currency=KindredSeal
+Battlefield=Horlais Peak
+Weather=Calm
+Monster=Rainemard
+Desc=takes out a blue gem that has white light swirling inside. The blue gem shatters a moment later, transporting the players to Horlais Peak.
+AlliedNotes=500
+
+
+; Kindred Crest Portal Items
+
+
+[CrimsonTraverserStone]
+type=portal
+Cost=30
+Currency=KindredCrest
+Battlefield=Abyssea - Empyreal Paradox
+Weather=calm
+Monster=ShinryuVerus
+Desc=takes out a stone that is a deep crimson in color. %real.name then tosses the stone onto the ground. It shatters and the players are teleported to the Empyreal Paradox.
+AlliedNotes=3000
+
+
+; High Kindred Crest Portal Items
+
+
+[GoddessOrb]
+Type=portal
+Cost=50
+Currency=HighKindredCrest
+Battlefield=Unknown Realm
+Weather=Light
+Monster=EldoraAdlanna.NauthimaTiranadel
+Desc=takes out an orb that has a bright white glow. %real.name then tosses the orb to the ground. The orb shatters and transports all players to a realm that few have seen.
+AlliedNotes=4000

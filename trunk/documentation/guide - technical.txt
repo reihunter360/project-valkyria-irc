@@ -100,6 +100,25 @@ Bot owners have a way to reset it all back to 0 using a command they have access
 LevelAdjust is a way to make battles harder.  The monsters will gain a boost to their stats based on the winning streak + the leveladjust.  So if you want to make even the early battles harder, set the level adjust higher.
 
 
+Also included in this file is the information for the Conquest System.  If your battlestats.dat is missing this section it will be auto-generated when the bot runs next. Here's what that section looks like as an example:
+
+[conquest]
+LastTally=1366340640
+ConquestPoints=-197
+ConquestBonus=870
+ConquestPreviousWinner=Players
+TotalMonsterWins=1
+TotalPlayerWins=1
+
+
+LastTally= is the last time the tally was done.  The bot will update this every time a Conquest Tally is performed (by default set to every 5 days).
+ConquestPoints= The current conquest points.  If it's above 0 it means players are winning.  Below 0 and it means monsters are winning.
+ConquestBonus= The amount of orbs players will receive at the end of battles.  Winning battles will receive full amount, losing battles will receive a small percentage of the bonus.
+ConquestPreviousWinner= Players or Monsters.  This tells the bot who won the last Conquest Tally.
+TotalMonsterWins= how many times monsters have won the Conquest Tally.
+TotalPlayerWins= how many times players have won the Conquest Tally.
+
+
 WEATHER.LST
 Pre version 2.0 the weather.lst file controlled the weather for the bot.  Now, in version 2.0 and later, the weather is controlled in the battlefields.lst file. The weather.list file still contains how much of a boost magic receives under the correct weather.
 

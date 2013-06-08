@@ -49,6 +49,9 @@ Created=N/a
 Streak=18
 StreakMax=81
 
+[Monster]
+Type=giant
+
 [Status]
 Poison=no
 HeavyPoison=no

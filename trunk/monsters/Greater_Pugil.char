@@ -50,6 +50,9 @@ Created=N/a
 Streak=401
 Biome=River.Underwater Cavern.Ocean
 
+[Monster]
+Type=pugil
+
 
 [Status]
 Poison=no

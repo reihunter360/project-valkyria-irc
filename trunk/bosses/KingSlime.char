@@ -36,7 +36,7 @@ ShopLevel=1.0
 Drops=Potion.X-Potion.Ether.Holy_Water.Tonic
 
 [Monster]
-Type=
+Type=Slime
 
 [Info]
 Flag=monster

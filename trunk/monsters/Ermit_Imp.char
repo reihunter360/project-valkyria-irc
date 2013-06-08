@@ -49,6 +49,8 @@ LastIP=N/a
 Created=N/a
 Streak=200
 
+[Monster]
+Type=imp
 
 [Status]
 Poison=no

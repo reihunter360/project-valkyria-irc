@@ -42,7 +42,7 @@ ShopLevel=1.0
 Drops=Senzu.Tonic
 
 [Monster]
-Type=
+Type=android
 
 [Info]
 Flag=monster

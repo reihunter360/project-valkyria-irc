@@ -49,6 +49,8 @@ Created=N/a
 Streak=105
 Biome=river.beach
 
+[Monster]
+Type=crab
 
 [Status]
 Poison=no

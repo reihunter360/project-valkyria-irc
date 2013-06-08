@@ -160,6 +160,9 @@ alias calculate_damage_weapon {
   $melee.weapontype.enhancements($1)
   unset %weapon.type
 
+  ; Check for Killer Traits
+  $killer.trait.check($1, $3)
+
   ; Check for the skill "MightyStrike"
   if ($mighty_strike_check($1) = true) { 
     ; Double the attack.
@@ -205,7 +208,7 @@ alias calculate_damage_weapon {
   unset %current.accessory.type
 
   $weapon_parry_check($3, $1, $2)
-  $trickster_dodge_check($3, $1)
+  $trickster_dodge_check($3, $1, physical)
   $royalguard.check($1, $2, $3)
   $utsusemi.check($1, $2, $3)
 
@@ -582,7 +585,7 @@ alias weapon_bash_check {
     if ($readini($char($2), skills, royalguard.on) = on) { return }
     if ($readini($char($2), skills, utsusemi.on) = on) { return }
     if (%trickster.dodged = on) { return }
-
+    if ($readini($char($2), NaturalArmor, Current) > 0) { return }
 
     var %stun.chance $rand(1,100)
     var %weapon.bash.chance $calc($readini($char($1), skills, weaponbash) * 10)

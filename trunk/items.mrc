@@ -1,14 +1,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;; ITEMS COMMAND
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-on 3:TEXT:!use*:*: {  unset %real.name | unset %enemy
+on 3:TEXT:!use*:*: {  unset %real.name | unset %enemy | $set_chr_name($nick)
   if ($is_charmed($nick) = true) { $set_chr_name($nick) | $display.system.message($readini(translation.dat, status, CurrentlyCharmed), private) | halt }
   if ($is_confused($nick) = true) { $set_chr_name($nick) | $display.system.message($readini(translation.dat, status, CurrentlyConfused), private) | halt }
   if ((no-item isin %battleconditions) || (no-items isin %battleconditions)) { $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition), private)   | halt }
   $uses_item($nick, $2, $3, $4)
 }
 
-ON 50:TEXT:*uses item * on *:*:{ 
+ON 50:TEXT:*uses item * on *:*:{  $set_chr_name($1)
   if ($1 = uses) { halt }
   if ($5 != on) { halt }
   if ($is_charmed($1) = true) { query %battlechan query %battlechan $readini(translation.dat, status, CurrentlyCharmed)  | halt }
@@ -20,7 +20,7 @@ ON 50:TEXT:*uses item * on *:*:{
 alias uses_item {
   var %item.type $readini(items.db, $2, type)
 
-  if (((%item.type != summon) && (%item.type != key) && (%item.type != portal))) {
+  if (((((%item.type != summon) && (%item.type != key) && (%item.type != shopreset) && (%item.type != food) && (%item.type != portal))))) {
     if (($3 != on) || ($3 = $null)) {   $display.system.message($readini(translation.dat, errors, ItemUseCommandError), private) | halt }
     if ($4 = me) {  $display.system.message($1 $readini(translation.dat, errors, MustSpecifyName), private) | halt }
     if ($readini($char($4), battle, status) = dead) { $display.system.message($readini(translation.dat, errors, CannotUseItemOnDead), private) | halt }
@@ -32,12 +32,8 @@ alias uses_item {
   if ((%check.item <= 0) || (%check.item = $null)) { $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, DoesNotHaveThatItem), private) | halt }
 
   var %user.flag $readini($char($1), info, flag) | var %target.flag $readini($char($4), info, flag)
-  if (%item.type = food) { 
-    if (%battleis = on) { $check_for_battle($1) }
-    $item.food($1, $4, $2) | $decrease_item($1, $2) 
-    if (%battleis = on)  { $check_for_double_turn($1) | halt }
-    halt
-  }
+
+  if (%item.type = food) { $item.food($1, $4, $2) | $decrease_item($1, $2) | halt }
 
   if (%item.type = portal) {
     if (%battleis = on) { $check_for_battle($1)   }
@@ -45,6 +41,8 @@ alias uses_item {
 
     if (%portal.bonus = true) { $display.system.message($readini(translation.dat, errors, AlreadyInPortal), private) | halt }
 
+    if (%mode.gauntlet = on) { $display.system.message($readini(translation.dat, errors, PortalItemNotWorking) , private) | halt  }  
+    if (%battle.type = boss) { $display.system.message($readini(translation.dat, errors, PortalItemNotWorking) , private) | halt  }  
 
     ; Show the description
     $set_chr_name($1) | $display.system.message( $+ %real.name  $+ $readini(items.db, $2, desc), battle)
@@ -58,8 +56,6 @@ alias uses_item {
     writeini weather.lst weather current $readini(items.db, $2, weather)
     set %current.turn 1
 
-
-
     ; Set the allied notes value
     var %allied.notes $readini(items.db, $2, alliednotes) 
     writeini battle2.txt battle alliednotes %allied.notes
@@ -67,10 +63,16 @@ alias uses_item {
     ; Reduce the item
     $decrease_item($1, $2) 
 
-    $battlelist(public)
+    if ($readini(system.dat, system, botType) = DCCchat) {  
+      $battlelist(public) 
+      if (%battleis = on)  { $check_for_double_turn($1) | halt }
+    }
+    if ($readini(system.dat, system, botType) = IRC) { 
+      /.timerSlowDown $+ $rand(1,1000) $+ $rand(a,z) 1 2 /battlelist public
+      /.timerSlowDown2 $+ $rand(1,1000) $+ $rand(a,z) 1 5 /check_for_double_turn $1 
+      halt
+    }
 
-    ; Go to the next turn
-    if (%battleis = on)  { $check_for_double_turn($1) | halt }
   }
 
   if (%item.type = key) { $item.key($1, $4, $2) |  $decrease_item($1, $2)  | halt }
@@ -79,8 +81,6 @@ alias uses_item {
   if (%item.type = random) { $item.random($1, $4, $2) | $decrease_item($1, $2) | halt }
 
   if (%item.type = shopreset) {
-    if (%battleis = on) { $check_for_battle($1)   }
-
     if (%target.flag = monster) { $display.system.message($readini(translation.dat, errors, ItemCanOnlyBeUsedOnPlayers), private) | halt }
     $item.shopreset($1, $4, $2) | $decrease_item($1, $2) 
     halt  
@@ -627,10 +627,11 @@ alias item.shopreset {
   }
 
   if (%user = %enemy ) { set %enemy $gender2($1) $+ self }
-  $set_chr_name($1) | $display.system.message(3 $+ %real.name $+  $readini(items.db, $3, desc), battle)
 
-  if ($readini(system.dat, system, botType) = IRC) { .msg $2 $readini(translation.dat, system,ShopLevelLowered) }
-  if ($readini(system.dat, system, botType) = DCCchat) { $dcc.private.message($2, $readini(translation.dat, system,ShopLevelLowered) }
+  $set_chr_name($1)
+  if (%battleis != on) { $display.system.message(3 $+ %real.name $+  $readini(items.db, $3, desc), battle) }
+  if (%battleis = on) { $display.private.message(3 $+ %real.name $+  $readini(items.db, $3, desc)) }
+  $display.private.message($readini(translation.dat, system,ShopLevelLowered))
 
   var %discounts.used $readini($char($2), stuff, DiscountsUsed)
   inc %discounts.used 1 
@@ -676,10 +677,12 @@ alias item.food {
 
     writeini $char($2) basestats %food.type %target.stat
 
-    ; Now we do this in case it's used in battle and the target is boosted.
-    set %target.stat $readini($char($2), battle, %food.type)
-    inc %target.stat %food.bonus
-    writeini $char($2) battle %food.type %target.stat 
+    if (%battleis != on) { 
+      set %target.stat $readini($char($2), battle, %food.type)
+      inc %target.stat %food.bonus
+      writeini $char($2) battle %food.type %target.stat 
+    }
+
   }
 
   if (%food.type = style) { 
@@ -691,11 +694,11 @@ alias item.food {
 
   if (%user = %enemy ) { set %enemy $gender2($1) $+ self }
   $set_chr_name($1) 
-  if (%battleis = on) { $display.system.message(3 $+ %real.name $+  $readini(items.db, $3, desc), battle) }
+  if (%battleis = on) { $display.private.message(3 $+ %real.name $+  $readini(items.db, $3, desc)) }
   if (%battleis = off) { $display.system.message(3 $+ %real.name $+  $readini(items.db, $3, desc), global) }
 
   if ($readini($char($2), info, flag) = $null) { 
-    if ($readini(system.dat, system, botType) = IRC) {  query $2 $readini(translation.dat, system,FoodStatIncrease) }
+    if ($readini(system.dat, system, botType) = IRC) {   /.timerDisplayPM $+ $rand(1,1000) $+ $rand(a,z) $+ $rand(1,1000) 1 1 /.msg $2 $readini(translation.dat, system,FoodStatIncrease) }
     if ($readini(system.dat, system, botType) = DCCchat) { $dcc.private.message($2, $readini(translation.dat, system,FoodStatIncrease) }
   }
   unset %food.bonus | unset %target.stat | unset %food.type
@@ -743,7 +746,7 @@ alias wear.armor {
   if ((%battleis = on) && ($nick isin $readini(battle2.txt, Battle, List))) { $display.system.message($readini(translation.dat, errors, CanOnlySwitchArmorOutsideBattle), private) | halt }
 
   set %current.armor $readini($char($1), equipment, %item.location) 
-  if ((%current.armor = $null) || (%current.armor = nothing)) {
+  if (((%current.armor = $null) || (%current.armor = nothing) || (%current.armor = none))) {
 
     set %check.item $readini($char($1), Item_Amount, $2) 
     if ((%check.item <= 0) || (%check.item = $null)) { $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, DoesNotHaveThatItem), private) | halt }

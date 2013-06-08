@@ -18,11 +18,11 @@ alias gamehelp {
 
 ON 1:TEXT:!view-info*:*: { $view-info($1, $2, $3, $4) }
 alias view-info {
-  if ($2 = $null) { $display.private.message(4Error: The command is missing what you want to view.  Use it like:  !view-info <tech, item, skill, weapon, armor, accessory, ignition> <name> (and remember to remove the < >)) | halt }
-  if ($3 = $null) { $display.private.message(4Error: The command is missing the name of what you want to view.   Use it like:  !view-info <tech, item, skill, weapon, armor, accessory, ignition> <name> (and remember to remove the < >)) | halt }
+  if ($2 = $null) { var %error.message 4Error: The command is missing what you want to view.  Use it like:  !view-info <tech $+ $chr(44) item $+ $chr(44) skill $+ $chr(44) weapon, armor, accessory, ignition> <name> (and remember to remove the < >) | $display.private.message(%error.message) | halt }
+  if ($3 = $null) { var %error.message 4Error: The command is missing the name of what you want to view.   Use it like:  !view-info <tech, item, skill, weapon, armor, accessory, ignition> <name> (and remember to remove the < >) | $display.private.message(%error.message) | halt }
 
   if ($2 = tech) { 
-    if ($readini(techniques.db, $3, type) = $null) { $display.private.message($nick 4Error: Invalid technique) | halt }
+    if ($readini(techniques.db, $3, type) = $null) { $display.private.message($nick, 4Error: Invalid technique) | halt }
     var %info.type $readini(techniques.db, $3, type) |   var %info.tp $readini(techniques.db, $3, TP)
     var %info.basePower $readini(techniques.db, $3, BasePower) | var %info.basecost $readini(techniques.db, $3, Cost)
     var %info.element $readini(techniques.db, $3, Element)
@@ -30,7 +30,7 @@ alias view-info {
     var %info.hits $readini(techniques.db, n, $3, hits)
     if (%info.hits = $null) { var %info.hits 1 }
     if ($readini(techniques.db, $3, magic) = yes) { var %info.magic  [4Magic12 Yes $+ 1] }
-    if ($readini(techniques.db, $3, type) = status) { var %info.statustype [4Stats Type12 $readini(techniques.db, $3, StatusType) $+ 1] }
+    if ($readini(techniques.db, $3, statusType) != $null) { var %info.statustype [4Stats Type12 $readini(techniques.db, $3, StatusType) $+ 1] }
 
     if (%info.ignoredef != $null) { var %info.ignoredefense  [4Ignore Target Defense by12 %info.ignoredef $+ $chr(37) $+ 1] }
 
@@ -151,12 +151,14 @@ alias view-info {
 
     $display.private.message([4Name12 %info.name $+ 1] [4Armor Location12 %info.location $+ 1]  [4Armor Augment12 %info.augment $+ 1])
     $display.private.message([4Stats on Armor $+ 1] 4Health12 %info.hp  $+ $chr(124) 4TP12 %info.tp   $+ $chr(124) 4 $+ Strength12 %info.str  $+ $chr(124) 4 $+ Defense12 %info.def  $+ $chr(124) 4Intelligence12 %info.int  $+ $chr(124) 4Speed12 %info.spd)
-    if (%info.augment = AutoReraise) { $display.private.message(4The Auto Reraise Augment only works if you have 5 pieces of armor that all have the same augment.  In other words, the augment strength must be at least 5 in order to work) } 
+    if (AutoReraise isin %info.augment) { $display.private.message(4The Auto Reraise Augment only works if you have 5 pieces of armor that all have the same augment.  In other words the augment strength must be at least 5 in order to work) } 
   }
 
   if ($2 = weapon ) {
     if ($readini(weapons.db, $3, type) = $null) { $display.private.message(4Invalid weapon) | halt }
     var %info.type $readini(weapons.db, $3, type) | var %info.hits $readini(weapons.db, n, $3, hits)
+    %info.hits = $replacex(%info.hits,$chr(36) $+ rand,random))
+    %info.hits = $replacex(%info.hits,$chr(44), $chr(45)))
     var %info.basePower $readini(weapons.db, $3, BasePower) | var %info.basecost $readini(weapons.db, $3, Cost)
     var %info.element $readini(weapons.db, $3, Element) | var %info.abilities $readini(weapons.db, $3, abilities)
     var %info.ignoredef $readini(techniques.db, $3, IgnoreDefense)
@@ -191,19 +193,36 @@ alias view-info {
       halt
     }
 
-
     var %gem.required $readini(crafting.db, $3, gem)
     if (%gem.required = $null) { $display.private.message($readini(translation.dat, errors, CannotCraftThisItem)) | halt }
 
     var %ingredients $readini(crafting.db, $3, ingredients)
-    var %base.success $readini(crafting.db, $3, successrate) $+ $chr(37)
+    var %total.ingredients $numtok(%ingredients, 46)
 
-    if ($chr(046) isin %ingredients) { set %replacechar $chr(032) $chr(043) $chr(032)
-      %ingredients = $replace(%ingredients, $chr(046), %replacechar)
+    var %value 1
+    while (%value <= %total.ingredients) {
+      set %item.name $gettok(%ingredients, %value, 46)
+      set %amount.needed $readini(crafting.db, $3, %item.name)
+      if (%amount.needed = $null) { set %amount.needed 1 }
+
+      set %ingredient.to.add %item.name x $+ %amount.needed
+      %ingredient.list = $addtok(%ingredient.list,%ingredient.to.add,46)
+      inc %value 1 
     }
 
-    $display.private.message([4Name12 $3 $+ 1] [4Gem Required12 %gem.required $+ 1] [4Ingredients12 %ingredients $+ 1] [4Base Success Rate12 %base.success $+ 1])
+    var %base.success $readini(crafting.db, $3, successrate) $+ $chr(37)
 
+    set %replacechar $chr(032) $chr(043) $chr(032)
+    %ingredient.list = $replace(%ingredient.list, $chr(046), %replacechar)
+
+    $display.private.message([4Name12 $3 $+ 1] [4Gem Required12 %gem.required $+ 1] [4Ingredients12 %ingredient.list $+ 1] [4Base Success Rate12 %base.success $+ 1])
+
+    unset %replacechar | unset %amount.needed | unset %item.name | unset %ingredient.list
+  }
+
+  if ($2 = style) {
+    if ($readini(playerstyles.lst, Info, $3) = $null) { $display.private.message(4Invalid style) | halt }
+    $display.private.message(2 $+ $readini(playerstyles.lst, info, $3), private)
   }
 
 }

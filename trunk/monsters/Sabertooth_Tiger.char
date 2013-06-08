@@ -38,6 +38,9 @@ BlackOrbs=1
 ShopLevel=1.0
 Drops=TigerFang
 
+[monster]
+type=tiger
+
 
 [Info]
 Flag=monster

@@ -45,7 +45,7 @@ Streak=41
 StreakMax=90
 
 [Monster]
-Type=
+Type=bat
 
 [Status]
 Poison=no

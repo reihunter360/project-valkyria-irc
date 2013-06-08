@@ -92,9 +92,15 @@ Some basic commands you may want to check out:
 
 !view battle save - If you've saved a streak levels to your file, you can see what it is here.
 
-!save battle streak - Save the current battle streak to your file so that you can reload it later.  Consider this as a way to "save your game" if you have to go and want to resume on the same streak later.  You can only save a streak once every two hours.
+!save battle streak - Save the current battle streak to your file so that you can reload it later.  Consider this as a way to "save your game" if you have to go and want to resume on the same streak later.  You can only save a streak once an hour.
 
 !reload battle streak - Reloads the saved battle streak from your file to the bot.  In order for a streak to be reloaded there can't be any winning streaks (i.e. it has to be a losing streak).  Upon reloading, the old saved streak will be erased from the file.
+
+!conquest info - This will display the current information on the current conquest period (and who won the last conquest tally, if available)
+
+!conquest points - This will display the current conquest point situation for the conquest period.
+
+!dragonballs - This will display the current dragonball information.
 
 !stats - Tells you your stats.
 
@@ -142,6 +148,10 @@ Next up you can try out the list command for the various things.
 !shop list items
 !shop list techs
 !shop list skills
+!shop list skills active
+!shop list skills passive
+!shop list skills resists
+!shop list skills killertraits
 !shop list stats
 !shop list weapons
 !shop list styles
@@ -191,17 +201,20 @@ When the two minutes up the bot will calculate how many players have joined and 
 Orb Fountain Battle (10% chance of happening)
 This battle is simply to let players gain orbs.  An Orb_Fountain monster will join.  The fountain can't fight back, so feel free to wail on it.
 
-Boss Battle (10% chance of happening)
-1 boss will be picked from a list of bosses and it will join the battle.  Players have to work together to defeat this terrible foe.  If the boss is defeated, at the end of battle everyone who's still alive will receive a black orb and the person who's the most stylish will receive an item (usually; but more on style later).
+Boss Battle (10% chance of happening at random, 100% on certain streak levels)
+One, or more, boss(es) will be picked from a list of bosses and it will join the battle.  Players have to work together to defeat this terrible foe.  Upon victory everyone who's still alive will receive a black orb and the person who's the most stylish will receive an item (usually; but more on style later).
 
-Doppelganger Battle (10% chance of replacing a normal boss battle)
+Doppelganger Battle (only appears on winning streaks 10-75)
 Evil doppelgangers of all participating players will be generated and the heroes will be forced to fight themselves.
 
-Warmachine Battle (20% chance of replacing a normal boss battle)
+Warmachine Battle (only appears on winning streaks 10-300)
 The monsters will build a large tank-like boss that will roll out onto the battlefield for the players to fight.
 
 Demon Wall Battle (only appears on winning streaks 300-600)
 A special evil demon wall will appear and teleport the players to a special battlefield.  In this battlefield the players have 5 minutes to defeat the wall before they're crushed to death (instant loss if the timer runs out).
+
+Elder Dragon Battle (only appears on winning streaks 600-5000)
+A special randomly-created Elder Dragon will appear and attack the enemies. 
 
 Monster Battle (80% chance of happening)
 As expected, this is the most common type of battle.  The bot will generate a number of monsters (the number depends on how many players join the battle) and will add them to battle.  The object is to defeat them all.
@@ -210,14 +223,11 @@ At the end of all three types of battle you will receive red orbs (lose/win/dead
 
 When the battle begins you will see something like this:
 
-<BattleArena> The weather changes. It is now windy
-<BattleArena> Enchanted Bones has entered the battle!
-<BattleArena> Enchanted Bones is a skeleton carrying a large scythe
-<BattleArena> -=BATTLE LIST=-
-<BattleArena> Enchanted_Bones, Iyouboushi
+<BattleArenaTest> [Turn #: 1][Weather: rainy] [Battlefield: underwater cavern]
+<BattleArenaTest> [Battle Order: Iyouboushi, Enchanted_Bones]
 
+The bot will randomly change the weather (which affects magic), battlefield (certain monsters only show up on certain battlefields) and the monster(s) will join the battle.  Afterwards the battle will commence.   The Battle Order tells you the list of everyone that's in battle and what order they will attack in.  Take note of how the monsters' names are spelled and listed (i.e. if it has an underscore or not) as you'll need this to attack the monster.
 
-The bot will randomly change the weather (which affects magic) and the monster(s) will join the battle, then the battle will commence.   The Battle List tells you the list of everyone that's in battle.  Take note of how the monsters' names are spelled and listed (i.e. if it has an underscore or not) as you'll need this to attack the monster.
 
 When it's a monsters' turn, the AI of the bot will automatically control the monster and let it attack or use a technique.
 
@@ -265,9 +275,9 @@ Monsters are leveled based on the current winning streak.  And the amount of dam
 
 
 SKILLS
-** As of March 18, 2013.
+** As of June 6, 2013.
 
-There are three types of skills in this bot: Passive Skills that are always on, Active Skills that have commands, and Resists that help you resist against various status types found in the bot.  Each skill has a maximum level that you can obtain in it. Some active skills can only be used once every certain number of minutes.  Of course you must first purchase the skills in the shop before you can use them.
+There are four types of skills in this bot: Passive Skills that are always on, Active Skills that have commands, Resists that help you resist against various status types found in the bot and Killer Traits that help you deal more melee damage to certain monster families.  Each skill has a maximum level that you can obtain in it. Some active skills can only be used once every certain number of minutes.  Of course you must first purchase the skills in the shop before you can use them.
 
 
 Passive Skills
@@ -326,6 +336,9 @@ This skill will increase the odds of better colored chests at the end of battle 
 
 BackGuard
 This skill will decreaease the odds of a surprise attack against the players. This skill is culumulative with everyone who has it at the beginning of battle.
+
+DivineBlessing
+This skill will decrease the odds that a curse night will happen by 1% per level. This skill is culumulative with everyone who has it at the beginning of battle.
 
 
 Active Skills
@@ -445,9 +458,28 @@ resist-petrify
 
 ** There is one exception.  Resist-Curse will not protect you when a terrible curse falls upon the battlefield (a rare event).
 
+Killer Trait Skills
+These special skills are always on and will increase damage done against a specific monster type by 1% per level (with a maximum of 10%).  They only work on monsters that are of that monster type.
+
+Undead-Killer
+Zombie-Killer
+Demon-Killer
+Orc-Killer
+Yagudo-Killer
+Quadav-Killer
+Goblin-Killer
+Dragon-Killer
+Treant-Killer
+Android-Killer (also works on machines suchas Metal Gear)
+Crab-Killer
+Worm-Killer
+Bat-Killer
+Lizard-Killer
+Elemental-Killer
+
 
 ITEM LIST
-** As of March 18, 2013.
+** As of May 21, 2013.
 
 There's a bunch of different types of items in the bot currently:  Healing Items, Battle Items, Consumable (Skill) Items, +Stat Items, Summon Items, Shop Level Reducing Items, Gems, Keys, Accessories, Portal Items and Misc (Crafting) items.  Here's a list of each.
 
@@ -468,6 +500,9 @@ The senzu will heal roughly 500 HP when used.  It can be used with Fullbring and
 
 SuperPotion - 3500 Red Orbs
 The Super Potion will heal roughly 1500 HP when used. It can be used with Fullbring and requires level 5 of that skill.
+
+MegaPotion - crafted only
+The Mega Potion will heal roughly 5000 HP when used. It can be used with Fullbring and requires level 5 of that skill.
 
 DustyWing - 100 Red Orbs
 The Dusty Wing will instantly restore 20 TP when used. It can be used with Fullbring and requires level 1 of that skill.
@@ -732,6 +767,7 @@ DrnRune
 ItmRune
 RenRune
 NinRune
+IgDefRune
 
 Portal Items
 These items are used in battle to transport all of the players to a special battlefield to fight a tough boss monster.
@@ -744,6 +780,9 @@ IgnisFatuus
 BanishingCharm
 RottingOrb
 GemOfTheNorth
+GemOfTheEast
+GemOfTheSouth
+GemOfTheWest
 GodSeal
 
 
@@ -846,11 +885,16 @@ You'll notice that Ignitions have two special extras in addition to +stat gains:
 
 
 MONSTER LIST
-** As of March 18, 2013.
+** As of June 6, 2013.
 Here's a list of monsters that are in the bot.
 
 Acrobat
 Air Elemental
+Ancient Mummy
+ArchDemon Knight
+ArchDemon Samurai
+ArchDemon Warrior
+ArchDemon Wizard
 Baelfyr
 Balrog
 Bark Spider
@@ -859,6 +903,7 @@ Bee
 Bee Bear
 Bigclaw
 Bloodgoyle
+Blue Bones
 Blue Slime
 Blue Medusa Head
 Bone Soldier
@@ -874,12 +919,14 @@ Creeper
 Crimson Slime
 Cure Slime
 Cursed Bishop
+Cursed Mummy
 Cursed Pawn
 Cursed Queen
 Cursed Rook
 Cyberman
 Dalek
 Dark Knight
+Dark Mummy
 Dark Octopus
 Decapiclops
 Demon Knight
@@ -915,6 +962,7 @@ Goblin Shaman
 Goblin Smithy
 Gold Medusa Head
 Greater Pugil
+Green Bones
 Guardian Treant
 Healing Slime
 Heal Slime
@@ -951,7 +999,9 @@ Poison Slime
 Poring
 Pride Demon
 Pugil
+Purple Bones
 Reaver
+Red Bones
 Red Slime
 New Age Retro Hippie
 Revenant
@@ -1001,6 +1051,7 @@ Yagudo Prioress
 Yagudo Scribe
 Yagudo Summoner
 Yagudo Zealot
+Young Mummy
 Zarklet
 Zombie
 Zombie Chef
@@ -1009,7 +1060,7 @@ Zu
 
 
 BOSS LIST
-** As of March 18, 2013.
+** As of April 29, 2013.
 Here's a list of bosses that are in the bot.
 
 Absolute Virtue
@@ -1026,6 +1077,7 @@ Bahamut Fury
 Bigmouth Billy
 Bloody Bones
 Brauner
+Byakko
 Cell
 Cerberus
 Chuckie
@@ -1045,6 +1097,7 @@ Erim
 Fafnir
 Gades
 Gaki
+Garland
 Metal Gear Ray
 Metal Gear Rex
 Genbu
@@ -1072,18 +1125,23 @@ Metal King Slime
 Morion Worm
 Mother Brain
 M.Bison
+Nauthima Tiranadel
 Onki
 Pallid Percy
 Poison
 Poisonhand Gnadgad
 Puppet Master
 Quetzalcoatl
+Rainemard
 Rasetsu
 Ryukotsuki
-Smothered Schmidt
 Scorpion
 Sea Horror
+Seiryu
 Shadow Lord
+Shinryu
+Smothered Schmidt
+Suzaku
 Stinging Sophie
 Stubborn Dredvodd
 Sub Zero
@@ -1100,7 +1158,6 @@ Evil Cupid
 Evil Xmas Tree
 Gobbles the Mad Turkey
 Robot Santa
-
 
 
 NPCS
@@ -1143,7 +1200,9 @@ Rock You Like A Hurricane
 It's All Doom And Gloom
 In Tune With Mother Earth
 Time To Build An Ark
-
+Hi Ho, Hi Ho
+Blood Gone to Brain
+You Bring the Monsters, I'll Bring the Weapons
 
 
 MISC INFO

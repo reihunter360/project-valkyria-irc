@@ -50,6 +50,9 @@ Streak=4
 StreakMax=50
 Biome=Underwater Cavern.Beach
 
+[Monster]
+Type=crab
+
 [Status]
 Poison=no
 HeavyPoison=no

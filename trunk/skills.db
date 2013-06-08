@@ -1,8 +1,9 @@
 [Skills]
-PassiveSkills=Swordmaster.Gunslinger.Wizardry.MartialArts.Polemaster.Archery.ClearMind.DesperateBlows.OrbHunter.FieldMedic.Impetus.BloodPact.Zen.Haggling.WeaponBash.Vogue.Alchemy.TreasureHunter.BackGuard
-ActiveSkills=Speed.ElementalSeal.MightyStrike.ManaWall.RoyalGuard.Fullbring.Sugitekai.Meditate.ConserveTP.BloodBoost.DrainSamba.Regen.Kikouheni.ShadowCopy.Utsusemi.Steal.Analysis.Cover.Aggressor.Defender.HolyAura.Provoke.Disarm.WeaponLock.Konzen-ittai.SealBreak
+PassiveSkills=Swordmaster.Gunslinger.Wizardry.MartialArts.Polemaster.Archery.ClearMind.DesperateBlows.OrbHunter.FieldMedic.Impetus.BloodPact.Zen.Haggling.WeaponBash.Vogue.Alchemy.TreasureHunter.BackGuard.DivineBlessing
+ActiveSkills=Speed.ElementalSeal.MightyStrike.ManaWall.RoyalGuard.Fullbring.Sugitekai.Meditate.ConserveTP.BloodBoost.BloodSpirit.DrainSamba.Regen.Kikouheni.ShadowCopy.Utsusemi.Steal.Analysis.Cover.Aggressor.Defender.HolyAura.Provoke.Disarm.WeaponLock.Konzen-ittai.SealBreak
 ActiveSkills2=MagicMirror.Gamble.Thirdeye.Scavenge.JustRelease
 Resists=resist-paralysis.resist-blind.resist-poison.resist-amnesia.resist-curse.resist-zombie.resist-slow.resist-stun.resist-stop.resist-charm.resist-petrify
+KillerTraits=dragon-killer.undead-killer.zombie-killer.demon-killer.orc-killer.yagudo-killer.quadav-killer.goblin-killer.treant-killer.android-killer.crab-killer.worm-killer.bat-killer.lizard-killer.elemental-killer
 
 
 =============================================
@@ -11,37 +12,37 @@ PASSIVE SKILLS
 
 [Swordmaster]
 Cost=200
-Max=500
+Max=100
 Type=Passive
 Info=This skill increases damage done with sword and katana weapons.  Increased levels increases the damage.
 
 [Polemaster]
 Cost=200
-Max=500
+Max=100
 Type=Passive
 Info=This skill increases damage done with spear weapons.  Increased levels increases the damage.
 
 [Gunslinger]
 Cost=200
-Max=500
+Max=100
 Type=Passive
 Info=This skill increases damage done with a gun.  Increased levels increases the damage.
 
 [Wizardry]
 Cost=200
-Max=500
+Max=100
 Type=Passive
 Info=This skill increases damage done with stave and wand weapons.  Increased levels increases the damage.
 
 [MartialArts]
 Cost=200
-Max=500
+max=100
 Type=Passive
 Info=This skill increases damage done with your hand to hand weapons.  Increased levels increases the damage.
 
 [Archery]
 Cost=200
-Max=500
+Max=100
 Type=Passive
 Info=This skill increases damage done with a bow.  Increased levels increases the damage.
 
@@ -122,7 +123,13 @@ Max=7
 [BackGuard]
 Cost=1000
 Type=passive
-Info=This skill will decreaease the odds of a surprise attack against the players. This skill is culumulative with everyone who has it at the beginning of battle.
+Info=This skill will decrease the odds of a surprise attack against the players. This skill is culumulative with everyone who has it at the beginning of battle.
+Max=5
+
+[DivineBlessing]
+Cost=1000
+Type=passive
+Info=This skill will decrease the odds that a curse night will happen. This skill is culumulative with everyone who has it at the beginning of battle.
 Max=5
 
 =============================================
@@ -154,7 +161,7 @@ Cost=450
 Type=Active
 Max=6
 Info=This skill reduces the next magic attack used against you to 0.  Increased levels decreases the amount of time inbetween uses.
-Cooldown=120
+Cooldown=660
 
 [RoyalGuard]
 Cost=450
@@ -181,14 +188,14 @@ Cost=400
 Type=Active
 Max=10
 Info=This skill will give you (level * 5) TP back to you instantly.
-Cooldown=300
+Cooldown=120
 
 [ConserveTP]
-Cost=500
+Cost=1500
 Type=Active
 Max=5
 Info=This skill will reduce the cost of your next technique to 0 TP. Increased levels decreases the amount of time inbetween uses.
-Cooldown=500
+Cooldown=9000
 
 [BloodBoost]
 Cost=500
@@ -196,6 +203,13 @@ Type=Active
 Max=100
 Info=This skill will consume 100 HP to give you a (level * 2) boost to your STR.
 Cooldown=20
+
+[BloodSpirit]
+Cost=500
+Type=Active
+Max=75
+Info=This skill will consume 100 HP to give you a (level * 2) boost to your INT.
+Cooldown=40
 
 [DrainSamba]
 Cost=750
@@ -249,7 +263,7 @@ Cost=600
 Type=Active
 Info=This skill allows you to jump in front of an attack and cover an ally of your choosing.
 Max=1
-Cooldown=30
+Cooldown=60
 
 [Aggressor]
 Cost=500
@@ -289,7 +303,7 @@ Cost=1000
 Type=Active
 Info=This skill will consume the item "Sokubaku" and lock a target's weapon for a number of turns.
 Max=1
-CoolDown=150
+CoolDown=300
 
 [Konzen-Ittai]
 Cost=5000
@@ -322,7 +336,7 @@ Cooldown=900
 [Thirdeye]
 Cost=500
 Type=Active
-Info=This skill will increase the odds of dodging attacks for 1-2 turns to 100%.  Increased levels decreases the amount of time inbetween uses.
+Info=This skill will increase the odds of dodging physical attacks for 1-2 attacks to 100%.  Increased levels decreases the amount of time inbetween uses.  ** This skill will not increase the odds of dodging magical, item, or tech attacks.
 Max=10
 Cooldown=1100
 
@@ -343,73 +357,165 @@ RESISTS
 =============================================
 
 [Resist-Paralysis]
-Cost=150
+Cost=150000
 Max=70
 Type=Resistance
 Info=This skill lowers the chance that you will become paralyzed in battle by 1% each level.
 
 [Resist-Charm]
-Cost=150
+Cost=150000
 Max=70
 Type=Resistance
 Info=This skill lowers the chance that you will become charmed in battle by 1% each level.
 
 [Resist-Blind]
-Cost=150
+Cost=150000
 Max=70
 Type=Resistance
 Info=This skill lowers the chance that you will become blind in battle by 1% each level.
 
 [Resist-Poison]
-Cost=150
+Cost=150000
 Max=70
 Type=Resistance
 Info=This skill lowers the chance that you will become poisoned in battle by 1% each level.
 
 [Resist-Amensia]
-Cost=150
+Cost=150000
 Max=70
 Type=Resistance
 Info=This skill lowers the chance that you will suffer amnesia in battle by 1% each level.
 
 [Resist-Curse]
-Cost=150
+Cost=150000
 Max=70
 Type=Resistance
 Info=This skill lowers the chance that you will become cursed in battle by 1% each level.
 
 [Resist-Zombie]
-Cost=150
+Cost=150000
 Max=70
 Type=Resistance
 Info=This skill lowers the chance that you will become a zombie in battle by 1% each level.
 
 [Resist-Slow]
-Cost=150
+Cost=150000
 Max=70
 Type=Resistance
 Info=This skill lowers the chance that you will become slowed in battle by 1% each level.
 
 [Resist-Stun]
-Cost=150
-Max=70
-Type=Resistance
-Info=This skill lowers the chance that you will become stunned in battle by 1% each level.
-
-[Resist-Amnesia]
-Cost=150
+Cost=150000
 Max=70
 Type=Resistance
 Info=This skill lowers the chance that you will become stunned in battle by 1% each level.
 
 [Resist-Stop]
-Cost=150
+Cost=150000
 Max=70
 Type=Resistance
 Info=This skill lowers the chance that you will become frozen in time in battle by 1% each level.
 
 [Resist-Petrify]
-Cost=200
+Cost=20000
 Max=20
 Type=Resistance
 Info=This skill lowers the chance that you will be come petrified in battle by 1% each level
+
+
+=============================================
+KILLER TRAIT SKILLS
+=============================================
+
+[Undead-Killer]
+Cost=5000
+Max=10
+Type=KillerTrait
+Info=This skill increases damage done against undead monsters by 1% a level.
+
+[Crab-Killer]
+Cost=5000
+Max=10
+Type=KillerTrait
+Info=This skill increases damage done against crab monsters by 1% a level.
+
+[Dragon-Killer]
+Cost=5000
+Max=10
+Type=KillerTrait
+Info=This skill increases damage done against dragon monsters by 1% a level.
+
+[Zombie-Killer]
+Cost=5000
+Max=10
+Type=KillerTrait
+Info=This skill increases damage done against zombie monsters by 1% a level.
+
+[Demon-Killer]
+Cost=5000
+Max=10
+Type=KillerTrait
+Info=This skill increases damage done against demon monsters by 1% a level.
+
+[Orc-Killer]
+Cost=5000
+Max=10
+Type=KillerTrait
+Info=This skill increases damage done against orc monsters by 1% a level.
+
+[Yagudo-Killer]
+Cost=5000
+Max=10
+Type=KillerTrait
+Info=This skill increases damage done against yagudo monsters by 1% a level.
+
+[Quadav-Killer]
+Cost=5000
+Max=10
+Type=KillerTrait
+Info=This skill increases damage done against quadav monsters by 1% a level.
+
+[Treant-Killer]
+Cost=5000
+Max=10
+Type=KillerTrait
+Info=This skill increases damage done against treant monsters by 1% a level.
+
+[Android-Killer]
+Cost=5000
+Max=10
+Type=KillerTrait
+Info=This skill increases damage done against android/robotic monsters by 1% a level.
+
+
+[Worm-Killer]
+Cost=5000
+Max=10
+Type=KillerTrait
+Info=This skill increases damage done against worm monsters by 1% a level.
+
+[Bat-Killer]
+Cost=5000
+Max=10
+Type=KillerTrait
+Info=This skill increases damage done against bat monsters by 1% a level.
+
+[Lizard-Killer]
+Cost=5000
+Max=10
+Type=KillerTrait
+Info=This skill increases damage done against lizard monsters by 1% a level.
+
+[Goblin-Killer]
+Cost=5000
+Max=10
+Type=KillerTrait
+Info=This skill increases damage done against goblin monsters by 1% a level.
+
+[Elemental-Killer]
+Cost=5000
+Max=10
+Type=KillerTrait
+Info=This skill increases damage done against elemental monsters by 1% a level.
+
+

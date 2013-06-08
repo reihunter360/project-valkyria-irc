@@ -39,7 +39,7 @@ ShopLevel=1.0
 Drops=RottingMeat.ChaosBurgeonet.ChaosCuirass.ChaosFlanchard.ChaosSollerets.ChaosGauntlets.RottingMeat.KindredSeal
 
 [Monster]
-Type=
+Type=undead
 
 [Info]
 Flag=monster

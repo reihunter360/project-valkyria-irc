@@ -39,6 +39,9 @@ BlackOrbs=1
 ShopLevel=1.0
 Drops=Sapphire.Diamond.GoldOre.SilverOre.DarksteelOre
 
+[monster]
+type=worm
+
 [Info]
 Flag=monster
 Gender=her

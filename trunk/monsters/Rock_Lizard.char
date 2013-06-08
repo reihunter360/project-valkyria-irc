@@ -45,7 +45,7 @@ Streak=7
 StreakMax=15
 
 [Monster]
-Type=
+Type=lizard
 
 [Status]
 Poison=no

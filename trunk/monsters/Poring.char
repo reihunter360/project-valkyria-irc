@@ -44,7 +44,7 @@ Created=N/a
 StreakMax=4
 
 [Monster]
-Type=
+Type=slime
 
 [Status]
 Poison=no

@@ -40,6 +40,9 @@ BlackOrbs=1
 ShopLevel=1.0
 
 
+[Monster]
+Type=gorgon
+
 [Info]
 Flag=monster
 Gender=its

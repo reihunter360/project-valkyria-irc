@@ -50,6 +50,8 @@ Created=N/a
 ai_flag=berserker
 Streak=50
 
+[Monster]
+Type=goblin
 
 [Status]
 Poison=no

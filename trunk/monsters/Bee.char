@@ -67,7 +67,7 @@ StreakMax=4
 ; SpawnAfterDeath=nameofmonster
 
 [Monster]
-Type=
+Type=bee
 
 [Status]
 Poison=no

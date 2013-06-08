@@ -5,6 +5,8 @@
 on 1:TEXT:!battle stats*:*: { $battle.stats }
 on 1:TEXT:!battlestats*:*: { $battle.stats }
 
+on 1:TEXT:!conquest*:*: { $conquest.display($1, $2) }
+
 alias battle.stats {
   var %total.battles $bytes($readini(battlestats.dat, Battle, TotalBattles),b)
   var %total.wins $bytes($readini(battlestats.dat, Battle, TotalWins),b)
@@ -75,7 +77,7 @@ on 50:TEXT:!toggle battle formula*:*:{
 
 ; Bot admins can manually set the winning streak.
 on 50:TEXT:!set streak*:*:{   
-  if ($3 = $null) { .msg $nick 4!set streak # | halt }
+  if ($3 = $null) { .msg $nick 4!set streak number | halt }
   if ($3 <= 0) { .msg $nick the streak cannot be negative or 0. | halt }
   if (. isin $3) { .msg $nick the streak must be a whole number. | halt }
   writeini battlestats.dat battle LosingStreak 0
@@ -150,7 +152,7 @@ on 3:TEXT:!save battle streak*:*:{   $set_chr_name($nick) | $checkchar($nick)
     var %current.time $ctime
     var %time.difference $calc(%current.time - %last.saved)
 
-    if ((%time.difference = $null) || (%time.difference > 7200)) {
+    if ((%time.difference = $null) || (%time.difference > 3600)) {
       var %saved.streak $readini($char($nick), info, savedstreak)
       if (%saved.streak = $null) { var %saved.streak 0 }
       if (%current.streak < %saved.streak) {   $display.system.message($readini(translation.dat, errors, Can'tSaveALowerStreak), private) | halt }
@@ -165,7 +167,7 @@ on 3:TEXT:!save battle streak*:*:{   $set_chr_name($nick) | $checkchar($nick)
 on 3:TEXT:!reload battle streak*:*:{   $set_chr_name($nick) | $checkchar($nick)
   if (%battleis = on) {   $display.system.message($readini(translation.dat, errors, Can'tDoThisInBattle), private) | halt }
   var %current.streak $readini(battlestats.dat, Battle, WinningStreak)
-  if (%current.streak >= 1) {   $display.system.message($readini(translation.dat, errors, Can'tReloadOnAWinningStreak), private) | halt }
+  if (%current.streak > 10) {   $display.system.message($readini(translation.dat, errors, Can'tReloadOnAWinningStreak), private) | halt }
   else { 
     var %saved.streak $readini($char($nick), info, savedstreak)
     if (%saved.streak = $null) {   $display.system.message($readini(translation.dat, errors, NoWinningStreakSaved), private) | halt }
@@ -283,6 +285,24 @@ alias clear_battle {
   writeini weather.lst weather current calm
 
   ; Erase any stray monsters/bosses..
+
+  if (($lines(battle.txt) != 0) && ($lines(battle.txt) != $null)) {
+    var %battletxt.lines $lines(battle.txt) | var %battletxt.current.line 1 
+    while (%battletxt.current.line <= %battletxt.lines) { 
+      var %who.battle $read -l $+ %battletxt.current.line battle.txt
+      var %clear.flag $readini($char(%who.battle), info, flag)
+
+      if ((%clear.flag = monster) || (%clear.flag = npc)) { .remove $char(%who.battle) }
+      if ($file($char(%who.battle)).size = 0) { $zap_char(%who.battle)  }
+
+      inc %battletxt.current.line
+    }
+  }
+
+
+  ; Full everyone that was in battle.
+  unset %clear.flag
+
   var %value 1
   while ($findfile( $char_path , *.char, %value , 0) != $null) {
     set %file $nopath($findfile($char_path ,*.char,%value)) 
@@ -293,33 +313,17 @@ alias clear_battle {
     else { 
       var %clear.flag $readini($char(%name), Info, Flag)
 
-      if ((%name != $null) && (%clear.flag = $null)) {  writeini $char(%name) DCCchat Room Lobby }
-
-      if ((%clear.flag = monster) || (%clear.flag = npc)) { .remove $char(%name) }
-      if ($file($char(%name)).size = 0) { $zap_char(%name) }
-
-      else { inc %value 1 }    
-    }
-  }
-
-  ; Full everyone that was in battle.
-  unset %clear.flag
-
-  if (($lines(battle.txt) != 0) && ($lines(battle.txt) != $null)) {
-    var %battletxt.lines $lines(battle.txt) | var %battletxt.current.line 1 
-    while (%battletxt.current.line <= %battletxt.lines) { 
-      var %who.battle $read -l $+ %battletxt.current.line battle.txt
-      var %clear.flag $readini($char(%who.battle), info, flag)
-
       ; It may seem silly to check for monsters twice on this, after we just did it, but I've found that if there's too many files in the folder it
       ; may not get them all.  This is a double check to get rid of them.
 
-      if ((%clear.flag = monster) || (%clear.flag = npc)) { .remove $char(%who.battle) }
-      if ($file($char(%who.battle)).size = 0) { $zap_char(%who.battle)  }
+      if ((%clear.flag = monster) || (%clear.flag = npc)) { .remove $char(%name) }
+      if ((%clear.flag = $null) && ($readini($char(%name), basestats, hp) = $null)) { .remove $char(%name) }
+      if ($file($char(%name)).size = 0) { $zap_char(%name) }
 
       ; If the person is a player, let's refill their hp/mp/stats to max.
-      if ((%flag = $null) && ($readini($char(%who.battle), basestats, hp) != $null)) {  $fulls(%who.battle)  }
-      inc %battletxt.current.line
+      if ((%clear.flag = $null) && ($readini($char(%name), basestats, hp) != $null)) { writeini $char(%name) DCCchat Room Lobby |  $fulls(%name)  }
+
+      inc %value 1  
     }
   }
 
@@ -337,6 +341,10 @@ alias clear_battle {
     $display.system.message($readini(translation.dat, Battle, StartBattle), global)
     /.timerBattleStart 1 %timer.time /startnormal
   }
+
+  ; Check for the conquest tally
+  $conquest.tally
+
   halt
 }
 
@@ -392,7 +400,7 @@ alias enter {
   }
 
   set %curbat $readini(battle2.txt, Battle, List)
-  if ($istok(%curbat,$1,46) = $true) { $display.system.message($readini(translation.dat, errors, AlreadyInBattle), private) | halt  }
+  if ($istok(%curbat,$1,46) = $true) { $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, AlreadyInBattle), private) | halt  }
 
   ; There's a player limit in IRC mode due to the potential for flooding..  There is no limit for DCCchat mode.
   if ($readini(system.dat, system, botType) = IRC) {
@@ -438,6 +446,13 @@ alias enter {
 
   ; Full the person entering the battle.
   $fulls($1)
+
+  ; Check for the Warbound achievement
+  var %total.battles $readini($char($1), stuff, TotalBattles)
+  if (%total.battles = $null) { var %total.battles 0 }
+  inc %total.battles 1
+  writeini $char($1) stuff TotalBattles %total.battles
+  $achievement_check($1, Warbound)
 }
 
 ; ==========================
@@ -478,7 +493,24 @@ alias battlebegin {
   ; First, see if there's any players in the battle..
   set %number.of.players $readini(battle2.txt, BattleInfo, Players)
 
-  if ((%number.of.players = 0) || (%number.of.players = $null)) {  $display.system.message($readini(translation.dat, battle, NoPlayersOnField), global) | $clear_battle | halt  }
+  if ((%number.of.players = 0) || (%number.of.players = $null)) {  
+    $display.system.message($readini(translation.dat, battle, NoPlayersOnField), global) 
+    ; Increase the empty rounds counter and check to see if the empty rounds is > the max allowed before resetting the streak.
+    var %max.emptyrounds $readini(system.dat, system, EmptyRoundsBeforeStreakReset)
+    var %current.emptyrounds $readini(battlestats.dat, battle, emptyRounds) 
+    inc %current.emptyrounds 1
+    writeini battlestats.dat battle emptyRounds %current.emptyrounds
+    if (%current.emptyrounds >= %max.emptyrounds) { 
+      if ($readini(battlestats.dat, battle, winningStreak) > 0) { $display.system.message($readini(translation.dat, system, StreakResetTo0),global) }
+      writeini battlestats.dat battle emptyRounds 0
+      writeini battlestats.dat battle winningStreak 0
+      writeini battlestats.dat battle losingStreak 0
+    }
+
+    $clear_battle 
+    halt 
+
+  }
 
   if (%mode.pvp = on) { 
     set %number.of.players $readini(battle2.txt, BattleInfo, Players)
@@ -506,8 +538,14 @@ alias battlebegin {
   ; Check for a random battle field curse.
   $random.battlefield.curse
 
+  ; Check to see if there's any battlefield limitations
+  $battlefield.limitations
+
   ; Check to see if players go first
   $random.playersgofirst
+
+  ; Reset the empty rounds counter.
+  writeini battlestats.dat battle emptyRounds 0
 
   ; Turn on the rage timer.
   if ((%number.of.monsters.needed <= 3) && (%battle.type != boss)) {  /.timerBattleRage 1 900 /battle_rage_warning }
@@ -534,6 +572,8 @@ alias battlebegin {
   unset %number.of.players
 
   if (%demonwall.fight = on) { /.timerBattleRage 1 1 /battle_rage_warning } 
+
+  if ($readini(battlestats.dat, dragonballs, ShenronWish) = on) { $display.system.message($readini(translation.dat, Dragonball, ShenronWishActive), battle) }
 
   $aicheck(%who)
 }
@@ -630,60 +670,46 @@ alias generate_monster {
     var %monsters.total $numtok(%monster.list,46)
 
     if ((%monsters.total = 0) || (%monster.list = $null)) { $display.system.message($readini(translation.dat, Errors, NoMonsAvailable), global) | $endbattle(none) | halt }
-    if (%monsters.total = 1) { 
+
+    if (%mode.gauntlet != $null) { set %number.of.monsters.needed 2  }
+
+    if (%monster.total = 1) { set %number.of.monsters.needed 1 }
+
+    set %value 1
+    while (%value <= %number.of.monsters.needed) {
+      if (%monster.list = $null) { inc %value 1 } 
+
+      set %monsters.total $numtok(%monster.list,46)
+      set %random.monster $rand(1, %monsters.total) 
+      set %monster.name $gettok(%monster.list,%random.monster,46)
+      if (%monsters.total = 0) { inc %value 1 }
+
+      .copy -o $mon(%monster.name) $char(%monster.name) | set %curbat $readini(battle2.txt, Battle, List) | %curbat = $addtok(%curbat,%monster.name,46) |  writeini battle2.txt Battle List %curbat 
+      $set_chr_name(%monster.name) 
+      $display.system.message($readini(translation.dat, battle, EnteredTheBattle), battle)
+      $display.system.message(12 $+ %real.name  $+ $readini($char(%monster.name), descriptions, char), battle)
 
       var %battlemonsters $readini(battle2.txt, BattleInfo, Monsters) 
-      if ($readini($char(%monster.list), battle, hp) = $null) { inc %battlemonsters 1 | writeini battle2.txt BattleInfo Monsters %battlemonsters }
-      .copy -o $mon(%monster.list) $char(%monster.list) | set %curbat $readini(battle2.txt, Battle, List) |  %curbat = $addtok(%curbat,%monster.list,46) | writeini battle2.txt Battle List %curbat | write battle.txt %monster.list 
-      $set_chr_name(%monster.list)
-      $display.system.message($readini(translation.dat, battle, EnteredTheBattle), battle)
-      $display.system.message(12 $+ %real.name  $+ $readini($char(%monster.list), descriptions, char), battle)
+      inc %battlemonsters 1 | writeini battle2.txt BattleInfo Monsters %battlemonsters 
 
-      var %boss.item $readini($char(%monster.list), stuff, drops)
-      if (%boss.item != $null) {  
-        var %boss.item $readini($char(%monster.list), stuff, drops)
-        if (%boss.item != $null) { writeini battle2.txt battle bonusitem %boss.item | unset %boss.item }
-      }
-
-      $boost_monster_stats(%monster.list)  
-      $fulls(%monster.list)
-
-    }
-    else { 
-
-      if (%mode.gauntlet != $null) { set %number.of.monsters.needed 2  }
-      set %value 1
-      while (%value <= %number.of.monsters.needed) {
-        if (%monster.list = $null) { inc %value 1 } 
-        set %monsters.total $numtok(%monster.list,46)
-        set %random.monster $rand(1, %monsters.total) 
-        set %monster.name $gettok(%monster.list,%random.monster,46)
-        if (%monsters.total = 0) { inc %value 1 }
-
-        var %battlemonsters $readini(battle2.txt, BattleInfo, Monsters) 
-        if ($readini($char(%monster.name), battle, hp) = $null) { inc %battlemonsters 1 | writeini battle2.txt BattleInfo Monsters %battlemonsters }
-
-        .copy -o $mon(%monster.name) $char(%monster.name) | set %curbat $readini(battle2.txt, Battle, List) | %curbat = $addtok(%curbat,%monster.name,46) |  writeini battle2.txt Battle List %curbat 
-        $set_chr_name(%monster.name) 
-        $display.system.message($readini(translation.dat, battle, EnteredTheBattle), battle)
-        $display.system.message(12 $+ %real.name  $+ $readini($char(%monster.name), descriptions, char), battle)
-
-        var %boss.item $readini($char(%monster.name), stuff, drops)
-        if (%boss.item != $null) { 
-          var %temp.drops.list $readini(battle2.txt, battle, bonusitem)
+      var %boss.item $readini($char(%monster.name), stuff, drops)
+      if (%boss.item != $null) { 
+        var %temp.drops.list $readini(battle2.txt, battle, bonusitem)
+        var %number.of.items $numtok(%temp.drops.list, 46)
+        if (%number.of.items <= 20) { 
           if (%temp.drops.list != $null) { writeini battle2.txt battle bonusitem %temp.drops.list $+ . $+ %boss.item }
           if (%temp.drops.list = $null) { writeini battle2.txt battle bonusitem %boss.item }
         }
-
-        set %monster.to.remove $findtok(%monster.list, %monster.name, 46)
-        set %monster.list $deltok(%monster.list,%monster.to.remove,46)
-        write battle.txt %monster.name
-        $boost_monster_stats(%monster.name) 
-        $fulls(%monster.name) 
-        if (%battlemonsters = 10) { set %number.of.monsters.needed 0 }
-        inc %value 1
-        else {  %monster.list = $deltok(%monster.list,%monster.name,46) | dec %value 1 }
       }
+
+      set %monster.to.remove $findtok(%monster.list, %monster.name, 46)
+      set %monster.list $deltok(%monster.list,%monster.to.remove,46)
+      write battle.txt %monster.name
+      $boost_monster_stats(%monster.name) 
+      $fulls(%monster.name) 
+      if (%battlemonsters = 10) { set %number.of.monsters.needed 0 }
+      inc %value 1
+      else {  %monster.list = $deltok(%monster.list,%monster.name,46) | dec %value 1 }
     }
   }
 
@@ -696,56 +722,44 @@ alias generate_monster {
       var %monsters.total $numtok(%monster.list,46)
 
       if ((%monsters.total = 0) || (%monster.list = $null)) { $display.system.message(4Error: There are no bosses in the boss folder.. Have the bot admin check to make sure there are bosses for players to battle!, global) | $endbattle(none) | halt }
-      if (%monsters.total = 1) { 
+      if (%mode.gauntlet != $null) { set %number.of.monsters.needed 2  }
+
+      if (%monster.total = 1) { set %number.of.monsters.needed 1 }
+
+      set %value 1
+      while (%value <= %number.of.monsters.needed) {
+        if (%monster.list = $null) { inc %value 1 } 
+        set %monsters.total $numtok(%monster.list,46)
+        set %random.monster $rand(1, %monsters.total) 
+        set %monster.name $gettok(%monster.list,%random.monster,46)
+
         var %battlemonsters $readini(battle2.txt, BattleInfo, Monsters) 
-        if ($readini($char(%monster.list), battle, hp) = $null) { inc %battlemonsters 1 | writeini battle2.txt BattleInfo Monsters %battlemonsters }
+        if ($readini($char(%monster.name), battle, hp) = $null) { inc %battlemonsters 1 | writeini battle2.txt BattleInfo Monsters %battlemonsters }
 
-        .copy -o $boss(%monster.list) $char(%monster.list) | set %curbat $readini(battle2.txt, Battle, List) |  %curbat = $addtok(%curbat,%monster.list,46) |  writeini battle2.txt Battle List %curbat | write battle.txt %monster.list
-        $set_chr_name(%monster.list)
+        .copy -o $boss(%monster.name) $char(%monster.name) | set %curbat $readini(battle2.txt, Battle, List) |  %curbat = $addtok(%curbat,%monster.name,46) |  writeini battle2.txt Battle List %curbat  |   $set_chr_name(%monster.name) 
         $display.system.message($readini(translation.dat, battle, EnteredTheBattle), battle)
-        $display.system.message(12 $+ %real.name  $+ $readini($char(%monster.list), descriptions, char), battle)
-        $display.system.message(2 $+ %real.name looks at the heroes and says " $+ $readini($char(%monster.list), descriptions, BossQuote) $+ ", battle)
+        $display.system.message(12 $+ %real.name  $+ $readini($char(%monster.name), descriptions, char), battle)
+        $display.system.message(2 $+ %real.name looks at the heroes and says " $+ $readini($char(%monster.name), descriptions, BossQuote) $+ ", battle)
+        var %boss.item $readini($char(%monster.name), stuff, drops)
+        if (%boss.item != $null) { 
+          var %temp.boss.list $readini(battle2.txt, battle, bonusitem)
 
-        var %boss.item $readini($char(%monster.list), stuff, drops)
-        if (%boss.item != $null) {  
-          var %boss.item $readini($char(%monster.list), stuff, drops)
-          if (%boss.item != $null) { writeini battle2.txt battle bonusitem %boss.item | unset %boss.item }
-        }
-        $boost_monster_stats(%monster.list)
-        $fulls(%monster.list)
-      }
-      else { 
-        if (%mode.gauntlet != $null) { set %number.of.monsters.needed 2  }
-        set %value 1
-        while (%value <= %number.of.monsters.needed) {
-          if (%monster.list = $null) { inc %value 1 } 
-          set %monsters.total $numtok(%monster.list,46)
-          set %random.monster $rand(1, %monsters.total) 
-          set %monster.name $gettok(%monster.list,%random.monster,46)
-
-          var %battlemonsters $readini(battle2.txt, BattleInfo, Monsters) 
-          if ($readini($char(%monster.name), battle, hp) = $null) { inc %battlemonsters 1 | writeini battle2.txt BattleInfo Monsters %battlemonsters }
-
-          .copy -o $boss(%monster.name) $char(%monster.name) | set %curbat $readini(battle2.txt, Battle, List) |  %curbat = $addtok(%curbat,%monster.name,46) |  writeini battle2.txt Battle List %curbat         $set_chr_name(%monster.name) 
-          $display.system.message($readini(translation.dat, battle, EnteredTheBattle), battle)
-          $display.system.message(12 $+ %real.name  $+ $readini($char(%monster.name), descriptions, char), battle)
-          $display.system.message(2 $+ %real.name looks at the heroes and says " $+ $readini($char(%monster.name), descriptions, BossQuote) $+ ", battle)
-          var %boss.item $readini($char(%monster.name), stuff, drops)
-          if (%boss.item != $null) { 
-            var %temp.boss.list $readini(battle2.txt, battle, bonusitem)
+          var %number.of.items $numtok(%temp.boss.list, 46)
+          if (%number.of.items <= 20) { 
             if (%temp.boss.list != $null) { writeini battle2.txt battle bonusitem %temp.boss.list $+ . $+ %boss.item }
             if (%temp.boss.list = $null) { writeini battle2.txt battle bonusitem %boss.item }
           }
-          set %monster.to.remove $findtok(%monster.list, %monster.name, 46)
-          set %monster.list $deltok(%monster.list,%monster.to.remove,46)
-          write battle.txt %monster.name
-          $boost_monster_stats(%monster.name) 
-          $fulls(%monster.name)
-          if (%battlemonsters = 10) { set %number.of.monsters.needed 0 }
-          inc %value 1
         }
+        set %monster.to.remove $findtok(%monster.list, %monster.name, 46)
+        set %monster.list $deltok(%monster.list,%monster.to.remove,46)
+        write battle.txt %monster.name
+        $boost_monster_stats(%monster.name) 
+        $fulls(%monster.name)
+        if (%battlemonsters = 10) { set %number.of.monsters.needed 0 }
+        inc %value 1
       }
     }
+
 
     if (%boss.type = doppelganger) { 
       $display.system.message($readini(translation.dat, events, DoppelgangerFight), battle)
@@ -932,6 +946,9 @@ alias generate_battle_order {
   ; increase the current turn.
   inc %current.turn 1
 
+  ; Count the total number of monsters in battle
+  $count.monsters
+
   unset %surpriseattack | unset %playersgofirst
   if (%first.round.protection.turn != $null) { 
     if (%current.turn > %first.round.protection.turn) { unset %first.round.protection | unset %first.round.protection.turn }
@@ -967,6 +984,22 @@ alias endbattle {
         $display.system.message($readini(translation.dat, battle, EvilHasWon), global)
 
         if (%mode.gauntlet = $null) {
+
+          ; Decrease the conquest points
+          var %streak.on $readini(battlestats.dat, Battle,  WinningStreak)
+          var %conquestpoints.to.remove 0
+          var %player.levels $readini(battle2.txt, BattleInfo, PlayerLevels)
+          if (%current.turn > 1) {
+            if (%player.levels >= %streak.on) { var %conquestpoints.to.remove $round($calc(%streak.on / 1.5),0) }
+            if (%player.levels < %streak.on) { var %conquestpoints.to.remove $round($calc(%streak.on / 3),0) } 
+          }
+          if (%current.turn <= 1) { 
+            if (%player.levels >= %streak.on) { var %conquestpoints.to.remove $round($calc(%streak.on / 15),0) }
+            if (%player.levels < %streak.on) { var %conquestpoints.to.remove $round($calc(%streak.on / 30),0) } 
+          }
+
+          $conquest.points(subtract, %conquestpoints.to.remove)
+
           var %defeats $readini(battlestats.dat, battle, totalLoss) | inc %defeats 1 | writeini battlestats.dat battle totalLoss %defeats
           writeini battlestats.dat battle WinningStreak 0
           var %losing.streak $readini(battlestats.dat, battle, LosingStreak) | inc %losing.streak 1 | writeini battlestats.dat battle LosingStreak %losing.streak
@@ -980,8 +1013,6 @@ alias endbattle {
       $display.system.message($readini(translation.dat, battle, RewardOrbsLoss), battle)
     }
   }
-
-
 
   if ($1 = draw) {
     $display.system.message($readini(translation.dat, battle, BattleIsOver), global)
@@ -1028,6 +1059,23 @@ alias endbattle {
       $battle.reward.playerstylepoints
       $battle.reward.playerstylexp
       $battle.reward.ignitionGauge.all
+
+      ; Calculate the amount of conquest points to add.
+
+      var %conquestpoints.to.add  %winning.streak
+      var %conquest.rate 0
+      var %conquest.rate .030
+
+      if (%battle.type = boss) { 
+        if (%winning.streak < 500) { inc %conquest.rate .03 }
+        if (%winning.streak >= 500) { inc %conquest.rate .01 }
+        var %conquestpoints.to.add $round($calc(%conquestpoints.to.add * %conquest.rate),0) 
+      }
+      if (%battle.type != boss) { var %conquestpoints.to.add $round($calc(%conquestpoints.to.add * %conquest.rate),0) }
+
+      if (%conquestpoints.to.add <= 0) { var %conquestpoints.to.add 1 }
+      $conquest.points(add, %conquestpoints.to.add)
+
       $generate_style_order
       $display.system.message($readini(translation.dat, battle, RewardOrbsWin), battle)
 
@@ -1038,6 +1086,7 @@ alias endbattle {
       if (%battle.type = boss) { $battle.reward.blackorbs
         if (%black.orb.winners != $null) { $display.system.message($readini(translation.dat, battle, BlackOrbWin), battle) }
         $give_random_reward
+        $db.dragonball.find
       }
 
       if (%battle.type != orbfountain) { 
@@ -1061,6 +1110,10 @@ alias endbattle {
     }
   }
   if (($1 = none) || ($1 = $null)) { $display.system.message($readini(translation.dat, battle, BattleIsOver), global) }
+
+  ; Check to see if Shenron's Wish is active and if we need to turn it off..
+  $db.shenronwish.turncheck
+
   ; then do a $clear_battle
   set %battleis off | $clear_battle | halt
 }
@@ -1097,6 +1150,7 @@ alias turn {
   if ((%status = dead) || (%status = runaway)) { unset %status | $next | halt }
   if ($readini($char($1), info, ai_type) = defender) { $next | halt }
   if ($1 = orb_fountain) { $next | halt }
+  if ($1 = lost_soul) { $next | halt }
 
   else { 
     ; Is the battle over? Let's find out.
@@ -1165,8 +1219,6 @@ alias turn {
   }
 }
 
-
-
 ; ==========================
 ; See if all the players are dead.
 ; ==========================
@@ -1230,6 +1282,9 @@ alias battle.monster.death.check {
 ; ==========================
 alias battle.check.for.end {
   set %debug.location battle.check.for.end
+
+  ; Count the total number of monsters in battle
+  $count.monsters
 
   set %battle.player.death $battle.player.death.check
   set %battle.monster.death $battle.monster.death.check
@@ -1329,8 +1384,11 @@ alias battle.calculate.redorbs {
   inc %base.redorbs %bonus.orbs
 
   ; Set the max reward and make sure the orb amount isn't above that.
-  var %max.orb.reward $readini(system.dat, system, MaxOrbReward)
+  if (%mode.gauntlet = on) { var %max.orb.reward $readini(system.dat, system, MaxGauntletOrbReward) }
+  if (%mode.gauntlet != on) {  var %max.orb.reward $readini(system.dat, system, MaxOrbReward) }
   if (%max.orb.reward = $null) { var %max.orb.reward 20000 }
+
+  if ($readini(battlestats.dat, dragonballs, ShenronWish) = on) { %max.orb.reward = $round($calc(%max.orb.reward * 1.2),0) }
 
   ; If we had a gauntlet battle or a multiple wave battle, let's increase the amount by this.
   if (%multiple.wave.bonus = yes) { 
@@ -1364,8 +1422,12 @@ alias battle.calculate.redorbs {
   var %bonus.orbs $readini(battle2.txt, battleinfo, portalbonus)
   if (%bonus.orbs = $null) { var %bonus.orbs 0 }
 
-  if ($1 = victory) {  inc %base.redorbs $calc(450 * %bonus.orbs) }
-  if (($1 = draw) || ($1 = defeat)) {  inc %base.redorbs $calc(100 * %bonus.orbs) }
+  var %conquest.orbbonus $readini(battlestats.dat, conquest, ConquestBonus)
+  if (%conquest.orbbonus > 1000) { var %conquest.orbbonus 1000 }
+  if (%conquest.orbbonus <= 0) { var %conquest.orbbonus 0 }
+
+  if ($1 = victory) {  inc %base.redorbs $calc(450 * %bonus.orbs) | inc %base.redorbs %conquest.orbbonus }
+  if (($1 = draw) || ($1 = defeat)) {  inc %base.redorbs $calc(100 * %bonus.orbs) | inc %base.redorbs $round($calc(%conquest.orbbonus * .10),0) }
 
   ; Finally, if the orb amount  is less than 200, let's add 200 to it.
   if (%base.redorbs <= 200) { inc %base.redorbs 200 }

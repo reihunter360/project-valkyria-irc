@@ -37,7 +37,7 @@ Drops=Potion.X-Potion.Tonic.Holy_Water.Ether
 
 
 [Monster]
-Type=
+Type=slime
 
 [Info]
 Flag=monster

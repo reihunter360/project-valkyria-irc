@@ -39,6 +39,9 @@ BlackOrbs=1
 ShopLevel=1.0
 drops=IronOre.Sapphire.Topaz.Emerald
 
+[monster]
+type=worm
+
 [Info]
 Flag=monster
 Gender=its

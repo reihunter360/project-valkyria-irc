@@ -29,7 +29,7 @@ Percent=0
 [Descriptions]
 Hused=1
 Dused=1
-Char=is a muscle-bound monster that is wearing thick black armor and a huge black mask that covers most of its face. It gives off an angry growl before lifting a large chainsaw and revs it loudly. 
+Char=is a muscle-bound demon that is wearing thick black armor and a huge black mask that covers most of its face. It gives off an angry growl before lifting a large chainsaw and revs it loudly. 
 Rage=screams in rage 
 
 
@@ -41,7 +41,7 @@ ShopLevel=1.0
 
 
 [Monster]
-Type=undead
+Type=demon
 
 [Info]
 Flag=monster

@@ -46,7 +46,7 @@ Streak=102
 StreakMax=201
 
 [Monster]
-Type=
+Type=slime
 
 [Status]
 Poison=no

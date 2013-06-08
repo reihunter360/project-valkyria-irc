@@ -52,6 +52,7 @@ ViewMyOrbs=$chr(3) $+ 3 $+  $+ %real.name has $bytes($readini($char($nick), s
 ViewOthersOrbs=$chr(3) $+ 3 $+  $+ %real.name has $bytes($readini($char($2), stuff, RedOrbs),b)  $+ $readini(system.dat, system, currency) and $readini($char($2), stuff, BlackOrbs) Black Orb(s) and has spent %orbs.spent  $+ $readini(system.dat, system, currency) and %blackorbs.spent Black Orb(s) total! 
 HereIsYourCurrentStats=$chr(3) $+ 3 $+ Here are your current stats:
 HereIsOtherCurrentStats=$chr(3) $+ 3 $+ Here are the current stats for $2 $+ :
+HereIsMiscInfo=$chr(3) $+ 3 $+ Here is %misc.target misc statistical info:
 CurrentWeaponEquipped=Current Weapon Equipped
 CurrentAccessoryEquipped=Current Accessory
 CurrentArmorHeadEquipped=Current Head Armor
@@ -75,6 +76,7 @@ ViewPassiveSkills2=$chr(3) $+ 3 $+  $+ %passive.skills.list2
 ViewActiveSkills=$chr(3) $+ 3 $+  $+ %real.name knows the following active skills: %active.skills.list
 ViewActiveSkills2=$chr(3) $+ 3 $+  $+ %active.skills.list2
 ViewResistanceSkills=$chr(3) $+ 3 $+  $+ %real.name has the following resistances: %resists.skills.list 
+ViewKillerTraitSkills=$chr(3) $+ 3 $+  $+ %real.name has the following monster killer traits: %killer.skills.list 
 HasNoSkills=$chr(3) $+ 3 $+  $+ %real.name currently knows no skills.
 ViewItems=$chr(3) $+ 3 $+  $+ %real.name has the following items: %items.list 
 ViewSummonItems=$chr(3) $+ 3 $+  $+ %real.name has the following summon items: %summons.items.list 
@@ -137,6 +139,8 @@ FinalGetsugaWarning=$chr(3) $+ 4 $+ This technique is a Final Getsuga type, whi
 ScoreBoardTitle=$chr(3) $+ 3The Top Players in %battlechan
 DeathBoardTitleMon=$chr(3) $+ 3The Top Monster Deaths in %battlechan
 DeathBoardTitleBosses=$chr(3) $+ 3The Top Boss Deaths in %battlechan
+DeathBoardTotalMon=$chr(3) $+ 3There have be $bytes(%total.deaths,b) monster kills in %battlechan
+DeathBoardTotalBoss=$chr(3) $+ 3There have be $bytes(%total.deaths,b) boss kills in %battlechan
 CurrentScore=$chr(3) $+ 2 $+ %real.name $+ 's current score is: $bytes(%score,b)
 PlayerStyleLevelUp=$chr(3) $+ 3 $+  $+ %real.name $+ 's %current.playerstyle style has leveled up! It is now level %current.playerstyle.level $+ !
 AnotherWaveArrives=$chr(3) $+ 4 $+ Another wave of monsters has arrived to the battlefield!
@@ -147,8 +151,9 @@ SaveLevelAdjust=$chr(3) $+ 3 $+ The overall battle level adjust has been set to
 WeaponAugmented=$chr(3) $+ 3 $+  $+ %real.name $+ 's $3 is now augmented with the %augment.name augment! 
 WeaponDeAugmented=$chr(3) $+ 3 $+  $+ %real.name $+ 's $3 is now no longer augmented. 
 ListOfAugments=$chr(3) $+ 3 $+  $+ %real.name has the following augments: %weapon.list
+WeaponReforged=$chr(3) $+ 3 $+  $+ %real.name uses 1 RepairHammer and %reforge.cost black orbs to reforge $gender($nicK) $2 $+ ! The $2 is now augmented with the %augment.name augment! 
 RenkeiPerformed=$chr(3) $+ 4 $+ The Renkei %renkei.name has been performed!
-IgnitionReverted=$chr(3) $+ 4 $+ %real.name has reverted from $gender($1) ignition!
+IgnitionReverted=$chr(3) $+ 4 $+ %real.name has reverted from the %ignition.name ignition!
 PortalReinforcements=$chr(3) $+ 4 $+ The demon portal shimmers as another monster comes through, ready to join the battle.
 RandomChanceGoesAgain=$chr(3) $+ 3 $+ Lady Luck smiles upon %real.name and $gender3($1) gets another turn! 
 NoAchievements=$chr(3) $+ 3 $+  $+ %real.name has not unlocked any achievements yet.
@@ -159,6 +164,8 @@ TotalDeathTotal=$chr(3) $+ 3 $+ %real.name has been defeated %total.deaths t
 TotalDeathNone=$chr(3) $+ 3 $+ %real.name is currently undefeated!
 DamageNowCapped=$chr(3) $+ 3Battle Damage is now capped.
 DamageNotCapped=$chr(3) $+ 3Battle Damage is no longer capped.
+ScoreBoardTypeToggle=$chr(3) $+ The Scoreboard Generation has been toggled to Type %scoreboard.type $+ !
+StreakResetTo0=$chr(3) $+ 12 $+ *** $chr(3) $+ 4 $+ The current winning streak has been reset to 0.
 
 
 =======================
@@ -185,6 +192,9 @@ Event Messages
 CurseNight=$chr(3) $+ 14 $+ What a horrible night for a curse! 
 BloodMoon=$chr(3) $+ 14 $+ The Blood Moon Rises! 
 AncientMeleeOnlySeal=$chr(3) $+ 14 $+ An ancient Melee-Only symbol glows on the ground of the battlefield.
+AncientNoSkillsSeal=$chr(3) $+ 14 $+ A powerful symbol glows on the ground of the battlefield preventing the use of skills.
+AncientNoItemsSeal=$chr(3) $+ 14 $+ A powerful symbol glows on the ground of the battlefield preventing the use of items.
+AncientNoIgnitionSeal=$chr(3) $+ 14 $+ A powerful symbol glows on the ground of the battlefield preventing the use of ignitions.
 DoppelgangerFight=$chr(3) $+ 14 $+ The Monsters wheel out a large mirror in front of the heroes.  The mirror shimmers as evil doppelgangers of the heroes step out ready to fight.  The mirror then shatters.
 SurpriseAttack=$chr(3) $+ 14 $+ The monsters take the heroes by surprise and get to go first in battle! 
 PlayersGoFirst=$chr(3) $+ 14 $+ The players take the monsters by surprise and get to go first in battle! 
@@ -205,7 +215,7 @@ NotInDataBank=$chr(3) $+ 4 $+ Error: $1 isn't in my data banks!
 NoCurrentBattle=$chr(3) $+ 4 $+ Error: There is no current battle
 WaitYourTurn=$chr(3) $+ 4 $+ Error: $1 wait for your turn!
 Can'tDoThisInBattle=$chr(3) $+ 4 $+ Error: This command only works outside of battle.
-NotInBattle=$chr(3) $+ 4 $+ Error: %real.name is not currently in this battle!
+NotInBattle=$chr(3) $+ 4 $+ Error: $1 is not currently in this battle!
 NoMonsAvailable=$chr(3) $+ 4 $+ Error: There are no monsters in the monster folder.. Have the bot admin check to make sure there are monsters for players to battle! 
 MonsterLimit=$chr(3) $+ 4 $+ Error: There's already ten monsters in battle! No more monsters can be added.
 PlayerLimit=$chr(3) $+ 4 $+ Error: The battle is full, please try again next battle.
@@ -249,6 +259,7 @@ CannotUseItemOnDead=$chr(3) $+ 4 $+ Error: This item cannot be used on someone
 CannotWeaponLockPlayers=$chr(3) $+ 4 $+ Error: $set_chr_name($1) cannot weapon lock players or npcs. 
 CannotDisarmPlayers=$chr(3) $+ 4 $+ Error: $set_chr_name($1) cannot disarm players or npcs. 
 DoesNotHaveThatItem=$chr(3) $+ 4 $+ Error: %real.name does not have that item.
+DoesNotHaveEnoughHammers=$chr(3) $+ 4 $+ Error: %real.name does not have enough repair hammers!
 ItemIsUsedInSkill=$chr(3) $+ 4 $+ Error: This item is used via performing a skill. 
 ItemIsAccessoryEquipItInstead=$chr(3) $+ 4 $+ Error: This item is an accessory and cannot be used like this. Use !wear to equip it.
 ItemCanOnlyBeUsedOnPlayers=$chr(3) $+ 4 $+ Error: This item can only be used on players!
@@ -276,7 +287,7 @@ WrongChestKey=$chr(3) $+ 4 $+ Error: This key does not unlock this color of ch
 Can'tLogIntoThisChar=$chr(3) $+ 4 $+ Error: You cannot log into this character.
 Can'tSaveALosingStreak=$chr(3) $+ 4 $+ Error: %real.name cannot save a losing streak to $gender($nick) file.
 Can'tSaveALowerStreak=$chr(3) $+ 4 $+ Error: %real.name cannot save a winning streak lower than $gender($nick) previous save.
-Can'tReloadOnAWinningStreak=$chr(3) $+ 4 $+ Error: %real.name cannot reload while a winning streak is ongoing. It must be a losing streak to reload.
+Can'tReloadOnAWinningStreak=$chr(3) $+ 4 $+ Error: %real.name cannot reload while a winning streak is greater than 10.
 NoWinningStreakSaved=$chr(3) $+ 4 $+ Error: %real.name does not have a winning streak to reload!
 NotEnoughTimeToSave=$chr(3) $+ 4 $+ Error: Not enough time has passed since the last save %real.name did. %real.name still has $calc(7200 - %time.difference) seconds left. 
 Can'tGiveToNonChar=$chr(3) $+ 4 $+ Error: %real.name cannot give items to a monster or NPC! 
@@ -291,7 +302,7 @@ Can'tBoostHasVirus=$chr(3) $+ 4 $+ Error: %real.name has a virus that is preve
 DarknessAlreadyInEffect=$chr(3) $+ 4 $+ Error: %real.name cannot use this skill because darkness has already taken effect on the battlefield.
 ScoreBoardNotEnoughPlayers=$chr(3) $+ 4 $+ Error: Not enough players to generate a scoreboard.
 ScoreBoardNotDuringBattle=$chr(3) $+ 4 $+ Error: The scoreboard can only be generated outside of battle.
-DeathBoardNotEnoughMonsters=$chr(3) $+ 4 $+ Error: Not enough monsters to generate the death scoreboard.
+DeathBoardNotEnoughMonsters=$chr(3) $+ 4 $+ Error: Not enough monster deaths to generate the death scoreboard.
 DeathBoardNotDuringBattle=$chr(3) $+ 4 $+ Error: The death scoreboard can only be generated outside of battle.
 SkillCommandOnlyOnPlayers=$chr(3) $+ 4 $+ Error: This command can only be used on players!
 DifficultyMustBeNumber=$chr(3) $+ 4 $+ Error: The difficulty must be a whole number.
@@ -311,6 +322,11 @@ PortalItemNotWorking=$chr(3) $+ 4 $+ This item does not seem to work at the mome
 AlreadyInPortal=$chr(3) $+ 4 $+ The heroes have already transported through a portal and cannot do so again right now!
 BattleAlreadyStarted=$chr(3) $+ 4 $+ Error: A battle has already started. To end the current battle, use !endbat
 AlreadyHasThisBuff=$chr(3) $+ 4 $+ Error: %real.name already has this buff and cannot obtain it again at this time.
+NotEnoughBlackOrbs=$chr(3) $+ 4 $+ Error: You do not have enough black orbs
+Can'tReforgeThatWeapon=$chr(3) $+ 4 $+ Error: This weapon cannot be reforged.
+NoCloneToControl=$chr(3) $+ 4 $+ Error: %real.name do not have an active shadow clone to control right now.
+MustUseDoppelgangerStyleToControl=$chr(3) $+ 4 $+ Error: %real.name must have the Doppelganger style equipped in order to control $gender($1) shadow clones.
+ShadowClonesCan'tUseSkill=$chr(3) $+ 4 $+ Error: Shadow Clones can not use this skill.
 
 =======================
 Battle Related Messages
@@ -368,6 +384,7 @@ GoldOrbUsed=$chr(3) $+ 7 $+ %real.name $+ 's body is lifted off the ground by 
 WeaponParry=$chr(3) $+ 7 $+ %real.name parries $set_chr_name($2) %real.name $+ 's attack using $gender($1) %parry.weapon $+ ! %style.rating
 TricksterDodged=$chr(3) $+ 7 $+ %real.name dodges the attack stylishly using $gender($1) Trickster style! %style.rating
 NormalDodge=$chr(3) $+ 7 $+ %real.name swiftly and gracefully dodges the attack! %style.rating
+ThirdEyeDodge=$chr(3) $+ 7 $+ %real.name predicts the attack and dodges it! %style.rating
 MeleeCountered=$chr(3) $+ 7 $+ $set_chr_name($1) $+ %real.name $+ 's melee attack is countered by $set_chr_name($2) %real.name $+ !
 TargetSnatched=$chr(3) $+ 12 $+ %real.name has successfully grabbed $set_chr_name($2) $+ %real.name and is now using $gender2($2) as a shield!
 TargetNotSnatched=$chr(3) $+ 12 $+ %real.name was unable to grab $set_chr_name($2) $+ %real.name $+ !
@@ -377,9 +394,9 @@ NaturalArmorBroken=$chr(3) $+ 4 $+ %user has broken %enemy $+ 's %naturalArmo
 ImmuneToElement=$chr(3) $+ 7 $+ %real.name is immune to the %current.element element!
 ImmuneToWeaponType=$chr(3) $+ 7 $+ %real.name is immune to the %weapon.type weapon type!
 ImmuneToTechName=$chr(3) $+ 7 $+ %real.name is immune to the $2 technique!
-ObtainGreenOrb=$chr(3) $+ 3 $+ %real.name drops a small green orb that restores %orb.restored health to %user $+ !
-ObtainWhiteOrb=$chr(3) $+ 3 $+ %real.name drops a small white orb that restores %orb.restored TP to %user $+ !
-ObtainOrangeOrb=$chr(3) $+ 3 $+ %real.name drops a small orange orb that restores %orb.restored IgnitionGauge to %user $+ !
+ObtainGreenOrb=$chr(3) $+ 3 $+ $set_chr_name($2) $+ %real.name drops a small green orb that restores %orb.restored health to %user $+ !
+ObtainWhiteOrb=$chr(3) $+ 3 $+ $set_chr_name($2) $+ %real.name drops a small white orb that restores %orb.restored TP to %user $+ !
+ObtainOrangeOrb=$chr(3) $+ 3 $+ $set_chr_name($2) $+ %real.name drops a small orange orb that restores %orb.restored IgnitionGauge to %user $+ !
 
 =======================
 Status Related Messages
@@ -389,7 +406,7 @@ CurrentlyCharmed=$chr(3) $+ 4 $+  $+ %real.name is currently charmed and canno
 CurrentlyCharmed=$chr(3) $+ 4 $+  $+ %real.name is currently confused and cannot perform any of $gender($nick) own actions!
 CurrentlyAmnesia=$chr(3) $+ 4 $+  $+ %real.name cannot remember how to perform this $2 $+ !
 PoisonWornOff=$chr(3) $+ 3 $+  $+ %real.name $+ 's poison has worn off. 
-PoisonKills=$chr(3) $+ 4 $+  $+ %real.name grabs $gender($1) chest in pain from the posion as $gender($1) eyes roll back into his head. $1 collapses to the ground--dead.
+PoisonKills=$chr(3) $+ 4 $+  $+ %real.name grabs $gender($1) chest in pain from the posion as $gender($1) eyes roll back into $gender($1) head. %real.name collapses to the ground--dead.
 PoisonMessage=$chr(3) $+ 4 $+  $+ %real.name grabs $gender($1) chest in pain from the poison. 
 CurrentlyCursed=$chr(3) $+ 4 $+  $+ %real.name is cursed!
 CurseWornOff=$chr(3) $+ 3 $+  $+ %real.name $+ 's curse has worn off.
@@ -552,9 +569,11 @@ RockYouLikeAHurricane=$chr(3) $+ 10 $+ %real.name has unlocked the achievement
 It'sAllDoomAndGloom=$chr(3) $+ 10 $+ %real.name has unlocked the achievement: It's All Doom And Gloom With You and receives 1 Ether as a reward!
 TimeToBuildAnArk=$chr(3) $+ 10 $+ %real.name has unlocked the achievement: Time To Build an Ark and receives 1 Ether as a reward!
 InTuneWithMotherEarth=$chr(3) $+ 10 $+ %real.name has unlocked the achievement: In Tune with Mother Earth and receives 1 Ether as a reward!
-
-
-
+HiHoHiHo=$chr(3) $+ 10 $+ %real.name has unlocked the achievement: Hi Ho, Hi Ho, It's Off To Work We Go and receives 5 Repair Hammers as a reward!
+BloodGoneToHead=$chr(3) $+ 10 $+ %real.name has unlocked the achievement: All of %real.name $+ 's Blood Has Gone to $gender($1) Head! and receives $bytes($3,b) $readini(system.dat, system, currency) as a reward!
+YouBringMonstersI'llBringWeapons=$chr(3) $+ 10 $+ %real.name has unlocked the achievement: You Bring the Monsters and I'll Bring the Weapons! and receives $bytes($3,b) $readini(system.dat, system, currency) as a reward!
+Warbound=$chr(3) $+ 10 $+ %real.name has unlocked the achievement: Warbound and receives 1 Gold Orb as a reward!
+Warbound=$chr(3) $+ 10 $+ %real.name has unlocked the achievement: Fill Your Dark Soul With Light and receives 1 IgnitionStar as a reward!
 
 =======================
 Style Levels
@@ -572,3 +591,31 @@ SSStylish=$chr(91) $+ $chr(3) $+ 10SSStylish! $+ $chr(93)
 SSSSmokingHotStyle=$chr(91) $+ $chr(3) $+ 10SSSSmoking Hot Style! $+ $chr(93)
 Jackpot=$chr(91) $+ $chr(3) $+ 10Jackpot! $+ $chr(93)
 MaximumStyle=$chr(91) $+ $chr(3) $+ 10Maximum Style! $+ $chr(93)
+
+
+=======================
+Conquest Stuff
+=======================
+[Conquest]
+ConquestTallyTimeToTally=$chr(3) $+ 7*** $chr(3) $+ 2 $+ The current Conquest Period is over!  Tallying Results!
+ConquestTallyPlayersWin=$chr(3) $+ 7*** $chr(3) $+ 2 $+ The Allied Forces of Good now hold majority control over the world!
+ConquestTallyMonstersWin=$chr(3) $+ 7*** $chr(3) $+ 2 $+ The Forces of Evil now hold majority control over the world!
+ConquestTallyCurrentMon=$chr(3) $+ 2 $+ The Forces of Evil are currently in the lead during this current conquest period.
+ConquestTallyCurrentPlayers=$chr(3) $+ 2 $+ The Allied Forces of Good are currently in the lead during this current conquest period.
+ConquestPreviousMon=$chr(3) $+ 2 $+ The Forces of Evil won the last conquest and currently hold control over the world.
+ConquestPreviousPlayers=$chr(3) $+ 2 $+ The Allied Forces of Good won the last conquest and currently hold control over the world.  Players are receiving an orb bonus for their valiant work.
+ConquestPeriodOverIn=$chr(3) $+ 2 $+ The current Conquest Period will be over in roughly %conquest.hours.left hours.
+ConquestPointsMonsters=$chr(3) $+ 2 $+ The Allied Forces of Good currently have no conquest points. The Forces of Evil have $abs(%conquest.points) conquest points.
+ConquestPointsPlayers=$chr(3) $+ 2 $+ The Allied Forces of Good currently have $abs(%conquest.points) conquest points.
+
+
+=======================
+Dragonball Stuff
+=======================
+[Dragonball]
+ShenronWishActive=$chr(3) $+ 7* Sheron's Wish is Blessing the Players on the Battlefield
+ShenronWishOver=$chr(3) $+ 7* Sheron's Wish's power fades away and the dragonballs become active again. 
+DragonballFound=$chr(3) $+ 7* The players have found a dragonball! This makes %dbs.total out of 7 found!
+ShenronSummoned=$chr(3) $+ 7* The players use the 7 dragonballs to summon The Eternal Dragon Shenron who grants a wish to make players stronger on the battlefield for ten battles!
+DragonballCheck=$chr(3) $+ 2 $+ The Allied Forces of Good have collected %dbs.total dragonballs out of 7 total.
+ShenronWishOnMessage=$chr(3) $+ 2 $+ The Dragonballs have been used to grant a powerful bonus to the Allied Forces of Good in battle! The dragonballs are currently stone and will not be available again until the wish is over.

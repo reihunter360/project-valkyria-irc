@@ -50,6 +50,9 @@ LastIP=N/a
 Created=N/a
 StreakMax=50
 
+[monster]
+type=worm
+
 [Status]
 Poison=no
 HeavyPoison=no

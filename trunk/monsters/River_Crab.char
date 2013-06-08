@@ -46,7 +46,7 @@ Biome=River.Underwater Cavern.Beach
 
 
 [Monster]
-Type=
+Type=crab
 
 [Status]
 Poison=no

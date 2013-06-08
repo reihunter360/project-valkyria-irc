@@ -1,0 +1,157 @@
+[BaseStats]
+Hp=$round( $calc(50 * $calc($readini(battle2.txt, battleinfo, players) / $readini(battle2.txt, battleinfo, playerlevels) * 4) ),0)
+Tp=$round( $calc(200 * $calc($readini(battle2.txt, battleinfo, players) / $readini(battle2.txt, battleinfo, playerlevels) ) * 3 ),0)
+Str=65
+Def=55
+Int=40
+Spd=70
+Name=Ult. Eldora Adlanna
+
+
+[Battle]
+Hp=$round( $calc(50 * $calc($readini(battle2.txt, battleinfo, players) / $readini(battle2.txt, battleinfo, playerlevels) * 4) ),0)
+Tp=$round( $calc(200 * $calc($readini(battle2.txt, battleinfo, players) / $readini(battle2.txt, battleinfo, playerlevels) ) * 3 ),0)
+Str=65
+Def=55
+Int=40
+Spd=70
+Status=alive
+
+
+[Rage]
+RageBar=0
+RageCountDown=0
+
+[Limit]
+Level=1
+Percent=0
+
+
+[Descriptions]
+Hused=1
+Dused=1
+Char=is a clone of a mighty Elven goddess, at her full power. She wears the usual Swordmaster armor has a sword on the left side of her waist, both seem to radiat immense energy. 
+Rage=simply narrows her eyes and glares at everyone. And then smirks.
+BossQuote=You must prove yourselves before moving forward.
+
+
+[Stuff]
+RedOrbs=0
+BlackOrbs=1
+ShopLevel=1.0
+Drops=ElvishMedallian.Ambrosia.Superpotion.Miser-Ring.FireDragonWine
+
+[Monster]
+Type=
+
+[Info]
+Flag=monster
+Gender=her
+Gender2=her
+password=battlearena
+passhurt=0
+LastSeen=N/a
+LastIP=N/a
+Created=N/a
+ai_type=
+Streak=
+StreakMax=
+ignoredrain=true
+Canstagger=no
+orbbonus=yes
+battlestats=ignoreHP
+
+[Status]
+Poison=no
+HeavyPoison=no
+Regenerating=no
+Blind=no
+Frozen=no
+Shock=no
+Burning=no
+Drowning=no
+Earth-quake=no
+Heavy-Poison=no
+silence=no
+intimidated=no
+weight=no
+poison-heavy=no
+virus=no
+virus.timer=1
+charmed=no
+charmer=noonethatIknowlol
+charm.timer=1
+amnesia=no
+paralysis=no
+amnesia.timer=1
+paralysis.timer=1
+tornado=no
+drunk=no
+drunk.timer=1
+zombie=no
+slow=no
+sleep=no
+stun=no
+MPRegenerating=no
+
+[Weapons]
+Equipped=Silver_Goddess_Sword
+Silver_Goddess_Sword=$round($calc(3 * $calc($readini(battle2.txt, battleinfo, playerlevels) / $readini(battle2.txt, battleinfo, players))) , 0 )
+
+[Skills]
+Zen=5
+WeaponBash=2
+Impetus=50
+Swordmaster=75
+MartialArts=75
+Resist-Paralysis=100
+Resist-Amnesia=100
+Resist-Zombie=100
+Resist-Charm=100
+Resist-Stun=100
+Resist-Blind=100
+Resist-Weaponlock=100
+RoyalGuard=1
+royalguard.on=on
+Resist-Intimidate=100
+bloodboost=$round($calc(2 * $calc($readini(battle2.txt, battleinfo, playerlevels) / $readini(battle2.txt, battleinfo, players))), 0)
+
+[Techniques]
+TwinSlice=
+$round($calc(2 * $calc($readini(battle2.txt, battleinfo, playerlevels) / $readini(battle2.txt, battleinfo, players) ) ) , 0)
+BiteOfLightning=$round($calc(2 * $calc($readini(battle2.txt, battleinfo, playerlevels) / $readini(battle2.txt, battleinfo, players))), 0)
+BladeBeam=$round($calc(3 * $calc($readini(battle2.txt, battleinfo, playerlevels) / $readini(battle2.txt, battleinfo, players))), 0)
+HyperTwinSlice=$round($calc(3 * $calc($readini(battle2.txt, battleinfo, playerlevels) / $readini(battle2.txt, battleinfo, players))), 0)
+WiseReflection=$round($calc(2 * $calc($readini(battle2.txt, battleinfo, playerlevels) / $readini(battle2.txt, battleinfo, players))), 0)
+Curaga=$round($calc(2 * $calc($readini(battle2.txt, battleinfo, playerlevels) / $readini(battle2.txt, battleinfo, players))), 0)
+
+[Styles]
+Equipped=Weaponmaster
+Weaponmaster=5
+WeaponmasterXP=1
+
+
+[modifiers]
+Heal=light
+Earth=75
+Fire=75
+Wind=75
+Water=75
+Ice=75
+Lightning=75
+Light=75
+Dark=75
+HandToHand=100
+Whip=100
+Sword=100
+Gun=100
+Rifle=100
+Katana=100
+Wand=100
+Spear=100
+Scythe=100
+Glyph=100
+GreatSword=100
+Bow=100
+
+asurastrike=1

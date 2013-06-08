@@ -37,6 +37,7 @@ Drops=Ambrosia.DiscountCard.Potroast.Cavier.Holy_water
 
 [Monster]
 Type=
+TechLearn=true
 
 [Info]
 Flag=monster

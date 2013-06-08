@@ -448,8 +448,8 @@ Battle Arena Bot VERSIONS
 - Added the ability for regular monsters to drop items to the most stylish person. It's a 30% chance, if a monster in the
   battle has a drops=item in their [info] section.
 - Added a random chance that a double turn will occur without Sugitekai.
-- Added Allied Notes. You can see your own allied notes with: !allied notes  and other people with !allied notes Person
-  As of right now, the allied notes aren't used for anything..but soon.
+- Added Allied Notes. You can see your own allied notes with: !allied notes  and other people with !allied notes Person 
+  Allied Notes can be used to purchase things in the shop (use !shop list alliednotes)
 - Added the ability for battles to end in a draw if all the monsters and players are dead at the same time.
 - Added the ability for bot admins to enable a Double Currency Event.  While this event is on, red orbs will be doubled.  
   Bot admins can enable and disable it using !toggle bonus event 
@@ -489,6 +489,16 @@ Battle Arena Bot VERSIONS
 - Added the ability for monsters to drop green, white and orange orbs upon dying. These small temporary orbs will restore
   some hp, tp or ignition gauge to the person who kills the monster. Note that using AOEs to kill the monsters will result
   in no orbs being dropped. They only drop on melee and single-target techs.
+- Added healing caps on healing spells. Bot admins can set them in techniques.db, [healing spell name] MaxAmount=
+  If left blank the max amount is 2000+(total amount done /100) 
+- Added the ability for monsters, npcs and bosses to "learn" immunities to technique names.  In their files under 
+  [monster] put TechLearn=true to make it active.  What it does is make it so if someone uses a tech on the target 
+  with this set to true, the next time the same tech is used on the target it will be counted as immunity/null damage 
+  (essentially only allowing the tech to work once against the target).
+- Added a simplistic Conquest system. As players and monsters battle, the bot will keep track of points. At the end of 5 days
+  the bot will tally up and see who has majority control over the world. When players have majority control they will receive
+  an orb bonus based on the amount of points they had earned during that conquest period (up to 1000 orbs per battle). Players
+  can use !conquest info to see how the conquest is going and how many hours are left before it tallies.
 - Changed the zombie regen to scale a bit better so that lower streaks won't have 100+ hp regenerated.
 - Changed the way red orbs are rewarded so that lower streaks have a much lower max orbs and higher streaks can actually give
   more than 100%. 
@@ -547,3 +557,68 @@ Battle Arena Bot VERSIONS
 - Fixed a bug in which the healing items weren't checking for max hp correctly, thus allowing you to heal someone who didn't
   need it.
 - Fixed a bug with the mugger's belt accessory in which it wasn't calculating damage correctly.
+- Fixed the !view-info display for weapons if the weapon has multiple hits.
+- Fixed an issue where using a tonic would remove a weapon tech boost if someone had it on.
+
+2.1
+- Added the REFORGE command. Using !reforge weapon  a player can get a random augment on the weapon. The cost is
+  2x the weapon's black orb cost and 1 RepairHammer. The augment is completely random and will overwrite any current augments.
+- Added the active skill: BloodSpirit. This skill works like BloodBoost only instead of STR it gives INT.
+- Added the passive skill: DivineBlessing. This skill reduces the chance of a curse night from happening. It's a cumulative
+  effect (muchlike BackGuard).
+- Added the ability to see the total number of deaths of monsters and bosses. Use !deathboard monster/boss total
+- Added the ability to see how many conquest points the leading party (monsters or heroes) has by using !conquest points
+- Added the ability to control your shadow clones. First, you must be using the Doppelganger style or else they'll still
+  control themselves. Next, when it's the clone's turn, use !shadow (command [tech/skill name]) (target) to do it. commands are:
+  taunt, attack, tech, skill.  For example: !shadow tech inferno bee
+- Added a !view-info style (style)  command to display information on the various styles.
+- Added new valid battlefield limitations to the bot.
+- Added the ability to set a custom max orb limit for gauntlet battles. In system.dat under [system] put MaxGauntletOrbReward=
+  By default the maxGauntletOrbReward is set to 50,000 (this is before the bonus from the level of gauntlet is calculated).
+- Added a new skill type: Killer Traits. These skills will increase melee damage against a specific monster type by 1% each level
+- Added a new method in the bot that checks to see how many battles were empty/not played. If it's greater than a set number, 
+  the bot will automatically reset the streak to 0. The amount of battles before this happens can be set in system.dat.
+- Added dragonballs to the game. Dragonballs can be randomly found only by winning boss battles. When all 7 are collected
+  the dragon Shenron will grant a powerful bonus to the next ten active battles.
+- Added the command !dragonballs that will tell you the status of the dragonball hunt or if Shenron's Wish is active.
+- Added the command: !misc info (person)  that will show misc statistical info on yourself or other characters.
+- Added black keys and black chests
+- Added the ability for any techs performed using a weapon that can hurt ethereal monsters to also hurt ethreal monsters. Prior
+  to this, only magic techs would hurt them or players would need the augment.
+- Changed the active skill Third Eye so that it only works on physical attacks. It also now has its own dodge message.
+- Changed the chance of certain monsters building a demon portal from 35% down to 25%.
+- Changed the AbsorbIG Augment so that it's weaker on players and stronger on monsters.
+- Changed Just Release so that shadow copies cannot use it.
+- Changed alchemy/crafting so that crafted items can require more than one of the same ingredient.  Glass, for example, now
+  takes 5 sand to craft.
+- Changed a little bit of code in the control.mrc to help improve things. Thanks to Andrio
+- Changed Shadow Clones so that they only change weapons when their owners do.
+- Changed the Hurt Ethereal rune so that techniques done with the weapon that has this rune on will now hurt ethereal monsters.
+- Changed food and shop lowering items to work in battle without consuming a turn. As a note, if you use food while a battle is
+  ongoing you won't see the stat increases til AFTER the battle has ended.  This is for everyone, not just people in the battle.
+- Changed the way the 'ancient melee-only seal' thing works so that it's based on battlefields now, rather than a random chance.
+- Changed the way Conquest Points are calculated. There is no longer a penalty for having more than one player in battle. However
+  the overall amount of points has been slightly nerfed.
+- Changed the way the scoreboard is generated so that the scores are a little more reasonable. Bot Admins can toggle between the
+  old and new methods by using !toggle scoreboard type
+- Changed the !save battle streak command so that it can be used once an hour, down from once every 2 hours.
+- Changed the !reload battle streak command so that it will work on a winning streak as long as it's 10 or under.
+- Changed the amount of conquest points players lose if the battle was lost on the first turn.
+- Changed portal items so that they won't work during gauntlets and boss battles.
+- Fixed an issue with the wrong password counter not being reset sometimes after logging in.
+- Fixed an issue in which cure-status type items (such as tonic) would not cure confuse and would actually make it worse.
+- Fixed a bug that Raiden found in which new characters wouldn't be able to equip armor.
+- Fixed a bug in which monster snatch descriptions weren't being displayed.
+- Fixed a bug in which the demon portal's idle description wasn't being displayed.
+- Fixed a bug with the error messages in !view-info
+- Fixed a bug in which the total deaths of monsters/bosses were being increased by 2 if killed by an AOE.
+- Fixed a bug in which battles with monster summons could potentially freeze and never end.
+- Fixed a bug in which bot admins would sometimes be unable to force a character to create a shadow clone using the 'does' command.
+- Fixed a bug in which the "has no skills" message wouldn't display when a character had no skills.
+- Fixed a bug in which DCC battles would potentially freeze if a key is rewarded.
+- Fixed a bug with the shop in which it was possible to increase your shop level without actually getting anything in return.
+- Fixed a bug in which the !view-info command wasn't showing status types on techs.
+- Fixed a potential issue with evil doppelgangers and the auto-revive augment in which they could also gain that status effect.
+- Fixed a bug with !status in which certain skills weren't being displayed correctly when they were active.
+- Fixed a few typos.
+- Fixed a bug with the error message with !enter

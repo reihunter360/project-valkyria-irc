@@ -52,6 +52,9 @@ Created=N/a
 Sreak=0
 StreakMax=25
 
+[monster]
+type=orc
+
 [Status]
 Poison=no
 HeavyPoison=no

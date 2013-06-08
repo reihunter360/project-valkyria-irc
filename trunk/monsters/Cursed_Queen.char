@@ -37,6 +37,9 @@ RedOrbs=0
 BlackOrbs=1
 ShopLevel=1.0
 
+[Monster]
+Type=demon
+
 [Info]
 Flag=monster
 Gender=its

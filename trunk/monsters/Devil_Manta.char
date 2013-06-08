@@ -50,6 +50,9 @@ Created=N/a
 Streak=31
 Biome=River.Underwater Cavern
 
+[Monster]
+Type=seamonk
+
 [Status]
 Poison=no
 HeavyPoison=no

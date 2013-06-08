@@ -38,6 +38,9 @@ BlackOrbs=1
 ShopLevel=1.0
 drops=BeastmenSeal
 
+[Monster]
+Type=goblin
+
 [Info]
 Flag=monster
 Gender=his

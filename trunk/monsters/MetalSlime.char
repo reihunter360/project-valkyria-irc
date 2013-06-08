@@ -49,7 +49,7 @@ StreakMax=79
 MetalDefense=true
 
 [Monster]
-Type=
+Type=slime
 
 [Status]
 Poison=no

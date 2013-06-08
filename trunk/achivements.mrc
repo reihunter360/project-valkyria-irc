@@ -37,18 +37,10 @@ alias achievement.list {
   }
 
   ; CLEAN UP THE LIST
-  if ($chr(046) isin %achievement.list ) { set %replacechar $chr(044) $chr(032)
-    %achievement.list = $replace(%achievement.list, $chr(046), %replacechar)
-  }
-
-  if ($chr(046) isin %achievement.list.2 ) { set %replacechar $chr(044) $chr(032)
-    %achievement.list.2 = $replace(%achievement.list.2, $chr(046), %replacechar)
-  }
-
-  if ($chr(046) isin %achievement.list.3 ) { set %replacechar $chr(044) $chr(032)
-    %achievement.list.3 = $replace(%achievement.list.3, $chr(046), %replacechar)
-  }
-
+  set %replacechar $chr(044) $chr(032)
+  %achievement.list = $replace(%achievement.list, $chr(046), %replacechar)
+  %achievement.list.2 = $replace(%achievement.list.2, $chr(046), %replacechar)
+  %achievement.list.3 = $replace(%achievement.list.3, $chr(046), %replacechar)
 }
 
 
@@ -195,6 +187,14 @@ alias achievement_check {
     }
   }
 
+  if ($2 = HiHoHiHo) { 
+    var %number.of.augments $readini($char($1), stuff, WeaponsReforged)
+    if (%number.of.augments >= 10) { writeini $char($1) achievements $2 true 
+      $announce_achievement($1, $2, 5)
+      var %current.hammers $readini($char($1), item_amount, RepairHammer) | inc %current.hammers 5 | writeini $char($1) Item_Amount RepairHammer %current.hammers
+    }
+  }
+
   if ($2 = PartyIsGettingCrazy) { 
     var %number.of.ignitions.used $readini($char($1), stuff, IgnitionsUsed)
     if (%number.of.ignitions.used >= 10) { writeini $char($1) achievements $2 true 
@@ -255,6 +255,14 @@ alias achievement_check {
 
   if ($2 = BloodGoneDry) {
     var %total.bloodboost $readini($char($1), stuff, BloodBoostTimes) 
+    if (%total.bloodboost >= 20) {   writeini $char($1) achievements $2 true 
+      $announce_achievement($1, $2, 5000)
+      var %current.redorbs $readini($char($1), stuff, redorbs) | inc %current.redorbs 5000 | writeini $char($1) stuff redorbs %current.redorbs
+    }
+  }
+
+  if ($2 = BloodGoneToHead) {
+    var %total.bloodboost $readini($char($1), stuff, BloodSpiritTimes) 
     if (%total.bloodboost >= 20) {   writeini $char($1) achievements $2 true 
       $announce_achievement($1, $2, 5000)
       var %current.redorbs $readini($char($1), stuff, redorbs) | inc %current.redorbs 5000 | writeini $char($1) stuff redorbs %current.redorbs
@@ -348,6 +356,33 @@ alias achievement_check {
       writeini $char($1) item_amount Ether %ethers
     }
   }
+
+  if ($2 = YouBringMonstersI'llBringWeapons) { 
+    if ($readini($char($1), info, flag) != $null) { return }
+    if (%total.weapons.owned >= 32) { writeini $char($1) achievements $2 true 
+      $announce_achievement($1, $2, 10000)
+      var %current.redorbs $readini($char($1), stuff, redorbs) | inc %current.redorbs 10000 | writeini $char($1) stuff redorbs %current.redorbs
+    }
+  }
+
+  if ($2 = Warbound) {
+    var %total.battles $readini($char($1), stuff, TotalBattles)
+    if (%total.battles >= 500) { writeini $char($1) achievements $2 true 
+      $announce_achievement($1, $2, 1)
+      var %current.goldorbs $readini($char($1), item_amount, GoldOrb) | inc %current.goldorbs 1 | writeini $char($1) Item_Amount GoldOrb %current.goldorbs
+    }
+  }
+
+  if ($2 = FillYourDarkSoulWithLight) {
+    var %total.souls $readini($char($1), stuff, LostSoulsKilled)
+    if (%total.souls >= 50) { writeini $char($1) achievements $2 true 
+      $announce_achievement($1, $2, 1)
+      var %current.igstar $readini($char($1), item_amount, IgnitionStar) | inc %current.igstar 1 | writeini $char($1) Item_Amount IgnitionStar %current.igstar
+    }
+  }
+
+
+
 }
 
 alias achievement_already_unlocked {
@@ -356,5 +391,5 @@ alias achievement_already_unlocked {
 
 alias announce_achievement { $set_chr_name($1) 
   if ($readini(system.dat, system, botType) = IRC) { query %battlechan $readini(translation.dat, achievements, $2) }
-  if ($readini(system.dat, system, DCCchat) = IRC) { $dcc.global.message($readini(translation.dat, achievements, $2)) }
+  if ($readini(system.dat, system, botType) = DCCchat) { $dcc.global.message($readini(translation.dat, achievements, $2)) }
 }

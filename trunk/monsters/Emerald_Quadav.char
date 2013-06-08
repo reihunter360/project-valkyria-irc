@@ -52,7 +52,7 @@ Streak=151
 StreakMax=300
 
 [Monster]
-Type=
+Type=quadav
 
 [Status]
 Poison=no

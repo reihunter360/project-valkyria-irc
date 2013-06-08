@@ -40,6 +40,9 @@ BlackOrbs=1
 ShopLevel=1.0
 Drops=Holy_Water.HolyHandGrenade.Lucky-Rabbit'sFoot
 
+[monster]
+type=rabbit
+
 [Info]
 Flag=monster
 Gender=its

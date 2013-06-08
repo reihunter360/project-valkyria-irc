@@ -1,4 +1,4 @@
-======================================================
+==============================================================
 Battlefields are where the players face the monsters.
 The battlefields themselves control the weather and
 may have events that occasionally happen. There
@@ -11,7 +11,9 @@ Valid Targets: all, random, monsters, players
  * note that "players" as a target also affects NPCs
 
 Valid Event Types: damage, heal, statusonly
-=====================================================
+
+Valid Limitations: no-tech, no-item, no-skill, no-ignition
+=============================================================
 
 [battlefields]
 list=plains.cavern.volcano.fairgrounds.forest.beach.desert.moon.factory.swamp.laboratory.graveyard.northpole.river.underwater cavern.ocean.frozen lake.town.island.park.mountain.dungeon
@@ -21,20 +23,20 @@ list=plains.cavern.volcano.fairgrounds.forest.beach.desert.moon.factory.swamp.la
 weather=calm.bright.gloomy.rainy.stormy.snowy.windy.hot.dry
 NumberOfEvents=0
 scavenge=Potion.VitalStar.X-Potion.Shihei.Sokubaku.Topaz.Zircon.Ink.Paper.EarthSphere
-
+limitations=
 
 
 [graveyard]
 weather=calm.gloomy.rainy.dry.snowy.stormy
 NumberOfEvents=1
 scavenge=Onyx.Red_Fang.Thunder_Orb.Stop_watch
+limitations=no-tech
 
 event1=damage
 event1Chance=20
 Event1Desc=%real.name trips and falls into an open grave! Ow!
 Event1Target=random
 event1Amount=$rand(50,100)
-
 
 
 [Slurm Factory]
@@ -316,6 +318,7 @@ Event3Amount=$rand(50,300)
 [Laboratory]
 weather=calm
 NumberOfEvents=0
+limitations=no-item
 
 
 [NorthPole]

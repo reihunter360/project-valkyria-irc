@@ -52,6 +52,8 @@ Created=N/a
 Streak=50
 StreakMax=150
 
+[monster]
+type=Gorgon
 
 [Status]
 Poison=no

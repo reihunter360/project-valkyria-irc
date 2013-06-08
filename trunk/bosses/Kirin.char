@@ -39,7 +39,7 @@ ShopLevel=1.0
 Drops=KirinSeal.Kirin'sOsode
 
 [Monster]
-Type=
+Type=Manticore
 
 [Info]
 Flag=monster
@@ -125,7 +125,7 @@ CureII=100
 
 [Styles]
 Equipped=CounterStance
-CounterStance=2
+CounterStance=3
 
 
 [Equipment]

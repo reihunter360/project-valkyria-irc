@@ -42,7 +42,7 @@ ShopLevel=1.0
 Drops=Pizza.X-Potion.Ether.Tonic
 
 [Monster]
-Type=
+Type=qudav
 
 [Info]
 Flag=monster
