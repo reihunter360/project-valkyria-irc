@@ -147,9 +147,7 @@ MagicMirror.on=on
 [Techniques]
 AeroV=500
 BlizzardV=500
-AerogaV=500
 FireV=500
-Composure=1000
 Poison=500
 Blind=500
 Paralyze=500

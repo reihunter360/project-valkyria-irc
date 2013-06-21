@@ -33,7 +33,7 @@ Gunslinger,Swordmaster,Wizardy,Martialarts,Polemaster, ARchery Max to 500 (from 
 OrbHunter Max=200; Amount=20
 Clearmind Max=5
 FieldMedic Max=500
-Impetus Max=40
+Impetus Max=40 / cost=1500
 BloodPact Max=500
 Zen Max=10
 WeaponBashMax=2 Cost=105000
@@ -42,17 +42,19 @@ Treasurehunter Max=7
 
 ElementalSeal CD = 60
 Mightystrike CD = 60
+RoyalGuard Cost = 4500
 Meditate Cooldown= 120
 ConserveTP Cost=1500 / Cooldown=9000
-Bloodboost Cooldown 20 Max=100
+Bloodboost Cooldown 30 Max=100
 Bloodspirit Cooldown 40 / max=75
 
-DrainSamba Cooldown = 60
 Regen Cooldown=60; Max=200
 Steal Cooldown=15, Max=50
 
 Cover Cooldown=60
 HolyAura=1100
+
+MagicMirror CD =1900
 
 Resist == 70%
 cost == 150000 (200000 for Petrify)
@@ -754,6 +756,15 @@ stat=str
 hits=$rand(2,12)
 cost=250000
 
+; wisereflection edit
+[WiseReflection]
+Type=boost
+TP=10
+Desc=narrows her eyes at everyone as a silver aura appears around $gender2($1). "Let's see how you shall fare against my full goddess power...."
+BasePower=10
+Element=Light
+Cost=5000
+
 ;---------------------------------------------------
 ;---------------------------------------------------
 ;---------------------------------------------------
@@ -772,15 +783,6 @@ Murgleis=DeathBlossom.SwiftBlade.SavageBlade.Requiescat.SanguineBlade.Mother'sRo
 Braveheart=HardSlash.PowerSlash.7DeadlySins
 Hyourinmaru=SotenNiZase.DaigurenHyourinmaru.Ryuusenka
 Zangetsu=GetsugaTenshou.TensaZangetsu.FinalGetsuga.Mugenshou
-
-; wisereflection edit
-[WiseReflection]
-Type=boost
-TP=10
-Desc=narrows her eyes at everyone as a silver aura appears around $gender2($1). "Let's see how you shall fare against my full goddess power...."
-BasePower=10
-Element=Light
-Cost=5000
 
 
 [Renzokuken]
@@ -881,15 +883,15 @@ Magic=Yes
 
 Battlealias.als
 ribbon.accessory.check { 
-  set %current.accessory $readini($char($1), equipment, accessory) 
-  if ($readini(items.db, %current.accessory, accessorytype) = BlockAllStatus) {
-	if($readini($2, skills, resist-paralysis) == 70 && $readini($2, skills, resist-charm) == 70 && $readini($2, skills, resist-blind) == 70 && $readini($2, skills, resist-poison) == 70 && $readini($2, skills, resist-amnesia) == 70 && $readini($2, skills, resist-curse) == 70 && $readini($2, skills, resist-zombie) == 70 && $readini($2, skills, resist-slow) == 70 && $readini($2, skills, resist-stun) == 70 && $readini($2, skills, resist-stop) == 70 && $readini($2, skills, resist-petrify) == 20) {
- set %resist.skill 85
+set %current.accessory $readini($char($1), equipment, accessory) 
+if ($readini(items.db, %current.accessory, accessorytype) = BlockAllStatus) {
+if($readini($2, skills, resist-paralysis) == 70 && $readini($2, skills, resist-charm) == 70 && $readini($2, skills, resist-blind) == 70 && $readini($2, skills, resist-poison) == 70 && $readini($2, skills, resist-amnesia) == 70 && $readini($2, skills, resist-curse) == 70 && $readini($2, skills, resist-zombie) == 70 && $readini($2, skills, resist-slow) == 70 && $readini($2, skills, resist-stun) == 70 && $readini($2, skills, resist-stop) == 70 && $readini($2, skills, resist-petrify) == 20) {
+set %resist.skill 85
 } else {
-    set %resist.skill 70
-	}
-  }
-  unset %current.accessory
+set %resist.skill 70
+}
+}
+unset %current.accessory
 }
 --------------------------------------------------------------------------
 --------------------------------------------------------------------------
@@ -1193,7 +1195,7 @@ Cost and Upgrade to 99999 and 500000
 --------------------------------------------------------------------------
 --------------------------------------------------------------------------
 
-steal.lst changes
+steal.lst changes and .db changes
 
 ; Valkyria Customs
 omega_weapon=orbs.GoldOre.orbs.orbs.BlueEyesCard.AlexanderMateria.AlexanderMateria.orbs
@@ -1257,8 +1259,10 @@ BossDeath=800
 MonDeath=200
 
 
-BATTLEFIELD.LST
+BATTLEFIELDs.LST
+Flooded Square City
 
+battlefields.db
 [Flooded Square City]
 weather=rainy.stormy.gloomy
 NumberOfEvents=5
@@ -1344,6 +1348,15 @@ equipment.db
 	Augment=EnhanceZen.AdditionalHit
 	equiplocation=head
 	cost=999999
+
+Armor_body.lst
+ValkyrianArmor
+armor_feet.lst
+ValkyrianShoes
+armor_hands.lst
+ValkyrianGloves
+armor_head.lst
+ValkyrieHelm
 
 -----------------------------------------------
 -----------------------------------------------

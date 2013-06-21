@@ -1,7 +1,9 @@
 ===================================================================
 This file is just to store the stats and augments of the equipment. 
-The actual list of equipment is still in items.db (due to the way 
-the bot is programmed)
+The actual list of equipment is split up into .lst files. There's
+armor_head.lst, armor_body.lst, armor_legs.lst, armor_feet.lst
+and armor_hands.lst.  If you add new equipment make sure you put
+the name of the piece in the appropriate .lst file.
 
 Valid EquipLocations are: Head, Body, Legs, Feet, Hands
 ====================================================================
@@ -223,6 +225,222 @@ def=140
 int=300
 spd=140
 Augment=MagicBonus.EnhanceMeditate.EnhanceZen
+EquipLocation=Head
+cost=50
+
+[TantraCrown]
+Name=Tantra Crown
+hp=170
+tp=20
+Str=210
+def=120
+int=100
+spd=100
+Augment=EnhanceCounter
+EquipLocation=Head
+cost=50
+
+[TantraCrown+1]
+Name=Tantra Crown +1
+hp=180
+tp=25
+Str=220
+def=130
+int=110
+spd=150
+Augment=EnhanceCounter
+EquipLocation=Head
+cost=50
+
+[TantraCrown+2]
+Name=Tantra Crown +2
+hp=190
+tp=30
+Str=230
+def=140
+int=120
+spd=180
+Augment=EnhanceCounter.EnhanceHandToHand
+EquipLocation=Head
+cost=50
+
+[WizardPetasos]
+Name=Wizard's Petasos
+hp=30
+tp=80
+Str=10
+def=10
+int=80
+spd=10
+Augment=MagicBonus
+EquipLocation=Head
+cost=50
+
+[WizardPetasos+1]
+Name=Wizard's Petasos +1
+hp=40
+tp=90
+Str=20
+def=20
+int=90
+spd=20
+Augment=MagicBonus
+EquipLocation=Head
+cost=50
+
+[WizardPetasos+2]
+Name=Wizard's Petasos +2
+hp=50
+tp=100
+Str=30
+def=30
+int=100
+spd=30
+Augment=MagicBonus.EnhanceBloodSpirit
+EquipLocation=Head
+cost=50
+
+[HealerCap]
+Name=Healer's Cap
+hp=40
+tp=60
+Str=20
+def=20
+int=60
+spd=20
+Augment=CuringBonus
+EquipLocation=Head
+cost=50
+
+[HealerCap+1]
+Name=Healer's Cap +1
+hp=50
+tp=70
+Str=30
+def=30
+int=70
+spd=30
+Augment=CuringBonus
+EquipLocation=Head
+cost=50
+
+[HealerCap+2]
+Name=Healer's Cap +2
+hp=60
+tp=80
+Str=40
+def=40
+int=80
+spd=40
+Augment=CuringBonus.EnhanceItems
+EquipLocation=Head
+cost=50
+
+[ScoutBeret]
+Name=Scout's Beret
+hp=80
+tp=30
+Str=40
+def=40
+int=40
+spd=80
+Augment=EnhanceTreasureHunter
+EquipLocation=Head
+cost=50
+
+[ScoutBeret+1]
+Name=Scout's Beret +1
+hp=90
+tp=40
+Str=50
+def=50
+int=50
+spd=90
+Augment=EnhanceTreasureHunter
+EquipLocation=Head
+cost=50
+
+[ScoutBeret+2]
+Name=Scout's Beret +2
+hp=100
+tp=50
+Str=60
+def=60
+int=60
+spd=100
+Augment=EnhanceTreasureHunter.EnhanceRanged
+EquipLocation=Head
+cost=50
+
+[SummonerHorn]
+Name=Summoner's Horn
+hp=20
+tp=90
+Str=15
+def=15
+int=65
+spd=15
+Augment=EnhanceBloodpact
+EquipLocation=Head
+cost=50
+
+[SummonerHorn+1]
+Name=Summoner's Horn +1
+hp=30
+tp=100
+Str=25
+def=25
+int=75
+spd=25
+Augment=EnhanceBloodpact
+EquipLocation=Head
+cost=50
+
+[SummonerHorn+2]
+Name=Summoner's Horn +2
+hp=40
+tp=110
+Str=35
+def=35
+int=85
+spd=35
+Augment=EnhanceBloodpact.EnhanceStaff
+EquipLocation=Head
+cost=50
+
+[CreedArmet]
+Name=Creed Armet
+hp=160
+tp=20
+Str=120
+def=400
+int=120
+spd=120
+Augment=EnhanceDefender
+EquipLocation=Head
+cost=50
+
+[CreedArmet+1]
+Name=Creed Armet +1
+hp=180
+tp=30
+Str=140
+def=450
+int=140
+spd=140
+Augment=EnhanceDefender
+EquipLocation=Head
+cost=50
+
+[CreedArmet+2]
+Name=Creed Armet +2
+hp=200
+tp=40
+Str=160
+def=500
+int=160
+spd=160
+Augment=EnhanceDefender.EnhanceCriticalHits
 EquipLocation=Head
 cost=50
 
@@ -485,6 +703,222 @@ Augment=EnhanceDoubleTurnChance.Drain.EnhanceGlyph
 EquipLocation=Body
 cost=50
 
+[TantraCyclas]
+Name=Tantra Cycles
+hp=170
+tp=20
+Str=210
+def=120
+int=100
+spd=100
+Augment=EnhanceCounter
+EquipLocation=Body
+cost=50
+
+[TantraCyclas+1]
+Name=Tantra Cycles +1
+hp=180
+tp=25
+Str=220
+def=130
+int=110
+spd=150
+Augment=EnhanceCounter
+EquipLocation=Body
+cost=50
+
+[TantraCyclas+2]
+Name=Tantra Cycles +2
+hp=190
+tp=30
+Str=230
+def=140
+int=120
+spd=180
+Augment=EnhanceCounter.EnhanceHandToHand
+EquipLocation=Body
+cost=50
+
+[WizardCoat]
+Name=Wizard's Coat
+hp=30
+tp=80
+Str=10
+def=10
+int=80
+spd=10
+Augment=MagicBonus
+EquipLocation=Body
+cost=50
+
+[WizardCoat+1]
+Name=Wizard's Coat +1
+hp=40
+tp=90
+Str=20
+def=20
+int=90
+spd=20
+Augment=MagicBonus
+EquipLocation=Body
+cost=50
+
+[WizardCoat+2]
+Name=Wizard's Coat +2
+hp=50
+tp=100
+Str=30
+def=30
+int=100
+spd=20
+Augment=MagicBonus.EnhanceBloodSpirit
+EquipLocation=Body
+cost=50
+
+[HealerBriault]
+Name=Healer's Briault
+hp=40
+tp=60
+Str=20
+def=20
+int=60
+spd=20
+Augment=CuringBonus
+EquipLocation=Body
+cost=50
+
+[HealerBriault+1]
+Name=Healer's Briault +1
+hp=50
+tp=70
+Str=30
+def=30
+int=70
+spd=30
+Augment=CuringBonus
+EquipLocation=Body
+cost=50
+
+[HealerBriault+2]
+Name=Healer's Briault +2
+hp=60
+tp=80
+Str=40
+def=40
+int=80
+spd=40
+Augment=CuringBonus.EnhanceItems
+EquipLocation=Body
+cost=50
+
+[ScoutJerkin]
+Name=Scout's Jerkin
+hp=80
+tp=30
+Str=40
+def=40
+int=40
+spd=80
+Augment=EnhanceCriticalHits
+EquipLocation=Body
+cost=50
+
+[ScoutJerkin+1]
+Name=Scout's Jerkin +1
+hp=90
+tp=40
+Str=50
+def=50
+int=50
+spd=90
+Augment=EnhanceCriticalHits
+EquipLocation=Body
+cost=50
+
+[ScoutJerkin+2]
+Name=Scout's Jerkin +2
+hp=100
+tp=50
+Str=60
+def=60
+int=60
+spd=100
+Augment=EnhanceCriticalHits.EnhanceRanged
+EquipLocation=Body
+cost=50
+
+[SummonerDoublet]
+Name=Summoner's Doublet
+hp=20
+tp=90
+Str=15
+def=15
+int=65
+spd=15
+Augment=EnhanceBloodpact
+EquipLocation=Body
+cost=50
+
+[SummonerDoublet+1]
+Name=Summoner's Doublet +1
+hp=30
+tp=100
+Str=25
+def=25
+int=75
+spd=25
+Augment=EnhanceBloodpact
+EquipLocation=Body
+cost=50
+
+[SummonerDoublet+2]
+Name=Summoner's Doublet +2
+hp=40
+tp=110
+Str=35
+def=35
+int=85
+spd=35
+Augment=EnhanceBloodpact.EnhanceStaff
+EquipLocation=Body
+cost=50
+
+[CreedCuirass]
+Name=Creed Cuirass
+hp=160
+tp=20
+Str=120
+def=400
+int=120
+spd=120
+Augment=EnhanceDefender
+EquipLocation=Body
+cost=50
+
+[CreedCuirass+1]
+Name=Creed Cuirass +1
+hp=180
+tp=30
+Str=140
+def=450
+int=140
+spd=140
+Augment=EnhanceDefender
+EquipLocation=Body
+cost=50
+
+[CreedCuirass+2]
+Name=Creed Cuirass +2
+hp=200
+tp=40
+Str=160
+def=500
+int=160
+spd=160
+Augment=EnhanceDefender.EnhanceZen
+EquipLocation=Body
+cost=50
+
 ========
 LEGS
 ========
@@ -670,6 +1104,221 @@ Augment=CuringBonus.EnhanceDagger.EnhanceZen
 EquipLocation=Legs
 cost=50
 
+[TantraHose]
+Name=Tantra Hose
+hp=170
+tp=20
+Str=210
+def=120
+int=100
+spd=150
+Augment=EnhanceCounter
+EquipLocation=Legs
+cost=50
+
+[TantraHose+1]
+Name=Tantra Hose +1
+hp=180
+tp=25
+Str=220
+def=130
+int=110
+spd=150
+Augment=EnhanceCounter
+EquipLocation=Legs
+cost=50
+
+[TantraHose+2]
+Name=Tantra Hose +2
+hp=190
+tp=30
+Str=230
+def=140
+int=120
+spd=180
+Augment=EnhanceCounter.EnhanceHandToHand
+EquipLocation=Legs
+cost=50
+
+[WizardTonban]
+Name=Wizard's Tonban
+hp=30
+tp=80
+Str=10
+def=10
+int=80
+spd=10
+Augment=MagicBonus
+EquipLocation=Legs
+cost=50
+
+[WizardTonban+1]
+Name=Wizard's Tonban +1
+hp=40
+tp=90
+Str=20
+def=20
+int=90
+spd=20
+Augment=MagicBonus
+EquipLocation=Legs
+cost=50
+
+[WizardTonban+2]
+Name=Wizard's Tonban +2
+hp=50
+tp=100
+Str=30
+def=30
+int=100
+spd=30
+Augment=MagicBonus.EnhanceBloodSpirit
+EquipLocation=Legs
+cost=50
+
+[HealerPantaloons]
+Name=Healer's Pantaloons
+hp=40
+tp=60
+Str=20
+def=20
+int=60
+spd=20
+Augment=CuringBonus
+EquipLocation=Legs
+cost=50
+
+[HealerPantaloons+1]
+Name=Healer's Pantaloons +1
+hp=50
+tp=70
+Str=30
+def=30
+int=70
+spd=30
+Augment=CuringBonus
+EquipLocation=Legs
+cost=50
+
+[HealerPantaloons+2]
+Name=Healer's Pantaloons +2
+hp=60
+tp=80
+Str=40
+def=40
+int=80
+spd=40
+Augment=CuringBonus.EnhanceItems
+EquipLocation=Legs
+cost=50
+
+[ScoutBraccae]
+Name=Scout's Braccae
+hp=80
+tp=30
+Str=40
+def=40
+int=40
+spd=80
+Augment=EnhanceDodge
+EquipLocation=Legs
+cost=50
+
+[ScoutBraccae+1]
+Name=Scout's Braccae +1
+hp=90
+tp=40
+Str=50
+def=50
+int=50
+spd=90
+Augment=EnhanceDodge
+EquipLocation=Legs
+cost=50
+
+[ScoutBraccae+2]
+Name=Scout's Braccae +2
+hp=100
+tp=50
+Str=60
+def=60
+int=60
+spd=100
+Augment=EnhanceDodge.EnhanceRanged
+EquipLocation=Legs
+cost=50
+
+[SummonerSpats]
+Name=Summoner's Spats
+hp=20
+tp=90
+Str=15
+def=15
+int=65
+spd=15
+Augment=EnhanceBloodpact
+EquipLocation=Legs
+cost=50
+
+[SummonerSpats+1]
+Name=Summoner's Spats +1
+hp=30
+tp=100
+Str=25
+def=25
+int=75
+spd=25
+Augment=EnhanceBloodpact
+EquipLocation=Legs
+cost=50
+
+[SummonerSpats+2]
+Name=Summoner's Spats +2
+hp=40
+tp=110
+Str=35
+def=35
+int=85
+spd=35
+Augment=EnhanceBloodpact.EnhanceStaff
+EquipLocation=Legs
+cost=50
+
+[CreedCuisses]
+Name=Creed Cuisses
+hp=160
+tp=20
+Str=120
+def=400
+int=120
+spd=120
+Augment=EnhanceDefender
+EquipLocation=Legs
+cost=50
+
+[CreedCuisses+1]
+Name=Creed Cuisses +1
+hp=180
+tp=30
+Str=140
+def=450
+int=140
+spd=140
+Augment=EnhanceDefender
+EquipLocation=Legs
+cost=50
+
+[CreedCuisses+2]
+Name=Creed Cuisses +2
+hp=200
+tp=40
+Str=160
+def=500
+int=160
+spd=160
+Augment=EnhanceDefender.CuringBonus
+EquipLocation=Legs
+cost=50
 
 ========
 FEET
@@ -867,6 +1516,222 @@ def=140
 int=300
 spd=140
 Augment=EnhanceEnfeeble.AbsorbIG.EnhanceZen
+EquipLocation=Feet
+cost=50
+
+[TantraGaiters]
+Name=Tantra Gaiters
+hp=170
+tp=20
+Str=210
+def=120
+int=100
+spd=150
+Augment=EnhanceCounter
+EquipLocation=Feet
+cost=50
+
+[TantraGaiters+1]
+Name=Tantra Gaiters +1
+hp=180
+tp=25
+Str=220
+def=130
+int=110
+spd=150
+Augment=EnhanceCounter
+EquipLocation=Feet
+cost=50
+
+[TantraGaiters+2]
+Name=Tantra Gaiters +2
+hp=190
+tp=30
+Str=230
+def=140
+int=120
+spd=180
+Augment=EnhanceCounter.EnhanceHandToHand
+EquipLocation=Feet
+cost=50
+
+[WizardSabots]
+Name=Wizard's Sabots
+hp=30
+tp=80
+Str=10
+def=10
+int=80
+spd=10
+Augment=MagicBonus
+EquipLocation=Feet
+cost=50
+
+[WizardSabots+1]
+Name=Wizard's Sabots +1
+hp=40
+tp=90
+Str=20
+def=20
+int=90
+spd=20
+Augment=MagicBonus
+EquipLocation=Feet
+cost=50
+
+[WizardSabots+2]
+Name=Wizard's Sabots +2
+hp=50
+tp=100
+Str=30
+def=30
+int=100
+spd=30
+Augment=MagicBonus
+EquipLocation=Feet
+cost=50
+
+[HealerDuckbills]
+Name=Healer's Duckbills
+hp=40
+tp=60
+Str=20
+def=20
+int=60
+spd=20
+Augment=CuringBonus
+EquipLocation=Feet
+cost=50
+
+[HealerDuckbills+1]
+Name=Healer's Duckbills +1
+hp=50
+tp=70
+Str=30
+def=30
+int=70
+spd=30
+Augment=CuringBonus
+EquipLocation=Feet
+cost=50
+
+[HealerDuckbills+2]
+Name=Healer's Duckbills +2
+hp=60
+tp=80
+Str=40
+def=40
+int=80
+spd=40
+Augment=CuringBonus.EnhanceItems
+EquipLocation=Feet
+cost=50
+
+[ScoutBoots]
+Name=Scout's Boots
+hp=80
+tp=30
+Str=40
+def=40
+int=40
+spd=80
+Augment=EnhanceScavenge
+EquipLocation=Feet
+cost=50
+
+[ScoutBoots+1]
+Name=Scout's Boots +1
+hp=90
+tp=40
+Str=50
+def=50
+int=50
+spd=90
+Augment=EnhanceScavenge
+EquipLocation=Feet
+cost=50
+
+[ScoutBoots+2]
+Name=Scout's Boots +2
+hp=100
+tp=50
+Str=60
+def=60
+int=60
+spd=100
+Augment=EnhanceScavenge.EnhanceRanged
+EquipLocation=Feet
+cost=50
+
+[SummonerPigaches]
+Name=Summoner's Pigaches
+hp=20
+tp=90
+Str=15
+def=15
+int=65
+spd=15
+Augment=EnhanceBloodpact
+EquipLocation=Feet
+cost=50
+
+[SummonerPigaches+1]
+Name=Summoner's Pigaches +1
+hp=30
+tp=100
+Str=25
+def=25
+int=75
+spd=25
+Augment=EnhanceBloodpact
+EquipLocation=Feet
+cost=50
+
+[SummonerPigaches+2]
+Name=Summoner's Pigaches +2
+hp=40
+tp=110
+Str=35
+def=35
+int=85
+spd=35
+Augment=EnhanceBloodpact.EnhanceSdtaff
+EquipLocation=Feet
+cost=50
+
+[CreedSabatons]
+Name=Creed Sabatons
+hp=160
+tp=20
+Str=120
+def=400
+int=120
+spd=120
+Augment=EnhanceDefender
+EquipLocation=Feet
+cost=50
+
+[CreedSabatons+1]
+Name=Creed Sabatons +1
+hp=180
+tp=30
+Str=140
+def=450
+int=140
+spd=140
+Augment=EnhanceDefender
+EquipLocation=Feet
+cost=50
+
+[CreedSabatons+2]
+Name=Creed Sabatons +2
+hp=200
+tp=40
+Str=160
+def=500
+int=160
+spd=160
+Augment=EnhanceDefender.EnhanceSword
 EquipLocation=Feet
 cost=50
 
@@ -1092,6 +1957,265 @@ Augment=EnhanceParry.AbsorbTP.EnhanceSword
 EquipLocation=Hands
 cost=50
 
+[TantraGloves]
+Name=Tantra Gloves
+hp=170
+tp=20
+Str=210
+def=120
+int=100
+spd=100
+Augment=EnhanceCounter
+EquipLocation=Hands
+cost=50
+
+[TantraGloves+1]
+Name=Tantra Gloves +1
+hp=180
+tp=25
+Str=220
+def=130
+int=110
+spd=150
+Augment=EnhanceCounter
+EquipLocation=Hands
+cost=50
+
+[TantraGloves+2]
+Name=Tantra Gloves +2
+hp=190
+tp=30
+Str=230
+def=140
+int=120
+spd=180
+Augment=EnhanceCounter.IgnoreGuardian
+EquipLocation=Hands
+cost=50
+
+[WizardGloves]
+Name=Wizard's Gloves
+hp=30
+tp=80
+Str=10
+def=10
+int=80
+spd=10
+Augment=MagicBonus
+EquipLocation=Hands
+cost=50
+
+[WizardGloves+1]
+Name=Wizard's Gloves +1
+hp=40
+tp=90
+Str=20
+def=20
+int=90
+spd=20
+Augment=MagicBonus
+EquipLocation=Hands
+cost=50
+
+[WizardGloves+2]
+Name=Wizard's Gloves +2
+hp=50
+tp=100
+Str=30
+def=30
+int=100
+spd=30
+Augment=MagicBonus.EnhanceBloodSpirit
+EquipLocation=Hands
+cost=50
+
+[HealerMitts]
+Name=Healer's Mitts
+hp=40
+tp=60
+Str=20
+def=20
+int=60
+spd=20
+Augment=CuringBonus
+EquipLocation=Hands
+cost=50
+
+[HealerMitts+1]
+Name=Healer's Mitts +1
+hp=50
+tp=70
+Str=30
+def=30
+int=70
+spd=30
+Augment=CuringBonus
+EquipLocation=Hands
+cost=50
+
+[HealerMitts+2]
+Name=Healer's Mitts +2
+hp=60
+tp=80
+Str=40
+def=40
+int=80
+spd=40
+Augment=CuringBonus.EnhanceItems
+EquipLocation=Hands
+cost=50
+
+[ScoutBracers]
+Name=Scout's Bracers
+hp=80
+tp=30
+Str=40
+def=40
+int=40
+spd=80
+Augment=EnhanceSteal
+EquipLocation=Hands
+cost=50
+
+[ScoutBracers+1]
+Name=Scout's Bracers +1
+hp=90
+tp=40
+Str=50
+def=50
+int=50
+spd=90
+Augment=EnhanceSteal
+EquipLocation=Hands
+cost=50
+
+[ScoutBracers+2]
+Name=Scout's Bracers +2
+hp=100
+tp=50
+Str=60
+def=60
+int=60
+spd=100
+Augment=EnhanceSteal.EnhanceRanged
+EquipLocation=Hands
+cost=50
+
+[SummonerBracers]
+Name=Summoner's Bracers
+hp=20
+tp=90
+Str=15
+def=15
+int=65
+spd=15
+Augment=EnhanceBloodpact
+EquipLocation=Hands
+cost=50
+
+[SummonerBracers+1]
+Name=Summoner's Bracers +1
+hp=30
+tp=100
+Str=25
+def=25
+int=75
+spd=25
+Augment=EnhanceBloodpact
+EquipLocation=Hands
+cost=50
+
+[SummonerBracers+2]
+Name=Summoner's Bracers +2
+hp=40
+tp=110
+Str=35
+def=35
+int=85
+spd=35
+Augment=EnhanceBloodpact.EnhanceStaff
+EquipLocation=Hands
+cost=50
+
+[CreedGauntlets]
+Name=Creed Gauntlets
+hp=160
+tp=20
+Str=120
+def=400
+int=120
+spd=120
+Augment=EnhanceDefender
+EquipLocation=Hands
+cost=50
+
+[CreedGauntlets+1]
+Name=Creed Gauntlets +1
+hp=180
+tp=30
+Str=140
+def=450
+int=140
+spd=140
+Augment=EnhanceDefender
+EquipLocation=Hands
+cost=50
+
+[CreedGauntlets+2]
+Name=Creed Gauntlets +2
+hp=200
+tp=40
+Str=160
+def=500
+int=160
+spd=160
+Augment=EnhanceDefender.EnhanceWeaponBash
+EquipLocation=Hands
+cost=50
+
+=============================
+Monster only armor!
+This armor is going to be 
+haxx with augments..so don't
+give it to players
+=============================
+
+[LevithanLeftHeart]
+Name=Levithan's Left Heart
+hp=0
+tp=0
+Str=0
+def=0
+int=0
+spd=0
+Augment=AbsorbTP
+EquipLocation=body
+cost=0
+
+[LevithanRightHeart]
+Name=Levithan's Right Heart
+hp=0
+tp=0
+Str=0
+def=0
+int=0
+spd=0
+Augment=AbsorbIG
+EquipLocation=body
+cost=0
+
+[LevithanCenterHeart]
+Name=Levithan's Center Heart
+hp=0
+tp=0
+Str=0
+def=0
+int=0
+spd=0
+Augment=
+EquipLocation=body
+cost=0
+
 [ValkyrianArmor]
 	Name=Valkyrian Armor
 	HP=100
@@ -1136,46 +2260,3 @@ cost=50
 	Augment=EnhanceZen.AdditionalHit
 	equiplocation=head
 	cost=999999
-
-=============================
-Monster only armor!
-This armor is going to be 
-haxx with augments..so don't
-give it to players
-=============================
-
-[LevithanLeftHeart]
-Name=Levithan's Left Heart
-hp=0
-tp=0
-Str=0
-def=0
-int=0
-spd=0
-Augment=AbsorbTP
-EquipLocation=body
-cost=0
-
-[LevithanRightHeart]
-Name=Levithan's Right Heart
-hp=0
-tp=0
-Str=0
-def=0
-int=0
-spd=0
-Augment=AbsorbIG
-EquipLocation=body
-cost=0
-
-[LevithanCenterHeart]
-Name=Levithan's Center Heart
-hp=0
-tp=0
-Str=0
-def=0
-int=0
-spd=0
-Augment=
-EquipLocation=body
-cost=0

@@ -72,6 +72,14 @@ MaxNumberOfMonsInBattle=  You can set this to whatever number you want but the d
 
 BonusEvent= true or false.  If set to true then the orb orbs rewarded at the end of battle will be doubled (even during a loss).
 
+ScoreBoardType= 1 or 2.  This toggles between the two scoreboard types.
+
+MaxGauntletOrbReward= You can set the maximum number of orbs are rewarded for gauntlet mode here. 50000 is default.
+
+EmptyRoundsBeforeStreakReset= How many empty rounds the bot will go before resetting the streak to 0 goes here. Default is 10
+
+ChestTime= How long a chest stays in the game before it fades away/gets destroyed. Default is 45 seconds
+
 
 [StatPrices]
 This whole section is the base cost, in red orbs, that the shop will sell stat upgrades for.  You can lower the prices or raise them here.
@@ -94,6 +102,7 @@ TotalDraws=0
 LosingStreak=0
 WinningStreak=3
 LevelAdjust=0
+emptyRounds=0
 
 Bot owners have a way to reset it all back to 0 using a command they have access to.
 
@@ -119,8 +128,24 @@ TotalMonsterWins= how many times monsters have won the Conquest Tally.
 TotalPlayerWins= how many times players have won the Conquest Tally.
 
 
-WEATHER.LST
-Pre version 2.0 the weather.lst file controlled the weather for the bot.  Now, in version 2.0 and later, the weather is controlled in the battlefields.lst file. The weather.list file still contains how much of a boost magic receives under the correct weather.
+Finally, the battlestats.dat contains information on the Dragonballs.
+
+[dragonballs]
+ShenronWish=off
+ShenronWish.rounds=1
+DragonBallsFound=1
+DragonballsActive=yes
+DragonballChance=10
+
+ShenronWish= if Shenron's Wish bonus is on and is applying to the battlefield.
+ShenronWish.rounds= How many rounds the bonus has been on for.  After 10 it turns off.
+DragonBallsFound=  How many dragonballs have been found so far.
+DragonballsActive=  Is it possible to find dragonballs?  If the wish is on, this is set to no.
+DragonballChance=  The default chance of finding one after a boss battle in percent. The default amount is 10%
+
+
+BATTLEFIELDS.DB
+Battlefields.db controls the various battlefields that are available in the bot and the weather information.  If you open the file up in notepad you'll see the weather information at the top.
 
 [weather]
 current=calm
@@ -128,6 +153,12 @@ list=calm.bright.gloomy.rainy.stormy.snowy.windy.hot.dry
 boost=.25
 
 the .25 means that magic cast on the right day will give a 25% boost to the damage.
+
+The rest of the information inside pertains to the battlefields.
+
+
+.LST FILES
+.lst files are "list" files.  These files are used when the bot generates lists of things (such as a list of ignitions that players have, or a list of items they carry).  These files should not be erased.  If you end up making any new items, armor, or whatever you will need to add the name of whatever you make into the appropriate .lst file for it to show up in the bot.
 
 
 "BOT ADMIN" COMMANDS
@@ -202,6 +233,8 @@ It's possible to manually set the winning streak to whatever you want.  You can'
 !leveladjust
 If bot admins want battles to be harder, they can adjust the level by which monsters are boosted by.  For example, if a player is on streak level 1, bot admins can set the leveladjust to 50 and a level 1 streak will now act as a level 51 streak including which monsters are summoned during the battles.  To turn it off, set the leveladjust to 0 (which is set by default).  The difficulty cannot be below 0.
 
+!toggle scoreboard type
+This toggles between the two scoreboard types.
 
 
 DETAILED LOOK AT NEW_CHAR.CHR

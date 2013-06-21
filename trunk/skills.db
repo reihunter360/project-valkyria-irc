@@ -3,7 +3,7 @@ PassiveSkills=Swordmaster.Gunslinger.Wizardry.MartialArts.Polemaster.Archery.Cle
 ActiveSkills=Speed.ElementalSeal.MightyStrike.ManaWall.RoyalGuard.Fullbring.Sugitekai.Meditate.ConserveTP.BloodBoost.BloodSpirit.DrainSamba.Regen.Kikouheni.ShadowCopy.Utsusemi.Steal.Analysis.Cover.Aggressor.Defender.HolyAura.Provoke.Disarm.WeaponLock.Konzen-ittai.SealBreak
 ActiveSkills2=MagicMirror.Gamble.Thirdeye.Scavenge.JustRelease
 Resists=resist-paralysis.resist-blind.resist-poison.resist-amnesia.resist-curse.resist-zombie.resist-slow.resist-stun.resist-stop.resist-charm.resist-petrify
-KillerTraits=dragon-killer.undead-killer.zombie-killer.demon-killer.orc-killer.yagudo-killer.quadav-killer.goblin-killer.treant-killer.android-killer.crab-killer.worm-killer.bat-killer.lizard-killer.elemental-killer
+KillerTraits=dragon-killer.undead-killer.zombie-killer.demon-killer.orc-killer.yagudo-killer.quadav-killer.goblin-killer.treant-killer.android-killer.crab-killer.worm-killer.bat-killer.lizard-killer.elemental-killer.slime-killer
 
 
 =============================================
@@ -12,37 +12,37 @@ PASSIVE SKILLS
 
 [Swordmaster]
 Cost=200
-Max=100
+Max=500
 Type=Passive
 Info=This skill increases damage done with sword and katana weapons.  Increased levels increases the damage.
 
 [Polemaster]
 Cost=200
-Max=100
+Max=500
 Type=Passive
 Info=This skill increases damage done with spear weapons.  Increased levels increases the damage.
 
 [Gunslinger]
 Cost=200
-Max=100
+Max=500
 Type=Passive
 Info=This skill increases damage done with a gun.  Increased levels increases the damage.
 
 [Wizardry]
 Cost=200
-Max=100
+Max=500
 Type=Passive
 Info=This skill increases damage done with stave and wand weapons.  Increased levels increases the damage.
 
 [MartialArts]
 Cost=200
-max=100
+Max=500
 Type=Passive
 Info=This skill increases damage done with your hand to hand weapons.  Increased levels increases the damage.
 
 [Archery]
 Cost=200
-Max=100
+Max=500
 Type=Passive
 Info=This skill increases damage done with a bow.  Increased levels increases the damage.
 
@@ -72,7 +72,7 @@ Info=This skill will increase the amount of health items will heal by 5*skill le
 Max=500
 
 [Impetus]
-Cost=150
+Cost=1500
 Type=Passive
 Info=This skill will increase your chances of performing a critical hit by 1% each level in this skill.
 Max=40
@@ -102,7 +102,7 @@ Info=This skill will increase the amount of style XP you get at the end of battl
 Max=5
 
 [WeaponBash]
-Cost=1500
+Cost=105000
 Type=passive
 Info=This skill will add a chance of inflicting the stun status after each melee hit. Note, if the target is immune to stun it will never take effect.  The chance is (skill level * 10)%.
 Max=2
@@ -123,13 +123,13 @@ Max=7
 [BackGuard]
 Cost=1000
 Type=passive
-Info=This skill will decrease the odds of a surprise attack against the players. This skill is culumulative with everyone who has it at the beginning of battle.
+Info=This skill will decrease the odds of a surprise attack against the players. This skill is cumulative with everyone who has it at the beginning of battle.
 Max=5
 
 [DivineBlessing]
 Cost=1000
 Type=passive
-Info=This skill will decrease the odds that a curse night will happen. This skill is culumulative with everyone who has it at the beginning of battle.
+Info=This skill will decrease the odds that a curse night will happen. This skill is cumulative with everyone who has it at the beginning of battle.
 Max=5
 
 =============================================
@@ -164,7 +164,7 @@ Info=This skill reduces the next magic attack used against you to 0.  Increased 
 Cooldown=660
 
 [RoyalGuard]
-Cost=450
+Cost=4500
 Type=Active
 Max=6
 Info=This skill reduces the next physical attack used against you to 0.  The default reuse time is 10 minutes.  Increased levels decreases the amount of time inbetween uses.
@@ -202,7 +202,7 @@ Cost=500
 Type=Active
 Max=100
 Info=This skill will consume 100 HP to give you a (level * 2) boost to your STR.
-Cooldown=20
+Cooldown=30
 
 [BloodSpirit]
 Cost=500
@@ -216,7 +216,7 @@ Cost=750
 Type=Active
 Max=10
 Info=This skill will consume 10 TP to activate the "drain" status on the user, allowing him/her to gain HP back with every melee attack.  The amount of turns it will last is the level of your skill.  Note that the drain effect will not work on the undead (vampires, skeletons, zombies).
-Cooldown=60
+Cooldown=180
 
 [Regen]
 Cost=700
@@ -324,7 +324,7 @@ Cost=15000
 Type=Active
 Info=This skill will consume a MirrorShard to create a magical reflective barrier around you. The barrier will bounce a magic spell back to its caster.  Increased levels decreases the amount of time inbetween uses.
 Max=5
-Cooldown=900
+Cooldown=1900
 
 [Gamble]
 Cost=10000
@@ -417,7 +417,7 @@ Type=Resistance
 Info=This skill lowers the chance that you will become frozen in time in battle by 1% each level.
 
 [Resist-Petrify]
-Cost=20000
+Cost=200000
 Max=20
 Type=Resistance
 Info=This skill lowers the chance that you will be come petrified in battle by 1% each level
@@ -518,4 +518,8 @@ Max=10
 Type=KillerTrait
 Info=This skill increases damage done against elemental monsters by 1% a level.
 
-
+[Slime-Killer]
+Cost=5000
+Max=10
+Type=KillerTrait
+Info=This skill increases damage done against slime monsters by 1% a level.  Note that it won't increase damage done to metal slimes unless the IgnoreMetalDefense augment is active.

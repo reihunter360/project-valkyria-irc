@@ -72,7 +72,17 @@ alias tech_cmd {
   if ($istok(%ignition.list, $2, 46) = $true) { unset %ignition.list | $ignition_cmd($1, $2, $1) | halt }
 
   set %tech.type $readini(techniques.db, $2, Type) | $amnesia.check($1, tech) 
-  if ($readini($char($1), techniques, $2) = $null) { $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, DoesNotKnowTech),private) | halt }
+
+  if ($readini($char($1), techniques, $2) = $null) { 
+    if ($readini($char($1), status, ignition.on) != on) { $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, DoesNotKnowTech),private) | halt }
+
+    ; Is it an ignition tech that we know?
+    set %ignition.name $readini($char($1), status, ignition.name)
+    set %ignition.techs $readini(ignitions.db, %ignition.name, techs)
+    if ($istok(%ignition.techs,$2,46) = $false) { unset %ignition.name | unset %ignition.techs | $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, DoesNotKnowTech),private) | halt  }
+  }
+
+  unset %ignition.name | unset %ignition.techs
 
   if ((no-tech isin %battleconditions) || (no-techs isin %battleconditions)) { $set_chr_name($1) | $display.system.message($readini(translation.dat, battle, NotAllowedBattleCondition),private) | halt }
 
@@ -85,9 +95,7 @@ alias tech_cmd {
   ; Get the weapon equipped
   $weapon_equipped($1)
 
-  set %weapon.abilities $readini(techniques.db, Techs, %weapon.equipped)
-  if ($istok(%weapon.abilities,$2,46) = $false) {  $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, Can'tPerformTechWithWeapon),private) | halt }
-  unset %weapon.abilities 
+  $tech.abilitytoperform($1, $2, %weapon.equipped)
 
   ; Make sure the user has enough TP to use this in battle..
   set %tp.needed $readini(techniques.db, p, $2, TP) | set %tp.have $readini($char($1), battle, tp)
@@ -182,6 +190,23 @@ alias tech_cmd {
 
   ; Time to go to the next turn
   if (%battleis = on)  {  $check_for_double_turn($1) | halt }
+}
+
+alias tech.abilitytoperform {
+  ; $1 = user
+  ; $2 = tech name
+  ; $3 = weapon name
+
+  if ($readini($char($1), status, ignition.on) = on) {
+    set %ignition.name $readini($char($1), status, ignition.name)
+    set %ignition.techs $readini(ignitions.db, %ignition.name, techs)
+    if ($istok(%ignition.techs,$2,46) = $true) { unset %ignition.name | unset %ignition.techs | return }
+  }
+
+  set %weapon.abilities $readini(techniques.db, Techs, $3)
+  if ($istok(%weapon.abilities,$2,46) = $false) { unset %weapon.abilities |  $set_chr_name($1) | $display.system.message($readini(translation.dat, errors, Can'tPerformTechWithWeapon),private) | halt }
+
+  unset %techs | unset %ignition.name |  unset %weapon.abilities | unset %ignition.techs
 }
 
 alias tech.buff {
@@ -394,12 +419,7 @@ alias tech.heal {
     var %max.heal.amount $readini(techniques.db, $2, cappedamount)
     if (%max.heal.amount = $null) { var %max.heal.amount 2000 }
 
-    if (%max.heal.amount < 2000) { 
-      if (%attack.damage > %max.heal.amount) { set %attack.damage %max.heal.amount  }
-    }
-    if (%max.heal.amount >= 2000) {
-      if (%attack.damage > %max.heal.amount) {  set %attack.damage $calc(2000 + (%attack.damage / 100)),0) }
-    }
+    if (%attack.damage > %max.heal.amount) {  set %attack.damage $calc(%max.heal.amount + (%attack.damage / 100)),0) }
   }
 
   %attack.damage = $round(%attack.damage,0)
@@ -429,7 +449,12 @@ alias tech.aoeheal {
     unset %healing.increase
   }
 
-  if (%attack.damage > 2000) { set %attack.damage $calc(2000 + (%attack.damage / 100)),0) }
+  if ($readini(system.dat, system, IgnoreDmgCap) != true) { 
+    var %max.heal.amount $readini(techniques.db, $2, cappedamount)
+    if (%max.heal.amount = $null) { var %max.heal.amount 2000 }
+
+    if (%attack.damage > %max.heal.amount) {  set %attack.damage $calc(%max.heal.amount + (%attack.damage / 100)),0) }
+  }
 
 
   ; Let's increase the attack by a random amount.
@@ -885,6 +910,7 @@ alias display_aoedamage {
     $achievement_check($1, FillYourDarkSoulWithLight)
   }
 
+  unset %attack.damage1 | unset %attack.damage2 | unset %attack.damage3 | unset %attack.damage5 | unset %attack.damage6 | unset %attack.damage7 | unset %attack.damage8 | unset %double.attack | unset %triple.attack | unset %fourhit.attack | unset %fivehit.attack | unset %sixhit.attack | unset %sevenhit.attack | unset %eighthit.attack 
   unset %attack.damage | unset %target
   return 
 }
@@ -923,6 +949,13 @@ alias calculate_damage_techs {
 
   var %tech.base $readini(techniques.db, p, $2, BasePower)
   var %user.tech.level $readini($char($1), Techniques, $2)
+
+  if (%user.tech.level = $null) { var %user.tech.level 1 }
+
+  set %ignition.name $readini($char($1), status, ignition.name)
+  set %ignition.techs $readini(ignitions.db, %ignition.name, techs)
+  if ($istok(%ignition.techs,$2,46) = $true) { var %user.tech.level 50 }
+  unset %ignition.name | unset %ignition.techs
 
   inc %tech.base $round($calc(%user.tech.level * 1.6),0)
 
@@ -1005,6 +1038,8 @@ alias calculate_damage_techs {
     dec %enemy.defense %def.ignored
   }
 
+  echo -a defense after: %enemy.defense
+
   ; Check for the modifier adjustments.
   var %tech.element $readini(techniques.db, $2, element)
   if ((%tech.element != $null) && (%tech.element != none)) {
@@ -1061,11 +1096,11 @@ alias calculate_damage_techs {
 
     if ($readini(techniques.db, $2, magic) = yes) {  
       $calculate_pDIF($1, $3, magic)  
-      set %attack.damage $round($calc(%attack.damage / 4.5),0) 
+      set %attack.damage $round($calc(%attack.damage / 3.2),0) 
     }
     else { 
       $calculate_pDIF($1, $3, tech) 
-      set %attack.damage $round($calc(%attack.damage / 1.5),0) 
+      set %attack.damage $round($calc(%attack.damage / 1.75),0) 
     }
 
     %attack.damage = $round($calc(%attack.damage  * %pDIF),0)
@@ -1388,7 +1423,7 @@ alias calculate_damage_magic {
 alias spell.weather.check { 
   var %spell.element $readini(techniques.db, $3, element)
   if (%spell.element = $null) { return }
-  var %current.weather $readini(weather.lst, weather, current)
+  var %current.weather $readini(battlefields.db, weather, current)
   if ((%current.weather = calm) || (%current.weather = $null)) { return }
   if ((%spell.element = fire) && (%current.weather = hot)) { $spell.weather.increase }
   if ((%spell.element = water) && (%current.weather = rainy)) { $spell.weather.increase }
@@ -1402,7 +1437,7 @@ alias spell.weather.check {
 }
 
 alias spell.weather.increase {
-  var %weather.increase = $readini weather.lst weather boost
+  var %weather.increase = $readini battlefields.db weather boost
   if ((%weather.increase = $null) || (%weather.increase < 0)) { %increase = .25 }
   var %new.attack.damage = $round($calc(%attack.damage * %weather.increase),0)
   inc %attack.damage %new.attack.damage
@@ -1524,8 +1559,7 @@ alias ignition_cmd {  $set_chr_name($1)
 
   ; Does the user know that ignition?
   var %ignition.level $readini($char($1), ignitions, $2)
-  if (($2 = $null) || ($2 <= 0)) {  $set_chr_name($1) | $display.system.message(readini(translation.dat, Errors, DoNotKnowThatIgnition), battle) |  halt }
-
+  if ((%ignition.level = $null) || (%ignition.level <= 0)) {  $set_chr_name($1) | $display.system.message($readini(translation.dat, Errors, DoNotKnowThatIgnition), battle) |  halt }
 
   ; Check to see if the user has enough Ignition Gauge to boost
   set %ignition.cost $readini(ignitions.db, $2, IgnitionTrigger)

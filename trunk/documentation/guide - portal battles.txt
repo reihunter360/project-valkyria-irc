@@ -19,14 +19,19 @@ Kindred Seal Items
 [20 Seals] IgnisFatuus
 [25 Seals] BanishingCharm
 [25 Seals] LachesisOrb
+[25 Seals] AvatarBlood
+[25 Seals] YagudoDrink
+[25 Seals] SpheroidPlate
+[25 Seals] TavnazianPass
+[25 Seals] OldOrcBow
 [30 Seals] RottingOrb
 
 Kindred Crest Portal Items
+[25 Seals] OldOrcSword
 [30 Seals] CrimsonTraverserStone
 
 High Kindred Crest Portal Items
 [50 Seals] GoddessOrb
-
 
 Crafted Seal Items
 GodSeal
@@ -207,3 +212,74 @@ Danger Level: Impossible to gauge
 Estimated Fight Level: 7000 - 8000
 
 Eldora also made the vague comment of upgrading all of the new the armor, but refused to say how. Only when she feels it's time for that information to be disclosed.
+
+
+AVATARBLOOD
+Intelligence has found out about a large Diremite Spider running around and stealing various items. After its latest theft, it has fled to Abyssea - Uleguerand Range. Shami has an item to lure the monster out of hiding.
+
+Portal Item: Avatar Blood
+Portal Item Cost: 25 Kindred Seals
+Potential Rewards: Summoner Horn, Summoner Doublet, Summoner Spats, Summoner Pigaches, Summoner Bracers, Kindred Seal
+Allied Notes Worth: 1000
+Danger Level: Extremely High
+Estimated Fight Level: 1000 - 1100
+
+
+
+YAGUDODRINK
+Rumor has it that a powerful Yagudo monk has been ambushing adventurers who have a Yagudo Drink in their possession. Shami has access to such an item and is willing to trade it to adventurers if they're strong enough to fight the Yagudo menace.
+
+Portal Item: Yagudo Drink
+Portal Item Cost: 25 Kindred Seals
+Potential Rewards: Tantra Crown, Tantra Cyclas, Tantra Hose, Tantra Gaiters, Tantra Gloves, Kindred Seal
+Allied Notes Worth: 1000
+Danger Level: Extremely High
+Estimated Fight Level: 1000 - 1100
+
+
+
+SPHEROIDPLATE
+Allied scouts have seen a strange Iron Giant randomly destroying buildings and even small settlements. Afterwards, it seems to just fall into a pile of parts until someone gets too close, which then it will rise up to attack. Shami has an item that can locate where the Iron Giant is currently at.
+
+Portal Item: Spheroid Plate
+Portal Item Cost: 25 Kindred Seals
+Potential Rewards: Wizard Petasos, Wizard Coat, Wizard Tonban, Wizard Sabots, Wizard Gloves, Kindred Seal
+Allied Notes Worth: 1000
+Danger Level: Extremely High
+Estimated Fight Level: 1000 - 1100
+
+
+
+TAVNAZIANPASS
+There have been sightings of a shadow in Elvaan form attack random people in the Valkurm Dunes during the late hours. The rumor going around seems to be the Elvaan was a White Mage who had died in battle and is now taking his rage out on people. Shami is willing to trade an item that seems to attract the shadow.
+
+Portal Item: Tavnazian Pass
+Portal Item Cost: 25 Kindred Seals
+Potential Rewards: Healer Cap, Healer Briault, Healer Pantaloons, Healer Duckbills, Healer Mitts, Kindred Seal
+Allied Notes Worth: 1000
+Danger Level: Extremely High
+Estimated Fight Level: 1000 - 1100
+
+
+
+OLDORCBOW
+A powerful Orc ranger has been stealing equipment from random adventurers with the aid of One-Eyes Gwajboj. Shami has access to a supply of Old Orc Bows that has been known to be one thing Three-Eyed Prozpuz has been after.
+
+Portal Item: Old Orc Bow
+Portal Item Cost: 25 Kindred Seals
+Potential Rewards: Scout Beret, Scout Jerkin, Scout Braccae, Scout Boots, Scout Bracers, Kindred Seal
+Allied Notes Worth: 1000
+Danger Level: Extremely High
+Estimated Fight Level: 1000 - 1100
+
+
+
+OLDORCSWORD
+This Orc paladin has been quite the thorn in the side to the nation of San d'Oria. In addition, he has been aiding Three-Eyed Prozpuz in stealing equipment from adventurers. Shami has access to a supply of Old Orc Swords, which has been an item known to get One-Eyed Gwajboj's attention.
+
+Portal Item: Old Orc Sword
+Portal Item Cost: 25 Kindred Crests
+Potential Rewards: Creed Armet, Creed Cuirass, Creed Cuisses, Creed Sabatons, Creed Gauntlets, Kindred Crest
+Allied Notes Worth: 2000
+Danger Level: Extremely High
+Estimated Fight Level: 1500 - 1600

@@ -1,20 +1,20 @@
 [BaseStats]
 Hp=400
 Tp=200
-Str=65
-Def=55
-Int=40
-Spd=70
+Str=75
+Def=65
+Int=50
+Spd=80
 Name=Eldora Adlanna
 
 
 [Battle]
 Hp=400
 Tp=200
-Str=65
-Def=55
-Int=40
-Spd=70
+Str=75
+Def=65
+Int=50
+Spd=80
 Status=alive
 
 
@@ -30,7 +30,7 @@ Percent=0
 [Descriptions]
 Hused=1
 Dused=1
-Char=is a clone of a mighty Elven goddess, nearly mimicing her full power. She wears the usual Swordmaster armor has a sword on the left side of her waist.
+Char=is a powerful Elven goddess. She wears the usual Swordmaster armor has a sword on the left side of her waist.
 Rage=simply narrows her eyes and glares at everyone.
 BossQuote=You must prove yourselves before moving forward.
 
@@ -115,8 +115,7 @@ Resist-Intimidate=100
 TwinSlice=75
 BiteOfLightning=75
 BladeBeam=75
-HyperTwinSlice=75
-WiseReflection=200
+
 
 [Styles]
 Equipped=Weaponmaster

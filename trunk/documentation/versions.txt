@@ -585,6 +585,10 @@ Battle Arena Bot VERSIONS
 - Added black keys and black chests
 - Added the ability for any techs performed using a weapon that can hurt ethereal monsters to also hurt ethreal monsters. Prior
   to this, only magic techs would hurt them or players would need the augment.
+- Added the ability for bot owners to adjust the time of chests before they're destroyed. In system.dat under [system] there's
+  now ChestTime=   the time is in seconds and the default is 45.
+- Added Ignition Techs. These are special techs that can only be used while an ignition is on. They are not tied to any weapon
+  but still consume TP like a normal tech.
 - Changed the active skill Third Eye so that it only works on physical attacks. It also now has its own dodge message.
 - Changed the chance of certain monsters building a demon portal from 35% down to 25%.
 - Changed the AbsorbIG Augment so that it's weaker on players and stronger on monsters.
@@ -605,6 +609,10 @@ Battle Arena Bot VERSIONS
 - Changed the !reload battle streak command so that it will work on a winning streak as long as it's 10 or under.
 - Changed the amount of conquest points players lose if the battle was lost on the first turn.
 - Changed portal items so that they won't work during gauntlets and boss battles.
+- Changed a lot of code to make it much more efficient.  The bot should be faster now when clearing out files.
+- Changed the way the bot builds many of the lists to display to the channel.  I've restructured a lot of things (notice 
+  many new .lst files). Weather.lst is now defunct, its function has been moved into battlefields.db.  The list of chest items
+  are now in the chest_(color).lst file rather than a single chests.lst file.
 - Fixed an issue with the wrong password counter not being reset sometimes after logging in.
 - Fixed an issue in which cure-status type items (such as tonic) would not cure confuse and would actually make it worse.
 - Fixed a bug that Raiden found in which new characters wouldn't be able to equip armor.
@@ -622,3 +630,8 @@ Battle Arena Bot VERSIONS
 - Fixed a bug with !status in which certain skills weren't being displayed correctly when they were active.
 - Fixed a few typos.
 - Fixed a bug with the error message with !enter
+- Fixed a bug with the OK message for setting descriptions when setting a description in DCC mode.
+- Fixed a bug in which sometimes using a single hit tech after a multi-hit tech would cause some errors.
+- Fixed a bug in which anyone could use any ignition as long as he/she had the IG for it even if he/she didn't purchase it.
+- Fixed a bug in which capped healing amounts were not working right.
+- Fixed a bug in which an error message didn't display if someone attempted to snatch a boss.

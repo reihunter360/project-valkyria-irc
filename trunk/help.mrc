@@ -178,17 +178,73 @@ alias view-info {
   if ($2 = alchemy) {
 
     if ($3 = list) { 
-      var %crafted.items $readini(items.db, items, crafteditems)
-      var %crafted.armor $readini(items.db, items, craftedArmor)
+      unset %crafted.items | unset %crafted.items2 | unset %crafted.items3 | unset %crafted.armor | unset %crafted.armor2 | unset %crafted.armor3 | unset %crafted.armor4 | unset %crafted.armor5 | unset %crafted.armor6 | unset %crafted.armor7
 
-      if ($chr(046) isin %crafted.items) { set %replacechar $chr(044) $chr(032)
-        %crafted.items = $replace(%crafted.items, $chr(046), %replacechar)
+      ; Checking items
+      var %value 1 | var %crafted.items.lines $lines(alchemy_items.lst)
+
+      while (%value <= %crafted.items.lines) {
+        set %item.name $read -l $+ %value alchemy_items.lst
+        if ($numtok(%crafted.items,46) <= 20) { %crafted.items = $addtok(%crafted.items, %item.name, 46) }
+        else { 
+          if ($numtok(%crafted.items2,46) >= 20) { %crafted.items3 = $addtok(%crafted.items3, %item.name, 46) }
+          else { %crafted.items2 = $addtok(%crafted.items2, %item.name, 46) }
+        }
+        unset %item.name 
+        inc %value 1 
       }
-      if ($chr(046) isin %crafted.armor) { set %replacechar $chr(044) $chr(032)
-        %crafted.armor = $replace(%crafted.armor, $chr(046), %replacechar)
+
+      ; Checking armor
+      var %value 1 | var %crafted.armor.lines $lines(alchemy_armor.lst)
+      while (%value <= %crafted.armor.lines) {
+
+        set %item.name $read -l $+ %value alchemy_armor.lst
+
+        if ($numtok(%crafted.armor,46) <= 12) { %crafted.armor = $addtok(%crafted.armor, %item.name, 46) }
+        else { 
+          if ($numtok(%crafted.armor2,46) <= 12) { %crafted.armor2 = $addtok(%crafted.armor2, %item.name, 46) }
+          else { 
+            if ($numtok(%crafted.armor3,46) <= 12) { %crafted.armor3 = $addtok(%crafted.armor3, %item.name, 46) }
+            else { 
+              if ($numtok(%crafted.armor4,46) <= 12) { %crafted.armor4 = $addtok(%crafted.armor4, %item.name, 46) }
+              else { 
+                if ($numtok(%crafted.armor5,46) <= 12) { %crafted.armor5 = $addtok(%crafted.armor5, %item.name, 46) }
+                else { 
+                  if ($numtok(%crafted.armor6,46) <= 12) { %crafted.armor6 = $addtok(%crafted.armor6, %item.name, 46) }
+                  else { %crafted.armor7 = $addtok(%crafted.armor7, %item.name, 46) }
+                }
+              }
+            }
+          }
+        }
+        unset %item.name 
+        inc %value 1 
       }
-      if (%crafted.items != $null) { $display.private.message(3Items that can be crafted: %crafted.items) }
-      if (%crafted.armor != $null) { $display.private.message(3Armor that can be crafted: %crafted.armor) }
+
+      set %replacechar $chr(044) $chr(032)
+      %crafted.items = $replace(%crafted.items, $chr(046), %replacechar)
+      %crafted.items2 = $replace(%crafted.items2, $chr(046), %replacechar)
+      %crafted.items3 = $replace(%crafted.items3, $chr(046), %replacechar)
+      %crafted.armor = $replace(%crafted.armor, $chr(046), %replacechar)
+      %crafted.armor2 = $replace(%crafted.armor2, $chr(046), %replacechar)
+      %crafted.armor3 = $replace(%crafted.armor3, $chr(046), %replacechar)
+      %crafted.armor4 = $replace(%crafted.armor4, $chr(046), %replacechar)
+      %crafted.armor5 = $replace(%crafted.armor5, $chr(046), %replacechar)
+      %crafted.armor6 = $replace(%crafted.armor6, $chr(046), %replacechar)
+      %crafted.armor7 = $replace(%crafted.armor7, $chr(046), %replacechar)
+
+      if (%crafted.items != $null) { $display.private.message(4Items that can be crafted:12 %crafted.items) }
+      if (%crafted.items2 != $null) { $display.private.message(12 $+ %crafted.items2) }
+      if (%crafted.items3 != $null) { $display.private.message(12 $+ %crafted.items3) }
+
+      if (%crafted.armor != $null) { $display.private.message(4Armor that can be crafted:12 %crafted.armor) }
+      if (%crafted.armor2 != $null) { $display.private.message(12 $+ %crafted.armor2) }
+      if (%crafted.armor3 != $null) { $display.private.message(12 $+ %crafted.armor3) }
+      if (%crafted.armor4 != $null) { $display.private.message(12 $+ %crafted.armor4) }
+      if (%crafted.armor5 != $null) { $display.private.message(12 $+ %crafted.armor5) }
+
+      unset %crafted.items | unset %crafted.items2 | unset %crafted.items3 | unset %crafted.armor | unset %crafted.armor2 | unset %crafted.armor3 | unset %crafted.armor4 | unset %crafted.armor5 | unset %crafted.armor6 | unset %crafted.armor7
+      unset %replacechar
 
       halt
     }
@@ -197,6 +253,10 @@ alias view-info {
     if (%gem.required = $null) { $display.private.message($readini(translation.dat, errors, CannotCraftThisItem)) | halt }
 
     var %ingredients $readini(crafting.db, $3, ingredients)
+
+    echo -a ingredients: %ingredients
+
+
     var %total.ingredients $numtok(%ingredients, 46)
 
     var %value 1
@@ -221,8 +281,8 @@ alias view-info {
   }
 
   if ($2 = style) {
-    if ($readini(playerstyles.lst, Info, $3) = $null) { $display.private.message(4Invalid style) | halt }
-    $display.private.message(2 $+ $readini(playerstyles.lst, info, $3), private)
+    if ($readini(playerstyles.db, Info, $3) = $null) { $display.private.message(4Invalid style) | halt }
+    $display.private.message(2 $+ $readini(playerstyles.db, info, $3), private)
   }
 
 }

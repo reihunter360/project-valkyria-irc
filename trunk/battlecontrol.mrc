@@ -277,55 +277,20 @@ alias clear_battle {
 
   ; Kill any related battle timers..
   $clear_timers
-  /.timerChestDestroy 1 45 /destroy_treasurechest
+
+  set %chest.time $readini(system.dat, system, ChestTime)
+  if ((%chest.time = $null) || (%chest.time < 2)) { set %chest.time 45 }
+  /.timerChestDestroy 1 %chest.time /destroy_treasurechest
 
   ; Kill the battle info
   set %battleis off | set %battleisopen off 
   if ($lines(temp_status.txt) != $null) { .remove temp_status.txt }
-  writeini weather.lst weather current calm
+  writeini battlefields.db weather current calm
 
-  ; Erase any stray monsters/bosses..
+  unset %clear.flag | unset %chest.time
 
-  if (($lines(battle.txt) != 0) && ($lines(battle.txt) != $null)) {
-    var %battletxt.lines $lines(battle.txt) | var %battletxt.current.line 1 
-    while (%battletxt.current.line <= %battletxt.lines) { 
-      var %who.battle $read -l $+ %battletxt.current.line battle.txt
-      var %clear.flag $readini($char(%who.battle), info, flag)
-
-      if ((%clear.flag = monster) || (%clear.flag = npc)) { .remove $char(%who.battle) }
-      if ($file($char(%who.battle)).size = 0) { $zap_char(%who.battle)  }
-
-      inc %battletxt.current.line
-    }
-  }
-
-
-  ; Full everyone that was in battle.
-  unset %clear.flag
-
-  var %value 1
-  while ($findfile( $char_path , *.char, %value , 0) != $null) {
-    set %file $nopath($findfile($char_path ,*.char,%value)) 
-    set %name $remove(%file,.char)
-
-    if ($lines(status $+ %name $+ .txt) != $null) {   .remove status $+ %name $+ .txt }
-    if ((%name = new_chr) || (%name = $null)) { inc %value 1 } 
-    else { 
-      var %clear.flag $readini($char(%name), Info, Flag)
-
-      ; It may seem silly to check for monsters twice on this, after we just did it, but I've found that if there's too many files in the folder it
-      ; may not get them all.  This is a double check to get rid of them.
-
-      if ((%clear.flag = monster) || (%clear.flag = npc)) { .remove $char(%name) }
-      if ((%clear.flag = $null) && ($readini($char(%name), basestats, hp) = $null)) { .remove $char(%name) }
-      if ($file($char(%name)).size = 0) { $zap_char(%name) }
-
-      ; If the person is a player, let's refill their hp/mp/stats to max.
-      if ((%clear.flag = $null) && ($readini($char(%name), basestats, hp) != $null)) { writeini $char(%name) DCCchat Room Lobby |  $fulls(%name)  }
-
-      inc %value 1  
-    }
-  }
+  ; Search through the characters folder and find stray monsters/npcs.  Also full players.
+  .echo -q $findfile( $char_path , *.char, 0, 0, clear_files $1-) 
 
   ; Clear battle variables
   $clear_variables
@@ -338,8 +303,8 @@ alias clear_battle {
     var %time.between.battles $readini(system.dat, System, TimeBetweenBattles)
     if (%time.between.battles = $null) { var %time.between.battles 3 }
     set %timer.time $calc(%time.between.battles * 60)
-    $display.system.message($readini(translation.dat, Battle, StartBattle), global)
     /.timerBattleStart 1 %timer.time /startnormal
+    $display.system.message($readini(translation.dat, Battle, StartBattle), global)
   }
 
   ; Check for the conquest tally
@@ -355,6 +320,24 @@ alias clear_timers {
   /.timerBattleRage off
   /.timerHolyAura off
   /.timerOrbTimer off
+}
+
+alias clear_files {
+  set %name $remove($1-,.char)
+  set %name $nopath(%name)
+
+  if ($lines(status $+ %name $+ .txt) != $null) {   .remove status $+ %name $+ .txt }
+  if ((%name = new_chr) || (%name = $null)) { return } 
+  else { 
+    var %clear.flag $readini($char(%name), Info, Flag)
+
+    if ((%clear.flag = $null) && ($readini($char(%name), basestats, hp) = $null)) { .remove $char(%name) }
+    if ((%clear.flag = monster) || (%clear.flag = npc)) { .remove $char(%name) }
+    if ($file($char(%name)).size = 0) { $zap_char(%name) }
+
+    ; If the person is a player, let's refill their hp/mp/stats to max.
+    if ((%clear.flag = $null) && ($readini($char(%name), basestats, hp) != $null)) { writeini $char(%name) DCCchat Room Lobby |  $fulls(%name)  }
+  }
 }
 
 ; ==========================
@@ -1329,13 +1312,13 @@ alias battlelist {
   if ($1 = $null) {
     if (%battle.list = $null) { $display.system.message($readini(translation.dat, battle, NoOneJoinedBattleYet), private) | unset %battle.list | unset %who.battle | $endbattle(none) | halt }
     $display.system.message($readini(translation.dat, battle, BatListTitleMessage), private)
-    $display.system.message(4[Turn #:12 %current.turn $+ 4][Weather:12 $readini(weather.lst, weather, current) $+ 4] [Battlefield:12 %current.battlefield $+ 4], private)
+    $display.system.message(4[Turn #:12 %current.turn $+ 4][Weather:12 $readini(battlefields.db, weather, current) $+ 4] [Battlefield:12 %current.battlefield $+ 4], private)
     $display.system.message(4[Battle Order: %battle.list $+ 4], private) | unset %battle.list | unset %who.battle
   }
   if ($1 = public) { 
     if (%battle.list = $null) { $display.system.message($readini(translation.dat, battle, NoOneJoinedBattleYet), battle) | unset %battle.list | unset %who.battle | $endbattle(none) | halt }
     $display.system.message($readini(translation.dat, battle, BatListTitleMessage), battle)
-    $display.system.message(4[Turn #:12 %current.turn $+ 4][Weather:12 $readini(weather.lst, weather, current) $+ 4] [Battlefield:12 %current.battlefield $+ 4], battle)
+    $display.system.message(4[Turn #:12 %current.turn $+ 4][Weather:12 $readini(battlefields.db, weather, current) $+ 4] [Battlefield:12 %current.battlefield $+ 4], battle)
     $display.system.message(4[Battle Order: %battle.list $+ 4], battle) | unset %battle.list | unset %who.battle
   }
 }

@@ -1,0 +1,162 @@
+[BaseStats]
+Hp=300000
+Tp=20000
+Str=450
+Def=200
+Int=700
+Spd=600
+Name=Water Tentacle
+
+
+[Battle]
+Hp=300000
+Tp=20000
+Str=450
+Def=200
+Int=700
+Spd=600
+Status=alive
+
+
+[Rage]
+RageBar=0
+RageCountDown=0
+
+
+[Descriptions]
+Char=is a large body of water that is in the form of a giant tentacle.
+Rage=screams in rage 
+
+[Stuff]
+RedOrbs=0
+BlackOrbs=1
+ShopLevel=1.0
+
+[Info]
+Flag=monster
+Gender=his
+Gender2=him
+password=battlearena
+passhurt=0
+LastSeen=N/a
+LastIP=N/a
+Created=N/a
+;=======================================
+; These are optional flags you can set:
+;========================================
+; STAGGER:  do you want the monster to be able to be staggered after being hurt for a certain # of damage? 
+; CanStagger=yes/no  
+; StaggerAmount=$rand(#,#)   
+; 
+; IGNORE RAGEMODE
+; RageMode=ignore   
+;
+ragemore=ignore
+; AI TYPE: berserkers will attack their own allies, defenders won't get a turn. Leave blank for normal.
+; ai_type=
+;
+; STREAK MIN/MAX: Streak= for the minimum streak it takes for the monster to show up. StreakMax= for max.
+; Streak=
+; StreakMax=
+;
+streak=9999999
+; FLEEING: Do you want monsters to be able to flee the battle?
+; CanFlee=true/false
+;
+; SPAWNING ANOTHER MONSTER UPON DEATH: If set, when this monster is killed, it'll summon another one that's set.
+; SpawnAfterDeath=nameofmonster
+;
+; BIOME is for if you want the monster to only appear under certain battlefields. You can list multiple with periods inbetween.
+; Biome=
+battlestats=ignorehp
+
+[Monster]
+Type=
+
+[Status]
+Poison=no
+HeavyPoison=no
+Regenerating=no
+Blind=no
+Frozen=no
+Shock=no
+Burning=no
+Drowning=no
+Earth-quake=no
+Heavy-Poison=no
+silence=no
+intimidated=no
+weight=no
+poison-heavy=no
+virus=no
+virus.timer=1
+charmed=no
+charmer=noonethatIknowlol
+charm.timer=1
+amnesia=no
+paralysis=no
+amnesia.timer=1
+paralysis.timer=1
+tornado=no
+drunk=no
+drunk.timer=1
+zombie=no
+slow=no
+sleep=no
+stun=no
+MPRegenerating=no
+
+[Weapons]
+Equipped=Chaos_Water_Tentacle
+Chaos_Water_Tentacle=35000
+; It is possible to make monsters weak or strong against certain weapon types:
+; Weapon types are: HandToHand.Whip.Sword.Gun.Rifle.Katana.Wand.Spear.Scythe.Glyph.GreatSword
+; Weakness=list.weapon.types  
+; Strong=list.weapon.types  
+
+
+[Skills]
+bloodboost=200
+zen=10
+Mightystrike=5
+
+resist-curse=100
+resist-stun=90
+resist-poison=80
+
+[Techniques]
+TechName=1
+
+
+[Item_Amount]
+
+
+
+[modifiers]
+; Resistances/weaknesses/immunities/heals can be set here.  100 = normal damage, greater than 100 means weakness, 
+; less than 100 means resistances, 0 means immune to it.
+Heal=Water
+Earth=50
+Fire=25
+Wind=300
+Water=150
+Ice=25
+Lightning=250
+Light=200
+Dark=50
+
+HandToHand=50
+Whip=250
+Sword=100
+Gun=125
+Rifle=125
+Katana=100
+Wand=50
+Spear=50
+Scythe=170
+Glyph=50
+GreatSword=115
+Bow=100
+
+[Auguments]
+Chaos_Water_Tentacle=EnhanceBloodboost

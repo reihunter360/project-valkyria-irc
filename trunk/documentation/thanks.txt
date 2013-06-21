@@ -25,3 +25,6 @@ Since he was translating the bot into German, it sparked the idea of the transla
 
 Roy of Esper.net
 He helped test a few things, found a few bugs and suggested the scoreboard.
+
+Wims of mIRC's official forum
+Helped push me into the correct direction for improving many blocks of code to make them faster and more efficient.

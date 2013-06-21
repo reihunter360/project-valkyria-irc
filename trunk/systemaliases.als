@@ -1,4 +1,4 @@
-battle.version { return 2.1beta_060613 } 
+battle.version { return 2.1beta_062013 } 
 quitmsg { return Battle Arena version $battle.version written by James  "Iyouboushi" }
 checkscript {
   var %command $1-
@@ -273,7 +273,7 @@ amnesia.check {
 id_login { set %idwho $1 | unset %newbie | unset %password | unset %userlevel | unset %character.description | .dns %idwho | $clr_passhurt($1) | writeini $char($1) Info LastSeen $fulldate | .close -m* |  unset %guess  | unset %gender | halt }
 okdesc { 
   if ($readini(system.dat, system, botType) = IRC) { .msg $1 $readini(translation.dat, system,OKDesc) }
-  if ($readini(system.dat, system, botType) = DCCchat { $dcc.private.message($1, $readini(translation.dat, system,OKDesc))  }
+  if ($readini(system.dat, system, botType) = DCCchat) { $dcc.private.message($1, $readini(translation.dat, system,OKDesc))  }
   return 
 }
 set_chr_name {
@@ -488,7 +488,7 @@ styles.list {
 }
 styles.get.list { 
   unset %styles.list | unset %styles | unset %number.of.styles
-  set %styles $readini(playerstyles.lst, styles, list)
+  set %styles $readini(playerstyles.db, styles, list)
   var %number.of.styles $numtok(%styles, 46)
 
   var %value 1
@@ -523,26 +523,26 @@ ignition.list {
 }
 ignitions.get.list { 
   unset %ignitions.list | unset %ignitions | unset %number.of.ignitions
-  var %ignitions $readini(ignitions.db, ignitions, list)
-  var %number.of.ignitions $numtok(%ignitions, 46)
-  var %value 1
-  while (%value <= %number.of.ignitions) {
-    set %ignition.name $gettok(%ignitions, %value, 46)
-    set %ignition_level $readini($char($1), ignitions, %ignition.name)
-    if ((%ignition_level != $null) && (%ignition_level >= 1)) { 
-      ; add the ignition to the list
-      var %ignition_to_add %ignition.name
-      %ignitions.list = $addtok(%ignitions.list,%ignition_to_add,46)
-    }
+
+  var %value 1 | var %items.lines $lines(ignitions.lst)
+
+  while (%value <= %items.lines) {
+    set %item.name $read -l $+ %value ignitions.lst
+    set %item_amount $readini($char($1), ignitions, %item.name)
+
+    if (%item_amount = 0) { remini $char($1) ignitions %item.name }
+    if ((%item_amount != $null) && (%item_amount >= 1)) { %ignitions.list = $addtok(%ignitions.list, %item.name, 46) }
+
+    unset %item.name | unset %item_amount
     inc %value 1 
+
   }
 
   ; CLEAN UP THE LIST
-  if ($chr(046) isin %ignitions.list) { set %replacechar $chr(044) $chr(032)
-    %ignitions.list = $replace(%ignitions.list, $chr(046), %replacechar)
-  }
+  set %replacechar $chr(044) $chr(032)
+  %ignitions.list = $replace(%ignitions.list, $chr(046), %replacechar)
 
-  unset %value | unset %ignition.name | unset %ignition_level
+  unset %value | unset %replacechar
   return %ignitions.list
 }
 
@@ -552,7 +552,7 @@ tech.list {
   return
 }
 techs.get.list { 
-  unset %tech.list | unset %techs | unset %number.of.techs
+  unset %tech.list | unset %techs | unset %number.of.techs | unset %ignition.tech.list
   var %techs $readini(techniques.db, techs, $2)
   var %number.of.techs $numtok(%techs, 46)
   var %value 1
@@ -567,12 +567,27 @@ techs.get.list {
     inc %value 1 
   }
 
-  ; CLEAN UP THE LIST
-  if ($chr(046) isin %tech.list) { set %replacechar $chr(044) $chr(032)
-    %tech.list = $replace(%tech.list, $chr(046), %replacechar)
+  ; Check for ignition techs
+  if ($readini($char($1), status, ignition.on) = on) {
+    set %ignition.name $readini($char($1), status, ignition.name)
+    set %techs $readini(ignitions.db, %ignition.name, techs)
+    var %number.of.techs $numtok(%techs, 46)
+    var %value 1
+    if (%techs != $null) {
+      while (%value <= %number.of.techs) {
+        set %tech.name $gettok(%techs, %value, 46)
+        var %tech_to_add 7 $+ %tech.name 
+        %ignition.tech.list = $addtok(%ignition.tech.list,%tech_to_add,46)
+        inc %value 1
+      }
+    }
   }
 
-  unset %value | unset %tech.name | unset %tech_level
+  ; CLEAN UP THE LIST
+  set %replacechar $chr(044) $chr(032)
+  %tech.list = $replace(%tech.list, $chr(046), %replacechar)
+
+  unset %value | unset %tech.name | unset %tech_level | unset %ignition.name | unset %techs
   return %tech.list
 }
 
@@ -747,219 +762,175 @@ keys.list {
 }
 items.list {
   ; CHECKING HEALING ITEMS
-  unset %items.list | unset %gems.items.list | unset %summons.items.list | unset %keys.items.list | unset %misc.items.list | unset %reset.items.list | unset %statplus.items.list
-  unset %portals.items.list
-  var %healing.items $readini(items.db, items, HealingItems)
-  var %number.of.items $numtok(%healing.items, 46)
+  unset %items.list | unset %items.list2 | unset %summons.items.list | unset %summons.items.list2 | unset %gems.items.list | unset %keys.items.list
+  unset %misc.items.list | unset %misc.items.list2 | unset %reset.items.list | unset %statplus.items.list | unset %portals.items.list | unset %portals.items.list2
 
-  var %value 1
-  while (%value <= %number.of.items) {
-    set %item.name $gettok(%healing.items, %value, 46)
+  var %value 1 | var %items.lines $lines(items_healing.lst)
+
+  while (%value <= %items.lines) {
+    set %item.name $read -l $+ %value items_healing.lst
     set %item_amount $readini($char($1), item_amount, %item.name)
 
     if (%item_amount = 0) { remini $char($1) item_amount %item.name }
 
     if ((%item_amount != $null) && (%item_amount >= 1)) { 
-      ; add the item and the amount to the item list
-      var %item_to_add 3 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041) 
-      %items.list = $addtok(%items.list,%item_to_add,46)
+      if ($numtok(%items.list,46) <= 20) { %items.list = $addtok(%items.list, 3 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041), 46) }
+      else { %items.list2 = $addtok(%items.list2, 3 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041), 46) }
     }
+    unset %item.name | unset %item_amount
     inc %value 1 
   }
 
-  ; CHECKING CRAFTED ITEMS
-  var %crafted.items $readini(items.db, items, CraftedItems)
-  var %number.of.items $numtok(%crafted.items, 46)
+  ; CHECKING BATTLE ITEMS
+  var %value 1 | var %items.lines $lines(items_battle.lst)
 
-  var %value 1
-  while (%value <= %number.of.items) {
-    set %item.name $gettok(%crafted.items, %value, 46)
+  while (%value <= %items.lines) {
+    set %item.name $read -l $+ %value items_battle.lst
     set %item_amount $readini($char($1), item_amount, %item.name)
-
     if (%item_amount = 0) { remini $char($1) item_amount %item.name }
 
     if ((%item_amount != $null) && (%item_amount >= 1)) { 
-      ; add the item and the amount to the item list
-      set %item.type $readini(items.db, %item.name, type)
-      if (%item.type = damage) {  var %item_to_add 4 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041)  }
-      if (%item.type = status) {  var %item_to_add 4 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041)  }
-      if ((%item.type = heal) || (%item.type = tp)) {  var %item_to_add 3 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041) }
-      if ((((%item.type != accessory) && (%item.type != consume) && (%item.type != misc) && (%item.type != summon)))) {  %items.list = $addtok(%items.list,%item_to_add,46) }
+      if ($numtok(%items.list,46) <= 20) { %items.list = $addtok(%items.list, 4 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041), 46) }
+      else { %items.list2 = $addtok(%items.list2, 4 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041), 46) }
     }
-    unset %item.type
+    unset %item.name | unset %item_amount
     inc %value 1 
   }
 
-  ; CHECKING BATTLE & RANDOM ITEMS
-  unset %item.name | unset %item_amount | unset %number.of.items | unset %value
-  var %battle.items $readini(items.db, items, BattleItems) $+ . $+ $readini(items.db, items, Random)
-  var %number.of.items $numtok(%battle.items, 46)
+  ; CHECKING RANDOMITEMS
+  var %value 1 | var %items.lines $lines(items_random.lst)
 
-  var %value 1
-  while (%value <= %number.of.items) {
-    set %item.name $gettok(%battle.items, %value, 46)
+  while (%value <= %items.lines) {
+    set %item.name $read -l $+ %value items_random.lst
     set %item_amount $readini($char($1), item_amount, %item.name)
-
     if (%item_amount = 0) { remini $char($1) item_amount %item.name }
 
     if ((%item_amount != $null) && (%item_amount >= 1)) { 
-      ; add the item and the amount to the item list
-      var %item_to_add 4 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041) 
-      %items.list = $addtok(%items.list,%item_to_add,46)
+      if ($numtok(%items.list,46) <= 20) { %items.list = $addtok(%items.list, 4 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041), 46) }
+      else { %items.list2 = $addtok(%items.list2, 4 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041), 46) }
     }
+    unset %item.name | unset %item_amount
     inc %value 1 
   }
 
   ; CHECKING CONSUMABLE ITEMS
-  unset %item.name | unset %item_amount | unset %number.of.items | unset %value
-  var %consume.items $readini(items.db, items, ConsumeItems)
-  var %number.of.items $numtok(%consume.items, 46)
+  var %value 1 | var %items.lines $lines(items_consumable.lst)
 
-  var %value 1
-  while (%value <= %number.of.items) {
-    set %item.name $gettok(%consume.items, %value, 46)
+  while (%value <= %items.lines) {
+    set %item.name $read -l $+ %value items_consumable.lst
     set %item_amount $readini($char($1), item_amount, %item.name)
-
     if (%item_amount = 0) { remini $char($1) item_amount %item.name }
 
     if ((%item_amount != $null) && (%item_amount >= 1)) { 
-      ; add the item and the amount to the item list
-      var %item_to_add 15 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041) 
-      %items.list = $addtok(%items.list,%item_to_add,46)
+      if ($numtok(%items.list,46) <= 20) { %items.list = $addtok(%items.list, 15 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041), 46) }
+      else { %items.list2 = $addtok(%items.list2, 15 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041), 46) }
     }
+    unset %item.name | unset %item_amount
     inc %value 1 
   }
 
   ; CHECKING SHOP RESET ITEMS
-  unset %item.name | unset %item_amount | unset %number.of.items | unset %value | unset %reset.items.list
-  var %reset.items $readini(items.db, items, ShopReset)
-  var %number.of.items $numtok(%reset.items, 46)
+  var %value 1 | var %items.lines $lines(items_reset.lst)
 
-  var %value 1
-  while (%value <= %number.of.items) {
-    set %item.name $gettok(%reset.items, %value, 46)
+  while (%value <= %items.lines) {
+    set %item.name $read -l $+ %value items_reset.lst
     set %item_amount $readini($char($1), item_amount, %item.name)
-
     if (%item_amount = 0) { remini $char($1) item_amount %item.name }
 
     if ((%item_amount != $null) && (%item_amount >= 1)) { 
-      ; add the item and the amount to the item list
-      var %item_to_add 2  $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041) 
-      %reset.items.list = $addtok(%reset.items.list,%item_to_add,46)
-    }
+    %reset.items.list = $addtok(%reset.items.list, 2 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041), 46) }
+
+    unset %item.name | unset %item_amount
     inc %value 1 
   }
-
 
   ; CHECKING MISC ITEMS
-  unset %item.name | unset %item_amount | unset %number.of.items | unset %value
-  var %misc.items $readini(items.db, items, Misc)
-  var %number.of.items $numtok(%misc.items, 46)
+  var %value 1 | var %items.lines $lines(items_misc.lst)
 
-  var %value 1 | var %misc.item.count 0
-  while (%value <= %number.of.items) {
-    set %item.name $gettok(%misc.items, %value, 46)
+  while (%value <= %items.lines) {
+    set %item.name $read -l $+ %value items_misc.lst
     set %item_amount $readini($char($1), item_amount, %item.name)
-
     if (%item_amount = 0) { remini $char($1) item_amount %item.name }
 
     if ((%item_amount != $null) && (%item_amount >= 1)) { 
-      ; add the item and the amount to the item list
-      var %item_to_add 1 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041) 
-
-      if (%misc.item.count <= 20) {  %misc.items.list = $addtok(%misc.items.list,%item_to_add,46) }
-      if (%misc.item.count > 20) {  %misc.items.list2 = $addtok(%misc.items.list2,%item_to_add,46) }
-
-      inc %misc.item.count 1
-
+      if ($numtok(%misc.items.list,46) <= 20) { %misc.items.list = $addtok(%misc.items.list, 1 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041), 46) }
+      else { %misc.items.list2 = $addtok(%misc.items.list2, 1 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041), 46) }
     }
+    unset %item.name | unset %item_amount
     inc %value 1 
   }
 
-  ; CHECKING +STAT ITEMS
-  unset %item.name | unset %item_amount | unset %number.of.items | unset %value
-  var %food.items $readini(items.db, items, FoodItems) 
-  var %number.of.items $numtok(%food.items, 46)
+  ; CHECKING +STAT
+  var %value 1 | var %items.lines $lines(items_food.lst)
 
-  var %value 1
-  while (%value <= %number.of.items) {
-    set %item.name $gettok(%food.items, %value, 46)
+  while (%value <= %items.lines) {
+    set %item.name $read -l $+ %value items_food.lst
     set %item_amount $readini($char($1), item_amount, %item.name)
-
     if (%item_amount = 0) { remini $char($1) item_amount %item.name }
 
     if ((%item_amount != $null) && (%item_amount >= 1)) { 
-      ; add the item and the amount to the item list
-      var %item_to_add 12 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041) 
-      %statplus.items.list = $addtok(%statplus.items.list,%item_to_add,46)
-    }
+    %statplus.items.list = $addtok(%statplus.items.list, 12 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041), 46) }
+
+    unset %item.name | unset %item_amount
     inc %value 1 
   }
 
   ; CHECKING SUMMON ITEMS
-  unset %item.name | unset %item_amount | unset %number.of.items | unset %value
-  var %summon.items $readini(items.db, items, SummonItems)
-  var %number.of.items $numtok(%summon.items, 46)
+  var %value 1 | var %items.lines $lines(items_summons.lst)
 
-  var %value 1
-  while (%value <= %number.of.items) {
-    set %item.name $gettok(%summon.items, %value, 46)
+  while (%value <= %items.lines) {
+    set %item.name $read -l $+ %value items_summons.lst
     set %item_amount $readini($char($1), item_amount, %item.name)
-
     if (%item_amount = 0) { remini $char($1) item_amount %item.name }
 
     if ((%item_amount != $null) && (%item_amount >= 1)) { 
-      ; add the item and the amount to the item list
-      var %item_to_add 10 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041) 
-      %summons.items.list = $addtok(%summons.items.list,%item_to_add,46)
+      if ($numtok(%summons.items.list,46) <= 20) { %summons.items.list = $addtok(%summons.items.list, 10 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041), 46) }
+      else { %summons.items.list2 = $addtok(%summons.items.list2, 10 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041), 46) }
     }
+    unset %item.name | unset %item_amount
     inc %value 1 
   }
 
-  ; CHECKING GEMS ITEMS
-  unset %item.name | unset %item_amount | unset %number.of.items | unset %value
-  var %gems.items $readini(items.db, items, Gems)
-  var %number.of.items $numtok(%summon.items, 46)
 
-  var %value 1
-  while (%value <= %number.of.items) {
-    set %item.name $gettok(%gems.items, %value, 46)
+  ; CHECKING GEMS
+  var %value 1 | var %items.lines $lines(items_gems.lst)
+
+  while (%value <= %items.lines) {
+    set %item.name $read -l $+ %value items_gems.lst
     set %item_amount $readini($char($1), item_amount, %item.name)
-
     if (%item_amount = 0) { remini $char($1) item_amount %item.name }
 
     if ((%item_amount != $null) && (%item_amount >= 1)) { 
-      ; add the item and the amount to the item list
-      var %item_to_add 7 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041) 
-      %gems.items.list = $addtok(%gems.items.list,%item_to_add,46)
-    }
+    %gems.items.list = $addtok(%gems.items.list, 7 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041), 46) }
+
+    unset %item.name | unset %item_amount
     inc %value 1 
   }
+
 
   ; CHECKING PORTAL ITEMS
-  unset %item.name | unset %item_amount | unset %number.of.items | unset %value
-  var %portal.items $readini(items.db, items, PortalItems)
-  var %number.of.items $numtok(%portal.items, 46)
+  var %value 1 | var %items.lines $lines(items_portal.lst)
 
-  var %value 1
-  while (%value <= %number.of.items) {
-    set %item.name $gettok(%portal.items, %value, 46)
+  while (%value <= %items.lines) {
+    set %item.name $read -l $+ %value items_portal.lst
     set %item_amount $readini($char($1), item_amount, %item.name)
-
     if (%item_amount = 0) { remini $char($1) item_amount %item.name }
 
     if ((%item_amount != $null) && (%item_amount >= 1)) { 
-      ; add the item and the amount to the item list
-      var %item_to_add 14 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041) 
-      %portals.items.list = $addtok(%portals.items.list,%item_to_add,46)
+      if ($numtok(%portals.items.list,46) <= 20) { %portals.items.list = $addtok(%portals.items.list, 14 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041), 46) }
+      else { %portals.items.list2 = $addtok(%portals.items.list2, 14 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041), 46) }
     }
+    unset %item.name | unset %item_amount
     inc %value 1 
   }
+
 
   ; CLEAN UP THE LISTS
   set %replacechar $chr(044) $chr(032)
   %items.list = $replace(%items.list, $chr(046), %replacechar)
+  %items.list2 = $replace(%items.list2, $chr(046), %replacechar)
   %summons.items.list = $replace(%summons.items.list, $chr(046), %replacechar)
+  %summons.items.list2 = $replace(%summons.items.list2, $chr(046), %replacechar)
   %gems.items.list = $replace(%gems.items.list, $chr(046), %replacechar)
   %keys.items.list = $replace(%keys.items.list, $chr(046), %replacechar)
   %misc.items.list = $replace(%misc.items.list, $chr(046), %replacechar)
@@ -967,6 +938,7 @@ items.list {
   %reset.items.list = $replace(%reset.items.list, $chr(046), %replacechar)
   %statplus.items.list = $replace(%statplus.items.list, $chr(046), %replacechar)
   %portals.items.list = $replace(%portals.items.list, $chr(046), %replacechar)
+  %portals.items.list2 = $replace(%portals.items.list2, $chr(046), %replacechar)
 
   unset %item.name | unset %item_amount | unset %number.of.items | unset %value | unset %food.items | unset %consume.items
   unset %replacechar
@@ -974,114 +946,121 @@ items.list {
 }
 
 armor.list {
-  unset %armor.head | unset %armor.body | unset %armor.legs | unset %armor.feet | unset %armor.hands
+  unset %armor.head | unset %armor.body | unset %armor.legs | unset %armor.feet | unset %armor.hands | unset %armor.head2 | unset %armor.body2 | unset %armor.legs2 | unset %armor.feet2 | unset %armor.hands2
+  unset %armor.head3 | unset %armor.body3 | unset %armor.legs3 | unset %armor.feet3 | unset %armor.hands3
 
   ; CHECKING HEAD ARMOR
-  var %equipment $readini(items.db, items, HeadEquipment)
-  var %number.of.items $numtok(%equipment, 46)
+  var %value 1 | var %armor.head.lines $lines(armor_head.lst)
 
-  var %value 1
-  while (%value <= %number.of.items) {
-    set %item.name $gettok(%equipment, %value, 46)
-    set %item_amount $readini($char($1), item_amount, %item.name)
+  while (%value <= %armor.head.lines) {
 
-    if ((%item_amount != $null) && (%item_amount >= 1)) { 
-      ; add the item and the amount to the item list
-      var %item_to_add 3 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041) 
-      %armor.head = $addtok(%armor.head,%item_to_add,46)
+    set %armor.name $read -l $+ %value armor_head.lst
+    set %item_amount $readini($char($1), item_amount, %armor.name)
+
+    if ((%item_amount != $null) && (%item_amount >= 1)) {   
+      if ($numtok(%armor.head,46) <= 12) { %armor.head = $addtok(%armor.head, %armor.name, 46) }
+      else { 
+        if ($numtok(%armor.head2,46) >= 12) { %armor.head3 = $addtok(%armor.head3, %armor.name, 46) }
+        else { %armor.head2 = $addtok(%armor.head2, %armor.name, 46) }
+      }
     }
+    unset %armor.name | unset %item.amount
     inc %value 1 
   }
 
   ; CHECKING BODY ARMOR
-  var %equipment $readini(items.db, items, BodyEquipment)
-  var %number.of.items $numtok(%equipment, 46)
+  var %value 1 | var %armor.body.lines $lines(armor_body.lst)
 
-  var %value 1
-  while (%value <= %number.of.items) {
-    set %item.name $gettok(%equipment, %value, 46)
-    set %item_amount $readini($char($1), item_amount, %item.name)
+  while (%value <= %armor.body.lines) {
 
-    if ((%item_amount != $null) && (%item_amount >= 1)) { 
-      ; add the item and the amount to the item list
-      var %item_to_add 3 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041) 
-      %armor.body = $addtok(%armor.body,%item_to_add,46)
+    set %armor.name $read -l $+ %value armor_body.lst
+    set %item_amount $readini($char($1), item_amount, %armor.name)
+
+    if ((%item_amount != $null) && (%item_amount >= 1)) {   
+      if ($numtok(%armor.body,46) <= 12) { %armor.body = $addtok(%armor.body, %armor.name, 46) }
+      else { 
+        if ($numtok(%armor.body2,46) >= 12) { %armor.body3 = $addtok(%armor.body3, %armor.name, 46) }
+        else { %armor.body2 = $addtok(%armor.body2, %armor.name, 46) }
+      }
     }
+    unset %armor.name | unset %item.amount
     inc %value 1 
   }
 
   ; CHECKING LEG ARMOR
-  var %equipment $readini(items.db, items, LegsEquipment)
-  var %number.of.items $numtok(%equipment, 46)
+  var %value 1 | var %armor.legs.lines $lines(armor_legs.lst)
 
-  var %value 1
-  while (%value <= %number.of.items) {
-    set %item.name $gettok(%equipment, %value, 46)
-    set %item_amount $readini($char($1), item_amount, %item.name)
+  while (%value <= %armor.legs.lines) {
 
-    if ((%item_amount != $null) && (%item_amount >= 1)) { 
-      ; add the item and the amount to the item list
-      var %item_to_add 3 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041) 
-      %armor.legs = $addtok(%armor.legs,%item_to_add,46)
+    set %armor.name $read -l $+ %value armor_legs.lst
+    set %item_amount $readini($char($1), item_amount, %armor.name)
+
+    if ((%item_amount != $null) && (%item_amount >= 1)) {   
+      if ($numtok(%armor.legs,46) <= 12) { %armor.legs = $addtok(%armor.legs, %armor.name, 46) }
+      else { 
+        if ($numtok(%armor.legs2,46) >= 12) { %armor.legs3 = $addtok(%armor.legs3, %armor.name, 46) }
+        else { %armor.legs2 = $addtok(%armor.legs2, %armor.name, 46) }
+      }
     }
+    unset %armor.name | unset %item.amount
     inc %value 1 
   }
 
   ; CHECKING FEET ARMOR
-  var %equipment $readini(items.db, items, FeetEquipment)
-  var %number.of.items $numtok(%equipment, 46)
+  var %value 1 | var %armor.feet.lines $lines(armor_feet.lst)
 
-  var %value 1
-  while (%value <= %number.of.items) {
-    set %item.name $gettok(%equipment, %value, 46)
-    set %item_amount $readini($char($1), item_amount, %item.name)
+  while (%value <= %armor.feet.lines) {
 
-    if ((%item_amount != $null) && (%item_amount >= 1)) { 
-      ; add the item and the amount to the item list
-      var %item_to_add 3 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041) 
-      %armor.feet = $addtok(%armor.feet,%item_to_add,46)
+    set %armor.name $read -l $+ %value armor_feet.lst
+    set %item_amount $readini($char($1), item_amount, %armor.name)
+
+    if ((%item_amount != $null) && (%item_amount >= 1)) {   
+      if ($numtok(%armor.feet,46) <= 12) { %armor.feet = $addtok(%armor.feet, %armor.name, 46) }
+      else { 
+        if ($numtok(%armor.feet2,46) >= 12) { %armor.feet3 = $addtok(%armor.feet3, %armor.name, 46) }
+        else { %armor.feet2 = $addtok(%armor.feet2, %armor.name, 46) }
+      }
     }
+    unset %armor.name | unset %item.amount
     inc %value 1 
   }
 
   ; CHECKING HAND ARMOR
-  var %equipment $readini(items.db, items, HandsEquipment)
-  var %number.of.items $numtok(%equipment, 46)
+  var %value 1 | var %armor.hands.lines $lines(armor_hands.lst)
 
-  var %value 1
-  while (%value <= %number.of.items) {
-    set %item.name $gettok(%equipment, %value, 46)
-    set %item_amount $readini($char($1), item_amount, %item.name)
+  while (%value <= %armor.hands.lines) {
 
-    if ((%item_amount != $null) && (%item_amount >= 1)) { 
-      ; add the item and the amount to the item list
-      var %item_to_add 3 $+ %item.name $+ $chr(040) $+ %item_amount $+ $chr(041) 
-      %armor.hands = $addtok(%armor.hands,%item_to_add,46)
+    set %armor.name $read -l $+ %value armor_hands.lst
+    set %item_amount $readini($char($1), item_amount, %armor.name)
+
+    if ((%item_amount != $null) && (%item_amount >= 1)) {   
+      if ($numtok(%armor.hands,46) <= 12) { %armor.hands = $addtok(%armor.hands, %armor.name, 46) }
+      else { 
+        if ($numtok(%armor.hands2,46) >= 12) { %armor.hands3 = $addtok(%armor.hands3, %armor.name, 46) }
+        else { %armor.hands2 = $addtok(%armor.hands2, %armor.name, 46) }
+      }
     }
+    unset %armor.name | unset %item.amount
     inc %value 1 
   }
 
-
   ; CLEAN UP THE LISTS
-  if ($chr(046) isin %armor.head) { set %replacechar $chr(044) $chr(032)
-    %armor.head = $replace(%armor.head, $chr(046), %replacechar)
-  }
-
-  if ($chr(046) isin %armor.body) { set %replacechar $chr(044) $chr(032)
-    %armor.body = $replace(%armor.body, $chr(046), %replacechar)
-  }
-
-  if ($chr(046) isin %armor.legs) { set %replacechar $chr(044) $chr(032)
-    %armor.legs = $replace(%armor.legs, $chr(046), %replacechar)
-  }
-
-  if ($chr(046) isin %armor.feet) { set %replacechar $chr(044) $chr(032)
-    %armor.feet = $replace(%armor.feet, $chr(046), %replacechar)
-  }
-
-  if ($chr(046) isin %armor.hands) { set %replacechar $chr(044) $chr(032)
-    %armor.hands = $replace(%armor.hands, $chr(046), %replacechar)
-  }
+  set %replacechar $chr(044) $chr(032)
+  %armor.head = $replace(%armor.head, $chr(046), %replacechar)
+  %armor.head2 = $replace(%armor.head2, $chr(046), %replacechar)
+  %armor.head3 = $replace(%armor.head3, $chr(046), %replacechar)
+  %armor.body = $replace(%armor.body, $chr(046), %replacechar)
+  %armor.body2 = $replace(%armor.body2, $chr(046), %replacechar)
+  %armor.body3 = $replace(%armor.body3, $chr(046), %replacechar)
+  %armor.legs = $replace(%armor.legs, $chr(046), %replacechar)
+  %armor.legs2 = $replace(%armor.legs2, $chr(046), %replacechar)
+  %armor.legs3 = $replace(%armor.legs3, $chr(046), %replacechar)
+  %armor.feet = $replace(%armor.feet, $chr(046), %replacechar)
+  %armor.feet2 = $replace(%armor.feet2, $chr(046), %replacechar)
+  %armor.feet3 = $replace(%armor.feet3, $chr(046), %replacechar)
+  %armor.hands = $replace(%armor.hands, $chr(046), %replacechar)
+  %armor.hands2 = $replace(%armor.hands2, $chr(046), %replacechar)
+  %armor.hands3 = $replace(%armor.hands3, $chr(046), %replacechar)
 
   unset %item.name | unset %item_amount | unset %number.of.items | unset %value | unset %food.items | unset %consume.items
   return
@@ -1089,27 +1068,27 @@ armor.list {
 
 accessories.list {
   ; CHECKING ACCESSORIE
-  unset %accessories.list
-  var %accessory.items $readini(items.db, items, Accessories)
-  var %number.of.items $numtok(%accessory.items, 46)
+  unset %accessories.list | unset %accessories.list2
 
-  var %value 1
-  while (%value <= %number.of.items) {
-    set %item.name $gettok(%accessory.items, %value, 46)
+  var %value 1 | var %items.lines $lines(items_accessories.lst)
+
+  while (%value <= %items.lines) {
+    set %item.name $read -l $+ %value items_accessories.lst
     set %item_amount $readini($char($1), item_amount, %item.name)
+    if (%item_amount = 0) { remini $char($1) item_amount %item.name }
 
     if ((%item_amount != $null) && (%item_amount >= 1)) { 
-      ; add the item and the amount to the item list
-      var %item_to_add %item.name $+ $chr(040) $+ %item_amount $+ $chr(041) 
-      %accessories.list = $addtok(%accessories.list,%item_to_add,46)
+      if ($numtok(%accessories.list,46) <= 20) { %accessories.list = $addtok(%accessories.list, %item.name $+ $chr(040) $+ %item_amount $+ $chr(041), 46) }
+      else { %accessories.list2 = $addtok(%accessories.list2, %item.name $+ $chr(040) $+ %item_amount $+ $chr(041), 46) }
     }
+    unset %item.name | unset %item_amount
     inc %value 1 
   }
 
   ; CLEAN UP THE LIST
-  if ($chr(046) isin %accessories.list) { set %replacechar $chr(044) $chr(032)
-    %accessories.list = $replace(%accessories.list, $chr(046), %replacechar)
-  }
+  set %replacechar $chr(044) $chr(032)
+  %accessories.list = $replace(%accessories.list, $chr(046), %replacechar)
+  %accessories.list2 = $replace(%accessories.list2, $chr(046), %replacechar)
 
   unset %item.name | unset %item_amount | unset %number.of.items | unset %value
   return
@@ -1312,55 +1291,16 @@ get_maximum_streak {
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 get_mon_list {
   unset %monster.list
-  var %value 1 | var %current.winning.streak.value $readini(battlestats.dat, battle, WinningStreak) 
-  var %difficulty $readini(battle2.txt, BattleInfo, Difficulty) | inc %current.winning.streak.value %difficulty
-  var %current.month $left($adate, 2)
+  set %current.winning.streak.value $readini(battlestats.dat, battle, WinningStreak) 
+  set %difficulty $readini(battle2.txt, BattleInfo, Difficulty) | inc %current.winning.streak.value %difficulty
+  set %current.month $left($adate, 2)
 
   if (%mode.gauntlet.wave != $null) { inc %current.winning.streak.value %mode.gauntlet.wave }
 
   if (%portal.bonus = true) { var %current.winning.streak 100 }
 
-  while ($findfile( $mon_path , *.char, %value , 0) != $null) {
-    set %file $nopath($findfile($mon_path ,*.char,%value)) 
-    set %name $remove(%file,.char)
+  .echo -q $findfile( $mon_path , *.char, 0 , 0, mon_list_add $1-)
 
-    if (((%name = new_mon) || (%name = $null) || (%name = orb_fountain))) { inc %value 1 } 
-    else { 
-
-      if ((%mode.gauntlet != $null) && ($readini($mon(%name), info, streak) > -500)) { write temporary_mlist.txt %name | inc %value 1 }
-      else {
-
-        ; Check the winning streak #..  some monsters won't show up until a certain streak or higher.
-        $get_minimum_streak(mon, %name)
-        $get_maximum_streak(mon, %name)
-
-        if ($readini($mon(%name), info, month) = %current.month) { write temporary_mlist.txt %name  | inc %value 1 }
-        if ($readini($mon(%name), info, month) != %current.month) { 
-          if (%monster.info.streak <= -500) { inc %value 1 }
-          if ((%monster.info.streak > -500) || (%monster.info.streak = $null)) {
-
-
-            var %biome $readini($mon(%name), info, biome)
-
-            if (%biome = $null) {
-              if (%current.winning.streak.value >= %monster.info.streak) {  
-                if ((%current.winning.streak.value <= %monster.info.streak.max) || (%monster.info.streak.max = none)) {   write temporary_mlist.txt %name       }
-              }
-            }
-            if ((%biome != $null) && ($istok(%biome,%current.battlefield,46) = $true)) { 
-              if (%current.winning.streak.value >= %monster.info.streak) {  
-                if ((%current.winning.streak.value <= %monster.info.streak.max) || (%monster.info.streak.max = none)) {   write temporary_mlist.txt %name       }
-              }
-            }
-
-          }
-          inc %value 1
-        }
-      }
-    }
-  }
-
-  unset %monster.info.streak | unset %monster.info.streak.max
   $sort_mlist
 
   set %token.value 1
@@ -1370,63 +1310,57 @@ get_mon_list {
     else { inc %token.value 15 }
   }
   .remove temporary_mlist.txt   
-  unset %token.value
+  unset %token.value | unset %current.winning.streak.value | unset %difficulty | unset %current.month
+  unset %monster.info.streak | unset %monster.info.streak.max
   return
 }
 
+mon_list_add {
+  set %file $nopath($1-) 
+  set %name $remove(%file,.char)
+
+  if (((%name = new_mon) || (%name = $null) || (%name = orb_fountain))) { return } 
+  if ((%mode.gauntlet != $null) && ($readini($mon(%name), info, streak) > -500)) { write temporary_mlist.txt %name | return }
+  ; Check the winning streak #..  some monsters won't show up until a certain streak or higher.
+  $get_minimum_streak(mon, %name)
+  $get_maximum_streak(mon, %name)
+
+  if ($readini($mon(%name), info, month) = %current.month) { write temporary_mlist.txt %name  | inc %value 1 }
+  if ($readini($mon(%name), info, month) != %current.month) { 
+    if (%monster.info.streak <= -500) { return }
+    if ((%monster.info.streak > -500) || (%monster.info.streak = $null)) {
+
+      var %biome $readini($mon(%name), info, biome)
+
+      if (%biome = $null) {
+        if (%current.winning.streak.value >= %monster.info.streak) {  
+          if ((%current.winning.streak.value <= %monster.info.streak.max) || (%monster.info.streak.max = none)) {   write temporary_mlist.txt %name       }
+        }
+      }
+      if ((%biome != $null) && ($istok(%biome,%current.battlefield,46) = $true)) { 
+        if (%current.winning.streak.value >= %monster.info.streak) {  
+          if ((%current.winning.streak.value <= %monster.info.streak.max) || (%monster.info.streak.max = none)) {   write temporary_mlist.txt %name       }
+        }
+      }
+    }
+  }
+}
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Get a list of bosses eligable
 ; for the battle
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 get_boss_list {
-
-  set %current.battlefield ocean
-
   unset %monster.list
-  var %value 1 | var %current.winning.streak.value $readini(battlestats.dat, battle, WinningStreak) 
-  var %difficulty $readini(battle2.txt, BattleInfo, Difficulty) | inc %current.winning.streak.value %difficulty
-  var %current.month $left($adate, 2)
+  set %current.winning.streak.value $readini(battlestats.dat, battle, WinningStreak) 
+  set %difficulty $readini(battle2.txt, BattleInfo, Difficulty) | inc %current.winning.streak.value %difficulty
+  set %current.month $left($adate, 2)
+
   if (%mode.gauntlet.wave != $null) { inc %current.winning.streak.value %mode.gauntlet.wave }
 
-  while ($findfile( $boss_path , *.char, %value , 0) != $null) {
-    set %file $nopath($findfile($boss_path ,*.char,%value)) 
-    set %name $remove(%file,.char)
+  if (%portal.bonus = true) { var %current.winning.streak 100 }
 
-    if (((%name = new_mon) || (%name = new_boss) || (%name = $null))) { inc %value 1 } 
-    else { 
+  .echo -q $findfile( $boss_path , *.char, 0 , 0, boss_list_add $1-)
 
-      if ((%mode.gauntlet != $null) && ($readini($boss(%name), info, streak) > -500)) { write temporary_mlist.txt %name | inc %value 1 }
-      else {
-
-        ; Check the winning streak #..  some bosses won't show up until a certain streak or higher.
-        $get_minimum_streak(boss, %name)
-        $get_maximum_streak(boss, %name)
-
-        if ($readini($boss(%name), info, month) = %current.month) { write temporary_mlist.txt %name  | inc %value 1 }
-        if ($readini($boss(%name), info, month) != %current.month) { 
-          if (%monster.info.streak <= -500) { inc %value 1 }
-          if ((%monster.info.streak > -500) || (%monster.info.streak = $null)) {
-
-            var %biome $readini($boss(%name), info, biome)
-
-            if (%biome = $null) {
-              if (%current.winning.streak.value >= %monster.info.streak) {  
-                if ((%current.winning.streak.value <= %monster.info.streak.max) || (%monster.info.streak.max = none)) {  write temporary_mlist.txt %name     }
-              }
-            }
-            if ((%biome != $null) && ($istok(%biome,%current.battlefield,46) = $true)) { 
-              if (%current.winning.streak.value >= %monster.info.streak) {  
-                if ((%current.winning.streak.value <= %monster.info.streak.max) || (%monster.info.streak.max = none)) {   write temporary_mlist.txt %name       }
-              }
-            }
-
-            inc %value 1
-          }
-        }
-      }
-    }
-  }
-  unset %monster.info.streak | unset %monster.info.streak.max
   $sort_mlist
 
   set %token.value 1
@@ -1436,24 +1370,48 @@ get_boss_list {
     else { inc %token.value 15 }
   }
   .remove temporary_mlist.txt   
-  unset %token.value
+  unset %token.value | unset %current.winning.streak.value | unset %difficulty | unset %current.month
+  unset %monster.info.streak | unset %monster.info.streak.max
   return
 }
+
+boss_list_add {
+  set %file $nopath($1-) 
+  set %name $remove(%file,.char)
+
+  if (((%name = new_boss) || (%name = $null) || (%name = orb_fountain))) { return } 
+  if ((%mode.gauntlet != $null) && ($readini($boss(%name), info, streak) > -500)) { write temporary_mlist.txt %name | return }
+  ; Check the winning streak #..  some monsters won't show up until a certain streak or higher.
+  $get_minimum_streak(boss, %name)
+  $get_maximum_streak(boss, %name)
+
+  if ($readini($boss(%name), info, month) = %current.month) { write temporary_mlist.txt %name  | inc %value 1 }
+  if ($readini($boss(%name), info, month) != %current.month) { 
+    if (%monster.info.streak <= -500) { return }
+    if ((%monster.info.streak > -500) || (%monster.info.streak = $null)) {
+
+      var %biome $readini($boss(%name), info, biome)
+
+      if (%biome = $null) {
+        if (%current.winning.streak.value >= %monster.info.streak) {  
+          if ((%current.winning.streak.value <= %monster.info.streak.max) || (%monster.info.streak.max = none)) {   write  temporary_mlist.txt %name       }
+        }
+      }
+      if ((%biome != $null) && ($istok(%biome,%current.battlefield,46) = $true)) { 
+        if (%current.winning.streak.value >= %monster.info.streak) {  
+          if ((%current.winning.streak.value <= %monster.info.streak.max) || (%monster.info.streak.max = none)) {   write  temporary_mlist.txt %name       }
+        }
+      }
+    }
+  }
+}
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Get a list of NPCs
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 get_npc_list {
   unset %npc.list
-  var %value 1
-  while ($findfile( $npc_path , *.char, %value , 0) != $null) {
-    set %file $nopath($findfile($npc_path ,*.char,%value)) 
-    set %name $remove(%file,.char)
-    if ((%name = new_npc) || (%name = $null)) { inc %value 1 } 
-    else { 
-      inc %value 1
-      write temporary_mlist.txt %name
-    }
-  }
+  .echo -q $findfile( $npc_path , *.char, 0 , 0, npc_list_add $1-)
   $sort_mlist
 
   set %token.value 1
@@ -1465,6 +1423,12 @@ get_npc_list {
   .remove temporary_mlist.txt   
   unset %token.value
   return
+}
+npc_list_add {
+  set %file $nopath($1-) 
+  set %name $remove(%file,.char)
+  if ((%name = new_npc) || (%name = $null)) { return } 
+  else { write temporary_mlist.txt %name  }
 }
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1761,10 +1725,11 @@ create_treasurechest {
   if (%chest.type.random > 130) { set %color.chest red | set %chest.contents RedOrbs | set %chest.amount $rand(100,1000) }
 
   if (%color.chest != red) {
-    set %total.items $readini(chests.lst, chests, %color.chest)
-    set %random $rand(1, $numtok(%total.items,46))
+    var %chest.name chest_ $+ %color.chest $+ .lst
+    set %total.items $lines(%chest.name)
+    set %random $rand(1, %total.items)
     if (%random = $null) { var %random 1 }
-    set %chest.contents $gettok(%total.items,%random,46)
+    set %chest.contents $read -l $+ %random %chest.name
     unset %total.items
   }
 
@@ -1966,6 +1931,7 @@ system_defaults_check {
   if ($readini(system.dat, system, MaxNumberOfMonsInBattle) = $null) { writeini system.dat system MaxNumberOfMonsInBattle 6 }
   if ($readini(system.dat, system, ScoreBoardType) = $null) { writeini system.dat system ScoreBoardType 2 }
   if ($readini(system.dat, system, EmptyRoundsBeforeStreakReset) = $null) { writeini system.dat system EmptyRoundsBeforeStreakReset 10 }
+  if ($readini(system.dat, system, ChestTime) = $null) { writeini system.dat system ChestTime 45 }
 
   if ($readini(system.dat, statprices, hp) = $null) { writeini system.dat statprices hp 150 }
   if ($readini(system.dat, statprices, tp) = $null) { writeini system.dat statprices tp 150 }
@@ -2330,4 +2296,18 @@ db.display {
   var %dbs.total $readini(battlestats.dat, dragonballs, DragonBallsFound)
   if ($readini(battlestats.dat, dragonballs, ShenronWish) != on) { $display.system.message($readini(translation.dat, Dragonball, DragonballCheck), private) }
   if ($readini(battlestats.dat, dragonballs, ShenronWish) = on) { $display.system.message($readini(translation.dat, Dragonball, ShenronWishOnMessage), private) }
+}
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Clears dead monsters
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+clear_dead_monsters {
+  set %file $nopath($1-) 
+  set %name $remove(%file,.char)
+  if ((%name = new_chr) || (%name = $null)) { return } 
+  else { 
+    var %monster.flag $readini($char(%name), Info, Flag)
+    if ((%monster.flag = monster) && ($readini($char(%name), battle, hp) <= 0)) { .remove $char(%name) }
+    else { return }    
+  }
 }
