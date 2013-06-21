@@ -44,6 +44,9 @@ alias add.stylepoints {
   if ($3 = mon_death) {  set %stylepoints.toadd $readini(system.dat, style, MonDeath) | $add.playerstyle.xp($1, $rand(1,2)) }
   if ($3 = boss_death) {  set %stylepoints.toadd $readini(system.dat, style, BossDeath) | $add.playerstyle.xp($1, $rand(3,4)) }
 
+  if ($augment.check($1, EnhanceStylePoints) = true) { inc %stylepoints.toadd $round($calc(10 *  %augment.strength),0) }
+
+
   if (%stylepoints.current = $null) { set %stylepoints.current 0 }
   if (%stylepoints.current >= 5000) { set %stylepoints.to.add 0 }
   if (%aoe.turn > 2) { set %stylepoints.to.add 0 }

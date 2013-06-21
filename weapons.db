@@ -20,9 +20,145 @@ MonsterWpns=Yagudo_Fists.Dark_Vampiric_Power.Guardian_Shield.Orc_Pike.QuadavWand
 MonsterWpns2=VampireFangs.SpaceGun.CerberusClaws.ElementalPower.MarioFists.FishBite.Egyptian_Rod.SinistralPower.JesterWand.VampireArt.Puppetry.Benihime.PeoplesFist.SuccubusPower.DragonShouts.BlueEyesPower.BlackMagic.DragonSword.OctoArms.Casull&Jackal.AlucardSword.Auto9.Railgun.WoolyTusks.OrochiPower.BogardGloves.GiygasPower.AtlantisPower.RedEyedDragoon.DarknessDragoon.ShihouinFists.ImpHorn.GhostPower.ChozoSuit.ZeroSaber.SantaRifle.ScorpionFists.Legion
 MonsterWpns3=GoblinWand.Quetzalcoatl.CuteRabbitTeeth.RyukotsukiPower.DecapiclopsPower.OxocutionerPower.ChimyriadPower.GekkoWeapon.GekkoArms.GearRayWeapons.CactuarNeedles.JumboCactuarNeedles.KainsLance.PrishePowers.AbsolutePolearm.DullahanSword.ChunLiBracelets.RyuGloves.KenGloves.AlexanderPower.BahamutPower.CarbunclePower.DoomtrainPower.FalcorrPower.FenrirPower.GarudaPower.IfritPower.LeviathanPower.OlduumStaff.ShivaPower.TitanPower.DreddGun.PowerOfWords.BombPower.Orc_Fists.WarMachine.DemonWall.GoylePower..SwordOfTheFallenDevil
 MonsterWpns4=Agartha.ArteasBow.ScarboroughFair.BusterSword.DekarBlade.RuneOakStaff.AdamantAxe.VampireKiller.KosmosRevolver.HoleyGloves.ValkyrieSword.BlazefireSaber.MariaPower.DualBlade.RyudoSword.SelanSwordStaff.GunbladeRevolver.VorlikBlade.BelnadesWand.AirWhip.AmonTrident.GadesBlade.ErimBlade.ErimPower.EvilChainsaw.TurkeyPower.PoisonFists.MedusaPower.HybridElementalPower.BatFangs.BalrogPower.DemonicWeapon.DhalmelSaliva.LizardPower.TreantPower.StarmanGun.GnoleClaws.HippiePeace.UnicornHorn.BirdBeak.YovraPower.PinkChainsaw.MegaBuster.BrainWeapon.CupidBow.LevithanHeart
-MonsterWpns5=FencingDegen.ShinryuClaws.GarlandSword.MummyPower
+MonsterWpns5=FencingDegen.ShinryuClaws.GarlandSword.MummyPower.DiremiteLegs.IroncladSword.FomorPower.OrcishLongBow.OrcishLongSword.XalmoFists
 MonsterWpns6=FFOmegaWeapon.Valkyrie_Sword.TRexWeapon.PhoenixmonWeapon.BlackRockShooter.MegasaurusWeapon.OmegaMultipurposeCannon.Perfect_Chaos_Water.StarMageStaff.Randgris_Sword
 
+; Omega Weapon
+[FFOmegaWeapon]
+Cost=99999
+Type=Rifle
+Info=The Ultimate Fantasy Weapon
+Abilities=Repairs.SpaceBeam
+element=none
+hits=$rand(1,4)
+basepower=15
+upgrade=500000
+
+[Valkyrie_Sword]
+Cost=99999
+Type=Sword
+Info=A Valkyrie's standard issue sword, forged from the roots of Yggdrasil.
+Abilities=CureV.SonicBlow.JupitelThunder.BrandishSpear.WiseReflection
+element=Light
+hits=$rand(1,3)
+basepower=50
+upgrade=500000
+HurtEthereal=true
+ignoredefense=50
+
+[TRexWeapon]
+cost=999999
+Type=HandtoHand
+Info=A Tyrannosaurus' Weapon for fighting and hunting!
+Abilities=Roar.Swallow.SpikeFlail.VolcanicRush.SurvivalInstinct
+element=dark
+hits=$rand(2,5)
+basepower=35
+upgrade=500000
+
+[PhoenixmonWeapon]
+Cost=999999
+Type=Stave
+Info=A Phoenixmon's Weapon for defending itself.
+Abilities=StarlightExplosion.CureV.CrimsonFlame.MeteorPhoenix.DoubleHurricane.BusterPhoenix
+element=none
+hits=$rand(1,3)
+basepower=30
+upgrade=500000
+HurtEthereal=true
+
+[BlackRockShooter]
+cost=999999
+Type=Rifle
+Info=A steady rate firing Arm Cannon. It can change forms depending on the battle.
+Abilities=RockCannon.RockDeltaVulcan.BlackStarSlash.BlackStarGrenade.BlackStarPower.RockCannonSpear.CureV
+element=none
+hits=$rand(2,3)
+basepower=25
+upgrade=500000
+HurtEthereal=true
+
+[DiEndDriver]
+Cost=40
+Type=Gun
+Info=A large looking gun with a card slot on the side.
+Abilities=Diendhenshin.DiendGekijouban.DiendBlast.DiendDimensionShoot.CureII
+Element=none
+Hits=$rand(1,2)
+BasePower=25
+Upgrade=350
+HurtEthereal=true
+
+[MegasaurusWeapon]
+Cost=9999999
+Type=HandtoHand
+Info=A Megasaurus' Weapon
+abilities=SurvivalInstinct.Earthquake.UltimateSwallow.SpikeFlail.Slurp.Dinostomp.VolcanicRush
+basepower=70
+hits=$rand(1,2)
+upgrade=500000
+
+[OmegaMultipurposeCannon]
+cost=9999999
+Type=Rifle
+Info=A Omega Weapon MK12 Weapon
+abilities=WaveCannon.LightPillar.MeggidoFlame.Ultima.Gravija.TerraBreak.Meteor.LV5_Death
+basepower=999
+hits=$rand(2,4)
+upgrade=500000
+HurtEthereal=true
+
+[Perfect_Chaos_Water]
+cost=9999999
+Type=HandToHand
+Info=Perfect Chaos' ultimate form!
+basepower=500
+anbilities=Chaos_Tsunami.Hyrdro_Cannon.Chaos_Rain.Chaos_Chomp.PerfectChaosR2.Chaos_Water_Beam.Dark_Power_of_Chaos_Emeralds
+hits=$rand(1,3)
+upgrade=5000000
+HurtEthereal=true
+
+[Executioner]
+Cost=200
+Type=GreatSword
+Info=A gruesome sword used to behead criminals judged with the death penalty.
+Abilities=Bash.BowlingBash.MagnumBreak.ShadowSmash
+Element=Dark
+Hits=$rand(1,2)
+BasePower=60
+Upgrade=300
+
+[Themis'Axe]
+Cost=55
+Type=Axe
+Info=An axe blessed by the power of Themis, daughter of Uranus and Gaea. Said to cause minor earthquakes with each swing.
+Abilities=Djinn:Bane.Djinn:Flower.Djinn:Steel.Stone_Justice
+Element=Earth
+Hits=1
+BasePower=45
+Upgrade=250
+
+[StarMageStaff]
+cost=99999999
+Type=Stave
+Info=Star Magician's Normal Attack Source
+Abilities=Mine_Ball.Spark_Plasma.Megacool.Curaga
+Element=Water
+Hits=$rand(1,2)
+BasePower=60
+Upgrade=5000000
+
+[Randgris_Sword]
+cost=999999999
+Type=Sword
+Info=A specialized Valkyrie Sword... forged from the heart of a collapsing star.
+abilities=Thunder_Storm.LordOfVermillion.BrandishSpear.Light_PowerUp.HolyCross.SonicBlow.Earthquake.Protect.Shell
+basepower=110
+Element=Light
+hits=$rand(1,2)
+ignoredefense=20
+Upgrade=500000
+HurtEthereal=true
 
 ============================================
 WEAPON TEMPLATE
@@ -184,7 +320,7 @@ Upgrade=1500
 Cost=50
 Type=Sword
 Info=A magical sword that has the ability to turn enemies into gems upon their deaths if the final blow is done with this blade.
-Abilities=Bash.MagnumBreak.BowlingBash
+Abilities=Bash.BowlingBash.MagnumBreak
 Element=None
 Hits=1
 BasePower=20
@@ -206,7 +342,7 @@ Upgrade=500
 Cost=6
 Type=Sword
 Info=A sword infused with the power of Moogles.
-Abilities=SpiritsWithin.VorpalBlade.SeraphBlade
+Abilities=SpiritsWithin.VorpalBlade.SeraphBlade.BowlingBash
 Element=None
 Hits=1
 BasePower=30
@@ -231,7 +367,7 @@ GREAT SWORDS
 Cost=4
 Type=GreatSword
 Info=A basic looking greatsword.
-Abilities=HardSlash.PowerSlash
+Abilities=HardSlash.PowerSlash.7DeadlySins
 Element=None
 Hits=1
 BasePower=20
@@ -660,7 +796,7 @@ Element=none
 [Zangetsu]
 Cost=7
 Type=Katana
-Info=Ichigo's powerful zanpakutou from Bleach. From Ichigo's Fake Dad. OOPS SPOILERS
+Info=Ichigo's powerful zanpakutou from Bleach
 Abilities=GetsugaTenshou.TensaZangetsu.Mugenshou
 Element=none
 Hits=1
@@ -680,7 +816,7 @@ Upgrade=1000
 [Hyourinmaru]
 Cost=7
 Type=Katana
-Info=Hitsugaya's powerful ice zanpakutou from Bleach, has become a bit more powerful!
+Info=Hitsugaya's powerful ice zanpakutou from Bleach
 Abilities=SotenNiZase.DaigurenHyourinmaru.Ryuusenka
 Element=ice
 Hits=1
@@ -941,7 +1077,7 @@ MONSTER WEAPONS
 These are weapons that Monsters use.  They shouldn't be available for players.
 
 [Yagudo_Fists]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=You can't buy this!
 Abilities=Sweep.DoubleKick.FeatherStorm
@@ -950,7 +1086,7 @@ Hits=2
 BasePower=5
 Upgrade=50000
 [Yagudo_Wand]
-Cost=9999999
+Cost=999999
 Type=Wand
 Info=You can't buy this!
 Abilities=Sweep.DoubleKick.FeatherStorm.Fire.Stone.Ice.Aero.Cure.FireII.StoneII.IceII.AeroII
@@ -959,7 +1095,7 @@ Hits=1
 BasePower=5
 Upgrade=50000
 [Dark_Vampiric_Power]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=You can't buy this!
 Abilities=Dark_Inferno.Demonic_Megiddo.TrueForm
@@ -968,7 +1104,7 @@ Hits=1
 BasePower=5
 Upgrade=50000
 [Guardian_Shield]
-Cost=9999999
+Cost=999999
 Type=sword
 Info=You can't buy this!
 Abilities=Shield_Smash.Shockwave
@@ -977,7 +1113,7 @@ Hits=1
 BasePower=2
 Upgrade=50000
 [Orc_Pike]
-Cost=9999999
+Cost=999999
 Type=spear
 Info=You can't buy this!
 Abilities=BattleDance.ShoulderTackle.Jump
@@ -986,7 +1122,7 @@ Hits=1
 BasePower=2
 Upgrade=50000
 [QuadavWand_R]
-Cost=9999999
+Cost=999999
 Type=wand
 Info=You can't buy this!
 Abilities=FireIV.WaterIV.BlizzardIV.Poison.Blind.Headbutt.Paralyze
@@ -995,7 +1131,7 @@ Hits=1
 BasePower=10
 Upgrade=50000
 [Mistilteinn]
-Cost=9999999
+Cost=999999
 Type=stave
 Info=You can't buy this!
 Abilities=Holy.BanishV.WrathOfGuDha.TormentOfGuDha.Headbutt.FireIV.BlizzardIV.WaterIV
@@ -1013,18 +1149,19 @@ Hits=$rand(1,3)
 BasePower=75
 Upgrade=50000
 ignoredefense=25
+
 [Black_Goddess_Staff]
-Cost=9999999
+Cost=999999
 Type=Stave
 Info=A large staff that is black in color. The bottom has gold on it and the top of the staff splits into four before combining back together. A ruby rests in the split and gold runes run along the staff.
-Abilities=AeroV.BlizzardV.AerogaV.FireV.Composure.Blind.Poison.Paralyze.Darkra.DarkV.BanishV
+Abilities=AeroV.BlizzardV.FireV.Blind.Poison.Paralyze.Darkra.DarkV.BanishV
 Element=Light
 Hits=1
 Basepower=70
 HurtEthereal=true
 Upgrade=50000
 [Cell'sKi]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=You can't buy this!
 Abilities=CellExplode.PerfectForm.Kamehameha
@@ -1033,7 +1170,7 @@ Hits=2
 BasePower=5
 Upgrade=50000
 [Death's_Scythe]
-Cost=9999999
+Cost=999999
 Type=Scythe
 Info=You can't buy this!
 Abilities=GrimReaper.Grim_Slash
@@ -1042,7 +1179,7 @@ Hits=1
 BasePower=5
 Upgrade=50000
 [CreeperLegs]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=You can't buy this!
 Abilities=CreeperExplode.Headbutt
@@ -1051,7 +1188,7 @@ Hits=$rand(1,2)
 BasePower=2
 Upgrade=50000
 [SpiderLegs]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=You can't buy this!
 Abilities=SpiderWeb.SickleSlash
@@ -1060,7 +1197,7 @@ Hits=$rand(1,2)
 BasePower=2
 Upgrade=50000
 [ZombieFists]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=You can't buy this!
 Abilities=ZombieBite.ShoulderTackle
@@ -1069,7 +1206,7 @@ Hits=$rand(1,2)
 BasePower=2
 Upgrade=50000
 [PsychoPower]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=You can't buy this!
 Abilities=PsychoCrusher
@@ -1078,7 +1215,7 @@ Hits=2
 BasePower=5
 Upgrade=50000
 [BedrockBite]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=You can't buy this!
 Abilities=Tremors.FullForceBlow.StoneII.Quake
@@ -1087,7 +1224,7 @@ Hits=1
 BasePower=3
 Upgrade=50000
 [Shadow_Blade]
-Cost=9999999
+Cost=999999
 Type=Sword
 Info=You can't buy this!
 Abilities=GigaSlash.KickBack.DarkNova
@@ -1096,7 +1233,7 @@ Hits=1
 BasePower=5
 Upgrade=50000
 [MenosPower]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=You can't buy this!
 Abilities=Cero
@@ -1105,7 +1242,7 @@ Hits=1
 BasePower=15
 Upgrade=50000
 [DragonFangs]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=You can't buy this!
 Abilities=FangRush.RadiantBreath.HurricaneBreath.SpikeFlail.AbsoluteTerror.DragonFire
@@ -1114,7 +1251,7 @@ Hits=$rand(1,2)
 BasePower=15
 Upgrade=50000
 [BeeStinger]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=You can't buy this!
 Abilities=FinalSting.SharpSting.FrenzySting
@@ -1123,7 +1260,7 @@ Hits=$rand(1,2)
 BasePower=5
 Upgrade=50000
 [GoblinSword]
-Cost=9999999
+Cost=999999
 Type=Sword
 Info=You can't buy this!
 Abilities=GoblinRush.BombToss.BombDrop.FastBlade
@@ -1132,7 +1269,7 @@ Hits=$rand(1,2)
 BasePower=5
 Upgrade=50000
 [GoblinWand]
-Cost=9999999
+Cost=999999
 Type=Wand
 Info=You can't buy this!
 Abilities=GoblinRush.BombToss.BombDrop.Firaja.Stoneja.Waterja.Aeroja.Blizzaja.Thundaja.Cura.Flare.Quake.Flood
@@ -1141,7 +1278,7 @@ Hits=1
 BasePower=5
 Upgrade=50000
 [Quetzalcoatl]
-Cost=9999999
+Cost=999999
 Type=Wand
 Info=You can't buy this!
 Abilities=FirajaII.StonejaII.WaterjaII.AerojaII.BlizzajaII.ThundajaII.Meteor.Poison
@@ -1150,7 +1287,7 @@ Hits=1
 BasePower=5
 Upgrade=50000
 [TigerFangs]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=You can't buy this!
 Abilities=Roar.RazorFang.ClawCyclone
@@ -1159,7 +1296,7 @@ Hits=$rand(1,2)
 BasePower=5
 Upgrade=50000
 [Pinchers]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=You can't buy this!
 Abilities=BubbleShower.BigScissors
@@ -1168,7 +1305,7 @@ Hits=$rand(1,2)
 BasePower=5
 Upgrade=50000
 [ImpHorn]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=You can't buy this!
 Abilities=Frenetic_Rip.Abrasive_Tantara.Flare.Tornado
@@ -1177,7 +1314,7 @@ Hits=1
 BasePower=5
 Upgrade=50000
 [BoneScythe]
-Cost=9999999
+Cost=999999
 Type=scythe
 Info=You can't buy this!
 Abilities=BloodSaber.BloodSlash.HorrorCloud.Fire.Stone.Aero.FireIV.WaterIV.BlizzardIV.Poison.Blind.Firaja.Stoneja.Waterja.Aeroja.Blizzaja.Thundaja
@@ -1186,7 +1323,7 @@ Hits=1
 BasePower=5
 Upgrade=50000
 [VampireFangs]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=Vampire fangs that you cannot buy!
 Abilities=VampireBite.DoublePunch.ShoulderTackle.SpinningAttack
@@ -1194,9 +1331,8 @@ Element=Dark
 Hits=2
 BasePower=10
 Upgrade=50000
-
 [SuccubusPower]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=The power of a succubus!  You wish you could have it.
 Abilities=VampireBite.Temptation.FireII
@@ -1205,7 +1341,7 @@ Hits=2
 BasePower=10
 Upgrade=50000
 [SpaceGun]
-Cost=9999999
+Cost=999999
 Type=gun
 Info=You can't buy this!
 Abilities=SpaceBeam.Sacrifice.SpaceAbsorb.SpaceBoost
@@ -1214,7 +1350,7 @@ Hits=1
 BasePower=10
 Upgrade=50000
 [CerberusClaws]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=You can't buy this!
 Abilities=IceRain.Roar.ShoulderTackle
@@ -1223,7 +1359,7 @@ Hits=2
 BasePower=10
 Upgrade=50000
 [ElementalPower]
-Cost=9999999
+Cost=999999
 Type=Wand
 Info=You can't buy this!
 Abilities=FireII.StoneII.IceII.AeroII.WaterII.ThunderII.Firaja.FireV.Stoneja.Waterja.Aeroja.Blizzaja.Thundaja
@@ -1232,7 +1368,7 @@ Hits=1
 BasePower=10
 Upgrade=50000
 [MarioFists]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=You can't buy this!
 Abilities=Jump.FireFlower.StarPower
@@ -1241,7 +1377,7 @@ Hits=2
 BasePower=10
 Upgrade=50000
 [FishBite]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=You can't buy this!
 Abilities=Screwdriver.AquaBall.Water
@@ -1250,7 +1386,7 @@ Hits=1
 BasePower=10
 Upgrade=50000
 [OctoArms]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=You can't buy this!
 Abilities=Maelstrom.InkJet.Tentacle
@@ -1259,7 +1395,7 @@ Hits=$rand(1,5)
 BasePower=3
 Upgrade=50000
 [Egyptian_Rod]
-Cost=9999999
+Cost=999999
 Type=Wand
 Info=A golden rod belonging to a beautiful Egyptian woman.
 Abilities=Temptation.DeltaSpark.TypoonRod.ScarfStab
@@ -1269,7 +1405,7 @@ BasePower=15
 Upgrade=50000
 
 [SinistralPower]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=The source of Daos' power.
 Abilities=RayGion.FuReia.RahGian.WoRud.ReeDelt.AsuranFists.FinalHeaven.ShinjinSpiral
@@ -1279,7 +1415,7 @@ BasePower=40
 Upgrade=50000
 
 [JesterWand]
-Cost=9999999
+Cost=999999
 Type=Wand
 Info=The wand of the insane demon, Jester. Cannot be bought!
 Abilities=Portal.ClownHead.ClownFire
@@ -1289,7 +1425,7 @@ BasePower=12
 Upgrade=50000
 
 [VampireArt]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=Brauner's art ability!
 Abilities=BloordArtTechnique.PaintingofSoul.PortraitSmash.CursePainting
@@ -1299,7 +1435,7 @@ Basepower=13
 Upgrade=50000
 
 [Puppetry]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=The Puppet Master's weapon
 Abilities=FrenchDollAttack.PuppetControl.IronMaiden.MetalStrings
@@ -1309,7 +1445,7 @@ Basepower=13
 Upgrade=50000
 
 [Benihime]
-Cost=9999999
+Cost=999999
 Type=Katana
 Info=The zanpakutou that belongs to Urahara. Not for sale~ <3
 Abilities=NakeBenihime.ShibariBenihime.HiasobiBenihimeJuzutsunagi
@@ -1320,7 +1456,7 @@ Upgrade=50000
 HurtEthereal=true
 
 [PeoplesFist]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=The Rock's fist!
 Abilities=RockBottom.PeoplesElbow.SamoanDrop.FlyingClothesline.Spinebuster
@@ -1330,7 +1466,7 @@ BasePower=20
 Upgrade=50000
 
 [DragonShouts]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=Only the Dragonborn can use this!
 Abilities=FusRoDah.YolToorShul.FoKrahDiin.StrunBahQo
@@ -1340,7 +1476,7 @@ BasePower=20
 Upgrade=50000
 
 [CyberFists]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=The fists of a Cyberman. Cannot be bought.
 Abilities=WristLaser.CyberParalyze.TempUpgrade.BrainControl
@@ -1350,7 +1486,7 @@ BasePower=15
 Upgrade=50000
 
 [Gunstick]
-Cost=9999999
+Cost=999999
 Type=Rifle
 Info=The weapon of the Daleks. Cannot be bought.
 Abilities=DalekParalyze.DalekExterminate.DalekLaser
@@ -1360,7 +1496,7 @@ BasePower=15
 Upgrade=50000
 
 [BlueEyesPower]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=the power of the Blue Eyes White Dragon.
 Abilities=BurstStream.AbsoluteTerror.FangRush
@@ -1370,7 +1506,7 @@ BasePower=40
 Upgrade=50000
 
 [BlackMagic]
-Cost=9999999
+Cost=999999
 Type=Stave
 Info=The power of the Dark Magician.
 Abilities=BlackMagicAttack.ThousandKnives.FireIV
@@ -1380,7 +1516,7 @@ BasePower=30
 Upgrade=50000
 
 [DragonSword]
-Cost=9999999
+Cost=999999
 Type=GreatSword
 Info=the weapon of Buster Blader.
 Abilities=HardSlash.PowerSlash.Resolution
@@ -1390,7 +1526,7 @@ BasePower=35
 Upgrade=50000
 
 [Casull&Jackal]
-Cost=9999999
+Cost=999999
 Type=Gun
 Info=The handguns custom made for Alucard. They are far too heavy for a human to use.
 Abilities=LastStand.RapidShot.Rainstorm.BloodDrain.CromwellApproval
@@ -1401,7 +1537,7 @@ Upgrade=50000
 HurtEthereal=true
 
 [AlucardSword]
-Cost=9999999
+Cost=999999
 Type=Sword
 Info=Alucard's sword.
 Abilities=Requiescat.ChantduCygne.UrielBlade.SoulSteal.TetraSpirit
@@ -1412,7 +1548,7 @@ Upgrade=50000
 HurtEthereal=true
 
 [Auto9]
-Cost=9999999
+Cost=999999
 Type=Gun
 Info=Robocop's gun. A modified Berreta93R which also has a large barrel extension.
 Abilities=RapidShot.LastStand.Detonator.ChargedShot
@@ -1422,7 +1558,7 @@ BasePower=10
 Upgrade=50000
 
 [Railgun]
-Cost=9999999
+Cost=999999
 Type=Rifle
 Info=The Railgun that belongs to Metal Gear Rex.
 Abilities=SniperShot.Detonator.RailShot.RailNuke.RexKick
@@ -1432,7 +1568,7 @@ BasePower=20
 Upgrade=50000
 
 [WoolyTusks]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=You can't buy this!
 Abilities=Stomp.Charge.Roar
@@ -1441,7 +1577,7 @@ Hits=1
 BasePower=3
 
 [OrochiPower]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=The power of Orochi that Iori wields.
 Abilities=YamiBarai.AoiHana.YaOtome.SakuTsumagushi
@@ -1451,7 +1587,7 @@ BasePower=12
 Upgrade=50000
 
 [BogardGloves]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=The gloves worn by Terry Bogard.
 Abilities=PowerWave.BurnKnuckle.RisingTackle.PowerGeyser.BusterWolf
@@ -1461,7 +1597,7 @@ BasePower=12
 Upgrade=50000
 
 [GiygasPower]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=The massive power of Giygas!!
 Abilities=CannotGrasp.HurtsPlayer.PKRockin
@@ -1471,7 +1607,7 @@ BasePower=20
 Upgrade=50000
 
 [AtlantisPower]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=The power of Ashi!
 Abilities=BloodDagger.BloodBoost.BloodBlast
@@ -1481,7 +1617,7 @@ BasePower=17
 Upgrade=50000
 
 [RedEyedDragoon]
-Cost=9999999
+Cost=999999
 Type=Sword
 Info=The spirit of the Red-Eyed Dragon!
 Abilities=DoubleSlash.MadnessHero.Flameshot.FinalBurst.RedDragoon
@@ -1491,7 +1627,7 @@ BasePower=15
 Upgrade=50000
 
 [DarknessDragoon]
-Cost=9999999
+Cost=999999
 Type=Sword
 Info=The spirit of the Darkness Dragon!
 Abilities=WhipSmack.DemonsDance.AstralDrain.DeathDimension.DarkDragoon
@@ -1501,7 +1637,7 @@ BasePower=15
 Upgrade=50000
 
 [ShihouinFists]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=The fists of Yoruichi!
 Abilities=DoublePunch.ShoulderTackle.ShunkoRaigeki.AsuranFists
@@ -1512,7 +1648,7 @@ Upgrade=50000
 HurtEthereal=true
 
 [GhostPower]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=The weapon of a ghost!
 Abilities=HighJump.CamlannsTorment.LegSweep.SonicThrust.Tachi:Fudo.Tachi:Shoha.Tachi:Rana.GraveCurse.FearTouch.FirajaII.Quake.Explode
@@ -1522,7 +1658,7 @@ BasePower=10
 Upgrade=50000
 
 [AndroidKi]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=It's the weapon of an Android
 Abilities=AsuranFists.BioWeaponX
@@ -1532,7 +1668,7 @@ BasePower=10
 Upgrade=50000
 
 [Orcish_Gun]
-Cost=9999999
+Cost=999999
 Type=Gun
 Info=A gun for an orc
 Abilities=HotShot.RainStorm.ChargedShot.ShoulderTackle.BattleDance
@@ -1542,7 +1678,7 @@ BasePower=5
 Upgrade=50000
 
 [SubZeroFists]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=It's the weapon of Sub Zero!
 Abilities=IceBall.GroundIce
@@ -1552,7 +1688,7 @@ BasePower=15
 Upgrade=50000
 
 [ScorpionFists]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=It's the weapon of Scorpion!
 Abilities=
@@ -1562,7 +1698,7 @@ BasePower=15
 Upgrade=50000
 
 [Ninjutsu]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=It's the weapon of a ninja.
 Abilities=Shurikan.Backstab.Smokebomb
@@ -1572,7 +1708,7 @@ BasePower=15
 Upgrade=50000
 
 [CuteRabbitTeeth]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=It's the teeth of a rabbit.
 Abilities=LookAtTheBones
@@ -1582,7 +1718,7 @@ BasePower=15
 Upgrade=50000
 
 [RyukotsukiPower]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=The power of the demon, Ryukotsuki.
 Abilities=Decapiclops.Oxocutioner.Chimyriad.CursePunch.FireballStop
@@ -1592,7 +1728,7 @@ BasePower=15
 Upgrade=50000
 
 [DecapiclopsPower]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=The power of the demon, Decapiclops.
 Abilities=FireSpit.FirePillar.FireExplosion
@@ -1602,7 +1738,7 @@ BasePower=15
 Upgrade=50000
 
 [OxocutionerPower]
-Cost=9999999
+Cost=999999
 Type=Sword
 Info=The power of the demon, Oxocutioner.
 Abilities=SwordToss.SwordStorm.SwordStab
@@ -1612,7 +1748,7 @@ BasePower=15
 Upgrade=50000
 
 [ChimyriadPower]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=The power of the demon, Chimyriad.
 Abilities=ChimyriadRush.FireWave.GroundFire
@@ -1622,7 +1758,7 @@ BasePower=15
 Upgrade=50000
 
 [GekkoWeapon]
-Cost=9999999
+Cost=999999
 Type=Rifle
 Info=The weapon of the Gekko.
 Abilities=RapidShot.GekkoGrenade.ManipulatorArm.GekkoKick.GekkoStomp
@@ -1632,7 +1768,7 @@ BasePower=15
 Upgrade=50000
 
 [GekkoArms]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=The arms of the Gekko Dwarf.
 Abilities=GekkoGrab.GekkoParalyze.DoublePunch.OneInchPunch
@@ -1642,7 +1778,7 @@ BasePower=15
 Upgrade=50000
 
 [GearRayWeapons]
-Cost=9999999
+Cost=999999
 Type=Rifle
 Info=The weapons belonging to Metal Gear Ray.
 Abilities=HydroCutter.MissileBarrage.RayKick.GatlingGuns
@@ -1652,7 +1788,7 @@ BasePower=20
 Upgrade=50000
 
 [CactuarNeedles]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=The needles of a cactuar.
 Abilities=200Needles.DoublePunch.AsuranFists.ShoulderTackle.OneInchPunch.SpinningAttack
@@ -1662,7 +1798,7 @@ BasePower=19
 Upgrade=50000
 
 [JumboCactuarNeedles]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=The needles of a Jumbo Cactuar.
 Abilities=500Needles.DoublePunch.AsuranFists.ShoulderTackle.OneInchPunch.SpinningAttack
@@ -1672,7 +1808,7 @@ BasePower=15
 Upgrade=50000
 
 [KainsLance]
-Cost=9999999
+Cost=999999
 Type=Spear
 Info=The spear of the legendary Dragoon, Kain Highwind.
 Abilities=Jump.HighJump.SpiritJump.SoulJump.Drakesbane.StarDiver.LegSweep
@@ -1682,7 +1818,7 @@ BasePower=15
 Upgrade=50000
 
 [PrishePowers]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=The powers of Prishe!
 Abilities=AsuranFists.NullifyingDropkick.AuroralUppercut.TornadoKick.OneInchPunch.ShinjinSpiral.Holy.BanishV.CureIV
@@ -1692,7 +1828,7 @@ BasePower=30
 Upgrade=50000
 
 [AbsolutePolearm]
-Cost=9999999
+Cost=999999
 Type=Spear
 Info=The spear of Absolute Virtue.
 Abilities=ImpactStream.MedusaJavelin.WingThrust.Eagle_Eye_Shot.AuroralWind.CureV.TornadoII.Meteor
@@ -1702,7 +1838,7 @@ BasePower=30
 Upgrade=50000
 
 [DullahanSword]
-Cost=9999999
+Cost=999999
 Type=Sword
 Info=The sword of Dullahan.
 Abilities=Charon.ForminaSage.Haunt.DjinnStorm.Condem.Sealing
@@ -1712,7 +1848,7 @@ BasePower=30
 Upgrade=50000
 
 [ChunLiBracelets]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=The bracelets worn by Chun-Li.
 Abilities=SpinningBirdKick.Kikoken.Hyakuretsukyaku.Kikosho.Hazanshu.Hosenka
@@ -1722,7 +1858,7 @@ BasePower=15
 Upgrade=50000
 
 [RyuGloves]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=the gloves worn by Ryu.
 Abilities=Hadouken.ShakunetsuHadouken.Shouryuken.TatsumakiSenpukyaku.ShinkuHadouken.ShinkuTatsumakiSenpukyaku.ShinShouryuken
@@ -1732,7 +1868,7 @@ BasePower=15
 Upgrade=50000
 
 [KenGloves]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=The gloves worn by Ken Masters.
 Abilities=Hadouken.Shouryuken.TatsumakiSenpukyaku.Shinryuken.ShoryuReppa
@@ -1742,7 +1878,7 @@ BasePower=15
 Upgrade=50000
 
 [AlexanderPower]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=The power of Alexander.
 Abilities=DivineJudgement.DivineSpear.Holy
@@ -1752,7 +1888,7 @@ BasePower=30
 Upgrade=50000
 
 [BahamutPower]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=The power of Bahamut.
 Abilities=MegaFlare.Impulse.TeraFlare.ExaFlare.AbsoluteTerror.Hexafang
@@ -1762,7 +1898,7 @@ BasePower=35
 Upgrade=50000
 
 [CarbunclePower]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=The power of Carbuncle.
 Abilities=SearingLight.PoisonNails.HealingRuby
@@ -1772,7 +1908,7 @@ BasePower=30
 Upgrade=50000
 
 [DoomtrainPower]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=The power of Doomtrain.
 Abilities=RunawayTrain.Runaway_Train
@@ -1782,7 +1918,7 @@ BasePower=30
 Upgrade=50000
 
 [FalcorrPower]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=The power of Faithful Falcorr.
 Abilities=BackHeel.Jettatura.ChokeBreath
@@ -1792,7 +1928,7 @@ BasePower=30
 Upgrade=50000
 
 [FenrirPower]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=The power of Fenrir.
 Abilities=HowlingMoon.CrescentFang.EclipseBite
@@ -1802,7 +1938,7 @@ BasePower=35
 Upgrade=50000
 
 [GarudaPower]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=The power of Garuda.
 Abilities=AerialBlast.PredatorClaws.WindBlade.Tornado
@@ -1812,7 +1948,7 @@ BasePower=30
 Upgrade=50000
 
 [IfritPower]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=The power of Ifrit.
 Abilities=Hellfire.MeteorStrike.BurningStrike.Flare
@@ -1822,7 +1958,7 @@ BasePower=30
 Upgrade=50000
 
 [LeviathanPower]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=The power of Leviathan.
 Abilities=TidalWave.TailWhip.GrandFall.Flood
@@ -1832,7 +1968,7 @@ BasePower=30
 Upgrade=50000
 
 [OlduumStaff]
-Cost=9999999
+Cost=999999
 Type=Stave
 Info=The staff of Ramuh.
 Abilities=JudgementBolt.Thunderstorm.ChaoticStrike.Burst
@@ -1842,7 +1978,7 @@ BasePower=30
 Upgrade=50000
 
 [ShivaPower]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=The power of Shiva.
 Abilities=DiamondDust.HeavenlyStrike.AxeKick.Freeze
@@ -1852,7 +1988,7 @@ BasePower=15
 Upgrade=50000
 
 [TitanPower]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=The power of Titan.
 Abilities=AngerOfTheLand.MountainBuster.Geocrush.Quake
@@ -1862,7 +1998,7 @@ BasePower=40
 Upgrade=50000
 
 [DreddGun]
-Cost=9999999
+Cost=999999
 Type=Gun
 Info=The gun of Judge Dredd.
 Abilities=TheLaw.RapidShot.LastStand.GrenadeShot.PierceShot
@@ -1872,7 +2008,7 @@ BasePower=20
 Upgrade=50000
 
 [SlimePower]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=The power of the slimes.
 Abilities=SlimeRam.SlimeStomp.CureV.Curaga.FireII.IceII.ThunderII.StoneII.WaterII.AeroII.Flare.Freeze.Burst.Quake.Flood.Tornado.Poison.Blind.Paralyze.Tentacle
@@ -1882,7 +2018,7 @@ BasePower=15
 Upgrade=50000
 
 [PowerOfWords]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=The words of power known to the Knights of Ni.
 Abilities=Ni.Herring.Shrubbery
@@ -1892,7 +2028,7 @@ BasePower=30
 Upgrade=50000
 
 [BombPower]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=The power of a bomb
 Abilities=FirajaII.Explode
@@ -1902,7 +2038,7 @@ BasePower=30
 Upgrade=50000
 
 [Orc_Fists]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=The fists of an orc
 Element=None
@@ -1912,7 +2048,7 @@ Upgrade=50000
 Abilities=AsuranFists.ShoulderTackle.BattleDance
 
 [GoylePower]
-Cost=9999999
+Cost=999999
 Type=HandtoHand
 Info=The power of a gargoyle
 Element=None
@@ -1922,7 +2058,7 @@ Upgrade=50000
 Abilities=SpinningAttack
 
 [WarMachine]
-Cost=9999999
+Cost=999999
 Type=Rifle
 Info=The power of the warmachine
 Abilities=FirajaII.Quake.Flare.Tornado.Poison.Blind
@@ -1932,7 +2068,7 @@ BasePower=10
 Upgrade=50000
 
 [DemonWall]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=The power of the Demon Wall
 Abilities=FirajaII.Poison.Blind.Slow.Petrify
@@ -1942,7 +2078,7 @@ BasePower=1
 Upgrade=50000
 
 [Agartha]
-Cost=9999999
+Cost=999999
 Type=gun
 Info=The magical gun that belongs to Albus.
 Abilities=OpticalShot.MaxShot.Torpor.TorporRain.QuadrupleIgnis
@@ -1952,7 +2088,7 @@ BasePower=30
 Upgrade=50000
 
 [ScarboroughFair]
-Cost=9999999
+Cost=999999
 Type=Gun
 Info=The set of magical handguns used by Bayonetta.
 Abilities=BulletClimax.HeelSlide.WheelofTorture.MadamaButterflyFist.MadamaButterflyHeel.Gomorrah.Malphas.Hekatoncheir.Scolopendra.Phantasmaraneae.QueenSheba
@@ -1963,7 +2099,7 @@ Upgrade=50000
 HurtEthereal=true
 
 [ArteasBow]
-Cost=9999999
+Cost=999999
 Type=Bow
 Info=The powerful bow belonging to Artea.
 Abilities=GlacialBlast.EagleEyeShot.NamasArrow.Sidewinder.ApexArrow.JishnusRadiance
@@ -1973,7 +2109,7 @@ BasePower=30
 Upgrade=50000
 
 [BusterSword]
-Cost=9999999
+Cost=999999
 Type=GreatSword
 Info=A powerful sword that Cloud carries with him.
 Abilities=Braver.CrossSlash.Blade_Beam.Climhazzard.Meteorain.FinishingTouch.Omnislash
@@ -1983,7 +2119,7 @@ BasePower=30
 Upgrade=50000
 
 [DekarBlade]
-Cost=9999999
+Cost=999999
 Type=Sword
 Info=The sword owned by Dekar, which is also his love.
 Abilities=ExplosionFist.ExplosionSword.GlacialBlast.Thundershriek.BombAttack.ArticFreeze.HolyEnergy.PhoenixBlow.OctoStrike.Skysplitter
@@ -1993,7 +2129,7 @@ BasePower=30
 Upgrade=50000
 
 [RuneOakStaff]
-Cost=9999999
+Cost=999999
 Type=Stave
 Info=The staff carried by Harry Dresden.
 Abilities=Forzare.SoulForzare.Fuego.Pyrofeugo.Dormio.Fulminos.Arctis.Dispertius.Gravitus.FlickumBicus.Galvinius
@@ -2003,7 +2139,7 @@ BasePower=30
 Upgrade=50000
 
 [AdamantAxe]
-Cost=9999999
+Cost=999999
 Type=Axe
 Info=The large axe used by Guy.
 Abilities=Thundershriek.BombAttack.FellCleave.UkkosFury.KingsJustice
@@ -2013,7 +2149,7 @@ BasePower=30
 Upgrade=50000
 
 [VampireKiller]
-Cost=9999999
+Cost=999999
 Type=Whip
 Info=The legendary whip used by the Belmont family.
 Abilities=GrandCross.HydroStorm.Dagger.HolyWater.Cross.StopWatch.Axe.DoubleAxe.Thousand_Knives
@@ -2024,7 +2160,7 @@ Upgrade=50000
 HurtEthereal=true
 
 [KosmosRevolver]
-Cost=9999999
+Cost=999999
 Type=Gun
 Info=The weapon used by KOS-MOS.
 Abilities=R-Cannon.R-Blade.X-Buster.R-Dragon.G-Shot.D-Teneritas.K-Axe.Hilbert_Effect.Nemesis.BloodDancer.S-Chain.F-Scythe.DexEtherRa.DexEtherFa.DexEtherLe
@@ -2035,7 +2171,7 @@ Upgrade=50000
 HurtEthereal=true
 
 [HoleyGloves]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=The gloves used by chaos.
 Abilities=SeraphimRush.AngelShot.DemonBanisher.DivineSpear.Cataclysm.PhoenixStrike.SeraphimWave.HealingDew.BloodDancer
@@ -2046,7 +2182,7 @@ Upgrade=50000
 HurtEthereal=true
 
 [ValkyrieSword]
-Cost=9999999
+Cost=999999
 Type=Sword
 Info=A legendary sword used by a powerful valkyrie.
 Abilities=NibelungValesti.ChantduCygne.Requiescat.Atonement
@@ -2057,7 +2193,7 @@ Upgrade=50000
 HurtEthereal=true
 
 [BlazefireSaber]
-Cost=9999999
+Cost=999999
 Type=Sword
 Info=A gunblade used by Lightning. It can change into a sword or a rifle.
 Abilities=ArmyOfOne.Blindside.Flamestrike.Froststrike.Sparkstrike.Aquastrike
@@ -2067,7 +2203,7 @@ BasePower=30
 Upgrade=50000
 
 [MariaPower]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=The power that comes from within Maria Renard.
 Abilities=Doves.Seiryu.Byakko.Suzaku.Genbu.GuardianFist
@@ -2078,7 +2214,7 @@ Upgrade=50000
 HurtEthereal=true
 
 [DualBlade]
-Cost=9999999
+Cost=999999
 Type=Sword
 Info=A legendary sword that only few can use. The sword that Maxim uses.
 Abilities=WaveMotion.Requiscat.FlatBlade.SwiftBlade.OctoStrike.Skysplitter
@@ -2088,7 +2224,7 @@ BasePower=30
 Upgrade=50000
 
 [RyudoSword]
-Cost=9999999
+Cost=999999
 Type=Sword
 Info=The sword used by Ryudo
 Abilities=TenseikenSlash.FlyingTenseiken.PurpleLightning.SkyDragonSlash
@@ -2098,7 +2234,7 @@ BasePower=30
 Upgrade=50000
 
 [SelanSwordStaff]
-Cost=9999999
+Cost=999999
 Type=Sword
 Info=A sword and staff that Selan uses in battle.
 Abilities=HolyEnergy.PhoenixBlow.ChantDuCygne.DeathBlossom.Curaga.CureV.FlareII.QuakeII.FreezeII.FloodII.BurstII.TornadoII
@@ -2119,7 +2255,7 @@ Upgrade=35000
 ignoredefense=5
 
 [VorlikBlade]
-Cost=9999999
+Cost=999999
 Type=Sword
 Info=A pair of swords that Vyse uses which are made of a legendary metal.
 Abilities=CutlassFury.RainOfSwords.PiratesWrath
@@ -2129,7 +2265,7 @@ BasePower=30
 Upgrade=50000
 
 [BelnadesWand]
-Cost=9999999
+Cost=999999
 Type=Wand
 Info=A legendary wand used by members of the Belnades clan. Melee strikes adds some health back to the user.
 Abilities=HolyFlames.BlueSplash.HolyLightning
@@ -2139,7 +2275,7 @@ BasePower=30
 Upgrade=50000
 
 [AirWhip]
-Cost=9999999
+Cost=999999
 Type=Whip
 Info=A powerful whip that Tia uses in battle.
 Abilities=ArticFreeze.TwinDragonLash.Whiplash.SerpentBite
@@ -2149,7 +2285,7 @@ BasePower=20
 Upgrade=50000
 
 [AmonTrident]
-Cost=9999999
+Cost=999999
 Type=Spear
 Info=A powerful trident used by Amon.
 Abilities=RahGian.WoRud.Stardiver.Drakesbane.Skewer.Geirskogul.CamlannsTorment
@@ -2159,7 +2295,7 @@ BasePower=30
 Upgrade=50000
 
 [GadesBlade]
-Cost=9999999
+Cost=999999
 Type=GreatSword
 Info=A large sword that Gades uses in battle.
 Abilities=Octostrike.Sourge.Torcleaver.Resolution.HerculeanSlash
@@ -2169,7 +2305,7 @@ BasePower=30
 Upgrade=50000
 
 [ErimBlade]
-Cost=9999999
+Cost=999999
 Type=Sword
 Info=A powerful sword that Erim uses.
 Abilities=RayGion.FuReia.RahGian.WoRud.ReeDelt.CureV.ChantDuCygne.DeathBlossom.SavageBlade.Requiescat
@@ -2179,7 +2315,7 @@ BasePower=30
 Upgrade=50000
 
 [ErimPower]
-Cost=9999999
+Cost=999999
 Type=Sword
 Info=The full power of Erim.
 Abilities=RayGion.FuReia.RahGian.WoRud.ReeDelt.CureV.ChantDuCygne.DeathBlossom.SavageBlade.Requiescat.DeathRay.MultiDeathRay
@@ -2189,7 +2325,7 @@ BasePower=50
 Upgrade=50000
 
 [EvilChainsaw]
-Cost=9999999
+Cost=999999
 Type=Chainsaw
 Info=A bloody chainsaw
 Abilities=DefenseRip.ChainsawSlash
@@ -2199,7 +2335,7 @@ BasePower=35
 Upgrade=50000
 
 [TurkeyPower]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=The power of a jive turkey.
 Abilities=Gobble
@@ -2209,7 +2345,7 @@ BasePower=30
 Upgrade=50000
 
 [PoisonFists]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 StatusType=strengthdown
 Info=The weapon of the giant monster Poison
@@ -2220,7 +2356,7 @@ BasePower=30
 Upgrade=50000
 
 [MedusaPower]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 StatusType=petrify
 Info=The weapon of Medusa
@@ -2231,7 +2367,7 @@ BasePower=30
 Upgrade=50000
 
 [HybridElementalPower]
-Cost=9999999
+Cost=999999
 Type=Wand
 Info=The power of the hybrid elementals.
 Abilities=Flare.Quake.Flood.Tornado.Freeze.Burst.FlareII.QuakeII.FloodII.TornadoII.FreezeII.BurstII.Firaja.FirajaII.Stoneja.StonejaII.Waterja.WaterjaII.Aeroja.AerojaII.Blizzaja.BlizzajaII.Thundaja.ThundajaII.Darkra_I.Darkra_II.DarkV.Holy.HolyII.BanishV.CureIV
@@ -2241,7 +2377,7 @@ BasePower=20
 Upgrade=50000
 
 [BatFangs]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=The fangs of a bat.
 Abilities=SonicBoom.BatBite.BatDrill
@@ -2251,7 +2387,7 @@ BasePower=10
 Upgrade=50000
 
 [BalrogPower]
-Cost=9999999
+Cost=999999
 Type=Whip
 Info=The power of a Balrog.
 Abilities=WhipLash.TwinDragonLash.CircularChain.DarkLash.FlameStrike
@@ -2261,7 +2397,7 @@ BasePower=30
 Upgrade=50000
 
 [DemonicWeapon]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=The power of the Kindred.
 Abilities=HectacombWave.QuadraStrike.SoulDrain.FireIII.ThunderIII.Tachi:Rana.SwiftBlade.Firaja.Thundaja
@@ -2271,7 +2407,7 @@ BasePower=15
 Upgrade=50000
 
 [DhalmelSaliva]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=The saliva of a Dhalmel. It has a terrible stench.
 Abilities=Stomping.ColdStare.HealingBreeze.SonicWave
@@ -2281,7 +2417,7 @@ BasePower=15
 Upgrade=50000
 
 [LizardPower]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=The power of the lizards.
 Abilities=BlockHead.Fireball.Snowball.TailBlow.PoisonBreath.BalefulGaze
@@ -2291,7 +2427,7 @@ BasePower=12
 Upgrade=50000
 
 [TreantPower]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=The power of the trees!
 Abilities=Leafstorm.DrillBranch.PinecombBomb.Entangle.SproutSmack.SproutSpin
@@ -2301,7 +2437,7 @@ BasePower=18
 Upgrade=50000
 
 [StarmanGun]
-Cost=9999999
+Cost=999999
 Type=Gun
 Info=A powerful gun carried by the Starmen race.
 Abilities=StarBeam.PK-StarStorm.PK-Fire.PK-Ice.PK-Thunder
@@ -2311,7 +2447,7 @@ BasePower=18
 Upgrade=50000
 
 [GnoleClaws]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=The claws of a gnole.
 Abilities=FeveredPitch.CallOfTheMoon.AsuranClaws.PleniluneEmbrace.NoxBlast
@@ -2321,7 +2457,7 @@ BasePower=25
 Upgrade=50000
 
 [HippiePeace]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=The peace of a hippie. Groovy, man...
 Abilities=Toothbrush.Ruler.YardStick.Calculator
@@ -2331,7 +2467,7 @@ BasePower=1
 Upgrade=50000
 
 [UnicornHorn]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=The power of a legendary unicorn.
 Abilities=HornStab.UnicornKick.UnicornStomp.UnicornBite.Holy.HolyII.BanishV.DarkV.Darkra_I.Darkra_II.BurstII.ThundajaII.Thors_Hammer
@@ -2341,7 +2477,7 @@ BasePower=35
 Upgrade=50000
 
 [BirdBeak]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=The beak of a bird.
 Abilities=TornadoII.AerojaII.WingCutter.HellDive.BroadsideBarrage
@@ -2351,7 +2487,7 @@ BasePower=30
 Upgrade=50000
 
 [YovraPower]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=The power of the Yovras.
 Abilities=ConcussiveOscillation.PrimalDrill.LuminousDrape.IonShower
@@ -2361,7 +2497,7 @@ BasePower=40
 Upgrade=50000
 
 [PinkChainsaw]
-Cost=9999999
+Cost=999999
 Type=Chainsaw
 Info=A pink chainsaw that belongs to Juliet Starling.
 Abilities=ChainsawDash.ChainsawSpin.ChainsawTornado.ChainsawCut.ChainsawAttack.ChainsawCannon
@@ -2371,7 +2507,7 @@ BasePower=28
 Upgrade=50000
 
 [MegaBuster]
-Cost=9999999
+Cost=999999
 Type=Gun
 Info=The weapon of Megaman.
 Abilities=ChargedEnergyShot.HyperBomb.SuperArm.RollingCutter.ThunderBeam.IceSlasher.FireStorm.ShotgunIce.StormTornado.FireWave.ChameleonSting.ElectricSpark.RollingShield.BoomerangCutter.HomingTorpedo.ArmorChange
@@ -2381,7 +2517,7 @@ BasePower=30
 Upgrade=50000
 
 [SwordOfTheFallenDevil]
-Cost=9999999
+Cost=999999
 Type=Sword
 Info=The sword that belongs to Orphen.
 Abilities=HandOfPyro.Bite_Of_Lightning.HailOfHeavens.PinnacleOfTheSun.HammerOfEvil.ColdnessOfDestruction.FeathersOfTheHurricane.BoltOfThunder.SmokeOfPain.FalconOfDeath
@@ -2391,7 +2527,7 @@ BasePower=30
 Upgrade=50000
 
 [ChozoSuit]
-Cost=9999999
+Cost=999999
 Type=Gun
 Info=The Chozo Power Suit that belongs to Samus Aran.
 Abilities=PoweredShot.Missile.SuperMissile.Bomb.PowerBomb.ScrewAttack
@@ -2401,7 +2537,7 @@ BasePower=30
 Upgrade=50000
 
 [ZeroSaber]
-Cost=9999999
+Cost=999999
 Type=Sword
 Info=The beam saber that belongs to Zero.
 Abilities=Raijingeki.Rakuhouha.Ryuenjin.Kuuenzan.Shippuuga.Hyoretsuzan.BlackArmor
@@ -2411,7 +2547,7 @@ BasePower=30
 Upgrade=50000
 
 [SantaRifle]
-Cost=9999999
+Cost=999999
 Type=Rifle
 Info=The weapon of Robot Santa!
 Abilities=LaserStorm.GrenadeGift.BazookaGift
@@ -2421,7 +2557,7 @@ BasePower=20
 Upgrade=50000
 
 [BrainWeapon]
-Cost=9999999
+Cost=999999
 Type=Rifle
 Info=The weapon of the Space Pirate leader, Mother Brain.
 Abilities=Rinka.LavaFall.LaserDefense.HyperBeam.BombBeam.PlasmaLaser.BrainStomp.BrainGrab
@@ -2431,7 +2567,7 @@ BasePower=50
 Upgrade=50000
 
 [CupidBow]
-Cost=9999999
+Cost=999999
 Type=bow
 Info=Cupid's Bow!
 Abilities=LoveAtFirstSight.LoveIsConfusing
@@ -2441,7 +2577,7 @@ BasePower=25
 Upgrade=50000
 
 [LevithanHeart]
-Cost=9999999
+Cost=999999
 Type=handtohand
 Info=Levithan's Heart
 Abilities=LevithanLaser
@@ -2451,7 +2587,7 @@ BasePower=50
 Upgrade=50000
 
 [BallPower]
-Cost=9999999
+Cost=999999
 Type=handtohand
 Info=Ball Power
 Abilities=BallRoll.BallBounce.BallExplode
@@ -2461,7 +2597,7 @@ BasePower=50
 Upgrade=50000
 
 [SkyGodPower]
-Cost=9999999
+Cost=999999
 Type=handtohand
 Info=Power of the Sky Gods
 Abilities=FlareII.QuakeII.FloodII.TornadoII.FreezeII.BurstII.SpikeFlail.CureII
@@ -2471,7 +2607,7 @@ BasePower=50
 Upgrade=50000
 
 [Legion]
-Cost=9999999
+Cost=999999
 Type=handtohand
 Info=Power of Legion
 Abilities=LegionLaser
@@ -2481,7 +2617,7 @@ BasePower=50
 Upgrade=50000
 
 [MummyPower]
-Cost=9999999
+Cost=999999
 Type=handtohand
 Info=Power of a mummy
 Abilities=MummyCurse.MummyBandage
@@ -2494,7 +2630,7 @@ Upgrade=50000
 
 
 [FencingDegen]
-Cost=9999999
+Cost=999999
 Type=Sword
 Info=A rapier used by Red Mages.
 Abilities=SavageBlade.SwiftBlade.DeathBlossom.CureIV.FireIII.IceIII.AeroIII.WaterIII.ThunderIII.StoneIII.Paralyze.Slow.Blind.Stun
@@ -2504,7 +2640,7 @@ BasePower=50
 Upgrade=50000
 
 [ShinryuClaws]
-Cost=9999999
+Cost=999999
 Type=HandToHand
 Info=The claws of the mighty Dragon God, Shinryu.
 Abilities=AtomicRay.IceStorm.TidalWave.CosmicBreath.Protostar.Meteor.Supernova.DarkMatter.BurstII.ThundajaII.TornadoII.AerojaII
@@ -2515,7 +2651,7 @@ Upgrade=50000
 IgnoreDefense=10
 
 [GarlandSword]
-Cost=9999999
+Cost=999999
 Type=GreatSword
 Info=The large sword of Garland, which can change into other weapon types.
 Abilities=Earthquake_Axe.Blaze_Swords.Tsunami_Whip.Cyclone_Lance.RoundEdge.Deathblow
@@ -2525,139 +2661,65 @@ BasePower=50
 Upgrade=50000
 IgnoreDefense=5
 
-; Omega Weapon
-[FFOmegaWeapon]
-Cost=99999
-Type=Rifle
-Info=The Ultimate Fantasy Weapon
-Abilities=Repairs.SpaceBeam
-element=none
-hits=$rand(1,4)
-basepower=15
-upgrade=500000
 
-[Valkyrie_Sword]
-Cost=99999
-Type=Sword
-Info=A Valkyrie's standard issue sword, forged from the roots of Yggdrasil.
-Abilities=CureV.SonicBlow.JupitelThunder.BrandishSpear.WiseReflection
-element=Light
-hits=$rand(1,3)
-basepower=50
-upgrade=500000
-HurtEthereal=true
-ignoredefense=50
 
-[TRexWeapon]
-cost=999999
-Type=HandtoHand
-Info=A Tyrannosaurus' Weapon for fighting and hunting!
-Abilities=Roar.Swallow.SpikeFlail.VolcanicRush.SurvivalInstinct
-element=dark
-hits=$rand(2,5)
-basepower=35
-upgrade=500000
 
-[PhoenixmonWeapon]
+[DiremiteLegs]
 Cost=999999
-Type=Stave
-Info=A Phoenixmon's Weapon for defending itself.
-Abilities=StarlightExplosion.CureV.CrimsonFlame.MeteorPhoenix.DoubleHurricane.BusterPhoenix
-element=none
-hits=$rand(1,3)
-basepower=30
-upgrade=500000
-HurtEthereal=true
-
-[BlackRockShooter]
-cost=999999
-Type=Rifle
-Info=A steady rate firing Arm Cannon. It can change forms depending on the battle.
-Abilities=RockCannon.RockDeltaVulcan.BlackStarSlash.BlackStarGrenade.BlackStarPower.RockCannonSpear.CureV
-element=none
-hits=$rand(2,3)
-basepower=25
-upgrade=500000
-HurtEthereal=true
-
-[DiEndDriver]
-Cost=40
-Type=Gun
-Info=A large looking gun with a card slot on the side.
-Abilities=Diendhenshin.DiendGekijouban.DiendBlast.DiendDimensionShoot.CureII
-Element=none
-Hits=$rand(1,2)
-BasePower=25
-Upgrade=350
-HurtEthereal=true
-
-[MegasaurusWeapon]
-Cost=9999999
-Type=HandtoHand
-Info=A Megasaurus' Weapon
-abilities=SurvivalInstinct.Earthquake.UltimateSwallow.SpikeFlail.Slurp.Dinostomp.VolcanicRush
-basepower=70
-hits=$rand(1,2)
-upgrade=500000
-
-[OmegaMultipurposeCannon]
-cost=9999999
-Type=Rifle
-Info=A Omega Weapon MK12 Weapon
-abilities=WaveCannon.LightPillar.MeggidoFlame.Ultima.Gravija.TerraBreak.Meteor.LV5_Death
-basepower=999
-hits=$rand(2,4)
-upgrade=500000
-HurtEthereal=true
-
-[Perfect_Chaos_Water]
-cost=9999999
 Type=HandToHand
-Info=Perfect Chaos' ultimate form!
-basepower=500
-anbilities=Chaos_Tsunami.Hyrdro_Cannon.Chaos_Rain.Chaos_Chomp.PerfectChaosR2.Chaos_Water_Beam.Dark_Power_of_Chaos_Emeralds
-hits=$rand(1,3)
-upgrade=5000000
-HurtEthereal=true
+Info=The legs of a diremite spider.
+Abilities=Grapple.SpinningTop.DoubleClaw.FilamentedHold
+Element=None
+Hits=2
+BasePower=40
+Upgrade=50000
 
-[Executioner]
-Cost=200
-Type=GreatSword
-Info=A gruesome sword used to behead criminals judged with the death penalty.
-Abilities=Bash.BowlingBash.MagnumBreak.ShadowSmash
-Element=Dark
-Hits=$rand(1,2)
-BasePower=60
-Upgrade=300
-
-[Themis'Axe]
-Cost=55
-Type=Axe
-Info=An axe blessed by the power of Themis, daughter of Uranus and Gaea. Said to cause minor earthquakes with each swing.
-Abilities=Djinn:Bane.Djinn:Flower.Djinn:Steel.Stone_Justice
-Element=Earth
+[IroncladSword]
+Cost=999999
+Type=Greatsword
+Info=The massive sword of an Iron Giant.
+Abilities=SeismicImpact.BallisticKick.IroncladCannon.ScapulaBeam.TurbineCyclone
+Element=None
 Hits=1
-BasePower=45
-Upgrade=250
+BasePower=50
+Upgrade=50000
 
-[StarMageStaff]
-cost=99999999
-Type=Stave
-Info=Star Magician's Normal Attack Source
-Abilities=Mine_Ball.Spark_Plasma.Megacool.Curaga
-Element=Water
-Hits=$rand(1,2)
-BasePower=60
-Upgrade=5000000
+[FormorPower]
+Cost=999999
+Type=HandToHand
+Info=The power of the Fomors, who can wield different weapons.
+Abilities=DimensionalDeath.CarnalNightmare.AegisSchism.DancingChains.GrimHalo
+Element=Dark
+Hits=1
+BasePower=50
+Upgrade=50000
 
-[Randgris_Sword]
-cost=999999999
+[OrcishLongBow]
+Cost=999999
+Type=Bow
+Info=A longbow carried by Orc Rangers.
+Abilities=BattleDance.ShoulderTackle.EagleEyeShot.Sidewinder.JishnusRadiance.ApexArrow
+Element=None
+Hits=1
+BasePower=50
+Upgrade=50000
+
+[OrcishLongsword]
+Cost=999999
 Type=Sword
-Info=A specialized Valkyrie Sword... forged from the heart of a collapsing star.
-abilities=Thunder_Storm.LordOfVermillion.BrandishSpear.Light_PowerUp.HolyCross.SonicBlow.Earthquake.Protect.Shell
-basepower=110
-Element=Light
-hits=$rand(1,2)
-ignoredefense=20
-Upgrade=500000
-HurtEthereal=true
+Info=A longsword carried by Orcish Paladins.
+Abilities=BattleDance.ShoulderTackle.SanguineBlade.Holy.CureIV.SavageBlade.SwiftBlade.Atonement
+Element=None
+Hits=1
+BasePower=50
+Upgrade=50000
+
+[XalmoFists]
+Cost=999999
+Type=HandToHand
+Info=The fists of Huu Xalmo the Savage.
+Abilities=Sweep.FeatherStorm.DoubleKick.AsuranFists
+Element=None
+Hits=2
+BasePower=40
+Upgrade=50000

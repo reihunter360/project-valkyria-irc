@@ -53,7 +53,7 @@ alias uses_item {
     if ($numtok(%monster.to.spawn,46) > 1) { $portal.item.multimonsters }
 
     set %current.battlefield $readini(items.db, $2, Battlefield)
-    writeini weather.lst weather current $readini(items.db, $2, weather)
+    writeini battlefields.db weather current $readini(items.db, $2, weather)
     set %current.turn 1
 
     ; Set the allied notes value
@@ -239,15 +239,21 @@ alias item.random {
   ; $2 = target
   ; $3 = item used
 
-  var %food.items $readini(items.db, items, FoodItems)
-  var %accessories $readini(items.db, items, accessories)
-  var %gems $readini(items.db, items, gems)
-  var %shop.reset $readini(items.db, items, ShopReset)
-  var %total.items blackorb. $+ %food.items $+ . $+ %accessories $+ . $+ %gems . $+ %shop.reset
-  set %random $rand(1, $numtok(%total.items,46))
-  if (%random = $null) { var %random 1 }
-  set %random.item.contents $gettok(%total.items,%random,46)
+  ; This type of item will pick a list at random and then pick a random item from inside that list.
 
+  var %random.list $rand(1,11)
+
+  if (%random.list = 1) { set %present.list items_accessories.lst }
+  if (%random.list = 2) { set %present.list items_battle.lst }
+  if (%random.list = 3) { set %present.list items_consumable.lst }
+  if (%random.list = 4) { set %present.list items_food.lst }
+  if (%random.list = 5) { set %present.list items_gems.lst }
+  if (%random.list = 6) { set %present.list items_healing.lst }
+  if (%random.list = 7) { set %present.list items_misc.lst }
+  if (%random.list = 8) { set %present.list items_portal.lst }
+  if (%random.list = 9) { set %present.list items_reset.lst }
+  if (%random.list = 10) { set %present.list items_summons.lst }
+  if (%random.list = 11) { set %random.item.contents blackorb }
 
   if (%random.item.contents = blackorb) { 
     set %random.item.name Black Orb
@@ -256,9 +262,13 @@ alias item.random {
     writeini $char($2) stuff BlackOrbs %current.orbs
   }
 
-  if (%random.item.contents != blackorb) { 
+  else {
+    var %items.lines $lines(%present.list)
+    set %random $rand(1, %items.lines)
+    if (%random = $null) { var %random 1 }
+    set %random.item.contents $read -l $+ %random %present.list
     set %random.item.name %random.item.contents
-    set %current.reward.items $readini($char($1), item_amount, %chest.item)
+    set %current.reward.items $readini($char($1), item_amount, %random.item.name)
     if (%current.reward.items = $null) { set %current.reward.items 0 }
     inc %current.reward.items %chest.amount
     writeini $char($1) item_amount %random.item.contents %current.reward.items

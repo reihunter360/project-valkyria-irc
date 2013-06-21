@@ -252,7 +252,7 @@ alias add_target {
 }
 
 alias ai_gettech {
-  unset %ai.tech | unset %tech.list | unset %techs | unset %number.of.techs
+  unset %ai.tech | unset %tech.list | unset %techs | unset %number.of.techs | unset %ignition.name
   $weapon_equipped($1)
   set %techs $readini(techniques.db, techs, %weapon.equipped)
   set  %number.of.techs $numtok(%techs, 46)
@@ -272,6 +272,22 @@ alias ai_gettech {
     inc %value 1 
   }
 
+  if ($readini($char($1), status, ignition.on) = on) {
+    set %ignition.name $readini($char($1), status, ignition.name)
+    set %techs $readini(ignitions.db, %ignition.name, techs)
+    var %number.of.techs $numtok(%techs, 46)
+    var %value 1
+    if (%techs != $null) {
+      while (%value <= %number.of.techs) {
+        set %tech.name $gettok(%techs, %value, 46)
+        %tech.list = $addtok(%tech.list,%tech.name,46)
+        inc %value 1
+      }
+    }
+  }
+
+  unset %ignition.name | unset %techs
+
   if (($readini($char($1), info, flag) = monster) || ($readini($char($1), info, flag) = npc)) { 
     if (($readini($char($1), status, ignition.on) != on) && ($readini($char($1), battle, IgnitionGauge) >= 100)) {
       if (($readini($char($1), status, virus) != yes) && ($readini($char($1), status, boosted) != yes))  {
@@ -279,20 +295,24 @@ alias ai_gettech {
         if ((no-ignition !isin %battleconditions) && (no-ignitions !isin %battleconditions)) {
 
           ; Get Ignition list and check it
-          set %ignitions $readini(ignitions.db, ignitions, list)
-          set  %number.of.ignitions $numtok(%ignitions, 46)
-          var %value 1
 
-          while (%value <= %number.of.ignitions) {
-            set %ignition.name $gettok(%ignitions, %value, 46)
-            set %ignition.level $readini($char($1), ignitions, %ignition.name)
+          unset %ignitions.list | unset %ignitions | unset %number.of.ignitions
+          var %value 1 | var %items.lines $lines(ignitions.lst)
 
-            if ((%ignition.level != $null) && (%ignition.level >= 1)) { 
+          while (%value <= %items.lines) {
+            set %item.name $read -l $+ %value ignitions.lst
+            set %item_amount $readini($char($1), ignitions, %item.name)
+
+            if (%item_amount = 0) { remini $char($1) ignitions %item.name }
+            if ((%item_amount != $null) && (%item_amount >= 1)) { 
               var %flag $readini($char($1), info, clone)  
-              if (%flag = $null) { %tech.list = $addtok(%tech.list,%ignition.name,46) }
+              if (%flag = $null) { %tech.list = $addtok(%tech.list,%item.name,46) }
             }
-            inc %value
+
+            unset %item.name | unset %item_amount
+            inc %value 1 
           }
+
         }
       }
 

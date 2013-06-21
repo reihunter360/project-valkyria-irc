@@ -335,10 +335,10 @@ TreasureHunter
 This skill will increase the odds of better colored chests at the end of battle and increase the odds that a player will receive an item from a normal monster battle (if the monster has an item to drop). This skill is culumulative with everyone who has it at the end of battle.  In order for this skill to take effect, you must be alive at the end of battle when a chest is created.
 
 BackGuard
-This skill will decreaease the odds of a surprise attack against the players. This skill is culumulative with everyone who has it at the beginning of battle.
+This skill will decrease the odds of a surprise attack against the players. This skill is cumulative with everyone who has it at the beginning of battle.
 
 DivineBlessing
-This skill will decrease the odds that a curse night will happen by 1% per level. This skill is culumulative with everyone who has it at the beginning of battle.
+This skill will decrease the odds that a curse night will happen by 1% per level. This skill is cumulative with everyone who has it at the beginning of battle.
 
 
 Active Skills
@@ -1060,7 +1060,7 @@ Zu
 
 
 BOSS LIST
-** As of April 29, 2013.
+** As of June 20, 2013.
 Here's a list of bosses that are in the bot.
 
 Absolute Virtue
@@ -1073,6 +1073,7 @@ Aris
 Ashi
 Ashmaker Gotblut
 Astarte
+Awahondo
 Bahamut Fury
 Bigmouth Billy
 Bloody Bones
@@ -1105,6 +1106,8 @@ Gilgamesh
 Giygas
 Gothmog
 Guard Daos
+Huu Xalmo the Savage
+Ironclad Severer
 Juggler Hecatomb
 Jailor of Love
 Jeffery
@@ -1119,13 +1122,14 @@ Legion
 Leviathan Center Heart
 Leviathan Left Heart
 Leviathan Right Heart
+Marchelute
 Marquis Caim
 Menos Grande
 Metal King Slime
 Morion Worm
 Mother Brain
 M.Bison
-Nauthima Tiranadel
+One-Eyed Gwajboj
 Onki
 Pallid Percy
 Poison
@@ -1145,6 +1149,7 @@ Suzaku
 Stinging Sophie
 Stubborn Dredvodd
 Sub Zero
+Three-Eyed Prozpuz
 Tiamat
 True Erim
 Vampire Bat
@@ -1203,6 +1208,8 @@ Time To Build An Ark
 Hi Ho, Hi Ho
 Blood Gone to Brain
 You Bring the Monsters, I'll Bring the Weapons
+Warbound
+Fill Your Dark Soul With Light
 
 
 MISC INFO

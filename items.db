@@ -1,61 +1,12 @@
 [Items]
-; Healing Items can restore HP, TP, IG, status or bestow the "revive" status
-HealingItems=Potion.VitalStar.X-Potion.Senzu.DustyWing.Tonic.GoldOrb.IgnitionStar
-
-; Battle Items are used for damaging enemies in battle
-BattleItems=Stop_Watch.Hour_Glass.Holy_Water.Red_Fang.Thunder_Orb.Fire_Flower.Ice_Coin.Love_Potion.Grappling_Hook
-
-; Food Items increase stats
-FoodItems=Pizza.PotRoast.Ramen.Cavier.BisonDollar.DragonMeat.SuperMushroom.FireDragonWine.Ambrosia.FoieGras.KnowledgeSource.SoulPainting.FishAndChips.Slurm.CerberusMeat.SilverApple.DefenseSource.PowerSource.Herring.TurkeyLeg.BloodyHeart.RottingMeat
-
-; Random items
-Random=Present
-
-; Consume items are used by skills
-ConsumeItems=Shihei.Sokubaku.Hankai.MirrorShard
-
-; Portal items are used to summon a special boss..
-PortalItems=AlliedTrainingPaper.WormFood.DemonBell.VirilityCan.IgnisFatuus.BanishingCharm.RottingOrb.GemOfTheNorth.GemOfTheEast.GemOfTheSouth.GemOfTheWest.GodSeal.LachesisOrb.CrimsonTraverserStone.GoddessOrb
-
-; Summon Items are used with BloodPact to summon an ally
-SummonItems=DarkMagicianCard.BusterBladerCard.BlueEyesCard.FishOilBroth.ElvishMedallian.AlexanderMateria.BahamutMateria.BahamutZeroMateria.CarbuncleMateria.SolomonRing.LuckyBroth.FenrirMateria.GarudaMateria.IfritMateria.LeviathanMateria.RamuhMateria.ShivaMateria.TitanMateria
-
-; Shop Reset items reduce the player's shop level
-ShopReset=DiscountCard.UltraDiscountCard
-
-; Accessories are special items that cannot be bought in stores and are found by defeating bosses.
-Accessories=Wizard's-Amulet.Blessed-Ankh.Blood-Ring.Blood-Pendant.Purple-Belt.Brown-Belt.Black-Belt.Red-Belt.Miser-Ring.Thief-Ring.Fool's-Tablet.Ribbon.Aztec-Goldcoin.Lucky-Rabbit'sFoot.VIP-MemberCard.Spear-Pin.Mugger's-Belt.Prism-Specs.4leaf-clover
-
-; The gems cannot be bought in store and this list is used by the jewel sword. I've added Zircon multiple times because that was the most common drop in SotN.
+; The gems line is necessary here for the convertogem augment and ability to work right..
 Gems=Zircon.Topaz.Emerald.Ruby.Zircon.Diamond.Sapphire.Opal.Zircon.Onyx
 
-; Keys are used to open chests. They cannot be bought in stores.
+; Keys are used to open chests. They cannot be bought in stores.  This line needs to stay here for the bot to work.
 Keys=BlueKey.BrownKey.RedKey.OrangeKey.GreenKey.GoldKey.BrownKey.BlueKey.RedKey.SilverKey.PurpleKey.BlackKey
 
-; These are special items that are only available when crafting (or potentially drops from bosses)
-CraftedItems=SuperPotion.MegaPotion.Ether.Dynamite.HolyHandGrenade.Angon.SauceAmpulla.DunceCap.Shihei.MirrorShard.Mugger's-Belt.Blood-Pendant.VIP-MemberCard.Prism-Specs.Paper.SilverChain.PurpleKey.GoldKey.SilverKey.GodSeal
-CraftedArmor=SpikedKnuckles.ClothRobe.MageRobe.Haubergeon.DarksteelGloves.DarksteelBoots.DarksteelHose.DarksteelHelmet.DarksteelMail.TengokuMail
-
-; Misc items aren't used for anything except crafting or trading for portal items.
-Misc=Ink.Paper.AshLog.Hatchet.IronOre.GoldOre.SilverOre.DarksteelOre.Ectoplasm.BrokenLance.SilverChain.FireGem.IceStone.WindRock.WaterJewel.EarthSphere.Glass.Cloth.RepairHammer.BeastmenSeal.KindredSeal.TigerFang.Sand.ByakkoSeal.GenbuSeal.SeiryuSeal.SuzakuSeal.KirinSeal.KindredCrest.HighKindredCrest.AncientBeastcoin.CardinalCloth.Kurogane.DiabolicSilk.DarkOrichalcumIngot.JewelOfArdor.StoneOfWieldance
-
-; Runes are for augments.
+; Runes are for augments. This line needs to stay in here for the bot to work.
 Runes=EthRune.MtlRune.HiRune.GeRune.MaRune.TeRune.MeRune.SmnRune.DrnRune.ItmRune.RenRune.NinRune.IgDefRune
-
-; HeadEquipment is for equipment for the head
-HeadEquipment=BucketHat.RustyHelmet.JesterHat.DarksteelHelmet.BloodCrown.MyochinKabuto.ChaosBurgeonet.Genbu'sKabuto.WarlockChapeau.WarlockChapeau+1.WarlockChapeau+2.TwilightHelm.UnkaiKabuto.UnkaiKabuto+1.UnkaiKabuto+2.EstoqueurChappel.EstoqueurChappel+1.EstoqueurChappel+2.ValkyrieHelm
-
-; BodyEquipment is for equipment for the body
-BodyEquipment=RustyMail.TornRobe.ClothRobe.MageRobe.BloodHauberk.Haubergeon.MyochinDomaru.ChaosCuirass.Kirin'sOsode.TengokuMail.WarlockTabard.WarlockTabard+1.WarlockTabard+2.TwilightMail.UnkaiDomaru.UnkaiDomaru+1.UnkaiDomaru+2.EstoqueurSayon.EstoqueurSayon+1.EstoqueurSayon+2.ValkyrianArmor
-
-; LegsEquipment is for equipment for the legs
-LegsEquipment=RustyHose.DarksteelHose.MyochinHaidate.ChaosFlanchard.Byakko'sHaidate.WarlockTights.WarlockTights+1.WarlockTights+2.TwilightCuisses.UnkaiHaidate.UnkaiHaidate+1.UnkaiHaidate+2.EstoqueurFuseau.EstoqueurFuseau+1.EstoqueurFuseau+2
-
-; FeetEquipment is for equipment for the feet
-FeetEquipment=RustyBoots.DarksteelBoots.BloodSocks.MyochinSune-Ate.ChaosSollerets.Suzaku'sSune-Ate.WarlockBoots.WarlockBoots+1.WarlockBoots+2.TwilightSabatons.UnkaiSune-Ate.UnkaiSune-Ate+1.UnkaiSune-Ate+2.EstoqueurHouseaux.EstoqueurHouseaux+1.EstoqueurHouseaux+2.ValkyrianShoes
-
-; HandsEquipment is for equipment for the hands
-HandsEquipment=LeatherGloves.RustyKnuckles.SpikedKnuckles.DarksteelGloves.MyochinKote.ChaosGauntlets.Seiryu'sKote.WarlockGloves.WarlockGloves+1.WarlockGloves+2.TwilightGauntlets.UnkaiKote.UnkaiKote+1.UnkaiKote+2.EstoqueurGantherots.EstoqueurGantherots+1.EstoqueurGantherots+2.ValkyrianGloves
 
 
 
@@ -127,6 +78,18 @@ FullbringLevel=5
 FullbringTarget=AOE
 FullbringAmount=3500
 Fullbringdesc=draws out the soul from the potion.  The potion's soul is drawn towards everyone and gives off a bright light that heals everyone.
+Currency=none
+
+[Bruce'sJuice]
+Type=heal
+Target=Single
+Amount=15000
+Desc=pulls out a refreshing bottle of Bruce "Old Man" Willaker's juice and drinks it.  Ahhhhhhh, the most refreshing juice in the world.
+Cost=0
+FullbringLevel=5
+FullbringTarget=AOE
+FullbringAmount=5000
+Fullbringdesc=draws out the soul from a bottle of Bruce "Old Man" Willaker's juice.  The juice's soul is drawn towards everyone and gives off a bright light that heals everyone.
 Currency=none
 
 [DustyWing]
@@ -237,7 +200,7 @@ Type=Status
 Target=Single
 StatusType=defensedown
 Amount=150
-Cost=100
+Cost=0
 Desc=takes out a large lance that is glowing red and throws it at %enemy $+ .  After being hit, %enemy starts to feel as though $gender($2) defense has been weakened.
 FullbringLevel=5
 FullbringTarget=AOE
@@ -249,26 +212,24 @@ Type=Status
 Target=Single
 StatusType=strengthdown
 Amount=150
-Cost=100
+Cost=0
 Desc=takes out a small flask that has a strange bubbling liquid inside and throws it at %enemy $+ .  After being hit by the exploding flask, %enemy starts to feel as though $gender($2) strength has been weakened.
 FullbringLevel=5
 FullbringTarget=AOE
 FullbringAmount=100
 Fullbringdesc=draws out the soul from the ampulla.  The soul splits into several copies of itself and floats over all the targets on the battlefield before falling down upon them all at once. 
 
-
 [DunceCap]
 Type=Status
 Target=Single
 StatusType=intdown
 Amount=150
-Cost=100
+Cost=0
 Desc=takes out a large glowing pointed hat and quickly runs over to %enemy and sits the hat upon $gender($2) head.  After wearing the hat, $gender3($2) doesn't feel so smart any more.. 
 FullbringLevel=5
 FullbringTarget=AOE
 FullbringAmount=100
 Fullbringdesc=takes out a large glowing pointed hat and draws out its soul.  The hat splits into multiple copies that land upon all the targets on the battlefield before fading away.
-
 
 [Fire_Flower]
 Type=Damage
@@ -302,12 +263,11 @@ Amount=100
 Cost=0
 Desc=takes out a pink glowing potion and tosses it to %enemy who decides to drink it. Hey, why not?  When life gives you a glowing pink potion, you drink it! %enemy begins to feel a bit enamored with %user $+ !
 
-
 [Dynamite]
 Type=Damage
 Target=Single
 Amount=310
-Cost=350
+Cost=0
 Desc=takes out a small stick of dynamite and tosses it at %enemy causing a massive explosion.
 Element=fire
 FullbringLevel=4
@@ -327,7 +287,7 @@ Element=light
 Type=Snatch
 Target=Single
 Amount=1
-Cost=1000
+Cost=500
 Desc=takes out a grappling hook and swings it around %enemy $+ . After %enemy is hooked, %real.name begins to pull in an attempt to drag %enemy over to $gender2($1) to use as a protective shield.
 
 
@@ -1145,6 +1105,43 @@ cost=2000
 Desc=Taking this stone into hand, you can feel your arm move more freely.
 Currency=AlliedNotes
 
+[UtopianGoldThread]
+type=misc
+cost=250
+Desc=This Far Eastern gold thread is of the utmost quality.
+Currency=AlliedNotes
+
+[SnowyCerment]
+type=misc
+cost=250
+Desc=This chunk of cermit from the Near East is as white as snow.
+Currency=AlliedNotes
+
+[ChameleonYarn]
+type=misc
+cost=250
+Desc=This peculiar spool of yarn changes color to match the surrounding enviroment.
+Currency=AlliedNotes
+
+[GlitteringYarn]
+type=misc
+cost=250
+Desc=This thread glitters when touched by light.
+Currency=AlliedNotes
+
+[BenedictSilk]
+type=misc
+cost=250
+Desc=Blesses by a saint in ancient times, this silk cloth gleams with an awe-inspiring light.
+Currency=AlliedNotes
+
+[CoinOfBalance]
+type=misc
+cost=500
+Desc=A peculiar coin that, when flipped. will always alternate heads and tails.
+Currency=AlliedNotes
+
+
 
 =========================
 RUNES
@@ -1384,9 +1381,68 @@ Monster=Rainemard
 Desc=takes out a blue gem that has white light swirling inside. The blue gem shatters a moment later, transporting the players to Horlais Peak.
 AlliedNotes=500
 
+[TavnaziaPass]
+type=portal
+Cost=25
+Currency=KindredSeal
+Battlefield=Valkurm Dunes
+Weather=Dry
+Monster=Marchelute
+Desc=takes out the Tavnazia Pass. The paper crumbles and transports everyone to the Valkurm Dunes.
+AlliedNotes=1000
+
+[YagudoDrink]
+type=portal
+Cost=25
+Currency=KindredSeal
+Battlefield=Castle Oztroja
+Weather=Calm
+Monster=HuuXalmo
+Desc=takes out a bottle of Yagudo Drink and sets it on the ground. A random Yagudo quickly takes it and teleports everyone to Castle Oztroja.
+AlliedNotes=1000
+
+[SpheroidPlate]
+type=portal
+Cost=25
+Currency=KindredSeal
+Battlefield=Abyssea - Misareaux Coast
+Weather=Calm
+Monster=IroncladSeverer
+Desc=takes out a spheroid plate and sets it on the ground. Everyone is then teleported to Abyssea - Misareaux Coast, appearing before the Iron Giant who begins to awaken.
+AlliedNotes=1000
+
+[AvatarBlood]
+type=portal
+Cost=25
+Currency=KindredSeal
+Battlefield=Abyssea - Uleguerand Range
+Weather=Snowy
+Monster=Awahondo
+Desc=takes out a bottle of avatar blood and tosses it to the ground. It shatters and telepports everyone to Abyssea - Uleguerand Range.
+AlliedNotes=1000
+
+[OldOrcBow]
+type=portal
+Cost=25
+Currency=KindredSeal
+Battlefield=Davoi
+Weather=Calm
+Monster=Prozpuz
+Desc=takes out an old bow and set it down. A random Orc takes the bow and teleports everyone to Davoi.
+AlliedNotes=1000
+
 
 ; Kindred Crest Portal Items
 
+[OldOrcSword]
+type=portal
+Cost=25
+Currency=KindredCrest
+Battlefield=Davoi
+Weather=Rainy
+Monster=Gwajboj
+Desc=takes out an old sword and places it into the ground. A random Orc takes the sword and teleports everyone to Davoi.
+AlliedNotes=2000
 
 [CrimsonTraverserStone]
 type=portal

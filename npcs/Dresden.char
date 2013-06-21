@@ -119,6 +119,7 @@ manawall.on=on
 Utsusemi=1
 WeaponBash=1
 MagicMirror=10
+BloodSpirit=100
 
 [Techniques]
 Forzare=70

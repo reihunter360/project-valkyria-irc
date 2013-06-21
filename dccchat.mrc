@@ -352,11 +352,13 @@ on 2:Chat:!weapons*: { unset %*.wpn.list | unset %weapon.list
 on 2:Chat:!techs*: {
   if ($2 = $null) { $weapon_equipped($nick) | $tech.list($nick, %weapon.equipped) | $set_chr_name($nick) 
     if (%techs.list != $null) { $dcc.private.message($nick, $readini(translation.dat, system, ViewMyTechs)) }
-    else { $dcc.private.message($nick, $readini(translation.dat, system, NoTechsForMe))  }
+    if (%ignition.tech.list != $null) { $dcc.private.message($nick, $readini(translation.dat, system, ViewMyIgnitionTechs)) }
+    if ((%techs.list = $null) && (%ignition.tech.list = $null)) { $dcc.private.message($nick, $readini(translation.dat, system, NoTechsForMe))  }
   }
   else { $checkchar($2) | $weapon_equipped($2) | $tech.list($2, %weapon.equipped)  | $set_chr_name($2) 
     if (%techs.list != $null) { $dcc.private.message($nick, $readini(translation.dat, system, ViewOthersTechs)) }
-    else { $dcc.private.message($nick, $readini(translation.dat, system, NoTechsForOthers)) }
+    if (%ignition.tech.list != $null) { $dcc.private.message($nick, $readini(translation.dat, system, ViewOthersIgnitionTechs)) }
+    if ((%techs.list = $null) && (%ignition.tech.list = $null)) { $dcc.private.message($nick, $readini(translation.dat, system, NoTechsForOthers)) }
   }
 }
 
@@ -409,7 +411,7 @@ on 2:Chat:!equip*: {
     if (%battleis = on) { $dcc.battle.message($readini(translation.dat, system, EquipWeaponPlayer)) }
   }
   else { $set_chr_name($nick) | $dcc.private.messages($nick, $readini(translation.dat, errors, DoNotHaveWeapon)) }
-  $shadowclone.changeweapon($2)
+  $shadowclone.changeweapon($nick, $2)
 
 }
 

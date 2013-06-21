@@ -67,6 +67,8 @@ ViewStyleList=$chr(3) $+ 3 $+  $+ %real.name knows the following styles: %styl
 SwitchStyles=$chr(3) $+ 3 $+  $+ %real.name has switched to the $3 style! 
 ViewMyTechs=$chr(3) $+ 3 $+  $+ %real.name knows the following techniques for $gender($nick) %weapon.equipped $+ : %techs.list 
 ViewOthersTechs=$chr(3) $+ 3 $+  $+ %real.name knows the following techniques for $gender($2) %weapon.equipped $+ : %techs.list 
+ViewMyIgnitionTechs=$chr(3) $+ 3 $+  $+ %real.name knows the following ignition techniques: %ignition.tech.list 
+ViewOthersIgnitionTechs=$chr(3) $+ 3 $+  $+ %real.name knows the following ignition techniques: %ignition.tech.list
 NoTechsForMe=$chr(3) $+ 3 $+  $+ %real.name does not know any techniques for $gender($nick) %weapon.equipped $+ .
 NoTechsForOthers=$chr(3) $+ 3 $+  $+ %real.name does not know any techniques for $gender($2) %weapon.equipped $+ .
 ViewIgnitions=$chr(3) $+ 3 $+  $+ %real.name has obtained the following Ignitions: %ignitions.list 
@@ -327,6 +329,8 @@ Can'tReforgeThatWeapon=$chr(3) $+ 4 $+ Error: This weapon cannot be reforged.
 NoCloneToControl=$chr(3) $+ 4 $+ Error: %real.name do not have an active shadow clone to control right now.
 MustUseDoppelgangerStyleToControl=$chr(3) $+ 4 $+ Error: %real.name must have the Doppelganger style equipped in order to control $gender($1) shadow clones.
 ShadowClonesCan'tUseSkill=$chr(3) $+ 4 $+ Error: Shadow Clones can not use this skill.
+CannotSnatchPlayers=$set_chr_name($2) $+ $chr(3) $+ 4 $+ %real.name cannot grab other players!
+CannotSnatchBosses=$set_chr_name($2) $+ $chr(3) $+ 4 $+ %real.name cannot grab bosses!
 
 =======================
 Battle Related Messages
@@ -507,8 +511,6 @@ ScavengeFailed=$chr(3) $+ 4 $+ %real.name tries hard to find something in the 
 ScavengeAlreadyUsed=$chr(3) $+ 4 $+ %real.name is not able to use this skill again this battle.
 AlreadyBeingHeld=$set_chr_name($2) $+ $chr(3) $+ 4 $+ %real.name is already being held as a shield by someone else!
 SnatchTargetDead=$set_chr_name($2) $chr(3) $+ 4 $+ %real.name cannot be grabbed because $gender3($2) is dead or has fled!
-CannotSnatchPlayers=$set_chr_name($2) $+ $chr(3) $+ 4 $+ %real.name cannot grab other players!
-CannotSnatchBosses=$set_chr_name($2) $+ $chr(3) $+ 4 $+ %real.name cannot grab bosses!
 
 
 =======================

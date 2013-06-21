@@ -32,7 +32,7 @@ Percent=0
 [Descriptions]
 Hused=1
 Dused=1
-Char=is a clone of a mighty Elven goddess, mimicing her full power. She wears the usual Swordmaster armor has a sword on the left side of her waist.  She looks at the heroes and goes "I guess I'll help you..this once."
+Char=is a powerful Elven goddess. She wears the usual Swordmaster armor has a sword on the left side of her waist.  She looks at the heroes and goes "I guess I'll help you..this once."
 Rage=simply narrows her eyes and glares at everyone.
 
 
@@ -112,8 +112,6 @@ royalguard.on=on
 TwinSlice=45
 BiteOfLightning=45
 BladeBeam=45
-HyperTwinSlice=45
-WiseReflection=45
 
 
 [Styles]
@@ -150,3 +148,7 @@ Bow=100
 Name=Samurai Defense
 Max=3000
 Current=3000
+
+
+[Ignitions]
+WiseReflection=1

@@ -85,30 +85,57 @@ As usual be sure to read the versions.txt in the documentation folder
 for a full list of everything this version does.  Listed below are some 
 of the highlights.
 
+* Added Ignition Techs
+These are special techniques that can only be accessed while using an ignition. Each ignition has its own
+techniques.  Unlike regular techniques, these do not have to be purchased to be used and can also be used
+with any weapon equipped.
 
+* Added Dragonballs
+Dragonballs can be randomly found only by winning boss battles. When all 7 are collected the dragon Shenron
+will grant a powerful bonus to the next ten active battles.
 
+* Added the ability to control shadow clones
+First, you must be using the Doppelganger style or else they'll still control themselves. Next, when it's
+the clone's turn, use !shadow (command [tech/skill name]) (target) to do it. commands are:
+taunt, attack, tech, skill.  For example: !shadow tech inferno bee
 
 * Added New Skills:
 - Added the Killer Trait skills. These skills are passive and will increase melee damage to monster family types.
+- Added the active skill: BloodSpirit. This skill works like BloodBoost only instead of STR it gives INT.
+- Added the passive skill: DivineBlessing. This skill reduces the chance of a curse night from happening. 
+  It's a cumulative effect (muchlike BackGuard).
 
 * Changes
-
+- Changed a lot of code to make it much more efficient.  The bot should be faster now when clearing out files.
+- Changed the active skill Third Eye so that it only works on physical attacks. It also now has its own dodge message.
+- Changed the chance of certain monsters building a demon portal from 35% down to 25%.
+- Changed the AbsorbIG Augment so that it's weaker on players and stronger on monsters.
+- Changed Just Release so that shadow copies cannot use it.
+- Changed the way the scoreboard is generated so that the scores are a little more reasonable. 
+- Changed the !save battle streak command so that it can be used once an hour, down from once every 2 hours.
+- Changed the !reload battle streak command so that it will work on a winning streak as long as it's 10 or under.
+- Changed the amount of conquest points players lose if the battle was lost on the first turn.
 
 * Fixes
 - Fixed an issue with the wrong password counter not being reset sometimes after logging in.
-- Fixed an issue in which cure-status type items (such as tonic) would not cure confuse and would actually make it worse.
+- Fixed an issue in which cure-status type items (such as tonic) would not cure confuse.
 - Fixed a bug that Raiden found in which new characters wouldn't be able to equip armor.
 - Fixed a bug in which monster snatch descriptions weren't being displayed.
 - Fixed a bug in which the demon portal's idle description wasn't being displayed.
 - Fixed a bug with the error messages in !view-info
 - Fixed a bug in which the total deaths of monsters/bosses were being increased by 2 if killed by an AOE.
 - Fixed a bug in which battles with monster summons could potentially freeze and never end.
-- Fixed a bug in which bot admins would sometimes be unable to force a character to create a shadow clone using the 'does' command.
+- Fixed a bug in which bot admins would sometimes be unable to force a character to create a shadow clone
 - Fixed a bug in which the "has no skills" message wouldn't display when a character had no skills.
 - Fixed a bug in which DCC battles would potentially freeze if a key is rewarded.
+- Fixed a bug in which sometimes using a single hit tech after a multi-hit tech would cause some errors.
+- Fixed a bug in which anyone could use any ignition as long as he/she had the IG for it even if he/she 
+ didn't purchase it beforehand.
+- Fixed a bug in which capped healing amounts were not working right.
 
-Again, this isn't everything. Be sure to read the versions.txt in the documentation
-folder for a full list of everything 
+
+Again, this isn't everything. Be sure to read the versions.txt in the documentation folder for a full 
+list of everything 
 
  _______________________________________________________________________
 /                                                                       \
@@ -169,10 +196,21 @@ Sealdrenxia of Twitter
 Discovered a huge bug with !new char that let players use the command over and over to get free orbs.
 
 Rei_Hunter of Esper.net
-Helped give me a ton of ideas for the bot (including, but not limited to, moving cooldown timers to the skills.db, monsters being able to absorb elements for healing, AOE healing, and the ability for monsters to ignore darkness/rage mode).
+Helped give me a ton of ideas for the bot (including, but not limited to, moving cooldown timers to the 
+skills.db, monsters being able to absorb elements for healing, AOE healing, and the ability for monsters 
+to ignore darkness/rage mode).
 
 Trunks on Esper.net
-Since he was translating the bot into German, it sparked the idea of the translation.dat file to try and make the bot a little more friendly for translation.
+Since he was translating the bot into German, it sparked the idea of the translation.dat file to try and
+ make the bot a little more friendly for translation.
+
+Roy of Esper.net
+He helped test a few things, found a few bugs and suggested the scoreboard.
+
+Wims of mIRC's official forum
+Helped push me into the correct direction for improving many blocks of code to make them faster 
+and more efficient.
+
 
  _______________________________________________________________________
 /                                                                       \

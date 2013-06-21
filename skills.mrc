@@ -1147,7 +1147,7 @@ alias skill.kikouheni { $set_chr_name($1)
   if (%battleis = off) { $display.system.message(There is no battle currently!, private) | halt }
   $check_for_battle($1)
 
-  var %weather.list $readini(weather.lst, weather, list)
+  var %weather.list $readini(battlefields.db, weather, list)
   if ($2 !isin %weather.list) { query $1 4Error: Not a valid weather.  Valid weather types are: %weather.list  | halt }
 
   ; Check to see if enough time has elapsed
@@ -1165,7 +1165,7 @@ alias skill.kikouheni { $set_chr_name($1)
     ; write the last used time.
     writeini $char($1) skills kikouheni.time $ctime
 
-    writeini weather.lst weather current $2 
+    writeini battlefields.db weather current $2 
     $display.system.message(3The weather has changed! It is currently $2, battle)
 
     writeini battle2.txt style $1 $+ .lastaction kikouheni

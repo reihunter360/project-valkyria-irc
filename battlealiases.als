@@ -1048,11 +1048,11 @@ gemconvert_check {
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 random.weather.pick {
   if (%current.battlefield = Dead-End Hallway) { return }
-  set %weather.list $readini(battlefields.lst, %current.battlefield, weather)
+  set %weather.list $readini(battlefields.db, %current.battlefield, weather)
   set %random $rand(1, $numtok(%weather.list,46))
   if (%random = $null) { var %random 1 }
   set %new.weather $gettok(%weather.list,%random,46)
-  writeini weather.lst weather current %new.weather
+  writeini battlefields.db weather current %new.weather
 
   if ($readini(system.dat, system, botType) = IRC) { query %battlechan 10The weather changes.  It is now %new.weather }
   if ($readini(system.dat, system, botType) = DCCchat) { $dcc.battle.message(10The weather changes.  It is now %new.weather) }
@@ -1098,7 +1098,7 @@ random.battlefield.curse {
 ; battlefield limitation.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 battlefield.limitations {
-  set %battleconditions $readini(battlefields.lst, %current.battlefield, limitations)
+  set %battleconditions $readini(battlefields.db, %current.battlefield, limitations)
   if ((no-tech isin %battleconditions) || (no-techs isin %battleconditions)) { $display.system.message($readini(translation.dat, Events, AncientMeleeOnlySeal), battle)  }
   if ((no-skill isin %battleconditions) || (no-skills isin %battleconditions)) { $display.system.message($readini(translation.dat, Events, AncientNoSkillsSeal), battle)  }
   if ((no-item isin %battleconditions) || (no-items isin %battleconditions)) { $display.system.message($readini(translation.dat, Events, AncientNoItemsSeal), battle)  }
@@ -1434,7 +1434,7 @@ generate_elderdragon {
   writeini $char(%monster.name) skills Resist-Weaponlock 100
 
   set %current.battlefield Ancient Dragon Burial Site
-  writeini weather.lst weather current Calm
+  writeini battlefields.db weather current Calm
 
   set %magic.types light.dark.fire.ice.water.lightning.wind.earth
   set %number.of.magic.types $numtok(%magic.types,46)
@@ -1586,7 +1586,7 @@ generate_demonwall {
   unset %current.battlestreak | unset %monster.name | unset %monster.realname
 
   set %current.battlefield Dead-End Hallway
-  writeini weather.lst weather current Gloomy
+  writeini battlefields.db weather current Gloomy
 
   set %boss.item $readini(items.db, items, HealingItems) $+ . $+ $readini(items.db, items, Gems) $+ . $+ $readini(chests.lst, chests, green) $+ . $+ $readini(items.db, items, runes) $+ . $+ $readini(items.db, items, fooditems)
   writeini battle2.txt battle bonusitem %boss.item
@@ -1688,19 +1688,8 @@ portal.clear.monsters {
   writeini battle2.txt battleinfo monsters %monsters.alive
 
   if (%monsters.alive < %old.monster.total) {
-
     ; Clear out the char folder of dead monsters
-    var %value 1
-    while ($findfile( $char_path , *.char, %value , 0) != $null) {
-      set %file $nopath($findfile($char_path ,*.char,%value)) 
-      set %name $remove(%file,.char)
-      if ((%name = new_chr) || (%name = $null)) { inc %value 1 } 
-      else { 
-        var %monster.flag $readini($char(%name), Info, Flag)
-        if ((%monster.flag = monster) && ($readini($char(%name), battle, hp) <= 0)) { .remove $char(%name) }
-        else { inc %value 1 }    
-      }
-    }
+    .echo -q $findfile( $char_path , *.char, 0 , 0, clear_dead_monsters $1-)
   }
 
   var %turn.lines $lines(battle.txt) | var %current.turn.line 0
@@ -1975,15 +1964,15 @@ do.self.inflict.status {
 ; people immune to statuses.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ribbon.accessory.check { 
-  set %current.accessory $readini($char($1), equipment, accessory) 
-  if ($readini(items.db, %current.accessory, accessorytype) = BlockAllStatus) {
-	if($readini($2, skills, resist-paralysis) == 70 && $readini($2, skills, resist-charm) == 70 && $readini($2, skills, resist-blind) == 70 && $readini($2, skills, resist-poison) == 70 && $readini($2, skills, resist-amnesia) == 70 && $readini($2, skills, resist-curse) == 70 && $readini($2, skills, resist-zombie) == 70 && $readini($2, skills, resist-slow) == 70 && $readini($2, skills, resist-stun) == 70 && $readini($2, skills, resist-stop) == 70 && $readini($2, skills, resist-petrify) == 20) {
- set %resist.skill 85
+set %current.accessory $readini($char($1), equipment, accessory) 
+if ($readini(items.db, %current.accessory, accessorytype) = BlockAllStatus) {
+if($readini($2, skills, resist-paralysis) == 70 && $readini($2, skills, resist-charm) == 70 && $readini($2, skills, resist-blind) == 70 && $readini($2, skills, resist-poison) == 70 && $readini($2, skills, resist-amnesia) == 70 && $readini($2, skills, resist-curse) == 70 && $readini($2, skills, resist-zombie) == 70 && $readini($2, skills, resist-slow) == 70 && $readini($2, skills, resist-stun) == 70 && $readini($2, skills, resist-stop) == 70 && $readini($2, skills, resist-petrify) == 20) {
+set %resist.skill 85
 } else {
-    set %resist.skill 70
-	}
-  }
-  unset %current.accessory
+set %resist.skill 70
+}
+}
+unset %current.accessory
 }
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -2344,18 +2333,7 @@ multiple_wave_clearmonsters {
   writeini battle2.txt battleinfo monsters 0
 
   ; Clear out the char folder of dead monsters
-  var %value 1
-  while ($findfile( $char_path , *.char, %value , 0) != $null) {
-    set %file $nopath($findfile($char_path ,*.char,%value)) 
-    set %name $remove(%file,.char)
-
-    if ((%name = new_chr) || (%name = $null)) { inc %value 1 } 
-    else { 
-      var %monster.flag $readini($char(%name), Info, Flag)
-      if (%monster.flag = monster) { .remove $char(%name) }
-      else { inc %value 1 }    
-    }
-  }
+  .echo -q $findfile( $char_path , *.char, 0 , 0, clear_dead_monsters $1-)
 
   var %turn.lines $lines(battle.txt) | var %current.turn.line 0
   while (%current.turn.line <= %turn.lines) { 
@@ -2485,11 +2463,14 @@ renkei.calculate {
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 random.battlefield.pick {
   if (%current.battlefield != $null) { return }
-  var %battlefields.list $readini(battlefields.lst, battlefields, list)
-  set %random $rand(1, $numtok(%battlefields.list,46))
-  if (%random = $null) { var %random 1 }
-  set %current.battlefield $gettok(%battlefields.list,%random,46)
-  unset %random 
+
+  set %battlefields.total $lines(battlefields.lst)
+  if ((%battlefields.total = $null) || (%battlefields.total = 0)) { set %current.battlefield none | unset %battlefields.total | return }
+
+  set %battlefield.random $rand(1,%battlefields.total)
+  set %current.battlefield $read(battlefields.lst, %battlefield.random)
+
+  unset %battlefield.random | unset %battlefields.total
 }
 
 battlefield.event {
@@ -2497,7 +2478,7 @@ battlefield.event {
   if ($readini(battlestats.dat, battle, winningstreak) < 15) { return }
   if ($readini(system.dat, system, EnableBattlefieldEvents) != true) { return }
 
-  set %number.of.events $readini(battlefields.lst, %current.battlefield, NumberOfEvents)
+  set %number.of.events $readini(battlefields.db, %current.battlefield, NumberOfEvents)
 
   if ((%number.of.events = $null) || (%number.of.events = 0)) { unset %number.of.events | return }
 
@@ -2505,13 +2486,13 @@ battlefield.event {
 
   var %random.chance $rand(1,100)
 
-  if (%random.chance > $readini(battlefields.lst, %current.battlefield, event $+ %battlefield.event.number $+ chance)) { unset %battlefield.event.number | unset %number.of.events | return }
+  if (%random.chance > $readini(battlefields.db, %current.battlefield, event $+ %battlefield.event.number $+ chance)) { unset %battlefield.event.number | unset %number.of.events | return }
 
-  set %battlefield.event.target $readini(battlefields.lst, %current.battlefield, event $+ %battlefield.event.number $+ target)
-  if ($readini(battlefields.lst, %current.battlefield, event $+ %battlefield.event.number $+ statusType) != $null) { set %event.status.type $readini(battlefields.lst, %current.battlefield, event $+ %battlefield.event.number $+ statusType) }
+  set %battlefield.event.target $readini(battlefields.db, %current.battlefield, event $+ %battlefield.event.number $+ target)
+  if ($readini(battlefields.db, %current.battlefield, event $+ %battlefield.event.number $+ statusType) != $null) { set %event.status.type $readini(battlefields.db, %current.battlefield, event $+ %battlefield.event.number $+ statusType) }
 
   if (%battlefield.event.target = all) {
-    $display.system.message(4 $+ $readini(battlefields.lst, %current.battlefield, event $+ %battlefield.event.number $+ desc), battle)
+    $display.system.message(4 $+ $readini(battlefields.db, %current.battlefield, event $+ %battlefield.event.number $+ desc), battle)
 
     var %battletxt.lines $lines(battle.txt) | var %battletxt.current.line 1
     while (%battletxt.current.line <= %battletxt.lines) { 
@@ -2519,20 +2500,20 @@ battlefield.event {
       if ($readini($char(%who.battle), battle, status) = dead) { inc %battletxt.current.line }
       else {
         if (%event.status.type != $null) { writeini $char(%who.battle) status %event.status.type yes }
-        if ($readini(battlefields.lst, %current.battlefield, event $+ %battlefield.event.number) = damage) { 
+        if ($readini(battlefields.db, %current.battlefield, event $+ %battlefield.event.number) = damage) { 
 
           var %number.of.bfevents $readini($char(%who.battle), stuff, TimesHitByBattlefieldEvent)
           if (%number.of.bfevents = $null) { var %number.of.bfevents 0 }
           inc %number.of.bfevents 1
           writeini $char(%who.battle) stuff TimesHitByBattlefieldEvent %number.of.bfevents
           $achievement_check(%who.battle, NeverAskedForThis)
-          set %attack.damage $readini(battlefields.lst, %current.battlefield, event $+ %battlefield.event.number $+ amount)
+          set %attack.damage $readini(battlefields.db, %current.battlefield, event $+ %battlefield.event.number $+ amount)
           $metal_defense_check(%who.battle, battlefield)
           if (%attack.damage <= 0) { set %attack.damage 1 }
           $deal_damage(battlefield, %who.battle, battlefield)
           $display_aoedamage(battlefield, %who.battle, battlefield)
         }
-        if ($readini(battlefields.lst, %current.battlefield, event $+ %battlefield.event.number) = heal) {
+        if ($readini(battlefields.db, %current.battlefield, event $+ %battlefield.event.number) = heal) {
           $heal_damage($1, %who.battle, $2)
           $display_heal(battlefield, %who.battle ,aoeheal, battlefield)
         }
@@ -2562,23 +2543,23 @@ battlefield.event {
     if ($readini($char(%member), battle, hp) = $null) { return }
 
     $set_chr_name(%member) 
-    $display.system.message(4 $+ $readini(battlefields.lst, %current.battlefield, event $+ %battlefield.event.number $+ desc), battle)
+    $display.system.message(4 $+ $readini(battlefields.db, %current.battlefield, event $+ %battlefield.event.number $+ desc), battle)
 
     if (%event.status.type != $null) { writeini $char(%member) status %event.status.type yes }
-    if ($readini(battlefields.lst, %current.battlefield, event $+ %battlefield.event.number) = damage) { 
+    if ($readini(battlefields.db, %current.battlefield, event $+ %battlefield.event.number) = damage) { 
       var %number.of.bfevents $readini($char(%member), stuff, TimesHitByBattlefieldEvent)
       if (%number.of.bfevents = $null) { var %number.of.bfevents 0 }
       inc %number.of.bfevents 1
       writeini $char(%member) stuff TimesHitByBattlefieldEvent %number.of.bfevents
       $achievement_check(%member, NeverAskedForThis)
-      set %attack.damage $readini(battlefields.lst, %current.battlefield, event $+ %battlefield.event.number $+ amount)
+      set %attack.damage $readini(battlefields.db, %current.battlefield, event $+ %battlefield.event.number $+ amount)
       $metal_defense_check(%member, battlefield)
       if (%attack.damage <= 0) { set %attack.damage 1 }
       $deal_damage(battlefield, %member, battlefield)
       $display_aoedamage(battlefield, %member, battlefield)
     }
-    if ($readini(battlefields.lst, %current.battlefield, event $+ %battlefield.event.number) = heal) {
-      set %attack.damage $readini(battlefields.lst, %current.battlefield, event $+ %battlefield.event.number $+ amount)
+    if ($readini(battlefields.db, %current.battlefield, event $+ %battlefield.event.number) = heal) {
+      set %attack.damage $readini(battlefields.db, %current.battlefield, event $+ %battlefield.event.number $+ amount)
       $heal_damage($1, %member, $2)
       $display_heal(battlefield, %member, aoeheal, battlefield)
     }
@@ -2587,7 +2568,7 @@ battlefield.event {
   }
 
   if (%battlefield.event.target = monsters) {
-    $display.system.message(4 $+ $readini(battlefields.lst, %current.battlefield, event $+ %battlefield.event.number $+ desc), battle)
+    $display.system.message(4 $+ $readini(battlefields.db, %current.battlefield, event $+ %battlefield.event.number $+ desc), battle)
     var %battletxt.lines $lines(battle.txt) | var %battletxt.current.line 1
     while (%battletxt.current.line <= %battletxt.lines) { 
       var %who.battle $read -l $+ %battletxt.current.line battle.txt
@@ -2596,8 +2577,8 @@ battlefield.event {
       else if ($readini($char(%who.battle), battle, status) = runaway) { inc %battletxt.current.line }
       else {
         if (%event.status.type != $null) { writeini $char(%who.battle) status %event.status.type yes }
-        if ($readini(battlefields.lst, %current.battlefield, event $+ %battlefield.event.number) = damage) { 
-          set %attack.damage $readini(battlefields.lst, %current.battlefield, event $+ %battlefield.event.number $+ amount)
+        if ($readini(battlefields.db, %current.battlefield, event $+ %battlefield.event.number) = damage) { 
+          set %attack.damage $readini(battlefields.db, %current.battlefield, event $+ %battlefield.event.number $+ amount)
 
           $metal_defense_check(%who.battle, battlefield)
           if (%attack.damage <= 0) { set %attack.damage 1 }
@@ -2605,8 +2586,8 @@ battlefield.event {
           $deal_damage(battlefield, %who.battle, battlefield)
           $display_aoedamage(battlefield, %who.battle, battlefield)
         }
-        if ($readini(battlefields.lst, %current.battlefield, event $+ %battlefield.event.number) = heal) {
-          set %attack.damage $readini(battlefields.lst, %current.battlefield, event $+ %battlefield.event.number $+ amount)
+        if ($readini(battlefields.db, %current.battlefield, event $+ %battlefield.event.number) = heal) {
+          set %attack.damage $readini(battlefields.db, %current.battlefield, event $+ %battlefield.event.number $+ amount)
           $heal_damage($1, %who.battle, $2)
           $display_heal(battlefield, %who.battle ,aoeheal, battlefield)
         }
@@ -2616,7 +2597,7 @@ battlefield.event {
   }
 
   if (%battlefield.event.target = players) {
-    $display.system.message(4 $+ $readini(battlefields.lst, %current.battlefield, event $+ %battlefield.event.number $+ desc), battle)
+    $display.system.message(4 $+ $readini(battlefields.db, %current.battlefield, event $+ %battlefield.event.number $+ desc), battle)
     var %battletxt.lines $lines(battle.txt) | var %battletxt.current.line 1
     while (%battletxt.current.line <= %battletxt.lines) { 
       var %who.battle $read -l $+ %battletxt.current.line battle.txt
@@ -2625,7 +2606,7 @@ battlefield.event {
       else {
 
         if (%event.status.type != $null) { writeini $char(%who.battle) status %event.status.type yes }
-        if ($readini(battlefields.lst, %current.battlefield, event $+ %battlefield.event.number) = damage) { 
+        if ($readini(battlefields.db, %current.battlefield, event $+ %battlefield.event.number) = damage) { 
 
           var %number.of.bfevents $readini($char(%who.battle), stuff, TimesHitByBattlefieldEvent)
           if (%number.of.bfevents = $null) { var %number.of.bfevents 0 }
@@ -2633,7 +2614,7 @@ battlefield.event {
           writeini $char(%who.battle) stuff TimesHitByBattlefieldEvent %number.of.bfevents
           $achievement_check(%who.battle, NeverAskedForThis)
 
-          set %attack.damage $readini(battlefields.lst, %current.battlefield, event $+ %battlefield.event.number $+ amount)
+          set %attack.damage $readini(battlefields.db, %current.battlefield, event $+ %battlefield.event.number $+ amount)
           $metal_defense_check(%who.battle, battlefield)
           if (%attack.damage <= 0) { set %attack.damage 1 }
 
@@ -2641,8 +2622,8 @@ battlefield.event {
           $display_aoedamage(battlefield, %who.battle, battlefield)
         }
 
-        if ($readini(battlefields.lst, %current.battlefield, event $+ %battlefield.event.number) = heal) {
-          set %attack.damage $readini(battlefields.lst, %current.battlefield, event $+ %battlefield.event.number $+ amount)
+        if ($readini(battlefields.db, %current.battlefield, event $+ %battlefield.event.number) = heal) {
+          set %attack.damage $readini(battlefields.db, %current.battlefield, event $+ %battlefield.event.number $+ amount)
           $heal_damage(battlefield, %who.battle, battlefield)
           $display_heal(battlefield, %who.battle, aoeheal, battlefield)
         }
@@ -2727,10 +2708,10 @@ tech.ethereal.check {
   ; $2 = technique
   ; $3 = target
 
-  var %weapon.hurt.ethreal $readini(weapons.db, $readini($char($1), weapons, equipped), HurtEthreal)
+  var %weapon.hurt.ethereal $readini(weapons.db, $readini($char($1), weapons, equipped), HurtEthereal)
 
   if ($readini($char($3), status, ethereal) = yes) {
-    if ((($augment.check($1, HurtEthereal) = false) && (%weapon.hurt.ethreal != true) && ($readini(techniques.db, $2, magic) != yes))) {
+    if ((($augment.check($1, HurtEthereal) = false) && (%weapon.hurt.ethereal != true) && ($readini(techniques.db, $2, magic) != yes))) {
       $set_chr_name($1) | set %guard.message $readini(translation.dat, status, EtherealBlocked) | set %attack.damage 0 | return
     }
   }
@@ -2761,7 +2742,7 @@ utsusemi.check {
 }
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Check to see if Royal
+;Check to see if Royal
 ; Guard is on.
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 royalguard.check {
